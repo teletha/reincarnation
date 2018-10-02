@@ -9,12 +9,18 @@
  */
 package reincarnation;
 
+import java.io.IOException;
 import java.lang.reflect.Parameter;
+import java.nio.file.FileSystem;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.platform.commons.util.ReflectionUtils;
 
+import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
+
+import bee.util.JavaCompiler;
+import kiss.I;
 import marionette.browser.Browser;
 
 /**
@@ -27,14 +33,30 @@ public class CodeVerifier {
         pref.headless = true;
     });
 
+    /** In-memory. */
+    private static final FileSystem fs;
+
+    static {
+        try {
+            fs = MemoryFileSystemBuilder.newEmpty().build();
+        } catch (IOException e) {
+            throw I.quiet(e);
+        }
+    }
+
     /**
      * Verify AST of the specified {@link CodeInt}.
      * 
      * @param code
      */
     protected final void verify(Code code) {
-        Executions executionsFromJava = executeJavaCode(code);
-        System.out.println(executionsFromJava);
+        // String decompiled = Reincarnation.exhume(code.getClass()).toString();
+
+        JavaCompiler compiler = new JavaCompiler();
+        compiler.setOutput(fs.getPath("OUTPUT"));
+        compiler.addSourceDirectory(fs.getPath("INPUT"));
+        ClassLoader loader = compiler.compile();
+
     }
 
     private Executions executeJavaCode(Code code) {

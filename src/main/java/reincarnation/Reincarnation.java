@@ -9,21 +9,19 @@
  */
 package reincarnation;
 
-import org.junit.jupiter.api.Test;
+import com.github.javaparser.ast.CompilationUnit;
 
 /**
- * @version 2018/04/04 16:25:10
+ * @version 2018/10/03 8:20:01
  */
-public class PrimitiveIntTest extends CodeVerifier {
+public class Reincarnation {
 
-    @Test
-    void zero() {
-        verify(new Code.Int() {
-
-            @Override
-            public int run() {
-                return 0;
-            }
-        });
+    /**
+     * Decompile the target {@link Class}.
+     * 
+     * @param clazz
+     */
+    public static final CompilationUnit exhume(Class clazz) {
+        return null;
     }
 }
