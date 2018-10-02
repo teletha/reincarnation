@@ -18,10 +18,11 @@ public class PrimitiveIntTest extends CodeVerifier {
 
     @Test
     void field() {
-        verify(new Code() {
+        verify(new CodeInt() {
             private int value;
 
-            int run() {
+            @Override
+            public int run() {
                 return value;
             }
         });

@@ -10,20 +10,14 @@
 package reincarnation;
 
 /**
- * @version 2018/10/02 19:57:24
+ * @version 2018/04/04 16:29:00
  */
-public interface Code {
+public interface CodeInt {
 
     /**
-     * @version 2018/04/04 16:29:00
+     * Write testable code.
+     * 
+     * @return
      */
-    public interface Int extends Code {
-
-        /**
-         * Write testable code.
-         * 
-         * @return
-         */
-        int run();
-    }
+    int run();
 }

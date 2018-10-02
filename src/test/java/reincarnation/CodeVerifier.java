@@ -15,28 +15,26 @@ import java.util.List;
 
 import org.junit.platform.commons.util.ReflectionUtils;
 
-import marionette.Browser;
+import marionette.browser.Browser;
 
 /**
  * @version 2018/04/04 16:30:26
  */
 public class CodeVerifier {
 
+    /** Javascript runtime. */
+    protected static final Browser browser = Browser.build(pref -> {
+        pref.headless = true;
+    });
+
     /**
-     * Verify AST of the specified {@link Code}.
+     * Verify AST of the specified {@link CodeInt}.
      * 
      * @param code
      */
     protected final void verify(Code code) {
         Executions executionsFromJava = executeJavaCode(code);
         System.out.println(executionsFromJava);
-
-        new Browser().configHeadless(true)
-                .load("https://www.google.com/search?q=headless+chrome+java&ie=utf-8&oe=utf-8&client=firefox-b")
-                .find("title")
-                .to(v -> {
-                    System.out.println(v);
-                });
     }
 
     private Executions executeJavaCode(Code code) {
