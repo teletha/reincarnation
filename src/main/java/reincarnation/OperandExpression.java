@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import com.github.javaparser.ast.expr.Expression;
+
 /**
  * @version 2014/06/26 9:54:05
  */
@@ -103,5 +105,19 @@ class OperandExpression extends Operand {
     @Override
     public String toString() {
         return String.valueOf(expression);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    Expression build() {
+        if (expression instanceof Operand) {
+            return ((Operand) expression).build();
+        } else {
+            // If this exception will be thrown, it is bug of this program. So we must rethrow the
+            // wrapped error in here.
+            throw new Error(expression.toString());
+        }
     }
 }

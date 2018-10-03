@@ -9,6 +9,9 @@
  */
 package reincarnation;
 
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.IntegerLiteralExpr;
+
 /**
  * @version 2013/08/15 16:07:23
  */
@@ -53,5 +56,13 @@ class OperandNumber extends Operand {
     @Override
     public String toString() {
         return value.toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    Expression build() {
+        return new IntegerLiteralExpr(value.intValue());
     }
 }

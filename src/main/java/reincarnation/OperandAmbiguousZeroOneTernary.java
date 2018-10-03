@@ -9,6 +9,10 @@
  */
 package reincarnation;
 
+import com.github.javaparser.ast.expr.ConditionalExpr;
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.IntegerLiteralExpr;
+
 /**
  * @version 2014/01/01 12:11:14
  */
@@ -51,5 +55,13 @@ class OperandAmbiguousZeroOneTernary extends Operand {
     @Override
     public String toString() {
         return condition + "?1:0";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    Expression build() {
+        return new ConditionalExpr(condition.build(), new IntegerLiteralExpr(1), new IntegerLiteralExpr(0));
     }
 }

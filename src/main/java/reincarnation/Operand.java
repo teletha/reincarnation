@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import com.github.javaparser.ast.expr.Expression;
+
 /**
  * @version 2013/08/23 23:35:09
  */
@@ -91,5 +93,11 @@ abstract class Operand {
      */
     boolean isLarge() {
         return infer().type() == long.class || infer().type() == double.class;
+    }
+
+    Expression build() {
+        // If this exception will be thrown, it is bug of this program. So we must rethrow the
+        // wrapped error in here.
+        throw new Error();
     }
 }

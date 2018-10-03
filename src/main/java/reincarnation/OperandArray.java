@@ -9,22 +9,21 @@
  */
 package reincarnation;
 
-import static booton.translator.Javascript.*;
-
 import java.util.ArrayList;
+
+import com.github.javaparser.ast.expr.ArrayCreationExpr;
+import com.github.javaparser.ast.expr.Expression;
 
 /**
  * <p>
  * The code like the following will generate difference bytecode by compiler.
  * </p>
- * 
  * <pre>
  * String[] array = {null, null, "third"};
  * </pre>
  * <p>
  * Eclipse Java Compiler generates the following bytecode.
  * </p>
- *
  * <pre>
  * mv.visitTypeInsn(ANEWARRAY, "java/lang/String");
  * mv.visitInsn(DUP);
@@ -35,7 +34,6 @@ import java.util.ArrayList;
  * <p>
  * JDK Compiler generates the following bytecode.
  * </p>
- * 
  * <pre>
  * mv.visitTypeInsn(ANEWARRAY,  "java/lang/String");
  * mv.visitInsn(DUP);
@@ -110,56 +108,10 @@ class OperandArray extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public String toString() {
+    Expression build() {
         Class component = type.getComponentType();
-        String undefined;
+        ArrayCreationExpr expr = new ArrayCreationExpr();
 
-        if (component.isPrimitive()) {
-            if (component == boolean.class) {
-                undefined = "false";
-            } else if (component == long.class) {
-                undefined = computeFieldFullName(PrimitiveLong, "ZERO");
-            } else {
-                undefined = "0";
-            }
-        } else {
-            undefined = "null";
-        }
-
-        ScriptWriter writer = new ScriptWriter();
-        writer.append("Φ(").string(Javascript.computeSimpleClassName(component)).append(",");
-
-        if (items.size() == 0) {
-            // new array with the specified size
-            writer.append(size, ",", undefined);
-        } else {
-            // new array by syntax sugar
-            writer.append("[");
-
-            int length = Integer.valueOf(size.toString()).intValue();
-
-            for (int i = 0; i < length; i++) {
-                if (items.size() <= i) {
-                    writer.append(undefined);
-                } else {
-                    Operand item = items.get(i);
-
-                    if (item == null) {
-                        writer.append(undefined);
-                    } else {
-                        writer.append(item);
-                    }
-                }
-
-                if (i + 1 != length) {
-                    writer.append(",");
-                }
-            }
-            writer.append("]");
-        }
-        writer.append(")");
-
-        // API definition
-        return writer.toString();
+        return expr;
     }
 }

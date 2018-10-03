@@ -9,6 +9,9 @@
  */
 package reincarnation;
 
+import com.github.javaparser.ast.expr.ConditionalExpr;
+import com.github.javaparser.ast.expr.Expression;
+
 /**
  * @version 2015/08/10 13:26:14
  */
@@ -84,5 +87,13 @@ class OperandTernary extends OperandCondition {
     @Override
     public String toString() {
         return condition + "?" + left + ":" + right;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    Expression build() {
+        return new ConditionalExpr(condition.build(), left.build(), right.build());
     }
 }

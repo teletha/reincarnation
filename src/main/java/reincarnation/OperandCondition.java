@@ -9,6 +9,11 @@
  */
 package reincarnation;
 
+import com.github.javaparser.ast.expr.BinaryExpr;
+import com.github.javaparser.ast.expr.BinaryExpr.Operator;
+import com.github.javaparser.ast.expr.EnclosedExpr;
+import com.github.javaparser.ast.expr.Expression;
+
 /**
  * <h1>Algorithm for restoration of logical expression</h1>
  * <p>
@@ -237,5 +242,70 @@ class OperandCondition extends Operand {
 
         // API definition
         return builder.toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    Expression build() {
+        // convert int to char if needed
+        Class leftType = left.infer().type();
+        Class rightType = right.infer().type();
+
+        if (leftType == char.class && rightType != char.class) {
+            right = right.cast(char.class);
+        }
+
+        if (rightType == char.class && leftType != char.class) {
+            left = left.cast(char.class);
+        }
+
+        Operator operator;
+        switch (this.operator) {
+        case AND:
+            operator = Operator.AND;
+            break;
+
+        case OR:
+            operator = Operator.OR;
+            break;
+
+        case EQ:
+            operator = Operator.EQUALS;
+            break;
+
+        case NE:
+            operator = Operator.NOT_EQUALS;
+            break;
+
+        case LT:
+            operator = Operator.LESS;
+            break;
+
+        case GT:
+            operator = Operator.GREATER;
+            break;
+
+        case LE:
+            operator = Operator.LESS_EQUALS;
+            break;
+
+        case GE:
+            operator = Operator.GREATER_EQUALS;
+            break;
+
+        default:
+            // If this exception will be thrown, it is bug of this program. So we must rethrow the
+            // wrapped error in here.
+            throw new Error();
+        }
+
+        Expression expression = new BinaryExpr(left.build(), right.build(), operator);
+
+        if (group) {
+            expression = new EnclosedExpr(expression);
+        }
+        return expression;
     }
 }

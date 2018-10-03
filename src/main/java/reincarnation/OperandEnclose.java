@@ -9,6 +9,9 @@
  */
 package reincarnation;
 
+import com.github.javaparser.ast.expr.EnclosedExpr;
+import com.github.javaparser.ast.expr.Expression;
+
 /**
  * @version 2013/08/03 2:18:38
  */
@@ -64,5 +67,13 @@ class OperandEnclose extends Operand {
     @Override
     public String toString() {
         return "(" + value + ")";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    Expression build() {
+        return new EnclosedExpr(value.build());
     }
 }

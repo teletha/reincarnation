@@ -19,6 +19,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.ExpressionStmt;
+import com.github.javaparser.ast.stmt.ForStmt;
+import com.github.javaparser.ast.stmt.ReturnStmt;
+import com.github.javaparser.ast.stmt.Statement;
+
 /**
  * @version 2014/07/05 19:06:00
  */
@@ -31,7 +39,7 @@ class Node {
     static final OperandExpression END = new OperandExpression(";");
 
     /** The frequently used operand for cache. */
-    static final OperandExpression Return = new OperandExpression("return ");
+    static final OperandExpression Return = new OperandExpression("return");
 
     /** The stack of labeled blocks. */
     private static final Deque<Breakable> breakables = new ArrayDeque();
@@ -308,14 +316,6 @@ class Node {
         Operand left = remove(0);
         Operand right = remove(0);
 
-        if (left.infer().type() == char.class) {
-            left = new OperandExpression(Javascript.writeMethodCode(String.class, "codePointAt", left, int.class, 0), int.class);
-        }
-
-        if (right.infer().type() == char.class) {
-            right = new OperandExpression(Javascript.writeMethodCode(String.class, "codePointAt", right, int.class, 0), int.class);
-        }
-
         stack.add(new OperandExpression(right + separator + left, right.infer()));
 
         // API definition
@@ -543,6 +543,38 @@ class Node {
         connect(defaults);
     }
 
+    final Statement build() {
+        if (!written) {
+            written = true;
+
+            // =============================================================
+            // Other Block
+            // =============================================================
+            int outs = outgoing.size();
+            int backs = backedges.size();
+
+            if (outs == 0) {
+                // end node
+                if (!returnOmittable || stack.size() != 2 || stack.get(0) != Return || stack.get(1) != END) {
+                    return buildStack();
+                }
+            }
+        }
+        return new BlockStmt();
+    }
+
+    private Statement buildStack() {
+        Operand operand = stack.pollFirst();
+
+        if (operand == null) {
+            return new BlockStmt();
+        } else if (operand == Return) {
+            return new ReturnStmt(stack.pollFirst().build());
+        } else {
+            return new ExpressionStmt(operand.build());
+        }
+    }
+
     /**
      * <p>
      * Write script fragment.
@@ -704,7 +736,7 @@ class Node {
      * 
      * @param buffer
      */
-    private void writeInfiniteLoop(ScriptWriter buffer) {
+    private void writeInfiniteLoop(BlockStmt block) {
         // make rewritable this node
         written = false;
 
@@ -714,9 +746,14 @@ class Node {
         backedges.clear();
 
         // re-write script fragment
-        buffer.write("for", "(;;)", "{");
+        ForStmt loopStatement = new ForStmt();
+        loopStatement.setInitialization(new NodeList());
+        loopStatement.setCompare(null);
+        loopStatement.setUpdate(new NodeList());
+
         breakables.add(loop);
         write(buffer);
+        loopStatement.setBody();
         breakables.removeLast();
         buffer.write("}");
         loop.writeRequiredLabel();
@@ -1671,7 +1708,7 @@ class Node {
          * @param current A target node.
          * @param variable A variable name.
          */
-        void assignVariableName(Node current, String variable) {
+        void assignVariableName(Node current, Expression variable) {
             for (TryCatchFinally block : blocks) {
                 for (Catch catchBlock : block.catches) {
                     if (catchBlock.node == current) {
@@ -1776,7 +1813,7 @@ class Node {
         private final Node node;
 
         /** The exception variable name. */
-        private String variable;
+        private Expression variable;
 
         /**
          * @param exception

@@ -9,6 +9,9 @@
  */
 package reincarnation;
 
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.StringLiteralExpr;
+
 /**
  * @version 2013/08/15 16:35:58
  */
@@ -36,10 +39,18 @@ class OperandString extends Operand {
     }
 
     /**
-     * @see booton.translator.Operand#toString()
+     * {@inheritDoc}
      */
     @Override
     public String toString() {
         return "\"" + expression + "\"";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    Expression build() {
+        return new StringLiteralExpr(expression);
     }
 }

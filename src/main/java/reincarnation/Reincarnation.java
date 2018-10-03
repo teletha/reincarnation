@@ -9,7 +9,13 @@
  */
 package reincarnation;
 
+import java.io.IOException;
+
+import org.objectweb.asm.ClassReader;
+
 import com.github.javaparser.ast.CompilationUnit;
+
+import kiss.I;
 
 /**
  * @version 2018/10/03 8:20:01
@@ -22,6 +28,21 @@ public class Reincarnation {
      * @param clazz
      */
     public static final CompilationUnit exhume(Class clazz) {
-        return null;
+        try {
+            String name = clazz.getName();
+            CompilationUnit root = new CompilationUnit(clazz.getPackageName());
+
+            if (clazz.isAnonymousClass()) {
+                name = name.substring(name.lastIndexOf(".") + 1);
+            }
+
+            ClassReader reader = new ClassReader(clazz.getName());
+            reader.accept(new JavaClassDecompiler(root.addClass(name)), ClassReader.SKIP_DEBUG);
+
+            System.out.println(root);
+            return root;
+        } catch (IOException e) {
+            throw I.quiet(e);
+        }
     }
 }

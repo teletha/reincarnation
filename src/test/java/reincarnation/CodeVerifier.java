@@ -9,22 +9,19 @@
  */
 package reincarnation;
 
-import java.io.IOException;
 import java.lang.reflect.Parameter;
-import java.nio.file.FileSystem;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.platform.commons.util.ReflectionUtils;
 
-import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
-
+import bee.UserInterface;
 import bee.util.JavaCompiler;
 import kiss.I;
 import marionette.browser.Browser;
 
 /**
- * @version 2018/04/04 16:30:26
+ * @version 2018/10/03 18:17:03
  */
 public class CodeVerifier {
 
@@ -33,30 +30,44 @@ public class CodeVerifier {
         pref.headless = true;
     });
 
-    /** In-memory. */
-    private static final FileSystem fs;
-
-    static {
-        try {
-            fs = MemoryFileSystemBuilder.newEmpty().build();
-        } catch (IOException e) {
-            throw I.quiet(e);
-        }
-    }
-
     /**
      * Verify AST of the specified {@link CodeInt}.
      * 
      * @param code
      */
     protected final void verify(Code code) {
-        // String decompiled = Reincarnation.exhume(code.getClass()).toString();
+        try {
+            String decompiled = Reincarnation.exhume(code.getClass()).toString();
 
-        JavaCompiler compiler = new JavaCompiler();
-        compiler.setOutput(fs.getPath("OUTPUT"));
-        compiler.addSourceDirectory(fs.getPath("INPUT"));
-        ClassLoader loader = compiler.compile();
+            JavaCompiler compiler = new JavaCompiler(UserInterface.CLI);
+            compiler.addSource(code.getSimpleName(), decompiled);
+            compiler.addCurrentClassPath();
 
+            ClassLoader loader = compiler.compile();
+            Class<?> loadedClass = loader.loadClass(code.getName());
+            assert loadedClass != code.getClass(); // load from different class loaders
+
+            // instantiate
+            Code loadedInstance = (Code) ReflectionUtils.newInstance(loadedClass);
+
+            for (Class type : Code.class.getClasses()) {
+                if (validate(type, code, loadedInstance)) {
+                    return;
+                }
+            }
+            throw new AssertionError("Unknown Type");
+        } catch (Exception e) {
+            throw I.quiet(e);
+        }
+    }
+
+    private boolean validate(Class type, Code original, Code decompiled) {
+        if (type.isInstance(original)) {
+            assert type.isInstance(decompiled);
+
+            return true;
+        }
+        return false;
     }
 
     private Executions executeJavaCode(Code code) {
