@@ -12,7 +12,7 @@ package reincarnation;
 import org.junit.jupiter.api.Test;
 
 /**
- * @version 2018/04/04 16:25:10
+ * @version 2018/10/04 8:36:16
  */
 public class PrimitiveIntTest extends CodeVerifier {
 
@@ -23,6 +23,116 @@ public class PrimitiveIntTest extends CodeVerifier {
             @Override
             public int run() {
                 return 0;
+            }
+        });
+    }
+
+    @Test
+    void one() {
+        verify(new Code.Int() {
+
+            @Override
+            public int run() {
+                return 1;
+            }
+        });
+    }
+
+    @Test
+    void two() {
+        verify(new Code.Int() {
+
+            @Override
+            public int run() {
+                return 2;
+            }
+        });
+    }
+
+    @Test
+    void three() {
+        verify(new Code.Int() {
+
+            @Override
+            public int run() {
+                return 3;
+            }
+        });
+    }
+
+    @Test
+    void four() {
+        verify(new Code.Int() {
+
+            @Override
+            public int run() {
+                return 4;
+            }
+        });
+    }
+
+    @Test
+    void five() {
+        verify(new Code.Int() {
+
+            @Override
+            public int run() {
+                return 5;
+            }
+        });
+    }
+
+    @Test
+    void six() {
+        verify(new Code.Int() {
+
+            @Override
+            public int run() {
+                return 6;
+            }
+        });
+    }
+
+    @Test
+    void seven() {
+        verify(new Code.Int() {
+
+            @Override
+            public int run() {
+                return 7;
+            }
+        });
+    }
+
+    @Test
+    void minusOne() {
+        verify(new Code.Int() {
+
+            @Override
+            public int run() {
+                return -1;
+            }
+        });
+    }
+
+    @Test
+    void minusTwo() {
+        verify(new Code.Int() {
+
+            @Override
+            public int run() {
+                return -2;
+            }
+        });
+    }
+
+    @Test
+    void minusThree() {
+        verify(new Code.Int() {
+
+            @Override
+            public int run() {
+                return -3;
             }
         });
     }

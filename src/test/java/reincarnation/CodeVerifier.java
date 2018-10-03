@@ -9,19 +9,17 @@
  */
 package reincarnation;
 
-import java.lang.reflect.Parameter;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.platform.commons.util.ReflectionUtils;
 
 import bee.UserInterface;
+import bee.api.Command;
 import bee.util.JavaCompiler;
 import kiss.I;
 import marionette.browser.Browser;
+import reincarnation.Code.Int;
 
 /**
- * @version 2018/10/03 18:17:03
+ * @version 2018/10/04 8:49:25
  */
 public class CodeVerifier {
 
@@ -31,15 +29,25 @@ public class CodeVerifier {
     });
 
     /**
-     * Verify AST of the specified {@link CodeInt}.
+     * Verify decompiled code.
      * 
      * @param code
      */
-    protected final void verify(Code code) {
+    protected final void verify(Int code) {
+        assert code.run() == recompile(code).run();
+    }
+
+    /**
+     * Recompile and recompile code.
+     * 
+     * @param code
+     * @return
+     */
+    private <T extends Code> T recompile(T code) {
         try {
             String decompiled = Reincarnation.exhume(code.getClass()).toString();
 
-            JavaCompiler compiler = new JavaCompiler(UserInterface.CLI);
+            JavaCompiler compiler = new JavaCompiler(new NoOP());
             compiler.addSource(code.getSimpleName(), decompiled);
             compiler.addCurrentClassPath();
 
@@ -47,79 +55,44 @@ public class CodeVerifier {
             Class<?> loadedClass = loader.loadClass(code.getName());
             assert loadedClass != code.getClass(); // load from different class loaders
 
-            // instantiate
-            Code loadedInstance = (Code) ReflectionUtils.newInstance(loadedClass);
-
-            for (Class type : Code.class.getClasses()) {
-                if (validate(type, code, loadedInstance)) {
-                    return;
-                }
-            }
-            throw new AssertionError("Unknown Type");
+            return (T) ReflectionUtils.newInstance(loadedClass);
         } catch (Exception e) {
             throw I.quiet(e);
         }
     }
 
-    private boolean validate(Class type, Code original, Code decompiled) {
-        if (type.isInstance(original)) {
-            assert type.isInstance(decompiled);
-
-            return true;
-        }
-        return false;
-    }
-
-    private Executions executeJavaCode(Code code) {
-        Executions executions = new Executions();
-
-        ReflectionUtils.findMethod(code.getClass(), "run").ifPresent(method -> {
-            // runner needs return value
-            Class<?> returnType = method.getReturnType();
-
-            if (returnType == void.class || returnType == Void.class) {
-                throw new AssertionError(CodeVerifier.class.getSimpleName() + " requires the method which returns non-void type.");
-            }
-
-            Parameter[] parameters = method.getParameters();
-
-            if (parameters.length == 0) {
-                // no parameter, execute simply
-                executions.output.add(ReflectionUtils.invokeMethod(method, code, executions.params()));
-            }
-        });
-        return executions;
-    }
-
     /**
-     * @version 2018/04/04 17:11:58
+     * @version 2018/10/04 8:48:47
      */
-    private static class Executions {
-
-        /** The input container. */
-        private final List<Object[]> input = new ArrayList();
-
-        /** The output container. */
-        private final List<Object> output = new ArrayList();
+    private static class NoOP extends UserInterface {
 
         /**
-         * Record inputs.
-         * 
-         * @param params
-         * @return
+         * {@inheritDoc}
          */
-        private Object[] params(Object... params) {
-            this.input.add(params);
-
-            return params;
+        @Override
+        protected void write(String message) {
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public String toString() {
-            return output.toString();
+        public Appendable getInterface() {
+            return System.out;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void startCommand(String name, Command command) {
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void endCommand(String name, Command command) {
         }
     }
 }

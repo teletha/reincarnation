@@ -12,6 +12,7 @@ package reincarnation;
 import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.Type.*;
 import static reincarnation.Node.*;
+import static reincarnation.Util.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +39,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import reincarnation.Node.TryCatchFinallyBlocks;
 
 /**
- * @version 2018/10/03 12:22:48
+ * @version 2018/10/04 8:47:28
  */
 class JavaMethodDecompiler extends MethodVisitor {
 
@@ -263,6 +264,30 @@ class JavaMethodDecompiler extends MethodVisitor {
             current.addOperand(ZERO);
             break;
 
+        case ICONST_1:
+            current.addOperand(ONE);
+            break;
+
+        case ICONST_2:
+            current.addOperand(new OperandNumber(2));
+            break;
+
+        case ICONST_3:
+            current.addOperand(new OperandNumber(3));
+            break;
+
+        case ICONST_4:
+            current.addOperand(new OperandNumber(4));
+            break;
+
+        case ICONST_5:
+            current.addOperand(new OperandNumber(5));
+            break;
+
+        case ICONST_M1:
+            current.addOperand(new OperandNumber(-1));
+            break;
+
         case IRETURN:
             // Java bytecode represents boolean value as integer value (0 or 1).
             if (match(JUMP, ICONST_0, IRETURN, LABEL, FRAME, ICONST_1, IRETURN) || match(JUMP, LABEL, FRAME, ICONST_0, IRETURN, LABEL, FRAME, ICONST_1, IRETURN)) {
@@ -316,6 +341,79 @@ class JavaMethodDecompiler extends MethodVisitor {
      * {@inheritDoc}
      */
     @Override
+    public void visitIntInsn(int opcode, int operand) {
+        // recode current instruction
+        record(opcode);
+
+        // The opcode of the instruction to be visited. This opcode is either BIPUSH, SIPUSH or
+        // NEWARRAY.
+        switch (opcode) {
+        // When opcode is BIPUSH, operand value should be between Byte.MIN_VALUE and
+        // Byte.MAX_VALUE.
+        case BIPUSH:
+            current.addOperand(operand);
+            break;
+
+        // When opcode is SIPUSH, operand value should be between Short.MIN_VALUE and
+        // Short.MAX_VALUE.
+        case SIPUSH:
+            current.addOperand(operand);
+            break;
+
+        // When opcode is NEWARRAY, operand value should be one of Opcodes.T_BOOLEAN,
+        // Opcodes.T_CHAR, Opcodes.T_FLOAT, Opcodes.T_DOUBLE, Opcodes.T_BYTE, Opcodes.T_SHORT,
+        // Opcodes.T_INT or Opcodes.T_LONG.
+        case NEWARRAY:
+            Class type = null;
+
+            switch (operand) {
+            case T_INT:
+                type = int[].class;
+                break;
+
+            case T_LONG:
+                type = long[].class;
+                break;
+
+            case T_FLOAT:
+                type = float[].class;
+                break;
+
+            case T_DOUBLE:
+                type = double[].class;
+                break;
+
+            case T_BOOLEAN:
+                type = boolean[].class;
+                break;
+
+            case T_BYTE:
+                type = byte[].class;
+                break;
+
+            case T_CHAR:
+                type = char[].class;
+                break;
+
+            case T_SHORT:
+                type = short[].class;
+                break;
+
+            default:
+                // If this exception will be thrown, it is bug of this program. So we must rethrow
+                // the wrapped error in here.
+                throw new Error();
+            }
+
+            current.addOperand(new OperandArray(current.remove(0), type));
+            break;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void visitLabel(Label label) {
         // recode current instruction
         record(LABEL);
@@ -346,14 +444,14 @@ class JavaMethodDecompiler extends MethodVisitor {
         record(opcode);
 
         // compute owner class
-        Class owner = JavaClassDecompiler.load(className);
+        Class owner = load(className);
 
         // compute parameter types
         Type[] types = Type.getArgumentTypes(desc);
         Class[] parameters = new Class[types.length];
 
         for (int i = 0; i < types.length; i++) {
-            parameters[i] = JavaClassDecompiler.load(types[i]);
+            parameters[i] = load(types[i]);
         }
 
         // copy latest operands for this method invocation
@@ -364,7 +462,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         }
 
         // write mode
-        Class returnType = JavaClassDecompiler.load(Type.getReturnType(desc));
+        Class returnType = load(Type.getReturnType(desc));
         boolean immediately = returnType == void.class;
 
         // if this method (not constructor and not static initializer) return void, we must

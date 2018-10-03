@@ -12,14 +12,7 @@ package reincarnation;
 /**
  * @version 2018/10/02 19:57:24
  */
-public interface Code<T> {
-
-    /**
-     * Execute test.
-     * 
-     * @return
-     */
-    T[] test();
+public interface Code {
 
     /**
      * Estimate the fully qualified class name.
@@ -53,7 +46,7 @@ public interface Code<T> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface Int extends Code<Integer> {
+    public interface Int extends Code {
 
         /**
          * Write testable code.
@@ -61,13 +54,5 @@ public interface Code<T> {
          * @return
          */
         int run();
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        default Integer[] test() {
-            return new Integer[] {run()};
-        }
     }
 }
