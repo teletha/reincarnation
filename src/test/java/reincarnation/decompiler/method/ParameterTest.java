@@ -11,6 +11,8 @@ package reincarnation.decompiler.method;
 
 import org.junit.jupiter.api.Test;
 
+import reincarnation.Code.DoubleParam;
+import reincarnation.Code.FloatParam;
 import reincarnation.Code.IntParam;
 import reincarnation.Code.LongParam;
 import reincarnation.CodeVerifier;
@@ -37,6 +39,28 @@ class ParameterTest extends CodeVerifier {
 
             @Override
             public long run(long param) {
+                return param;
+            }
+        });
+    }
+
+    @Test
+    void Float() {
+        verify(new FloatParam() {
+
+            @Override
+            public float run(float param) {
+                return param;
+            }
+        });
+    }
+
+    @Test
+    void Double() {
+        verify(new DoubleParam() {
+
+            @Override
+            public double run(double param) {
                 return param;
             }
         });

@@ -10,17 +10,21 @@
 package reincarnation;
 
 import java.lang.reflect.Constructor;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
 
 import bee.UserInterface;
 import bee.api.Command;
 import bee.util.JavaCompiler;
 import kiss.I;
+import reincarnation.Code.BooleanParam;
+import reincarnation.Code.ByteParam;
+import reincarnation.Code.CharParam;
+import reincarnation.Code.DoubleParam;
 import reincarnation.Code.FloatParam;
 import reincarnation.Code.Int;
 import reincarnation.Code.IntParam;
 import reincarnation.Code.LongParam;
+import reincarnation.Code.ShortParam;
+import reincarnation.Code.TextParam;
 
 /**
  * @version 2018/10/04 14:37:22
@@ -42,7 +46,7 @@ public class CodeVerifier {
      * @param code A target code to verify.
      */
     protected final void verify(IntParam code) {
-        int[] params = IntStream.range(-5, 5).toArray();
+        int[] params = {Integer.MIN_VALUE, -10, -1, 0, 1, 10, Integer.MAX_VALUE};
         IntParam recompiled = recompile(code);
 
         for (int param : params) {
@@ -64,8 +68,8 @@ public class CodeVerifier {
      * 
      * @param code A target code to verify.
      */
-    protected final void verify(Code.LongParam code) {
-        long[] params = LongStream.range(-5, 5).toArray();
+    protected final void verify(LongParam code) {
+        long[] params = {Long.MIN_VALUE, -10L, -1L, 0L, 1L, 10L, Long.MAX_VALUE};
         LongParam recompiled = recompile(code);
 
         for (long param : params) {
@@ -87,11 +91,149 @@ public class CodeVerifier {
      * 
      * @param code A target code to verify.
      */
-    protected final void verify(Code.FloatParam code) {
-        long[] params = LongStream.range(-5, 5).toArray();
+    protected final void verify(FloatParam code) {
+        float[] params = {Float.MIN_VALUE, -1F, -0.5F, 0F, 0.5F, 1.0F, Float.MAX_VALUE};
         FloatParam recompiled = recompile(code);
 
-        for (long param : params) {
+        for (float param : params) {
+            assert code.run(param) == recompiled.run(param);
+        }
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(Code.Double code) {
+        assert code.run() == recompile(code).run();
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(DoubleParam code) {
+        double[] params = {Double.MIN_VALUE, -1D, -0.5D, 0D, 0.5D, 1.0D, Double.MAX_VALUE};
+        DoubleParam recompiled = recompile(code);
+
+        for (double param : params) {
+            assert code.run(param) == recompiled.run(param);
+        }
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(Code.Byte code) {
+        assert code.run() == recompile(code).run();
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(ByteParam code) {
+        byte[] params = {Byte.MIN_VALUE, -10, -1, 0, 1, 10, Byte.MAX_VALUE};
+        ByteParam recompiled = recompile(code);
+
+        for (byte param : params) {
+            assert code.run(param) == recompiled.run(param);
+        }
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(Code.Short code) {
+        assert code.run() == recompile(code).run();
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(ShortParam code) {
+        short[] params = {Short.MIN_VALUE, -10, -1, 0, 1, 10, Short.MAX_VALUE};
+        ShortParam recompiled = recompile(code);
+
+        for (short param : params) {
+            assert code.run(param) == recompiled.run(param);
+        }
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(Code.Char code) {
+        assert code.run() == recompile(code).run();
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(CharParam code) {
+        char[] params = {Character.MIN_VALUE, '0', ' ', 'A', Character.MAX_VALUE};
+        CharParam recompiled = recompile(code);
+
+        for (char param : params) {
+            assert code.run(param) == recompiled.run(param);
+        }
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(Code.Boolean code) {
+        assert code.run() == recompile(code).run();
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(BooleanParam code) {
+        boolean[] params = {false, true};
+        BooleanParam recompiled = recompile(code);
+
+        for (boolean param : params) {
+            assert code.run(param) == recompiled.run(param);
+        }
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(Code.Text code) {
+        assert code.run() == recompile(code).run();
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(TextParam code) {
+        String[] params = {"", " ", "a", "A", "あ", "\\", "\t"};
+        TextParam recompiled = recompile(code);
+
+        for (String param : params) {
             assert code.run(param) == recompiled.run(param);
         }
     }

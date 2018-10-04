@@ -258,4 +258,31 @@ public interface Code {
          */
         boolean run(boolean param);
     }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
+    public interface Text extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @return A result.
+         */
+        String run();
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
+    public interface TextParam extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @param A parameter.
+         * @return A result.
+         */
+        String run(String param);
+    }
 }
