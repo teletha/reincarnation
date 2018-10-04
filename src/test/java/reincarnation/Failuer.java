@@ -16,6 +16,7 @@ import java.util.Objects;
 /**
  * @version 2018/10/04 13:52:57
  */
+@SuppressWarnings("serial")
 public class Failuer extends AssertionError {
 
     /** The type. */

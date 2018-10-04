@@ -137,8 +137,8 @@ class Node {
     final void addOperand(Object operand) {
         if (operand instanceof Operand) {
             stack.add((Operand) operand);
-        } else if (operand instanceof Integer) {
-            stack.add(new OperandNumber((Integer) operand));
+        } else if (operand instanceof Number) {
+            stack.add(new OperandNumber((Number) operand));
         } else {
             stack.add(new OperandExpression(operand));
         }

@@ -14,6 +14,8 @@ import static org.objectweb.asm.Type.*;
 import static reincarnation.Node.*;
 import static reincarnation.Util.*;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,17 +32,20 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
-import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.expr.AssignExpr;
+import com.github.javaparser.ast.expr.AssignExpr.Operator;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.ThisExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 
 import kiss.I;
+import reincarnation.Node.Switch;
 import reincarnation.Node.TryCatchFinallyBlocks;
 
 /**
@@ -165,6 +170,9 @@ class JavaMethodDecompiler extends MethodVisitor {
     /** The frequently used operand for cache. */
     private static final OperandNumber ONE = new OperandNumber(1);
 
+    /** The current processing class. */
+    private final Class clazz;
+
     /** The current processing method name. */
     private final String methodName;
 
@@ -229,22 +237,28 @@ class JavaMethodDecompiler extends MethodVisitor {
      */
     private boolean enumSwitchInvoked;
 
+    /** The synchronized block related nodes. */
+    private Set<Node> synchronizer = new HashSet();
+
+    /** The flag whether the next jump instruction is used for assert statement or not. */
+    private boolean assertJump = false;
+
+    /** The flag whether the next new instruction is used for assert statement or not. */
+    private boolean assertNew = false;
+
     /**
      * @param root
      * @param api
      */
-    JavaMethodDecompiler(CallableDeclaration<?> root, String name, String description, boolean isStatic) {
+    JavaMethodDecompiler(Class clazz, CallableDeclaration<?> root, String name, String description, boolean isStatic) {
         super(ASM7);
 
+        this.clazz = clazz;
         this.root = Objects.requireNonNull(root);
         this.methodName = name;
         this.returnType = Type.getReturnType(description);
         this.parameterTypes = Type.getArgumentTypes(description);
         this.variables = new LocalVariables(isStatic);
-        NodeList<Parameter> parameters = root.getParameters();
-        for (int i = 0; i < parameters.size(); i++) {
-            variables.name(i, parameters.get(i).getNameAsString());
-        }
 
         Debugger.recordMethodName(name);
     }
@@ -292,7 +306,11 @@ class JavaMethodDecompiler extends MethodVisitor {
         Debugger.print(nodes);
 
         // build parameters
-        for (Expression param : variables.names()) {
+        for (int i = 0; i < parameterTypes.length; i++) {
+            Parameter param = new Parameter();
+            param.setType(load(parameterTypes[i]));
+            param.setName(variables.name(i + 1).toString());
+            root.addParameter(param);
         }
 
         BlockStmt body = new BlockStmt();
@@ -310,37 +328,349 @@ class JavaMethodDecompiler extends MethodVisitor {
      * {@inheritDoc}
      */
     @Override
+    public void visitFieldInsn(int opcode, String ownerClassName, String name, String desc) {
+        // If this field access instruction is used for assertion, we should skip it to erase
+        // compiler generated extra code.
+        if (opcode == GETSTATIC && name.equals("$assertionsDisabled")) {
+            assertJump = assertNew = true;
+            return;
+        }
+
+        // recode current instruction
+        record(opcode);
+
+        // compute owner class
+        Class owner = load(ownerClassName);
+
+        // Field type
+        Class type = load(Type.getType(desc));
+
+        switch (opcode) {
+        case PUTFIELD:
+            // Increment (decrement) of field doesn't use increment instruction, so we must
+            // distinguish increment (decrement) from addition by pattern matching.
+            if (match(DUP, GETFIELD, DUPLICATE_AWAY, CONSTANT_1, ADD, PUTFIELD)) {
+                // The pattenr of post-increment field is like above.
+                current.remove(0);
+
+                // current.addOperand(increment(current.remove(0) + "." + computeFieldName(owner,
+                // name), type, true, true));
+            } else if (match(DUP, GETFIELD, DUPLICATE_AWAY, CONSTANT_1, SUB, PUTFIELD)) {
+                // The pattenr of post-decrement field is like above.
+                current.remove(0);
+
+                // current.addOperand(increment(current.remove(0) + "." + computeFieldName(owner,
+                // name), type, false, true));
+            } else if (match(DUP, GETFIELD, CONSTANT_1, ADD, DUPLICATE_AWAY, PUTFIELD)) {
+                // The pattenr of pre-increment field is like above.
+                current.remove(0);
+
+                // current.addOperand(increment(current.remove(0) + "." + computeFieldName(owner,
+                // name), type, true, false));
+            } else if (match(DUP, GETFIELD, CONSTANT_1, SUB, DUPLICATE_AWAY, PUTFIELD)) {
+                // The pattenr of pre-decrement field is like above.
+                current.remove(0);
+
+                // current.addOperand(increment(current.remove(0) + "." + computeFieldName(owner,
+                // name), type, false, false));
+            } else {
+                AssignExpr assign = new AssignExpr();
+                assign.setTarget(new FieldAccessExpr(current.remove(1).build(), name));
+                assign.setValue(current.remove(0).cast(type).build());
+                assign.setOperator(Operator.ASSIGN);
+
+                if (match(DUPLICATE_AWAY, PUTFIELD)) {
+                    // multiple assignment (i.e. this.a = this.b = 0;)
+                    // current.addOperand(assignment.encolose());
+                } else {
+                    // normal assignment
+                    current.addExpression(assign, type);
+                }
+            }
+            break;
+
+        case GETFIELD:
+            // current.addOperand(translator.translateField(owner, name, current.remove(0)), type);
+            break;
+
+        case PUTSTATIC:
+            if (match(GETSTATIC, DUPLICATE, CONSTANT_1, ADD, PUTSTATIC)) {
+                // The pattenr of post-increment field is like above.
+                current.remove(0);
+
+                current.addOperand(increment(current.remove(0), type, true, true));
+            } else if (match(GETSTATIC, DUPLICATE, CONSTANT_1, SUB, PUTSTATIC)) {
+                // The pattenr of post-decrement field is like above.
+                current.remove(0);
+
+                current.addOperand(increment(current.remove(0), type, false, true));
+            } else if (match(GETSTATIC, CONSTANT_1, ADD, DUPLICATE, PUTSTATIC)) {
+                current.remove(0);
+                current.remove(0);
+
+                // current.addOperand(increment(translator.translateStaticField(owner, name), type,
+                // true, false));
+            } else if (match(GETSTATIC, CONSTANT_1, SUB, DUPLICATE, PUTSTATIC)) {
+                // The pattenr of pre-decrement field is like above.
+                current.remove(0);
+                current.remove(0);
+
+                // current.addOperand(increment(translator.translateStaticField(owner, name), type,
+                // false, false));
+            } else {
+                // Operand assign = new OperandExpression(translator.translateStaticField(owner,
+                // name) + "=" + current.remove(0)
+                // .cast(type), type);
+
+                if (match(DUPLICATE, PUTSTATIC)) {
+                    // The pattern of static field assignment in method parameter.
+                    current.remove(0);
+                    // current.addOperand(assign);
+                } else {
+                    // current.addExpression(assign);
+                }
+            }
+            break;
+
+        case GETSTATIC:
+            // current.addOperand(translator.translateStaticField(owner, name), type);
+            break;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void visitInsn(int opcode) {
         // recode current instruction
         record(opcode);
 
         switch (opcode) {
+        case DUP:
+            if (!match(NEW, DUP) && !match(NEW, DUP2)) {
+                // mark as duplicated operand
+                current.peek(0).duplicated = true;
+            }
+            break;
+
+        case DUP2:
+            if (!match(NEW, DUP) && !match(NEW, DUP2)) {
+                // mark as duplicated operand
+                Operand first = current.peek(0);
+                first.duplicated = true;
+
+                if (!first.isLarge()) {
+                    current.peek(1).duplicated = true;
+                }
+            }
+            break;
+
+        case DUP_X1:
+            // These instructions are used for field increment mainly, see visitFieldInsn(PUTFIELD).
+            // Skip this instruction to simplify compiler.
+            break;
+
+        case DUP_X2:
+            // mark as duplicated operand
+            current.peek(0).duplicated = true;
+            break;
+
+        case DUP2_X1:
+            // These instructions are used for field increment mainly, see visitFieldInsn(PUTFIELD).
+            // Skip this instruction to simplify compiler.
+            break;
+
+        case DUP2_X2:
+            // mark as duplicated operand
+            current.peek(0).duplicated = true;
+            break;
+
+        case POP:
+            // When the JDK compiler compiles the code including "instance method reference", it
+            // generates the byte code expressed in following ASM codes.
+            //
+            // visitInsn(DUP);
+            // visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object","getClass","()Ljava/lang/Class;");
+            // visitInsn(POP);
+            //
+            // Although i guess that it is the initialization code for the class to
+            // which the lambda method belongs, ECJ doesn't generated such code.
+            // In Javascript runtime, it is a completely unnecessary code,
+            // so we should delete them unconditionally.
+            if (match(DUP, INVOKEVIRTUAL, POP)) {
+                current.remove(0);
+                break;
+            }
+
+            // Accessing the interface static field from the instance, compiler generates the
+            // byte code expressed in following ASM codes.
+            //
+            // visitFieldInsn(GETFIELD, "ConcreateClass", "FieldName", "signature");
+            // visitTypeInsn(CHECKCAST, "FieldType");
+            // visitInsn(POP);
+            //
+            // In Javascript runtime, it is a completely unnecessary code,
+            // so we should delete them unconditionally.
+            if (match(GETFIELD, CHECKCAST, POP)) {
+                current.remove(0);
+                break;
+            }
+
+        case POP2:
+            // One sequence of expressions was finished, so we must write out one remaining
+            // operand. (e.g. Method invocation which returns some operands but it is not used ever)
+            current.addExpression(current.remove(0));
+            break;
+
+        // 0
         case ICONST_0:
             current.addOperand(ZERO);
             break;
+        case LCONST_0:
+            current.addOperand(0L);
+            break;
+        case FCONST_0:
+            current.addOperand(0F);
+            break;
+        case DCONST_0:
+            current.addOperand(0D);
+            break;
 
+        // 1
         case ICONST_1:
             current.addOperand(ONE);
             break;
+        case LCONST_1:
+            current.addOperand(1L);
+            break;
+        case FCONST_1:
+            current.addOperand(1F);
+            break;
+        case DCONST_1:
+            current.addOperand(1D);
+            break;
 
+        // 2
         case ICONST_2:
-            current.addOperand(new OperandNumber(2));
+            current.addOperand(2);
+            break;
+        case FCONST_2:
+            current.addOperand(2F);
             break;
 
+        // 3
         case ICONST_3:
-            current.addOperand(new OperandNumber(3));
+            current.addOperand(3);
             break;
 
+        // 4
         case ICONST_4:
-            current.addOperand(new OperandNumber(4));
+            current.addOperand(4);
             break;
 
+        // 5
         case ICONST_5:
-            current.addOperand(new OperandNumber(5));
+            current.addOperand(5);
             break;
 
+        // -1
         case ICONST_M1:
-            current.addOperand(new OperandNumber(-1));
+            current.addOperand(-1);
+            break;
+
+        // null
+        case ACONST_NULL:
+            current.addOperand(null); // not "null"
+            break;
+
+        // + operand
+        case IADD:
+        case FADD:
+        case DADD:
+        case LADD:
+            current.join("+").enclose();
+            break;
+
+        // - operand
+        case ISUB:
+        case FSUB:
+        case DSUB:
+        case LSUB:
+            current.join("-").enclose();
+            break;
+
+        // * operand
+        case IMUL:
+        case FMUL:
+        case DMUL:
+        case LMUL:
+            current.join("*");
+            break;
+
+        // / operand
+        case IDIV:
+        case FDIV:
+        case DDIV:
+        case LDIV:
+            current.join("/");
+            break;
+
+        // % operand
+        case IREM:
+        case FREM:
+        case DREM:
+        case LREM:
+            current.join("%");
+            break;
+
+        // & operand
+        case IAND:
+        case LAND:
+            current.join("&").enclose();
+            break;
+
+        // | operand
+        case IOR:
+        case LOR:
+            current.join("|").enclose();
+            break;
+
+        // ^ operand
+        case IXOR:
+        case LXOR:
+            current.join("^");
+            break;
+
+        // << operand
+        case ISHL:
+        case LSHL:
+            current.join("<<").enclose();
+            break;
+
+        // >> operand
+        case ISHR:
+        case LSHR:
+            current.join(">>").enclose();
+            break;
+
+        // >>> operand
+        case IUSHR:
+        case LUSHR:
+            current.join(">>>").enclose();
+            break;
+
+        // negative operand
+        case INEG:
+        case FNEG:
+        case DNEG:
+        case LNEG:
+            current.addOperand(new OperandExpression("-" + current.remove(0).encolose()).encolose());
+            break;
+
+        case RETURN:
+            current.addExpression(Return);
+            current.destination = Termination;
             break;
 
         case IRETURN:
@@ -389,6 +719,125 @@ class JavaMethodDecompiler extends MethodVisitor {
             current.addExpression(Return, operand);
             current.destination = Termination;
             break;
+
+        case ARETURN:
+        case LRETURN:
+        case FRETURN:
+        case DRETURN:
+            current.addExpression(Return, current.remove(match(DUP, JUMP, ARETURN) ? 1 : 0));
+            current.destination = Termination;
+            break;
+
+        // write array value by index
+        case IALOAD:
+            if (enumSwitchInvoked) {
+                enumSwitchInvoked = false; // reset
+
+                // enum switch table starts from 1, but Enum#ordinal starts from 0
+                current.addOperand(current.remove(0) + "+1");
+                break;
+            }
+        case AALOAD:
+        case BALOAD:
+        case LALOAD:
+        case FALOAD:
+        case DALOAD:
+        case CALOAD:
+        case SALOAD:
+            current.addOperand(current.remove(1) + "[" + current.remove(0) + "]");
+            break;
+
+        // read array value by index
+        case AASTORE:
+        case BASTORE:
+        case IASTORE:
+        case LASTORE:
+        case FASTORE:
+        case DASTORE:
+        case CASTORE:
+        case SASTORE:
+            Operand contextMaybeArray = current.remove(2);
+            Operand value = current.remove(0, false);
+
+            if (opcode == CASTORE) {
+                // convert assign value (int -> char)
+                value = value.cast(char.class);
+            }
+
+            if (contextMaybeArray instanceof OperandArray) {
+                // initialization of syntax sugar
+                ((OperandArray) contextMaybeArray).set(current.remove(0), value);
+            } else {
+                // write by index
+                OperandExpression assignment = new OperandExpression(contextMaybeArray + "[" + current.remove(0) + "]=" + value.toString());
+
+                if (!value.duplicated) {
+                    current.addExpression(assignment);
+                } else {
+                    value.duplicated = false;
+
+                    // duplicate pointer
+                    current.addOperand(new OperandEnclose(assignment));
+                }
+            }
+            break;
+
+        // read array length
+        case ARRAYLENGTH:
+            current.addOperand(current.remove(0) + ".length");
+            break;
+
+        // throw
+        case ATHROW:
+            current.addExpression("throw ", current.remove(0));
+            current.destination = Termination;
+            break;
+
+        // numerical comparison operator for long, float and double primitives
+        case LCMP:
+        case DCMPL:
+        case DCMPG:
+        case FCMPL:
+        case FCMPG:
+            break; // ignore, because we should handle it in visitJumpInsn method
+
+        case MONITORENTER:
+            current.remove(0);
+            synchronizer.add(current);
+            break;
+
+        case MONITOREXIT:
+            synchronizer.add(current);
+            break;
+
+        case I2C:
+            // cast int to char
+            current.addOperand("String.fromCharCode(" + current.remove(0) + ")", char.class);
+            break;
+
+        case L2I:
+            // cast long to int
+            // If this exception will be thrown, it is bug of this program. So we must rethrow the
+            // wrapped error in here.
+            throw new Error();
+
+        case I2L:
+            // cast int to long
+            // If this exception will be thrown, it is bug of this program. So we must rethrow the
+            // wrapped error in here.
+            throw new Error();
+
+        case L2D:
+            // cast long to double
+            // If this exception will be thrown, it is bug of this program. So we must rethrow the
+            // wrapped error in here.
+            throw new Error();
+
+        case D2L:
+            // cast double to long
+            // If this exception will be thrown, it is bug of this program. So we must rethrow the
+            // wrapped error in here.
+            throw new Error();
         }
     }
 
@@ -537,6 +986,91 @@ class JavaMethodDecompiler extends MethodVisitor {
         // write mode
         Class returnType = load(Type.getReturnType(desc));
         boolean immediately = returnType == void.class;
+
+        // if (JavaMethodInliner.isInlinable(methodName, returnType)) {
+        // String expression = JavaMethodInliner.inline(owner, methodName, desc).apply(contexts,
+        // current);
+        //
+        // if (match(DUPLICATE, INVOKE)) {
+        // current.remove(0);
+        // current.addOperand(expression);
+        // } else if (match(DUPLICATE_AWAY, INVOKE)) {
+        // current.addOperand(expression);
+        // } else {
+        // current.addExpression(expression);
+        // }
+        // return;
+        // }
+
+        switch (opcode) {
+        // Invoke instance method; special handling for superclass constructor, private method,
+        // and instance initialization method invocations
+        case INVOKESPECIAL:
+            // push "this" operand
+            contexts.add(0, current.remove(0));
+
+            // Analyze method argument
+            if (!methodName.equals("<init>")) {
+                if (owner == clazz) {
+                    // private method invocation
+                    // current.addOperand(translator.translateMethod(owner, methodName, desc,
+                    // parameters, contexts), returnType);
+                } else {
+                    // super method invocation
+                    // current.addOperand(translator.translateSuperMethod(owner, methodName, desc,
+                    // parameters, contexts), returnType);
+                }
+            } else {
+                // constructor
+                if (countInitialization != 0) {
+                    // instance initialization method invocation
+                    // current.addOperand(translator.translateConstructor(owner, desc, parameters,
+                    // contexts), owner);
+
+                    countInitialization--;
+
+                    // don't write
+                    immediately = false;
+                } else {
+                    if (className.equals("java/lang/Object")) {
+                        // ignore
+                    } else {
+                        // current.addOperand(translator.translateSuperMethod(owner, methodName,
+                        // desc, parameters, contexts), returnType);
+                    }
+                }
+            }
+            break;
+
+        case INVOKEVIRTUAL: // method call
+        case INVOKEINTERFACE: // interface method call
+            // push "this" operand
+            contexts.add(0, current.remove(0));
+
+            // translate
+            // current.addOperand(translator.translateMethod(owner, methodName, desc, parameters,
+            // contexts), returnType);
+            break;
+
+        case INVOKESTATIC: // static method call
+            if (Switch.isEnumSwitchTable(methodName, desc)) {
+                enumSwitchInvoked = true;
+            } else {
+                // Non-private static method which is called from child class have parent
+                // class signature.
+                while (!hasStaticMethod(owner, methodName, parameters)) {
+                    owner = owner.getSuperclass();
+                }
+
+                // push class operand
+                // contexts.add(0, new OperandExpression(Javascript.computeClassName(owner, true)));
+
+                // translate
+                // current.addOperand(translator.translateStaticMethod(owner, methodName, desc,
+                // parameters, contexts), returnType);
+            }
+            break;
+        }
 
         // if this method (not constructor and not static initializer) return void, we must
         // write out the expression of method invocation immediatly.
@@ -1077,6 +1611,30 @@ class JavaMethodDecompiler extends MethodVisitor {
             return context + (increase ? "++" : "--");
         } else {
             return (increase ? "++" : "--") + context;
+        }
+    }
+
+    /**
+     * <p>
+     * Check static method.
+     * </p>
+     * 
+     * @param owner
+     * @param name
+     * @param types
+     * @return
+     */
+    private boolean hasStaticMethod(Class owner, String name, Class[] types) {
+        if (owner == null) {
+            return false;
+        }
+
+        try {
+            Method method = owner.getDeclaredMethod(name, types);
+
+            return Modifier.isStatic(method.getModifiers());
+        } catch (NoSuchMethodException e) {
+            return false;
         }
     }
 

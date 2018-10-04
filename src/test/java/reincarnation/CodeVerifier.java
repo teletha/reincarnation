@@ -9,16 +9,18 @@
  */
 package reincarnation;
 
+import java.lang.reflect.Constructor;
 import java.util.stream.IntStream;
-
-import org.junit.platform.commons.util.ReflectionUtils;
+import java.util.stream.LongStream;
 
 import bee.UserInterface;
 import bee.api.Command;
 import bee.util.JavaCompiler;
 import kiss.I;
+import reincarnation.Code.FloatParam;
 import reincarnation.Code.Int;
 import reincarnation.Code.IntParam;
+import reincarnation.Code.LongParam;
 
 /**
  * @version 2018/10/04 14:37:22
@@ -41,9 +43,56 @@ public class CodeVerifier {
      */
     protected final void verify(IntParam code) {
         int[] params = IntStream.range(-5, 5).toArray();
+        IntParam recompiled = recompile(code);
 
         for (int param : params) {
-            assert code.run(param) == recompile(code).run(param);
+            assert code.run(param) == recompiled.run(param);
+        }
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(Code.Long code) {
+        assert code.run() == recompile(code).run();
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(Code.LongParam code) {
+        long[] params = LongStream.range(-5, 5).toArray();
+        LongParam recompiled = recompile(code);
+
+        for (long param : params) {
+            assert code.run(param) == recompiled.run(param);
+        }
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(Code.Float code) {
+        assert code.run() == recompile(code).run();
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(Code.FloatParam code) {
+        long[] params = LongStream.range(-5, 5).toArray();
+        FloatParam recompiled = recompile(code);
+
+        for (long param : params) {
+            assert code.run(param) == recompiled.run(param);
         }
     }
 
@@ -66,13 +115,15 @@ public class CodeVerifier {
             Class<?> loadedClass = loader.loadClass(code.getName());
             assert loadedClass != code.getClass(); // load from different class loaders
 
-            return (T) ReflectionUtils.newInstance(loadedClass);
+            Constructor<?> constructor = loadedClass.getDeclaredConstructor(getClass());
+            constructor.setAccessible(true);
+            return (T) constructor.newInstance(this);
         } catch (Exception e) {
             throw I.quiet(e);
         } catch (Error e) {
             throw Failuer.type("Compile Error")
                     .reason("=================================================")
-                    .reason(notifier.buffer)
+                    .reason(notifier.message)
                     .reason("-------------------------------------------------")
                     .reason(format(decompiled))
                     .reason("=================================================");
@@ -103,14 +154,14 @@ public class CodeVerifier {
     private static class Silent extends UserInterface {
 
         /** The message buffer. */
-        private StringBuilder buffer = new StringBuilder();
+        private StringBuilder message = new StringBuilder();
 
         /**
          * {@inheritDoc}
          */
         @Override
         protected void write(String message) {
-            buffer.append(message);
+            this.message.append(message);
         }
 
         /**

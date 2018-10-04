@@ -19,10 +19,8 @@ import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
-import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.Parameter;
 
 /**
  * @version 2018/10/03 11:50:57
@@ -64,6 +62,8 @@ class JavaClassDecompiler extends ClassVisitor {
      */
     @Override
     public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
+        root.addField(load(Type.getType(desc)), name, modifiers(access));
+
         return null;
     }
 
@@ -87,19 +87,10 @@ class JavaClassDecompiler extends ClassVisitor {
             declaration = root.addMethod(name, modifiers(access)).setType(load(returnType));
         }
 
-        // build parameters
-        NodeList<Parameter> params = new NodeList();
-        for (Type argumentType : argumentTypes) {
-            Parameter param = new Parameter();
-            param.setType(load(argumentType));
-            params.add(param);
-        }
-        declaration.setParameters(params);
-
         // static modifier
         boolean isStatic = (access & ACC_STATIC) != 0;
 
-        return new JavaMethodDecompiler(declaration, name, desc, isStatic);
+        return new JavaMethodDecompiler(clazz, declaration, name, desc, isStatic);
     }
 
     /**
