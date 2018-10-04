@@ -27,14 +27,21 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
  */
 class JavaClassDecompiler extends ClassVisitor {
 
-    private ClassOrInterfaceDeclaration root;
+    /** The target class. */
+    private final Class clazz;
+
+    private final ClassOrInterfaceDeclaration root;
 
     /**
      * Java class decompiler
+     * 
+     * @param clazz A target class.
+     * @param root AST root.
      */
-    JavaClassDecompiler(ClassOrInterfaceDeclaration root) {
+    JavaClassDecompiler(Class clazz, ClassOrInterfaceDeclaration root) {
         super(ASM7);
 
+        this.clazz = Objects.requireNonNull(clazz);
         this.root = Objects.requireNonNull(root);
     }
 
@@ -43,6 +50,8 @@ class JavaClassDecompiler extends ClassVisitor {
      */
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+        Debugger.start(clazz);
+
         for (String interfaceName : interfaces) {
             root.addImplementedType(load(interfaceName));
         }
@@ -83,5 +92,6 @@ class JavaClassDecompiler extends ClassVisitor {
      */
     @Override
     public void visitEnd() {
+        Debugger.finish(clazz);
     }
 }

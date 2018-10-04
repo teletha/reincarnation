@@ -37,7 +37,7 @@ public class Reincarnation {
             }
 
             ClassReader reader = new ClassReader(clazz.getName());
-            reader.accept(new JavaClassDecompiler(root.addClass(name)), ClassReader.SKIP_DEBUG);
+            reader.accept(new JavaClassDecompiler(clazz, root.addClass(name)), 0);
 
             return root;
         } catch (IOException e) {

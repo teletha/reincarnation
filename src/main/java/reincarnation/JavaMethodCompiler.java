@@ -360,7 +360,7 @@ class JavaMethodCompiler extends MethodVisitor {
         // Resolve all try-catch-finally blocks.
         tries.process();
 
-        Debugger.printHeader(true);
+        Debugger.printInfo(true);
         Debugger.print(nodes);
 
         // ===============================================

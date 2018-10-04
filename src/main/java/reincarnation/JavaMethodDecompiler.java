@@ -23,6 +23,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.Attribute;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -36,12 +38,16 @@ import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.ThisExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 
+import kiss.I;
 import reincarnation.Node.TryCatchFinallyBlocks;
 
 /**
  * @version 2018/10/04 8:47:28
  */
 class JavaMethodDecompiler extends MethodVisitor {
+
+    /** The description of {@link Debugger}. */
+    private static final String DEBUGGER = Type.getType(Debuggable.class).getDescriptor();
 
     /**
      * Represents an expanded frame. See {@link ClassReader#EXPAND_FRAMES}.
@@ -233,6 +239,43 @@ class JavaMethodDecompiler extends MethodVisitor {
         this.returnType = Type.getReturnType(description);
         this.parameterTypes = Type.getArgumentTypes(description);
         this.variables = new LocalVariables(isStatic);
+
+        Debugger.recordMethodName(name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+        if (desc.equals(DEBUGGER)) {
+            return I.make(Debugger.class);
+        }
+        return null; // do nothing
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AnnotationVisitor visitAnnotationDefault() {
+        return null; // do nothing
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void visitAttribute(Attribute attr) {
+        // do nothing
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void visitCode() {
+        // do nothing
     }
 
     /**
@@ -240,6 +283,8 @@ class JavaMethodDecompiler extends MethodVisitor {
      */
     @Override
     public void visitEnd() {
+        Debugger.print(nodes);
+
         BlockStmt body = new BlockStmt();
 
         body.addStatement(nodes.get(0).build());
@@ -433,6 +478,16 @@ class JavaMethodDecompiler extends MethodVisitor {
         if (1 < nodes.size()) {
             merge(current.previous);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void visitLineNumber(int line, Label start) {
+        getNode(start).lineNumber = line;
+
+        Debugger.recordMethodLineNumber(line);
     }
 
     /**
