@@ -14,15 +14,14 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 
 /**
- * @version 2018/10/04 16:55:00
+ * @version 2018/10/05 0:17:07
  */
-public class IntTest extends CodeVerifier {
+class IntTest extends CodeVerifier {
 
     @Test
-    public void max() {
+    void max() {
         verify(new Code.IntParam() {
 
             @Override
@@ -33,7 +32,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void min() {
+    void min() {
         verify(new Code.IntParam() {
 
             @Override
@@ -44,7 +43,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void add() {
+    void add() {
         verify(new Code.IntParam() {
 
             @Override
@@ -55,7 +54,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void addAssignable() {
+    void addAssignable() {
         verify(new Code.IntParam() {
 
             @Override
@@ -66,7 +65,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void subtrrun() {
+    void subtrrun() {
         verify(new Code.IntParam() {
 
             @Override
@@ -77,7 +76,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void subtractAssignable() {
+    void subtractAssignable() {
         verify(new Code.IntParam() {
 
             @Override
@@ -88,7 +87,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void multiply() {
+    void multiply() {
         verify(new Code.IntParam() {
 
             @Override
@@ -99,7 +98,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void multiplyAssignable() {
+    void multiplyAssignable() {
         verify(new Code.IntParam() {
 
             @Override
@@ -110,7 +109,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void divide() {
+    void divide() {
         verify(new Code.IntParam() {
 
             @Override
@@ -121,7 +120,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void divideAssignable() {
+    void divideAssignable() {
         verify(new Code.IntParam() {
 
             @Override
@@ -132,7 +131,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void modulo() {
+    void modulo() {
         verify(new Code.IntParam() {
 
             @Override
@@ -143,7 +142,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void moduloAssignable() {
+    void moduloAssignable() {
         verify(new Code.IntParam() {
 
             @Override
@@ -155,7 +154,7 @@ public class IntTest extends CodeVerifier {
 
     @Test
     @Disabled
-    public void bitFlag() {
+    void bitFlag() {
         // verify(new Code.IntParam() {
         //
         // @Override
@@ -166,7 +165,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void bitAnd() {
+    void bitAnd() {
         verify(new Code.IntParam() {
 
             @Override
@@ -177,7 +176,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void bitOr() {
+    void bitOr() {
         verify(new Code.IntParam() {
 
             @Override
@@ -188,7 +187,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void bitOrAssignable() {
+    void bitOrAssignable() {
         verify(new Code.IntParam() {
 
             @Override
@@ -199,7 +198,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void bitXor() {
+    void bitXor() {
         verify(new Code.IntParam() {
 
             @Override
@@ -210,7 +209,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void bitXorAssignable() {
+    void bitXorAssignable() {
         verify(new Code.IntParam() {
 
             @Override
@@ -221,7 +220,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void bitNot() {
+    void bitNot() {
         verify(new Code.IntParam() {
 
             @Override
@@ -232,7 +231,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void shiftLeft() {
+    void shiftLeft() {
         verify(new Code.IntParam() {
 
             @Override
@@ -243,7 +242,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void shiftLeftAssignable() {
+    void shiftLeftAssignable() {
         verify(new Code.IntParam() {
 
             @Override
@@ -254,7 +253,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void shiftRight() {
+    void shiftRight() {
         verify(new Code.IntParam() {
 
             @Override
@@ -265,7 +264,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void shiftRightAssignable() {
+    void shiftRightAssignable() {
         verify(new Code.IntParam() {
 
             @Override
@@ -276,7 +275,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void unsignedShiftRight() {
+    void unsignedShiftRight() {
         verify(new Code.IntParam() {
 
             @Override
@@ -287,7 +286,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void unsignedShiftRightAssignable() {
+    void unsignedShiftRightAssignable() {
         verify(new Code.IntParam() {
 
             @Override
@@ -298,7 +297,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void postIncrement() {
+    void postIncrement() {
         verify(new Code.IntParam() {
 
             @Override
@@ -309,10 +308,9 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void postIncrementValue() {
+    void postIncrementValue() {
         verify(new Code.IntParam() {
 
-            @Debuggable
             @Override
             public int run(int value) {
                 int next = value++;
@@ -322,7 +320,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void postIncrementLike() {
+    void postIncrementLike() {
         verify(new Code.IntParam() {
 
             @Override
@@ -333,7 +331,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void preIncrement() {
+    void preIncrement() {
         verify(new Code.IntParam() {
 
             @Override
@@ -344,7 +342,7 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void preIncrementInStatement() {
+    void preIncrementInStatement() {
         verify(new Code.IntParam() {
 
             @Override
@@ -355,12 +353,12 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void incrementStatiFieldInFieldAccess() throws Exception {
+    void incrementStatiFieldInFieldAccess() {
         verify(new IncrementStaticField());
     }
 
     /**
-     * @version 2018/10/04 16:54:17
+     * @version 2018/10/05 0:16:26
      */
     private static class IncrementStaticField implements Code.Int {
 
@@ -377,12 +375,12 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void decrementStatiFieldInFieldAccess() throws Exception {
+    void decrementStatiFieldInFieldAccess() {
         verify(new DecrementStaticField());
     }
 
     /**
-     * @version 2013/03/13 17:21:44
+     * @version 2018/10/05 0:16:12
      */
     private static class DecrementStaticField implements Code.Int {
 
@@ -399,12 +397,12 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void preincrementStatiFieldInFieldAccess() throws Exception {
+    void preincrementStatiFieldInFieldAccess() {
         verify(new PreincrementStaticField());
     }
 
     /**
-     * @version 2013/03/13 17:21:44
+     * @version 2018/10/05 0:16:08
      */
     private static class PreincrementStaticField implements Code.Int {
 
@@ -421,12 +419,12 @@ public class IntTest extends CodeVerifier {
     }
 
     @Test
-    public void predecrementStatiFieldInFieldAccess() throws Exception {
+    void predecrementStatiFieldInFieldAccess() {
         verify(new PredecrementStaticField());
     }
 
     /**
-     * @version 2013/03/13 17:21:44
+     * @version 2018/10/05 0:16:17
      */
     private static class PredecrementStaticField implements Code.Int {
 

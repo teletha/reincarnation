@@ -34,6 +34,8 @@ public class Reincarnation {
 
             if (clazz.isAnonymousClass()) {
                 name = name.substring(name.lastIndexOf(".") + 1);
+            } else {
+                name = clazz.getSimpleName();
             }
 
             ClassReader reader = new ClassReader(clazz.getName());

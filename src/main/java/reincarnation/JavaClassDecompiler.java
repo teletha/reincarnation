@@ -19,8 +19,10 @@ import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
-import com.github.javaparser.ast.body.CallableDeclaration;
+import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.InitializerDeclaration;
+import com.github.javaparser.ast.stmt.BlockStmt;
 
 /**
  * @version 2018/10/03 11:50:57
@@ -76,13 +78,16 @@ class JavaClassDecompiler extends ClassVisitor {
         Type returnType = type.getReturnType();
         Type[] argumentTypes = type.getArgumentTypes();
 
-        CallableDeclaration declaration;
+        BodyDeclaration declaration;
 
         if (name.equals("<init>")) {
             // initializer or constructor
-            name = root.getNameAsString();
+            name = clazz.getSimpleName();
 
             declaration = root.addConstructor(modifiers(access));
+        } else if (name.equals("<clinit>")) {
+            // static initializer
+            root.addMember(declaration = new InitializerDeclaration(true, new BlockStmt()));
         } else {
             declaration = root.addMethod(name, modifiers(access)).setType(load(returnType));
         }

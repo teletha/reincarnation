@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -32,8 +33,11 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.body.InitializerDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
@@ -47,10 +51,12 @@ import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.ThisExpr;
+import com.github.javaparser.ast.expr.TypeExpr;
 import com.github.javaparser.ast.expr.UnaryExpr;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
+import com.github.javaparser.ast.stmt.Statement;
 
 import kiss.I;
 import reincarnation.Node.Switch;
@@ -197,7 +203,7 @@ class JavaMethodDecompiler extends MethodVisitor {
     private final TryCatchFinallyBlocks tries = new TryCatchFinallyBlocks();
 
     /** The method body. */
-    private final CallableDeclaration<?> root;
+    private final BodyDeclaration<?> root;
 
     /** The current processing node. */
     private Node current = null;
@@ -258,7 +264,7 @@ class JavaMethodDecompiler extends MethodVisitor {
      * @param root
      * @param api
      */
-    JavaMethodDecompiler(Class clazz, CallableDeclaration<?> root, String name, String description, boolean isStatic) {
+    JavaMethodDecompiler(Class clazz, BodyDeclaration<?> root, String name, String description, boolean isStatic) {
         super(ASM7);
 
         this.clazz = clazz;
@@ -314,11 +320,15 @@ class JavaMethodDecompiler extends MethodVisitor {
         Debugger.print(nodes);
 
         // build parameters
-        for (int i = 0; i < parameterTypes.length; i++) {
-            Parameter param = new Parameter();
-            param.setType(load(parameterTypes[i]));
-            param.setName(variables.name(i + 1).toString());
-            root.addParameter(param);
+        if (root instanceof CallableDeclaration) {
+            CallableDeclaration declaration = (CallableDeclaration) root;
+
+            for (int i = 0; i < parameterTypes.length; i++) {
+                Parameter param = new Parameter();
+                param.setType(load(parameterTypes[i]));
+                param.setName(variables.name(i + 1).toString());
+                declaration.addParameter(param);
+            }
         }
 
         BlockStmt body = new BlockStmt();
@@ -328,6 +338,29 @@ class JavaMethodDecompiler extends MethodVisitor {
             ((MethodDeclaration) root).setBody(body);
         } else if (root instanceof ConstructorDeclaration) {
             ((ConstructorDeclaration) root).setBody(body);
+        } else if (root instanceof InitializerDeclaration) {
+            ((InitializerDeclaration) root).setBody(body);
+        }
+
+        // optimize
+        removeLastEmptyReturn(body);
+    }
+
+    /**
+     * Remove {@link ReturnStmt} if it is empty at last.
+     * 
+     * @param block
+     */
+    private void removeLastEmptyReturn(BlockStmt block) {
+        NodeList<Statement> statements = block.getStatements();
+        Statement last = statements.get(statements.size() - 1);
+
+        if (last.isReturnStmt()) {
+            Optional<Expression> e = last.asReturnStmt().getExpression();
+
+            if (e.isEmpty()) {
+                statements.removeLast();
+            }
         }
     }
 
@@ -405,12 +438,12 @@ class JavaMethodDecompiler extends MethodVisitor {
                 // The pattenr of post-increment field is like above.
                 current.remove(0);
 
-                current.addOperand(increment(current.remove(0), type, true, true));
+                current.addOperand(increment(current.remove(0).build(), type, true, true));
             } else if (match(GETSTATIC, DUPLICATE, CONSTANT_1, SUB, PUTSTATIC)) {
                 // The pattenr of post-decrement field is like above.
                 current.remove(0);
 
-                current.addOperand(increment(current.remove(0), type, false, true));
+                current.addOperand(increment(current.remove(0).build(), type, false, true));
             } else if (match(GETSTATIC, CONSTANT_1, ADD, DUPLICATE, PUTSTATIC)) {
                 current.remove(0);
                 current.remove(0);
@@ -425,23 +458,31 @@ class JavaMethodDecompiler extends MethodVisitor {
                 // current.addOperand(increment(translator.translateStaticField(owner, name), type,
                 // false, false));
             } else {
-                // Operand assign = new OperandExpression(translator.translateStaticField(owner,
-                // name) + "=" + current.remove(0)
-                // .cast(type), type);
+                AssignExpr assign = new AssignExpr();
+                assign.setTarget(new FieldAccessExpr(new TypeExpr(loadType(owner)), name));
+                assign.setValue(current.remove(0).cast(type).build());
+                assign.setOperator(Operator.ASSIGN);
 
                 if (match(DUPLICATE, PUTSTATIC)) {
                     // The pattern of static field assignment in method parameter.
                     current.remove(0);
                     // current.addOperand(assign);
                 } else {
-                    // current.addExpression(assign);
+                    current.addExpression(assign);
                 }
             }
             break;
 
         case GETSTATIC:
-            // current.addOperand(translator.translateStaticField(owner, name), type);
+            current.addOperand(new FieldAccessExpr(new TypeExpr(loadType(owner)), name), type);
             break;
+        }
+    }
+
+    private void accessClassField(Class owner, String name) {
+        if (owner == clazz) {
+            // same class
+
         }
     }
 
@@ -1155,16 +1196,15 @@ class JavaMethodDecompiler extends MethodVisitor {
         case FLOAD:
         case LLOAD:
         case DLOAD:
-            // if (match(INCREMENT, ILOAD) && current.peek(0) == Node.END) {
-            // String expression = current.peek(1).toString();
-            //
-            // if (expression.startsWith("++") || expression.startsWith("--")) {
-            // if (expression.substring(2).equals(variable)) {
-            // current.remove(0);
-            // break;
-            // }
-            // }
-            // }
+            if (match(INCREMENT, ILOAD)) {
+                String expression = current.peek(0).toString();
+
+                if (expression.startsWith("++") || expression.startsWith("--")) {
+                    if (expression.substring(2).equals(variable.toString())) {
+                        break;
+                    }
+                }
+            }
 
         case ALOAD:
             current.addOperand(new OperandExpression(variable, variables.type(position)));
@@ -1666,12 +1706,15 @@ class JavaMethodDecompiler extends MethodVisitor {
      * @param post Post or pre.
      * @return A suitable code.
      */
-    private final String increment(Object context, Class type, boolean increase, boolean post) {
+    private final Expression increment(Expression context, Class type, boolean increase, boolean post) {
+        UnaryExpr.Operator operator;
+
         if (post) {
-            return context + (increase ? "++" : "--");
+            operator = increase ? UnaryExpr.Operator.POSTFIX_INCREMENT : UnaryExpr.Operator.POSTFIX_DECREMENT;
         } else {
-            return (increase ? "++" : "--") + context;
+            operator = increase ? UnaryExpr.Operator.PREFIX_INCREMENT : UnaryExpr.Operator.PREFIX_DECREMENT;
         }
+        return new UnaryExpr(context, operator);
     }
 
     /**

@@ -180,6 +180,16 @@ public class Util {
     }
 
     /**
+     * Load {@link ClassOrInterfaceType} by internal name.
+     * 
+     * @param internalName
+     * @return
+     */
+    static ClassOrInterfaceType loadType(Class type) {
+        return JavaParser.parseClassOrInterfaceType(type.getCanonicalName());
+    }
+
+    /**
      * Load {@link ClassOrInterfaceType} by internal type.
      * 
      * @param internalName
