@@ -28,6 +28,13 @@ class OperandEnclose extends Operand {
     }
 
     /**
+     * @param value
+     */
+    OperandEnclose(Expression value) {
+        this.value = new OperandExpression(value);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

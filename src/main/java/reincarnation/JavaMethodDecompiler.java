@@ -38,11 +38,16 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.AssignExpr.Operator;
+import com.github.javaparser.ast.expr.BinaryExpr;
+import com.github.javaparser.ast.expr.ClassExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
+import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.ThisExpr;
+import com.github.javaparser.ast.expr.UnaryExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.ReturnStmt;
 
 import kiss.I;
 import reincarnation.Node.Switch;
@@ -314,8 +319,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         }
 
         BlockStmt body = new BlockStmt();
-
-        body.addStatement(nodes.get(0).build());
+        nodes.get(0).build(body);
 
         if (root instanceof MethodDeclaration) {
             ((MethodDeclaration) root).setBody(body);
@@ -384,7 +388,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                     // current.addOperand(assignment.encolose());
                 } else {
                     // normal assignment
-                    current.addExpression(assign, type);
+                    current.addExpression(assign);
                 }
             }
             break;
@@ -435,6 +439,41 @@ class JavaMethodDecompiler extends MethodVisitor {
         case GETSTATIC:
             // current.addOperand(translator.translateStaticField(owner, name), type);
             break;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void visitIincInsn(int position, int increment) {
+        // recode current instruction
+        record(INCREMENT);
+
+        // retrieve the local variable name
+        Expression variable = variables.name(position);
+        InferredType type = variables.type(position);
+
+        if (increment == 1) {
+            // increment
+            if (match(ILOAD, INCREMENT)) {
+                // post increment
+                current.addOperand(new UnaryExpr(current.remove(0).build(), UnaryExpr.Operator.POSTFIX_INCREMENT), type);
+            } else {
+                // pre increment
+                current.addExpression(new UnaryExpr(variable, UnaryExpr.Operator.PREFIX_INCREMENT), type);
+            }
+        } else if (increment == -1) {
+            // increment
+            if (match(ILOAD, INCREMENT)) {
+                // post increment
+                current.addOperand(new UnaryExpr(current.remove(0).build(), UnaryExpr.Operator.POSTFIX_DECREMENT), type);
+            } else {
+                // pre increment
+                current.addExpression(new UnaryExpr(variable, UnaryExpr.Operator.PREFIX_DECREMENT), type);
+            }
+        } else {
+            current.addExpression(new AssignExpr(variable, new AssignExpr(variable, new IntegerLiteralExpr(increment), Operator.PLUS), Operator.ASSIGN));
         }
     }
 
@@ -589,7 +628,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         case FADD:
         case DADD:
         case LADD:
-            current.join("+").enclose();
+            current.join(BinaryExpr.Operator.PLUS).enclose();
             break;
 
         // - operand
@@ -597,7 +636,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         case FSUB:
         case DSUB:
         case LSUB:
-            current.join("-").enclose();
+            current.join(BinaryExpr.Operator.MINUS).enclose();
             break;
 
         // * operand
@@ -605,7 +644,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         case FMUL:
         case DMUL:
         case LMUL:
-            current.join("*");
+            current.join(BinaryExpr.Operator.MULTIPLY);
             break;
 
         // / operand
@@ -613,7 +652,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         case FDIV:
         case DDIV:
         case LDIV:
-            current.join("/");
+            current.join(BinaryExpr.Operator.DIVIDE);
             break;
 
         // % operand
@@ -621,43 +660,43 @@ class JavaMethodDecompiler extends MethodVisitor {
         case FREM:
         case DREM:
         case LREM:
-            current.join("%");
+            current.join(BinaryExpr.Operator.REMAINDER);
             break;
 
         // & operand
         case IAND:
         case LAND:
-            current.join("&").enclose();
+            current.join(BinaryExpr.Operator.BINARY_AND).enclose();
             break;
 
         // | operand
         case IOR:
         case LOR:
-            current.join("|").enclose();
+            current.join(BinaryExpr.Operator.BINARY_OR).enclose();
             break;
 
         // ^ operand
         case IXOR:
         case LXOR:
-            current.join("^");
+            current.join(BinaryExpr.Operator.XOR);
             break;
 
         // << operand
         case ISHL:
         case LSHL:
-            current.join("<<").enclose();
+            current.join(BinaryExpr.Operator.LEFT_SHIFT).enclose();
             break;
 
         // >> operand
         case ISHR:
         case LSHR:
-            current.join(">>").enclose();
+            current.join(BinaryExpr.Operator.SIGNED_RIGHT_SHIFT).enclose();
             break;
 
         // >>> operand
         case IUSHR:
         case LUSHR:
-            current.join(">>>").enclose();
+            current.join(BinaryExpr.Operator.UNSIGNED_RIGHT_SHIFT).enclose();
             break;
 
         // negative operand
@@ -669,7 +708,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             break;
 
         case RETURN:
-            current.addExpression(Return);
+            current.addExpression(new ReturnStmt());
             current.destination = Termination;
             break;
 
@@ -715,8 +754,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                     operand = operand.cast(boolean.class);
                 }
             }
-
-            current.addExpression(Return, operand);
+            current.addOperand(new ReturnStmt(operand.build()));
             current.destination = Termination;
             break;
 
@@ -724,7 +762,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         case LRETURN:
         case FRETURN:
         case DRETURN:
-            current.addExpression(Return, current.remove(match(DUP, JUMP, ARETURN) ? 1 : 0));
+            current.addOperand(new ReturnStmt(current.remove(match(DUP, JUMP, ARETURN) ? 1 : 0).build()));
             current.destination = Termination;
             break;
 
@@ -940,6 +978,25 @@ class JavaMethodDecompiler extends MethodVisitor {
     }
 
     /**
+     * This parameter must be a non null Integer, a Float, a Long, a Double a String (or a Type for
+     * .class constants, for classes whose version is 49.0 or more).
+     */
+    @Override
+    public void visitLdcInsn(Object constant) {
+        record(LDC);
+
+        if (constant instanceof String) {
+            current.stack.add(new OperandString((String) constant));
+        } else if (constant instanceof Type) {
+            String className = ((Type) constant).getInternalName();
+
+            current.addOperand(new ClassExpr(loadType(className)));
+        } else {
+            current.addOperand(constant);
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -1095,16 +1152,16 @@ class JavaMethodDecompiler extends MethodVisitor {
         case FLOAD:
         case LLOAD:
         case DLOAD:
-            if (match(INCREMENT, ILOAD) && current.peek(0) == Node.END) {
-                String expression = current.peek(1).toString();
-
-                if (expression.startsWith("++") || expression.startsWith("--")) {
-                    if (expression.substring(2).equals(variable)) {
-                        current.remove(0);
-                        break;
-                    }
-                }
-            }
+            // if (match(INCREMENT, ILOAD) && current.peek(0) == Node.END) {
+            // String expression = current.peek(1).toString();
+            //
+            // if (expression.startsWith("++") || expression.startsWith("--")) {
+            // if (expression.substring(2).equals(variable)) {
+            // current.remove(0);
+            // break;
+            // }
+            // }
+            // }
 
         case ALOAD:
             current.addOperand(new OperandExpression(variable, variables.type(position)));
@@ -1149,10 +1206,10 @@ class JavaMethodDecompiler extends MethodVisitor {
                     // infer local variable type
                     variables.type(position).type(operand.infer().type());
 
-                    OperandExpression assignment = new OperandExpression(variable + "=" + operand);
+                    AssignExpr assign = new AssignExpr(variable, operand.build(), AssignExpr.Operator.ASSIGN);
 
                     if (!operand.duplicated) {
-                        current.addExpression(assignment);
+                        current.addExpression(assign);
                     } else {
                         operand.duplicated = false;
 
@@ -1164,7 +1221,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                         }
 
                         // duplicate pointer
-                        current.addOperand(new OperandEnclose(assignment));
+                        current.addOperand(new OperandEnclose(assign));
                     }
                 }
             }
@@ -1802,9 +1859,9 @@ class JavaMethodDecompiler extends MethodVisitor {
                 if (operand instanceof OperandCondition == false) {
                     // non-conditional operand is found
                     if (conditions.isEmpty()) {
-                        if (operand == Return) {
-                            returned = true;
-                        }
+                        // if (operand == Return) {
+                        // returned = true;
+                        // }
                         // conditional operand is not found as yet, so we should continue to search
                         continue;
                     } else {

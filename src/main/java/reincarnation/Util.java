@@ -17,7 +17,9 @@ import java.util.EnumSet;
 
 import org.objectweb.asm.Type;
 
+import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 /**
  * @version 2018/10/04 8:31:09
@@ -81,6 +83,26 @@ public class Util {
                 throw new Error(e);
             }
         }
+    }
+
+    /**
+     * Load {@link ClassOrInterfaceType} by internal name.
+     * 
+     * @param internalName
+     * @return
+     */
+    static ClassOrInterfaceType loadType(String internalName) {
+        return loadType(Type.getObjectType(internalName));
+    }
+
+    /**
+     * Load {@link ClassOrInterfaceType} by internal type.
+     * 
+     * @param internalName
+     * @return
+     */
+    static ClassOrInterfaceType loadType(Type internalType) {
+        return JavaParser.parseClassOrInterfaceType(internalType.getClassName());
     }
 
     /**

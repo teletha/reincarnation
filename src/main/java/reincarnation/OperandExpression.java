@@ -10,6 +10,9 @@
 package reincarnation;
 
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.visitor.GenericVisitor;
+import com.github.javaparser.ast.visitor.VoidVisitor;
 
 /**
  * @version 2014/06/26 9:54:05
@@ -114,12 +117,45 @@ class OperandExpression extends Operand {
     Expression build() {
         if (expression instanceof Expression) {
             return (Expression) expression;
+        } else if (expression instanceof Statement) {
+            return new StatementExpression((Statement) expression);
         } else if (expression instanceof Operand) {
             return ((Operand) expression).build();
         } else {
             // If this exception will be thrown, it is bug of this program. So we must rethrow the
             // wrapped error in here.
             throw new Error(expression.toString() + "  " + expression.getClass());
+        }
+    }
+
+    /**
+     * @version 2018/10/04 20:09:04
+     */
+    static class StatementExpression extends Expression {
+
+        final Statement statement;
+
+        /**
+         * @param statement
+         */
+        private StatementExpression(Statement statement) {
+            this.statement = statement;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <R, A> R accept(GenericVisitor<R, A> visitor, A arg) {
+            throw new Error("NEVER BE CALLED");
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public <A> void accept(VoidVisitor<A> visitor, A arg) {
+            throw new Error("NEVER BE CALLED");
         }
     }
 }

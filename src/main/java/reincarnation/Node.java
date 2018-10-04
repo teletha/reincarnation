@@ -20,12 +20,12 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.ForStmt;
-import com.github.javaparser.ast.stmt.ReturnStmt;
-import com.github.javaparser.ast.stmt.Statement;
+
+import reincarnation.OperandExpression.StatementExpression;
 
 /**
  * @version 2014/07/05 19:06:00
@@ -34,12 +34,6 @@ class Node {
 
     /** The representation of node termination. */
     static final Node Termination = new Node("T");
-
-    /** The frequently used operand for cache. */
-    static final OperandExpression END = new OperandExpression(";");
-
-    /** The frequently used operand for cache. */
-    static final OperandExpression Return = new OperandExpression("return");
 
     /** The stack of labeled blocks. */
     private static final Deque<Breakable> breakables = new ArrayDeque();
@@ -156,13 +150,30 @@ class Node {
     }
 
     /**
+     * <p>
+     * Helper method to add new operand to the top of operands stack.
+     * </p>
+     * 
+     * @param operand A new operand to add.
+     */
+    final void addOperand(Object operand, InferredType type) {
+        stack.add(new OperandExpression(operand, type));
+    }
+
+    /**
      * @param operands
      */
     final void addExpression(Object... operands) {
         for (Object operand : operands) {
             addOperand(operand);
         }
-        stack.add(END);
+    }
+
+    /**
+     * @param operands
+     */
+    final void addExpression(Expression operand, InferredType type) {
+        stack.add(new OperandExpression(operand, type));
     }
 
     /**
@@ -309,14 +320,13 @@ class Node {
     /**
      * Helper method to join latest two operands.
      * 
-     * @param separator
+     * @param operator
      * @return Chainable API.
      */
-    final Node join(String separator) {
-        Operand left = remove(0);
+    final Node join(BinaryExpr.Operator operator) {
         Operand right = remove(0);
-
-        stack.add(new OperandExpression(right + separator + left, right.infer()));
+        Operand left = remove(0);
+        addOperand(new BinaryExpr(left.build(), right.build(), operator), right.infer());
 
         // API definition
         return this;
@@ -543,7 +553,7 @@ class Node {
         connect(defaults);
     }
 
-    final Statement build() {
+    final void build(BlockStmt parent) {
         if (!written) {
             written = true;
 
@@ -555,23 +565,22 @@ class Node {
 
             if (outs == 0) {
                 // end node
-                if (!returnOmittable || stack.size() != 2 || stack.get(0) != Return || stack.get(1) != END) {
-                    return buildStack();
+                if (!returnOmittable || stack.size() != 2 || stack.get(0) != Return) {
+                    buildNode(parent);
                 }
             }
         }
-        return new BlockStmt();
     }
 
-    private Statement buildStack() {
-        Operand operand = stack.pollFirst();
+    private void buildNode(BlockStmt parent) {
+        for (Operand operand : stack) {
+            Expression expression = operand.build();
 
-        if (operand == null) {
-            return new BlockStmt();
-        } else if (operand == Return) {
-            return new ReturnStmt(stack.pollFirst().build());
-        } else {
-            return new ExpressionStmt(operand.build());
+            if (expression instanceof StatementExpression) {
+                parent.addStatement(((StatementExpression) expression).statement);
+            } else {
+                parent.addStatement(expression);
+            }
         }
     }
 
