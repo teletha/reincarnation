@@ -36,6 +36,7 @@ import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.AssignExpr.Operator;
 import com.github.javaparser.ast.expr.BinaryExpr;
@@ -44,8 +45,10 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import com.github.javaparser.ast.expr.NameExpr;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.ThisExpr;
 import com.github.javaparser.ast.expr.UnaryExpr;
+import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 
@@ -263,7 +266,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         this.methodName = name;
         this.returnType = Type.getReturnType(description);
         this.parameterTypes = Type.getArgumentTypes(description);
-        this.variables = new LocalVariables(isStatic);
+        this.variables = new LocalVariables(isStatic, parameterTypes);
 
         Debugger.recordMethodName(name);
     }
@@ -1705,6 +1708,9 @@ class JavaMethodDecompiler extends MethodVisitor {
         /** The current processing method is static or not. */
         private final boolean isStatic;
 
+        /** The parameter size. */
+        private final int parameterSize;
+
         /** The max size of variables. */
         private int max = 0;
 
@@ -1715,13 +1721,18 @@ class JavaMethodDecompiler extends MethodVisitor {
         private final Map<Integer, InferredType> types = new HashMap();
 
         /** The local variable manager. */
-        private final Map<Integer, NameExpr> variables = new HashMap();
+        private final Map<Integer, LocalVariable> locals = new HashMap();
 
         /**
          * @param isStatic
          */
-        private LocalVariables(boolean isStatic) {
+        private LocalVariables(boolean isStatic, Type[] parameterTypes) {
             this.isStatic = isStatic;
+            this.parameterSize = parameterTypes.length;
+
+            for (int i = 0; i < parameterTypes.length; i++) {
+                locals.put(i, new LocalVariable(i, load(parameterTypes[i]), true));
+            }
         }
 
         /**
@@ -1765,7 +1776,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             }
 
             // Compute local variable name
-            return variables.computeIfAbsent(order, key -> new NameExpr("local" + key));
+            return locals.computeIfAbsent(order, key -> new LocalVariable(key, load(opcode), false)).use();
         }
 
         /**
@@ -1779,10 +1790,10 @@ class JavaMethodDecompiler extends MethodVisitor {
                 index--;
             }
 
-            NameExpr expression = variables.get(index);
+            LocalVariable local = locals.get(index);
 
-            if (expression != null) {
-                expression.setName(name);
+            if (local != null) {
+                local.name.setIdentifier(name);
             }
         }
 
@@ -1818,6 +1829,48 @@ class JavaMethodDecompiler extends MethodVisitor {
                 types.put(position, type);
             }
             return type;
+        }
+    }
+
+    /**
+     * @version 2018/10/04 23:19:59
+     */
+    private static class LocalVariable {
+
+        /** The variable name. */
+        private final SimpleName name = new SimpleName();
+
+        /** The variable model. */
+        private final VariableDeclarator declarator = new VariableDeclarator();
+
+        /** The initialization state. */
+        private boolean initialized;
+
+        /**
+         * Create local variable with index.
+         * 
+         * @param index A local index.
+         * @param initialized A initialization state. (for parameter)
+         */
+        private LocalVariable(int index, Class type, boolean initialized) {
+            this.name.setIdentifier("local" + index);
+            this.declarator.setName(name);
+            this.declarator.setType(type);
+            this.initialized = initialized;
+        }
+
+        /**
+         * Aquire local variable model.
+         * 
+         * @return
+         */
+        private Expression use() {
+            if (initialized == false) {
+                initialized = true;
+                return new VariableDeclarationExpr(declarator);
+            } else {
+                return new NameExpr(declarator.getName());
+            }
         }
     }
 

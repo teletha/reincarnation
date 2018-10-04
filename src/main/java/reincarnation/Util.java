@@ -15,6 +15,7 @@ import static org.objectweb.asm.Type.*;
 import java.lang.reflect.Array;
 import java.util.EnumSet;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import com.github.javaparser.JavaParser;
@@ -34,6 +35,89 @@ public class Util {
      */
     static Class load(String internalName) {
         return load(Type.getObjectType(internalName));
+    }
+
+    /**
+     * Load {@link Class} by {@link Opcodes}.
+     * 
+     * @param internalName
+     * @return
+     */
+    static Class load(int opecode) {
+        switch (opecode) {
+        case IADD:
+        case ICONST_0:
+        case ICONST_1:
+        case ICONST_2:
+        case ICONST_3:
+        case ICONST_4:
+        case ICONST_5:
+        case ICONST_M1:
+        case IDIV:
+        case ILOAD:
+        case IMUL:
+        case INEG:
+        case IOR:
+        case IREM:
+        case IRETURN:
+        case ISHL:
+        case ISHR:
+        case ISTORE:
+        case ISUB:
+        case IUSHR:
+        case IXOR:
+            return int.class;
+
+        case LADD:
+        case LCONST_0:
+        case LCONST_1:
+        case LDIV:
+        case LLOAD:
+        case LMUL:
+        case LNEG:
+        case LOR:
+        case LREM:
+        case LRETURN:
+        case LSHL:
+        case LSHR:
+        case LSTORE:
+        case LSUB:
+        case LUSHR:
+        case LXOR:
+            return long.class;
+
+        case FADD:
+        case FCONST_0:
+        case FCONST_1:
+        case FCONST_2:
+        case FDIV:
+        case FLOAD:
+        case FMUL:
+        case FNEG:
+        case FREM:
+        case FRETURN:
+        case FSTORE:
+        case FSUB:
+            return float.class;
+
+        case DADD:
+        case DCONST_0:
+        case DCONST_1:
+        case DDIV:
+        case DLOAD:
+        case DMUL:
+        case DNEG:
+        case DREM:
+        case DRETURN:
+        case DSTORE:
+        case DSUB:
+            return double.class;
+
+        default:
+            // If this exception will be thrown, it is bug of this program. So we must rethrow the
+            // wrapped error in here.
+            throw new Error();
+        }
     }
 
     /**

@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/04 16:55:00
@@ -311,6 +312,7 @@ public class IntTest extends CodeVerifier {
     public void postIncrementValue() {
         verify(new Code.IntParam() {
 
+            @Debuggable
             @Override
             public int run(int value) {
                 int next = value++;

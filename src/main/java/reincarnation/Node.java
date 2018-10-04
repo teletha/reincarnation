@@ -558,6 +558,50 @@ class Node {
             written = true;
 
             // =============================================================
+            // Switch Block
+            // =============================================================
+            // Switch block is independent from other blocks, so we must return at the end.
+            if (switchy != null) {
+                // // execute first to detect default node
+                // Node exit = switchy.searchExit();
+                //
+                // // enter switch
+                // buffer.write("switch", "(" + switchy.value + ")", "{");
+                // breakables.add(switchy);
+                //
+                // // each cases
+                // for (Node node : switchy.cases()) {
+                // for (int value : switchy.values(node)) {
+                // buffer.append("case ", value, ":").line();
+                // }
+                // process(node, buffer);
+                // }
+                //
+                // // default case
+                // if (!switchy.noDefault) {
+                // buffer.append("default:").line();
+                // process(switchy.defaults, buffer);
+                // }
+                //
+                // breakables.pollLast();
+                //
+                // // exit switch
+                // buffer.append("}").line();
+                //
+                // // write following node
+                // process(exit, buffer);
+                //
+                // return; // must
+            }
+
+            // =============================================================
+            // Try-Catch-Finally Block
+            // =============================================================
+            for (int i = 0; i < tries.size(); i++) {
+                // buffer.write("try", "{");
+            }
+
+            // =============================================================
             // Other Block
             // =============================================================
             int outs = outgoing.size();
@@ -565,9 +609,89 @@ class Node {
 
             if (outs == 0) {
                 // end node
-                if (!returnOmittable || stack.size() != 2 || stack.get(0) != Return) {
+                buildNode(parent);
+            } else if (outs == 1) {
+                // do while or normal
+                if (backs == 0) {
+                    // normal node with follower
                     buildNode(parent);
+                    process(outgoing.get(0), parent);
+                } else if (backs == 1) {
+                    // do while or infinite loop
+                    BackedgeGroup group = new BackedgeGroup(this);
+
+                    if (backedges.get(0).outgoing.size() == 2) {
+                        if (group.exit == null) {
+                            // do while
+                            // writeDoWhile(buffer);
+                        } else {
+                            // infinit loop
+                            // writeInfiniteLoop1(group, buffer);
+                        }
+                    } else {
+                        // infinit loop
+                        // writeInfiniteLoop1(group, buffer);
+                    }
+                } else {
+                    // infinit loop
+                    // writeInfiniteLoop1(new BackedgeGroup(this), buffer);
                 }
+            } else if (outs == 2) {
+                // while, for or if
+                if (backs == 0) {
+                    // writeIf(buffer);
+                } else if (backs == 1 && backedges.get(0).outgoing.size() == 1) {
+                    // writeFor(buffer);
+                } else {
+                    // writeWhile(buffer);
+                }
+            }
+
+            // =============================================================
+            // Try-Catch-Finally Block
+            // =============================================================
+            for (TryCatchFinally block : tries) {
+                // buffer.write("}", "catch", "($)", "{");
+                // buffer.write("$", "=", Javascript.writeMethodCode(Throwable.class, "wrap",
+                // Object.class, "$"), ";").line();
+                //
+                // for (int i = 0; i < block.catches.size(); i++) {
+                // Catch current = block.catches.get(i);
+                // String variable = current.variable;
+                //
+                // if (current.exception == null) {
+                // // finally block
+                // buffer.write(variable, "=", "$;").line();
+                // process(current.node, buffer);
+                // } else {
+                // String condition = current.exception == Throwable.class ? "(true)"
+                // : "($ instanceof " + Javascript.computeClassName(current.exception) + ")";
+                // buffer.write("if", condition, "{");
+                // buffer.write(variable, "=", "$;").line();
+                // process(current.node, buffer);
+                // buffer.write("}", "else");
+                //
+                // if (i + 1 == block.catches.size()) {
+                // buffer.write("", "{");
+                // buffer.write("throw $;");
+                // buffer.write("}");
+                // } else {
+                // buffer.write(" ");
+                // }
+                // }
+                // }
+                // buffer.write("}"); // close try statement
+                //
+                // Node exit = block.exit;
+                //
+                // if (exit != null) {
+                // if (Debugger.isEnable()) {
+                // buffer.comment("Start " + block.start.id + " End " + block.end.id + " Catcher " +
+                // block.catcher.id);
+                // }
+                // buffer.comment("ext block " + exit.id);
+                // process(exit, buffer);
+                // }
             }
         }
     }
@@ -1029,7 +1153,7 @@ class Node {
      * @param next A next node to write.
      * @param buffer A script code buffer.
      */
-    private void process(Node next, ScriptWriter buffer) {
+    private void process(Node next, BlockStmt parent) {
         if (next != null) {
             next.currentCalls++;
 
@@ -1042,13 +1166,14 @@ class Node {
                 // continue
                 if (loop.hasHeader(next) && hasDominator(loop.entrance)) {
                     if (Debugger.isEnable()) {
-                        buffer.comment(id + " -> " + next.id + " continue to " + loop.entrance.id + " (" + next.currentCalls + " of " + requiredCalls + ")  " + loop);
+                        // buffer.comment(id + " -> " + next.id + " continue to " + loop.entrance.id
+                        // + " (" + next.currentCalls + " of " + requiredCalls + ") " + loop);
                     }
 
                     String label = loop.computeLabelFor(next);
 
                     if (label.length() != 0 || continueOmittable == null || !continueOmittable) {
-                        buffer.append("continue", label, ";").line();
+                        // buffer.append("continue", label, ";").line();
                     }
                     return;
                 }
@@ -1058,17 +1183,19 @@ class Node {
                     // check whether the current node connects to the exit node directly or not
                     if (loop.exit.incoming.contains(this)) {
                         if (Debugger.isEnable()) {
-                            buffer.comment(id + " -> " + next.id + " break to " + loop.entrance.id + "(" + next.currentCalls + " of " + requiredCalls + ")  " + loop);
+                            // buffer.comment(id + " -> " + next.id + " break to " +
+                            // loop.entrance.id + "(" + next.currentCalls + " of " + requiredCalls +
+                            // ") " + loop);
                         }
-                        buffer.append("break", loop.computeLabelFor(next), ";").line();
+                        // buffer.append("break", loop.computeLabelFor(next), ";").line();
                     }
                     return;
                 }
             }
 
             if (Debugger.isEnable()) {
-                buffer.comment(id + " -> " + next.id + " (" + next.currentCalls + " of " + requiredCalls + ")   " + (loop != null ? loop
-                        : ""));
+                // buffer.comment(id + " -> " + next.id + " (" + next.currentCalls + " of " +
+                // requiredCalls + ") " + (loop != null ? loop: ""));
             }
 
             // normal process
@@ -1081,7 +1208,7 @@ class Node {
                     if (!returnOmittable) next.returnOmittable = false;
 
                     // process next node
-                    next.write(buffer);
+                    next.build(parent);
                 }
             }
         }
