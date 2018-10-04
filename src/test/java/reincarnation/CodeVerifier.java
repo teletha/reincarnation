@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2018 Nameless Production Committee
+ * Copyright (C) 2018 Reincarnation Development Team
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *          http://opensource.org/licenses/mit-license.php
+ *          https://opensource.org/licenses/MIT
  */
 package reincarnation;
 
@@ -15,18 +15,12 @@ import bee.UserInterface;
 import bee.api.Command;
 import bee.util.JavaCompiler;
 import kiss.I;
-import marionette.browser.Browser;
 import reincarnation.Code.Int;
 
 /**
  * @version 2018/10/04 8:49:25
  */
 public class CodeVerifier {
-
-    /** Javascript runtime. */
-    protected static final Browser browser = Browser.build(pref -> {
-        pref.headless = true;
-    });
 
     /**
      * Verify decompiled code.
