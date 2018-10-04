@@ -11,10 +11,15 @@ package reincarnation.decompiler.method;
 
 import org.junit.jupiter.api.Test;
 
+import reincarnation.Code.BooleanParam;
+import reincarnation.Code.ByteParam;
+import reincarnation.Code.CharParam;
 import reincarnation.Code.DoubleParam;
 import reincarnation.Code.FloatParam;
 import reincarnation.Code.IntParam;
 import reincarnation.Code.LongParam;
+import reincarnation.Code.ShortParam;
+import reincarnation.Code.TextParam;
 import reincarnation.CodeVerifier;
 
 /**
@@ -61,6 +66,61 @@ class ParameterTest extends CodeVerifier {
 
             @Override
             public double run(double param) {
+                return param;
+            }
+        });
+    }
+
+    @Test
+    void Byte() {
+        verify(new ByteParam() {
+
+            @Override
+            public byte run(byte param) {
+                return param;
+            }
+        });
+    }
+
+    @Test
+    void Short() {
+        verify(new ShortParam() {
+
+            @Override
+            public short run(short param) {
+                return param;
+            }
+        });
+    }
+
+    @Test
+    void Character() {
+        verify(new CharParam() {
+
+            @Override
+            public char run(char param) {
+                return param;
+            }
+        });
+    }
+
+    @Test
+    void Boolean() {
+        verify(new BooleanParam() {
+
+            @Override
+            public boolean run(boolean param) {
+                return param;
+            }
+        });
+    }
+
+    @Test
+    void String() {
+        verify(new TextParam() {
+
+            @Override
+            public String run(String param) {
                 return param;
             }
         });
