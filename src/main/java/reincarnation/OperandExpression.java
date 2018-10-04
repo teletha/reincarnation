@@ -112,12 +112,14 @@ class OperandExpression extends Operand {
      */
     @Override
     Expression build() {
-        if (expression instanceof Operand) {
+        if (expression instanceof Expression) {
+            return (Expression) expression;
+        } else if (expression instanceof Operand) {
             return ((Operand) expression).build();
         } else {
             // If this exception will be thrown, it is bug of this program. So we must rethrow the
             // wrapped error in here.
-            throw new Error(expression.toString());
+            throw new Error(expression.toString() + "  " + expression.getClass());
         }
     }
 }

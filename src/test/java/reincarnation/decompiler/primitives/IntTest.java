@@ -17,7 +17,7 @@ import reincarnation.CodeVerifier;
 /**
  * @version 2018/10/04 8:36:16
  */
-public class PrimitiveIntTest extends CodeVerifier {
+public class IntTest extends CodeVerifier {
 
     @Test
     void zero() {

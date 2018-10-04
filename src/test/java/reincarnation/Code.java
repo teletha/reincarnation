@@ -51,8 +51,22 @@ public interface Code {
         /**
          * Write testable code.
          * 
-         * @return
+         * @return A int result.
          */
         int run();
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
+    public interface IntParam extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @param A int parameter.
+         * @return A int result.
+         */
+        int run(int param);
     }
 }

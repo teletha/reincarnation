@@ -30,9 +30,11 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.ThisExpr;
@@ -179,7 +181,7 @@ class JavaMethodDecompiler extends MethodVisitor {
     private final TryCatchFinallyBlocks tries = new TryCatchFinallyBlocks();
 
     /** The method body. */
-    private final CallableDeclaration root;
+    private final CallableDeclaration<?> root;
 
     /** The current processing node. */
     private Node current = null;
@@ -231,7 +233,7 @@ class JavaMethodDecompiler extends MethodVisitor {
      * @param root
      * @param api
      */
-    JavaMethodDecompiler(CallableDeclaration root, String name, String description, boolean isStatic) {
+    JavaMethodDecompiler(CallableDeclaration<?> root, String name, String description, boolean isStatic) {
         super(ASM7);
 
         this.root = Objects.requireNonNull(root);
@@ -239,6 +241,10 @@ class JavaMethodDecompiler extends MethodVisitor {
         this.returnType = Type.getReturnType(description);
         this.parameterTypes = Type.getArgumentTypes(description);
         this.variables = new LocalVariables(isStatic);
+        NodeList<Parameter> parameters = root.getParameters();
+        for (int i = 0; i < parameters.size(); i++) {
+            variables.name(i, parameters.get(i).getNameAsString());
+        }
 
         Debugger.recordMethodName(name);
     }
@@ -284,6 +290,10 @@ class JavaMethodDecompiler extends MethodVisitor {
     @Override
     public void visitEnd() {
         Debugger.print(nodes);
+
+        // build parameters
+        for (Expression param : variables.names()) {
+        }
 
         BlockStmt body = new BlockStmt();
 
@@ -494,6 +504,14 @@ class JavaMethodDecompiler extends MethodVisitor {
      * {@inheritDoc}
      */
     @Override
+    public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
+        variables.name(index, name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void visitMethodInsn(int opcode, String className, String methodName, String desc, boolean access) {
         // recode current instruction
         record(opcode);
@@ -532,9 +550,6 @@ class JavaMethodDecompiler extends MethodVisitor {
      */
     @Override
     public void visitVarInsn(int opcode, int position) {
-        if (true) {
-            return;
-        }
         // recode current instruction
         record(opcode);
 
@@ -1066,13 +1081,11 @@ class JavaMethodDecompiler extends MethodVisitor {
     }
 
     /**
-     * <p>
      * Manage local variables.
-     * </p>
      * 
-     * @version 2013/01/21 11:09:48
+     * @version 2018/10/04 12:53:34
      */
-    private static class LocalVariables {
+    private class LocalVariables {
 
         /** The current processing method is static or not. */
         private final boolean isStatic;
@@ -1085,6 +1098,9 @@ class JavaMethodDecompiler extends MethodVisitor {
 
         /** The local type mapping. */
         private final Map<Integer, InferredType> types = new HashMap();
+
+        /** The local variable manager. */
+        private final Map<Integer, NameExpr> variables = new HashMap();
 
         /**
          * @param isStatic
@@ -1134,13 +1150,29 @@ class JavaMethodDecompiler extends MethodVisitor {
             }
 
             // Compute local variable name
-            return new NameExpr("local" + order);
+            return variables.computeIfAbsent(order, key -> new NameExpr("local" + key));
         }
 
         /**
-         * <p>
+         * Rename local variable.
+         * 
+         * @param index
+         * @param name
+         */
+        private void name(int index, String name) {
+            if (!isStatic) {
+                index--;
+            }
+
+            NameExpr expression = variables.get(index);
+
+            if (expression != null) {
+                expression.setName(name);
+            }
+        }
+
+        /**
          * List up all valid variable names.
-         * </p>
          * 
          * @return
          */

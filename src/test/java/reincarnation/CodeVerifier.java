@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import java.util.stream.IntStream;
+
 import org.junit.platform.commons.util.ReflectionUtils;
 
 import bee.UserInterface;
@@ -16,19 +18,33 @@ import bee.api.Command;
 import bee.util.JavaCompiler;
 import kiss.I;
 import reincarnation.Code.Int;
+import reincarnation.Code.IntParam;
 
 /**
- * @version 2018/10/04 8:49:25
+ * @version 2018/10/04 14:37:22
  */
 public class CodeVerifier {
 
     /**
      * Verify decompiled code.
      * 
-     * @param code
+     * @param code A target code to verify.
      */
     protected final void verify(Int code) {
         assert code.run() == recompile(code).run();
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(IntParam code) {
+        int[] params = IntStream.range(-5, 5).toArray();
+
+        for (int param : params) {
+            assert code.run(param) == recompile(code).run(param);
+        }
     }
 
     /**
@@ -38,10 +54,11 @@ public class CodeVerifier {
      * @return
      */
     private <T extends Code> T recompile(T code) {
-        try {
-            String decompiled = Reincarnation.exhume(code.getClass()).toString();
+        Silent notifier = new Silent();
+        String decompiled = Reincarnation.exhume(code.getClass()).toString();
 
-            JavaCompiler compiler = new JavaCompiler(new NoOP());
+        try {
+            JavaCompiler compiler = new JavaCompiler(notifier);
             compiler.addSource(code.getSimpleName(), decompiled);
             compiler.addCurrentClassPath();
 
@@ -52,19 +69,48 @@ public class CodeVerifier {
             return (T) ReflectionUtils.newInstance(loadedClass);
         } catch (Exception e) {
             throw I.quiet(e);
+        } catch (Error e) {
+            throw Failuer.type("Compile Error")
+                    .reason("=================================================")
+                    .reason(notifier.buffer)
+                    .reason("-------------------------------------------------")
+                    .reason(format(decompiled))
+                    .reason("=================================================");
         }
+    }
+
+    /**
+     * Format as line-numbered code.
+     * 
+     * @param code
+     * @return
+     */
+    private String[] format(String code) {
+        String[] lines = code.split("\r\n");
+        int max = (int) (Math.log10(lines.length) + 1);
+
+        for (int i = 0; i < lines.length; i++) {
+            int number = i + 1;
+            int size = (int) (Math.log10(number) + 1);
+            lines[i] = "0".repeat(max - size) + number + "    " + lines[i];
+        }
+        return lines;
     }
 
     /**
      * @version 2018/10/04 8:48:47
      */
-    private static class NoOP extends UserInterface {
+    private static class Silent extends UserInterface {
+
+        /** The message buffer. */
+        private StringBuilder buffer = new StringBuilder();
 
         /**
          * {@inheritDoc}
          */
         @Override
         protected void write(String message) {
+            buffer.append(message);
         }
 
         /**
