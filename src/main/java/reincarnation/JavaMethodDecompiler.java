@@ -450,15 +450,13 @@ class JavaMethodDecompiler extends MethodVisitor {
                 current.remove(0);
                 current.remove(0);
 
-                // current.addOperand(increment(translator.translateStaticField(owner, name), type,
-                // true, false));
+                current.addOperand(increment(accessClassField(owner, name), type, true, false));
             } else if (match(GETSTATIC, CONSTANT_1, SUB, DUPLICATE, PUTSTATIC)) {
                 // The pattenr of pre-decrement field is like above.
                 current.remove(0);
                 current.remove(0);
 
-                // current.addOperand(increment(translator.translateStaticField(owner, name), type,
-                // false, false));
+                current.addOperand(increment(accessClassField(owner, name), type, false, false));
             } else {
                 AssignExpr assign = new AssignExpr();
                 assign.setTarget(accessClassField(owner, name));
