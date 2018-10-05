@@ -639,7 +639,7 @@ class Node {
             } else if (outs == 2) {
                 // while, for or if
                 if (backs == 0) {
-                    // writeIf(buffer);
+                    writeIf(parent);
                 } else if (backs == 1 && backedges.get(0).outgoing.size() == 1) {
                     // writeFor(buffer);
                 } else {
@@ -1025,9 +1025,9 @@ class Node {
      * Write if structure.
      * </p>
      * 
-     * @param buffer
+     * @param parent
      */
-    private void writeIf(ScriptWriter buffer) {
+    private void writeIf(BlockStmt parent) {
         Debugger.print(this);
         OperandCondition condition = (OperandCondition) stack.peekLast();
 
@@ -1135,14 +1135,14 @@ class Node {
         }
 
         // write script fragment
-        buffer.write("if", "(" + this + ")", "{");
-        process(then, buffer);
-        if (elze != null) {
-            buffer.write("}", "else", "{");
-            process(elze, buffer);
-        }
-        buffer.write("}").line();
-        process(follow, buffer);
+        // buffer.write("if", "(" + this + ")", "{");
+        // process(then, buffer);
+        // if (elze != null) {
+        // buffer.write("}", "else", "{");
+        // process(elze, buffer);
+        // }
+        // buffer.write("}").line();
+        process(follow, parent);
     }
 
     /**

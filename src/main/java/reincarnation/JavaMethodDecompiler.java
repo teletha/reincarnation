@@ -12,6 +12,7 @@ package reincarnation;
 import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.Type.*;
 import static reincarnation.Node.*;
+import static reincarnation.OperandCondition.*;
 import static reincarnation.Util.*;
 
 import java.lang.reflect.Method;
@@ -44,6 +45,7 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.AssignExpr.Operator;
 import com.github.javaparser.ast.expr.BinaryExpr;
+import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.ClassExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
@@ -492,6 +494,169 @@ class JavaMethodDecompiler extends MethodVisitor {
     }
 
     /**
+     * <p>
+     * Helper method to resolve ternary operator.
+     * </p>
+     */
+    private void processTernaryOperator() {
+        Operand third = current.peek(2);
+
+        if (third instanceof OperandCondition) {
+            Operand first = current.peek(0);
+
+            // if (first == Node.END) {
+            // return;
+            // }
+
+            Operand second = current.peek(1);
+
+            // if (second == Node.END) {
+            // return;
+            // }
+
+            Node right = findNodeBy(first);
+            Node left = findNodeBy(second);
+            Node condition = findNodeBy(third);
+
+            if (right == left) {
+                return;
+            }
+
+            // The condition's transition node must be right node. (not left node)
+            // The bytecode order is:
+            // [jump to RIGHT value]
+            // [label]?
+            // [LEFT value]
+            // [label]
+            // [RIGHT value]
+            boolean conditionTransition = collect(((OperandCondition) third).then).contains(right);
+
+            // In ternary operator, the left node's outgoing node must not contain right node.
+            // But the outgoing nodes contains right node, this sequence will be logical expression.
+            // boolean leftTransition = condition == left || !left.outgoing.contains(right);
+
+            // The condition node must be dominator of the left and right nodes.
+            boolean dominator = left.hasDominator(condition) && right.hasDominator(condition);
+
+            // The left node must not be dominator of the right node except when condtion and left
+            // value are in same node.
+            boolean values = condition != left && right.hasDominator(left);
+
+            if (conditionTransition && dominator && !values) {
+                Debugger.print("Create ternary operator. condition[" + third + "]  left[" + second + "]  right[" + first + "]");
+                Debugger.print(nodes);
+
+                if (first == ONE && second == ZERO) {
+                    current.remove(0);
+                    current.remove(0);
+                    condition.addOperand(new OperandAmbiguousZeroOneTernary(current.remove(0)));
+                } else if (first == ZERO && second == ONE) {
+                    current.remove(0);
+                    current.remove(0);
+                    condition.addOperand(new OperandAmbiguousZeroOneTernary(current.remove(0).invert()));
+                } else {
+                    current.remove(0);
+                    current.remove(0);
+                    current.remove(0);
+
+                    if (first instanceof OperandCondition && second instanceof OperandCondition) {
+                        condition
+                                .addOperand(new OperandTernaryCondition((OperandCondition) third, (OperandCondition) second, (OperandCondition) first));
+                    } else {
+                        condition.addOperand(new OperandTernary(((OperandCondition) third).invert(), second, first).encolose());
+                    }
+                }
+
+                // dispose empty nodes
+                if (right.stack.isEmpty()) {
+                    dispose(right);
+                }
+
+                if (left.stack.isEmpty()) {
+                    dispose(left);
+                }
+
+                // process recursively
+                processTernaryOperator();
+            }
+        }
+    }
+
+    private Set<Node> collect(Node node) {
+        Set<Node> nodes = new HashSet();
+        nodes.add(node);
+
+        while (node.stack.isEmpty() && node.outgoing.size() == 1 && node.incoming.size() == 1) {
+            node = node.outgoing.get(0);
+
+            nodes.add(node);
+        }
+        return nodes;
+    }
+
+    /**
+     * <p>
+     * Search the node which has the specified operand.
+     * </p>
+     * 
+     * @param operand
+     * @return
+     */
+    private Node findNodeBy(Operand operand) {
+        for (int i = nodes.size() - 1; 0 <= i; i--) {
+            Node node = nodes.get(i);
+
+            if (node.has(operand)) {
+                return node;
+            }
+        }
+        throw new IllegalArgumentException("The operand [" + operand + "] is not found in the current context.");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
+        switch (type) {
+        case F_NEW:
+            record(FRAME_NEW);
+            break;
+
+        case F_FULL:
+            record(FRAME_FULL);
+
+            processTernaryOperator();
+            break;
+
+        case F_APPEND:
+            record(FRAME_APPEND);
+            break;
+
+        case F_CHOP:
+            record(FRAME_CHOP);
+            break;
+
+        case F_SAME:
+            record(FRAME_SAME);
+
+            if (nLocal == 0 && nStack == 0) {
+                processTernaryOperator();
+                merge(current.previous);
+            }
+            break;
+
+        case F_SAME1:
+            record(FRAME_SAME1);
+
+            if (nLocal == 0 && nStack == 1) {
+                processTernaryOperator();
+            }
+            break;
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -752,8 +917,8 @@ class JavaMethodDecompiler extends MethodVisitor {
         case INEG:
         case FNEG:
         case DNEG:
-        case LNEG:
-            current.addOperand(new OperandExpression("-" + current.remove(0).encolose()).encolose());
+        case LNEG:;
+            current.addOperand(new UnaryExpr(current.remove(0).build(), UnaryExpr.Operator.MINUS));
             break;
 
         case RETURN:
@@ -781,9 +946,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                 //
                 // JUMP [Condition] return [Expression] true [Expression] ; [Expression] 0 [Number]
                 current.remove(0); // remove "0"
-                current.remove(0); // remove ";"
                 current.remove(0); // remove "true"
-                current.remove(0); // remove "return"
 
                 // remove empty node if needed
                 if (current.previous.stack.isEmpty()) dispose(current.previous);
@@ -791,14 +954,13 @@ class JavaMethodDecompiler extends MethodVisitor {
                 // invert the latest condition
                 current.peek(0).invert();
             }
-
             Operand operand = current.remove(0);
 
             if (returnType == BOOLEAN_TYPE) {
                 if (operand.toString().equals("0")) {
-                    operand = new OperandExpression("false");
+                    operand = new OperandExpression(new BooleanLiteralExpr(false));
                 } else if (operand.toString().equals("1")) {
-                    operand = new OperandExpression("true");
+                    operand = new OperandExpression(new BooleanLiteralExpr(true));
                 } else if (operand instanceof OperandAmbiguousZeroOneTernary) {
                     operand = operand.cast(boolean.class);
                 }
@@ -999,6 +1161,133 @@ class JavaMethodDecompiler extends MethodVisitor {
             current.addOperand(new OperandArray(current.remove(0), type));
             break;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void visitJumpInsn(int opcode, Label label) {
+        // If this jump instruction is used for assertion, we should skip it to erase compiler
+        // generated extra code.
+        if (assertJump) {
+            assertJump = false; // reset flag
+            return;
+        }
+
+        // recode current instruction
+        record(opcode);
+
+        // search node
+        Node node = getNode(label);
+
+        switch (opcode) {
+        case GOTO:
+            current.disposable = false;
+            current.connect(node);
+            current.destination = node;
+
+            if (match(JUMP, LABEL, GOTO) && current.previous.outgoing.size() == 3) {
+                dispose(current);
+            }
+            return;
+
+        case IFEQ: // == 0
+            if (match(LCMP, JUMP) || match(DCMP, JUMP) || match(FCMP, JUMP)) {
+                // for long, float and double
+                current.condition(current.remove(1), EQ, current.remove(0), node);
+            } else {
+                // others
+                current.condition(current.remove(0), EQ, ZERO, node);
+            }
+            break;
+        case IFNE: // != 0
+            if (match(LCMP, JUMP) || match(DCMP, JUMP) || match(FCMP, JUMP)) {
+                // for long, float and double
+                current.condition(current.remove(1), NE, current.remove(0), node);
+            } else {
+                // others
+                current.condition(current.remove(0), NE, ZERO, node);
+            }
+            break;
+
+        case IFGE: // => 0
+            if (match(LCMP, JUMP) || match(DCMP, JUMP) || match(FCMP, JUMP)) {
+                // for long, float and double
+                current.condition(current.remove(1), GE, current.remove(0), node);
+            } else {
+                // others
+                current.condition(current.remove(0), GE, ZERO, node);
+            }
+            break;
+
+        case IFGT: // > 0
+            if (match(LCMP, JUMP) || match(DCMP, JUMP) || match(FCMP, JUMP)) {
+                // for long, float and double
+                current.condition(current.remove(1), GT, current.remove(0), node);
+            } else {
+                // others
+                current.condition(current.remove(0), GT, ZERO, node);
+            }
+            break;
+
+        case IFLE: // <= 0
+            if (match(LCMP, JUMP) || match(DCMP, JUMP) || match(FCMP, JUMP)) {
+                // for long, float and double
+                current.condition(current.remove(1), LE, current.remove(0), node);
+            } else {
+                // others
+                current.condition(current.remove(0), LE, ZERO, node);
+            }
+            break;
+
+        case IFLT: // < 0
+            if (match(LCMP, JUMP) || match(DCMP, JUMP) || match(FCMP, JUMP)) {
+                // for long, float and double
+                current.condition(current.remove(1), LT, current.remove(0), node);
+            } else {
+                // others
+                current.condition(current.remove(0), LT, ZERO, node);
+            }
+            break;
+
+        case IFNULL: // object == null
+            current.condition(current.remove(0), EQ, new OperandExpression("null"), node);
+            break;
+
+        case IFNONNULL: // object != null
+            current.condition(current.remove(0), NE, new OperandExpression("null"), node);
+            break;
+
+        // ==
+        case IF_ACMPEQ:
+        case IF_ICMPEQ:
+            current.condition(current.remove(1), EQ, current.remove(0), node);
+            break;
+
+        // !=
+        case IF_ACMPNE:
+        case IF_ICMPNE:
+            current.condition(current.remove(1), NE, current.remove(0), node);
+            break;
+
+        case IF_ICMPGE: // int => int
+            current.condition(current.remove(1), GE, current.remove(0), node);
+            break;
+
+        case IF_ICMPGT: // int > int
+            current.condition(current.remove(1), GT, current.remove(0), node);
+            break;
+
+        case IF_ICMPLE: // int <= int
+            current.condition(current.remove(1), LE, current.remove(0), node);
+            break;
+
+        case IF_ICMPLT: // int < int
+            current.condition(current.remove(1), LT, current.remove(0), node);
+            break;
+        }
+        current.connect(node);
     }
 
     /**
