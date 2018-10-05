@@ -361,6 +361,72 @@ class LongTest extends CodeVerifier {
     }
 
     @Test
+    void equal() {
+        verify(new Code.LongParamBoolean() {
+    
+            @Override
+            public boolean run(long value) {
+                return value == 0;
+            }
+        });
+    }
+
+    @Test
+    void notEqual() {
+        verify(new Code.LongParamBoolean() {
+    
+            @Override
+            public boolean run(long value) {
+                return value != 0;
+            }
+        });
+    }
+
+    @Test
+    void less() {
+        verify(new Code.LongParamBoolean() {
+    
+            @Override
+            public boolean run(long value) {
+                return value < 1;
+            }
+        });
+    }
+
+    @Test
+    void lessEqual() {
+        verify(new Code.LongParamBoolean() {
+    
+            @Override
+            public boolean run(long value) {
+                return value <= 1;
+            }
+        });
+    }
+
+    @Test
+    void greater() {
+        verify(new Code.LongParamBoolean() {
+    
+            @Override
+            public boolean run(long value) {
+                return value > 1;
+            }
+        });
+    }
+
+    @Test
+    void greaterEqual() {
+        verify(new Code.LongParamBoolean() {
+    
+            @Override
+            public boolean run(long value) {
+                return value >= 1;
+            }
+        });
+    }
+
+    @Test
     void postIncrement() {
         verify(new Code.LongParam() {
 
@@ -412,72 +478,6 @@ class LongTest extends CodeVerifier {
             @Override
             public long run(long value) {
                 return 2 * ++value;
-            }
-        });
-    }
-
-    @Test
-    void equal() {
-        verify(new Code.LongParamBoolean() {
-
-            @Override
-            public boolean run(long value) {
-                return value == 0;
-            }
-        });
-    }
-
-    @Test
-    void notEqual() {
-        verify(new Code.LongParamBoolean() {
-
-            @Override
-            public boolean run(long value) {
-                return value != 0;
-            }
-        });
-    }
-
-    @Test
-    void less() {
-        verify(new Code.LongParamBoolean() {
-
-            @Override
-            public boolean run(long value) {
-                return value < 1;
-            }
-        });
-    }
-
-    @Test
-    void lessEqual() {
-        verify(new Code.LongParamBoolean() {
-
-            @Override
-            public boolean run(long value) {
-                return value <= 1;
-            }
-        });
-    }
-
-    @Test
-    void greater() {
-        verify(new Code.LongParamBoolean() {
-
-            @Override
-            public boolean run(long value) {
-                return value > 1;
-            }
-        });
-    }
-
-    @Test
-    void greaterEqual() {
-        verify(new Code.LongParamBoolean() {
-
-            @Override
-            public boolean run(long value) {
-                return value >= 1;
             }
         });
     }

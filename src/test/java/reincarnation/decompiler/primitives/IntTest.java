@@ -12,12 +12,134 @@ package reincarnation.decompiler.primitives;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
+import reincarnation.Code.Int;
 import reincarnation.CodeVerifier;
 
 /**
  * @version 2018/10/05 0:17:07
  */
 class IntTest extends CodeVerifier {
+
+    @Test
+    void zero() {
+        verify(new Int() {
+
+            @Override
+            public int run() {
+                return 0;
+            }
+        });
+    }
+
+    @Test
+    void one() {
+        verify(new Int() {
+
+            @Override
+            public int run() {
+                return 1;
+            }
+        });
+    }
+
+    @Test
+    void two() {
+        verify(new Int() {
+
+            @Override
+            public int run() {
+                return 2;
+            }
+        });
+    }
+
+    @Test
+    void three() {
+        verify(new Int() {
+
+            @Override
+            public int run() {
+                return 3;
+            }
+        });
+    }
+
+    @Test
+    void four() {
+        verify(new Int() {
+
+            @Override
+            public int run() {
+                return 4;
+            }
+        });
+    }
+
+    @Test
+    void five() {
+        verify(new Int() {
+
+            @Override
+            public int run() {
+                return 5;
+            }
+        });
+    }
+
+    @Test
+    void six() {
+        verify(new Int() {
+
+            @Override
+            public int run() {
+                return 6;
+            }
+        });
+    }
+
+    @Test
+    void seven() {
+        verify(new Int() {
+
+            @Override
+            public int run() {
+                return 7;
+            }
+        });
+    }
+
+    @Test
+    void minusOne() {
+        verify(new Int() {
+
+            @Override
+            public int run() {
+                return -1;
+            }
+        });
+    }
+
+    @Test
+    void minusTwo() {
+        verify(new Int() {
+
+            @Override
+            public int run() {
+                return -2;
+            }
+        });
+    }
+
+    @Test
+    void minusThree() {
+        verify(new Int() {
+
+            @Override
+            public int run() {
+                return -3;
+            }
+        });
+    }
 
     @Test
     void max() {
@@ -290,6 +412,72 @@ class IntTest extends CodeVerifier {
             @Override
             public int run(int value) {
                 return value >>>= 1;
+            }
+        });
+    }
+
+    @Test
+    void equal() {
+        verify(new Code.IntParamBoolean() {
+
+            @Override
+            public boolean run(int value) {
+                return value == 0;
+            }
+        });
+    }
+
+    @Test
+    void notEqual() {
+        verify(new Code.IntParamBoolean() {
+
+            @Override
+            public boolean run(int value) {
+                return value != 0;
+            }
+        });
+    }
+
+    @Test
+    void less() {
+        verify(new Code.IntParamBoolean() {
+
+            @Override
+            public boolean run(int value) {
+                return value < 1;
+            }
+        });
+    }
+
+    @Test
+    void lessEqual() {
+        verify(new Code.IntParamBoolean() {
+
+            @Override
+            public boolean run(int value) {
+                return value <= 1;
+            }
+        });
+    }
+
+    @Test
+    void greater() {
+        verify(new Code.IntParamBoolean() {
+
+            @Override
+            public boolean run(int value) {
+                return value > 1;
+            }
+        });
+    }
+
+    @Test
+    void greaterEqual() {
+        verify(new Code.IntParamBoolean() {
+
+            @Override
+            public boolean run(int value) {
+                return value >= 1;
             }
         });
     }
