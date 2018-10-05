@@ -44,6 +44,19 @@ public class Failuer extends AssertionError {
     }
 
     /**
+     * Add cause of this {@link Failuer}.
+     * 
+     * @param reason
+     * @return
+     */
+    public Failuer reason(Throwable reason) {
+        if (reason != null) {
+            addSuppressed(reason);
+        }
+        return this;
+    }
+
+    /**
      * Add reason of this {@link Failuer}.
      * 
      * @param reason

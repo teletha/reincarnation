@@ -369,7 +369,6 @@ class IntTest extends CodeVerifier {
         @Override
         public int run() {
             index = count++;
-
             return count + index * 10;
         }
     }

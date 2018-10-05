@@ -9,7 +9,13 @@
  */
 package reincarnation;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
+
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 
 import bee.UserInterface;
 import bee.api.Command;
@@ -37,7 +43,7 @@ public class CodeVerifier {
      * @param code A target code to verify.
      */
     protected final void verify(Int code) {
-        assert code.run() == recompile(code).run();
+        assert code.run() == recompile(code).run() : code(code);
     }
 
     /**
@@ -50,7 +56,7 @@ public class CodeVerifier {
         IntParam recompiled = recompile(code);
 
         for (int param : params) {
-            assert code.run(param) == recompiled.run(param);
+            assert code.run(param) == recompiled.run(param) : code(code);
         }
     }
 
@@ -60,7 +66,7 @@ public class CodeVerifier {
      * @param code A target code to verify.
      */
     protected final void verify(Code.Long code) {
-        assert code.run() == recompile(code).run();
+        assert code.run() == recompile(code).run() : code(code);
     }
 
     /**
@@ -73,7 +79,7 @@ public class CodeVerifier {
         LongParam recompiled = recompile(code);
 
         for (long param : params) {
-            assert code.run(param) == recompiled.run(param);
+            assert code.run(param) == recompiled.run(param) : code(code);
         }
     }
 
@@ -83,7 +89,7 @@ public class CodeVerifier {
      * @param code A target code to verify.
      */
     protected final void verify(Code.Float code) {
-        assert code.run() == recompile(code).run();
+        assert code.run() == recompile(code).run() : code(code);
     }
 
     /**
@@ -96,7 +102,7 @@ public class CodeVerifier {
         FloatParam recompiled = recompile(code);
 
         for (float param : params) {
-            assert code.run(param) == recompiled.run(param);
+            assert code.run(param) == recompiled.run(param) : code(code);
         }
     }
 
@@ -106,7 +112,7 @@ public class CodeVerifier {
      * @param code A target code to verify.
      */
     protected final void verify(Code.Double code) {
-        assert code.run() == recompile(code).run();
+        assert code.run() == recompile(code).run() : code(code);
     }
 
     /**
@@ -119,7 +125,7 @@ public class CodeVerifier {
         DoubleParam recompiled = recompile(code);
 
         for (double param : params) {
-            assert code.run(param) == recompiled.run(param);
+            assert code.run(param) == recompiled.run(param) : code(code);
         }
     }
 
@@ -129,7 +135,7 @@ public class CodeVerifier {
      * @param code A target code to verify.
      */
     protected final void verify(Code.Byte code) {
-        assert code.run() == recompile(code).run();
+        assert code.run() == recompile(code).run() : code(code);
     }
 
     /**
@@ -142,7 +148,7 @@ public class CodeVerifier {
         ByteParam recompiled = recompile(code);
 
         for (byte param : params) {
-            assert code.run(param) == recompiled.run(param);
+            assert code.run(param) == recompiled.run(param) : code(code);
         }
     }
 
@@ -152,7 +158,7 @@ public class CodeVerifier {
      * @param code A target code to verify.
      */
     protected final void verify(Code.Short code) {
-        assert code.run() == recompile(code).run();
+        assert code.run() == recompile(code).run() : code(code);
     }
 
     /**
@@ -165,7 +171,7 @@ public class CodeVerifier {
         ShortParam recompiled = recompile(code);
 
         for (short param : params) {
-            assert code.run(param) == recompiled.run(param);
+            assert code.run(param) == recompiled.run(param) : code(code);
         }
     }
 
@@ -175,7 +181,7 @@ public class CodeVerifier {
      * @param code A target code to verify.
      */
     protected final void verify(Code.Char code) {
-        assert code.run() == recompile(code).run();
+        assert code.run() == recompile(code).run() : code(code);
     }
 
     /**
@@ -188,7 +194,7 @@ public class CodeVerifier {
         CharParam recompiled = recompile(code);
 
         for (char param : params) {
-            assert code.run(param) == recompiled.run(param);
+            assert code.run(param) == recompiled.run(param) : code(code);
         }
     }
 
@@ -198,7 +204,7 @@ public class CodeVerifier {
      * @param code A target code to verify.
      */
     protected final void verify(Code.Boolean code) {
-        assert code.run() == recompile(code).run();
+        assert code.run() == recompile(code).run() : code(code);
     }
 
     /**
@@ -211,7 +217,7 @@ public class CodeVerifier {
         BooleanParam recompiled = recompile(code);
 
         for (boolean param : params) {
-            assert code.run(param) == recompiled.run(param);
+            assert code.run(param) == recompiled.run(param) : code(code);
         }
     }
 
@@ -221,7 +227,7 @@ public class CodeVerifier {
      * @param code A target code to verify.
      */
     protected final void verify(Code.Text code) {
-        assert code.run() == recompile(code).run();
+        assert code.run() == recompile(code).run() : code(code);
     }
 
     /**
@@ -234,7 +240,7 @@ public class CodeVerifier {
         TextParam recompiled = recompile(code);
 
         for (String param : params) {
-            assert code.run(param) == recompiled.run(param);
+            assert code.run(param) == recompiled.run(param) : code(code);
         }
     }
 
@@ -245,31 +251,80 @@ public class CodeVerifier {
      * @return
      */
     private <T extends Code> T recompile(T code) {
+        Class<?> originalClass = code.getClass();
+        Class<?> enclosingClass = originalClass.getEnclosingClass();
+        String fqcn = originalClass.getName();
+
+        CompilationUnit unit = Reincarnation.exhume(code.getClass());
+
+        if (enclosingClass != null) {
+            unit = enclose(enclosingClass.getSimpleName(), unit);
+
+            if (originalClass.isAnonymousClass()) {
+                fqcn = fqcn.replace("$", "$" + enclosingClass.getSimpleName() + "$");
+            }
+        }
+
+        String decompiled = unit.toString();
         Silent notifier = new Silent();
-        String decompiled = Reincarnation.exhume(code.getClass()).toString();
 
         try {
             JavaCompiler compiler = new JavaCompiler(notifier);
-            compiler.addSource(code.getSimpleName(), decompiled);
+            compiler.addSource(unit.getType(0).getNameAsString(), decompiled);
             compiler.addCurrentClassPath();
 
             ClassLoader loader = compiler.compile();
-            Class<?> loadedClass = loader.loadClass(code.getName());
-            assert loadedClass != code.getClass(); // load from different class loaders
+            Class<?> loadedClass = loader.loadClass(fqcn);
+            assert originalClass != loadedClass; // load from different classloader
 
-            Constructor<?> constructor = loadedClass.getDeclaredConstructor(getClass());
+            Constructor constructor = loadedClass.getDeclaredConstructors()[0];
             constructor.setAccessible(true);
-            return (T) constructor.newInstance(this);
+            return (T) constructor.newInstance((Object[]) Array.newInstance(Object.class, constructor.getParameterCount()));
         } catch (Exception e) {
             throw I.quiet(e);
         } catch (Error e) {
             throw Failuer.type("Compile Error")
+                    .reason(e)
                     .reason("=================================================")
                     .reason(notifier.message)
                     .reason("-------------------------------------------------")
                     .reason(format(decompiled))
                     .reason("=================================================");
         }
+    }
+
+    /**
+     * Enclose by the specified class.
+     * 
+     * @param className A simple class name.
+     * @param base A target to enclose.
+     * @return An enclosed unit.
+     */
+    private CompilationUnit enclose(String className, CompilationUnit base) {
+        CompilationUnit enclose = new CompilationUnit(base.getPackageDeclaration().orElseThrow(), base.getImports(), new NodeList(), null);
+
+        // create enclosing class
+        ClassOrInterfaceDeclaration clazz = enclose.addClass(className);
+
+        base.getTypes().forEach(type -> {
+            type.addModifier(Modifier.STATIC);
+
+            clazz.addMember(type);
+        });
+        return enclose;
+    }
+
+    /**
+     * Show decompiled formated code.
+     * 
+     * @param code
+     * @return
+     */
+    private Throwable code(Code code) {
+        return Failuer.type("Invalid Decompilation")
+                .reason("=================================================")
+                .reason(format(Reincarnation.exhume(code.getClass()).toString()))
+                .reason("=================================================");
     }
 
     /**
@@ -303,7 +358,7 @@ public class CodeVerifier {
          */
         @Override
         protected void write(String message) {
-            this.message.append(message);
+            this.message.append(message).append("\r\n");
         }
 
         /**
