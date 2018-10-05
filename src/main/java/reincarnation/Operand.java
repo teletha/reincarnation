@@ -31,6 +31,14 @@ abstract class Operand {
     }
 
     /**
+     * @param type
+     * @return
+     */
+    final Operand cast(InferredType type) {
+        return cast(type.type());
+    }
+
+    /**
      * <p>
      * Internal API.
      * </p>

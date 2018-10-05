@@ -48,6 +48,12 @@ class OperandNumber extends Operand {
             if (Character.isSurrogate(ch) == false) {
                 return new OperandString(String.valueOf(ch));
             }
+        } else if (type == boolean.class) {
+            if (value.intValue() == 0) {
+                return new OperandBoolean(false);
+            } else if (value.intValue() == 1) {
+                return new OperandBoolean(true);
+            }
         }
         return this;
     }

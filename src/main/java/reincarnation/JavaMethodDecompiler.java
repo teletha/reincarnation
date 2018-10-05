@@ -1196,7 +1196,8 @@ class JavaMethodDecompiler extends MethodVisitor {
                 current.condition(current.remove(1), EQ, current.remove(0), node);
             } else {
                 // others
-                current.condition(current.remove(0), EQ, ZERO, node);
+                Operand left = current.remove(0);
+                current.condition(left, EQ, ZERO.cast(left.infer()), node);
             }
             break;
         case IFNE: // != 0
@@ -1205,7 +1206,8 @@ class JavaMethodDecompiler extends MethodVisitor {
                 current.condition(current.remove(1), NE, current.remove(0), node);
             } else {
                 // others
-                current.condition(current.remove(0), NE, ZERO, node);
+                Operand left = current.remove(0);
+                current.condition(left, NE, ZERO.cast(left.infer()), node);
             }
             break;
 
@@ -1539,7 +1541,8 @@ class JavaMethodDecompiler extends MethodVisitor {
                     }
 
                     // infer local variable type
-                    variables.type(position).type(operand.infer().type());
+                    InferredType type = variables.type(position);
+                    type.type(operand.infer().type());
 
                     AssignExpr assign = new AssignExpr(variable, operand.build(), AssignExpr.Operator.ASSIGN);
 
