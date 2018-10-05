@@ -13,7 +13,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 
 /**
- * @version 2013/08/15 16:07:23
+ * @version 2018/10/05 19:36:00
  */
 class OperandNumber extends Operand {
 
@@ -32,7 +32,7 @@ class OperandNumber extends Operand {
      */
     @Override
     InferredType infer() {
-        return new InferredType(Number.class);
+        return new InferredType(value.getClass());
     }
 
     /**

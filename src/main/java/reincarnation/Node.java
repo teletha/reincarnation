@@ -326,7 +326,7 @@ class Node {
     final Node join(BinaryExpr.Operator operator) {
         Operand right = remove(0);
         Operand left = remove(0);
-        addOperand(new BinaryExpr(left.build(), right.build(), operator), right.infer());
+        addOperand(new BinaryExpr(left.build(), right.build(), operator), left.infer());
 
         // API definition
         return this;

@@ -10,7 +10,7 @@
 package reincarnation;
 
 /**
- * @version 2013/09/28 8:50:37
+ * @version 2018/10/05 19:36:04
  */
 class InferredType {
 
@@ -62,5 +62,13 @@ class InferredType {
      */
     Class type() {
         return type;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return InferredType.class.getSimpleName() + "[" + (type == null ? null : type.getName()) + "]";
     }
 }

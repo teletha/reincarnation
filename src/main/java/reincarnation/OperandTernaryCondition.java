@@ -13,7 +13,7 @@ import com.github.javaparser.ast.expr.ConditionalExpr;
 import com.github.javaparser.ast.expr.Expression;
 
 /**
- * @version 2014/06/22 14:02:22
+ * @version 2018/10/05 19:36:18
  */
 class OperandTernaryCondition extends OperandCondition {
 

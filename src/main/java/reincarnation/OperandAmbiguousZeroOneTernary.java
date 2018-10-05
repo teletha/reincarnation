@@ -14,7 +14,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 
 /**
- * @version 2014/01/01 12:11:14
+ * @version 2018/10/05 19:36:29
  */
 class OperandAmbiguousZeroOneTernary extends Operand {
 

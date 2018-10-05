@@ -13,7 +13,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
 
 /**
- * @version 2013/08/15 16:35:58
+ * @version 2018/10/05 19:36:10
  */
 class OperandString extends Operand {
 

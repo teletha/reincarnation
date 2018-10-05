@@ -49,8 +49,8 @@ import com.github.javaparser.ast.expr.Expression;
  * mv.visitLdcInsn("third");
  * mv.visitInsn(AASTORE); // Assign third value
  *</pre>
- *
- * @version 2014/06/26 9:30:10
+ * 
+ * @version 2018/10/05 19:36:39
  */
 class OperandArray extends Operand {
 

@@ -170,6 +170,41 @@ public class Util {
     }
 
     /**
+     * Load {@link Class} by parser type.
+     * 
+     * @param type
+     * @return
+     */
+    static Class load(com.github.javaparser.ast.type.Type type) {
+        if (type.isPrimitiveType()) {
+            switch (type.asPrimitiveType().getType()) {
+            case BOOLEAN:
+                return boolean.class;
+            case BYTE:
+                return byte.class;
+            case CHAR:
+                return char.class;
+            case DOUBLE:
+                return double.class;
+            case FLOAT:
+                return float.class;
+            case INT:
+                return int.class;
+            case LONG:
+                return long.class;
+            case SHORT:
+                return short.class;
+            }
+        }
+
+        try {
+            return Class.forName(type.toString(), false, ClassLoader.getSystemClassLoader());
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+    }
+
+    /**
      * Load {@link ClassOrInterfaceType} by internal name.
      * 
      * @param internalName
@@ -244,7 +279,6 @@ public class Util {
         if ((access & ACC_VOLATILE) != 0) {
             set.add(Modifier.VOLATILE);
         }
-
         return set.toArray(Modifier[]::new);
     }
 }

@@ -1765,9 +1765,6 @@ class JavaMethodDecompiler extends MethodVisitor {
         /** The ignorable variable index. */
         private final List<Integer> ignores = new ArrayList();
 
-        /** The local type mapping. */
-        private final Map<Integer, InferredType> types = new HashMap();
-
         /** The local variable manager. */
         private final Map<Integer, LocalVariable> locals = new HashMap();
 
@@ -1870,13 +1867,22 @@ class JavaMethodDecompiler extends MethodVisitor {
          * @return
          */
         private InferredType type(int position) {
-            InferredType type = types.get(position);
-
-            if (type == null) {
-                type = new InferredType();
-                types.put(position, type);
+            // order 0 means "this", but static method doesn't have "this" variable
+            if (!isStatic) {
+                position--;
             }
-            return type;
+
+            if (position == -1) {
+                return new InferredType(clazz);
+            }
+
+            LocalVariable local = locals.get(position);
+
+            if (local == null) {
+                return new InferredType();
+            } else {
+                return new InferredType(load(local.declarator.getType()));
+            }
         }
     }
 

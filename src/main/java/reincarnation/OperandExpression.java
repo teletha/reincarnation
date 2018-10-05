@@ -15,7 +15,7 @@ import com.github.javaparser.ast.visitor.GenericVisitor;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 
 /**
- * @version 2014/06/26 9:54:05
+ * @version 2018/10/05 19:36:56
  */
 class OperandExpression extends Operand {
 

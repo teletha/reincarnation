@@ -12,7 +12,7 @@ package reincarnation;
 import com.github.javaparser.ast.expr.Expression;
 
 /**
- * @version 2013/08/23 23:35:09
+ * @version 2018/10/05 19:36:25
  */
 abstract class Operand {
 

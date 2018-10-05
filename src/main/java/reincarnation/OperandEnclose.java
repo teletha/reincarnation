@@ -13,7 +13,7 @@ import com.github.javaparser.ast.expr.EnclosedExpr;
 import com.github.javaparser.ast.expr.Expression;
 
 /**
- * @version 2013/08/03 2:18:38
+ * @version 2018/10/05 19:36:22
  */
 class OperandEnclose extends Operand {
 

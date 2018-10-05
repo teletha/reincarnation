@@ -22,7 +22,7 @@ import com.github.javaparser.ast.expr.Expression;
  * change depending on the content of the description of the logical expression.
  * </p>
  * 
- * @version 2014/06/25 15:46:41
+ * @version 2018/10/05 19:36:46
  */
 class OperandCondition extends Operand {
 
