@@ -29,6 +29,7 @@ import reincarnation.Code.FloatParam;
 import reincarnation.Code.Int;
 import reincarnation.Code.IntParam;
 import reincarnation.Code.LongParam;
+import reincarnation.Code.LongParamBoolean;
 import reincarnation.Code.ShortParam;
 import reincarnation.Code.TextParam;
 
@@ -77,6 +78,20 @@ public class CodeVerifier {
     protected final void verify(LongParam code) {
         long[] params = {Long.MIN_VALUE, -10L, -1L, 0L, 1L, 10L, Long.MAX_VALUE};
         LongParam recompiled = recompile(code);
+
+        for (long param : params) {
+            assert code.run(param) == recompiled.run(param) : code(code);
+        }
+    }
+
+    /**
+     * Verify decompiled code.
+     * 
+     * @param code A target code to verify.
+     */
+    protected final void verify(LongParamBoolean code) {
+        long[] params = {Long.MIN_VALUE, -10L, -1L, 0L, 1L, 10L, Long.MAX_VALUE};
+        LongParamBoolean recompiled = recompile(code);
 
         for (long param : params) {
             assert code.run(param) == recompiled.run(param) : code(code);
