@@ -44,6 +44,20 @@ public interface Code {
     /**
      * @version 2018/04/04 16:29:00
      */
+    public interface IntParamBoolean extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @param A parameter.
+         * @return A result.
+         */
+        boolean run(int param);
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
     public interface Long extends Code {
 
         /**
@@ -112,6 +126,20 @@ public interface Code {
     /**
      * @version 2018/04/04 16:29:00
      */
+    public interface FloatParamBoolean extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @param A parameter.
+         * @return A result.
+         */
+        boolean run(float param);
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
     public interface Double extends Code {
 
         /**
@@ -134,6 +162,20 @@ public interface Code {
          * @return A result.
          */
         double run(double param);
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
+    public interface DoubleParamBoolean extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @param A parameter.
+         * @return A result.
+         */
+        boolean run(double param);
     }
 
     /**
@@ -166,6 +208,20 @@ public interface Code {
     /**
      * @version 2018/04/04 16:29:00
      */
+    public interface ByteParamBoolean extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @param A parameter.
+         * @return A result.
+         */
+        boolean run(byte param);
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
     public interface Short extends Code {
 
         /**
@@ -193,6 +249,20 @@ public interface Code {
     /**
      * @version 2018/04/04 16:29:00
      */
+    public interface ShortParamBoolean extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @param A parameter.
+         * @return A result.
+         */
+        boolean run(short param);
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
     public interface Char extends Code {
 
         /**
@@ -215,6 +285,20 @@ public interface Code {
          * @return A result.
          */
         char run(char param);
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
+    public interface CharParamBoolean extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @param A parameter.
+         * @return A result.
+         */
+        boolean run(char param);
     }
 
     /**
@@ -269,5 +353,19 @@ public interface Code {
          * @return A result.
          */
         String run(String param);
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
+    public interface TextParamBoolean extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @param A parameter.
+         * @return A result.
+         */
+        boolean run(String param);
     }
 }

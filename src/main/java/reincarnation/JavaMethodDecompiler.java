@@ -932,11 +932,9 @@ class JavaMethodDecompiler extends MethodVisitor {
                 // Current operands is like the following, so we must remove four operands to
                 // represent boolean value.
                 //
-                // JUMP [Condition] return [Expression] false [Expression] ; [Expression] 1 [Number]
+                // JUMP [Condition] return false [Expression] 1 [Number]
                 current.remove(0); // remove "1"
-                current.remove(0); // remove ";"
-                current.remove(0); // remove "false"
-                current.remove(0); // remove "return"
+                current.remove(0); // remove "return false"
 
                 // remove empty node if needed
                 if (current.previous.stack.isEmpty()) dispose(current.previous);
@@ -944,9 +942,9 @@ class JavaMethodDecompiler extends MethodVisitor {
                 // Current operands is like the following, so we must remove four operands to
                 // represent boolean value.
                 //
-                // JUMP [Condition] return [Expression] true [Expression] ; [Expression] 0 [Number]
+                // JUMP [Condition] return true [Expression] 0 [Number]
                 current.remove(0); // remove "0"
-                current.remove(0); // remove "true"
+                current.remove(0); // remove "return true"
 
                 // remove empty node if needed
                 if (current.previous.stack.isEmpty()) dispose(current.previous);

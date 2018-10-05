@@ -9,7 +9,6 @@
  */
 package reincarnation.decompiler.primitives;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
@@ -153,15 +152,14 @@ class IntTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void bitFlag() {
-        // verify(new Code.IntParam() {
-        //
-        // @Override
-        // boolean run(int value) {
-        // return (value & 1) == 0;
-        // }
-        // });
+        verify(new Code.IntParamBoolean() {
+
+            @Override
+            public boolean run(int value) {
+                return (value & 1) == 0;
+            }
+        });
     }
 
     @Test
