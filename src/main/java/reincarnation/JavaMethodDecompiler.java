@@ -45,7 +45,6 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.AssignExpr.Operator;
 import com.github.javaparser.ast.expr.BinaryExpr;
-import com.github.javaparser.ast.expr.ClassExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
@@ -1323,9 +1322,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         if (constant instanceof String) {
             current.stack.add(new OperandString((String) constant));
         } else if (constant instanceof Type) {
-            String className = ((Type) constant).getInternalName();
-
-            current.addOperand(new ClassExpr(loadType(className)));
+            current.addOperand(new OperandClass(Util.load((Type) constant)));
         } else {
             current.addOperand(constant);
         }

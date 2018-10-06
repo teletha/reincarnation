@@ -9,33 +9,25 @@
  */
 package reincarnation;
 
-import com.github.javaparser.ast.expr.BooleanLiteralExpr;
+import com.github.javaparser.ast.expr.ClassExpr;
 import com.github.javaparser.ast.expr.Expression;
 
 /**
- * @version 2018/10/07 0:05:12
+ * @version 2018/10/07 1:03:46
  */
-class OperandBoolean extends Operand {
+public class OperandClass extends Operand {
 
     /** The actual value. */
-    private final boolean value;
+    private final Class value;
 
     /**
-     * Primitive boolean expression.
+     * Class literal like <code>String.class</code>.
      * 
      * @param value
      */
-    OperandBoolean(boolean value) {
+    OperandClass(Class value) {
         this.value = value;
-        this.type = boolean.class;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    InferredType infer() {
-        return new InferredType(boolean.class);
+        this.type = Class.class;
     }
 
     /**
@@ -43,7 +35,7 @@ class OperandBoolean extends Operand {
      */
     @Override
     Expression build() {
-        return new BooleanLiteralExpr(value);
+        return new ClassExpr(Util.loadType(value));
     }
 
     /**
@@ -51,6 +43,6 @@ class OperandBoolean extends Operand {
      */
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return value.getSimpleName() + ".class";
     }
 }
