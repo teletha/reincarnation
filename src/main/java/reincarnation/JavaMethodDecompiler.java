@@ -44,7 +44,6 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.expr.UnaryExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -898,7 +897,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         case FNEG:
         case DNEG:
         case LNEG:;
-            current.addOperand(new UnaryExpr(current.remove(0).build(), UnaryExpr.Operator.MINUS));
+            current.addOperand(new OperandUnary(current.remove(0), UnaryOperator.MINUS));
             break;
 
         case RETURN:
