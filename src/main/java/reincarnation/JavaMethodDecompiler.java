@@ -2209,7 +2209,7 @@ class JavaMethodDecompiler extends MethodVisitor {
          */
         @Override
         public String toString() {
-            return name.toString();
+            return name;
         }
     }
 
