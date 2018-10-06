@@ -16,6 +16,12 @@ import com.github.javaparser.ast.expr.Expression;
  */
 abstract class Operand {
 
+    /** The reusable boolean. */
+    public static final OperandBoolean True = new OperandBoolean(true);
+
+    /** The reusable boolean. */
+    public static final OperandBoolean False = new OperandBoolean(false);
+
     protected Class type;
 
     /** The flag for operand duplication. */

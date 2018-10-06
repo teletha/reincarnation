@@ -45,7 +45,6 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.AssignExpr.Operator;
 import com.github.javaparser.ast.expr.BinaryExpr;
-import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.ClassExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
@@ -954,9 +953,9 @@ class JavaMethodDecompiler extends MethodVisitor {
 
             if (returnType == BOOLEAN_TYPE) {
                 if (operand.toString().equals("0")) {
-                    operand = new OperandExpression(new BooleanLiteralExpr(false));
+                    operand = Operand.False;
                 } else if (operand.toString().equals("1")) {
-                    operand = new OperandExpression(new BooleanLiteralExpr(true));
+                    operand = Operand.True;
                 } else if (operand instanceof OperandAmbiguousZeroOneTernary) {
                     operand = operand.cast(boolean.class);
                 }

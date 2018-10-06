@@ -13,7 +13,7 @@ import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 
 /**
- * @version 2018/10/06 1:31:36
+ * @version 2018/10/07 0:05:12
  */
 class OperandBoolean extends Operand {
 
