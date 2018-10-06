@@ -44,7 +44,6 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
@@ -2107,7 +2106,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             LocalVariable local = locals.get(index);
 
             if (local != null) {
-                local.name.setIdentifier(name);
+                local.name = name;
             }
         }
 
@@ -2161,7 +2160,7 @@ class JavaMethodDecompiler extends MethodVisitor {
     private static class LocalVariable extends Operand {
 
         /** The variable name. */
-        private final SimpleName name = new SimpleName();
+        private String name;
 
         /** The variable model. */
         private Class type;
@@ -2176,7 +2175,7 @@ class JavaMethodDecompiler extends MethodVisitor {
          * @param initialized A initialization state. (for parameter)
          */
         private LocalVariable(int index, Class type, boolean initialized) {
-            this.name.setIdentifier("local" + index);
+            this.name = "local" + index;
             this.type = type;
             this.initialized = initialized;
         }
