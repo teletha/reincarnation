@@ -59,8 +59,6 @@ import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.visitor.GenericVisitor;
-import com.github.javaparser.ast.visitor.VoidVisitor;
 
 import kiss.I;
 import reincarnation.Node.Switch;
@@ -2370,27 +2368,6 @@ class JavaMethodDecompiler extends MethodVisitor {
          */
         private boolean canMerge(OperandCondition left, OperandCondition right) {
             return left.then == right.then || left.then == right.elze;
-        }
-    }
-
-    /**
-     * @version 2018/10/05 9:32:14
-     */
-    private static class StaticFieldAccess extends Expression {
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public <R, A> R accept(GenericVisitor<R, A> v, A arg) {
-            return null;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public <A> void accept(VoidVisitor<A> v, A arg) {
         }
     }
 }
