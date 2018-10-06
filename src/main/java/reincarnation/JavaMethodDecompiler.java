@@ -41,14 +41,10 @@ import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.InitializerDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.type.PrimitiveType;
 
 import kiss.I;
 import reincarnation.Node.Switch;
@@ -2034,7 +2030,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         private final List<Integer> ignores = new ArrayList();
 
         /** The local variable manager. */
-        private final Map<Integer, LocalVariable> locals = new HashMap();
+        private final Map<Integer, OperandLocalVariable> locals = new HashMap();
 
         /**
          * @param isStatic
@@ -2044,7 +2040,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             this.parameterSize = parameterTypes.length;
 
             for (int i = 0; i < parameterTypes.length; i++) {
-                locals.put(i, new LocalVariable(i, load(parameterTypes[i]), true));
+                locals.put(i, new OperandLocalVariable(i, load(parameterTypes[i])));
             }
         }
 
@@ -2089,7 +2085,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             }
 
             // Compute local variable name
-            return locals.computeIfAbsent(order, key -> new LocalVariable(key, load(opcode), false));
+            return locals.computeIfAbsent(order, key -> new OperandLocalVariable(key, load(opcode)));
         }
 
         /**
@@ -2103,7 +2099,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                 index--;
             }
 
-            LocalVariable local = locals.get(index);
+            OperandLocalVariable local = locals.get(index);
 
             if (local != null) {
                 local.name = name;
@@ -2144,72 +2140,13 @@ class JavaMethodDecompiler extends MethodVisitor {
                 return new InferredType(clazz);
             }
 
-            LocalVariable local = locals.get(position);
+            OperandLocalVariable local = locals.get(position);
 
             if (local == null) {
                 return new InferredType();
             } else {
                 return new InferredType(local.type);
             }
-        }
-    }
-
-    /**
-     * @version 2018/10/04 23:19:59
-     */
-    private static class LocalVariable extends Operand {
-
-        /** The variable name. */
-        private String name;
-
-        /** The variable model. */
-        private Class type;
-
-        /** The initialization state. */
-        private boolean initialized;
-
-        /**
-         * Create local variable with index.
-         * 
-         * @param index A local index.
-         * @param initialized A initialization state. (for parameter)
-         */
-        private LocalVariable(int index, Class type, boolean initialized) {
-            this.name = "local" + index;
-            this.type = type;
-            this.initialized = initialized;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        Expression build() {
-            if (initialized == false) {
-                initialized = true;
-
-                com.github.javaparser.ast.type.Type t;
-
-                if (type == int.class) {
-                    t = PrimitiveType.intType();
-                } else if (type == long.class) {
-                    t = PrimitiveType.longType();
-                } else {
-                    t = Util.loadType(type);
-                }
-
-                return new VariableDeclarationExpr(new VariableDeclarator(t, name));
-            } else {
-                return new NameExpr(name);
-            }
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String toString() {
-            return name;
         }
     }
 

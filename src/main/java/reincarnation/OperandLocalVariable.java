@@ -11,20 +11,26 @@ package reincarnation;
 
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.expr.SimpleName;
 
 /**
- * @version 2018/10/07 2:13:47
+ * @version 2018/10/07 3:46:54
  */
-public class OperandName extends Operand {
+public class OperandLocalVariable extends Operand {
 
-    private final SimpleName name;
+    /** The variable name. */
+    String name;
+
+    /** The variable model. */
+    Class type;
 
     /**
-     * @param name
+     * Create local variable with index.
+     * 
+     * @param index A local index.
      */
-    public OperandName(SimpleName name) {
-        this.name = name;
+    OperandLocalVariable(int index, Class type) {
+        this.name = "local" + index;
+        this.type = type;
     }
 
     /**
@@ -40,6 +46,6 @@ public class OperandName extends Operand {
      */
     @Override
     public String toString() {
-        return name.toString();
+        return name;
     }
 }
