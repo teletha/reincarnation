@@ -16,6 +16,8 @@ import com.github.javaparser.ast.expr.Expression;
  */
 abstract class Operand {
 
+    protected Class type;
+
     /** The flag for operand duplication. */
     boolean duplicated = false;
 
@@ -94,7 +96,9 @@ abstract class Operand {
      * 
      * @return
      */
-    abstract InferredType infer();
+    InferredType infer() {
+        return new InferredType(type);
+    }
 
     /**
      * @return
@@ -107,5 +111,9 @@ abstract class Operand {
         // If this exception will be thrown, it is bug of this program. So we must rethrow the
         // wrapped error in here.
         throw new Error();
+    }
+
+    public static OpereandLocalVariable localVariable(String name) {
+        return new OpereandLocalVariable(name);
     }
 }
