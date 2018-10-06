@@ -44,7 +44,6 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.AssignExpr.Operator;
-import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
@@ -61,6 +60,7 @@ import com.github.javaparser.ast.stmt.Statement;
 import kiss.I;
 import reincarnation.Node.Switch;
 import reincarnation.Node.TryCatchFinallyBlocks;
+import reincarnation.OperandBinary.BinaryOperator;
 
 /**
  * @version 2018/10/04 8:47:28
@@ -838,7 +838,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         case FADD:
         case DADD:
         case LADD:
-            current.join(BinaryExpr.Operator.PLUS).enclose();
+            current.join(BinaryOperator.PLUS).enclose();
             break;
 
         // - operand
@@ -846,7 +846,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         case FSUB:
         case DSUB:
         case LSUB:
-            current.join(BinaryExpr.Operator.MINUS).enclose();
+            current.join(BinaryOperator.MINUS).enclose();
             break;
 
         // * operand
@@ -854,7 +854,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         case FMUL:
         case DMUL:
         case LMUL:
-            current.join(BinaryExpr.Operator.MULTIPLY);
+            current.join(BinaryOperator.MULTIPLY);
             break;
 
         // / operand
@@ -862,7 +862,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         case FDIV:
         case DDIV:
         case LDIV:
-            current.join(BinaryExpr.Operator.DIVIDE);
+            current.join(BinaryOperator.DIVIDE);
             break;
 
         // % operand
@@ -870,43 +870,43 @@ class JavaMethodDecompiler extends MethodVisitor {
         case FREM:
         case DREM:
         case LREM:
-            current.join(BinaryExpr.Operator.REMAINDER);
+            current.join(BinaryOperator.REMAINDER);
             break;
 
         // & operand
         case IAND:
         case LAND:
-            current.join(BinaryExpr.Operator.BINARY_AND).enclose();
+            current.join(BinaryOperator.AND).enclose();
             break;
 
         // | operand
         case IOR:
         case LOR:
-            current.join(BinaryExpr.Operator.BINARY_OR).enclose();
+            current.join(BinaryOperator.OR).enclose();
             break;
 
         // ^ operand
         case IXOR:
         case LXOR:
-            current.join(BinaryExpr.Operator.XOR);
+            current.join(BinaryOperator.XOR);
             break;
 
         // << operand
         case ISHL:
         case LSHL:
-            current.join(BinaryExpr.Operator.LEFT_SHIFT).enclose();
+            current.join(BinaryOperator.LEFT_SHIFT).enclose();
             break;
 
         // >> operand
         case ISHR:
         case LSHR:
-            current.join(BinaryExpr.Operator.SIGNED_RIGHT_SHIFT).enclose();
+            current.join(BinaryOperator.RIGHT_SHIFT).enclose();
             break;
 
         // >>> operand
         case IUSHR:
         case LUSHR:
-            current.join(BinaryExpr.Operator.UNSIGNED_RIGHT_SHIFT).enclose();
+            current.join(BinaryOperator.UNSIGNED_RIGHT_SHIFT).enclose();
             break;
 
         // negative operand

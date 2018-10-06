@@ -20,11 +20,11 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ForStmt;
 
+import reincarnation.OperandBinary.BinaryOperator;
 import reincarnation.OperandExpression.StatementExpression;
 
 /**
@@ -323,10 +323,10 @@ class Node {
      * @param operator
      * @return Chainable API.
      */
-    final Node join(BinaryExpr.Operator operator) {
+    final Node join(BinaryOperator operator) {
         Operand right = remove(0);
         Operand left = remove(0);
-        addOperand(new BinaryExpr(left.build(), right.build(), operator), left.infer());
+        addOperand(new OperandBinary(left, operator, right));
 
         // API definition
         return this;
