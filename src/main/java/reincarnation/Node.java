@@ -1844,7 +1844,7 @@ class Node {
          * @param current A target node.
          * @param variable A variable name.
          */
-        void assignVariableName(Node current, Expression variable) {
+        void assignVariableName(Node current, Operand variable) {
             for (TryCatchFinally block : blocks) {
                 for (Catch catchBlock : block.catches) {
                     if (catchBlock.node == current) {
@@ -1949,7 +1949,7 @@ class Node {
         private final Node node;
 
         /** The exception variable name. */
-        private Expression variable;
+        private Operand variable;
 
         /**
          * @param exception

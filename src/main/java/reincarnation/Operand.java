@@ -11,6 +11,9 @@ package reincarnation;
 
 import com.github.javaparser.ast.expr.Expression;
 
+import kiss.I;
+import kiss.Signal;
+
 /**
  * @version 2018/10/05 19:36:25
  */
@@ -26,6 +29,16 @@ abstract class Operand {
 
     /** The flag for operand duplication. */
     boolean duplicated = false;
+
+    /**
+     * Process if this {@link Operand} is instance of the specified type.
+     * 
+     * @param type
+     * @return
+     */
+    public final <T extends Operand> Signal<T> as(Class<T> type) {
+        return I.signal(this).as(type);
+    }
 
     /**
      * @param type

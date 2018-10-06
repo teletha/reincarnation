@@ -42,17 +42,9 @@ import com.github.javaparser.ast.body.InitializerDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.expr.AssignExpr;
-import com.github.javaparser.ast.expr.AssignExpr.Operator;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.FieldAccessExpr;
-import com.github.javaparser.ast.expr.IntegerLiteralExpr;
-import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.expr.ThisExpr;
-import com.github.javaparser.ast.expr.TypeExpr;
 import com.github.javaparser.ast.expr.UnaryExpr;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -60,7 +52,9 @@ import com.github.javaparser.ast.stmt.Statement;
 import kiss.I;
 import reincarnation.Node.Switch;
 import reincarnation.Node.TryCatchFinallyBlocks;
+import reincarnation.OperandAssign.AssignOperation;
 import reincarnation.OperandBinary.BinaryOperator;
+import reincarnation.OperandUnary.UnaryOperator;
 
 /**
  * @version 2018/10/04 8:47:28
@@ -414,10 +408,9 @@ class JavaMethodDecompiler extends MethodVisitor {
                 // current.addOperand(increment(current.remove(0) + "." + computeFieldName(owner,
                 // name), type, false, false));
             } else {
-                AssignExpr assign = new AssignExpr();
-                assign.setTarget(new FieldAccessExpr(current.remove(1).build(), name));
-                assign.setValue(current.remove(0).cast(type).build());
-                assign.setOperator(Operator.ASSIGN);
+                Operand filed = new OperandFieldAccess(current.remove(1), name);
+                Operand value = current.remove(0).cast(type);
+                OperandAssign assign = new OperandAssign(filed, AssignOperation.ASSIGN, value);
 
                 if (match(DUPLICATE_AWAY, PUTFIELD)) {
                     // multiple assignment (i.e. this.a = this.b = 0;)
@@ -438,12 +431,12 @@ class JavaMethodDecompiler extends MethodVisitor {
                 // The pattenr of post-increment field is like above.
                 current.remove(0);
 
-                current.addOperand(increment(current.remove(0).build(), type, true, true));
+                current.addOperand(increment(current.remove(0), type, true, true));
             } else if (match(GETSTATIC, DUPLICATE, CONSTANT_1, SUB, PUTSTATIC)) {
                 // The pattenr of post-decrement field is like above.
                 current.remove(0);
 
-                current.addOperand(increment(current.remove(0).build(), type, false, true));
+                current.addOperand(increment(current.remove(0), type, false, true));
             } else if (match(GETSTATIC, CONSTANT_1, ADD, DUPLICATE, PUTSTATIC)) {
                 current.remove(0);
                 current.remove(0);
@@ -456,10 +449,8 @@ class JavaMethodDecompiler extends MethodVisitor {
 
                 current.addOperand(increment(accessClassField(owner, name), type, false, false));
             } else {
-                AssignExpr assign = new AssignExpr();
-                assign.setTarget(accessClassField(owner, name));
-                assign.setValue(current.remove(0).cast(type).build());
-                assign.setOperator(Operator.ASSIGN);
+                OperandAssign assign = new OperandAssign(accessClassField(owner, name), AssignOperation.ASSIGN, current.remove(0)
+                        .cast(type));
 
                 if (match(DUPLICATE, PUTSTATIC)) {
                     // The pattern of static field assignment in method parameter.
@@ -477,16 +468,9 @@ class JavaMethodDecompiler extends MethodVisitor {
         }
     }
 
-    private Expression accessClassField(Class owner, String name) {
-        Expression scope;
-
-        if (owner == clazz) {
-            scope = new NameExpr(owner.getSimpleName());
-        } else {
-            root.tryAddImportToParentCompilationUnit(owner);
-            scope = new TypeExpr(loadType(owner));
-        }
-        return new FieldAccessExpr(scope, name);
+    private Operand accessClassField(Class owner, String name) {
+        root.tryAddImportToParentCompilationUnit(owner);
+        return new OperandFieldAccess(new OperandType(owner), name);
     }
 
     /**
@@ -661,29 +645,29 @@ class JavaMethodDecompiler extends MethodVisitor {
         record(INCREMENT);
 
         // retrieve the local variable name
-        Expression variable = variables.name(position);
+        Operand variable = variables.name(position);
         InferredType type = variables.type(position);
 
         if (increment == 1) {
             // increment
             if (match(ILOAD, INCREMENT)) {
                 // post increment
-                current.addOperand(new UnaryExpr(current.remove(0).build(), UnaryExpr.Operator.POSTFIX_INCREMENT), type);
+                current.addOperand(new OperandUnary(current.remove(0), UnaryOperator.POST_INCREMENT));
             } else {
                 // pre increment
-                current.addExpression(new UnaryExpr(variable, UnaryExpr.Operator.PREFIX_INCREMENT), type);
+                current.addExpression(new OperandUnary(variable, UnaryOperator.PRE_INCREMENT));
             }
         } else if (increment == -1) {
             // increment
             if (match(ILOAD, INCREMENT)) {
                 // post increment
-                current.addOperand(new UnaryExpr(current.remove(0).build(), UnaryExpr.Operator.POSTFIX_DECREMENT), type);
+                current.addOperand(new OperandUnary(current.remove(0), UnaryOperator.POST_DECREMENT));
             } else {
                 // pre increment
-                current.addExpression(new UnaryExpr(variable, UnaryExpr.Operator.PREFIX_DECREMENT), type);
+                current.addExpression(new OperandUnary(variable, UnaryOperator.PRE_DECREMENT));
             }
         } else {
-            current.addExpression(new AssignExpr(variable, new AssignExpr(variable, new IntegerLiteralExpr(increment), Operator.PLUS), Operator.ASSIGN));
+            current.addExpression(new OperandAssign(variable, AssignOperation.ASSIGN, new OperandAssign(variable, AssignOperation.PLUS, new OperandNumber(increment))));
         }
     }
 
@@ -1477,7 +1461,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         record(opcode);
 
         // retrieve local variable name
-        Expression variable = variables.name(position, opcode);
+        Operand variable = variables.name(position, opcode);
 
         switch (opcode) {
         case ILOAD:
@@ -1486,7 +1470,6 @@ class JavaMethodDecompiler extends MethodVisitor {
         case DLOAD:
             if (match(INCREMENT, ILOAD)) {
                 String expression = current.peek(0).toString();
-
                 if (expression.startsWith("++") || expression.startsWith("--")) {
                     if (expression.substring(2).equals(variable.toString())) {
                         break;
@@ -1538,7 +1521,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                     InferredType type = variables.type(position);
                     type.type(operand.infer().type());
 
-                    AssignExpr assign = new AssignExpr(variable, operand.build(), AssignExpr.Operator.ASSIGN);
+                    OperandAssign assign = new OperandAssign(variable, AssignOperation.ASSIGN, operand);
 
                     if (!operand.duplicated) {
                         current.addExpression(assign);
@@ -1995,15 +1978,15 @@ class JavaMethodDecompiler extends MethodVisitor {
      * @param post Post or pre.
      * @return A suitable code.
      */
-    private final Expression increment(Expression context, Class type, boolean increase, boolean post) {
-        UnaryExpr.Operator operator;
+    private final Operand increment(Operand context, Class type, boolean increase, boolean post) {
+        UnaryOperator operator;
 
         if (post) {
-            operator = increase ? UnaryExpr.Operator.POSTFIX_INCREMENT : UnaryExpr.Operator.POSTFIX_DECREMENT;
+            operator = increase ? UnaryOperator.POST_INCREMENT : UnaryOperator.POST_DECREMENT;
         } else {
-            operator = increase ? UnaryExpr.Operator.PREFIX_INCREMENT : UnaryExpr.Operator.PREFIX_DECREMENT;
+            operator = increase ? UnaryOperator.PRE_INCREMENT : UnaryOperator.PRE_DECREMENT;
         }
-        return new UnaryExpr(context, operator);
+        return new OperandUnary(context, operator);
     }
 
     /**
@@ -2072,7 +2055,7 @@ class JavaMethodDecompiler extends MethodVisitor {
          * @param order An order by which this variable was declared.
          * @return An identified local variable name for ECMAScript.
          */
-        private Expression name(int order) {
+        private Operand name(int order) {
             return name(order, 0);
         }
 
@@ -2084,7 +2067,7 @@ class JavaMethodDecompiler extends MethodVisitor {
          * @param order An order by which this variable was declared.
          * @return An identified local variable name for ECMAScript.
          */
-        private Expression name(int order, int opcode) {
+        private Operand name(int order, int opcode) {
             // ignore long or double second index
             switch (opcode) {
             case LLOAD:
@@ -2101,7 +2084,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             }
 
             if (order == -1) {
-                return new ThisExpr();
+                return new OperandThis();
             }
 
             // Compute local variable name
@@ -2131,8 +2114,8 @@ class JavaMethodDecompiler extends MethodVisitor {
          * 
          * @return
          */
-        private List<Expression> names() {
-            List<Expression> names = new ArrayList();
+        private List<Operand> names() {
+            List<Operand> names = new ArrayList();
 
             for (int i = isStatic ? 0 : 1; i < max; i++) {
                 if (!ignores.contains(i)) {
@@ -2202,12 +2185,12 @@ class JavaMethodDecompiler extends MethodVisitor {
          * 
          * @return
          */
-        private Expression use() {
+        private Operand use() {
             if (initialized == false) {
                 initialized = true;
-                return new VariableDeclarationExpr(declarator);
+                return new OperandVariableDeclaration(declarator);
             } else {
-                return new NameExpr(declarator.getName());
+                return new OperandName(declarator.getName());
             }
         }
     }
