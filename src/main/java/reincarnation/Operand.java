@@ -131,14 +131,4 @@ abstract class Operand {
         // wrapped error in here.
         throw new Error();
     }
-
-    /**
-     * Create
-     * 
-     * @param name
-     * @return
-     */
-    public static OpereandLocalVariable localVariable(String name) {
-        return new OpereandLocalVariable(name);
-    }
 }

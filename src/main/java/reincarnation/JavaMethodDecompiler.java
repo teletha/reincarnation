@@ -47,6 +47,7 @@ import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.type.PrimitiveType;
 
 import kiss.I;
 import reincarnation.Node.Switch;
@@ -2147,7 +2148,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             if (local == null) {
                 return new InferredType();
             } else {
-                return new InferredType(load(local.declarator.getType()));
+                return new InferredType(local.type);
             }
         }
     }
@@ -2155,13 +2156,13 @@ class JavaMethodDecompiler extends MethodVisitor {
     /**
      * @version 2018/10/04 23:19:59
      */
-    private static class LocalVariable {
+    private static class LocalVariable extends Operand {
 
         /** The variable name. */
         private final SimpleName name = new SimpleName();
 
         /** The variable model. */
-        private final VariableDeclarator declarator = new VariableDeclarator();
+        private Class type;
 
         /** The initialization state. */
         private boolean initialized;
@@ -2174,8 +2175,7 @@ class JavaMethodDecompiler extends MethodVisitor {
          */
         private LocalVariable(int index, Class type, boolean initialized) {
             this.name.setIdentifier("local" + index);
-            this.declarator.setName(name);
-            this.declarator.setType(type);
+            this.type = type;
             this.initialized = initialized;
         }
 
@@ -2187,9 +2187,20 @@ class JavaMethodDecompiler extends MethodVisitor {
         private Operand use() {
             if (initialized == false) {
                 initialized = true;
-                return new OperandVariableDeclaration(declarator);
+
+                com.github.javaparser.ast.type.Type t;
+
+                if (type == int.class) {
+                    t = PrimitiveType.intType();
+                } else if (type == long.class) {
+                    t = PrimitiveType.longType();
+                } else {
+                    t = Util.loadType(type);
+                }
+
+                return new OperandVariableDeclaration(new VariableDeclarator(t, name));
             } else {
-                return new OperandName(declarator.getName());
+                return new OperandName(name);
             }
         }
     }
