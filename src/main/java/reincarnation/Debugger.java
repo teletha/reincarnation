@@ -616,6 +616,22 @@ public class Debugger extends AnnotationVisitor {
                 return type(((OperandEnclose) operand).value) + " in Enclose";
             } else if (operand instanceof OperandAmbiguousZeroOneTernary) {
                 return "TernaryCondition";
+            } else if (operand instanceof OperandAssign) {
+                return "Assign";
+            } else if (operand instanceof OperandBinary) {
+                return "Binary";
+            } else if (operand instanceof OperandUnary) {
+                return "Unary";
+            } else if (operand instanceof OperandThis) {
+                return "This";
+            } else if (operand instanceof OperandFieldAccess) {
+                return "FieldAccess";
+            } else if (operand instanceof OperandType) {
+                return "Type";
+            } else if (operand instanceof OperandClass) {
+                return "Class";
+            } else if (operand instanceof OperandBoolean) {
+                return "Boolean";
             }
             return "";
         }

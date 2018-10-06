@@ -131,14 +131,14 @@ class OperandExpression extends Operand {
     /**
      * @version 2018/10/04 20:09:04
      */
-    static class StatementExpression extends Expression {
+    public static class StatementExpression extends Expression {
 
         final Statement statement;
 
         /**
          * @param statement
          */
-        private StatementExpression(Statement statement) {
+        public StatementExpression(Statement statement) {
             this.statement = statement;
         }
 

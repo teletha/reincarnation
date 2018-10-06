@@ -43,7 +43,9 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.SimpleName;
+import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -943,7 +945,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                     operand = operand.cast(boolean.class);
                 }
             }
-            current.addOperand(new ReturnStmt(operand.build()));
+            current.addOperand(new OperandReturn(operand));
             current.destination = Termination;
             break;
 
@@ -951,7 +953,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         case LRETURN:
         case FRETURN:
         case DRETURN:
-            current.addOperand(new ReturnStmt(current.remove(match(DUP, JUMP, ARETURN) ? 1 : 0).build()));
+            current.addOperand(new OperandReturn(current.remove(match(DUP, JUMP, ARETURN) ? 1 : 0)));
             current.destination = Termination;
             break;
 
@@ -2088,7 +2090,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             }
 
             // Compute local variable name
-            return locals.computeIfAbsent(order, key -> new LocalVariable(key, load(opcode), false)).use();
+            return locals.computeIfAbsent(order, key -> new LocalVariable(key, load(opcode), false));
         }
 
         /**
@@ -2180,11 +2182,10 @@ class JavaMethodDecompiler extends MethodVisitor {
         }
 
         /**
-         * Aquire local variable model.
-         * 
-         * @return
+         * {@inheritDoc}
          */
-        private Operand use() {
+        @Override
+        Expression build() {
             if (initialized == false) {
                 initialized = true;
 
@@ -2198,10 +2199,18 @@ class JavaMethodDecompiler extends MethodVisitor {
                     t = Util.loadType(type);
                 }
 
-                return new OperandVariableDeclaration(new VariableDeclarator(t, name));
+                return new VariableDeclarationExpr(new VariableDeclarator(t, name));
             } else {
-                return new OperandName(name);
+                return new NameExpr(name);
             }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String toString() {
+            return name.toString();
         }
     }
 

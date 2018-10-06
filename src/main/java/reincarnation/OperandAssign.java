@@ -54,6 +54,14 @@ public class OperandAssign extends Operand {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return build().toString();
+    }
+
+    /**
      * @version 2018/10/07 1:24:48
      */
     public enum AssignOperation {

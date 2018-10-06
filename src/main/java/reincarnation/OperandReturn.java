@@ -9,9 +9,31 @@
  */
 package reincarnation;
 
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.stmt.ReturnStmt;
+
+import reincarnation.OperandExpression.StatementExpression;
+
 /**
  * @version 2018/10/03 16:15:40
  */
-public class OperandReturn {
+public class OperandReturn extends Operand {
 
+    /** The statement. */
+    private final Operand statement;
+
+    /**
+     * @param statement
+     */
+    public OperandReturn(Operand statement) {
+        this.statement = statement;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    Expression build() {
+        return new StatementExpression(new ReturnStmt(statement.build()));
+    }
 }
