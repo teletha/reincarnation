@@ -15,6 +15,9 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.UnaryExpr;
 import com.github.javaparser.ast.expr.UnaryExpr.Operator;
 
+import kiss.I;
+import kiss.Signal;
+
 /**
  * Binary operation expression.
  * 
@@ -52,8 +55,23 @@ public class OperandUnary extends Operand {
      * {@inheritDoc}
      */
     @Override
+    protected Signal<Operand> children() {
+        return I.signal(value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String toString() {
-        return build().toString();
+        switch (operator) {
+        case POST_DECREMENT:
+        case POST_INCREMENT:
+            return value.toString() + operator;
+
+        default:
+            return operator.toString() + value;
+        }
     }
 
     /**

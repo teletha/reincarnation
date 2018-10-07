@@ -630,6 +630,8 @@ public class Debugger extends AnnotationVisitor {
                 return "Class";
             } else if (operand instanceof OperandBoolean) {
                 return "Boolean";
+            } else if (operand instanceof OperandReturn) {
+                return "Return";
             }
             return "";
         }

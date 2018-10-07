@@ -12,6 +12,7 @@ package reincarnation;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.ThisExpr;
+import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 
 /**
  * @version 2018/10/07 3:46:54
@@ -21,8 +22,8 @@ public class OperandLocalVariable extends Operand {
     /** The variable name. */
     String name;
 
-    /** The variable model. */
-    Class type;
+    /** Check whether this local variable is declared or not. */
+    boolean declared;
 
     /**
      * Create local variable with index.
@@ -42,7 +43,12 @@ public class OperandLocalVariable extends Operand {
         if (name.equals("this")) {
             return new ThisExpr();
         } else {
-            return new NameExpr(name);
+            if (declared == false) {
+                declared = true;
+                return new VariableDeclarationExpr(Util.loadType(type), name);
+            } else {
+                return new NameExpr(name);
+            }
         }
     }
 

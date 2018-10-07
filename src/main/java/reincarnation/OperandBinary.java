@@ -15,6 +15,9 @@ import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.BinaryExpr.Operator;
 import com.github.javaparser.ast.expr.Expression;
 
+import kiss.I;
+import kiss.Signal;
+
 /**
  * Binary operation expression.
  * 
@@ -51,6 +54,22 @@ public class OperandBinary extends Operand {
     @Override
     Expression build() {
         return new BinaryExpr(left.build(), right.build(), operator.op);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Signal<Operand> children() {
+        return I.signal(left, right);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return left + " " + operator + " " + right;
     }
 
     /**

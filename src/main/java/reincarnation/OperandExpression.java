@@ -14,6 +14,9 @@ import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.visitor.GenericVisitor;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 
+import kiss.I;
+import kiss.Signal;
+
 /**
  * @version 2018/10/05 19:36:56
  */
@@ -100,6 +103,18 @@ class OperandExpression extends Operand {
             return new OperandExpression("String.fromCharCode(" + this + ")", type);
         }
         return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Signal<Operand> children() {
+        if (expression instanceof Operand) {
+            return I.signal((Operand) expression);
+        } else {
+            return Signal.empty();
+        }
     }
 
     /**

@@ -315,6 +315,8 @@ class JavaMethodDecompiler extends MethodVisitor {
             CallableDeclaration declaration = (CallableDeclaration) root;
 
             for (int i = 0; i < parameterTypes.length; i++) {
+                variables.name(i + 1).declared = true;
+
                 Parameter param = new Parameter();
                 param.setType(load(parameterTypes[i]));
                 param.setName(variables.name(i + 1).toString());
@@ -322,8 +324,8 @@ class JavaMethodDecompiler extends MethodVisitor {
             }
         }
 
-        // local variable
-        System.out.println(variables.locals);
+        Debugger.enable();
+        Debugger.print(nodes);
 
         BlockStmt body = new BlockStmt();
         nodes.get(0).build(body);

@@ -131,4 +131,29 @@ abstract class Operand {
         // wrapped error in here.
         throw new Error();
     }
+
+    /**
+     * Find all typed {@link Operand}s.
+     * 
+     * @param type
+     * @return
+     */
+    public final <T extends Operand> Signal<T> find(Class<T> type) {
+        if (type == getClass()) {
+            return I.signal((T) this);
+        } else {
+            return children().flatMap(o -> o.find(type));
+        }
+    }
+
+    /**
+     * Collect all child {@link Operand}s.
+     * 
+     * @return
+     */
+    protected Signal<Operand> children() {
+        // If this exception will be thrown, it is bug of this program. So we must rethrow the
+        // wrapped error in here.
+        throw new Error("Implemetn #children at " + getClass().getName());
+    }
 }

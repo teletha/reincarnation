@@ -12,6 +12,8 @@ package reincarnation;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 
+import kiss.I;
+import kiss.Signal;
 import reincarnation.OperandExpression.StatementExpression;
 
 /**
@@ -35,5 +37,21 @@ public class OperandReturn extends Operand {
     @Override
     Expression build() {
         return new StatementExpression(new ReturnStmt(statement.build()));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Signal<Operand> children() {
+        return I.signal(statement);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "return " + statement;
     }
 }

@@ -21,6 +21,7 @@ import org.objectweb.asm.Type;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.ast.type.PrimitiveType;
 
 /**
  * @version 2018/10/04 8:31:09
@@ -220,7 +221,31 @@ public class Util {
      * @param internalName
      * @return
      */
-    static ClassOrInterfaceType loadType(Class type) {
+    static com.github.javaparser.ast.type.Type loadType(Class type) {
+        if (type == int.class) {
+            return PrimitiveType.intType();
+        }
+        if (type == long.class) {
+            return PrimitiveType.longType();
+        }
+        if (type == float.class) {
+            return PrimitiveType.floatType();
+        }
+        if (type == double.class) {
+            return PrimitiveType.doubleType();
+        }
+        if (type == char.class) {
+            return PrimitiveType.charType();
+        }
+        if (type == byte.class) {
+            return PrimitiveType.byteType();
+        }
+        if (type == short.class) {
+            return PrimitiveType.shortType();
+        }
+        if (type == boolean.class) {
+            return PrimitiveType.booleanType();
+        }
         return JavaParser.parseClassOrInterfaceType(type.getCanonicalName());
     }
 

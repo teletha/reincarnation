@@ -14,6 +14,9 @@ import com.github.javaparser.ast.expr.BinaryExpr.Operator;
 import com.github.javaparser.ast.expr.EnclosedExpr;
 import com.github.javaparser.ast.expr.Expression;
 
+import kiss.I;
+import kiss.Signal;
+
 /**
  * <h1>Algorithm for restoration of logical expression</h1>
  * <p>
@@ -172,6 +175,14 @@ class OperandCondition extends Operand {
         group = false;
 
         return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Signal<Operand> children() {
+        return I.signal(left, right);
     }
 
     /**

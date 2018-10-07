@@ -15,6 +15,9 @@ import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.AssignExpr.Operator;
 import com.github.javaparser.ast.expr.Expression;
 
+import kiss.I;
+import kiss.Signal;
+
 /**
  * Binary operation expression.
  * 
@@ -57,8 +60,16 @@ public class OperandAssign extends Operand {
      * {@inheritDoc}
      */
     @Override
+    protected Signal<Operand> children() {
+        return I.signal(left, right);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String toString() {
-        return build().toString();
+        return left + " " + operator + " " + right;
     }
 
     /**

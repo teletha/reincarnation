@@ -12,6 +12,9 @@ package reincarnation;
 import com.github.javaparser.ast.expr.EnclosedExpr;
 import com.github.javaparser.ast.expr.Expression;
 
+import kiss.I;
+import kiss.Signal;
+
 /**
  * @version 2018/10/05 19:36:22
  */
@@ -59,6 +62,14 @@ class OperandEnclose extends Operand {
     @Override
     Operand disclose() {
         return value;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Signal<Operand> children() {
+        return I.signal(value);
     }
 
     /**

@@ -14,6 +14,9 @@ import java.util.Objects;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 
+import kiss.I;
+import kiss.Signal;
+
 /**
  * @version 2018/10/07 1:46:47
  */
@@ -42,5 +45,13 @@ public class OperandFieldAccess extends Operand {
     @Override
     Expression build() {
         return new FieldAccessExpr(field.build(), name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Signal<Operand> children() {
+        return I.signal(field);
     }
 }
