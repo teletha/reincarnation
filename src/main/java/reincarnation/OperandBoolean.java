@@ -17,6 +17,12 @@ import com.github.javaparser.ast.expr.Expression;
  */
 class OperandBoolean extends Operand {
 
+    /** The reusable boolean. */
+    public static final OperandBoolean True = new OperandBoolean(true);
+
+    /** The reusable boolean. */
+    public static final OperandBoolean False = new OperandBoolean(false);
+
     /** The actual value. */
     private final boolean value;
 

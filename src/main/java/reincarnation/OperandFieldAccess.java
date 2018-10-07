@@ -54,4 +54,12 @@ public class OperandFieldAccess extends Operand {
     protected Signal<Operand> children() {
         return I.signal(field);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return field + "." + name;
+    }
 }

@@ -21,6 +21,9 @@ import reincarnation.OperandExpression.StatementExpression;
  */
 public class OperandReturn extends Operand {
 
+    /** The empty return for reuse. */
+    public static final OperandReturn Empty = new OperandReturn(null);
+
     /** The statement. */
     private final Operand statement;
 
@@ -36,7 +39,7 @@ public class OperandReturn extends Operand {
      */
     @Override
     Expression build() {
-        return new StatementExpression(new ReturnStmt(statement.build()));
+        return new StatementExpression(statement == null ? new ReturnStmt() : new ReturnStmt(statement.build()));
     }
 
     /**
@@ -44,7 +47,7 @@ public class OperandReturn extends Operand {
      */
     @Override
     protected Signal<Operand> children() {
-        return I.signal(statement);
+        return statement == null ? Signal.empty() : I.signal(statement);
     }
 
     /**
@@ -52,6 +55,6 @@ public class OperandReturn extends Operand {
      */
     @Override
     public String toString() {
-        return "return " + statement;
+        return statement == null ? "return" : "return " + statement;
     }
 }

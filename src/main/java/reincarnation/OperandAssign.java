@@ -32,7 +32,7 @@ public class OperandAssign extends Operand {
     private final Operand right;
 
     /** The operator. */
-    private final AssignOperation operator;
+    private final AssignOperator operator;
 
     /**
      * Create binary operation.
@@ -41,7 +41,7 @@ public class OperandAssign extends Operand {
      * @param operator A operator.
      * @param right A right value.
      */
-    public OperandAssign(Operand left, AssignOperation operator, Operand right) {
+    public OperandAssign(Operand left, AssignOperator operator, Operand right) {
         this.left = Objects.requireNonNull(left);
         this.right = Objects.requireNonNull(right);
         this.operator = Objects.requireNonNull(operator);
@@ -75,7 +75,7 @@ public class OperandAssign extends Operand {
     /**
      * @version 2018/10/07 1:24:48
      */
-    public enum AssignOperation {
+    public enum AssignOperator {
         /** = */
         ASSIGN("=", Operator.ASSIGN),
 
@@ -121,7 +121,7 @@ public class OperandAssign extends Operand {
         /**
          * @param operator
          */
-        private AssignOperation(String operator, Operator op) {
+        private AssignOperator(String operator, Operator op) {
             this.operator = operator;
             this.op = op;
         }

@@ -20,12 +20,11 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
@@ -34,22 +33,13 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.BodyDeclaration;
-import com.github.javaparser.ast.body.CallableDeclaration;
-import com.github.javaparser.ast.body.ConstructorDeclaration;
-import com.github.javaparser.ast.body.InitializerDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ReturnStmt;
-import com.github.javaparser.ast.stmt.Statement;
 
 import kiss.I;
 import reincarnation.Node.Switch;
 import reincarnation.Node.TryCatchFinallyBlocks;
-import reincarnation.OperandAssign.AssignOperation;
+import reincarnation.OperandAssign.AssignOperator;
 import reincarnation.OperandBinary.BinaryOperator;
 import reincarnation.OperandUnary.UnaryOperator;
 
@@ -194,13 +184,16 @@ class JavaMethodDecompiler extends MethodVisitor {
     private final TryCatchFinallyBlocks tries = new TryCatchFinallyBlocks();
 
     /** The method body. */
-    private final BodyDeclaration<?> root;
+    private final BlockStmt root;
+
+    /** The parameters. */
+    private final List<Parameter> params;
 
     /** The current processing node. */
     private Node current = null;
 
     /** The all node list for this method. */
-    private List<Node> nodes = new CopyOnWriteArrayList();
+    private LinkedList<Node> nodes = new LinkedList();
 
     /** The counter for the current processing node identifier. */
     private int counter = 0;
@@ -255,11 +248,12 @@ class JavaMethodDecompiler extends MethodVisitor {
      * @param root
      * @param api
      */
-    JavaMethodDecompiler(Class clazz, BodyDeclaration<?> root, String name, String description, boolean isStatic) {
+    JavaMethodDecompiler(Class clazz, BlockStmt root, List<Parameter> params, String name, String description, boolean isStatic) {
         super(ASM7);
 
         this.clazz = clazz;
         this.root = Objects.requireNonNull(root);
+        this.params = Objects.requireNonNull(params);
         this.methodName = name;
         this.returnType = Type.getReturnType(description);
         this.parameterTypes = Type.getArgumentTypes(description);
@@ -308,55 +302,31 @@ class JavaMethodDecompiler extends MethodVisitor {
      */
     @Override
     public void visitEnd() {
-        Debugger.print(nodes);
-
-        // build parameters
-        if (root instanceof CallableDeclaration) {
-            CallableDeclaration declaration = (CallableDeclaration) root;
-
-            for (int i = 0; i < parameterTypes.length; i++) {
-                variables.name(i + 1).declared = true;
-
-                Parameter param = new Parameter();
-                param.setType(load(parameterTypes[i]));
-                param.setName(variables.name(i + 1).toString());
-                declaration.addParameter(param);
-            }
-        }
-
         Debugger.enable();
         Debugger.print(nodes);
 
-        BlockStmt body = new BlockStmt();
-        nodes.get(0).build(body);
-
-        if (root instanceof MethodDeclaration) {
-            ((MethodDeclaration) root).setBody(body);
-        } else if (root instanceof ConstructorDeclaration) {
-            ((ConstructorDeclaration) root).setBody(body);
-        } else if (root instanceof InitializerDeclaration) {
-            ((InitializerDeclaration) root).setBody(body);
+        // build parameters
+        for (int i = 0; i < params.size(); i++) {
+            variables.name(i + 1).declared = true;
+            params.get(i).setName(variables.name(i + 1).toString());
         }
 
         // optimize
-        removeLastEmptyReturn(body);
+        removeLastEmptyReturn();
+
+        nodes.get(0).build(root);
     }
 
     /**
-     * Remove {@link ReturnStmt} if it is empty at last.
-     * 
-     * @param block
+     * Remove {@link OperandReturn} if it is empty at last.
      */
-    private void removeLastEmptyReturn(BlockStmt block) {
-        NodeList<Statement> statements = block.getStatements();
-        Statement last = statements.get(statements.size() - 1);
+    private void removeLastEmptyReturn() {
+        Node lastNode = nodes.peekLast();
+        Operand lastOperand = lastNode.peek(0);
+        System.out.println(lastNode);
 
-        if (last.isReturnStmt()) {
-            Optional<Expression> e = last.asReturnStmt().getExpression();
-
-            if (e.isEmpty()) {
-                statements.removeLast();
-            }
+        if (lastOperand == OperandReturn.Empty) {
+            lastNode.remove(0);
         }
     }
 
@@ -412,7 +382,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             } else {
                 Operand filed = new OperandFieldAccess(current.remove(1), name);
                 Operand value = current.remove(0).cast(type);
-                OperandAssign assign = new OperandAssign(filed, AssignOperation.ASSIGN, value);
+                OperandAssign assign = new OperandAssign(filed, AssignOperator.ASSIGN, value);
 
                 if (match(DUPLICATE_AWAY, PUTFIELD)) {
                     // multiple assignment (i.e. this.a = this.b = 0;)
@@ -451,7 +421,7 @@ class JavaMethodDecompiler extends MethodVisitor {
 
                 current.addOperand(increment(accessClassField(owner, name), type, false, false));
             } else {
-                OperandAssign assign = new OperandAssign(accessClassField(owner, name), AssignOperation.ASSIGN, current.remove(0)
+                OperandAssign assign = new OperandAssign(accessClassField(owner, name), AssignOperator.ASSIGN, current.remove(0)
                         .cast(type));
 
                 if (match(DUPLICATE, PUTSTATIC)) {
@@ -668,7 +638,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                 current.addExpression(new OperandUnary(variable, UnaryOperator.PRE_DECREMENT));
             }
         } else {
-            current.addExpression(new OperandAssign(variable, AssignOperation.ASSIGN, new OperandAssign(variable, AssignOperation.PLUS, new OperandNumber(increment))));
+            current.addExpression(new OperandAssign(variable, AssignOperator.ASSIGN, new OperandAssign(variable, AssignOperator.PLUS, new OperandNumber(increment))));
         }
     }
 
@@ -903,7 +873,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             break;
 
         case RETURN:
-            current.addExpression(new ReturnStmt());
+            current.addExpression(OperandReturn.Empty);
             current.destination = Termination;
             break;
 
@@ -937,9 +907,9 @@ class JavaMethodDecompiler extends MethodVisitor {
 
             if (returnType == BOOLEAN_TYPE) {
                 if (operand.toString().equals("0")) {
-                    operand = Operand.False;
+                    operand = OperandBoolean.False;
                 } else if (operand.toString().equals("1")) {
-                    operand = Operand.True;
+                    operand = OperandBoolean.True;
                 } else if (operand instanceof OperandAmbiguousZeroOneTernary) {
                     operand = operand.cast(boolean.class);
                 }
@@ -1522,7 +1492,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                     InferredType type = variables.type(position);
                     type.type(operand.infer().type());
 
-                    OperandAssign assign = new OperandAssign(variable, AssignOperation.ASSIGN, operand);
+                    OperandAssign assign = new OperandAssign(variable, AssignOperator.ASSIGN, operand);
 
                     if (!operand.duplicated) {
                         current.addExpression(assign);
