@@ -18,11 +18,9 @@ import static reincarnation.Util.*;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -257,7 +255,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         this.methodName = name;
         this.returnType = Type.getReturnType(description);
         this.parameterTypes = Type.getArgumentTypes(description);
-        this.variables = new LocalVariables(isStatic, parameterTypes);
+        this.variables = new LocalVariables(clazz, isStatic, parameterTypes);
 
         Debugger.recordMethodName(name);
     }
@@ -1981,130 +1979,6 @@ class JavaMethodDecompiler extends MethodVisitor {
             return Modifier.isStatic(method.getModifiers());
         } catch (NoSuchMethodException e) {
             return false;
-        }
-    }
-
-    /**
-     * Manage local variables.
-     * 
-     * @version 2018/10/04 12:53:34
-     */
-    private class LocalVariables {
-
-        /** The current processing method is static or not. */
-        private final boolean isStatic;
-
-        /** The parameter size. */
-        private final int parameterSize;
-
-        /** The max size of variables. */
-        private int max = 0;
-
-        /** The ignorable variable index. */
-        private final List<Integer> ignores = new ArrayList();
-
-        /** The local variable manager. */
-        private final Map<Integer, OperandLocalVariable> locals = new HashMap();
-
-        /**
-         * @param isStatic
-         */
-        private LocalVariables(boolean isStatic, Type[] parameterTypes) {
-            this.isStatic = isStatic;
-            this.parameterSize = parameterTypes.length;
-
-            for (int i = 0; i < parameterTypes.length; i++) {
-                locals.put(i, new OperandLocalVariable(load(parameterTypes[i]), "local" + i));
-            }
-        }
-
-        /**
-         * <p>
-         * Compute the identified qualified local variable name for ECMAScript.
-         * </p>
-         * 
-         * @param order An order by which this variable was declared.
-         * @return An identified local variable name for ECMAScript.
-         */
-        private OperandLocalVariable name(int order) {
-            return name(order, 0);
-        }
-
-        /**
-         * <p>
-         * Compute the identified qualified local variable name for ECMAScript.
-         * </p>
-         * 
-         * @param order An order by which this variable was declared.
-         * @return An identified local variable name for ECMAScript.
-         */
-        private OperandLocalVariable name(int order, int opcode) {
-            // ignore long or double second index
-            switch (opcode) {
-            case LLOAD:
-            case LSTORE:
-            case DLOAD:
-            case DSTORE:
-                ignores.add(order + 1);
-                break;
-            }
-
-            // order 0 means "this", but static method doesn't have "this" variable
-            if (!isStatic) {
-                order--;
-            }
-
-            if (order == -1) {
-                return new OperandLocalVariable(clazz, "this");
-            }
-
-            // Compute local variable name
-            return locals.computeIfAbsent(order, key -> new OperandLocalVariable(load(opcode), "local" + key));
-        }
-
-        /**
-         * Rename local variable.
-         * 
-         * @param index
-         * @param name
-         */
-        private void name(int index, String name) {
-            if (!isStatic) {
-                index--;
-            }
-
-            OperandLocalVariable local = locals.get(index);
-
-            if (local != null) {
-                local.name = name;
-            }
-        }
-
-        /**
-         * <p>
-         * Find {@link InferredType} for the specified position.
-         * </p>
-         * 
-         * @param position
-         * @return
-         */
-        private InferredType type(int position) {
-            // order 0 means "this", but static method doesn't have "this" variable
-            if (!isStatic) {
-                position--;
-            }
-
-            if (position == -1) {
-                return new InferredType(clazz);
-            }
-
-            OperandLocalVariable local = locals.get(position);
-
-            if (local == null) {
-                return new InferredType();
-            } else {
-                return new InferredType(local.type);
-            }
         }
     }
 
