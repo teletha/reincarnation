@@ -11,6 +11,7 @@ package reincarnation;
 
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NameExpr;
+import com.github.javaparser.ast.expr.ThisExpr;
 
 /**
  * @version 2018/10/07 3:46:54
@@ -28,8 +29,8 @@ public class OperandLocalVariable extends Operand {
      * 
      * @param index A local index.
      */
-    OperandLocalVariable(int index, Class type) {
-        this.name = "local" + index;
+    OperandLocalVariable(Class type, String name) {
+        this.name = name;
         this.type = type;
     }
 
@@ -38,7 +39,11 @@ public class OperandLocalVariable extends Operand {
      */
     @Override
     Expression build() {
-        return new NameExpr(name);
+        if (name.equals("this")) {
+            return new ThisExpr();
+        } else {
+            return new NameExpr(name);
+        }
     }
 
     /**

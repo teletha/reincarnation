@@ -622,8 +622,6 @@ public class Debugger extends AnnotationVisitor {
                 return "Binary";
             } else if (operand instanceof OperandUnary) {
                 return "Unary";
-            } else if (operand instanceof OperandThis) {
-                return "This";
             } else if (operand instanceof OperandFieldAccess) {
                 return "FieldAccess";
             } else if (operand instanceof OperandType) {

@@ -322,6 +322,9 @@ class JavaMethodDecompiler extends MethodVisitor {
             }
         }
 
+        // local variable
+        System.out.println(variables.locals);
+
         BlockStmt body = new BlockStmt();
         nodes.get(0).build(body);
 
@@ -643,7 +646,6 @@ class JavaMethodDecompiler extends MethodVisitor {
 
         // retrieve the local variable name
         Operand variable = variables.name(position);
-        InferredType type = variables.type(position);
 
         if (increment == 1) {
             // increment
@@ -2040,7 +2042,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             this.parameterSize = parameterTypes.length;
 
             for (int i = 0; i < parameterTypes.length; i++) {
-                locals.put(i, new OperandLocalVariable(i, load(parameterTypes[i])));
+                locals.put(i, new OperandLocalVariable(load(parameterTypes[i]), "local" + i));
             }
         }
 
@@ -2052,7 +2054,7 @@ class JavaMethodDecompiler extends MethodVisitor {
          * @param order An order by which this variable was declared.
          * @return An identified local variable name for ECMAScript.
          */
-        private Operand name(int order) {
+        private OperandLocalVariable name(int order) {
             return name(order, 0);
         }
 
@@ -2064,7 +2066,7 @@ class JavaMethodDecompiler extends MethodVisitor {
          * @param order An order by which this variable was declared.
          * @return An identified local variable name for ECMAScript.
          */
-        private Operand name(int order, int opcode) {
+        private OperandLocalVariable name(int order, int opcode) {
             // ignore long or double second index
             switch (opcode) {
             case LLOAD:
@@ -2081,11 +2083,11 @@ class JavaMethodDecompiler extends MethodVisitor {
             }
 
             if (order == -1) {
-                return new OperandThis();
+                return new OperandLocalVariable(clazz, "this");
             }
 
             // Compute local variable name
-            return locals.computeIfAbsent(order, key -> new OperandLocalVariable(key, load(opcode)));
+            return locals.computeIfAbsent(order, key -> new OperandLocalVariable(load(opcode), "local" + key));
         }
 
         /**
@@ -2104,22 +2106,6 @@ class JavaMethodDecompiler extends MethodVisitor {
             if (local != null) {
                 local.name = name;
             }
-        }
-
-        /**
-         * List up all valid variable names.
-         * 
-         * @return
-         */
-        private List<Operand> names() {
-            List<Operand> names = new ArrayList();
-
-            for (int i = isStatic ? 0 : 1; i < max; i++) {
-                if (!ignores.contains(i)) {
-                    names.add(name(i));
-                }
-            }
-            return names;
         }
 
         /**
