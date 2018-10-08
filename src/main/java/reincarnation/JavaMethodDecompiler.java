@@ -240,8 +240,6 @@ class JavaMethodDecompiler extends MethodVisitor {
     /** The flag whether the next new instruction is used for assert statement or not. */
     private boolean assertNew = false;
 
-    private int parameterIndex;
-
     /**
      * @param root
      * @param api
@@ -256,7 +254,6 @@ class JavaMethodDecompiler extends MethodVisitor {
         this.returnType = Type.getReturnType(description);
         this.parameterTypes = Type.getArgumentTypes(description);
         this.variables = params;
-        this.parameterIndex = params.isStatic ? 0 : 1;
 
         Debugger.recordMethodName(name);
     }
@@ -1419,7 +1416,7 @@ class JavaMethodDecompiler extends MethodVisitor {
      */
     @Override
     public void visitParameter(String name, int access) {
-        variables.name(parameterIndex++, name);
+        variables.updateParameterInfo(name, access);
     }
 
     /**

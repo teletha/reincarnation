@@ -88,7 +88,7 @@ class JavaClassDecompiler extends ClassVisitor {
             name = clazz.getSimpleName();
 
             ConstructorDeclaration constructor = root.addConstructor(modifiers(access));
-            constructor.setParameters(locals.build());
+            constructor.setParameters(locals.parameters);
 
             block = constructor.getBody();
         } else if (name.equals("<clinit>")) {
@@ -99,7 +99,7 @@ class JavaClassDecompiler extends ClassVisitor {
             block = initializer.getBody();
         } else {
             MethodDeclaration method = root.addMethod(name, modifiers(access)).setType(load(returnType));
-            method.setParameters(locals.build());
+            method.setParameters(locals.parameters);
 
             block = method.getBody().get();
         }

@@ -32,10 +32,8 @@ class LocalVariables {
     /** The this type. */
     private final Class clazz;
 
-    public final boolean isStatic;
-
-    /** The parameter size. */
-    private int size = 0;
+    /**  */
+    private final int offset;
 
     /** The ignorable variable index. */
     private final List<Integer> ignores = new ArrayList();
@@ -43,24 +41,28 @@ class LocalVariables {
     /** The local variable manager. */
     private final Map<Integer, OperandLocalVariable> locals = new HashMap();
 
+    /** The parameter manager. */
+    final NodeList<Parameter> parameters = new NodeList();
+
     /**
      * @param clazz
      * @param isStatic
-     * @param parameterTypes
+     * @param types
      */
-    LocalVariables(Class clazz, boolean isStatic, Type[] parameterTypes) {
+    LocalVariables(Class clazz, boolean isStatic, Type[] types) {
         this.clazz = clazz;
-        this.isStatic = isStatic;
+        this.offset = isStatic ? 0 : 1;
 
         if (isStatic == false) {
             locals.put(0, new OperandLocalVariable(clazz, "this"));
         }
 
-        for (int i = 0; i < parameterTypes.length; i++) {
-            OperandLocalVariable param = new OperandLocalVariable(Util.load(parameterTypes[i]), "param" + i);
-            param.declared = true;
+        for (int i = 0; i < types.length; i++) {
+            OperandLocalVariable local = new OperandLocalVariable(Util.load(types[i]), "param" + i);
+            local.declared = true;
 
-            locals.put(isStatic ? i : i + 1, param);
+            locals.put(i + offset, local);
+            parameters.add(new Parameter(Util.loadType(local.type), local.name));
         }
     }
 
@@ -135,20 +137,18 @@ class LocalVariables {
         }
     }
 
+    /** The number of update calling sequencially. */
+    private int sequencialUpdateCount;
+
     /**
-     * Build as {@link Parameter} list.
+     * Update parameter info.
      * 
-     * @return
+     * @param name A parameter name.
+     * @param access A parameter modifier.
      */
-    public NodeList<Parameter> build() {
-        NodeList<Parameter> params = new NodeList();
+    void updateParameterInfo(String name, int access) {
+        OperandLocalVariable local = locals.get(sequencialUpdateCount++ + offset);
 
-        for (OperandLocalVariable variable : locals.values()) {
-            if (!variable.name.getId().equals("this")) {
-                params.add(new Parameter(Util.loadType(variable.type), variable.name));
-            }
-        }
-
-        return params;
+        local.name.setId(name);
     }
 }
