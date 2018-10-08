@@ -20,7 +20,6 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Objects;
 import java.util.Set;
 
 import org.objectweb.asm.AnnotationVisitor;
@@ -40,7 +39,7 @@ import reincarnation.OperandBinary.BinaryOperator;
 import reincarnation.OperandUnary.UnaryOperator;
 
 /**
- * @version 2018/10/04 8:47:28
+ * @version 2018/10/08 12:56:11
  */
 class JavaMethodDecompiler extends MethodVisitor {
 
@@ -164,26 +163,17 @@ class JavaMethodDecompiler extends MethodVisitor {
     /** The current processing class. */
     private final Class clazz;
 
-    /** The current processing method name. */
-    private final String methodName;
-
     /** The method return type. */
     private final Type returnType;
 
-    /** The method return type. */
-    private final Type[] parameterTypes;
-
     /** The local variable manager. */
-    private final LocalVariables variables;
+    private final LocalVariables locals;
 
     /** The pool of try-catch-finally blocks. */
     private final TryCatchFinallyBlocks tries = new TryCatchFinallyBlocks();
 
     /** The method body. */
     private final BlockStmt root;
-
-    /** The parameters. */
-    private final LocalVariables params;
 
     /** The current processing node. */
     private Node current = null;
@@ -241,19 +231,18 @@ class JavaMethodDecompiler extends MethodVisitor {
     private boolean assertNew = false;
 
     /**
+     * @param clazz
      * @param root
-     * @param api
+     * @param locals
+     * @param returns
      */
-    JavaMethodDecompiler(Class clazz, BlockStmt root, LocalVariables params, String name, String description, boolean isStatic) {
+    JavaMethodDecompiler(String name, Class clazz, BlockStmt root, LocalVariables locals, Type returns) {
         super(ASM7);
 
         this.clazz = clazz;
-        this.root = Objects.requireNonNull(root);
-        this.params = Objects.requireNonNull(params);
-        this.methodName = name;
-        this.returnType = Type.getReturnType(description);
-        this.parameterTypes = Type.getArgumentTypes(description);
-        this.variables = params;
+        this.root = root;
+        this.returnType = returns;
+        this.locals = locals;
 
         Debugger.recordMethodName(name);
     }
@@ -605,7 +594,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         record(INCREMENT);
 
         // retrieve the local variable name
-        Operand variable = variables.name(position);
+        Operand variable = locals.name(position);
 
         if (increment == 1) {
             // increment
@@ -1286,7 +1275,7 @@ class JavaMethodDecompiler extends MethodVisitor {
      */
     @Override
     public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
-        variables.name(index, name);
+        locals.name(index, name);
     }
 
     /**
@@ -1416,7 +1405,7 @@ class JavaMethodDecompiler extends MethodVisitor {
      */
     @Override
     public void visitParameter(String name, int access) {
-        variables.updateParameterInfo(name, access);
+        locals.updateParameterInfo(name, access);
     }
 
     /**
@@ -1428,7 +1417,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         record(opcode);
 
         // retrieve local variable name
-        Operand variable = variables.name(position, opcode);
+        Operand variable = locals.name(position, opcode);
 
         switch (opcode) {
         case ILOAD:
@@ -1445,7 +1434,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             }
 
         case ALOAD:
-            current.addOperand(new OperandExpression(variable, variables.type(position)));
+            current.addOperand(new OperandExpression(variable, locals.type(position)));
             break;
 
         case ASTORE:
@@ -1485,7 +1474,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                     }
 
                     // infer local variable type
-                    InferredType type = variables.type(position);
+                    InferredType type = locals.type(position);
                     type.type(operand.infer().type());
 
                     OperandAssign assign = new OperandAssign(variable, AssignOperator.ASSIGN, operand);

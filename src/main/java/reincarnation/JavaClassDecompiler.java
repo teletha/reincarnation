@@ -104,7 +104,7 @@ class JavaClassDecompiler extends ClassVisitor {
             block = method.getBody().get();
         }
 
-        return new JavaMethodDecompiler(clazz, block, locals, name, desc, isStatic);
+        return new JavaMethodDecompiler(name, clazz, block, locals, returnType);
     }
 
     /**
