@@ -13,26 +13,18 @@ import com.github.javaparser.ast.expr.Expression;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.Variable;
 
 /**
  * @version 2018/10/05 19:36:25
  */
 abstract class Operand {
 
-    protected Class type;
+    /** The infered type. */
+    protected Variable<Class> type = Variable.of(Object.class);
 
     /** The flag for operand duplication. */
     boolean duplicated = false;
-
-    /**
-     * Process if this {@link Operand} is instance of the specified type.
-     * 
-     * @param type
-     * @return
-     */
-    public final <T extends Operand> Signal<T> as(Class<T> type) {
-        return I.signal(this).as(type);
-    }
 
     /**
      * @param type
@@ -110,7 +102,7 @@ abstract class Operand {
      * @return
      */
     InferredType infer() {
-        return new InferredType(type);
+        return new InferredType(type.v);
     }
 
     /**

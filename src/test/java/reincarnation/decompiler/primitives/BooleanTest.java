@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/06 1:06:47
@@ -57,6 +58,7 @@ class BooleanTest extends CodeVerifier {
     void negateInVariable() {
         verify(new Code.BooleanParam() {
 
+            @Debuggable
             @Override
             public boolean run(boolean value) {
                 value = !value;

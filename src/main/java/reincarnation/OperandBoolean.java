@@ -33,7 +33,7 @@ class OperandBoolean extends Operand {
      */
     OperandBoolean(boolean value) {
         this.value = value;
-        this.type = boolean.class;
+        type.set(boolean.class);
     }
 
     /**

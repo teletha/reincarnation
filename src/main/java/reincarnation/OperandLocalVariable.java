@@ -33,7 +33,7 @@ public class OperandLocalVariable extends Operand {
      */
     OperandLocalVariable(Class type, String name) {
         this.name.setId(name);
-        this.type = type;
+        this.type.set(type);
     }
 
     /**
@@ -46,7 +46,7 @@ public class OperandLocalVariable extends Operand {
         } else {
             if (declared == false) {
                 declared = true;
-                return new VariableDeclarationExpr(Util.loadType(type), name.getId());
+                return new VariableDeclarationExpr(Util.loadType(type.v), name.getId());
             } else {
                 return new NameExpr(name);
             }

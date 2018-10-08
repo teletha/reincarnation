@@ -40,7 +40,7 @@ public class OperandUnary extends Operand {
     public OperandUnary(Operand value, UnaryOperator operator) {
         this.value = Objects.requireNonNull(value);
         this.operator = Objects.requireNonNull(operator);
-        type = value.infer().type();
+        this.type.set(value.infer().type());
     }
 
     /**

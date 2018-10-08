@@ -27,7 +27,7 @@ public class OperandType extends Operand {
      */
     OperandType(Class value) {
         this.value = value;
-        this.type = Class.class;
+        this.type.set(Class.class);
     }
 
     /**

@@ -62,7 +62,7 @@ class LocalVariables {
             local.declared = true;
 
             locals.put(i + offset, local);
-            parameters.add(new Parameter(Util.loadType(local.type), local.name));
+            parameters.add(new Parameter(Util.loadType(local.type.v), local.name));
         }
     }
 
@@ -133,7 +133,7 @@ class LocalVariables {
         if (local == null) {
             return new InferredType();
         } else {
-            return new InferredType(local.type);
+            return new InferredType(local.type.v);
         }
     }
 
