@@ -20,7 +20,6 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,7 +30,6 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
-import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.stmt.BlockStmt;
 
 import kiss.I;
@@ -185,7 +183,7 @@ class JavaMethodDecompiler extends MethodVisitor {
     private final BlockStmt root;
 
     /** The parameters. */
-    private final List<Parameter> params;
+    private final LocalVariables params;
 
     /** The current processing node. */
     private Node current = null;
@@ -242,11 +240,13 @@ class JavaMethodDecompiler extends MethodVisitor {
     /** The flag whether the next new instruction is used for assert statement or not. */
     private boolean assertNew = false;
 
+    private int parameterIndex;
+
     /**
      * @param root
      * @param api
      */
-    JavaMethodDecompiler(Class clazz, BlockStmt root, List<Parameter> params, String name, String description, boolean isStatic) {
+    JavaMethodDecompiler(Class clazz, BlockStmt root, LocalVariables params, String name, String description, boolean isStatic) {
         super(ASM7);
 
         this.clazz = clazz;
@@ -255,7 +255,8 @@ class JavaMethodDecompiler extends MethodVisitor {
         this.methodName = name;
         this.returnType = Type.getReturnType(description);
         this.parameterTypes = Type.getArgumentTypes(description);
-        this.variables = new LocalVariables(clazz, isStatic, parameterTypes);
+        this.variables = params;
+        this.parameterIndex = params.isStatic ? 0 : 1;
 
         Debugger.recordMethodName(name);
     }
@@ -300,14 +301,7 @@ class JavaMethodDecompiler extends MethodVisitor {
      */
     @Override
     public void visitEnd() {
-        Debugger.enable();
         Debugger.print(nodes);
-
-        // build parameters
-        for (int i = 0; i < params.size(); i++) {
-            variables.name(i + 1).declared = true;
-            params.get(i).setName(variables.name(i + 1).toString());
-        }
 
         // optimize
         removeLastEmptyReturn();
@@ -321,7 +315,6 @@ class JavaMethodDecompiler extends MethodVisitor {
     private void removeLastEmptyReturn() {
         Node lastNode = nodes.peekLast();
         Operand lastOperand = lastNode.peek(0);
-        System.out.println(lastNode);
 
         if (lastOperand == OperandReturn.Empty) {
             lastNode.remove(0);
@@ -1419,6 +1412,14 @@ class JavaMethodDecompiler extends MethodVisitor {
         if (immediately && current.stack.size() != 0) {
             current.addExpression(current.remove(0));
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void visitParameter(String name, int access) {
+        variables.name(parameterIndex++, name);
     }
 
     /**

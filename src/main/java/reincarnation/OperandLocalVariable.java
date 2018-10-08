@@ -11,6 +11,7 @@ package reincarnation;
 
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NameExpr;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.ThisExpr;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 
@@ -20,7 +21,7 @@ import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 public class OperandLocalVariable extends Operand {
 
     /** The variable name. */
-    String name;
+    final SimpleName name = new SimpleName();
 
     /** Check whether this local variable is declared or not. */
     boolean declared;
@@ -31,7 +32,7 @@ public class OperandLocalVariable extends Operand {
      * @param index A local index.
      */
     OperandLocalVariable(Class type, String name) {
-        this.name = name;
+        this.name.setId(name);
         this.type = type;
     }
 
@@ -40,12 +41,12 @@ public class OperandLocalVariable extends Operand {
      */
     @Override
     Expression build() {
-        if (name.equals("this")) {
+        if (name.getId().equals("this")) {
             return new ThisExpr();
         } else {
             if (declared == false) {
                 declared = true;
-                return new VariableDeclarationExpr(Util.loadType(type), name);
+                return new VariableDeclarationExpr(Util.loadType(type), name.getId());
             } else {
                 return new NameExpr(name);
             }
@@ -57,6 +58,6 @@ public class OperandLocalVariable extends Operand {
      */
     @Override
     public String toString() {
-        return name;
+        return name.getId();
     }
 }

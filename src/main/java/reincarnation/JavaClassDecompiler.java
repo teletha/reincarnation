@@ -19,12 +19,10 @@ import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
-import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.InitializerDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.stmt.BlockStmt;
 
 /**
@@ -79,42 +77,34 @@ class JavaClassDecompiler extends ClassVisitor {
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         Type type = Type.getType(desc);
         Type returnType = type.getReturnType();
-        Type[] argumentTypes = type.getArgumentTypes();
+        Type[] parameterTypes = type.getArgumentTypes();
+        boolean isStatic = (access & ACC_STATIC) != 0;
+        LocalVariables locals = new LocalVariables(clazz, isStatic, parameterTypes);
 
-        BlockStmt declaration;
-        NodeList<Parameter> params = new NodeList();
-
-        for (int i = 0; i < argumentTypes.length; i++) {
-            Parameter param = new Parameter();
-            param.setType(load(argumentTypes[i]));
-            params.add(param);
-        }
+        BlockStmt block;
 
         if (name.equals("<init>")) {
             // initializer or constructor
             name = clazz.getSimpleName();
 
             ConstructorDeclaration constructor = root.addConstructor(modifiers(access));
-            constructor.setParameters(params);
+            constructor.setParameters(locals.build());
 
-            declaration = constructor.getBody();
+            block = constructor.getBody();
         } else if (name.equals("<clinit>")) {
             // static initializer
             InitializerDeclaration initializer = new InitializerDeclaration(true, new BlockStmt());
             root.addMember(initializer);
 
-            declaration = initializer.getBody();
+            block = initializer.getBody();
         } else {
             MethodDeclaration method = root.addMethod(name, modifiers(access)).setType(load(returnType));
-            method.setParameters(params);
+            method.setParameters(locals.build());
 
-            declaration = method.getBody().get();
+            block = method.getBody().get();
         }
 
-        // static modifier
-        boolean isStatic = (access & ACC_STATIC) != 0;
-
-        return new JavaMethodDecompiler(clazz, declaration, params, name, desc, isStatic);
+        return new JavaMethodDecompiler(clazz, block, locals, name, desc, isStatic);
     }
 
     /**

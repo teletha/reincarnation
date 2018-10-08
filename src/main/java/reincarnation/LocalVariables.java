@@ -19,6 +19,9 @@ import java.util.Map;
 
 import org.objectweb.asm.Type;
 
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.Parameter;
+
 /**
  * Manage local variables.
  * 
@@ -29,14 +32,10 @@ class LocalVariables {
     /** The this type. */
     private final Class clazz;
 
-    /** The current processing method is static or not. */
-    private final boolean isStatic;
+    public final boolean isStatic;
 
     /** The parameter size. */
-    private final int parameterSize;
-
-    /** The max size of variables. */
-    private int max = 0;
+    private int size = 0;
 
     /** The ignorable variable index. */
     private final List<Integer> ignores = new ArrayList();
@@ -52,10 +51,16 @@ class LocalVariables {
     LocalVariables(Class clazz, boolean isStatic, Type[] parameterTypes) {
         this.clazz = clazz;
         this.isStatic = isStatic;
-        this.parameterSize = parameterTypes.length;
+
+        if (isStatic == false) {
+            locals.put(0, new OperandLocalVariable(clazz, "this"));
+        }
 
         for (int i = 0; i < parameterTypes.length; i++) {
-            locals.put(i, new OperandLocalVariable(load(parameterTypes[i]), "local" + i));
+            OperandLocalVariable param = new OperandLocalVariable(Util.load(parameterTypes[i]), "param" + i);
+            param.declared = true;
+
+            locals.put(isStatic ? i : i + 1, param);
         }
     }
 
@@ -90,15 +95,6 @@ class LocalVariables {
             break;
         }
 
-        // order 0 means "this", but static method doesn't have "this" variable
-        if (!isStatic) {
-            order--;
-        }
-
-        if (order == -1) {
-            return new OperandLocalVariable(clazz, "this");
-        }
-
         // Compute local variable name
         return locals.computeIfAbsent(order, key -> new OperandLocalVariable(load(opcode), "local" + key));
     }
@@ -110,14 +106,10 @@ class LocalVariables {
      * @param name
      */
     void name(int index, String name) {
-        if (!isStatic) {
-            index--;
-        }
-
         OperandLocalVariable local = locals.get(index);
 
         if (local != null) {
-            local.name = name;
+            local.name.setId(name);
         }
     }
 
@@ -130,11 +122,6 @@ class LocalVariables {
      * @return
      */
     InferredType type(int position) {
-        // order 0 means "this", but static method doesn't have "this" variable
-        if (!isStatic) {
-            position--;
-        }
-
         if (position == -1) {
             return new InferredType(clazz);
         }
@@ -146,5 +133,22 @@ class LocalVariables {
         } else {
             return new InferredType(local.type);
         }
+    }
+
+    /**
+     * Build as {@link Parameter} list.
+     * 
+     * @return
+     */
+    public NodeList<Parameter> build() {
+        NodeList<Parameter> params = new NodeList();
+
+        for (OperandLocalVariable variable : locals.values()) {
+            if (!variable.name.getId().equals("this")) {
+                params.add(new Parameter(Util.loadType(variable.type), variable.name));
+            }
+        }
+
+        return params;
     }
 }
