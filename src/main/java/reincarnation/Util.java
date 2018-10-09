@@ -20,7 +20,9 @@ import org.objectweb.asm.Type;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.type.ArrayType;
+import com.github.javaparser.ast.type.ArrayType.Origin;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.PrimitiveType;
 
@@ -251,7 +253,7 @@ public class Util {
             return PrimitiveType.booleanType();
         }
         if (type.isArray()) {
-            return ArrayType.wrapInArrayTypes(loadType(type.getComponentType()));
+            return new ArrayType(loadType(type.getComponentType()), Origin.TYPE, new NodeList());
         }
 
         return JavaParser.parseClassOrInterfaceType(type.getCanonicalName());

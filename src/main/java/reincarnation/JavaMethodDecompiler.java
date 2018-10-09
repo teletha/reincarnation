@@ -154,12 +154,6 @@ class JavaMethodDecompiler extends MethodVisitor {
     /** The extra opcode for byte code parsing. */
     private static final int LABEL = 300;
 
-    /** The frequently used operand for cache. */
-    private static final OperandNumber ZERO = new OperandNumber(0);
-
-    /** The frequently used operand for cache. */
-    private static final OperandNumber ONE = new OperandNumber(1);
-
     /** The current processing class. */
     private final Class clazz;
 
@@ -475,11 +469,11 @@ class JavaMethodDecompiler extends MethodVisitor {
                 Debugger.print("Create ternary operator. condition[" + third + "]  left[" + second + "]  right[" + first + "]");
                 Debugger.print(nodes);
 
-                if (first == ONE && second == ZERO) {
+                if (first.isTrue() && second.isFalse()) {
                     current.remove(0);
                     current.remove(0);
                     condition.addOperand(new OperandAmbiguousZeroOneTernary(current.remove(0)));
-                } else if (first == ZERO && second == ONE) {
+                } else if (first.isFalse() && second.isTrue()) {
                     current.remove(0);
                     current.remove(0);
                     condition.addOperand(new OperandAmbiguousZeroOneTernary(current.remove(0).invert()));
@@ -706,7 +700,7 @@ class JavaMethodDecompiler extends MethodVisitor {
 
         // 0
         case ICONST_0:
-            current.addOperand(ZERO);
+            current.addOperand(0);
             break;
         case LCONST_0:
             current.addOperand(0L);
@@ -720,7 +714,7 @@ class JavaMethodDecompiler extends MethodVisitor {
 
         // 1
         case ICONST_1:
-            current.addOperand(ONE);
+            current.addOperand(1);
             break;
         case LCONST_1:
             current.addOperand(1L);
@@ -944,15 +938,16 @@ class JavaMethodDecompiler extends MethodVisitor {
                 ((OperandArray) contextMaybeArray).set(current.remove(0), value);
             } else {
                 // write by index
-                OperandExpression assignment = new OperandExpression(contextMaybeArray + "[" + current.remove(0) + "]=" + value.toString());
+                OperandArrayAccess array = new OperandArrayAccess(contextMaybeArray, current.remove(0));
+                OperandAssign assign = new OperandAssign(array, AssignOperator.ASSIGN, value);
 
                 if (!value.duplicated) {
-                    current.addExpression(assignment);
+                    current.addExpression(assign);
                 } else {
                     value.duplicated = false;
 
                     // duplicate pointer
-                    current.addOperand(new OperandEnclose(assignment));
+                    current.addOperand(new OperandEnclose(assign));
                 }
             }
             break;
@@ -1125,7 +1120,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             } else {
                 // others
                 Operand left = current.remove(0);
-                current.condition(left, EQ, ZERO.cast(left.infer()), node);
+                current.condition(left, EQ, new OperandNumber(0).cast(left.infer()), node);
             }
             break;
         case IFNE: // != 0
@@ -1135,7 +1130,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             } else {
                 // others
                 Operand left = current.remove(0);
-                current.condition(left, NE, ZERO.cast(left.infer()), node);
+                current.condition(left, NE, new OperandNumber(0).cast(left.infer()), node);
             }
             break;
 
@@ -1145,7 +1140,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                 current.condition(current.remove(1), GE, current.remove(0), node);
             } else {
                 // others
-                current.condition(current.remove(0), GE, ZERO, node);
+                current.condition(current.remove(0), GE, new OperandNumber(0), node);
             }
             break;
 
@@ -1155,7 +1150,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                 current.condition(current.remove(1), GT, current.remove(0), node);
             } else {
                 // others
-                current.condition(current.remove(0), GT, ZERO, node);
+                current.condition(current.remove(0), GT, new OperandNumber(0), node);
             }
             break;
 
@@ -1165,7 +1160,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                 current.condition(current.remove(1), LE, current.remove(0), node);
             } else {
                 // others
-                current.condition(current.remove(0), LE, ZERO, node);
+                current.condition(current.remove(0), LE, new OperandNumber(0), node);
             }
             break;
 
@@ -1175,7 +1170,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                 current.condition(current.remove(1), LT, current.remove(0), node);
             } else {
                 // others
-                current.condition(current.remove(0), LT, ZERO, node);
+                current.condition(current.remove(0), LT, new OperandNumber(0), node);
             }
             break;
 
@@ -1432,7 +1427,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             }
 
         case ALOAD:
-            current.addOperand(new OperandExpression(variable, locals.type(position)));
+            current.addOperand(variable);
             break;
 
         case ASTORE:

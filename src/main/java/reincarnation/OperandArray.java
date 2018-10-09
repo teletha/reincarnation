@@ -59,9 +59,6 @@ class OperandArray extends Operand {
     /** The operand which indicates the size of this array. */
     private final Operand size;
 
-    /** The array type. */
-    private final Class type;
-
     /** The list of item operands. */
     private final ArrayList<Operand> items = new ArrayList();
 
@@ -75,7 +72,7 @@ class OperandArray extends Operand {
      */
     OperandArray(Operand size, Class type) {
         this.size = size.disclose();
-        this.type = type;
+        fix(type);
     }
 
     /**
@@ -83,7 +80,7 @@ class OperandArray extends Operand {
      */
     @Override
     InferredType infer() {
-        return new InferredType(type);
+        return new InferredType(type.v);
     }
 
     /**
@@ -111,10 +108,9 @@ class OperandArray extends Operand {
      */
     @Override
     Expression build() {
-        Class component = type.getComponentType();
+        Class component = type.v.getComponentType();
         ArrayCreationLevel level = new ArrayCreationLevel(size.build());
         ArrayCreationExpr expr = new ArrayCreationExpr(Util.loadType(component), new NodeList<>(level), null);
-        System.out.println(expr);
 
         return expr;
     }
@@ -124,6 +120,6 @@ class OperandArray extends Operand {
      */
     @Override
     public String toString() {
-        return "new " + type.getComponentType().getSimpleName() + "[" + size + "]";
+        return "new " + type.v.getComponentType().getSimpleName() + "[" + size + "]";
     }
 }

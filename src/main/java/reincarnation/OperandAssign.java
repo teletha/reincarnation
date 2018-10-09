@@ -46,7 +46,7 @@ public class OperandAssign extends Operand {
         this.right = Objects.requireNonNull(right);
         this.operator = Objects.requireNonNull(operator);
 
-        left.bindTo(right);
+        bindTo(left.bindTo(right));
     }
 
     /**

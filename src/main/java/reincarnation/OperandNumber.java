@@ -9,6 +9,7 @@
  */
 package reincarnation;
 
+import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.DoubleLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
@@ -62,6 +63,22 @@ class OperandNumber extends Operand {
      * {@inheritDoc}
      */
     @Override
+    protected boolean isTrue() {
+        return value.intValue() == 1;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isFalse() {
+        return value.intValue() == 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String toString() {
         return value.toString();
     }
@@ -71,6 +88,14 @@ class OperandNumber extends Operand {
      */
     @Override
     Expression build() {
+        if (type.is(boolean.class)) {
+            if (value.intValue() == 0) {
+                return new BooleanLiteralExpr(false);
+            } else {
+                return new BooleanLiteralExpr(true);
+            }
+        }
+
         if (value instanceof Integer || value instanceof Short || value instanceof Byte) {
             return new IntegerLiteralExpr(value.intValue());
         } else if (value instanceof Long) {

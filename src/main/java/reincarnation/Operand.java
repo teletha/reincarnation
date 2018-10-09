@@ -61,7 +61,7 @@ abstract class Operand {
      * 
      * @param other
      */
-    protected final void bindTo(Operand other) {
+    protected final Operand bindTo(Operand other) {
         if (isFixed()) {
             if (other.isFixed()) {
                 // do nothing
@@ -75,6 +75,15 @@ abstract class Operand {
                 type.observeNow().to(other.type::set);
             }
         }
+        return this;
+    }
+
+    protected boolean isTrue() {
+        return false;
+    }
+
+    protected boolean isFalse() {
+        return false;
     }
 
     /**
