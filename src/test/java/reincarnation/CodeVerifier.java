@@ -222,6 +222,12 @@ public class CodeVerifier {
         String decompiled = unit.toString();
         Silent notifier = new Silent();
 
+        if (Debugger.isEnable()) {
+            for (String line : format(decompiled)) {
+                System.out.println(line);
+            }
+        }
+
         try {
             JavaCompiler compiler = new JavaCompiler(notifier);
             compiler.addSource(unit.getType(0).getNameAsString(), decompiled);

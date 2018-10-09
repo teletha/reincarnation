@@ -316,4 +316,40 @@ public class Util {
         }
         return set.toArray(Modifier[]::new);
     }
+
+    /**
+     * Retrieve the default value operand for the type.
+     * 
+     * @param type
+     * @return
+     */
+    static Operand defaultValueFor(Class type) {
+        if (type == int.class) {
+            return new OperandNumber(0);
+        }
+        if (type == long.class) {
+            return new OperandNumber(0L);
+        }
+        if (type == float.class) {
+            return new OperandNumber(0F);
+        }
+        if (type == double.class) {
+            return new OperandNumber(0D);
+        }
+        if (type == char.class) {
+            // If this exception will be thrown, it is bug of this program. So we must rethrow the
+            // wrapped error in here.
+            throw new Error();
+        }
+        if (type == byte.class) {
+            return new OperandNumber((byte) 0);
+        }
+        if (type == short.class) {
+            return new OperandNumber((short) 0);
+        }
+        if (type == boolean.class) {
+            return new OperandBoolean(false);
+        }
+        return new OperandExpression(null);
+    }
 }

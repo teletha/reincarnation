@@ -62,6 +62,9 @@ class OperandArray extends Operand {
     /** The list of item operands. */
     private final ArrayList<Operand> items = new ArrayList();
 
+    /** The component type. */
+    private final Class type;
+
     /**
      * <p>
      * Create Array operand.
@@ -72,6 +75,7 @@ class OperandArray extends Operand {
      */
     OperandArray(Operand size, Class type) {
         this.size = size.disclose();
+        this.type = type.getComponentType();
         fix(type);
     }
 
@@ -80,7 +84,7 @@ class OperandArray extends Operand {
      */
     @Override
     InferredType infer() {
-        return new InferredType(type.v);
+        return new InferredType(type);
     }
 
     /**
@@ -96,11 +100,11 @@ class OperandArray extends Operand {
         int i = Integer.valueOf(index.toString()).intValue();
 
         if (items.size() <= i) {
-            for (int j = 0; j < i + 2; j++) {
+            for (int j = items.size(); j <= i; j++) {
                 items.add(null);
             }
         }
-        items.set(i, value);
+        items.set(i, value.fix(type));
     }
 
     /**
@@ -108,11 +112,24 @@ class OperandArray extends Operand {
      */
     @Override
     Expression build() {
-        Class component = type.v.getComponentType();
-        ArrayCreationLevel level = new ArrayCreationLevel(size.build());
-        ArrayCreationExpr expr = new ArrayCreationExpr(Util.loadType(component), new NodeList<>(level), null);
+        ArrayCreationExpr array = new ArrayCreationExpr(Util.loadType(type));
 
-        return expr;
+        if (items.isEmpty()) {
+            array.setLevels(new NodeList(new ArrayCreationLevel(size.build())));
+            array.setInitializer(null);
+        } else {
+            array.setLevels(new NodeList(new ArrayCreationLevel()));
+            NodeList<Expression> initializer = array.getInitializer().get().getValues();
+
+            for (Operand o : items) {
+                if (o == null) {
+                    initializer.add(Util.defaultValueFor(type).build());
+                } else {
+                    initializer.add(o.build());
+                }
+            }
+        }
+        return array;
     }
 
     /**
@@ -120,6 +137,6 @@ class OperandArray extends Operand {
      */
     @Override
     public String toString() {
-        return "new " + type.v.getComponentType().getSimpleName() + "[" + size + "]";
+        return "new " + type.getSimpleName() + "[" + size + "]";
     }
 }

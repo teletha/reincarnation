@@ -128,9 +128,9 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void MultiDimensionArrayByShorthand() {
-        verify(new Code.BooleanArray() {
+        verify(new Code() {
 
-            public boolean[][] act() {
+            public boolean[][] run() {
                 return new boolean[][] {{true, true}, {true, true}, {true, true}};
             }
         });
@@ -138,9 +138,9 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void ThreeDimensionArray() {
-        verify(new Code.BooleanArray() {
+        verify(new Code() {
 
-            public boolean[][][] act() {
+            public boolean[][][] run() {
                 boolean[][][] array = new boolean[2][3][1];
                 array[0] = new boolean[][] {{true}, {false}, {true}};
                 array[1] = new boolean[][] {{true}, {false}, {true, false, false}};
@@ -152,9 +152,9 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void ThreeDimensionArrayWithoutNeedlessDeclaration() {
-        verify(new Code.BooleanArray() {
+        verify(new Code() {
 
-            public boolean[][][] act() {
+            public boolean[][][] run() {
                 boolean[][][] array = new boolean[2][][];
                 array[0] = new boolean[][] {{true}, {false}, {true}};
                 array[1] = new boolean[][] {{true}, {false}, {true, false, false}};
@@ -190,9 +190,9 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void ArrayFor() {
-        verify(new Code.BooleanArray() {
+        verify(new Code() {
 
-            public int act(boolean value) {
+            public int run(boolean value) {
                 int sum = 0;
                 boolean[] array = {true, false, true};
 
@@ -208,9 +208,9 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void ArrayForEach() {
-        verify(new Code.BooleanArray() {
+        verify(new Code() {
 
-            public int act(boolean value) {
+            public int run(boolean value) {
                 int sum = 0;
                 boolean[] array = {true, false, true};
 

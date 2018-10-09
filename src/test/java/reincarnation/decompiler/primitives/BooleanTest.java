@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/06 1:06:47
@@ -95,7 +94,6 @@ class BooleanTest extends CodeVerifier {
         verify(new Code.Boolean() {
 
             @Override
-            @Debuggable
             public boolean run() {
                 boolean[] array = {};
                 return boolean[].class == array.getClass();

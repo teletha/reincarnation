@@ -366,7 +366,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             break;
 
         case GETFIELD:
-            // current.addOperand(translator.translateField(owner, name, current.remove(0)), type);
+            current.addOperand(new OperandFieldAccess(current.remove(0), name).fix(type));
             break;
 
         case PUTSTATIC:
