@@ -27,6 +27,57 @@ abstract class Operand {
     boolean duplicated = false;
 
     /**
+     * Fix as the current type.
+     * 
+     * @return Chainable API.
+     */
+    protected final Operand fix() {
+        return fix(type.v);
+    }
+
+    /**
+     * Fix as the specified type.
+     * 
+     * @param type A type to fix.
+     * @return Chainable API.
+     */
+    protected final Operand fix(Class type) {
+        this.type.let(type);
+
+        return this;
+    }
+
+    /**
+     * Check type inference state.
+     * 
+     * @return
+     */
+    protected final boolean isFixed() {
+        return this.type.isFixed();
+    }
+
+    /**
+     * Bind infered type.
+     * 
+     * @param other
+     */
+    protected final void bindTo(Operand other) {
+        if (isFixed()) {
+            if (other.isFixed()) {
+                // do nothing
+            } else {
+                other.fix(type.v);
+            }
+        } else {
+            if (other.isFixed()) {
+                fix(other.type.v);
+            } else {
+                type.observeNow().to(other.type::set);
+            }
+        }
+    }
+
+    /**
      * @param type
      * @return
      */

@@ -1338,14 +1338,16 @@ class JavaMethodDecompiler extends MethodVisitor {
                     // parameters, contexts), returnType);
                 } else {
                     // super method invocation
-                    // current.addOperand(translator.translateSuperMethod(owner, methodName, desc,
+                    // current.addOperand(translator.translateSuperMethod(owner, methodName,
+                    // desc,
                     // parameters, contexts), returnType);
                 }
             } else {
                 // constructor
                 if (countInitialization != 0) {
                     // instance initialization method invocation
-                    // current.addOperand(translator.translateConstructor(owner, desc, parameters,
+                    // current.addOperand(translator.translateConstructor(owner, desc,
+                    // parameters,
                     // contexts), owner);
 
                     countInitialization--;
@@ -1365,12 +1367,7 @@ class JavaMethodDecompiler extends MethodVisitor {
 
         case INVOKEVIRTUAL: // method call
         case INVOKEINTERFACE: // interface method call
-            // push "this" operand
-            contexts.add(0, current.remove(0));
-
-            // translate
-            // current.addOperand(translator.translateMethod(owner, methodName, desc, parameters,
-            // contexts), returnType);
+            current.addOperand(new OperandMethodCall(owner, methodName, parameters, current.remove(0), contexts));
             break;
 
         case INVOKESTATIC: // static method call
@@ -1384,7 +1381,8 @@ class JavaMethodDecompiler extends MethodVisitor {
                 }
 
                 // push class operand
-                // contexts.add(0, new OperandExpression(Javascript.computeClassName(owner, true)));
+                // contexts.add(0, new OperandExpression(Javascript.computeClassName(owner,
+                // true)));
 
                 // translate
                 // current.addOperand(translator.translateStaticMethod(owner, methodName, desc,
@@ -1472,10 +1470,6 @@ class JavaMethodDecompiler extends MethodVisitor {
                         enumValues[0] = current.remove(0);
                         enumValues[1] = current.remove(0);
                     }
-
-                    // infer local variable type
-                    InferredType type = locals.type(position);
-                    type.type(operand.infer().type());
 
                     OperandAssign assign = new OperandAssign(variable, AssignOperator.ASSIGN, operand);
 

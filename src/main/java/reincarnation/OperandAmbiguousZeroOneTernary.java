@@ -54,7 +54,11 @@ class OperandAmbiguousZeroOneTernary extends Operand {
      */
     @Override
     public String toString() {
-        return condition + "?1:0";
+        if (type.is(boolean.class)) {
+            return condition.toString();
+        } else {
+            return condition + "? 1 : 0";
+        }
     }
 
     /**
@@ -62,6 +66,10 @@ class OperandAmbiguousZeroOneTernary extends Operand {
      */
     @Override
     Expression build() {
-        return new ConditionalExpr(condition.build(), new IntegerLiteralExpr(1), new IntegerLiteralExpr(0));
+        if (type.is(boolean.class)) {
+            return condition.build();
+        } else {
+            return new ConditionalExpr(condition.build(), new IntegerLiteralExpr(1), new IntegerLiteralExpr(0));
+        }
     }
 }

@@ -20,6 +20,7 @@ import org.objectweb.asm.Type;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.type.ArrayType;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.PrimitiveType;
 
@@ -114,10 +115,13 @@ public class Util {
         case DSUB:
             return double.class;
 
+        case ASTORE:
+            return Object.class;
+
         default:
             // If this exception will be thrown, it is bug of this program. So we must rethrow the
             // wrapped error in here.
-            throw new Error();
+            throw new Error(opecode + " is unknow opcode.");
         }
     }
 
@@ -246,6 +250,10 @@ public class Util {
         if (type == boolean.class) {
             return PrimitiveType.booleanType();
         }
+        if (type.isArray()) {
+            return ArrayType.wrapInArrayTypes(loadType(type.getComponentType()));
+        }
+
         return JavaParser.parseClassOrInterfaceType(type.getCanonicalName());
     }
 

@@ -11,6 +11,8 @@ package reincarnation;
 
 import java.util.ArrayList;
 
+import com.github.javaparser.ast.ArrayCreationLevel;
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.ArrayCreationExpr;
 import com.github.javaparser.ast.expr.Expression;
 
@@ -110,8 +112,18 @@ class OperandArray extends Operand {
     @Override
     Expression build() {
         Class component = type.getComponentType();
-        ArrayCreationExpr expr = new ArrayCreationExpr();
+        ArrayCreationLevel level = new ArrayCreationLevel(size.build());
+        ArrayCreationExpr expr = new ArrayCreationExpr(Util.loadType(component), new NodeList<>(level), null);
+        System.out.println(expr);
 
         return expr;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "new " + type.getComponentType().getSimpleName() + "[" + size + "]";
     }
 }

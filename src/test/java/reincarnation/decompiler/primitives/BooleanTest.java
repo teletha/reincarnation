@@ -9,7 +9,6 @@
  */
 package reincarnation.decompiler.primitives;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
@@ -58,7 +57,6 @@ class BooleanTest extends CodeVerifier {
     void negateInVariable() {
         verify(new Code.BooleanParam() {
 
-            @Debuggable
             @Override
             public boolean run(boolean value) {
                 value = !value;
@@ -69,7 +67,6 @@ class BooleanTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void negateTwiceInVariable() {
         verify(new Code.BooleanParam() {
 
@@ -94,11 +91,11 @@ class BooleanTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void arrayClassEquality() {
         verify(new Code.Boolean() {
 
             @Override
+            @Debuggable
             public boolean run() {
                 boolean[] array = {};
                 return boolean[].class == array.getClass();
