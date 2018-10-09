@@ -24,6 +24,8 @@ import kiss.Variable;
  */
 abstract class Operand {
 
+    protected static final Operand Null = new OperandExpression(null).fix(null);
+
     /** The infered type. */
     protected Variable<Class> type = Variable.of(Object.class);
 

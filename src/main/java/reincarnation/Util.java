@@ -350,6 +350,6 @@ public class Util {
         if (type == boolean.class) {
             return new OperandBoolean(false);
         }
-        return new OperandExpression(null);
+        return Operand.Null;
     }
 }

@@ -60,6 +60,9 @@ import kiss.I;
  */
 class OperandArray extends Operand {
 
+    /** The array dimension size. */
+    private final int dimension;
+
     /** The operand which indicates the size of this array. */
     private final List<Operand> dimensions;
 
@@ -88,8 +91,10 @@ class OperandArray extends Operand {
      * @param type A array type.
      */
     OperandArray(List<Operand> dimensions, Class type) {
+        this.dimension = calculateDimension(type);
         this.dimensions = dimensions;
-        this.type = root(type);
+        this.type = type.getComponentType();
+
         fix(type);
     }
 
@@ -126,20 +131,40 @@ class OperandArray extends Operand {
      */
     @Override
     Expression build() {
-        ArrayCreationExpr array = new ArrayCreationExpr(Util.loadType(type));
+        ArrayCreationExpr array = new ArrayCreationExpr();
 
         if (items.isEmpty()) {
-            array.setLevels(list(dimensions, o -> new ArrayCreationLevel(o.build())));
+            array.setElementType(root(type));
             array.setInitializer(null);
+
+            NodeList<ArrayCreationLevel> levels = array.getLevels();
+
+            // fill by empty value
+            for (int i = 0; i < dimension; i++) {
+                levels.add(i, new ArrayCreationLevel());
+            }
+            // fill by specified value
+            for (int i = 0; i < dimensions.size(); i++) {
+                levels.set(i, new ArrayCreationLevel(dimensions.get(i).build()));
+            }
+
         } else {
+            array.setElementType(type);
             array.setLevels(new NodeList(new ArrayCreationLevel()));
             NodeList<Expression> initializer = array.getInitializer().get().getValues();
+            int requiredSize = dimensions.isEmpty() ? items.size() : Math.max(Integer.parseInt(dimensions.get(0).toString()), items.size());
 
-            for (Operand o : items) {
-                if (o == null) {
-                    initializer.add(Util.defaultValueFor(type).build());
-                } else {
-                    initializer.add(o.build());
+            // fill by default value
+            for (int i = 0; i < requiredSize; i++) {
+                initializer.add(i, Util.defaultValueFor(type).build());
+            }
+
+            // assign by specified value
+            for (int i = 0; i < items.size(); i++) {
+                Operand operand = items.get(i);
+
+                if (operand != null) {
+                    initializer.set(i, items.get(i).build());
                 }
             }
         }
@@ -165,5 +190,21 @@ class OperandArray extends Operand {
             return root(type.getComponentType());
         }
         return type;
+    }
+
+    /**
+     * Calculate the array dimension.
+     * 
+     * @param type A target array type.
+     * @return An array dimension size.
+     */
+    private int calculateDimension(Class type) {
+        int size = 0;
+
+        while (type.isArray()) {
+            type = type.getComponentType();
+            size++;
+        }
+        return size;
     }
 }

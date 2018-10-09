@@ -914,7 +914,7 @@ class JavaMethodDecompiler extends MethodVisitor {
         case DALOAD:
         case CALOAD:
         case SALOAD:
-            current.addOperand(current.remove(1) + "[" + current.remove(0) + "]");
+            current.addOperand(new OperandArrayAccess(current.remove(1), current.remove(0)));
             break;
 
         // read array value by index
@@ -1413,6 +1413,64 @@ class JavaMethodDecompiler extends MethodVisitor {
     @Override
     public void visitParameter(String name, int access) {
         locals.updateParameterInfo(name, access);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void visitTypeInsn(int opcode, String type) {
+        // recode current instruction
+        record(opcode);
+
+        switch (opcode) {
+        case NEW:
+            if (assertNew) {
+                assertNew = false;
+                current = createNodeAfter(current);
+                current.previous.connect(current);
+
+                merge(current.previous);
+            }
+            countInitialization++;
+
+            // current.addOperand("new " + Javascript.computeClassName(convert(type)));
+            break;
+
+        case ANEWARRAY:
+            if (type.charAt(0) == '[') {
+                type = "[" + type;
+            } else {
+                type = "[L" + type + ";";
+            }
+            current.addOperand(new OperandArray(current.remove(0), load(type)));
+            break;
+
+        case CHECKCAST:
+
+            break;
+
+        case INSTANCEOF:
+            Class clazz = load(type);
+
+            String code;
+
+            // if (clazz == Object.class || clazz == NativeObject.class) {
+            // code = current.remove(0) + " instanceof Object";
+            // } else if (clazz == String.class) {
+            // code = "boot.isString(" + current.remove(0) + ")";
+            // } else if (clazz.isInterface() || clazz.isArray()) {
+            // code = Javascript
+            // .writeMethodCode(Class.class, "isInstance", Javascript.computeClass(clazz),
+            // Object.class, current.remove(0));
+            // } else {
+            // code = current.remove(0) + " instanceof " + Javascript.computeClassName(clazz);
+            // }
+            // current.addOperand(code, boolean.class);
+            // If this exception will be thrown, it is bug of this program. So we must rethrow the
+            // wrapped error in here.
+            throw new Error("IMPLEMENT INSTANCEOF");
+        }
     }
 
     /**

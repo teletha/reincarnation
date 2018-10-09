@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/09 9:25:34
@@ -72,7 +71,7 @@ public class BooleanArrayTest extends CodeVerifier {
         verify(new Code.BooleanArray() {
 
             @Override
-            @Debuggable
+
             public boolean[] run() {
                 return new boolean[] {true, false};
             }
@@ -122,8 +121,8 @@ public class BooleanArrayTest extends CodeVerifier {
             public boolean[][] run() {
                 boolean[][] array = new boolean[3][2];
                 array[0] = new boolean[] {true, true};
-                array[1] = new boolean[] {true, true};
-                array[2] = new boolean[] {true, true};
+                array[1] = new boolean[] {true, false};
+                array[2] = new boolean[] {false, true};
 
                 return array;
             }
@@ -136,7 +135,7 @@ public class BooleanArrayTest extends CodeVerifier {
 
             @Override
             public boolean[][] run() {
-                return new boolean[][] {{true, true}, {true, true}, {true, true}};
+                return new boolean[][] {{true, true}, {true, false}, {false, true}};
             }
         });
     }

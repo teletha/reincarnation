@@ -10,6 +10,7 @@
 package reincarnation;
 
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.NullLiteralExpr;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.visitor.GenericVisitor;
 import com.github.javaparser.ast.visitor.VoidVisitor;
@@ -130,7 +131,9 @@ class OperandExpression extends Operand {
      */
     @Override
     Expression build() {
-        if (expression instanceof Expression) {
+        if (expression == null) {
+            return new NullLiteralExpr();
+        } else if (expression instanceof Expression) {
             return (Expression) expression;
         } else if (expression instanceof Statement) {
             return new StatementExpression((Statement) expression);
