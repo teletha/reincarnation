@@ -308,9 +308,8 @@ class IntTest extends CodeVerifier {
 
     @Test
     void bitOrAssignable() {
-        verify(new Code.IntParam() {
+        verify(new Code() {
 
-            @Override
             public int run(int value) {
                 return value |= 0x010101;
             }

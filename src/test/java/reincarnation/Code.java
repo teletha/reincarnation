@@ -9,10 +9,15 @@
  */
 package reincarnation;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
  * @version 2018/10/02 19:57:24
  */
-public interface Code {
+public interface Code<Self extends Code> {
 
     /**
      * @version 2018/04/04 16:29:00
@@ -25,6 +30,19 @@ public interface Code {
          * @return A result.
          */
         int run();
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
+    public interface IntArray extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @return A result.
+         */
+        int[] run();
     }
 
     /**
@@ -71,6 +89,19 @@ public interface Code {
     /**
      * @version 2018/04/04 16:29:00
      */
+    public interface LongArray extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @return A result.
+         */
+        long[] run();
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
     public interface LongParam extends Code {
 
         /**
@@ -107,6 +138,19 @@ public interface Code {
          * @return A result.
          */
         float run();
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
+    public interface FloatArray extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @return A result.
+         */
+        float[] run();
     }
 
     /**
@@ -153,6 +197,19 @@ public interface Code {
     /**
      * @version 2018/04/04 16:29:00
      */
+    public interface DoubleArray extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @return A result.
+         */
+        double[] run();
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
     public interface DoubleParam extends Code {
 
         /**
@@ -189,6 +246,19 @@ public interface Code {
          * @return A result.
          */
         byte run();
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
+    public interface ByteArray extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @return A result.
+         */
+        byte[] run();
     }
 
     /**
@@ -235,6 +305,19 @@ public interface Code {
     /**
      * @version 2018/04/04 16:29:00
      */
+    public interface ShortArray extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @return A result.
+         */
+        short[] run();
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
     public interface ShortParam extends Code {
 
         /**
@@ -271,6 +354,19 @@ public interface Code {
          * @return A result.
          */
         char run();
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
+    public interface CharArray extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @return A result.
+         */
+        char[] run();
     }
 
     /**
@@ -317,6 +413,19 @@ public interface Code {
     /**
      * @version 2018/04/04 16:29:00
      */
+    public interface BooleanArray extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @return A result.
+         */
+        boolean[] run();
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
     public interface BooleanParam extends Code {
 
         /**
@@ -339,6 +448,19 @@ public interface Code {
          * @return A result.
          */
         String run();
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
+    public interface TextArray extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @return A result.
+         */
+        String[] run();
     }
 
     /**
@@ -368,4 +490,103 @@ public interface Code {
          */
         boolean run(String param);
     }
+
+    /**
+     * @version 2018/10/09 9:51:30
+     */
+    @Target(ElementType.PARAMETER)
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface Param {
+
+        /**
+         * <p>
+         * Provide int values.
+         * </p>
+         * 
+         * @return
+         */
+        int[] ints() default {};
+
+        /**
+         * <p>
+         * Provide long values.
+         * </p>
+         * 
+         * @return
+         */
+        long[] longs() default {};
+
+        /**
+         * <p>
+         * Provide float values.
+         * </p>
+         * 
+         * @return
+         */
+        float[] floats() default {};
+
+        /**
+         * <p>
+         * Provide double values.
+         * </p>
+         * 
+         * @return
+         */
+        double[] doubles() default {};
+
+        /**
+         * <p>
+         * Provide byte values.
+         * </p>
+         * 
+         * @return
+         */
+        byte[] bytes() default {};
+
+        /**
+         * <p>
+         * Provide short values.
+         * </p>
+         * 
+         * @return
+         */
+        short[] shorts() default {};
+
+        /**
+         * <p>
+         * Provide char values.
+         * </p>
+         * 
+         * @return
+         */
+        char[] chars() default {};
+
+        /**
+         * <p>
+         * Provide {@link String} values.
+         * </p>
+         * 
+         * @return
+         */
+        String[] strings() default {};
+
+        /**
+         * <p>
+         * Provide range.
+         * </p>
+         * 
+         * @return
+         */
+        int from() default 0;
+
+        /**
+         * <p>
+         * Provide range.
+         * </p>
+         * 
+         * @return
+         */
+        int to() default 0;
+    }
+
 }
