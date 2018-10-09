@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 Nameless Production Committee
+ * Copyright (C) 2018 Reincarnation Development Team
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *          http://opensource.org/licenses/mit-license.php
+ *          https://opensource.org/licenses/MIT
  */
 package reincarnation.decompiler.primitives;
 
@@ -15,7 +15,7 @@ import reincarnation.Code;
 import reincarnation.CodeVerifier;
 
 /**
- * @version 2012/12/01 2:02:40
+ * @version 2018/10/10 8:46:48
  */
 public class ByteTest extends CodeVerifier {
 
