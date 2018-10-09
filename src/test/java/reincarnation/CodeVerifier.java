@@ -31,24 +31,10 @@ import bee.util.JavaCompiler;
 import kiss.I;
 import kiss.WiseFunction;
 import kiss.WiseSupplier;
-import reincarnation.Code.ByteParam;
-import reincarnation.Code.ByteParamBoolean;
-import reincarnation.Code.CharParam;
-import reincarnation.Code.CharParamBoolean;
-import reincarnation.Code.DoubleParam;
-import reincarnation.Code.DoubleParamBoolean;
-import reincarnation.Code.FloatParam;
-import reincarnation.Code.FloatParamBoolean;
-import reincarnation.Code.LongParam;
-import reincarnation.Code.LongParamBoolean;
 import reincarnation.Code.Param;
-import reincarnation.Code.ShortParam;
-import reincarnation.Code.ShortParamBoolean;
-import reincarnation.Code.TextParam;
-import reincarnation.Code.TextParamBoolean;
 
 /**
- * @version 2018/10/04 14:37:22
+ * @version 2018/10/09 16:01:55
  */
 public class CodeVerifier {
 
@@ -98,7 +84,7 @@ public class CodeVerifier {
         }
 
         // java decompiler
-        JavaVerifier java = new JavaVerifier(recompile2(code), () -> code(code));
+        JavaVerifier java = new JavaVerifier(recompile(code), () -> code(code));
 
         for (int i = 0; i < inputs.size(); i++) {
             java.verify(inputs.get(i), expecteds.get(i));
@@ -218,56 +204,7 @@ public class CodeVerifier {
      * @param code
      * @return
      */
-    private <T extends Code> T recompile(T code) {
-        Class<?> originalClass = code.getClass();
-        Class<?> enclosingClass = originalClass.getEnclosingClass();
-        String fqcn = originalClass.getName();
-
-        CompilationUnit unit = Reincarnation.exhume(code.getClass());
-
-        if (enclosingClass != null) {
-            unit = enclose(enclosingClass.getSimpleName(), unit);
-
-            if (originalClass.isAnonymousClass()) {
-                fqcn = fqcn.replace("$", "$" + enclosingClass.getSimpleName() + "$");
-            }
-        }
-
-        String decompiled = unit.toString();
-        Silent notifier = new Silent();
-
-        try {
-            JavaCompiler compiler = new JavaCompiler(notifier);
-            compiler.addSource(unit.getType(0).getNameAsString(), decompiled);
-            compiler.addCurrentClassPath();
-
-            ClassLoader loader = compiler.compile();
-            Class<?> loadedClass = loader.loadClass(fqcn);
-            assert originalClass != loadedClass; // load from different classloader
-
-            Constructor constructor = loadedClass.getDeclaredConstructors()[0];
-            constructor.setAccessible(true);
-            return (T) constructor.newInstance((Object[]) Array.newInstance(Object.class, constructor.getParameterCount()));
-        } catch (Exception e) {
-            throw I.quiet(e);
-        } catch (Error e) {
-            throw Failuer.type("Compile Error")
-                    .reason(e)
-                    .reason("=================================================")
-                    .reason(notifier.message)
-                    .reason("-------------------------------------------------")
-                    .reason(format(decompiled))
-                    .reason("=================================================");
-        }
-    }
-
-    /**
-     * Recompile and recompile code.
-     * 
-     * @param code
-     * @return
-     */
-    private <T extends Code> Class<T> recompile2(T code) {
+    private <T extends Code> Class<T> recompile(T code) {
         Class<?> originalClass = code.getClass();
         Class<?> enclosingClass = originalClass.getEnclosingClass();
         String fqcn = originalClass.getName();
