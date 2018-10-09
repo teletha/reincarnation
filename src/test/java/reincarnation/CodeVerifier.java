@@ -13,12 +13,11 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 import com.github.javaparser.ast.CompilationUnit;
@@ -29,11 +28,9 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import bee.UserInterface;
 import bee.api.Command;
 import bee.util.JavaCompiler;
-import booton.translator.Javascript;
 import kiss.I;
-import net.sourceforge.htmlunit.corejs.javascript.NativeObject;
-import net.sourceforge.htmlunit.corejs.javascript.UniqueTag;
-import reincarnation.Code.BooleanParam;
+import kiss.WiseFunction;
+import kiss.WiseSupplier;
 import reincarnation.Code.ByteParam;
 import reincarnation.Code.ByteParamBoolean;
 import reincarnation.Code.CharParam;
@@ -42,9 +39,6 @@ import reincarnation.Code.DoubleParam;
 import reincarnation.Code.DoubleParamBoolean;
 import reincarnation.Code.FloatParam;
 import reincarnation.Code.FloatParamBoolean;
-import reincarnation.Code.Int;
-import reincarnation.Code.IntParam;
-import reincarnation.Code.IntParamBoolean;
 import reincarnation.Code.LongParam;
 import reincarnation.Code.LongParamBoolean;
 import reincarnation.Code.Param;
@@ -59,417 +53,35 @@ import reincarnation.Code.TextParamBoolean;
 public class CodeVerifier {
 
     /** No parameter. */
-    private static final Object NONE = new Object();
+    private static final Object NoParam = new Object();
 
     /** The built-in parameters. */
-    private static final int[] ints = {Integer.MIN_VALUE, -10, -1, 0, 1, 10, Integer.MAX_VALUE};
+    private static final List<Integer> ints = List.of(Integer.MIN_VALUE, -10, -1, 0, 1, 10, Integer.MAX_VALUE);
 
     /** The built-in parameters. */
-    private static final long[] longs = {Long.MIN_VALUE, -10L, -1L, 0L, 1L, 10L, Long.MAX_VALUE};
+    private static final List<Long> longs = List.of(Long.MIN_VALUE, -10L, -1L, 0L, 1L, 10L, Long.MAX_VALUE);
 
     /** The built-in parameters. */
-    private static final float[] floats = {Float.MIN_VALUE, -1F, -0.5F, 0F, 0.5F, 1.0F, Float.MAX_VALUE};
+    private static final List<Float> floats = List.of(Float.MIN_VALUE, -1F, -0.5F, 0F, 0.5F, 1.0F, Float.MAX_VALUE);
 
     /** The built-in parameters. */
-    private static final double[] doubles = {Double.MIN_VALUE, -1D, -0.5D, 0D, 0.5D, 1.0D, Double.MAX_VALUE};
+    private static final List<Double> doubles = List.of(Double.MIN_VALUE, -1D, -0.5D, 0D, 0.5D, 1.0D, Double.MAX_VALUE);
 
     /** The built-in parameters. */
-    private static final byte[] bytes = {Byte.MIN_VALUE, -10, -1, 0, 1, 10, Byte.MAX_VALUE};
+    private static final List<Byte> bytes = List.of(Byte.MIN_VALUE, (byte) -10, (byte) -1, (byte) 0, (byte) 1, (byte) 10, Byte.MAX_VALUE);
 
     /** The built-in parameters. */
-    private static final short[] shorts = {Short.MIN_VALUE, -10, -1, 0, 1, 10, Short.MAX_VALUE};
+    private static final List<Short> shorts = List
+            .of(Short.MIN_VALUE, (short) -10, (short) -1, (short) 0, (short) 1, (short) 10, Short.MAX_VALUE);
 
     /** The built-in parameters. */
-    private static final char[] chars = {Character.MIN_VALUE, '0', ' ', 'A', Character.MAX_VALUE};
+    private static final List<Character> chars = List.of(Character.MIN_VALUE, '0', ' ', 'A', Character.MAX_VALUE);
 
     /** The built-in parameters. */
-    private static final boolean[] booleans = {false, true};
+    private static final List<Boolean> booleans = List.of(false, true);
 
     /** The built-in parameters. */
-    private static final String[] texts = {"", " ", "a", "A", "あ", "\\", "\t", "some value"};
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Int code) {
-        assert code.run() == recompile(code).run() : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.IntArray code) {
-        assert Arrays.equals(code.run(), recompile(code).run()) : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(IntParam code) {
-        IntParam recompiled = recompile(code);
-
-        for (int param : ints) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(IntParamBoolean code) {
-        IntParamBoolean recompiled = recompile(code);
-
-        for (int param : ints) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.Long code) {
-        assert code.run() == recompile(code).run() : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.LongArray code) {
-        assert Arrays.equals(code.run(), recompile(code).run()) : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(LongParam code) {
-        LongParam recompiled = recompile(code);
-
-        for (long param : longs) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(LongParamBoolean code) {
-        LongParamBoolean recompiled = recompile(code);
-
-        for (long param : longs) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.Float code) {
-        assert code.run() == recompile(code).run() : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.FloatArray code) {
-        assert Arrays.equals(code.run(), recompile(code).run()) : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(FloatParam code) {
-        FloatParam recompiled = recompile(code);
-
-        for (float param : floats) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(FloatParamBoolean code) {
-        FloatParamBoolean recompiled = recompile(code);
-
-        for (float param : floats) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.Double code) {
-        assert code.run() == recompile(code).run() : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.DoubleArray code) {
-        assert Arrays.equals(code.run(), recompile(code).run()) : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(DoubleParam code) {
-        DoubleParam recompiled = recompile(code);
-
-        for (double param : doubles) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(DoubleParamBoolean code) {
-        DoubleParamBoolean recompiled = recompile(code);
-
-        for (double param : doubles) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.Byte code) {
-        assert code.run() == recompile(code).run() : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.ByteArray code) {
-        assert Arrays.equals(code.run(), recompile(code).run()) : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(ByteParam code) {
-        ByteParam recompiled = recompile(code);
-
-        for (byte param : bytes) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(ByteParamBoolean code) {
-        ByteParamBoolean recompiled = recompile(code);
-
-        for (byte param : bytes) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.Short code) {
-        assert code.run() == recompile(code).run() : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.ShortArray code) {
-        assert Arrays.equals(code.run(), recompile(code).run()) : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(ShortParam code) {
-        ShortParam recompiled = recompile(code);
-
-        for (short param : shorts) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(ShortParamBoolean code) {
-        ShortParamBoolean recompiled = recompile(code);
-
-        for (short param : shorts) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.Char code) {
-        assert code.run() == recompile(code).run() : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.CharArray code) {
-        assert Arrays.equals(code.run(), recompile(code).run()) : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(CharParam code) {
-        CharParam recompiled = recompile(code);
-
-        for (char param : chars) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(CharParamBoolean code) {
-        CharParamBoolean recompiled = recompile(code);
-
-        for (char param : chars) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.Boolean code) {
-        assert code.run() == recompile(code).run() : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.BooleanArray code) {
-        assert Arrays.equals(code.run(), recompile(code).run()) : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(BooleanParam code) {
-        BooleanParam recompiled = recompile(code);
-
-        for (boolean param : booleans) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.Text code) {
-        assert code.run() == recompile(code).run() : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(Code.TextArray code) {
-        assert Arrays.equals(code.run(), recompile(code).run()) : code(code);
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(TextParam code) {
-        TextParam recompiled = recompile(code);
-
-        for (String param : texts) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
-
-    /**
-     * Verify decompiled code.
-     * 
-     * @param code A target code to verify.
-     */
-    protected final void verify(TextParamBoolean code) {
-        TextParamBoolean recompiled = recompile(code);
-
-        for (String param : texts) {
-            assert code.run(param) == recompiled.run(param) : code(code);
-        }
-    }
+    private static final List<String> texts = List.of("", " ", "a", "A", "あ", "\\", "\t", "some value");
 
     /**
      * Verify decompiled code.
@@ -477,17 +89,19 @@ public class CodeVerifier {
      * @param code A target code to verify.
      */
     protected final void verify(Code code) {
-        Supplier<Code> original = instantiator((Class<Code>) code.getClass());
-        Method originalMethod = searchInvocation(code.getClass());
-        Supplier<Code> recompiled = recompile2(code);
-        Method recompiledMethod = searchInvocation(recompiled.get().getClass());
+        JavaVerifier base = new JavaVerifier(code.getClass(), IllegalCallerException::new);
+        List inputs = prepareInputs(base.method);
+        List expecteds = new ArrayList();
 
-        try {
-            for (Object param : prepareInputs(originalMethod)) {
-                assert originalMethod.invoke(original.get(), param).equals(recompiledMethod.invoke(recompiled.get(), param));
-            }
-        } catch (Exception e) {
-            throw I.quiet(e);
+        for (Object input : inputs) {
+            expecteds.add(base.verifier.apply(input));
+        }
+
+        // java decompiler
+        JavaVerifier java = new JavaVerifier(recompile2(code), () -> code(code));
+
+        for (int i = 0; i < inputs.size(); i++) {
+            java.verify(inputs.get(i), expecteds.get(i));
         }
     }
 
@@ -501,7 +115,7 @@ public class CodeVerifier {
         Class[] params = method.getParameterTypes();
 
         if (params.length == 0) {
-            return Collections.singletonList(NONE);
+            return Collections.singletonList(NoParam);
         }
 
         Class type = params[0];
@@ -512,23 +126,23 @@ public class CodeVerifier {
         }
 
         if (type == boolean.class) {
-            return Arrays.asList(true, false);
+            return booleans;
         } else if (type == char.class) {
-            return Arrays.asList('2', 'B', 'a', '$', '@', 'c', 'a', 't');
+            return chars;
         } else if (type == int.class) {
-            return Arrays.asList(0, 1, 2, 3, -1, -2, -3);
+            return ints;
         } else if (type == long.class) {
-            return Arrays.asList(0L, 1L, 2L, 123456789L, -1L, -2L, -123456789L);
+            return longs;
         } else if (type == float.class) {
-            return Arrays.asList(0F, 1F, 0.2F, -1.3464F);
+            return floats;
         } else if (type == double.class) {
-            return Arrays.asList(0D, 1D, -5.4D, 1.239754297642323D, 100.3D);
+            return doubles;
         } else if (type == short.class) {
-            return Arrays.asList((short) 0, (short) 1, (short) 2, (short) -1, (short) -2);
+            return shorts;
         } else if (type == byte.class) {
-            return Arrays.asList((byte) 0, (byte) 1, (byte) 2, (byte) -1, (byte) -2);
+            return bytes;
         } else if (type == String.class) {
-            return Arrays.asList("", "a", "some value");
+            return texts;
         } else if (type == Class.class) {
             return Arrays.asList(method.getDeclaringClass(), int.class);
         } else {
@@ -653,7 +267,7 @@ public class CodeVerifier {
      * @param code
      * @return
      */
-    private <T extends Code> Supplier<T> recompile2(T code) {
+    private <T extends Code> Class<T> recompile2(T code) {
         Class<?> originalClass = code.getClass();
         Class<?> enclosingClass = originalClass.getEnclosingClass();
         String fqcn = originalClass.getName();
@@ -680,7 +294,7 @@ public class CodeVerifier {
             Class<T> loadedClass = (Class<T>) loader.loadClass(fqcn);
             assert originalClass != loadedClass; // load from different classloader
 
-            return instantiator(loadedClass);
+            return loadedClass;
         } catch (Exception e) {
             throw I.quiet(e);
         } catch (Error e) {
@@ -747,241 +361,109 @@ public class CodeVerifier {
     }
 
     /**
-     * Create instantiator.
-     * 
-     * @param type
-     * @return
+     * @version 2018/10/09 14:36:42
      */
-    private <T> Supplier<T> instantiator(Class<T> type) {
-        Constructor constructor = type.getDeclaredConstructors()[0];
-        constructor.setAccessible(true);
+    private static interface Verifier {
 
-        return () -> {
-            try {
-                return (T) constructor.newInstance((Object[]) Array.newInstance(Object.class, constructor.getParameterCount()));
-            } catch (Exception e) {
-                throw I.quiet(e);
-            }
-        };
-    }
-
-    /**
-     * Assert that java object equals to javascript object.
-     * 
-     * @param original
-     * @param recompiled
-     */
-    private void assertObject(Object original, Object recompiled) {
-        if (original == null) {
-            assert recompiled == null;
-        } else {
-            Class type = original.getClass();
-
-            if (type.isArray()) {
-                assertArray(original, recompiled);
-            } else if (type == Integer.class) {
-                // ========================
-                // INT
-                // ========================
-                int value = ((Integer) original).intValue();
-
-                if (recompiled instanceof Double) {
-                    assert value == ((Double) recompiled).intValue();
-                } else if (recompiled instanceof Long) {
-                    assert value == ((Long) recompiled).intValue();
-                } else if (recompiled instanceof UniqueTag) {
-                    assert value == 0;
-                } else {
-                    assert value == ((Integer) recompiled).intValue();
-                }
-            } else if (type == Long.class) {
-                // ========================
-                // LONG
-                // ========================
-                long value = ((Long) original).longValue();
-
-                if (recompiled instanceof UniqueTag) {
-                    assert value == 0L;
-                } else {
-                    long jsValue = createLong((NativeObject) recompiled);
-                    assert value == jsValue;
-                }
-            } else if (type == Float.class) {
-                // ========================
-                // FLOAT
-                // ========================
-                original = new BigDecimal((Float) original).round(new MathContext(3));
-                recompiled = new BigDecimal((Double) recompiled).round(new MathContext(3));
-
-                assert original.equals(recompiled);
-            } else if (type == Double.class) {
-                // ========================
-                // DOUBLE
-                // ========================
-                original = new BigDecimal((Double) original).round(new MathContext(3));
-                recompiled = new BigDecimal((Double) recompiled).round(new MathContext(3));
-
-                assert original.equals(recompiled);
-            } else if (type == Short.class) {
-                // ========================
-                // SHORT
-                // ========================
-                assert ((Short) original).doubleValue() == ((Double) recompiled).doubleValue();
-            } else if (type == Byte.class) {
-                // ========================
-                // BYTE
-                // ========================
-                assert ((Byte) original).doubleValue() == ((Double) recompiled).doubleValue();
-            } else if (type == Boolean.class) {
-                // ========================
-                // BOOLEAN
-                // ========================
-                if (recompiled instanceof Double) {
-                    recompiled = ((Double) recompiled).intValue() != 0;
-                }
-                assert original.equals(recompiled);
-            } else if (type == String.class) {
-                // ========================
-                // STRING
-                // ========================
-                assert recompiled.toString().equals(original);
-            } else if (type == Character.class) {
-                // ========================
-                // CHARACTER
-                // ========================
-                if (recompiled instanceof Double) {
-                    // numeric characters (i.e. 0, 1, 2...)
-                    recompiled = Character.valueOf((char) (((Double) recompiled).intValue() + 48));
-                }
-                if (recompiled instanceof NativeObject) {
-                    recompiled = NativeObject.callMethod((NativeObject) recompiled, Javascript
-                            .computeMethodName(Object.class, "toString", "()Ljava/lang/String;"), new Object[] {});
-                }
-                assert ((Character) original).toString().equals(recompiled.toString());
-            } else if (Throwable.class.isAssignableFrom(type)) {
-                // ========================
-                // THROWABLE
-                // ========================
-                assertException((Throwable) original, recompiled);
-            } else if (type == Class.class) {
-                // ========================
-                // Class
-                // ========================
-                assertClass((Class) original, recompiled);
-            } else {
-                // some object
-
-                // If this exception will be thrown, it is bug of this program. So we must rethrow
-                // the wrapped error in here.
-                throw new Error(recompiled.getClass() + " " + original.getClass() + "  " + original + "  " + recompiled);
-            }
-        }
-    }
-
-    /**
-     * Assert each items in array.
-     * 
-     * @param java
-     * @param js
-     */
-    private void assertArray(Object original, Object recompiled) {
-        // check array size
-        assert Array.getLength(original) == Array.getLength(recompiled);
-
-        // check each items
-        int size = Array.getLength(original);
-
-        for (int index = 0; index < size; index++) {
-            assertObject(Array.get(original, index), Array.get(recompiled, index));
-        }
-    }
-
-    /**
-     * Assert the specified javascript object is exception.
-     * 
-     * @param exception
-     * @param js
-     */
-    private void assertException(Throwable exception, Object js) {
-        // An expected error (not native Error object) was thrown. This is successful.
-        if (js instanceof String) {
-            String message = exception.getMessage();
-
-            if (message == null) {
-                assert js.equals("");
-            } else {
-                assert js.equals(message);
-            }
-        } else {
-            // Some error object was thrown certainly, but we cant check in detail.
-        }
+        /**
+         * Verify the culculation.
+         * 
+         * @param param An input parameter.
+         * @param expectedResult An expected result.
+         */
+        void verify(Object param, Object expectedResult);
     }
 
     /**
      * @version 2018/10/09 12:16:56
      */
-    private static class Verifiable<T> {
-
-        /** The target class to verify. */
-        private final Class<T> type;
-
-        /** The instant builder. */
-        private final Supplier<T> instantiator;
+    private static class JavaVerifier<T> implements Verifier {
 
         /** The verifier. */
+        private final WiseFunction verifier;
+
+        /** The actual verifier method. */
         private final Method method;
 
+        /** The error notifier. */
+        private final Supplier<Throwable> detailError;
+
         /**
          * @param type
+         * @param detailError
          */
-        private Verifiable(Class<T> type) {
-            this.type = type;
-            this.instantiator = instantiator();
-            this.method = searchInvocation();
+        private JavaVerifier(Class<T> type, Supplier<Throwable> detailError) {
+            this.detailError = Objects.requireNonNull(detailError);
+
+            // we smust create new instance for each parameters
+            Constructor c = type.getDeclaredConstructors()[0];
+            c.setAccessible(true);
+            WiseSupplier instantiator = () -> c.newInstance((Object[]) Array.newInstance(Object.class, c.getParameterCount()));
+
+            // search verifier method
+            method = I.signal(type.getDeclaredMethods()).take(m -> m.getName().equals("run")).first().to().v;
+            method.setAccessible(true);
+
+            switch (method.getParameterCount()) {
+            case 0:
+                verifier = param -> method.invoke(instantiator.get());
+                break;
+
+            case 1:
+                verifier = param -> method.invoke(instantiator.get(), param);
+                break;
+
+            default:
+                // If this exception will be thrown, it is bug of this program. So we must rethrow
+                // the wrapped error in here.
+                throw new Error(getClass().getSimpleName() + " don't support for multiple parameters.");
+            }
         }
 
         /**
-         * Create instantiator.
-         * 
-         * @param type
-         * @return
+         * {@inheritDoc}
          */
-        private Supplier<T> instantiator() {
-            Constructor constructor = type.getDeclaredConstructors()[0];
-            constructor.setAccessible(true);
-
-            return () -> {
-                try {
-                    return (T) constructor.newInstance((Object[]) Array.newInstance(Object.class, constructor.getParameterCount()));
-                } catch (Exception e) {
-                    throw I.quiet(e);
-                }
-            };
+        @Override
+        public void verify(Object param, Object expectedResult) {
+            assertObject(expectedResult, verifier.apply(param));
         }
 
         /**
-         * Search invocation.
+         * Assert that java object equals to javascript object.
          * 
-         * @param code
-         * @return
+         * @param expected
+         * @param actual
          */
-        private Method searchInvocation() {
-            // search method
-            for (Method method : type.getDeclaredMethods()) {
-                if (method.getName().equals("run")) {
-                    method.setAccessible(true);
+        private void assertObject(Object expected, Object actual) {
+            if (expected == null) {
+                assert actual == null : detailError.get();
+            } else {
+                Class type = expected.getClass();
 
-                    return method;
+                if (type.isArray()) {
+                    assertArray(expected, actual);
+                } else {
+                    assert expected.equals(actual) : detailError.get();
                 }
             }
-
-            // If this exception will be thrown, it is bug of this program. So we must rethrow the
-            // wrapped error in here.
-            throw new Error("Verifiable class must implement run method.");
         }
 
-        private Object invoke(Object param) {
-            return 
+        /**
+         * Assert each items in array.
+         * 
+         * @param expected
+         * @param actual
+         */
+        private void assertArray(Object expected, Object actual) {
+            // check array size
+            assert Array.getLength(expected) == Array.getLength(actual) : detailError.get();
+
+            // check each items
+            int size = Array.getLength(expected);
+
+            for (int index = 0; index < size; index++) {
+                assertObject(Array.get(expected, index), Array.get(actual, index));
+            }
         }
     }
 

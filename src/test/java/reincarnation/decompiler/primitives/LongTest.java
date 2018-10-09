@@ -15,7 +15,7 @@ import reincarnation.Code;
 import reincarnation.CodeVerifier;
 
 /**
- * @version 2018/10/05 15:12:53
+ * @version 2018/10/09 15:53:39
  */
 class LongTest extends CodeVerifier {
 
@@ -363,7 +363,7 @@ class LongTest extends CodeVerifier {
     @Test
     void equal() {
         verify(new Code.LongParamBoolean() {
-    
+
             @Override
             public boolean run(long value) {
                 return value == 0;
@@ -374,7 +374,7 @@ class LongTest extends CodeVerifier {
     @Test
     void notEqual() {
         verify(new Code.LongParamBoolean() {
-    
+
             @Override
             public boolean run(long value) {
                 return value != 0;
@@ -385,7 +385,7 @@ class LongTest extends CodeVerifier {
     @Test
     void less() {
         verify(new Code.LongParamBoolean() {
-    
+
             @Override
             public boolean run(long value) {
                 return value < 1;
@@ -396,7 +396,7 @@ class LongTest extends CodeVerifier {
     @Test
     void lessEqual() {
         verify(new Code.LongParamBoolean() {
-    
+
             @Override
             public boolean run(long value) {
                 return value <= 1;
@@ -407,7 +407,7 @@ class LongTest extends CodeVerifier {
     @Test
     void greater() {
         verify(new Code.LongParamBoolean() {
-    
+
             @Override
             public boolean run(long value) {
                 return value > 1;
@@ -418,7 +418,7 @@ class LongTest extends CodeVerifier {
     @Test
     void greaterEqual() {
         verify(new Code.LongParamBoolean() {
-    
+
             @Override
             public boolean run(long value) {
                 return value >= 1;

@@ -143,10 +143,10 @@ class IntTest extends CodeVerifier {
 
     @Test
     void max() {
-        verify(new Code.IntParam() {
+        verify(new Code.Int() {
 
             @Override
-            public int run(int value) {
+            public int run() {
                 return Integer.MAX_VALUE;
             }
         });
@@ -154,10 +154,10 @@ class IntTest extends CodeVerifier {
 
     @Test
     void min() {
-        verify(new Code.IntParam() {
+        verify(new Code.Int() {
 
             @Override
-            public int run(int value) {
+            public int run() {
                 return Integer.MIN_VALUE;
             }
         });
