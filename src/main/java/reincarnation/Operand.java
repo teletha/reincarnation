@@ -9,6 +9,10 @@
  */
 package reincarnation;
 
+import java.util.List;
+import java.util.function.Function;
+
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Expression;
 
 import kiss.I;
@@ -201,5 +205,30 @@ abstract class Operand {
         // If this exception will be thrown, it is bug of this program. So we must rethrow the
         // wrapped error in here.
         throw new Error("Implemetn #children at " + getClass().getName());
+    }
+
+    /**
+     * Converter.
+     * 
+     * @param operands
+     * @return
+     */
+    protected final NodeList<Expression> list(List<Operand> operands) {
+        return list(operands, Operand::build);
+    }
+
+    /**
+     * Converter.
+     * 
+     * @param operands
+     * @return
+     */
+    protected final <N extends com.github.javaparser.ast.Node> NodeList<N> list(List<Operand> operands, Function<Operand, N> converter) {
+        NodeList<N> list = new NodeList();
+
+        for (Operand operand : operands) {
+            list.add(converter.apply(operand));
+        }
+        return list;
     }
 }

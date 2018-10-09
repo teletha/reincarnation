@@ -75,6 +75,11 @@ class JavaClassDecompiler extends ClassVisitor {
      */
     @Override
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+        // ignore compiler generated method (e.g. generics)
+        if ((access & (ACC_BRIDGE)) != 0) {
+            return null;
+        }
+
         Type type = Type.getType(desc);
         Type returnType = type.getReturnType();
         Type[] parameterTypes = type.getArgumentTypes();

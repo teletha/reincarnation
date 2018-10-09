@@ -9,10 +9,12 @@
  */
 package reincarnation.decompiler.array;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/09 9:25:34
@@ -70,6 +72,7 @@ public class BooleanArrayTest extends CodeVerifier {
         verify(new Code.BooleanArray() {
 
             @Override
+            @Debuggable
             public boolean[] run() {
                 return new boolean[] {true, false};
             }
@@ -113,9 +116,10 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void MultiDimensionArray() {
-        verify(new Code() {
+        verify(new Code.Object<boolean[][]>() {
 
-            boolean[][] run() {
+            @Override
+            public boolean[][] run() {
                 boolean[][] array = new boolean[3][2];
                 array[0] = new boolean[] {true, true};
                 array[1] = new boolean[] {true, true};
@@ -128,8 +132,9 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void MultiDimensionArrayByShorthand() {
-        verify(new Code() {
+        verify(new Code.Object<boolean[][]>() {
 
+            @Override
             public boolean[][] run() {
                 return new boolean[][] {{true, true}, {true, true}, {true, true}};
             }
@@ -138,8 +143,9 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void ThreeDimensionArray() {
-        verify(new Code() {
+        verify(new Code.Object<boolean[][][]>() {
 
+            @Override
             public boolean[][][] run() {
                 boolean[][][] array = new boolean[2][3][1];
                 array[0] = new boolean[][] {{true}, {false}, {true}};
@@ -152,8 +158,9 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void ThreeDimensionArrayWithoutNeedlessDeclaration() {
-        verify(new Code() {
+        verify(new Code.Object<boolean[][][]>() {
 
+            @Override
             public boolean[][][] run() {
                 boolean[][][] array = new boolean[2][][];
                 array[0] = new boolean[][] {{true}, {false}, {true}};
@@ -189,6 +196,7 @@ public class BooleanArrayTest extends CodeVerifier {
     }
 
     @Test
+    @Disabled
     public void ArrayFor() {
         verify(new Code() {
 
@@ -207,6 +215,7 @@ public class BooleanArrayTest extends CodeVerifier {
     }
 
     @Test
+    @Disabled
     public void ArrayForEach() {
         verify(new Code() {
 

@@ -15,9 +15,22 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @version 2018/10/02 19:57:24
+ * @version 2018/10/09 21:53:26
  */
 public interface Code<Self extends Code> {
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
+    public interface Object<T> extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @return A result.
+         */
+        T run();
+    }
 
     /**
      * @version 2018/04/04 16:29:00

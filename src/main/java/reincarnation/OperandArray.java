@@ -10,11 +10,15 @@
 package reincarnation;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.ArrayCreationLevel;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.ArrayCreationExpr;
 import com.github.javaparser.ast.expr.Expression;
+
+import kiss.I;
 
 /**
  * <p>
@@ -57,7 +61,7 @@ import com.github.javaparser.ast.expr.Expression;
 class OperandArray extends Operand {
 
     /** The operand which indicates the size of this array. */
-    private final Operand size;
+    private final List<Operand> dimensions;
 
     /** The list of item operands. */
     private final ArrayList<Operand> items = new ArrayList();
@@ -74,8 +78,18 @@ class OperandArray extends Operand {
      * @param type A array type.
      */
     OperandArray(Operand size, Class type) {
-        this.size = size.disclose();
-        this.type = type.getComponentType();
+        this(List.of(size), type);
+    }
+
+    /**
+     * Create array.
+     * 
+     * @param size A initial size.
+     * @param type A array type.
+     */
+    OperandArray(List<Operand> dimensions, Class type) {
+        this.dimensions = dimensions;
+        this.type = root(type);
         fix(type);
     }
 
@@ -115,7 +129,7 @@ class OperandArray extends Operand {
         ArrayCreationExpr array = new ArrayCreationExpr(Util.loadType(type));
 
         if (items.isEmpty()) {
-            array.setLevels(new NodeList(new ArrayCreationLevel(size.build())));
+            array.setLevels(list(dimensions, o -> new ArrayCreationLevel(o.build())));
             array.setInitializer(null);
         } else {
             array.setLevels(new NodeList(new ArrayCreationLevel()));
@@ -137,6 +151,19 @@ class OperandArray extends Operand {
      */
     @Override
     public String toString() {
-        return "new " + type.getSimpleName() + "[" + size + "]";
+        return "new " + type.getSimpleName() + I.signal(dimensions).map(d -> "[" + d + "]").scan(Collectors.joining()).to().get();
+    }
+
+    /**
+     * Find the root type.
+     * 
+     * @param type
+     * @return
+     */
+    private Class root(Class type) {
+        if (type.isArray()) {
+            return root(type.getComponentType());
+        }
+        return type;
     }
 }

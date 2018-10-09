@@ -20,6 +20,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import org.objectweb.asm.AnnotationVisitor;
@@ -954,7 +955,7 @@ class JavaMethodDecompiler extends MethodVisitor {
 
         // read array length
         case ARRAYLENGTH:
-            current.addOperand(current.remove(0) + ".length");
+            current.addOperand(new OperandFieldAccess(current.remove(0), "length"));
             break;
 
         // throw
@@ -1391,6 +1392,19 @@ class JavaMethodDecompiler extends MethodVisitor {
         if (immediately && current.stack.size() != 0) {
             current.addExpression(current.remove(0));
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void visitMultiANewArrayInsn(String desc, int dimension) {
+        List<Operand> dimensions = new ArrayList();
+
+        for (int i = 0; i <= dimension - 1; i++) {
+            dimensions.add(0, current.remove(0).fix(int.class));
+        }
+        current.addOperand(new OperandArray(dimensions, load(desc)));
     }
 
     /**
