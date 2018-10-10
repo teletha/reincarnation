@@ -220,6 +220,10 @@ public class CodeVerifier {
             }
         }
 
+        unit.getImports().forEach(e -> {
+            System.out.println(e.getNameAsString());
+        });
+
         String decompiled = unit.toString();
         Silent notifier = new Silent();
 

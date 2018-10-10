@@ -35,6 +35,19 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
+    public interface RunInt extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @return A result.
+         */
+        void run(int value);
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
     public interface Object<T> extends Code {
 
         /**

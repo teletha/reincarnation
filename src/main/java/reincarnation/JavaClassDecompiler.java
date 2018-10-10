@@ -19,6 +19,7 @@ import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
+import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.InitializerDeclaration;
@@ -110,6 +111,26 @@ class JavaClassDecompiler extends ClassVisitor {
         }
 
         return new JavaMethodDecompiler(name, clazz, block, locals, returnType);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void visitInnerClass(String name, String outerName, String innerName, int access) {
+        if (outerName != null) {
+            Class outer = load(outerName);
+            if (outer == clazz.getEnclosingClass()) {
+                Class inner = load(name);
+
+                if (inner != clazz) {
+                    CompilationUnit innerUnit = Reincarnation.exhume(inner);
+                    System.out.println(inner.getName());
+                    root.addMember(innerUnit.getClassByName(inner.getSimpleName()).get());
+                }
+            }
+        }
+        super.visitInnerClass(name, outerName, innerName, access);
     }
 
     /**

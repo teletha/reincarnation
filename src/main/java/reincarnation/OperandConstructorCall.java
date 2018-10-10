@@ -9,50 +9,40 @@
  */
 package reincarnation;
 
+import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.StringJoiner;
 
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 
+import kiss.I;
+
 /**
  * @version 2018/10/10 10:00:19
  */
 class OperandConstructorCall extends Operand {
 
-    /** The owner. */
-    private final Operand context;
-
-    /** The constructor owner. */
-    private final Class owner;
+    /** The constructor. */
+    private final Constructor constructor;
 
     /** The constructor parameter. */
     private final List<Operand> params;
 
     /**
-     * @param owner
+     * Create constructor call.
+     * 
+     * @param ownerType
+     * @param parameterTypes
+     * @param parameters
      */
-    OperandConstructorCall(Class owner) {
-        this(owner, List.of());
-    }
-
-    /**
-     * @param owner
-     * @param params
-     */
-    OperandConstructorCall(Class owner, List<Operand> params) {
-        this(null, owner, params);
-    }
-
-    /**
-     * @param context
-     * @param owner
-     * @param params
-     */
-    OperandConstructorCall(Operand context, Class owner, List<Operand> params) {
-        this.context = context;
-        this.owner = owner;
-        this.params = params;
+    OperandConstructorCall(Class ownerType, Class[] parameterTypes, List<Operand> parameters) {
+        try {
+            this.constructor = ownerType.getDeclaredConstructor(parameterTypes);
+            this.params = parameters;
+        } catch (Exception e) {
+            throw I.quiet(e);
+        }
     }
 
     /**
@@ -60,7 +50,7 @@ class OperandConstructorCall extends Operand {
      */
     @Override
     Expression build() {
-        return new ObjectCreationExpr(context.build(), Util.loadType(owner).asClassOrInterfaceType(), list(params));
+        return new ObjectCreationExpr(null, Util.loadType(constructor.getDeclaringClass()).asClassOrInterfaceType(), list(params));
     }
 
     /**
@@ -72,6 +62,6 @@ class OperandConstructorCall extends Operand {
         for (Operand param : params) {
             joiner.add(param.toString());
         }
-        return "new " + owner.getSimpleName() + joiner;
+        return "new " + constructor.getDeclaringClass().getSimpleName() + joiner;
     }
 }

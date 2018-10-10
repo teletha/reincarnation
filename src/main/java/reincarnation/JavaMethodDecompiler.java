@@ -1322,11 +1322,11 @@ class JavaMethodDecompiler extends MethodVisitor {
         // Invoke instance method; special handling for superclass constructor, private method,
         // and instance initialization method invocations
         case INVOKESPECIAL:
-            // push "this" operand
-            contexts.add(0, current.remove(0));
-
             // Analyze method argument
             if (!methodName.equals("<init>")) {
+                // push "this" operand
+                contexts.add(0, current.remove(0));
+
                 if (owner == clazz) {
                     // private method invocation
                     // current.addOperand(translator.translateMethod(owner, methodName, desc,
@@ -1338,12 +1338,13 @@ class JavaMethodDecompiler extends MethodVisitor {
                     // parameters, contexts), returnType);
                 }
             } else {
+                // remove type operand
+                current.remove(0);
+
                 // constructor
                 if (countInitialization != 0) {
                     // instance initialization method invocation
-                    // current.addOperand(translator.translateConstructor(owner, desc,
-                    // parameters,
-                    // contexts), owner);
+                    current.addOperand(new OperandConstructorCall(owner, parameters, contexts));
 
                     countInitialization--;
 
@@ -1433,7 +1434,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             }
             countInitialization++;
 
-            current.addOperand(new OperandConstructorCall(load(type)));
+            current.addOperand(new OperandType(load(type)));
             break;
 
         case ANEWARRAY:

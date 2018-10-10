@@ -29,33 +29,22 @@ class OperandMethodCall extends Operand {
     private final Method method;
 
     /** The context. */
-    private final Operand context;
+    private final Operand owner;
 
     /** The method parameters. */
     private final List<Operand> params;
 
     /**
-     * @param context
-     * @param name
-     * @param params
-     */
-    OperandMethodCall(Method method, Operand context, List<Operand> params) {
-        this.method = method;
-        this.context = context;
-        this.params = params;
-    }
-
-    /**
-     * @param owner
+     * @param ownerType
      * @param methodName
      * @param parameters
      * @param remove
      * @param contexts
      */
-    OperandMethodCall(Class owner, String methodName, Class[] parameterTypes, Operand context, ArrayList<Operand> parameters) {
+    OperandMethodCall(Class ownerType, String methodName, Class[] parameterTypes, Operand owner, ArrayList<Operand> parameters) {
         try {
-            this.method = owner.getDeclaredMethod(methodName, parameterTypes);
-            this.context = context;
+            this.method = ownerType.getDeclaredMethod(methodName, parameterTypes);
+            this.owner = owner;
             this.params = parameters;
         } catch (Exception e) {
             throw I.quiet(e);
@@ -71,7 +60,7 @@ class OperandMethodCall extends Operand {
         for (Operand o : this.params) {
             params.add(o.build());
         }
-        return new MethodCallExpr(context.build(), method.getName(), params);
+        return new MethodCallExpr(owner.build(), method.getName(), params);
     }
 
     /**
@@ -84,6 +73,6 @@ class OperandMethodCall extends Operand {
             joiner.add(operand.toString());
         }
 
-        return context + "." + method.getName() + joiner;
+        return owner + "." + method.getName() + joiner;
     }
 }
