@@ -1,0 +1,53 @@
+/*
+ * Copyright (C) 2016 Nameless Production Committee
+ *
+ * Licensed under the MIT License (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *          http://opensource.org/licenses/mit-license.php
+ */
+package reincarnation.decompiler.primitives;
+
+import org.junit.jupiter.api.Test;
+
+import reincarnation.Code;
+import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
+
+/**
+ * @version 2018/10/10 9:54:53
+ */
+class DoubleInAssertTest extends CodeVerifier {
+
+    private double value = 10D;
+
+    @Test
+    void less() throws Exception {
+        verify(new Code.Run() {
+
+            private double value = 10D;
+
+            @Debuggable
+            @Override
+            public void run() {
+                assert value < 100D; // CMPG IFLT
+            }
+        });
+    }
+
+    @Test
+    void lessEqual() throws Exception {
+        assert value <= 100D; // CMPG IFLE
+    }
+
+    @Test
+    void greater() throws Exception {
+        assert value > 0D; // CMPL IFGT
+    }
+
+    @Test
+    void greaterEqual() throws Exception {
+        assert value >= 0D; // CMPL IFGE
+    }
+}

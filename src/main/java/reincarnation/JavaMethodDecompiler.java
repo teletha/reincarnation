@@ -1433,7 +1433,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             }
             countInitialization++;
 
-            // current.addOperand("new " + Javascript.computeClassName(convert(type)));
+            current.addOperand(new OperandConstructorCall(load(type)));
             break;
 
         case ANEWARRAY:
@@ -1513,18 +1513,12 @@ class JavaMethodDecompiler extends MethodVisitor {
             // Increment not-int type doesn't use Iinc instruction, so we must distinguish
             // increment from addition by pattern matching. Post increment code of non-int type
             // leaves characteristic pattern like the following.
-            if (match(FLOAD, DUP, FCONST_1, FADD, FSTORE) || match(DLOAD, DUP2, DCONST_1, DADD, DSTORE)) {
-                // for float and double
+            if (match(LLOAD, DUP2, LCONST_1, LADD, LSTORE) || match(FLOAD, DUP, FCONST_1, FADD, FSTORE) || match(DLOAD, DUP2, DCONST_1, DADD, DSTORE)) {
+                // for long, float and double
                 current.remove(0);
                 current.remove(0);
 
-                current.addOperand(variable + "++");
-            } else if (match(LLOAD, DUP2, LCONST_1, LADD, LSTORE)) {
-                // for long
-                current.remove(0);
-                current.remove(0);
-
-                current.addOperand(increment(variable, long.class, true, true));
+                current.addOperand(increment(variable, load(opcode), true, true));
             } else {
                 // for other
                 if (current.peek(0) != null) {

@@ -22,6 +22,19 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
+    public interface Run extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @return A result.
+         */
+        void run();
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
     public interface Object<T> extends Code {
 
         /**
