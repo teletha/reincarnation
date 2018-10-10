@@ -13,6 +13,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -231,7 +232,7 @@ public class CodeVerifier {
         try {
             JavaCompiler compiler = new JavaCompiler(notifier);
             compiler.addSource(unit.getType(0).getNameAsString(), decompiled);
-            compiler.addCurrentClassPath();
+            compiler.addClassPath(Path.of("target/test-classes"));
 
             ClassLoader loader = compiler.compile();
             Class<T> loadedClass = (Class<T>) loader.loadClass(fqcn);
