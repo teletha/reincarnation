@@ -91,6 +91,8 @@ class OperandCondition extends Operand {
         this.right = right;
         this.operator = operator;
         this.then = transition;
+
+        left.bindTo(right);
     }
 
     /**
@@ -195,11 +197,11 @@ class OperandCondition extends Operand {
         Class rightType = right.infer().type();
 
         if (leftType == char.class && rightType != char.class) {
-            right = right.cast(char.class);
+            right = right.fix(char.class);
         }
 
         if (rightType == char.class && leftType != char.class) {
-            left = left.cast(char.class);
+            left = left.fix(char.class);
         }
 
         // write out
@@ -265,11 +267,11 @@ class OperandCondition extends Operand {
         Class rightType = right.infer().type();
 
         if (leftType == char.class && rightType != char.class) {
-            right = right.cast(char.class);
+            right = right.fix(char.class);
         }
 
         if (rightType == char.class && leftType != char.class) {
-            left = left.cast(char.class);
+            left = left.fix(char.class);
         }
 
         Operator operator;

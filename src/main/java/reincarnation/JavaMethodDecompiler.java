@@ -353,7 +353,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                 // name), type, false, false));
             } else {
                 Operand filed = new OperandFieldAccess(current.remove(1), name);
-                Operand value = current.remove(0).cast(type);
+                Operand value = current.remove(0).fix(type);
                 OperandAssign assign = new OperandAssign(filed, AssignOperator.ASSIGN, value);
 
                 if (match(DUPLICATE_AWAY, PUTFIELD)) {
@@ -393,8 +393,7 @@ class JavaMethodDecompiler extends MethodVisitor {
 
                 current.addOperand(increment(accessClassField(owner, name), type, false, false));
             } else {
-                OperandAssign assign = new OperandAssign(accessClassField(owner, name), AssignOperator.ASSIGN, current.remove(0)
-                        .cast(type));
+                OperandAssign assign = new OperandAssign(accessClassField(owner, name), AssignOperator.ASSIGN, current.remove(0).fix(type));
 
                 if (match(DUPLICATE, PUTSTATIC)) {
                     // The pattern of static field assignment in method parameter.
@@ -883,7 +882,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                 } else if (operand.toString().equals("1")) {
                     operand = OperandBoolean.True;
                 } else if (operand instanceof OperandAmbiguousZeroOneTernary) {
-                    operand = operand.cast(boolean.class);
+                    operand = operand.fix(boolean.class);
                 }
             }
             current.addOperand(new OperandReturn(operand));
@@ -931,7 +930,7 @@ class JavaMethodDecompiler extends MethodVisitor {
 
             if (opcode == CASTORE) {
                 // convert assign value (int -> char)
-                value = value.cast(char.class);
+                value = value.fix(char.class);
             }
 
             if (contextMaybeArray instanceof OperandArray) {
@@ -983,7 +982,7 @@ class JavaMethodDecompiler extends MethodVisitor {
 
         case I2C:
             // cast int to char
-            current.addOperand("String.fromCharCode(" + current.remove(0) + ")", char.class);
+            current.addOperand(new OperandCast(current.remove(0), char.class));
             break;
 
         case L2I:
@@ -1121,7 +1120,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             } else {
                 // others
                 Operand left = current.remove(0);
-                current.condition(left, EQ, new OperandNumber(0).cast(left.infer()), node);
+                current.condition(left, EQ, new OperandNumber(0).fix(left.infer().type()), node);
             }
             break;
         case IFNE: // != 0
@@ -1131,7 +1130,7 @@ class JavaMethodDecompiler extends MethodVisitor {
             } else {
                 // others
                 Operand left = current.remove(0);
-                current.condition(left, NE, new OperandNumber(0).cast(left.infer()), node);
+                current.condition(left, NE, new OperandNumber(0).fix(left.infer().type()), node);
             }
             break;
 

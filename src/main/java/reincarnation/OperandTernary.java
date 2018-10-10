@@ -66,17 +66,6 @@ class OperandTernary extends OperandCondition {
      * {@inheritDoc}
      */
     @Override
-    Operand castActual(Class type) {
-        if (type == char.class && this.type.type() == Number.class) {
-            return new OperandExpression("String.fromCharCode(" + this + ")", type);
-        }
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     InferredType infer() {
         return type;
     }

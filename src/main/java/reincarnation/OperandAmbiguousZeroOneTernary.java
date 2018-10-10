@@ -32,19 +32,6 @@ class OperandAmbiguousZeroOneTernary extends Operand {
      * {@inheritDoc}
      */
     @Override
-    Operand castActual(Class type) {
-        if (type == boolean.class) {
-            return condition;
-        }
-
-        // no cast
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     InferredType infer() {
         return new InferredType(int.class);
     }

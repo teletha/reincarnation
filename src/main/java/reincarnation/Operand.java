@@ -93,37 +93,6 @@ abstract class Operand {
     }
 
     /**
-     * @param type
-     * @return
-     */
-    final Operand cast(Class type) {
-        Operand operand = castActual(type);
-        operand.duplicated = duplicated;
-
-        return operand;
-    }
-
-    /**
-     * @param type
-     * @return
-     */
-    final Operand cast(InferredType type) {
-        return cast(type.type());
-    }
-
-    /**
-     * <p>
-     * Internal API.
-     * </p>
-     * 
-     * @param type
-     * @return
-     */
-    Operand castActual(Class type) {
-        return this;
-    }
-
-    /**
      * <p>
      * Invert operand value if we can.
      * </p>

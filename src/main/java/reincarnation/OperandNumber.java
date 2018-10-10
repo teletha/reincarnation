@@ -10,6 +10,7 @@
 package reincarnation;
 
 import com.github.javaparser.ast.expr.BooleanLiteralExpr;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.DoubleLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
@@ -38,26 +39,26 @@ class OperandNumber extends Operand {
         return new InferredType(value.getClass());
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected Operand castActual(Class type) {
-        if (type == char.class) {
-            char ch = (char) value.intValue();
-
-            if (Character.isSurrogate(ch) == false) {
-                return new OperandString(String.valueOf(ch));
-            }
-        } else if (type == boolean.class) {
-            if (value.intValue() == 0) {
-                return new OperandBoolean(false);
-            } else if (value.intValue() == 1) {
-                return new OperandBoolean(true);
-            }
-        }
-        return this;
-    }
+    // /**
+    // * {@inheritDoc}
+    // */
+    // @Override
+    // protected Operand castActual(Class type) {
+    // if (type == char.class) {
+    // char ch = (char) value.intValue();
+    //
+    // if (Character.isSurrogate(ch) == false) {
+    // return new OperandString(String.valueOf(ch));
+    // }
+    // } else if (type == boolean.class) {
+    // if (value.intValue() == 0) {
+    // return new OperandBoolean(false);
+    // } else if (value.intValue() == 1) {
+    // return new OperandBoolean(true);
+    // }
+    // }
+    // return this;
+    // }
 
     /**
      * {@inheritDoc}
@@ -94,6 +95,10 @@ class OperandNumber extends Operand {
             } else {
                 return new BooleanLiteralExpr(true);
             }
+        }
+
+        if (type.is(char.class)) {
+            return new CharLiteralExpr((char) value.intValue());
         }
 
         if (value instanceof Integer || value instanceof Short || value instanceof Byte) {
