@@ -16,7 +16,7 @@ public class Project extends bee.api.Project {
         require("com.github.javaparser", "javaparser-core", "3.6.25");
         require("com.github.teletha", "antibug", "0.6").atTest();
         require("com.github.teletha", "Marionette", "0.2").atTest();
-        require("com.github.marschall", "memoryfilesystem", "1.2.2").atTest();
+        require("com.google.googlejavaformat", "google-java-format", "1.6").atTest();
         require("com.github.teletha", "filer", "0.5").atTest();
     }
 }

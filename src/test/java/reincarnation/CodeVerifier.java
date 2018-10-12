@@ -206,25 +206,9 @@ public class CodeVerifier {
      * @return
      */
     private <T extends Code> Class<T> recompile(T code) {
-        Class<?> originalClass = code.getClass();
-        Class<?> enclosingClass = originalClass.getEnclosingClass();
-        String fqcn = originalClass.getName();
+        JavaSourceCode source = Reincarnation.exhume(code.getClass());
 
-        CompilationUnit unit = Reincarnation.exhume(code.getClass());
-
-        if (enclosingClass != null) {
-            unit = enclose(enclosingClass.getSimpleName(), unit);
-
-            if (originalClass.isAnonymousClass()) {
-                fqcn = fqcn.replace("$", "$" + enclosingClass.getSimpleName() + "$");
-            }
-        }
-
-        unit.getImports().forEach(e -> {
-            System.out.println(e.getNameAsString());
-        });
-
-        String decompiled = unit.toString();
+        String decompiled = source.toString();
         Silent notifier = new Silent();
 
         if (Debugger.isEnable()) {
@@ -235,12 +219,12 @@ public class CodeVerifier {
 
         try {
             JavaCompiler compiler = new JavaCompiler(notifier);
-            compiler.addSource(unit.getType(0).getNameAsString(), decompiled);
+            compiler.addSource(source.root.getName(), decompiled);
             compiler.addClassPath(Path.of("target/test-classes"));
 
             ClassLoader loader = compiler.compile();
-            Class<T> loadedClass = (Class<T>) loader.loadClass(fqcn);
-            assert originalClass != loadedClass; // load from different classloader
+            Class<T> loadedClass = (Class<T>) loader.loadClass(source.className);
+            assert code.getClass() != loadedClass; // load from different classloader
 
             return loadedClass;
         } catch (Exception e) {

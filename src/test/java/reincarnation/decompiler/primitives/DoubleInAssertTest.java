@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/10 9:54:53
@@ -28,7 +27,6 @@ class DoubleInAssertTest extends CodeVerifier {
 
             private double value = 10D;
 
-            @Debuggable
             @Override
             public void run() {
                 assert value < 100D; // CMPG IFLT

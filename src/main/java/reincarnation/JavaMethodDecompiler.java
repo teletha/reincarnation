@@ -155,8 +155,8 @@ class JavaMethodDecompiler extends MethodVisitor {
     /** The extra opcode for byte code parsing. */
     private static final int LABEL = 300;
 
-    /** The current processing class. */
-    private final Class clazz;
+    /** The current processing source. */
+    private final JavaSourceCode source;
 
     /** The method return type. */
     private final Type returnType;
@@ -231,15 +231,15 @@ class JavaMethodDecompiler extends MethodVisitor {
      * @param locals
      * @param returns
      */
-    JavaMethodDecompiler(String name, Class clazz, BlockStmt root, LocalVariables locals, Type returns) {
+    JavaMethodDecompiler(JavaSourceCode source, BlockStmt root, LocalVariables locals, Type returns) {
         super(ASM7);
 
-        this.clazz = clazz;
+        this.source = source;
         this.root = root;
         this.returnType = returns;
         this.locals = locals;
 
-        Debugger.recordMethodName(name);
+        Debugger.recordMethodName(source.className);
     }
 
     /**
@@ -1283,6 +1283,7 @@ class JavaMethodDecompiler extends MethodVisitor {
 
         // compute owner class
         Class owner = load(className);
+        source.require(owner);
 
         // compute parameter types
         Type[] types = Type.getArgumentTypes(desc);
@@ -1327,7 +1328,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                 // push "this" operand
                 contexts.add(0, current.remove(0));
 
-                if (owner == clazz) {
+                if (owner == source.clazz) {
                     // private method invocation
                     // current.addOperand(translator.translateMethod(owner, methodName, desc,
                     // parameters, contexts), returnType);
@@ -1344,7 +1345,7 @@ class JavaMethodDecompiler extends MethodVisitor {
                 // constructor
                 if (countInitialization != 0) {
                     // instance initialization method invocation
-                    current.addOperand(new OperandConstructorCall(owner, parameters, contexts));
+                    current.addOperand(new OperandConstructorCall(null, owner, parameters, contexts));
 
                     countInitialization--;
 
@@ -1354,8 +1355,8 @@ class JavaMethodDecompiler extends MethodVisitor {
                     if (className.equals("java/lang/Object")) {
                         // ignore
                     } else {
-                        // current.addOperand(translator.translateSuperMethod(owner, methodName,
-                        // desc, parameters, contexts), returnType);
+                        String kind = owner == source.clazz ? "this" : "super";
+                        current.addOperand(new OperandConstructorCall(kind, owner, parameters, contexts));
                     }
                 }
             }

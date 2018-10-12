@@ -15,6 +15,7 @@ import java.util.StringJoiner;
 
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
+import com.github.javaparser.ast.expr.ThisExpr;
 
 import kiss.I;
 
@@ -22,6 +23,9 @@ import kiss.I;
  * @version 2018/10/10 10:00:19
  */
 class OperandConstructorCall extends Operand {
+
+    /** The call kind. (this, super or others) */
+    private final String kind;
 
     /** The constructor. */
     private final Constructor constructor;
@@ -36,8 +40,9 @@ class OperandConstructorCall extends Operand {
      * @param parameterTypes
      * @param parameters
      */
-    OperandConstructorCall(Class ownerType, Class[] parameterTypes, List<Operand> parameters) {
+    OperandConstructorCall(String kind, Class ownerType, Class[] parameterTypes, List<Operand> parameters) {
         try {
+            this.kind = kind;
             this.constructor = ownerType.getDeclaredConstructor(parameterTypes);
             this.params = parameters;
         } catch (Exception e) {
@@ -50,7 +55,14 @@ class OperandConstructorCall extends Operand {
      */
     @Override
     Expression build() {
-        return new ObjectCreationExpr(null, Util.loadType(constructor.getDeclaringClass()).asClassOrInterfaceType(), list(params));
+        if (kind == null) {
+            return new ObjectCreationExpr(null, Util.loadType(constructor.getDeclaringClass()).asClassOrInterfaceType(), list(params));
+        } else if (kind.equals("this")) {
+            return new ObjectCreationExpr(new ThisExpr(), Util.loadType(constructor.getDeclaringClass())
+                    .asClassOrInterfaceType(), list(params));
+        } else {
+            return new ObjectCreationExpr(null, Util.loadType(constructor.getDeclaringClass()).asClassOrInterfaceType(), list(params));
+        }
     }
 
     /**
