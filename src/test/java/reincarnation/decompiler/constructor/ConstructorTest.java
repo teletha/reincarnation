@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/10 11:47:57
@@ -395,6 +396,7 @@ class ConstructorTest extends CodeVerifier {
     void Anonymous() {
         verify(new Code.TextParam() {
 
+            @Debuggable
             @Override
             public String run(String value) {
                 return new java.lang.Object() {

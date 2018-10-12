@@ -78,6 +78,12 @@ class JavaClassDecompiler extends ClassVisitor {
         }
         decompile.setModifiers(modifier(source.clazz.getModifiers()));
         decompile.setInterface(source.clazz.isInterface());
+
+        Class superclass = source.clazz.getSuperclass();
+
+        if (superclass != Object.class) {
+            decompile.addExtendedType(superclass);
+        }
     }
 
     /**

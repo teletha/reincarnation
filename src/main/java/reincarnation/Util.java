@@ -255,7 +255,9 @@ public class Util {
         if (type.isArray()) {
             return new ArrayType(loadType(type.getComponentType()), Origin.TYPE, new NodeList());
         }
-
+        if (type.isAnonymousClass()) {
+            return JavaParser.parseClassOrInterfaceType(type.getName());
+        }
         return JavaParser.parseClassOrInterfaceType(type.getCanonicalName());
     }
 

@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.StringJoiner;
 
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.expr.ThisExpr;
 
 import kiss.I;
 
@@ -57,11 +57,8 @@ class OperandConstructorCall extends Operand {
     Expression build() {
         if (kind == null) {
             return new ObjectCreationExpr(null, Util.loadType(constructor.getDeclaringClass()).asClassOrInterfaceType(), list(params));
-        } else if (kind.equals("this")) {
-            return new ObjectCreationExpr(new ThisExpr(), Util.loadType(constructor.getDeclaringClass())
-                    .asClassOrInterfaceType(), list(params));
         } else {
-            return new ObjectCreationExpr(null, Util.loadType(constructor.getDeclaringClass()).asClassOrInterfaceType(), list(params));
+            return new MethodCallExpr(null, kind, list(params));
         }
     }
 

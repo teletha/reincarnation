@@ -181,11 +181,11 @@ public final class JavaSourceCode {
                     return;
                 }
 
-                if (dependency.isPrimitive() || dependency.isAnonymousClass() || dependency.isLocalClass()) {
+                if (dependency.isPrimitive() || dependency.isLocalClass()) {
                     return;
                 }
 
-                if (dependency.getCanonicalName().startsWith(root.getCanonicalName() + ".")) {
+                if (dependency.isAnonymousClass() || dependency.getCanonicalName().startsWith(root.getCanonicalName() + ".")) {
                     members.add(dependency);
                 } else {
                     classes.add(dependency);
