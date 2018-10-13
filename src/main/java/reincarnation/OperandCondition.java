@@ -9,13 +9,10 @@
  */
 package reincarnation;
 
-import com.github.javaparser.ast.expr.BinaryExpr;
-import com.github.javaparser.ast.expr.BinaryExpr.Operator;
-import com.github.javaparser.ast.expr.EnclosedExpr;
-import com.github.javaparser.ast.expr.Expression;
-
 import kiss.I;
 import kiss.Signal;
+import reincarnation.coder.Coder;
+import reincarnation.operator.BinaryOperator;
 
 /**
  * <h1>Algorithm for restoration of logical expression</h1>
@@ -191,7 +188,7 @@ class OperandCondition extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public String toString() {
+    public void write(Coder coder) {
         // convert int to char if needed
         Class leftType = left.infer().type();
         Class rightType = right.infer().type();
@@ -204,108 +201,38 @@ class OperandCondition extends Operand {
             left = left.fix(char.class);
         }
 
-        // write out
-        StringBuilder builder = new StringBuilder();
-
-        if (group) {
-            builder.append('(');
-        }
-
-        builder.append(left);
-
+        BinaryOperator operator;
         switch (this.operator) {
         case AND:
-            builder.append("&&");
+            operator = BinaryOperator.AND;
             break;
 
         case OR:
-            builder.append("||");
+            operator = BinaryOperator.OR;
             break;
 
         case EQ:
-            builder.append("==");
+            operator = BinaryOperator.EQUAL;
             break;
 
         case NE:
-            builder.append("!=");
+            operator = BinaryOperator.NOT_EQUALS;
             break;
 
         case LT:
-            builder.append('<');
+            operator = BinaryOperator.LESS;
             break;
 
         case GT:
-            builder.append('>');
+            operator = BinaryOperator.GREATER;
             break;
 
         case LE:
-            builder.append("<=");
+            operator = BinaryOperator.LESS_EQUALS;
             break;
 
         case GE:
-            builder.append(">=");
-            break;
-        }
-
-        builder.append(right);
-
-        if (group) {
-            builder.append(')');
-        }
-
-        // API definition
-        return builder.toString();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    Expression build() {
-        // convert int to char if needed
-        Class leftType = left.infer().type();
-        Class rightType = right.infer().type();
-
-        if (leftType == char.class && rightType != char.class) {
-            right = right.fix(char.class);
-        }
-
-        if (rightType == char.class && leftType != char.class) {
-            left = left.fix(char.class);
-        }
-
-        Operator operator;
-        switch (this.operator) {
-        case AND:
-            operator = Operator.AND;
-            break;
-
-        case OR:
-            operator = Operator.OR;
-            break;
-
-        case EQ:
-            operator = Operator.EQUALS;
-            break;
-
-        case NE:
-            operator = Operator.NOT_EQUALS;
-            break;
-
-        case LT:
-            operator = Operator.LESS;
-            break;
-
-        case GT:
-            operator = Operator.GREATER;
-            break;
-
-        case LE:
-            operator = Operator.LESS_EQUALS;
-            break;
-
-        case GE:
-            operator = Operator.GREATER_EQUALS;
+            operator = BinaryOperator.GREATER_EQUALS;
             break;
 
         default:
@@ -314,11 +241,10 @@ class OperandCondition extends Operand {
             throw new Error();
         }
 
-        Expression expression = new BinaryExpr(left.build(), right.build(), operator);
-
         if (group) {
-            expression = new EnclosedExpr(expression);
+            coder.writeEnclose(encolose());
+        } else {
+            coder.writeBinaryOperation(left, operator, right);
         }
-        return expression;
     }
 }

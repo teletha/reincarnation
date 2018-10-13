@@ -132,6 +132,10 @@ abstract class Operand implements Code {
         return this;
     }
 
+    Operand statement() {
+        return new OperandStatement(this);
+    }
+
     /**
      * <p>
      * Infer the type of this {@link Operand}.

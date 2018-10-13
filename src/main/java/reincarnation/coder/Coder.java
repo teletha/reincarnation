@@ -23,6 +23,7 @@ import java.util.function.Function;
 import kiss.I;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
+import reincarnation.operator.UnaryOperator;
 
 /**
  * @version 2018/10/13 11:03:28
@@ -328,6 +329,14 @@ public abstract class Coder {
     public abstract void writeBinaryOperation(Code left, BinaryOperator operator, Code right);
 
     /**
+     * Unary operation expression.
+     * 
+     * @param code A inner code.
+     * @param operator A operator.
+     */
+    public abstract void writeUnaryOperation(Code code, UnaryOperator operator);
+
+    /**
      * Access to the local variable.
      * 
      * @param name A local variable name.
@@ -342,4 +351,10 @@ public abstract class Coder {
      */
     public abstract void writeLocalVariableDeclaration(Class type, String name);
 
+    /**
+     * Statement declaration.
+     * 
+     * @param code A inner code.
+     */
+    public abstract void writeStatement(Code code);
 }

@@ -33,11 +33,11 @@ import org.objectweb.asm.Type;
 import kiss.I;
 import reincarnation.Node.Switch;
 import reincarnation.Node.TryCatchFinallyBlocks;
-import reincarnation.OperandUnary.UnaryOperator;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
+import reincarnation.operator.UnaryOperator;
 
 /**
  * @version 2018/10/08 12:56:11
@@ -610,7 +610,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 current.addExpression(new OperandUnary(variable, UnaryOperator.PRE_DECREMENT));
             }
         } else {
-            current.addExpression(new OperandAssign(variable, AssignOperator.ASSIGN, new OperandAssign(variable, AssignOperator.PLUS, new OperandNumber(increment))));
+            current.addOperand(new OperandAssign(variable, AssignOperator.PLUS, new OperandNumber(increment)).statement());
         }
     }
 
@@ -803,13 +803,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // & operand
         case IAND:
         case LAND:
-            current.join(BinaryOperator.AND).enclose();
+            current.join(BinaryOperator.BINARY_AND).enclose();
             break;
 
         // | operand
         case IOR:
         case LOR:
-            current.join(BinaryOperator.OR).enclose();
+            current.join(BinaryOperator.BINARY_OR).enclose();
             break;
 
         // ^ operand

@@ -16,11 +16,36 @@ import com.github.javaparser.ast.expr.BinaryExpr.Operator;
  * @version 2018/10/13 17:58:14
  */
 public enum BinaryOperator {
+
+    /** && */
+    AND("&&", Operator.BINARY_AND),
+
+    /** || */
+    OR("||", Operator.BINARY_OR),
+
+    /** == */
+    EQUAL("==", Operator.BINARY_OR),
+
+    /** != */
+    NOT_EQUALS("!=", Operator.BINARY_OR),
+
+    /** < */
+    LESS("<", Operator.BINARY_OR),
+
+    /** <= */
+    LESS_EQUALS("<=", Operator.BINARY_OR),
+
+    /** > */
+    GREATER(">", Operator.BINARY_OR),
+
+    /** >= */
+    GREATER_EQUALS(">=", Operator.BINARY_OR),
+
     /** & */
-    AND("&", Operator.BINARY_AND),
+    BINARY_AND("&", Operator.BINARY_AND),
 
     /** | */
-    OR("|", Operator.BINARY_OR),
+    BINARY_OR("|", Operator.BINARY_OR),
 
     /** ^ */
     XOR("^", Operator.XOR),

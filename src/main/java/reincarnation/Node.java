@@ -701,14 +701,12 @@ class Node implements Code {
         }
     }
 
-    final void build(BlockStmt parent) {
-
-    }
-
     private void buildNode(Coder coder) {
-        for (Operand operand : stack) {
-            operand.write(coder);
-        }
+        coder.writeStatement(c -> {
+            for (Operand operand : stack) {
+                operand.write(coder);
+            }
+        });
     }
 
     /**

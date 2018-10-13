@@ -179,7 +179,6 @@ class IntTest extends CodeVerifier {
     void addAssignable() {
         verify(new Code.IntParam() {
 
-            @Debuggable
             @Override
             public int run(int value) {
                 return value += 2;
@@ -498,6 +497,7 @@ class IntTest extends CodeVerifier {
     void postIncrementValue() {
         verify(new Code.IntParam() {
 
+            @Debuggable
             @Override
             public int run(int value) {
                 int next = value++;

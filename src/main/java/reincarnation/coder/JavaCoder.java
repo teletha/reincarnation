@@ -18,6 +18,7 @@ import java.util.StringJoiner;
 
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
+import reincarnation.operator.UnaryOperator;
 
 /**
  * @version 2018/10/13 11:05:47
@@ -221,6 +222,23 @@ public class JavaCoder extends Coder {
      * {@inheritDoc}
      */
     @Override
+    public void writeUnaryOperation(Code code, UnaryOperator operator) {
+        switch (operator) {
+        case POST_DECREMENT:
+        case POST_INCREMENT:
+            write(code, operator);
+            break;
+
+        default:
+            write(operator, code);
+            break;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeLocalVariable(String name) {
         write(name);
     }
@@ -231,6 +249,14 @@ public class JavaCoder extends Coder {
     @Override
     public void writeLocalVariableDeclaration(Class type, String name) {
         write(name(type), space, name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeStatement(Code code) {
+        line(code, ";");
     }
 
     /**
