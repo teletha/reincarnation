@@ -158,7 +158,7 @@ public final class JavaSourceCode implements Code {
      */
     @Override
     public String toString() {
-        JavaCoder coder = new JavaCoder();
+        JavaCoder coder = new JavaCoder().addType(root);
         write(coder);
         return coder.toString();
     }

@@ -138,7 +138,7 @@ public abstract class Coder {
      * 
      * @param codes
      */
-    protected final void line(Object... codes) {
+    public final void line(Object... codes) {
         if (codes.length != 0) {
             write(indentChar.repeat(indentSize));
             write(codes);
@@ -298,10 +298,13 @@ public abstract class Coder {
 
     /**
      * This literal.
-     * 
-     * @param code A this literal.
      */
     public abstract void writeThis();
+
+    /**
+     * Null literal.
+     */
+    public abstract void writeNull();
 
     /**
      * Enclosed expression.
@@ -352,9 +355,17 @@ public abstract class Coder {
     public abstract void writeLocalVariableDeclaration(Class type, String name);
 
     /**
-     * Statement declaration.
+     * Field access.
      * 
-     * @param code A inner code.
+     * @param context A field context.
+     * @param name A filed info.
      */
-    public abstract void writeStatement(Code code);
+    public abstract void writeAccessField(Code context, String name);
+
+    /**
+     * Type access.
+     * 
+     * @param type A type info.
+     */
+    public abstract void writeAccessType(Class type);
 }

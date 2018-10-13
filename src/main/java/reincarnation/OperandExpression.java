@@ -9,17 +9,12 @@
  */
 package reincarnation;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.NullLiteralExpr;
-import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.visitor.GenericVisitor;
-import com.github.javaparser.ast.visitor.VoidVisitor;
-
 import kiss.I;
 import kiss.Signal;
+import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/05 19:36:56
+ * @version 2018/10/13 23:42:59
  */
 class OperandExpression extends Operand {
 
@@ -119,50 +114,15 @@ class OperandExpression extends Operand {
      * {@inheritDoc}
      */
     @Override
-    Expression build() {
+    public void write(Coder coder) {
         if (expression == null) {
-            return new NullLiteralExpr();
-        } else if (expression instanceof Expression) {
-            return (Expression) expression;
-        } else if (expression instanceof Statement) {
-            return new StatementExpression((Statement) expression);
-        } else if (expression instanceof Operand) {
-            return ((Operand) expression).build();
+            coder.writeNull();
+        } else if (expression instanceof reincarnation.coder.Code) {
+            ((reincarnation.coder.Code) expression).write(coder);
         } else {
             // If this exception will be thrown, it is bug of this program. So we must rethrow the
             // wrapped error in here.
             throw new Error(expression.toString() + "  " + expression.getClass());
-        }
-    }
-
-    /**
-     * @version 2018/10/04 20:09:04
-     */
-    public static class StatementExpression extends Expression {
-
-        final Statement statement;
-
-        /**
-         * @param statement
-         */
-        public StatementExpression(Statement statement) {
-            this.statement = statement;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public <R, A> R accept(GenericVisitor<R, A> visitor, A arg) {
-            throw new Error("NEVER BE CALLED");
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public <A> void accept(VoidVisitor<A> visitor, A arg) {
-            throw new Error("NEVER BE CALLED");
         }
     }
 }

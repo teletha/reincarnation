@@ -11,14 +11,12 @@ package reincarnation;
 
 import java.util.Objects;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.FieldAccessExpr;
-
 import kiss.I;
 import kiss.Signal;
+import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/07 1:46:47
+ * @version 2018/10/13 23:34:58
  */
 public class OperandFieldAccess extends Operand {
 
@@ -43,14 +41,6 @@ public class OperandFieldAccess extends Operand {
      * {@inheritDoc}
      */
     @Override
-    Expression build() {
-        return new FieldAccessExpr(field.build(), name);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     protected Signal<Operand> children() {
         return I.signal(field);
     }
@@ -59,7 +49,7 @@ public class OperandFieldAccess extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public String toString() {
-        return field + "." + name;
+    public void write(Coder coder) {
+        coder.writeAccessField(field, name);
     }
 }

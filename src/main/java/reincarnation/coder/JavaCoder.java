@@ -13,6 +13,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.StringJoiner;
 
@@ -24,6 +25,26 @@ import reincarnation.operator.UnaryOperator;
  * @version 2018/10/13 11:05:47
  */
 public class JavaCoder extends Coder {
+
+    /** The imported type manager. */
+    private final Set<Class> importedTypes = new HashSet();
+
+    /** The imported type manager. */
+    private final Set<String> importedNames = new HashSet();
+
+    /**
+     * Add processing type.
+     * 
+     * @param type
+     */
+    public JavaCoder addType(Class type) {
+        if (type != null) {
+            if (importedNames.add(type.getSimpleName())) {
+                importedTypes.add(type);
+            }
+        }
+        return this;
+    }
 
     /**
      * {@inheritDoc}
@@ -41,7 +62,10 @@ public class JavaCoder extends Coder {
         if (!classes.isEmpty()) {
             line();
             for (Class clazz : classes) {
-                line("import", space, clazz.getName(), ";");
+                if (importedNames.add(clazz.getSimpleName())) {
+                    importedTypes.add(clazz);
+                    line("import", space, clazz.getName(), ";");
+                }
             }
         }
     }
@@ -51,6 +75,8 @@ public class JavaCoder extends Coder {
      */
     @Override
     public void writeType(Class type, Runnable inner) {
+        addType(type);
+
         String kind;
         String extend;
 
@@ -84,41 +110,46 @@ public class JavaCoder extends Coder {
      */
     @Override
     public void writeStaticField(Field field) {
+        line(accessor(field.getModifiers()), name(field.getType()), space, field.getName(), ";");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void writeInitializer(Code codable) {
+    public void writeInitializer(Code code) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void writeStaticInitializer(Code codable) {
+    public void writeStaticInitializer(Code code) {
+        line();
+        line("static {");
+        indent(code::write);
+        line("}");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void writeConstructor(Constructor constructor, Code codable) {
+    public void writeConstructor(Constructor constructor, Code code) {
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void writeMethod(Method method, Code codable) {
+    public void writeMethod(Method method, Code code) {
         String params = join(method.getParameters(), p -> {
             return name(p.getType()) + space + p.getName();
         }, ", ", "", "");
 
         line();
         line(accessor(method.getModifiers()), name(method.getReturnType()), space, method.getName(), "(", params, ")", space, "{");
-        indent(codable::write);
+        indent(code::write);
         line("}");
     }
 
@@ -127,7 +158,7 @@ public class JavaCoder extends Coder {
      */
     @Override
     public void writeReturn(Code code) {
-        line("return ", code, ";");
+        write("return ", code);
     }
 
     /**
@@ -198,6 +229,14 @@ public class JavaCoder extends Coder {
      * {@inheritDoc}
      */
     @Override
+    public void writeNull() {
+        write("null");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeEnclose(Code code) {
         write("(", code, ")");
     }
@@ -255,8 +294,16 @@ public class JavaCoder extends Coder {
      * {@inheritDoc}
      */
     @Override
-    public void writeStatement(Code code) {
-        line(code, ";");
+    public void writeAccessField(Code context, String name) {
+        write(context, ".", name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeAccessType(Class type) {
+        write(name(type));
     }
 
     /**
@@ -266,7 +313,11 @@ public class JavaCoder extends Coder {
      * @return
      */
     private String name(Class type) {
-        return type.getCanonicalName();
+        if (importedTypes.contains(type)) {
+            return type.getSimpleName();
+        } else {
+            return type.getCanonicalName();
+        }
     }
 
     /**

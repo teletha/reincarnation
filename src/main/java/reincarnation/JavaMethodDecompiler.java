@@ -242,6 +242,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     @Override
     public void write(Coder coder) {
+        // reset local variable declaration state
+        locals.reset();
+
         nodes.get(0).write(coder);
     }
 
@@ -610,7 +613,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 current.addExpression(new OperandUnary(variable, UnaryOperator.PRE_DECREMENT));
             }
         } else {
-            current.addOperand(new OperandAssign(variable, AssignOperator.PLUS, new OperandNumber(increment)).statement());
+            current.addOperand(new OperandAssign(variable, AssignOperator.PLUS, new OperandNumber(increment)));
         }
     }
 

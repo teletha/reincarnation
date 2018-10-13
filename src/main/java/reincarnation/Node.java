@@ -702,11 +702,9 @@ class Node implements Code {
     }
 
     private void buildNode(Coder coder) {
-        coder.writeStatement(c -> {
-            for (Operand operand : stack) {
-                operand.write(coder);
-            }
-        });
+        for (Operand operand : stack) {
+            coder.line(operand, ";");
+        }
     }
 
     /**

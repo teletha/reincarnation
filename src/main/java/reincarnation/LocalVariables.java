@@ -16,23 +16,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.objectweb.asm.Type;
-
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.Parameter;
 
 /**
  * Manage local variables.
  * 
- * @version 2018/10/04 12:53:34
+ * @version 2018/10/13 23:21:23
  */
 class LocalVariables {
 
     /** The this type. */
     private final Class clazz;
 
-    /**  */
+    /** Flag for static or normal. */
     private final int offset;
 
     /** The ignorable variable index. */
@@ -41,8 +39,7 @@ class LocalVariables {
     /** The local variable manager. */
     private final Map<Integer, OperandLocalVariable> locals = new HashMap();
 
-    /** The parameter manager. */
-    final NodeList<Parameter> parameters = new NodeList();
+    private final int size;
 
     /**
      * @param clazz
@@ -52,6 +49,7 @@ class LocalVariables {
     LocalVariables(Class clazz, boolean isStatic, Type[] types) {
         this.clazz = clazz;
         this.offset = isStatic ? 0 : 1;
+        this.size = offset + types.length;
 
         if (isStatic == false) {
             locals.put(0, new OperandLocalVariable(clazz, "this"));
@@ -61,9 +59,7 @@ class LocalVariables {
             OperandLocalVariable local = new OperandLocalVariable(Util.load(types[i]), "param" + i);
             local.declared = true;
             local.fix();
-
             locals.put(i + offset, local);
-            parameters.add(new Parameter(Util.loadType(local.type.v), local.name));
         }
     }
 
@@ -151,5 +147,16 @@ class LocalVariables {
         OperandLocalVariable local = locals.get(sequencialUpdateCount++ + offset);
 
         local.name.setId(name);
+    }
+
+    /**
+     * 
+     */
+    void reset() {
+        for (Entry<Integer, OperandLocalVariable> e : locals.entrySet()) {
+            if (size <= e.getKey()) {
+                e.getValue().declared = false;
+            }
+        }
     }
 }
