@@ -11,17 +11,15 @@ package reincarnation;
 
 import java.util.Objects;
 
-import com.github.javaparser.ast.expr.BinaryExpr;
-import com.github.javaparser.ast.expr.BinaryExpr.Operator;
-import com.github.javaparser.ast.expr.Expression;
-
 import kiss.I;
 import kiss.Signal;
+import reincarnation.coder.Coder;
+import reincarnation.operator.BinaryOperator;
 
 /**
  * Binary operation expression.
  * 
- * @version 2018/10/07 1:09:20
+ * @version 2018/10/13 17:54:39
  */
 public class OperandBinary extends Operand {
 
@@ -52,14 +50,6 @@ public class OperandBinary extends Operand {
      * {@inheritDoc}
      */
     @Override
-    Expression build() {
-        return new BinaryExpr(left.build(), right.build(), operator.op);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     protected Signal<Operand> children() {
         return I.signal(left, right);
     }
@@ -68,67 +58,7 @@ public class OperandBinary extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public String toString() {
-        return left + " " + operator + " " + right;
-    }
-
-    /**
-     * @version 2018/10/07 1:24:48
-     */
-    public enum BinaryOperator {
-        /** & */
-        AND("&", Operator.BINARY_AND),
-
-        /** | */
-        OR("|", Operator.BINARY_OR),
-
-        /** ^ */
-        XOR("^", Operator.XOR),
-
-        /** + */
-        PLUS("+", Operator.PLUS),
-
-        /** - */
-        MINUS("-", Operator.MINUS),
-
-        /** * */
-        MULTIPLY("*", Operator.MULTIPLY),
-
-        /** \/ */
-        DIVIDE("/", Operator.DIVIDE),
-
-        /** % */
-        REMAINDER("%", Operator.REMAINDER),
-
-        /** << */
-        LEFT_SHIFT("<<", Operator.LEFT_SHIFT),
-
-        /** >> */
-        RIGHT_SHIFT(">>", Operator.SIGNED_RIGHT_SHIFT),
-
-        /** >>> */
-        UNSIGNED_RIGHT_SHIFT(">>>", Operator.UNSIGNED_RIGHT_SHIFT);
-
-        /** The operator value. */
-        private final String operator;
-
-        /** The OP. */
-        private final BinaryExpr.Operator op;
-
-        /**
-         * @param operator
-         */
-        private BinaryOperator(String operator, BinaryExpr.Operator op) {
-            this.operator = operator;
-            this.op = op;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String toString() {
-            return operator;
-        }
+    public void write(Coder coder) {
+        coder.writeBinaryOperation(left, operator, right);
     }
 }

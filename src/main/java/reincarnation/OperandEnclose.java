@@ -9,14 +9,12 @@
  */
 package reincarnation;
 
-import com.github.javaparser.ast.expr.EnclosedExpr;
-import com.github.javaparser.ast.expr.Expression;
-
 import kiss.I;
 import kiss.Signal;
+import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/05 19:36:22
+ * @version 2018/10/13 17:54:19
  */
 class OperandEnclose extends Operand {
 
@@ -68,15 +66,7 @@ class OperandEnclose extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public String toString() {
-        return "(" + value + ")";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    Expression build() {
-        return new EnclosedExpr(value.build());
+    public void write(Coder coder) {
+        coder.writeEnclose(value);
     }
 }

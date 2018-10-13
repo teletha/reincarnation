@@ -15,8 +15,10 @@ import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.ThisExpr;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 
+import reincarnation.coder.Coder;
+
 /**
- * @version 2018/10/07 3:46:54
+ * @version 2018/10/13 18:00:24
  */
 public class OperandLocalVariable extends Operand {
 
@@ -57,7 +59,25 @@ public class OperandLocalVariable extends Operand {
      * {@inheritDoc}
      */
     @Override
+    public void write(Coder coder) {
+        if (name.getId().equals("this")) {
+            coder.writeThis();
+        } else {
+            if (declared == false) {
+                declared = true;
+                coder.writeLocalVariableDeclaration(type.v, name.getId());
+            } else {
+                coder.writeLocalVariable(name.getId());
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String toString() {
+        // don't call #write, it will throw error in debug mode.
         return name.getId();
     }
 }

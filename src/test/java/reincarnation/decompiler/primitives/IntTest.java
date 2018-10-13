@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import reincarnation.Code;
 import reincarnation.Code.Int;
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/05 0:17:07
@@ -178,6 +179,7 @@ class IntTest extends CodeVerifier {
     void addAssignable() {
         verify(new Code.IntParam() {
 
+            @Debuggable
             @Override
             public int run(int value) {
                 return value += 2;

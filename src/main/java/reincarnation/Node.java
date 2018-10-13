@@ -24,13 +24,14 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ForStmt;
 
-import reincarnation.OperandBinary.BinaryOperator;
-import reincarnation.OperandExpression.StatementExpression;
+import reincarnation.coder.Code;
+import reincarnation.coder.Coder;
+import reincarnation.operator.BinaryOperator;
 
 /**
- * @version 2014/07/05 19:06:00
+ * @version 2018/10/13 17:07:31
  */
-class Node {
+class Node implements Code {
 
     /** The representation of node termination. */
     static final Node Termination = new Node("T");
@@ -553,7 +554,11 @@ class Node {
         connect(defaults);
     }
 
-    final void build(BlockStmt parent) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void write(Coder coder) {
         if (!written) {
             written = true;
 
@@ -609,13 +614,13 @@ class Node {
 
             if (outs == 0) {
                 // end node
-                buildNode(parent);
+                buildNode(coder);
             } else if (outs == 1) {
                 // do while or normal
                 if (backs == 0) {
                     // normal node with follower
-                    buildNode(parent);
-                    process(outgoing.get(0), parent);
+                    buildNode(coder);
+                    process(outgoing.get(0), coder);
                 } else if (backs == 1) {
                     // do while or infinite loop
                     BackedgeGroup group = new BackedgeGroup(this);
@@ -639,7 +644,7 @@ class Node {
             } else if (outs == 2) {
                 // while, for or if
                 if (backs == 0) {
-                    writeIf(parent);
+                    writeIf(coder);
                 } else if (backs == 1 && backedges.get(0).outgoing.size() == 1) {
                     // writeFor(buffer);
                 } else {
@@ -696,15 +701,13 @@ class Node {
         }
     }
 
-    private void buildNode(BlockStmt parent) {
-        for (Operand operand : stack) {
-            Expression expression = operand.build();
+    final void build(BlockStmt parent) {
 
-            if (expression instanceof StatementExpression) {
-                parent.addStatement(((StatementExpression) expression).statement);
-            } else {
-                parent.addStatement(expression);
-            }
+    }
+
+    private void buildNode(Coder coder) {
+        for (Operand operand : stack) {
+            operand.write(coder);
         }
     }
 
@@ -1025,9 +1028,9 @@ class Node {
      * Write if structure.
      * </p>
      * 
-     * @param parent
+     * @param coder
      */
-    private void writeIf(BlockStmt parent) {
+    private void writeIf(Coder coder) {
         Debugger.print(this);
         OperandCondition condition = (OperandCondition) stack.peekLast();
 
@@ -1142,7 +1145,7 @@ class Node {
         // process(elze, buffer);
         // }
         // buffer.write("}").line();
-        process(follow, parent);
+        process(follow, coder);
     }
 
     /**
@@ -1153,7 +1156,7 @@ class Node {
      * @param next A next node to write.
      * @param buffer A script code buffer.
      */
-    private void process(Node next, BlockStmt parent) {
+    private void process(Node next, Coder coder) {
         if (next != null) {
             next.currentCalls++;
 
@@ -1208,7 +1211,7 @@ class Node {
                     if (!returnOmittable) next.returnOmittable = false;
 
                     // process next node
-                    next.build(parent);
+                    next.write(coder);
                 }
             }
         }

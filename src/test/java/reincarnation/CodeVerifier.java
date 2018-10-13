@@ -216,6 +216,7 @@ public class CodeVerifier {
                 System.out.println(line);
             }
         }
+        System.out.println(decompiled);
 
         try {
             JavaCompiler compiler = new JavaCompiler(notifier);

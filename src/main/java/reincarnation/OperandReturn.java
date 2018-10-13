@@ -15,6 +15,7 @@ import com.github.javaparser.ast.stmt.ReturnStmt;
 import kiss.I;
 import kiss.Signal;
 import reincarnation.OperandExpression.StatementExpression;
+import reincarnation.coder.Coder;
 
 /**
  * @version 2018/10/03 16:15:40
@@ -40,6 +41,14 @@ public class OperandReturn extends Operand {
     @Override
     Expression build() {
         return new StatementExpression(statement == null ? new ReturnStmt() : new ReturnStmt(statement.build()));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void write(Coder coder) {
+        coder.writeReturn(statement);
     }
 
     /**

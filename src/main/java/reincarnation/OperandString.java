@@ -9,11 +9,10 @@
  */
 package reincarnation;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.StringLiteralExpr;
+import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/05 19:36:10
+ * @version 2018/10/13 17:51:45
  */
 class OperandString extends Operand {
 
@@ -42,15 +41,7 @@ class OperandString extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public String toString() {
-        return "\"" + expression + "\"";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    Expression build() {
-        return new StringLiteralExpr(expression);
+    public void write(Coder coder) {
+        coder.writeString(expression);
     }
 }

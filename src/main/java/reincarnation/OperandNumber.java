@@ -9,12 +9,7 @@
  */
 package reincarnation;
 
-import com.github.javaparser.ast.expr.BooleanLiteralExpr;
-import com.github.javaparser.ast.expr.CharLiteralExpr;
-import com.github.javaparser.ast.expr.DoubleLiteralExpr;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.IntegerLiteralExpr;
-import com.github.javaparser.ast.expr.LongLiteralExpr;
+import reincarnation.coder.Coder;
 
 /**
  * @version 2018/10/05 19:36:00
@@ -80,35 +75,23 @@ class OperandNumber extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public String toString() {
-        return value.toString();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    Expression build() {
+    public void write(Coder coder) {
         if (type.is(boolean.class)) {
             if (value.intValue() == 0) {
-                return new BooleanLiteralExpr(false);
+                coder.writeBoolean(false);
             } else {
-                return new BooleanLiteralExpr(true);
+                coder.writeBoolean(true);
             }
-        }
-
-        if (type.is(char.class)) {
-            return new CharLiteralExpr((char) value.intValue());
-        }
-
-        if (value instanceof Integer || value instanceof Short || value instanceof Byte) {
-            return new IntegerLiteralExpr(value.intValue());
+        } else if (type.is(char.class)) {
+            coder.writeChar((char) value.intValue());
+        } else if (value instanceof Integer || value instanceof Short || value instanceof Byte) {
+            coder.writeInt(value.intValue());
         } else if (value instanceof Long) {
-            return new LongLiteralExpr(value + "L");
+            coder.writeLong(value.longValue());
         } else if (value instanceof Float) {
-            return new DoubleLiteralExpr(value + "F");
+            coder.writeFloat(value.floatValue());
         } else if (value instanceof Double) {
-            return new DoubleLiteralExpr(value + "D");
+            coder.writeDouble(value.doubleValue());
         } else {
             // If this exception will be thrown, it is bug of this program. So we must rethrow the
             // wrapped error in here.

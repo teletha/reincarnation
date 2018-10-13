@@ -18,11 +18,14 @@ import com.github.javaparser.ast.expr.Expression;
 import kiss.I;
 import kiss.Signal;
 import kiss.Variable;
+import reincarnation.coder.Code;
+import reincarnation.coder.Coder;
+import reincarnation.coder.JavaCoder;
 
 /**
  * @version 2018/10/05 19:36:25
  */
-abstract class Operand {
+abstract class Operand implements Code {
 
     protected static final Operand Null = new OperandExpression(null).fix(null);
 
@@ -151,6 +154,26 @@ abstract class Operand {
         // If this exception will be thrown, it is bug of this program. So we must rethrow the
         // wrapped error in here.
         throw new Error();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void write(Coder coder) {
+        // If this exception will be thrown, it is bug of this program. So we must rethrow the
+        // wrapped error in here.
+        throw new Error(getClass() + " must implement write method!");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        JavaCoder coder = new JavaCoder();
+        write(coder);
+        return coder.toString();
     }
 
     /**

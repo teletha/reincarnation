@@ -11,17 +11,15 @@ package reincarnation;
 
 import java.util.Objects;
 
-import com.github.javaparser.ast.expr.AssignExpr;
-import com.github.javaparser.ast.expr.AssignExpr.Operator;
-import com.github.javaparser.ast.expr.Expression;
-
 import kiss.I;
 import kiss.Signal;
+import reincarnation.coder.Coder;
+import reincarnation.operator.AssignOperator;
 
 /**
  * Binary operation expression.
  * 
- * @version 2018/10/07 1:09:20
+ * @version 2018/10/13 18:07:49
  */
 public class OperandAssign extends Operand {
 
@@ -53,14 +51,6 @@ public class OperandAssign extends Operand {
      * {@inheritDoc}
      */
     @Override
-    Expression build() {
-        return new AssignExpr(left.build(), right.build(), operator.op);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     protected Signal<Operand> children() {
         return I.signal(left, right);
     }
@@ -69,70 +59,7 @@ public class OperandAssign extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public String toString() {
-        return left + " " + operator + " " + right;
-    }
-
-    /**
-     * @version 2018/10/07 1:24:48
-     */
-    public enum AssignOperator {
-        /** = */
-        ASSIGN("=", Operator.ASSIGN),
-
-        /** &= */
-        AND("&=", Operator.BINARY_AND),
-
-        /** |= */
-        OR("|=", Operator.BINARY_OR),
-
-        /** ^= */
-        XOR("^=", Operator.XOR),
-
-        /** += */
-        PLUS("+=", Operator.PLUS),
-
-        /** -= */
-        MINUS("-=", Operator.MINUS),
-
-        /** *= */
-        MULTIPLY("*=", Operator.MULTIPLY),
-
-        /** \/= */
-        DIVIDE("/=", Operator.DIVIDE),
-
-        /** %= */
-        REMAINDER("%=", Operator.REMAINDER),
-
-        /** <<= */
-        LEFT_SHIFT("<<=", Operator.LEFT_SHIFT),
-
-        /** >>= */
-        RIGHT_SHIFT(">>=", Operator.SIGNED_RIGHT_SHIFT),
-
-        /** >>>= */
-        UNSIGNED_RIGHT_SHIFT(">>>=", Operator.UNSIGNED_RIGHT_SHIFT);
-
-        /** The operator value. */
-        private final String operator;
-
-        /** The OP. */
-        private final Operator op;
-
-        /**
-         * @param operator
-         */
-        private AssignOperator(String operator, Operator op) {
-            this.operator = operator;
-            this.op = op;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String toString() {
-            return operator;
-        }
+    public void write(Coder coder) {
+        coder.writeAssignOperation(left, operator, right);
     }
 }

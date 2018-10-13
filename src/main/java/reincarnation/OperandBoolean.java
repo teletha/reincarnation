@@ -9,11 +9,10 @@
  */
 package reincarnation;
 
-import com.github.javaparser.ast.expr.BooleanLiteralExpr;
-import com.github.javaparser.ast.expr.Expression;
+import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/07 0:05:12
+ * @version 2018/10/13 17:48:04
  */
 class OperandBoolean extends Operand {
 
@@ -48,15 +47,7 @@ class OperandBoolean extends Operand {
      * {@inheritDoc}
      */
     @Override
-    Expression build() {
-        return new BooleanLiteralExpr(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return String.valueOf(value);
+    public void write(Coder coder) {
+        coder.writeBoolean(value);
     }
 }

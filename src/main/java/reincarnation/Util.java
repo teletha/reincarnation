@@ -212,6 +212,21 @@ public class Util {
     }
 
     /**
+     * Load as {@link Class}.
+     * 
+     * @param types
+     * @return
+     */
+    static Class[] load(Type[] types) {
+        Class[] classes = new Class[types.length];
+
+        for (int i = 0; i < classes.length; i++) {
+            classes[i] = load(types[i]);
+        }
+        return classes;
+    }
+
+    /**
      * Load {@link ClassOrInterfaceType} by internal name.
      * 
      * @param internalName

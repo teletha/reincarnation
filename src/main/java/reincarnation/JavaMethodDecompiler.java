@@ -30,19 +30,19 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
-import com.github.javaparser.ast.stmt.BlockStmt;
-
 import kiss.I;
 import reincarnation.Node.Switch;
 import reincarnation.Node.TryCatchFinallyBlocks;
-import reincarnation.OperandAssign.AssignOperator;
-import reincarnation.OperandBinary.BinaryOperator;
 import reincarnation.OperandUnary.UnaryOperator;
+import reincarnation.coder.Code;
+import reincarnation.coder.Coder;
+import reincarnation.operator.AssignOperator;
+import reincarnation.operator.BinaryOperator;
 
 /**
  * @version 2018/10/08 12:56:11
  */
-class JavaMethodDecompiler extends MethodVisitor {
+class JavaMethodDecompiler extends MethodVisitor implements Code {
 
     /** The description of {@link Debugger}. */
     private static final String DEBUGGER = Type.getType(Debuggable.class).getDescriptor();
@@ -167,9 +167,6 @@ class JavaMethodDecompiler extends MethodVisitor {
     /** The pool of try-catch-finally blocks. */
     private final TryCatchFinallyBlocks tries = new TryCatchFinallyBlocks();
 
-    /** The method body. */
-    private final BlockStmt root;
-
     /** The current processing node. */
     private Node current = null;
 
@@ -227,19 +224,25 @@ class JavaMethodDecompiler extends MethodVisitor {
 
     /**
      * @param clazz
-     * @param root
      * @param locals
      * @param returns
      */
-    JavaMethodDecompiler(JavaSourceCode source, BlockStmt root, LocalVariables locals, Type returns) {
+    JavaMethodDecompiler(JavaSourceCode source, LocalVariables locals, Type returns) {
         super(ASM7);
 
         this.source = source;
-        this.root = root;
         this.returnType = returns;
         this.locals = locals;
 
         Debugger.recordMethodName(source.className);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void write(Coder coder) {
+        nodes.get(0).write(coder);
     }
 
     /**
@@ -286,8 +289,6 @@ class JavaMethodDecompiler extends MethodVisitor {
 
         // optimize
         removeLastEmptyReturn();
-
-        nodes.get(0).build(root);
     }
 
     /**
@@ -412,7 +413,7 @@ class JavaMethodDecompiler extends MethodVisitor {
     }
 
     private Operand accessClassField(Class owner, String name) {
-        root.tryAddImportToParentCompilationUnit(owner);
+        source.require(owner);
         return new OperandFieldAccess(new OperandType(owner), name);
     }
 
