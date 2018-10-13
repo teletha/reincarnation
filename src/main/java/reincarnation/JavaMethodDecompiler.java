@@ -356,7 +356,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 // current.addOperand(increment(current.remove(0) + "." + computeFieldName(owner,
                 // name), type, false, false));
             } else {
-                Operand filed = new OperandFieldAccess(current.remove(1), name);
+                Operand filed = new OperandFieldAccess(owner, name, current.remove(1));
                 Operand value = current.remove(0).fix(type);
                 OperandAssign assign = new OperandAssign(filed, AssignOperator.ASSIGN, value);
 
@@ -371,7 +371,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             break;
 
         case GETFIELD:
-            current.addOperand(new OperandFieldAccess(current.remove(0), name).fix(type));
+            current.addOperand(new OperandFieldAccess(owner, name, current.remove(0)).fix(type));
             break;
 
         case PUTSTATIC:
@@ -417,7 +417,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
     private Operand accessClassField(Class owner, String name) {
         source.require(owner);
-        return new OperandFieldAccess(new OperandType(owner), name);
+        return new OperandFieldAccess(owner, name, new OperandType(owner));
     }
 
     /**
@@ -958,7 +958,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         // read array length
         case ARRAYLENGTH:
-            current.addOperand(new OperandFieldAccess(current.remove(0), "length"));
+            current.addOperand(new OperandArrayLength(current.remove(0)));
             break;
 
         // throw

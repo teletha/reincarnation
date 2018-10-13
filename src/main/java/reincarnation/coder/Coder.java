@@ -15,6 +15,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.function.Consumer;
@@ -297,6 +298,13 @@ public abstract class Coder {
     public abstract void writeString(String code);
 
     /**
+     * Class literal.
+     * 
+     * @param code A class literal.
+     */
+    public abstract void writeClass(Class code);
+
+    /**
      * This literal.
      */
     public abstract void writeThis();
@@ -355,17 +363,33 @@ public abstract class Coder {
     public abstract void writeLocalVariableDeclaration(Class type, String name);
 
     /**
-     * Field access.
+     * Access to field.
      * 
+     * @param field A field info.
      * @param context A field context.
-     * @param name A filed info.
      */
-    public abstract void writeAccessField(Code context, String name);
+    public abstract void writeAccessField(Field field, Code context);
 
     /**
-     * Type access.
+     * Access to type.
      * 
      * @param type A type info.
      */
     public abstract void writeAccessType(Class type);
+
+    /**
+     * Access to array length.
+     * 
+     * @param array An array info.
+     */
+    public abstract void writeAccessArrayLength(Code array);
+
+    /**
+     * Method call expression.
+     * 
+     * @param method A method info.
+     * @param context A context object.
+     * @param params A list of parameter objects.
+     */
+    public abstract void writeMethodCall(Method method, Code context, List<? extends Code> params);
 }

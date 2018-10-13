@@ -9,6 +9,7 @@
  */
 package reincarnation;
 
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 import kiss.I;
@@ -21,10 +22,10 @@ import reincarnation.coder.Coder;
 public class OperandFieldAccess extends Operand {
 
     /** The field. */
-    private final Operand field;
+    private final Field field;
 
-    /** The field name. */
-    private final String name;
+    /** The field context. */
+    private final Operand context;
 
     /**
      * Create field access like <code>owner.field</code>.
@@ -32,9 +33,13 @@ public class OperandFieldAccess extends Operand {
      * @param field A field owner.
      * @param name A field name.
      */
-    public OperandFieldAccess(Operand field, String name) {
-        this.field = Objects.requireNonNull(field);
-        this.name = Objects.requireNonNull(name);
+    public OperandFieldAccess(Class owner, String name, Operand context) {
+        try {
+            this.field = owner.getDeclaredField(name);
+            this.context = Objects.requireNonNull(context);
+        } catch (Exception e) {
+            throw I.quiet(e);
+        }
     }
 
     /**
@@ -42,7 +47,7 @@ public class OperandFieldAccess extends Operand {
      */
     @Override
     protected Signal<Operand> children() {
-        return I.signal(field);
+        return I.signal(context);
     }
 
     /**
@@ -50,6 +55,6 @@ public class OperandFieldAccess extends Operand {
      */
     @Override
     public void write(Coder coder) {
-        coder.writeAccessField(field, name);
+        coder.writeAccessField(field, context);
     }
 }

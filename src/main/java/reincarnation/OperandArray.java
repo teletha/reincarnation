@@ -19,6 +19,7 @@ import com.github.javaparser.ast.expr.ArrayCreationExpr;
 import com.github.javaparser.ast.expr.Expression;
 
 import kiss.I;
+import reincarnation.coder.Coder;
 
 /**
  * <p>
@@ -130,7 +131,7 @@ class OperandArray extends Operand {
      * {@inheritDoc}
      */
     @Override
-    Expression build() {
+    public void write(Coder coder) {
         ArrayCreationExpr array = new ArrayCreationExpr();
 
         if (items.isEmpty()) {
@@ -168,7 +169,6 @@ class OperandArray extends Operand {
                 }
             }
         }
-        return array;
     }
 
     /**

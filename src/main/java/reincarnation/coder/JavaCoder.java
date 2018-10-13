@@ -14,6 +14,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.StringJoiner;
 
@@ -31,6 +33,9 @@ public class JavaCoder extends Coder {
 
     /** The imported type manager. */
     private final Set<String> importedNames = new HashSet();
+
+    /** The current processing class. */
+    private final LinkedList<Class> processing = new LinkedList();
 
     /**
      * Add processing type.
@@ -76,6 +81,7 @@ public class JavaCoder extends Coder {
     @Override
     public void writeType(Class type, Runnable inner) {
         addType(type);
+        processing.add(type);
 
         String kind;
         String extend;
@@ -96,6 +102,8 @@ public class JavaCoder extends Coder {
         line(accessor(type.getModifiers()), kind, space, simpleName(type), extend, space, "{");
         indent(inner::run);
         line("}");
+
+        processing.removeLast();
     }
 
     /**
@@ -221,6 +229,14 @@ public class JavaCoder extends Coder {
      * {@inheritDoc}
      */
     @Override
+    public void writeClass(Class code) {
+        write(name(code), ".class");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeThis() {
         write("this");
     }
@@ -294,8 +310,12 @@ public class JavaCoder extends Coder {
      * {@inheritDoc}
      */
     @Override
-    public void writeAccessField(Code context, String name) {
-        write(context, ".", name);
+    public void writeAccessField(Field field, Code context) {
+        if (processing.contains(field.getDeclaringClass())) {
+            write(field.getName());
+        } else {
+            write(context, ".", field.getName());
+        }
     }
 
     /**
@@ -304,6 +324,29 @@ public class JavaCoder extends Coder {
     @Override
     public void writeAccessType(Class type) {
         write(name(type));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeAccessArrayLength(Code array) {
+        write(array, ".length");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeMethodCall(Method method, Code context, List<? extends Code> params) {
+        write(context, ".", method.getName(), "(");
+        for (int i = 0; i < params.size(); i++) {
+            if (i != 0) {
+                write(", ");
+            }
+            write(params.get(i));
+        }
+        write(")");
     }
 
     /**

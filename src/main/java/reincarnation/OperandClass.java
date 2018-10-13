@@ -9,11 +9,10 @@
  */
 package reincarnation;
 
-import com.github.javaparser.ast.expr.ClassExpr;
-import com.github.javaparser.ast.expr.Expression;
+import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/07 1:03:46
+ * @version 2018/10/14 2:00:50
  */
 public class OperandClass extends Operand {
 
@@ -34,15 +33,7 @@ public class OperandClass extends Operand {
      * {@inheritDoc}
      */
     @Override
-    Expression build() {
-        return new ClassExpr(Util.loadType(value));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return value.getSimpleName() + ".class";
+    public void write(Coder coder) {
+        coder.writeClass(value);
     }
 }

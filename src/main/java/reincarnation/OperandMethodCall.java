@@ -12,16 +12,12 @@ package reincarnation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
-
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.MethodCallExpr;
 
 import kiss.I;
+import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/09 0:12:41
+ * @version 2018/10/14 2:02:20
  */
 class OperandMethodCall extends Operand {
 
@@ -55,24 +51,7 @@ class OperandMethodCall extends Operand {
      * {@inheritDoc}
      */
     @Override
-    Expression build() {
-        NodeList<Expression> params = new NodeList();
-        for (Operand o : this.params) {
-            params.add(o.build());
-        }
-        return new MethodCallExpr(owner.build(), method.getName(), params);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        StringJoiner joiner = new StringJoiner(",", "(", ")");
-        for (Operand operand : params) {
-            joiner.add(operand.toString());
-        }
-
-        return owner + "." + method.getName() + joiner;
+    public void write(Coder coder) {
+        coder.writeMethodCall(method, owner, params);
     }
 }
