@@ -9,16 +9,14 @@
  */
 package reincarnation;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.stmt.ReturnStmt;
+import java.util.Optional;
 
 import kiss.I;
 import kiss.Signal;
-import reincarnation.OperandExpression.StatementExpression;
 import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/03 16:15:40
+ * @version 2018/10/14 10:17:27
  */
 public class OperandReturn extends Operand {
 
@@ -26,29 +24,15 @@ public class OperandReturn extends Operand {
     public static final OperandReturn Empty = new OperandReturn(null);
 
     /** The statement. */
-    private final Operand statement;
+    private final Operand value;
 
     /**
-     * @param statement
+     * Build return expression.
+     * 
+     * @param value A returned value, may be null.
      */
-    public OperandReturn(Operand statement) {
-        this.statement = statement;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    Expression build() {
-        return new StatementExpression(statement == null ? new ReturnStmt() : new ReturnStmt(statement.build()));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void write(Coder coder) {
-        coder.writeReturn(statement);
+    public OperandReturn(Operand value) {
+        this.value = value;
     }
 
     /**
@@ -56,14 +40,18 @@ public class OperandReturn extends Operand {
      */
     @Override
     protected Signal<Operand> children() {
-        return statement == null ? Signal.empty() : I.signal(statement);
+        return value == null ? Signal.empty() : I.signal(value);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String toString() {
-        return statement == null ? "return" : "return " + statement;
+    public void write(Coder coder) {
+        if (value == null) {
+            coder.writeReturn(Optional.empty());
+        } else {
+            coder.writeReturn(Optional.of(value));
+        }
     }
 }

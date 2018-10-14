@@ -9,11 +9,10 @@
  */
 package reincarnation;
 
-import com.github.javaparser.ast.expr.ArrayAccessExpr;
-import com.github.javaparser.ast.expr.Expression;
+import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/09 16:12:05
+ * @version 2018/10/14 10:25:56
  */
 class OperandArrayAccess extends Operand {
 
@@ -38,15 +37,7 @@ class OperandArrayAccess extends Operand {
      * {@inheritDoc}
      */
     @Override
-    Expression build() {
-        return new ArrayAccessExpr(array.build(), index.build());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return array + "[" + index + "]";
+    public void write(Coder coder) {
+        coder.writeAccessArray(array, index);
     }
 }

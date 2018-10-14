@@ -157,7 +157,7 @@ class OperandArray extends Operand {
                     initializer.set(i, items.get(i));
                 }
             }
-            coder.writeCreateArray(root(type), levels, initializer);
+            coder.writeCreateArray(type, levels, initializer);
         }
     }
 

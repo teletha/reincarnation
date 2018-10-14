@@ -10,6 +10,7 @@
 package reincarnation;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Objects;
 
 import kiss.I;
@@ -34,11 +35,28 @@ public class OperandFieldAccess extends Operand {
      * @param name A field name.
      */
     public OperandFieldAccess(Class owner, String name, Operand context) {
+        this.field = find(owner, name, true);
+        this.context = Objects.requireNonNull(context);
+    }
+
+    /**
+     * Find the suitable {@link Field}.
+     * 
+     * @param owner A field owner.
+     * @param name A field name.
+     * @param acceptPrivate Flag for private field.
+     * @return
+     */
+    private Field find(Class owner, String name, boolean acceptPrivate) {
         try {
-            this.field = owner.getDeclaredField(name);
-            this.context = Objects.requireNonNull(context);
-        } catch (Exception e) {
-            throw I.quiet(e);
+            Field field = owner.getDeclaredField(name);
+
+            if (Modifier.isPrivate(field.getModifiers()) && !acceptPrivate) {
+                return find(owner.getSuperclass(), name, false);
+            }
+            return field;
+        } catch (NoSuchFieldException e) {
+            return find(owner.getSuperclass(), name, false);
         }
     }
 

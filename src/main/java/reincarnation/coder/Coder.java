@@ -16,6 +16,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.function.Consumer;
@@ -274,9 +275,9 @@ public abstract class Coder {
     /**
      * Return expression.
      * 
-     * @param code
+     * @param code A return code, may be empty.
      */
-    public abstract void writeReturn(Code code);
+    public abstract void writeReturn(Optional<Code> code);
 
     /**
      * Boolean literal.
@@ -408,11 +409,43 @@ public abstract class Coder {
     public abstract void writeAccessType(Class type);
 
     /**
+     * Access to array value by index.
+     * 
+     * @param array An array info.
+     * @param index An index to access.
+     */
+    public abstract void writeAccessArray(Code array, Code index);
+
+    /**
      * Access to array length.
      * 
      * @param array An array info.
      */
     public abstract void writeAccessArrayLength(Code array);
+
+    /**
+     * Constructor call expression.
+     * 
+     * @param constructor A constructor info.
+     * @param params A list of parameter objects.
+     */
+    public abstract void writeConstructorCall(Constructor constructor, List<? extends Code> params);
+
+    /**
+     * Constructor call expression.
+     * 
+     * @param constructor A constructor info.
+     * @param params A list of parameter objects.
+     */
+    public abstract void writeSuperConstructorCall(Constructor constructor, List<? extends Code> params);
+
+    /**
+     * Constructor call expression.
+     * 
+     * @param constructor A constructor info.
+     * @param params A list of parameter objects.
+     */
+    public abstract void writeThisConstructorCall(Constructor constructor, List<? extends Code> params);
 
     /**
      * Method call expression.

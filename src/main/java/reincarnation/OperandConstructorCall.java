@@ -11,13 +11,9 @@ package reincarnation;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
-import java.util.StringJoiner;
-
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.expr.ObjectCreationExpr;
 
 import kiss.I;
+import reincarnation.coder.Coder;
 
 /**
  * @version 2018/10/10 10:00:19
@@ -54,23 +50,13 @@ class OperandConstructorCall extends Operand {
      * {@inheritDoc}
      */
     @Override
-    Expression build() {
+    public void write(Coder coder) {
         if (kind == null) {
-            return new ObjectCreationExpr(null, Util.loadType(constructor.getDeclaringClass()).asClassOrInterfaceType(), list(params));
-        } else {
-            return new MethodCallExpr(null, kind, list(params));
+            coder.writeConstructorCall(constructor, params);
+        } else if (kind.equals("super")) {
+            coder.writeSuperConstructorCall(constructor, params);
+        } else if (kind.equals("this")) {
+            coder.writeThisConstructorCall(constructor, params);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        StringJoiner joiner = new StringJoiner(",", "(", ")");
-        for (Operand param : params) {
-            joiner.add(param.toString());
-        }
-        return "new " + constructor.getDeclaringClass().getSimpleName() + joiner;
     }
 }

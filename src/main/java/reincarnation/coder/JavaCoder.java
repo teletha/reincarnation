@@ -16,6 +16,7 @@ import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
 
@@ -46,6 +47,12 @@ public class JavaCoder extends Coder {
         if (type != null) {
             if (importedNames.add(type.getSimpleName())) {
                 importedTypes.add(type);
+            }
+
+            for (Class member : type.getDeclaredClasses()) {
+                if (!type.isAnonymousClass()) {
+                    addType(member);
+                }
             }
         }
         return this;
@@ -111,6 +118,7 @@ public class JavaCoder extends Coder {
      */
     @Override
     public void writeField(Field field) {
+        writeStaticField(field);
     }
 
     /**
@@ -143,7 +151,15 @@ public class JavaCoder extends Coder {
      * {@inheritDoc}
      */
     @Override
-    public void writeConstructor(Constructor constructor, Code code) {
+    public void writeConstructor(Constructor c, Code code) {
+        String params = join(c.getParameters(), p -> {
+            return name(p.getType()) + space + p.getName();
+        }, ", ", "", "");
+
+        line();
+        line(accessor(c.getModifiers()), space, simpleName(c.getDeclaringClass()), "(", params, ")", space, "{");
+        indent(code::write);
+        line("}");
     }
 
     /**
@@ -156,7 +172,11 @@ public class JavaCoder extends Coder {
         }, ", ", "", "");
 
         line();
-        line(accessor(method.getModifiers()), name(method.getReturnType()), space, method.getName(), "(", params, ")", space, "{");
+        if (method.isSynthetic()) {
+            line(name(method.getReturnType()), space, method.getName(), "()", space, "{");
+        } else {
+            line(accessor(method.getModifiers()), name(method.getReturnType()), space, method.getName(), "(", params, ")", space, "{");
+        }
         indent(code::write);
         line("}");
     }
@@ -165,8 +185,12 @@ public class JavaCoder extends Coder {
      * {@inheritDoc}
      */
     @Override
-    public void writeReturn(Code code) {
-        write("return ", code);
+    public void writeReturn(Optional<Code> code) {
+        if (code.isEmpty()) {
+            write("return");
+        } else {
+            write("return", space, code.get());
+        }
     }
 
     /**
@@ -312,7 +336,11 @@ public class JavaCoder extends Coder {
     @Override
     public void writeAccessField(Field field, Code context) {
         if (processing.contains(field.getDeclaringClass())) {
-            write(field.getName());
+            if (Modifier.isStatic(field.getModifiers())) {
+                write(field.getName());
+            } else {
+                write("this.", field.getName());
+            }
         } else {
             write(context, ".", field.getName());
         }
@@ -330,6 +358,14 @@ public class JavaCoder extends Coder {
      * {@inheritDoc}
      */
     @Override
+    public void writeAccessArray(Code array, Code index) {
+        write(array, "[", index, "]");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeAccessArrayLength(Code array) {
         write(array, ".length");
     }
@@ -338,8 +374,36 @@ public class JavaCoder extends Coder {
      * {@inheritDoc}
      */
     @Override
+    public void writeConstructorCall(Constructor constructor, List<? extends Code> params) {
+        write("new", space, name(constructor.getDeclaringClass()), join("(", params, ", ", ")"));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeSuperConstructorCall(Constructor constructor, List<? extends Code> params) {
+        write("super", join("(", params, ", ", ")"));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeThisConstructorCall(Constructor constructor, List<? extends Code> params) {
+        write("this", join("(", params, ", ", ")"));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeMethodCall(Method method, Code context, List<? extends Code> params) {
-        write(context, ".", method.getName(), join("(", params, ", ", ")"));
+        if (method.isSynthetic()) {
+            write(params.get(0), ".", method.getName(), "()");
+        } else {
+            write(context, ".", method.getName(), join("(", params, ", ", ")"));
+        }
     }
 
     /**
@@ -381,7 +445,9 @@ public class JavaCoder extends Coder {
      * @return
      */
     private String name(Class type) {
-        if (importedTypes.contains(type)) {
+        if (type.getName().startsWith(processing.getFirst().getName())) {
+            return simpleName(type);
+        } else if (importedTypes.contains(type) || type.isPrimitive() || type.getPackage().getName().equals("java.lang")) {
             return type.getSimpleName();
         } else {
             return type.getCanonicalName();
@@ -395,7 +461,7 @@ public class JavaCoder extends Coder {
      * @return
      */
     private String simpleName(Class type) {
-        if (type.isAnonymousClass()) {
+        if (type.isAnonymousClass() || type.isLocalClass()) {
             String name = type.getName();
             return name.substring(name.lastIndexOf(".") + 1);
         } else {

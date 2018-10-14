@@ -1381,13 +1381,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                     owner = owner.getSuperclass();
                 }
 
-                // push class operand
-                // contexts.add(0, new OperandExpression(Javascript.computeClassName(owner,
-                // true)));
-
                 // translate
-                // current.addOperand(translator.translateStaticMethod(owner, methodName, desc,
-                // parameters, contexts), returnType);
+                current.addOperand(new OperandMethodCall(owner, methodName, parameters, new OperandType(owner), contexts));
             }
             break;
         }

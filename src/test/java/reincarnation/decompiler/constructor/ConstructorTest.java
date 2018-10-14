@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/10 11:47:57
@@ -366,7 +365,7 @@ class ConstructorTest extends CodeVerifier {
     }
 
     @Test
-    void Local() {
+    void Inner() {
         verify(new Code.TextParam() {
 
             private String value = "outer";
@@ -376,14 +375,7 @@ class ConstructorTest extends CodeVerifier {
                 return new Inner().toString();
             }
 
-            /**
-             * @version 2018/10/10 11:49:11
-             */
             class Inner {
-
-                /**
-                 * {@inheritDoc}
-                 */
                 @Override
                 public String toString() {
                     return value;
@@ -393,10 +385,59 @@ class ConstructorTest extends CodeVerifier {
     }
 
     @Test
+    void Local() {
+        verify(new Code.TextParam() {
+
+            @Override
+            public String run(String value) {
+                class Local {
+
+                    /**
+                     * {@inheritDoc}
+                     */
+                    @Override
+                    public String toString() {
+                        return "local";
+                    }
+                }
+
+                return new Local().toString();
+            }
+        });
+    }
+
+    @Test
+    void SameNameLocalClassInDifferentMethods() {
+        verify(new Code.TextParam() {
+
+            @Override
+            public String run(String value) {
+                class Local {
+                    @Override
+                    public String toString() {
+                        return "local";
+                    }
+                }
+                return new Local().toString();
+            }
+
+            @Override
+            public String toString() {
+                class Local {
+                    @Override
+                    public String toString() {
+                        return "other local";
+                    }
+                }
+                return new Local().toString();
+            }
+        });
+    }
+
+    @Test
     void Anonymous() {
         verify(new Code.TextParam() {
 
-            @Debuggable
             @Override
             public String run(String value) {
                 return new java.lang.Object() {

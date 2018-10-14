@@ -104,16 +104,8 @@ public final class JavaSourceCode implements Code {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void write(Coder coder) {
-        if (analyzed == false) {
-            analyzed = true;
-
-            try {
-                new ClassReader(clazz.getName()).accept(new JavaClassDecompiler(this), 0);
-            } catch (IOException e) {
-                throw I.quiet(e);
-            }
-        }
+    public void write(Coder coder) {
+        analyze();
 
         coder.writePackage(root.getPackage());
         coder.writeImport(dependency.classes);
@@ -123,7 +115,37 @@ public final class JavaSourceCode implements Code {
         } else {
             coder.writeType(root, () -> {
                 write(clazz, coder);
+
+                for (Class member : dependency.members) {
+                    new JavaSourceCode(member).writeOnly(coder);
+                }
             });
+        }
+    }
+
+    /**
+     * Analyze the target class.
+     * 
+     * @param clazz
+     */
+    private void writeOnly(Coder coder) {
+        analyze();
+
+        write(clazz, coder);
+    }
+
+    /**
+     * Analyze byte code.
+     */
+    private synchronized void analyze() {
+        if (analyzed == false) {
+            analyzed = true;
+
+            try {
+                new ClassReader(clazz.getName()).accept(new JavaClassDecompiler(this), 0);
+            } catch (IOException e) {
+                throw I.quiet(e);
+            }
         }
     }
 
@@ -192,7 +214,7 @@ public final class JavaSourceCode implements Code {
                 }
 
                 // exclude primitive
-                if (dependency.isPrimitive() || dependency.isLocalClass()) {
+                if (dependency.isPrimitive()) {
                     return;
                 }
 
@@ -201,7 +223,7 @@ public final class JavaSourceCode implements Code {
                     return;
                 }
 
-                if (dependency.isAnonymousClass() || dependency.getCanonicalName().startsWith(root.getCanonicalName() + ".")) {
+                if (dependency.getName().startsWith(root.getCanonicalName().concat("$"))) {
                     members.add(dependency);
                 } else {
                     classes.add(dependency);
