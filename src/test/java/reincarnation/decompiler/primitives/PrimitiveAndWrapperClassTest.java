@@ -37,7 +37,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
 
             @Override
             public Class run() {
-                return Integer.class;
+                return java.lang.Integer.class;
             }
         });
     }
@@ -71,7 +71,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
 
             @Override
             public Class run() {
-                return Long.class;
+                return java.lang.Long.class;
             }
         });
     }
@@ -105,7 +105,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
 
             @Override
             public Class run() {
-                return Float.class;
+                return java.lang.Float.class;
             }
         });
     }
@@ -140,7 +140,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
 
             @Override
             public Class run() {
-                return Double.class;
+                return java.lang.Double.class;
             }
         });
     }
@@ -174,7 +174,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
 
             @Override
             public Class run() {
-                return Short.class;
+                return java.lang.Short.class;
             }
         });
     }
@@ -208,7 +208,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
 
             @Override
             public Class run() {
-                return Byte.class;
+                return java.lang.Byte.class;
             }
         });
     }
@@ -242,7 +242,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
 
             @Override
             public Class run() {
-                return Boolean.class;
+                return java.lang.Boolean.class;
             }
         });
     }

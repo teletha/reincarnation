@@ -59,6 +59,29 @@ public class JavaCoder extends Coder {
     }
 
     /**
+     * Register imported high priority class name.
+     * 
+     * @param type
+     */
+    private void registerHighPriorityClassName(Class clazz) {
+        if (importedNames.add(clazz.getSimpleName())) {
+            Class superclass = clazz.getSuperclass();
+
+            if (superclass != null && superclass != Object.class) {
+                registerHighPriorityClassName(superclass);
+            }
+
+            for (Class interfaceClass : clazz.getInterfaces()) {
+                registerHighPriorityClassName(interfaceClass);
+            }
+
+            for (Class member : clazz.getClasses()) {
+                registerHighPriorityClassName(member);
+            }
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -87,6 +110,7 @@ public class JavaCoder extends Coder {
      */
     @Override
     public void writeType(Class type, Runnable inner) {
+        registerHighPriorityClassName(type);
         addType(type);
         processing.add(type);
 
@@ -447,7 +471,7 @@ public class JavaCoder extends Coder {
     private String name(Class type) {
         if (type.getName().startsWith(processing.getFirst().getName())) {
             return simpleName(type);
-        } else if (importedTypes.contains(type) || type.isPrimitive() || type.getPackage().getName().equals("java.lang")) {
+        } else if (importedTypes.contains(type) || type.isPrimitive()) {
             return type.getSimpleName();
         } else {
             return type.getCanonicalName();
