@@ -14,6 +14,10 @@ package reincarnation.coder;
  */
 public interface Code {
 
+    /** The empty code. */
+    Code Empty = coder -> {
+    };
+
     /**
      * Write source code.
      * 

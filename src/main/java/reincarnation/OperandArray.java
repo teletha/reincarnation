@@ -11,14 +11,8 @@ package reincarnation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import com.github.javaparser.ast.ArrayCreationLevel;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.ArrayCreationExpr;
-import com.github.javaparser.ast.expr.Expression;
-
-import kiss.I;
+import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 
 /**
@@ -132,32 +126,27 @@ class OperandArray extends Operand {
      */
     @Override
     public void write(Coder coder) {
-        ArrayCreationExpr array = new ArrayCreationExpr();
-
         if (items.isEmpty()) {
-            array.setElementType(root(type));
-            array.setInitializer(null);
-
-            NodeList<ArrayCreationLevel> levels = array.getLevels();
+            List<Code> levels = new ArrayList();
 
             // fill by empty value
             for (int i = 0; i < dimension; i++) {
-                levels.add(i, new ArrayCreationLevel());
+                levels.add(i, Code.Empty);
             }
             // fill by specified value
             for (int i = 0; i < dimensions.size(); i++) {
-                levels.set(i, new ArrayCreationLevel(dimensions.get(i).build()));
+                levels.set(i, dimensions.get(i));
             }
-
+            coder.writeCreateArray(root(type), levels);
         } else {
-            array.setElementType(type);
-            array.setLevels(new NodeList(new ArrayCreationLevel()));
-            NodeList<Expression> initializer = array.getInitializer().get().getValues();
             int requiredSize = dimensions.isEmpty() ? items.size() : Math.max(Integer.parseInt(dimensions.get(0).toString()), items.size());
+
+            List<Code> levels = List.of(Code.Empty);
+            List<Code> initializer = new ArrayList();
 
             // fill by default value
             for (int i = 0; i < requiredSize; i++) {
-                initializer.add(i, Util.defaultValueFor(type).build());
+                initializer.add(i, Util.defaultValueFor(type));
             }
 
             // assign by specified value
@@ -165,18 +154,11 @@ class OperandArray extends Operand {
                 Operand operand = items.get(i);
 
                 if (operand != null) {
-                    initializer.set(i, items.get(i).build());
+                    initializer.set(i, items.get(i));
                 }
             }
+            coder.writeCreateArray(root(type), levels, initializer);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return "new " + type.getSimpleName() + I.signal(dimensions).map(d -> "[" + d + "]").scan(Collectors.joining()).to().get();
     }
 
     /**

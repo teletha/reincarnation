@@ -9,11 +9,10 @@
  */
 package reincarnation;
 
-import com.github.javaparser.ast.expr.CastExpr;
-import com.github.javaparser.ast.expr.Expression;
+import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/10 9:31:14
+ * @version 2018/10/14 9:56:07
  */
 class OperandCast extends Operand {
 
@@ -38,15 +37,7 @@ class OperandCast extends Operand {
      * {@inheritDoc}
      */
     @Override
-    Expression build() {
-        return new CastExpr(Util.loadType(type), value.build());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return "(" + type.getSimpleName() + ") " + value;
+    public void write(Coder coder) {
+        coder.writeCast(type, value);
     }
 }

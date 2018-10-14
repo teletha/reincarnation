@@ -9,12 +9,10 @@
  */
 package reincarnation;
 
-import com.github.javaparser.ast.expr.ConditionalExpr;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.IntegerLiteralExpr;
+import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/05 19:36:29
+ * @version 2018/10/14 9:49:12
  */
 class OperandAmbiguousZeroOneTernary extends Operand {
 
@@ -40,23 +38,11 @@ class OperandAmbiguousZeroOneTernary extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public String toString() {
+    public void write(Coder coder) {
         if (type.is(boolean.class)) {
-            return condition.toString();
+            condition.write(coder);
         } else {
-            return condition + "? 1 : 0";
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    Expression build() {
-        if (type.is(boolean.class)) {
-            return condition.build();
-        } else {
-            return new ConditionalExpr(condition.build(), new IntegerLiteralExpr(1), new IntegerLiteralExpr(0));
+            coder.writeTernary(condition, new OperandNumber(1), new OperandNumber(0));
         }
     }
 }

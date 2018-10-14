@@ -339,14 +339,39 @@ public class JavaCoder extends Coder {
      */
     @Override
     public void writeMethodCall(Method method, Code context, List<? extends Code> params) {
-        write(context, ".", method.getName(), "(");
-        for (int i = 0; i < params.size(); i++) {
-            if (i != 0) {
-                write(", ");
-            }
-            write(params.get(i));
-        }
-        write(")");
+        write(context, ".", method.getName(), join("(", params, ", ", ")"));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeCreateArray(Class type, List<Code> dimensions) {
+        write("new", space, name(type), join("[", dimensions, "][", "]"));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeCreateArray(Class type, List<Code> dimensions, List<Code> initialValues) {
+        write("new", space, name(type), join("[", dimensions, "][", "]"), space, join("{", initialValues, ", ", "}"));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeTernary(Code condition, Code success, Code fail) {
+        write(condition, space, "?", space, success, space, ":", space, fail);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeCast(Class type, Code code) {
+        write("(", name(type), ")", space, code);
     }
 
     /**

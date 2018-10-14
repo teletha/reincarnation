@@ -116,6 +116,36 @@ public abstract class Coder {
     }
 
     /**
+     * Create joinable code.
+     * 
+     * @param values The values to join.
+     * @return A joinable code.
+     */
+    protected final Joiner join(Collection values) {
+        return new Joiner().values(values);
+    }
+
+    /**
+     * Create joinable code.
+     * 
+     * @param prefix The prefix.
+     * @return A joinable code.
+     */
+    protected final Joiner prefix(String prefix) {
+        return new Joiner().prefix(prefix);
+    }
+
+    /**
+     * Create joinable code.
+     * 
+     * @param prefix The prefix.
+     * @return A joinable code.
+     */
+    protected final Joiner join(String prefix, Collection values, String separator, String suffix) {
+        return new Joiner().prefix(prefix).values(values, separator).suffix(suffix);
+    }
+
+    /**
      * Write code.
      * 
      * @param codes
@@ -392,4 +422,38 @@ public abstract class Coder {
      * @param params A list of parameter objects.
      */
     public abstract void writeMethodCall(Method method, Code context, List<? extends Code> params);
+
+    /**
+     * Create array expression.
+     * 
+     * @param type A type of array.
+     * @param dimensions A list of dimension size.
+     */
+    public abstract void writeCreateArray(Class type, List<Code> dimensions);
+
+    /**
+     * Create array expression.
+     * 
+     * @param type A type of array.
+     * @param dimensions A list of dimension size.
+     * @param initialValues A list of initial values.
+     */
+    public abstract void writeCreateArray(Class type, List<Code> dimensions, List<Code> initialValues);
+
+    /**
+     * Ternary condition expression.
+     * 
+     * @param condition A condition.
+     * @param success A then part.
+     * @param fail A else part.
+     */
+    public abstract void writeTernary(Code condition, Code success, Code fail);
+
+    /**
+     * Cast expression.
+     * 
+     * @param type A type to cast.
+     * @param code A value to be casted.
+     */
+    public abstract void writeCast(Class type, Code code);
 }
