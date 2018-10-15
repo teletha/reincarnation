@@ -234,7 +234,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         this.returnType = returns;
         this.locals = locals;
 
-        Debugger.recordMethodName(source.className);
+        Debugger.recordMethodName(source.clazz.getName());
     }
 
     /**

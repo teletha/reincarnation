@@ -206,9 +206,10 @@ public class CodeVerifier {
      * @return
      */
     private <T extends Code> Class<T> recompile(T code) {
-        JavaSourceCode source = Reincarnation.exhume(code.getClass());
+        Class target = code.getClass();
 
-        String decompiled = source.toString();
+        JavaReincarnation reincarnation = new JavaReincarnation().exhume(target);
+        String decompiled = reincarnation.rebirth(target);
         Silent notifier = new Silent();
 
         if (Debugger.isEnable()) {
@@ -220,12 +221,12 @@ public class CodeVerifier {
 
         try {
             JavaCompiler compiler = new JavaCompiler(notifier);
-            compiler.addSource(source.root.getName(), decompiled);
+            compiler.addSource(JavaReincarnation.name(target.getEnclosingClass()), decompiled);
             compiler.addClassPath(Path.of("target/test-classes"));
 
             ClassLoader loader = compiler.compile();
-            Class<T> loadedClass = (Class<T>) loader.loadClass(source.className);
-            assert code.getClass() != loadedClass; // load from different classloader
+            Class<T> loadedClass = (Class<T>) loader.loadClass(JavaReincarnation.name(target));
+            assert target != loadedClass; // load from different classloader
 
             return loadedClass;
         } catch (Exception e) {
@@ -271,7 +272,7 @@ public class CodeVerifier {
     private Throwable code(Code code) {
         return Failuer.type("Invalid Decompilation")
                 .reason("=================================================")
-                .reason(format(Reincarnation.exhume(code.getClass()).toString()))
+                .reason(format(new JavaReincarnation().rebirth(code.getClass()).toString()))
                 .reason("=================================================");
     }
 

@@ -15,8 +15,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -30,18 +32,12 @@ import reincarnation.coder.Coder;
 import reincarnation.coder.JavaCoder;
 
 /**
- * @version 2018/10/10 15:32:50
+ * @version 2018/10/14 16:52:15
  */
-public final class JavaSourceCode implements Code {
-
-    /** The root class. */
-    public final Class root;
+public class JavaSourceCode implements Code {
 
     /** The target class. */
     public final Class clazz;
-
-    /** The target class name. */
-    public final String className;
 
     /** The initializer manager. */
     public final List<Code> staticInitializer = new ArrayList();
@@ -54,6 +50,9 @@ public final class JavaSourceCode implements Code {
 
     /** The method manager. */
     public final Map<Method, Code> methods = new LinkedHashMap();
+
+    /** The member manager. */
+    public final Map<Class, JavaSourceCode> members = new LinkedHashMap();
 
     /** The dependency classes. */
     private final Dependency dependency = new Dependency();
@@ -68,27 +67,6 @@ public final class JavaSourceCode implements Code {
      */
     public JavaSourceCode(Class clazz) {
         this.clazz = Objects.requireNonNull(clazz);
-        this.root = findRootClass(clazz);
-
-        String fqcn = clazz.getName();
-
-        if (clazz.isAnonymousClass()) {
-            fqcn = fqcn.replace("$", "$" + root.getSimpleName() + "$");
-        }
-        this.className = fqcn;
-    }
-
-    /**
-     * Find the top level class.
-     * 
-     * @param clazz A target class.
-     * @return A top level class.
-     */
-    private static Class findRootClass(Class clazz) {
-        while (clazz.getEnclosingClass() != null) {
-            clazz = clazz.getEnclosingClass();
-        }
-        return clazz;
     }
 
     /**
@@ -101,43 +79,84 @@ public final class JavaSourceCode implements Code {
     }
 
     /**
+     * Retrieve the enclosing source code.
+     * 
+     * @return A enclosing source code.
+     */
+    public JavaSourceCode enclosing() {
+        return this;
+    }
+
+    /**
+     * Retrieve the root enclosing source code.
+     * 
+     * @return A root enclosing source code.
+     */
+    public final JavaSourceCode enclosingRoot() {
+        JavaSourceCode parent = enclosing();
+
+        return parent == this ? this : parent.enclosingRoot();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public void write(Coder coder) {
         analyze();
 
-        coder.writePackage(root.getPackage());
+        coder.writePackage(clazz.getPackage());
         coder.writeImport(dependency.classes);
 
-        if (root == clazz) {
-            write(clazz, coder);
-        } else {
-            coder.writeType(root, () -> {
-                write(clazz, coder);
+        writeType(clazz, coder);
+    }
 
-                for (Class member : dependency.members) {
-                    new JavaSourceCode(member).writeOnly(coder);
-                }
+    /**
+     * Write the target member class only.
+     * 
+     * @param coder
+     * @param target
+     */
+    public void write(Coder coder, Class target) {
+        coder.writePackage(clazz.getPackage());
+        coder.writeImport(dependency.classes);
+
+        write(coder, computeHierarchy(target));
+    }
+
+    private void write(Coder coder, Deque<JavaSourceCode> hierarchy) {
+        JavaSourceCode current = hierarchy.poll();
+
+        if (hierarchy.isEmpty()) {
+            current.write(coder);
+        } else {
+            coder.writeType(current.clazz, () -> {
+                write(coder, hierarchy);
             });
         }
     }
 
     /**
-     * Analyze the target class.
+     * Compute class hierarchy tree.
      * 
-     * @param clazz
+     * @param current A target type.
+     * @return
      */
-    private void writeOnly(Coder coder) {
-        analyze();
+    private Deque<JavaSourceCode> computeHierarchy(Class current) {
+        LinkedList<JavaSourceCode> hierarchy = new LinkedList();
 
-        write(clazz, coder);
+        while (current != null) {
+            hierarchy.addFirst(Reincarnation.unearth(current));
+            current = current.getEnclosingClass();
+        }
+
+        return hierarchy;
     }
 
     /**
      * Analyze byte code.
      */
-    private synchronized void analyze() {
+    protected synchronized void analyze() {
         if (analyzed == false) {
             analyzed = true;
 
@@ -154,7 +173,7 @@ public final class JavaSourceCode implements Code {
      * 
      * @param type
      */
-    private void write(Class type, Coder coder) {
+    protected void writeType(Class type, Coder coder) {
         coder.writeType(type, () -> {
             List<Field> statics = new ArrayList();
             List<Field> fields = new ArrayList();
@@ -180,7 +199,7 @@ public final class JavaSourceCode implements Code {
      */
     @Override
     public String toString() {
-        JavaCoder coder = new JavaCoder().addType(root);
+        JavaCoder coder = new JavaCoder().addType(clazz);
         write(coder);
         return coder.toString();
     }
@@ -209,7 +228,7 @@ public final class JavaSourceCode implements Code {
                 }
 
                 // exclude source
-                if (dependency == clazz || dependency == root) {
+                if (dependency == clazz) {
                     return;
                 }
 
@@ -218,17 +237,58 @@ public final class JavaSourceCode implements Code {
                     return;
                 }
 
-                // exclude java.lang package
-                if (dependency.getPackage().getName().equals("java.lang")) {
-                    return;
-                }
-
-                if (dependency.getName().startsWith(root.getCanonicalName().concat("$"))) {
+                if (dependency.getName().startsWith(clazz.getName().concat("$"))) {
                     members.add(dependency);
                 } else {
                     classes.add(dependency);
                 }
             }
+        }
+    }
+
+    /**
+     * @version 2018/10/15 20:54:46
+     */
+    static class JavaMemberSourceCode extends JavaSourceCode {
+
+        /** The enclosing code. */
+        private final JavaSourceCode enclosing;
+
+        /**
+         * Specialized for member class.
+         * 
+         * @param clazz A member class.
+         */
+        JavaMemberSourceCode(Class clazz) {
+            super(clazz);
+
+            this.enclosing = Reincarnation.unearth(clazz.getEnclosingClass());
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void require(Class dependency) {
+            enclosing.require(dependency);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public JavaSourceCode enclosing() {
+            return enclosing;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void write(Coder coder) {
+            analyze();
+
+            writeType(clazz, coder);
         }
     }
 }

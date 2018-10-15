@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
 
+import reincarnation.JavaReincarnation;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
@@ -37,6 +38,20 @@ public class JavaCoder extends Coder {
 
     /** The current processing class. */
     private final LinkedList<Class> processing = new LinkedList();
+
+    /**
+     * 
+     */
+    public JavaCoder() {
+        super();
+    }
+
+    /**
+     * @param appendable
+     */
+    public JavaCoder(Appendable appendable) {
+        super(appendable);
+    }
 
     /**
      * Add processing type.
@@ -485,12 +500,7 @@ public class JavaCoder extends Coder {
      * @return
      */
     private String simpleName(Class type) {
-        if (type.isAnonymousClass() || type.isLocalClass()) {
-            String name = type.getName();
-            return name.substring(name.lastIndexOf(".") + 1);
-        } else {
-            return type.getSimpleName();
-        }
+        return JavaReincarnation.simpleName(type);
     }
 
     /**
