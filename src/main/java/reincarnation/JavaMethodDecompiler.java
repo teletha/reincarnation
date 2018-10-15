@@ -881,13 +881,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             Operand operand = current.remove(0);
 
             if (returnType == BOOLEAN_TYPE) {
-                if (operand.toString().equals("0")) {
-                    operand = OperandBoolean.False;
-                } else if (operand.toString().equals("1")) {
-                    operand = OperandBoolean.True;
-                } else if (operand instanceof OperandAmbiguousZeroOneTernary) {
-                    operand = operand.fix(boolean.class);
-                }
+                operand = operand.fix(boolean.class);
             }
             current.addOperand(new OperandReturn(operand));
             current.destination = Termination;

@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/10 11:14:56
@@ -115,7 +114,6 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         verify(new Code.Boolean() {
 
             @Override
-            @Debuggable
             public boolean run() {
                 assert java.lang.Float.class != float.class;
                 return java.lang.Float.class == float.class;

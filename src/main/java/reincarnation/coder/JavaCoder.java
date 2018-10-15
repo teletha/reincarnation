@@ -14,12 +14,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
 
+import kiss.Variable;
 import reincarnation.JavaReincarnation;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
@@ -36,8 +36,10 @@ public class JavaCoder extends Coder {
     /** The imported type manager. */
     private final Set<String> importedNames = new HashSet();
 
-    /** The current processing class. */
-    private final LinkedList<Class> processing = new LinkedList();
+    private final Set<Class> upperTypes = new HashSet();
+
+    /** The current type. (maybe null in debug context) */
+    private final Variable<Class> current = Variable.empty();
 
     /**
      * 
@@ -51,49 +53,6 @@ public class JavaCoder extends Coder {
      */
     public JavaCoder(Appendable appendable) {
         super(appendable);
-    }
-
-    /**
-     * Add processing type.
-     * 
-     * @param type
-     */
-    public JavaCoder addType(Class type) {
-        if (type != null) {
-            if (importedNames.add(type.getSimpleName())) {
-                importedTypes.add(type);
-            }
-
-            for (Class member : type.getDeclaredClasses()) {
-                if (!type.isAnonymousClass()) {
-                    addType(member);
-                }
-            }
-        }
-        return this;
-    }
-
-    /**
-     * Register imported high priority class name.
-     * 
-     * @param type
-     */
-    private void registerHighPriorityClassName(Class clazz) {
-        if (importedNames.add(clazz.getSimpleName())) {
-            Class superclass = clazz.getSuperclass();
-
-            if (superclass != null && superclass != Object.class) {
-                registerHighPriorityClassName(superclass);
-            }
-
-            for (Class interfaceClass : clazz.getInterfaces()) {
-                registerHighPriorityClassName(interfaceClass);
-            }
-
-            for (Class member : clazz.getClasses()) {
-                registerHighPriorityClassName(member);
-            }
-        }
     }
 
     /**
@@ -125,9 +84,8 @@ public class JavaCoder extends Coder {
      */
     @Override
     public void writeType(Class type, Runnable inner) {
+        current.set(type);
         registerHighPriorityClassName(type);
-        addType(type);
-        processing.add(type);
 
         String kind;
         String extend;
@@ -148,8 +106,31 @@ public class JavaCoder extends Coder {
         line(accessor(type.getModifiers()), kind, space, simpleName(type), extend, space, "{");
         indent(inner::run);
         line("}");
+    }
 
-        processing.removeLast();
+    /**
+     * Register imported high priority class name.
+     * 
+     * @param type
+     */
+    private void registerHighPriorityClassName(Class clazz) {
+        if (importedNames.add(clazz.getSimpleName())) {
+            upperTypes.add(clazz);
+            Class superclass = clazz.getSuperclass();
+
+            if (superclass != null && superclass != Object.class) {
+                registerHighPriorityClassName(superclass);
+            }
+
+            for (Class interfaceClass : clazz.getInterfaces()) {
+                registerHighPriorityClassName(interfaceClass);
+            }
+
+            for (Class member : clazz.getClasses()) {
+                upperTypes.add(member);
+                importedNames.add(member.getSimpleName());
+            }
+        }
     }
 
     /**
@@ -374,7 +355,7 @@ public class JavaCoder extends Coder {
      */
     @Override
     public void writeAccessField(Field field, Code context) {
-        if (processing.contains(field.getDeclaringClass())) {
+        if (upperTypes.contains(field.getDeclaringClass())) {
             if (Modifier.isStatic(field.getModifiers())) {
                 write(field.getName());
             } else {
@@ -484,7 +465,10 @@ public class JavaCoder extends Coder {
      * @return
      */
     private String name(Class type) {
-        if (type.getName().startsWith(processing.getFirst().getName())) {
+        if (current == null) {
+            new Error(type.toString()).printStackTrace();
+        }
+        if (type.getName().startsWith(current.or(Object.class).v.getName())) {
             return simpleName(type);
         } else if (importedTypes.contains(type) || type.isPrimitive()) {
             return type.getSimpleName();
