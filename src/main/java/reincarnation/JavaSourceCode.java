@@ -92,10 +92,10 @@ public class JavaSourceCode implements Code {
      * 
      * @return A root enclosing source code.
      */
-    public final JavaSourceCode enclosingRoot() {
+    public final JavaSourceCode root() {
         JavaSourceCode parent = enclosing();
 
-        return parent == this ? this : parent.enclosingRoot();
+        return parent == this ? this : parent.root();
     }
 
     /**
@@ -109,6 +109,11 @@ public class JavaSourceCode implements Code {
         coder.writeImport(dependency.classes);
 
         writeType(clazz, coder);
+    }
+
+    protected final void code(Coder coder) {
+        analyze();
+
     }
 
     /**
@@ -199,7 +204,7 @@ public class JavaSourceCode implements Code {
      */
     @Override
     public String toString() {
-        JavaCoder coder = new JavaCoder().addType(clazz);
+        JavaCoder coder = new JavaCoder();
         write(coder);
         return coder.toString();
     }

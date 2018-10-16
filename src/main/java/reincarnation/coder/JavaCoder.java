@@ -177,7 +177,7 @@ public class JavaCoder extends Coder {
         }, ", ", "", "");
 
         line();
-        line(accessor(c.getModifiers()), space, simpleName(c.getDeclaringClass()), "(", params, ")", space, "{");
+        line(accessor(c.getModifiers()), simpleName(c.getDeclaringClass()), "(", params, ")", space, "{");
         indent(code::write);
         line("}");
     }

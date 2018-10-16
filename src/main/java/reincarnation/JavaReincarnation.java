@@ -22,7 +22,7 @@ public class JavaReincarnation extends Reincarnation<JavaReincarnation> {
     @Override
     protected void reborn(JavaSourceCode code, Appendable output) {
         JavaCoder coder = new JavaCoder(output);
-        JavaSourceCode root = code.enclosingRoot();
+        JavaSourceCode root = code.root();
 
         if (root == code) {
             root.write(coder);

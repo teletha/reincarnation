@@ -244,8 +244,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     public void write(Coder coder) {
         // reset local variable declaration state
         locals.reset();
-
+        System.out.println("BBBB " + nodes);
         nodes.get(0).write(coder);
+        System.out.println("CCC  " + nodes);
     }
 
     /**

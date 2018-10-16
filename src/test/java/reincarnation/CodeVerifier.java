@@ -208,7 +208,7 @@ public class CodeVerifier {
     private <T extends Code> Class<T> recompile(T code) {
         Class target = code.getClass();
 
-        JavaReincarnation reincarnation = new JavaReincarnation().exhume(target);
+        JavaReincarnation reincarnation = new JavaReincarnation();
         String decompiled = reincarnation.rebirth(target);
         Silent notifier = new Silent();
 
@@ -269,10 +269,10 @@ public class CodeVerifier {
      * @param code
      * @return
      */
-    private Throwable code(Code code) {
+    private Throwable code(String code) {
         return Failuer.type("Invalid Decompilation")
                 .reason("=================================================")
-                .reason(format(new JavaReincarnation().rebirth(code.getClass()).toString()))
+                .reason(code)
                 .reason("=================================================");
     }
 
