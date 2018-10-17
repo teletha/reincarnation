@@ -55,7 +55,7 @@ public class JavaSourceCode implements Code {
     public final Map<Class, JavaSourceCode> members = new LinkedHashMap();
 
     /** The dependency classes. */
-    private final Dependency dependency = new Dependency();
+    protected final Dependency dependency = new Dependency();
 
     /** The flag. */
     private boolean analyzed;
@@ -103,6 +103,10 @@ public class JavaSourceCode implements Code {
      */
     @Override
     public void write(Coder coder) {
+        writeThis(coder);
+    }
+
+    protected void writeThis(Coder coder) {
         analyze();
 
         coder.writePackage(clazz.getPackage());
@@ -111,23 +115,19 @@ public class JavaSourceCode implements Code {
         writeType(clazz, coder);
     }
 
-    protected final void code(Coder coder) {
-        analyze();
-
-    }
-
-    /**
-     * Write the target member class only.
-     * 
-     * @param coder
-     * @param target
-     */
-    public void write(Coder coder, Class target) {
-        coder.writePackage(clazz.getPackage());
-        coder.writeImport(dependency.classes);
-
-        write(coder, computeHierarchy(target));
-    }
+    // /**
+    // * Write the target member class only.
+    // *
+    // * @param coder
+    // * @param target
+    // */
+    // public void write(Coder coder, Class target) {
+    // System.out.println("WRITE " + clazz + " " + dependency.classes);
+    // coder.writePackage(clazz.getPackage());
+    // coder.writeImport(dependency.classes);
+    //
+    // write(coder, computeHierarchy(target));
+    // }
 
     private void write(Coder coder, Deque<JavaSourceCode> hierarchy) {
         JavaSourceCode current = hierarchy.poll();
@@ -167,6 +167,7 @@ public class JavaSourceCode implements Code {
 
             try {
                 new ClassReader(clazz.getName()).accept(new JavaClassDecompiler(this), 0);
+                System.out.println("ANALYZE" + clazz + "  " + dependency.classes);
             } catch (IOException e) {
                 throw I.quiet(e);
             }
@@ -293,7 +294,8 @@ public class JavaSourceCode implements Code {
         public void write(Coder coder) {
             analyze();
 
-            writeType(clazz, coder);
+            writeType(enclosing.clazz, coder);
         }
+
     }
 }
