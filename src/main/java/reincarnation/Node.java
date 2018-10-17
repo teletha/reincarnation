@@ -91,7 +91,7 @@ class Node implements Code {
     private boolean whileFindingDominator;
 
     /** The flag whether this node has already written or not. */
-    private boolean written = false;
+    boolean written = false;
 
     /** The flag whether this node can omit continue statement safely or not. */
     private Boolean continueOmittable;
