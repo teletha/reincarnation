@@ -99,20 +99,65 @@ public class JavaSourceCode implements Code {
     }
 
     /**
+     * Analyze byte code.
+     */
+    protected synchronized void analyze() {
+        if (analyzed == false) {
+            analyzed = true;
+
+            try {
+                new ClassReader(clazz.getName()).accept(new JavaClassDecompiler(this), 0);
+                System.out.println("ANALYZE" + clazz + "  " + dependency.classes);
+            } catch (IOException e) {
+                throw I.quiet(e);
+            }
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
-        writeThis(coder);
-    }
-
-    protected void writeThis(Coder coder) {
+    public final void write(Coder coder) {
         analyze();
 
+        writeHeader(coder);
+
+        coder.writeType(clazz, () -> {
+            List<Field> statics = new ArrayList();
+            List<Field> fields = new ArrayList();
+            for (Field field : clazz.getDeclaredFields()) {
+                if (Modifier.isStatic(field.getModifiers())) {
+                    statics.add(field);
+                } else {
+                    fields.add(field);
+                }
+            }
+
+            statics.forEach(coder::writeStaticField);
+            staticInitializer.forEach(coder::writeStaticInitializer);
+            fields.forEach(coder::writeField);
+            initializer.forEach(coder::writeInitializer);
+            constructors.entrySet().forEach(e -> coder.writeConstructor(e.getKey(), e.getValue()));
+            methods.entrySet().forEach(e -> coder.writeMethod(e.getKey(), e.getValue()));
+        });
+    }
+
+    /**
+     * @param coder
+     */
+    public void writeClass(Coder coder) {
+        write(coder);
+    }
+
+    /**
+     * Write class header.
+     * 
+     * @param coder
+     */
+    protected void writeHeader(Coder coder) {
         coder.writePackage(clazz.getPackage());
         coder.writeImport(dependency.classes);
-
-        writeType(clazz, coder);
     }
 
     // /**
@@ -156,48 +201,6 @@ public class JavaSourceCode implements Code {
         }
 
         return hierarchy;
-    }
-
-    /**
-     * Analyze byte code.
-     */
-    protected synchronized void analyze() {
-        if (analyzed == false) {
-            analyzed = true;
-
-            try {
-                new ClassReader(clazz.getName()).accept(new JavaClassDecompiler(this), 0);
-                System.out.println("ANALYZE" + clazz + "  " + dependency.classes);
-            } catch (IOException e) {
-                throw I.quiet(e);
-            }
-        }
-    }
-
-    /**
-     * Class declaration.
-     * 
-     * @param type
-     */
-    protected void writeType(Class type, Coder coder) {
-        coder.writeType(type, () -> {
-            List<Field> statics = new ArrayList();
-            List<Field> fields = new ArrayList();
-            for (Field field : type.getDeclaredFields()) {
-                if (Modifier.isStatic(field.getModifiers())) {
-                    statics.add(field);
-                } else {
-                    fields.add(field);
-                }
-            }
-
-            statics.forEach(coder::writeStaticField);
-            staticInitializer.forEach(coder::writeStaticInitializer);
-            fields.forEach(coder::writeField);
-            initializer.forEach(coder::writeInitializer);
-            constructors.entrySet().forEach(e -> coder.writeConstructor(e.getKey(), e.getValue()));
-            methods.entrySet().forEach(e -> coder.writeMethod(e.getKey(), e.getValue()));
-        });
     }
 
     /**
@@ -291,11 +294,8 @@ public class JavaSourceCode implements Code {
          * {@inheritDoc}
          */
         @Override
-        public void write(Coder coder) {
-            analyze();
-
-            writeType(enclosing.clazz, coder);
+        protected void writeHeader(Coder coder) {
+            // skip
         }
-
     }
 }
