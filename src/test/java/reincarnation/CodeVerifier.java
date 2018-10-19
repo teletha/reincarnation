@@ -18,13 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Supplier;
-
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Modifier;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 
 import bee.UserInterface;
 import bee.api.Command;
@@ -32,7 +26,10 @@ import bee.util.JavaCompiler;
 import kiss.I;
 import kiss.WiseFunction;
 import kiss.WiseSupplier;
+import kiss.Ⅱ;
 import reincarnation.Code.Param;
+import reincarnation.coder.java.JavaCoder;
+import reincarnation.coder.java.JavaCodingOption;
 
 /**
  * @version 2018/10/09 16:01:55
@@ -76,7 +73,7 @@ public class CodeVerifier {
      * @param code A target code to verify.
      */
     protected final void verify(Code code) {
-        JavaVerifier base = new JavaVerifier(code.getClass(), IllegalCallerException::new);
+        JavaVerifier base = new JavaVerifier<>(I.pair(code.getClass(), IllegalCallerException::new));
         List inputs = prepareInputs(base.method);
         List expecteds = new ArrayList();
 
@@ -85,7 +82,7 @@ public class CodeVerifier {
         }
 
         // java decompiler
-        JavaVerifier java = new JavaVerifier(recompile(code), () -> code(code));
+        JavaVerifier java = new JavaVerifier(recompile(code));
 
         for (int i = 0; i < inputs.size(); i++) {
             java.verify(inputs.get(i), expecteds.get(i));
@@ -200,16 +197,18 @@ public class CodeVerifier {
     }
 
     /**
-     * Recompile and recompile code.
+     * Decompile and recompile code.
      * 
      * @param code
      * @return
      */
-    private <T extends Code> Class<T> recompile(T code) {
+    private <T extends Code> Ⅱ<Class<T>, Supplier<Throwable>> recompile(T code) {
         Class target = code.getClass();
 
-        JavaReincarnation reincarnation = new JavaReincarnation();
-        String decompiled = reincarnation.rebirth(target);
+        JavaCodingOption options = new JavaCodingOption();
+        options.writeMemberFromTopLevel = true;
+
+        String decompiled = Reincarnation.rebirth(target, options);
         Silent notifier = new Silent();
 
         if (Debugger.isEnable()) {
@@ -217,18 +216,17 @@ public class CodeVerifier {
                 System.out.println(line);
             }
         }
-        System.out.println(decompiled);
 
         try {
             JavaCompiler compiler = new JavaCompiler(notifier);
-            compiler.addSource(JavaReincarnation.name(target.getEnclosingClass()), decompiled);
+            compiler.addSource(JavaCoder.computeName(target.getEnclosingClass()), decompiled);
             compiler.addClassPath(Path.of("target/test-classes"));
 
             ClassLoader loader = compiler.compile();
-            Class<T> loadedClass = (Class<T>) loader.loadClass(JavaReincarnation.name(target));
+            Class<T> loadedClass = (Class<T>) loader.loadClass(JavaCoder.computeName(target));
             assert target != loadedClass; // load from different classloader
 
-            return loadedClass;
+            return I.pair(loadedClass, () -> code(decompiled));
         } catch (Exception e) {
             throw I.quiet(e);
         } catch (Error e) {
@@ -240,27 +238,6 @@ public class CodeVerifier {
                     .reason(format(decompiled))
                     .reason("=================================================");
         }
-    }
-
-    /**
-     * Enclose by the specified class.
-     * 
-     * @param className A simple class name.
-     * @param base A target to enclose.
-     * @return An enclosed unit.
-     */
-    private CompilationUnit enclose(String className, CompilationUnit base) {
-        CompilationUnit enclose = new CompilationUnit(base.getPackageDeclaration().orElseThrow(), base.getImports(), new NodeList(), null);
-
-        // create enclosing class
-        ClassOrInterfaceDeclaration clazz = enclose.addClass(className);
-
-        base.getTypes().forEach(type -> {
-            type.addModifier(Modifier.STATIC);
-
-            clazz.addMember(type);
-        });
-        return enclose;
     }
 
     /**
@@ -326,16 +303,16 @@ public class CodeVerifier {
          * @param type
          * @param detailError
          */
-        private JavaVerifier(Class<T> type, Supplier<Throwable> detailError) {
-            this.detailError = Objects.requireNonNull(detailError);
+        private JavaVerifier(Ⅱ<Class, Supplier<Throwable>> context) {
+            this.detailError = context.ⅱ;
 
             // we smust create new instance for each parameters
-            Constructor c = type.getDeclaredConstructors()[0];
+            Constructor c = context.ⅰ.getDeclaredConstructors()[0];
             c.setAccessible(true);
             WiseSupplier instantiator = () -> c.newInstance((Object[]) Array.newInstance(Object.class, c.getParameterCount()));
 
             // search verifier method
-            method = I.signal(type.getDeclaredMethods()).take(m -> m.getName().equals("run")).first().to().v;
+            method = I.signal(context.ⅰ.getDeclaredMethods()).take(m -> m.getName().equals("run")).first().to().v;
             method.setAccessible(true);
 
             switch (method.getParameterCount()) {

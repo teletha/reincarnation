@@ -156,7 +156,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     private static final int LABEL = 300;
 
     /** The current processing source. */
-    private final JavaSourceCode source;
+    private final Reincarnation source;
 
     /** The method return type. */
     private final Type returnType;
@@ -227,7 +227,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      * @param locals
      * @param returns
      */
-    JavaMethodDecompiler(JavaSourceCode source, LocalVariables locals, Type returns) {
+    JavaMethodDecompiler(Reincarnation source, LocalVariables locals, Type returns) {
         super(ASM7);
 
         this.source = source;

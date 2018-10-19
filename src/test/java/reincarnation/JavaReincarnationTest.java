@@ -12,6 +12,7 @@ package reincarnation;
 import org.junit.jupiter.api.Test;
 
 import antibug.powerassert.PowerAssertOff;
+import reincarnation.coder.java.JavaCodingOption;
 
 /**
  * @version 2018/10/16 13:06:56
@@ -21,9 +22,11 @@ class JavaReincarnationTest {
     @PowerAssertOff
     @Test
     void testName() {
-        JavaReincarnation reincarnation = new JavaReincarnation();
-        String rebirth1 = reincarnation.rebirth(Main.class);
-        String rebirth2 = reincarnation.rebirth(Main.class);
+        JavaCodingOption options = new JavaCodingOption();
+        options.writeMemberFromTopLevel = true;
+
+        String rebirth1 = Reincarnation.rebirth(Main.class, options);
+        String rebirth2 = Reincarnation.rebirth(Main.class, options);
 
         System.out.println(rebirth1);
 

@@ -20,7 +20,7 @@ import kiss.Signal;
 import kiss.Variable;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
-import reincarnation.coder.JavaCoder;
+import reincarnation.coder.java.JavaCoder;
 
 /**
  * @version 2018/10/05 19:36:25

@@ -10,34 +10,79 @@
 package reincarnation;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.objectweb.asm.ClassReader;
+
 import kiss.I;
-import reincarnation.JavaSourceCode.JavaMemberSourceCode;
+import reincarnation.coder.Code;
+import reincarnation.coder.Coder;
+import reincarnation.coder.java.JavaCoder;
+import reincarnation.coder.java.JavaCodingOption;
 
 /**
  * {@link Reincarnation} is a unit of decompilation.
  * 
- * @version 2018/10/14 17:15:33
+ * @version 2018/10/19 12:36:08
  */
-public abstract class Reincarnation<Self extends Reincarnation> {
+public final class Reincarnation {
 
     /** The cache. */
-    private static final Map<Class, JavaSourceCode> cache = new ConcurrentHashMap();
+    private static final Map<Class, Reincarnation> cache = new ConcurrentHashMap();
 
-    /** The required codes. */
-    private final Set<JavaSourceCode> codes = new HashSet();
+    /** The target class. */
+    public final Class clazz;
+
+    /** The initializer manager. */
+    public final List<Code> staticInitializer = new ArrayList();
+
+    /** The initializer manager. */
+    public final List<Code> initializer = new ArrayList();
+
+    /** The constructor manager. */
+    public final Map<Constructor, Code> constructors = new LinkedHashMap();
+
+    /** The method manager. */
+    public final Map<Method, Code> methods = new LinkedHashMap();
+
+    /** The member manager. */
+    public final Map<Class, Reincarnation> members = new LinkedHashMap();
+
+    /** The dependency classes. */
+    public final Dependency dependency = new Dependency();
 
     /**
      * Hide constcutor.
      */
-    protected Reincarnation() {
+    private Reincarnation(Class clazz) {
+        this.clazz = Objects.requireNonNull(clazz);
+    }
+
+    /**
+     * Compile the specified class.
+     * 
+     * @param coder A target class to compile.
+     */
+    public void rebirth(Coder coder) {
+        coder.write(this);
+    }
+
+    /**
+     * Add dependency type of this source.
+     * 
+     * @param dependency
+     */
+    public void require(Class dependency) {
+        this.dependency.require(dependency);
     }
 
     /**
@@ -46,94 +91,85 @@ public abstract class Reincarnation<Self extends Reincarnation> {
      * @param clazz A class to decompile.
      * @return Chainable API.
      */
-    public final Self exhume(Class clazz) {
-        unearth(clazz);
-        return (Self) this;
-    }
+    public static final synchronized Reincarnation exhume(Class clazz) {
+        return cache.computeIfAbsent(clazz, key -> {
+            Reincarnation reincarnation = new Reincarnation(clazz);
 
-    /**
-     * Decompile the target {@link Class}. (Internal API)
-     * 
-     * @param clazz A class to decompile.
-     * @return Chainable API.
-     */
-    static final JavaSourceCode unearth(Class clazz) {
-        JavaSourceCode code = cache.get(clazz);
-
-        if (code == null) {
-            if (clazz.isAnonymousClass() || clazz.isLocalClass() || clazz.isMemberClass()) {
-                code = new JavaMemberSourceCode(clazz);
-            } else {
-                code = new JavaSourceCode(clazz);
+            try {
+                new ClassReader(clazz.getName()).accept(new JavaClassDecompiler(reincarnation), 0);
+            } catch (IOException e) {
+                throw I.quiet(e);
             }
-            cache.put(clazz, code);
-        }
-        return code;
+
+            return reincarnation;
+        });
     }
 
     /**
-     * Compile the specified class.
+     * Decompile the specified class as Java code.
      * 
-     * @param clazz A target class to compile.
-     * @param output An output.
+     * @param clazz A target class to decompile.
+     * @return A decompiled Java source code.
      */
-    protected abstract void reborn(JavaSourceCode code, Appendable output);
+    public static final String rebirth(Class clazz) {
+        JavaCoder coder = new JavaCoder();
+        exhume(clazz).rebirth(coder);
+        return coder.toString();
+    }
 
     /**
-     * Decompile all classes.
+     * Decompile the specified class as Java code.
      * 
-     * @param directory A root directory which contains all decompiled sources.
+     * @param clazz A target class to decompile.
+     * @return A decompiled Java source code.
      */
-    public void rebirth(Path directory) {
-        Objects.requireNonNull(directory);
+    public static final String rebirth(Class clazz, JavaCodingOption options) {
+        JavaCoder coder = new JavaCoder();
+        coder.config(options);
 
-        try {
-            if (Files.isDirectory(directory) == false) {
-                Files.createDirectories(directory);
+        exhume(clazz).rebirth(coder);
+        return coder.toString();
+    }
+
+    /**
+     * @version 2018/10/11 21:48:55
+     */
+    public class Dependency {
+
+        /** The dependency classes. */
+        public final Set<Class> classes = new HashSet();
+
+        /** The dependency member classes. */
+        public final Set<Class> members = new HashSet();
+
+        /**
+         * Depends on the specified class.
+         * 
+         * @param dependency
+         */
+        private void require(Class dependency) {
+            if (dependency != null) {
+                if (dependency.isArray()) {
+                    require(dependency.getComponentType());
+                    return;
+                }
+
+                // exclude source
+                if (dependency == clazz) {
+                    return;
+                }
+
+                // exclude primitive
+                if (dependency.isPrimitive()) {
+                    return;
+                }
+
+                if (dependency.getName().startsWith(clazz.getName().concat("$"))) {
+                    members.add(dependency);
+                } else {
+                    classes.add(dependency);
+                }
             }
-        } catch (IOException e) {
-            throw I.quiet(e);
         }
-    }
-
-    /**
-     * Compile the specified class.
-     * 
-     * @param clazz A target class to compile.
-     * @param output An output.
-     */
-    public final void rebirth(Class clazz, Appendable output) {
-        Objects.requireNonNull(clazz);
-        Objects.requireNonNull(output);
-
-        reborn(unearth(clazz), output);
-    }
-
-    /**
-     * Compile the specified class.
-     * 
-     * @param clazz A target class to compile.
-     * @param output An output.
-     */
-    public final void rebirth(Class clazz, Path output) {
-        Objects.requireNonNull(output);
-
-        try {
-            rebirth(clazz, Files.newBufferedWriter(output));
-        } catch (IOException e) {
-            throw I.quiet(e);
-        }
-    }
-
-    /**
-     * Compile the specified class.
-     * 
-     * @param clazz A target class to compile.
-     * @return An output as text code.
-     */
-    public final String rebirth(Class clazz) {
-        StringBuilder builder = new StringBuilder();
-        rebirth(clazz, builder);
-        return builder.toString();
     }
 }

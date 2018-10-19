@@ -29,7 +29,7 @@ import kiss.I;
 class JavaClassDecompiler extends ClassVisitor {
 
     /** The current processing source. */
-    private final JavaSourceCode source;
+    private final Reincarnation source;
 
     /**
      * Java class decompiler
@@ -37,7 +37,7 @@ class JavaClassDecompiler extends ClassVisitor {
      * @param clazz A target class.
      * @param unit The compilation unit.
      */
-    JavaClassDecompiler(JavaSourceCode source) {
+    JavaClassDecompiler(Reincarnation source) {
         super(ASM7);
 
         this.source = Objects.requireNonNull(source);

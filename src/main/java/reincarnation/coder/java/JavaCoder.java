@@ -7,20 +7,24 @@
  *
  *          http://opensource.org/licenses/mit-license.php
  */
-package reincarnation.coder;
+package reincarnation.coder.java;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
 
 import kiss.Variable;
-import reincarnation.JavaReincarnation;
+import reincarnation.Reincarnation;
+import reincarnation.coder.Code;
+import reincarnation.coder.Coder;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
@@ -28,7 +32,7 @@ import reincarnation.operator.UnaryOperator;
 /**
  * @version 2018/10/13 11:05:47
  */
-public class JavaCoder extends Coder {
+public class JavaCoder extends Coder<JavaCodingOption> {
 
     /** The imported type manager. */
     private final Set<Class> importedTypes = new HashSet();
@@ -53,6 +57,74 @@ public class JavaCoder extends Coder {
      */
     public JavaCoder(Appendable appendable) {
         super(appendable);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void write(Reincarnation reincarnation) {
+        writePackage(reincarnation.clazz.getPackage());
+        writeImport(reincarnation.dependency.classes);
+
+        if (options.writeMemberFromTopLevel && isMemberLike(reincarnation.clazz)) {
+            writeHierarchy(reincarnation, hierarchy(reincarnation.clazz));
+        } else {
+            writeOne(reincarnation);
+        }
+    }
+
+    private void writeOne(Reincarnation reincarnation) {
+        writeType(reincarnation.clazz, () -> {
+            List<Field> statics = new ArrayList();
+            List<Field> fields = new ArrayList();
+            for (Field field : reincarnation.clazz.getDeclaredFields()) {
+                if (Modifier.isStatic(field.getModifiers())) {
+                    statics.add(field);
+                } else {
+                    fields.add(field);
+                }
+            }
+
+            statics.forEach(this::writeStaticField);
+            reincarnation.staticInitializer.forEach(this::writeStaticInitializer);
+            fields.forEach(this::writeField);
+            reincarnation.initializer.forEach(this::writeInitializer);
+            reincarnation.constructors.entrySet().forEach(e -> writeConstructor(e.getKey(), e.getValue()));
+            reincarnation.methods.entrySet().forEach(e -> writeMethod(e.getKey(), e.getValue()));
+        });
+    }
+
+    /**
+     * List up all hierarchy classes.
+     * 
+     * @param clazz
+     * @return
+     */
+    private LinkedList<Class> hierarchy(Class clazz) {
+        LinkedList<Class> list = new LinkedList();
+
+        while (clazz != null) {
+            list.addFirst(clazz);
+            clazz = clazz.getEnclosingClass();
+        }
+
+        return list;
+    }
+
+    /**
+     * Write hierarchy skelton.
+     * 
+     * @param hierarchy
+     */
+    private void writeHierarchy(Reincarnation reincarnation, LinkedList<Class> hierarchy) {
+        writeType(hierarchy.removeFirst(), () -> {
+            if (hierarchy.size() == 1) {
+                writeOne(reincarnation);
+            } else {
+                writeHierarchy(reincarnation, hierarchy);
+            }
+        });
     }
 
     /**
@@ -484,7 +556,7 @@ public class JavaCoder extends Coder {
      * @return
      */
     private String simpleName(Class type) {
-        return JavaReincarnation.simpleName(type);
+        return computeSimpleName(type);
     }
 
     /**
@@ -533,5 +605,45 @@ public class JavaCoder extends Coder {
         } else {
             return value.concat(" ");
         }
+    }
+
+    /**
+     * Compute the fully qualified class name of the specified class.
+     * 
+     * @param clazz A target class.
+     * @return A fully qualified class name.
+     */
+    public static final String computeName(Class clazz) {
+        if (clazz.isAnonymousClass() || clazz.isLocalClass()) {
+            String name = clazz.getName();
+            return clazz.getEnclosingClass().getName() + "$" + name.substring(name.lastIndexOf(".") + 1);
+        } else {
+            return clazz.getName();
+        }
+    }
+
+    /**
+     * Compute the simple class name of the specified class.
+     * 
+     * @param clazz A target class.
+     * @return A simple class name.
+     */
+    public static final String computeSimpleName(Class clazz) {
+        if (clazz.isAnonymousClass()) {
+            String name = clazz.getName();
+            return name.substring(name.lastIndexOf(".") + 1);
+        } else {
+            return clazz.getSimpleName();
+        }
+    }
+
+    /**
+     * Helper to check member-like type.
+     * 
+     * @param clazz A target to check.
+     * @return A result.
+     */
+    private static boolean isMemberLike(Class clazz) {
+        return clazz.isAnonymousClass() || clazz.isLocalClass() || clazz.isMemberClass();
     }
 }

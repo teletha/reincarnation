@@ -16,6 +16,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
@@ -23,6 +24,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import kiss.I;
+import kiss.model.Model;
+import reincarnation.Reincarnation;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
@@ -30,7 +33,7 @@ import reincarnation.operator.UnaryOperator;
 /**
  * @version 2018/10/13 11:03:28
  */
-public abstract class Coder {
+public abstract class Coder<O extends CodingOption> {
 
     /** The end of line. */
     protected static final String EoL = "\r\n";
@@ -41,11 +44,11 @@ public abstract class Coder {
     /** The actual writer. */
     private final Appendable appendable;
 
-    /** The indent character. */
-    private String indentChar = "    ";
-
     /** The current indent size. */
     private int indentSize = 0;
+
+    /** The coding options. */
+    protected O options;
 
     /**
      * Create {@link Coder}.
@@ -61,6 +64,29 @@ public abstract class Coder {
      */
     protected Coder(Appendable appendable) {
         this.appendable = appendable;
+        this.options = I.make((Class<O>) Model.collectParameters(getClass(), Coder.class)[0]);
+    }
+
+    /**
+     * Set options.
+     * 
+     * @param options
+     */
+    public final void config(O options) {
+        this.options = Objects.requireNonNull(options);
+    }
+
+    /**
+     * Config coding options.
+     * 
+     * @param options
+     * @return
+     */
+    public final Coder config(Consumer<O> options) {
+        if (options != null) {
+            options.accept(this.options);
+        }
+        return this;
     }
 
     /**
@@ -172,7 +198,7 @@ public abstract class Coder {
      */
     public final void line(Object... codes) {
         if (codes.length != 0) {
-            write(indentChar.repeat(indentSize));
+            write(options.indentChar.repeat(indentSize));
             write(codes);
         }
         write(EoL);
@@ -207,6 +233,13 @@ public abstract class Coder {
     public String toString() {
         return appendable.toString();
     }
+
+    /**
+     * Write code by AST.
+     * 
+     * @param reincarnation
+     */
+    public abstract void write(Reincarnation reincarnation);
 
     /**
      * Package declaration.
