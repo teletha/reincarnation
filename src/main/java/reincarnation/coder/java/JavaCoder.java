@@ -34,16 +34,13 @@ import reincarnation.operator.UnaryOperator;
  */
 public class JavaCoder extends Coder<JavaCodingOption> {
 
-    /** The imported type manager. */
-    private final Set<Class> importedTypes = new HashSet();
-
-    /** The imported type manager. */
-    private final Set<String> importedNames = new HashSet();
-
     private final Set<Class> upperTypes = new HashSet();
 
     /** The current type. (maybe null in debug context) */
     private final Variable<Class> current = Variable.empty();
+
+    /** The import manager. */
+    final Imports imports = new Imports();
 
     /**
      * 
@@ -64,6 +61,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void write(Reincarnation reincarnation) {
+        imports.addBase(reincarnation.clazz);
+
         writePackage(reincarnation.clazz.getPackage());
         writeImport(reincarnation.dependency.classes);
 
@@ -141,12 +140,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeImport(Set<Class> classes) {
         if (!classes.isEmpty()) {
+            imports.add(classes);
+
             line();
-            for (Class clazz : classes) {
-                if (importedNames.add(clazz.getSimpleName())) {
-                    importedTypes.add(clazz);
-                    line("import", space, clazz.getName(), ";");
-                }
+
+            for (Class clazz : imports.imported) {
+                line("import", space, clazz.getCanonicalName(), ";");
             }
         }
     }
@@ -157,7 +156,6 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeType(Class type, Runnable inner) {
         current.set(type);
-        registerHighPriorityClassName(type);
 
         String kind;
         String extend;
@@ -178,31 +176,6 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         line(accessor(type.getModifiers()), kind, space, simpleName(type), extend, space, "{");
         indent(inner::run);
         line("}");
-    }
-
-    /**
-     * Register imported high priority class name.
-     * 
-     * @param type
-     */
-    private void registerHighPriorityClassName(Class clazz) {
-        if (importedNames.add(clazz.getSimpleName())) {
-            upperTypes.add(clazz);
-            Class superclass = clazz.getSuperclass();
-
-            if (superclass != null && superclass != Object.class) {
-                registerHighPriorityClassName(superclass);
-            }
-
-            for (Class interfaceClass : clazz.getInterfaces()) {
-                registerHighPriorityClassName(interfaceClass);
-            }
-
-            for (Class member : clazz.getClasses()) {
-                upperTypes.add(member);
-                importedNames.add(member.getSimpleName());
-            }
-        }
     }
 
     /**
@@ -542,7 +515,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         }
         if (type.getName().startsWith(current.or(Object.class).v.getName())) {
             return simpleName(type);
-        } else if (importedTypes.contains(type) || type.isPrimitive()) {
+        } else if (imports.contains(type) || type.isPrimitive()) {
             return type.getSimpleName();
         } else {
             return type.getCanonicalName();

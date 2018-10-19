@@ -56,6 +56,7 @@ class JavaClassDecompiler extends ClassVisitor {
      */
     @Override
     public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
+        source.require(Util.load(Type.getType(desc)));
         return null;
     }
 
