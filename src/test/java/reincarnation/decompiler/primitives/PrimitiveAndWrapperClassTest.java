@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/10 11:14:56
@@ -23,6 +24,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
     void IntegerPrimitive() {
         verify(new Code.Object<Class>() {
 
+            @Debuggable
             @Override
             public Class run() {
                 return int.class;
@@ -91,6 +93,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
     void FloatPrimitive() {
         verify(new Code.Object<Class>() {
 
+            @Debuggable
             @Override
             public Class run() {
                 return float.class;
@@ -136,6 +139,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
     void DoubleWrapper() {
         verify(new Code.Object<Class>() {
 
+            @Debuggable
             @Override
             public Class run() {
                 return java.lang.Double.class;

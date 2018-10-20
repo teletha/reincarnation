@@ -14,7 +14,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -33,8 +32,6 @@ import reincarnation.operator.UnaryOperator;
  * @version 2018/10/13 11:05:47
  */
 public class JavaCoder extends Coder<JavaCodingOption> {
-
-    private final Set<Class> upperTypes = new HashSet();
 
     /** The current type. (maybe null in debug context) */
     private final Variable<Class> current = Variable.empty();
@@ -61,12 +58,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void write(Reincarnation reincarnation) {
-        imports.addBase(reincarnation.clazz);
+        imports.setBase(reincarnation.clazz);
 
         writePackage(reincarnation.clazz.getPackage());
         writeImport(reincarnation.dependency.classes);
 
-        if (options.writeMemberFromTopLevel && isMemberLike(reincarnation.clazz)) {
+        if (options.writeMemberFromTopLevel && Classes.isMemberLike(reincarnation.clazz)) {
             writeHierarchy(reincarnation, hierarchy(reincarnation.clazz));
         } else {
             writeOne(reincarnation);
@@ -141,9 +138,10 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     public void writeImport(Set<Class> classes) {
         if (!classes.isEmpty()) {
             imports.add(classes);
+            System.out.println(classes);
+            System.out.println(imports.imported);
 
             line();
-
             for (Class clazz : imports.imported) {
                 line("import", space, clazz.getCanonicalName(), ";");
             }
@@ -400,7 +398,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeAccessField(Field field, Code context) {
-        if (upperTypes.contains(field.getDeclaringClass())) {
+        if (imports.hierarchy.contains(field.getDeclaringClass())) {
             if (Modifier.isStatic(field.getModifiers())) {
                 write(field.getName());
             } else {
@@ -510,16 +508,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @return
      */
     private String name(Class type) {
-        if (current == null) {
-            new Error(type.toString()).printStackTrace();
-        }
-        if (type.getName().startsWith(current.or(Object.class).v.getName())) {
-            return simpleName(type);
-        } else if (imports.contains(type) || type.isPrimitive()) {
-            return type.getSimpleName();
-        } else {
-            return type.getCanonicalName();
-        }
+        return imports.name(type);
     }
 
     /**
@@ -608,15 +597,5 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         } else {
             return clazz.getSimpleName();
         }
-    }
-
-    /**
-     * Helper to check member-like type.
-     * 
-     * @param clazz A target to check.
-     * @return A result.
-     */
-    private static boolean isMemberLike(Class clazz) {
-        return clazz.isAnonymousClass() || clazz.isLocalClass() || clazz.isMemberClass();
     }
 }

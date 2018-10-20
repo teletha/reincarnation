@@ -11,17 +11,21 @@ package reincarnation.coder.java;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Reincarnation;
-import reincarnation.coder.java.imports.AncestorHasSameCorePackageClassName;
-import reincarnation.coder.java.imports.Integer;
-import reincarnation.coder.java.imports.MemberHasSameCorePackageClassName;
-import reincarnation.coder.java.imports.ParentHasSameCorePackageClassName;
-import reincarnation.coder.java.imports.ParentMemberHasSameCorePackageClassName;
+import reincarnation.coder.java.imports.AncestorMemberIsInteger;
+import reincarnation.coder.java.imports.InterfaceMemberIsInteger;
+import reincarnation.coder.java.imports.ParentIsInteger;
+import reincarnation.coder.java.imports.ParentMemberIsInteger;
+import reincarnation.coder.java.imports.external.ClassHasIntegerMember;
+import reincarnation.coder.java.imports.external.InterfaceHasIntegerMember;
 
 /**
- * @version 2018/10/19 14:24:19
+ * @version 2018/10/20 20:29:19
  */
 class ImportsTest {
+
+    private static final Class coreInteger = java.lang.Integer.class;
+
+    private static final Class externalInteger = reincarnation.coder.java.imports.external.Integer.class;
 
     @Test
     void diffName() {
@@ -29,8 +33,8 @@ class ImportsTest {
         imports.add(Member1.class);
         imports.add(Member2.class);
 
-        assert imports.contains(Member1.class) == true;
-        assert imports.contains(Member2.class) == true;
+        assert imports.name(Member1.class).equals(Member1.class.getSimpleName());
+        assert imports.name(Member2.class).equals(Member2.class.getSimpleName());
     }
 
     @Test
@@ -39,8 +43,8 @@ class ImportsTest {
         imports.add(Member1.SameName.class);
         imports.add(Member2.SameName.class);
 
-        assert imports.contains(Member1.SameName.class) == true;
-        assert imports.contains(Member2.SameName.class) == false;
+        assert imports.name(Member1.SameName.class).equals(Member1.SameName.class.getSimpleName());
+        assert imports.name(Member2.SameName.class).equals(Member2.SameName.class.getCanonicalName());
     }
 
     private static class Member1 {
@@ -54,35 +58,64 @@ class ImportsTest {
     }
 
     @Test
-    void parentHasSameCorePackageClassName() {
-        JavaCoder coder = new JavaCoder();
+    void coreClass() {
+        Imports imports = new Imports();
+        imports.setBase(ImportsTest.class);
 
-        Reincarnation reincarnation = Reincarnation.exhume(ParentHasSameCorePackageClassName.class);
-        reincarnation.rebirth(coder);
-
-        assert coder.imports.contains(Integer.class) == true;
-        assert coder.imports.contains(java.lang.Integer.class) == false;
+        assert imports.name(coreInteger).equals("Integer");
     }
 
     @Test
-    void parentMemberHasSameCorePackageClassName() {
-        JavaCoder coder = new JavaCoder();
+    void coreClassName() {
+        Imports imports = new Imports();
+        imports.setBase(externalInteger);
 
-        Reincarnation reincarnation = Reincarnation.exhume(ParentMemberHasSameCorePackageClassName.class);
-        reincarnation.rebirth(coder);
-
-        assert coder.imports.contains(MemberHasSameCorePackageClassName.Integer.class) == true;
-        assert coder.imports.contains(java.lang.Integer.class) == false;
+        assert imports.name(externalInteger).equals("Integer");
+        assert imports.name(coreInteger).equals("java.lang.Integer");
     }
 
     @Test
-    void ancestorHasSameCorePackageClassName() {
-        JavaCoder coder = new JavaCoder();
+    void parentIsCoreClassName() {
+        Imports imports = new Imports();
+        imports.setBase(ParentIsInteger.class);
 
-        Reincarnation reincarnation = Reincarnation.exhume(AncestorHasSameCorePackageClassName.class);
-        reincarnation.rebirth(coder);
+        assert imports.name(externalInteger).equals(externalInteger.getCanonicalName());
+        assert imports.name(coreInteger).equals("Integer");
+    }
 
-        assert coder.imports.contains(Integer.class) == true;
-        assert coder.imports.contains(java.lang.Integer.class) == false;
+    @Test
+    void memberIsCoreClassName() {
+        Imports imports = new Imports();
+        imports.setBase(ClassHasIntegerMember.class);
+
+        assert imports.name(ClassHasIntegerMember.Integer.class).equals("Integer");
+        assert imports.name(coreInteger).equals("java.lang.Integer");
+    }
+
+    @Test
+    void parentMemberIsCoreClassName() {
+        Imports imports = new Imports();
+        imports.setBase(ParentMemberIsInteger.class);
+
+        assert imports.name(ClassHasIntegerMember.Integer.class).equals("Integer");
+        assert imports.name(coreInteger).equals("java.lang.Integer");
+    }
+
+    @Test
+    void ancestorMemberIsCoreClassName() {
+        Imports imports = new Imports();
+        imports.setBase(AncestorMemberIsInteger.class);
+
+        assert imports.name(ClassHasIntegerMember.Integer.class).equals("Integer");
+        assert imports.name(coreInteger).equals("java.lang.Integer");
+    }
+
+    @Test
+    void interfaceMemberIsCoreClassName() {
+        Imports imports = new Imports();
+        imports.setBase(InterfaceMemberIsInteger.class);
+
+        assert imports.name(InterfaceHasIntegerMember.Integer.class).equals("Integer");
+        assert imports.name(coreInteger).equals("java.lang.Integer");
     }
 }

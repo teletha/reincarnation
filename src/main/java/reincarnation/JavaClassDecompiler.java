@@ -49,6 +49,11 @@ class JavaClassDecompiler extends ClassVisitor {
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         Debugger.start(source.clazz);
+
+        source.require(Util.load(superName));
+        for (String i : interfaces) {
+            source.require(Util.load(i));
+        }
     }
 
     /**
