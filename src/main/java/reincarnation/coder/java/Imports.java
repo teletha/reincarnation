@@ -150,6 +150,9 @@ class Imports {
     /** The base class. */
     private Class base;
 
+    /** The root class. */
+    private Class root;
+
     /** The base package. */
     private Package basePackage;
 
@@ -161,6 +164,7 @@ class Imports {
     void setBase(Class base) {
         this.base = base;
         this.basePackage = base.getPackage();
+        this.root = Classes.enclosingRoot(base);
 
         addImplicitly(base);
 
@@ -191,14 +195,20 @@ class Imports {
      * @param clazz A class to import.
      */
     void add(Class clazz) {
-        if (clazz.isAnonymousClass() || clazz.getPackage().getName().equals("java.lang")) {
+        if (clazz.getPackage().getName().equals("java.lang")) {
+            return;
+        }
+
+        if (clazz.isAnonymousClass()) {
             return;
         }
 
         String simple = clazz.getSimpleName();
 
         if (importedName.add(simple)) {
-            imported.add(clazz);
+            if (!Classes.isMember(root, clazz)) {
+                imported.add(clazz);
+            }
         }
     }
 
@@ -236,6 +246,10 @@ class Imports {
 
         if (imported.contains(clazz) || importedImplicitly.contains(clazz)) {
             return clazz.getSimpleName();
+        }
+
+        if (clazz.isAnonymousClass()) {
+            return clazz.getName().substring(clazz.getPackageName().length() + 1);
         }
 
         return clazz.getCanonicalName();

@@ -14,7 +14,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -29,7 +28,7 @@ import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
 
 /**
- * @version 2018/10/13 11:05:47
+ * @version 2018/10/21 21:36:48
  */
 public class JavaCoder extends Coder<JavaCodingOption> {
 
@@ -61,10 +60,10 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         imports.setBase(reincarnation.clazz);
 
         writePackage(reincarnation.clazz.getPackage());
-        writeImport(reincarnation.dependency.classes);
+        writeImport(reincarnation.classes);
 
         if (options.writeMemberFromTopLevel && Classes.isMemberLike(reincarnation.clazz)) {
-            writeHierarchy(reincarnation, hierarchy(reincarnation.clazz));
+            writeHierarchy(Hierarchy.calculate(reincarnation));
         } else {
             writeOne(reincarnation);
         }
@@ -88,24 +87,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             reincarnation.initializer.forEach(this::writeInitializer);
             reincarnation.constructors.entrySet().forEach(e -> writeConstructor(e.getKey(), e.getValue()));
             reincarnation.methods.entrySet().forEach(e -> writeMethod(e.getKey(), e.getValue()));
+            reincarnation.anonymous.forEach(e -> writeOne(Reincarnation.exhume(e)));
         });
-    }
-
-    /**
-     * List up all hierarchy classes.
-     * 
-     * @param clazz
-     * @return
-     */
-    private LinkedList<Class> hierarchy(Class clazz) {
-        LinkedList<Class> list = new LinkedList();
-
-        while (clazz != null) {
-            list.addFirst(clazz);
-            clazz = clazz.getEnclosingClass();
-        }
-
-        return list;
     }
 
     /**
@@ -113,14 +96,16 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * 
      * @param hierarchy
      */
-    private void writeHierarchy(Reincarnation reincarnation, LinkedList<Class> hierarchy) {
-        writeType(hierarchy.removeFirst(), () -> {
-            if (hierarchy.size() == 1) {
-                writeOne(reincarnation);
-            } else {
-                writeHierarchy(reincarnation, hierarchy);
-            }
-        });
+    private void writeHierarchy(Hierarchy hierarchy) {
+        if (hierarchy.skelton) {
+            writeType(hierarchy.clazz, () -> {
+                for (Hierarchy child : hierarchy.children) {
+                    writeHierarchy(child);
+                }
+            });
+        } else {
+            writeOne(Reincarnation.exhume(hierarchy.clazz));
+        }
     }
 
     /**
@@ -138,8 +123,6 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     public void writeImport(Set<Class> classes) {
         if (!classes.isEmpty()) {
             imports.add(classes);
-            System.out.println(classes);
-            System.out.println(imports.imported);
 
             line();
             for (Class clazz : imports.imported) {

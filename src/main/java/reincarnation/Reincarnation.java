@@ -58,7 +58,10 @@ public final class Reincarnation {
     public final Map<Class, Reincarnation> members = new LinkedHashMap();
 
     /** The dependency classes. */
-    public final Dependency dependency = new Dependency();
+    public final Set<Class> classes = new HashSet();
+
+    /** The dependency member classes. */
+    public final Set<Class> anonymous = new HashSet();
 
     /**
      * Hide constcutor.
@@ -82,7 +85,28 @@ public final class Reincarnation {
      * @param dependency
      */
     public void require(Class dependency) {
-        this.dependency.require(dependency);
+        if (dependency != null) {
+            if (dependency.isArray()) {
+                require(dependency.getComponentType());
+                return;
+            }
+
+            // exclude source
+            if (dependency == clazz) {
+                return;
+            }
+
+            // exclude primitive
+            if (dependency.isPrimitive()) {
+                return;
+            }
+
+            if (dependency.getName().startsWith(clazz.getName().concat("$"))) {
+                anonymous.add(dependency);
+            } else {
+                classes.add(dependency);
+            }
+        }
     }
 
     /**
@@ -129,47 +153,5 @@ public final class Reincarnation {
 
         exhume(clazz).rebirth(coder);
         return coder.toString();
-    }
-
-    /**
-     * @version 2018/10/11 21:48:55
-     */
-    public class Dependency {
-
-        /** The dependency classes. */
-        public final Set<Class> classes = new HashSet();
-
-        /** The dependency member classes. */
-        public final Set<Class> members = new HashSet();
-
-        /**
-         * Depends on the specified class.
-         * 
-         * @param dependency
-         */
-        private void require(Class dependency) {
-            if (dependency != null) {
-                if (dependency.isArray()) {
-                    require(dependency.getComponentType());
-                    return;
-                }
-
-                // exclude source
-                if (dependency == clazz) {
-                    return;
-                }
-
-                // exclude primitive
-                if (dependency.isPrimitive()) {
-                    return;
-                }
-
-                if (dependency.getName().startsWith(clazz.getName().concat("$"))) {
-                    members.add(dependency);
-                } else {
-                    classes.add(dependency);
-                }
-            }
-        }
     }
 }
