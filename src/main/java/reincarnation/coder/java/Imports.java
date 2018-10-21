@@ -145,6 +145,8 @@ class Imports {
     /** The Implicitly imported class. */
     private final Set<String> importedNameImplicitly = new HashSet();
 
+    Set<Class> hierarchy = new HashSet();
+
     /** The base class. */
     private Class base;
 
@@ -162,7 +164,9 @@ class Imports {
 
         addImplicitly(base);
 
-        for (Class hierarchy : Model.collectTypes(base)) {
+        hierarchy = Model.collectTypes(base);
+
+        for (Class hierarchy : hierarchy) {
             for (Class member : hierarchy.getDeclaredClasses()) {
                 addImplicitly(member);
             }

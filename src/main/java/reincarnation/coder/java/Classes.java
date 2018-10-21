@@ -9,6 +9,8 @@
  */
 package reincarnation.coder.java;
 
+import java.util.LinkedList;
+
 /**
  * @version 2018/10/20 9:36:18
  */
@@ -22,5 +24,44 @@ class Classes {
      */
     static boolean isMemberLike(Class clazz) {
         return clazz.isAnonymousClass() || clazz.isLocalClass() || clazz.isMemberClass();
+    }
+
+    /**
+     * Calculate root of enclosing class.
+     * 
+     * @param clazz A target class.
+     * @return A root of enclosing class.
+     */
+    static Class enclosingRoot(Class clazz) {
+        LinkedList<Class> list = enclosings(clazz);
+
+        return list.isEmpty() ? clazz : list.getFirst();
+    }
+
+    /**
+     * Collect enclosing classes.
+     * 
+     * @param clazz A target class.
+     * @return A list of enclosing classes.
+     */
+    static LinkedList<Class> enclosings(Class clazz) {
+        LinkedList<Class> list = new LinkedList();
+
+        while (clazz.getEnclosingClass() != null) {
+            clazz = clazz.getEnclosingClass();
+            list.addFirst(clazz);
+        }
+        return list;
+    }
+
+    /**
+     * Check member type.
+     * 
+     * @param root
+     * @param target
+     * @return
+     */
+    static boolean isMember(Class encloser, Class target) {
+        return enclosings(target).contains(encloser);
     }
 }
