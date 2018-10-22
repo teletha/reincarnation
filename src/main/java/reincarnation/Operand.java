@@ -23,7 +23,7 @@ import reincarnation.coder.Coder;
 import reincarnation.coder.java.JavaCoder;
 
 /**
- * @version 2018/10/05 19:36:25
+ * @version 2018/10/22 19:00:10
  */
 abstract class Operand implements Code {
 
@@ -81,7 +81,7 @@ abstract class Operand implements Code {
             if (other.isFixed()) {
                 fix(other.type.v);
             } else {
-                type.observeNow().to(other.type::set);
+                type.observeNow().skip(Object.class).to(other.type::set);
             }
         }
         return this;
