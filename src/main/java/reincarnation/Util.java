@@ -13,21 +13,12 @@ import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.Type.*;
 
 import java.lang.reflect.Array;
-import java.util.EnumSet;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import com.github.javaparser.JavaParser;
-import com.github.javaparser.ast.Modifier;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.type.ArrayType;
-import com.github.javaparser.ast.type.ArrayType.Origin;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.ast.type.PrimitiveType;
-
 /**
- * @version 2018/10/04 8:31:09
+ * @version 2018/10/22 18:08:19
  */
 public class Util {
 
@@ -50,6 +41,7 @@ public class Util {
     static Class load(int opecode) {
         switch (opecode) {
         case IADD:
+        case IAND:
         case ICONST_0:
         case ICONST_1:
         case ICONST_2:
@@ -73,6 +65,7 @@ public class Util {
             return int.class;
 
         case LADD:
+        case LAND:
         case LCONST_0:
         case LCONST_1:
         case LDIV:
@@ -224,114 +217,6 @@ public class Util {
             classes[i] = load(types[i]);
         }
         return classes;
-    }
-
-    /**
-     * Load {@link ClassOrInterfaceType} by internal name.
-     * 
-     * @param internalName
-     * @return
-     */
-    static ClassOrInterfaceType loadType(String internalName) {
-        return loadType(Type.getObjectType(internalName));
-    }
-
-    /**
-     * Load {@link ClassOrInterfaceType} by internal name.
-     * 
-     * @param internalName
-     * @return
-     */
-    static com.github.javaparser.ast.type.Type loadType(Class type) {
-        if (type == int.class) {
-            return PrimitiveType.intType();
-        }
-        if (type == long.class) {
-            return PrimitiveType.longType();
-        }
-        if (type == float.class) {
-            return PrimitiveType.floatType();
-        }
-        if (type == double.class) {
-            return PrimitiveType.doubleType();
-        }
-        if (type == char.class) {
-            return PrimitiveType.charType();
-        }
-        if (type == byte.class) {
-            return PrimitiveType.byteType();
-        }
-        if (type == short.class) {
-            return PrimitiveType.shortType();
-        }
-        if (type == boolean.class) {
-            return PrimitiveType.booleanType();
-        }
-        if (type.isArray()) {
-            return new ArrayType(loadType(type.getComponentType()), Origin.TYPE, new NodeList());
-        }
-        if (type.isAnonymousClass()) {
-            return JavaParser.parseClassOrInterfaceType(type.getName());
-        }
-        return JavaParser.parseClassOrInterfaceType(type.getCanonicalName());
-    }
-
-    /**
-     * Load {@link ClassOrInterfaceType} by internal type.
-     * 
-     * @param internalName
-     * @return
-     */
-    static ClassOrInterfaceType loadType(Type internalType) {
-        return JavaParser.parseClassOrInterfaceType(internalType.getClassName());
-    }
-
-    /**
-     * Compute modifiers from ASM access code.
-     * 
-     * @param access
-     * @return
-     */
-    static Modifier[] modifiers(int access) {
-        EnumSet<Modifier> set = EnumSet.noneOf(Modifier.class);
-
-        if ((access & ACC_ABSTRACT) != 0) {
-            set.add(Modifier.ABSTRACT);
-        }
-        if ((access & ACC_FINAL) != 0) {
-            set.add(Modifier.FINAL);
-        }
-        if ((access & ACC_NATIVE) != 0) {
-            set.add(Modifier.NATIVE);
-        }
-        if ((access & ACC_PRIVATE) != 0) {
-            set.add(Modifier.PRIVATE);
-        }
-        if ((access & ACC_PROTECTED) != 0) {
-            set.add(Modifier.PROTECTED);
-        }
-        if ((access & ACC_PUBLIC) != 0) {
-            set.add(Modifier.PUBLIC);
-        }
-        if ((access & ACC_STATIC) != 0) {
-            set.add(Modifier.STATIC);
-        }
-        if ((access & ACC_STRICT) != 0) {
-            set.add(Modifier.STRICTFP);
-        }
-        if ((access & ACC_SYNCHRONIZED) != 0) {
-            set.add(Modifier.SYNCHRONIZED);
-        }
-        if ((access & ACC_TRANSIENT) != 0) {
-            set.add(Modifier.TRANSIENT);
-        }
-        if ((access & ACC_TRANSITIVE) != 0) {
-            set.add(Modifier.TRANSITIVE);
-        }
-        if ((access & ACC_VOLATILE) != 0) {
-            set.add(Modifier.VOLATILE);
-        }
-        return set.toArray(Modifier[]::new);
     }
 
     /**

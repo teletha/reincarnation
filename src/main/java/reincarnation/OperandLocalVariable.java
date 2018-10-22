@@ -9,16 +9,12 @@
  */
 package reincarnation;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.expr.ThisExpr;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 
 import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/13 18:00:24
+ * @version 2018/10/22 18:08:07
  */
 public class OperandLocalVariable extends Operand {
 
@@ -36,23 +32,6 @@ public class OperandLocalVariable extends Operand {
     OperandLocalVariable(Class type, String name) {
         this.name.setId(name);
         this.type.set(type);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    Expression build() {
-        if (name.getId().equals("this")) {
-            return new ThisExpr();
-        } else {
-            if (declared == false) {
-                declared = true;
-                return new VariableDeclarationExpr(Util.loadType(type.v), name.getId());
-            } else {
-                return new NameExpr(name);
-            }
-        }
     }
 
     /**
