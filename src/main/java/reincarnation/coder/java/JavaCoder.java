@@ -574,7 +574,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @return A simple class name.
      */
     public static final String computeSimpleName(Class clazz) {
-        if (clazz.isAnonymousClass()) {
+        if (clazz.isAnonymousClass() || clazz.isLocalClass()) {
             String name = clazz.getName();
             return name.substring(name.lastIndexOf(".") + 1);
         } else {

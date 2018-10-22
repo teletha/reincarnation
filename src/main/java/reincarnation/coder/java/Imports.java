@@ -244,12 +244,12 @@ class Imports {
             return clazz.getName();
         }
 
-        if (imported.contains(clazz) || importedImplicitly.contains(clazz)) {
-            return clazz.getSimpleName();
+        if (clazz.isAnonymousClass() || clazz.isLocalClass()) {
+            return clazz.getName().substring(clazz.getPackageName().length() + 1);
         }
 
-        if (clazz.isAnonymousClass()) {
-            return clazz.getName().substring(clazz.getPackageName().length() + 1);
+        if (imported.contains(clazz) || importedImplicitly.contains(clazz)) {
+            return clazz.getSimpleName();
         }
 
         return clazz.getCanonicalName();
