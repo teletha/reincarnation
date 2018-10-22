@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -370,6 +371,9 @@ public class CodeVerifier {
 
                 if (type.isArray()) {
                     assertArray(expected, actual);
+                } else if (Throwable.class.isAssignableFrom(type)) {
+                    assert type.isInstance(actual);
+                    assert Objects.equals(((Throwable) expected).getMessage(), ((Throwable) actual).getMessage());
                 } else {
                     assert expected.equals(actual) : detailError.get();
                 }

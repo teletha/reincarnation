@@ -67,6 +67,8 @@ class OperandEnclose extends Operand {
      */
     @Override
     public void write(Coder coder) {
-        coder.writeEnclose(value);
+        coder.writeEnclose(() -> {
+            value.write(coder);
+        });
     }
 }

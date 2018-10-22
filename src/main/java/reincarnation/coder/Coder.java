@@ -383,7 +383,18 @@ public abstract class Coder<O extends CodingOption> {
      * 
      * @param code A inner code.
      */
-    public abstract void writeEnclose(Code code);
+    public final void writeEnclose(Code code) {
+        writeEnclose(() -> {
+            code.write(this);
+        });
+    }
+
+    /**
+     * Enclosed expression.
+     * 
+     * @param code A inner code.
+     */
+    public abstract void writeEnclose(Runnable code);
 
     /**
      * Assign operation expression.
@@ -510,10 +521,10 @@ public abstract class Coder<O extends CodingOption> {
      * Ternary condition expression.
      * 
      * @param condition A condition.
-     * @param success A then part.
-     * @param fail A else part.
+     * @param then A then part.
+     * @param elze A else part.
      */
-    public abstract void writeTernary(Code condition, Code success, Code fail);
+    public abstract void writeTernary(Code condition, Code then, Code elze);
 
     /**
      * Cast expression.
@@ -522,4 +533,21 @@ public abstract class Coder<O extends CodingOption> {
      * @param code A value to be casted.
      */
     public abstract void writeCast(Class type, Code code);
+
+    /**
+     * Throw statement.
+     * 
+     * @param code A value to be thrown.
+     */
+    public abstract void writeThrow(Code code);
+
+    /**
+     * If statement.
+     * 
+     * @param condition A condition.
+     * @param then A then part.
+     * @param elze A else part. (maybe null)
+     */
+    public abstract void writeIf(Code condition, Code then, Code elze);
+
 }

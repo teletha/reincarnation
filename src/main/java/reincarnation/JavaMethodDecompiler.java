@@ -962,7 +962,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         // throw
         case ATHROW:
-            current.addExpression("throw ", current.remove(0));
+            current.addOperand(new OperandThrow(current.remove(0)));
             current.destination = Termination;
             break;
 

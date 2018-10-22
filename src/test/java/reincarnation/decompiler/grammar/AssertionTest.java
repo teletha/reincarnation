@@ -24,7 +24,6 @@ class AssertionTest extends CodeVerifier {
     void single() {
         verify(new Code.RunInt() {
 
-            @Debuggable
             @Override
             public void run(int value) {
                 assert value != 10;
@@ -36,6 +35,7 @@ class AssertionTest extends CodeVerifier {
     void multiple() {
         verify(new Code.RunInt() {
 
+            @Debuggable
             @Override
             public void run(int value) {
                 assert value != 10 || value != 20;

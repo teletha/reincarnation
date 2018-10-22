@@ -242,7 +242,9 @@ class OperandCondition extends Operand {
         }
 
         if (group) {
-            coder.writeEnclose(encolose());
+            coder.writeEnclose(() -> {
+                coder.writeBinaryOperation(left, operator, right);
+            });
         } else {
             coder.writeBinaryOperation(left, operator, right);
         }

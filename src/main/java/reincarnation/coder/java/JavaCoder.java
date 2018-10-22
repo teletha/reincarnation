@@ -323,8 +323,10 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeEnclose(Code code) {
-        write("(", code, ")");
+    public void writeEnclose(Runnable code) {
+        write("(");
+        code.run();
+        write(")");
     }
 
     /**
@@ -472,8 +474,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeTernary(Code condition, Code success, Code fail) {
-        write(condition, space, "?", space, success, space, ":", space, fail);
+    public void writeTernary(Code condition, Code then, Code elze) {
+        write(condition, space, "?", space, then, space, ":", space, elze);
     }
 
     /**
@@ -482,6 +484,35 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeCast(Class type, Code code) {
         write("(", name(type), ")", space, code);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeThrow(Code code) {
+        write("throw", space, code);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeIf(Code condition, Code then, Code elze) {
+        line("if", space, "(", condition, ")", space, "{");
+        indent(coder -> {
+            write(then);
+        });
+
+        if (elze == null) {
+            line("}");
+        } else {
+            line("}", space, "else", space, "{");
+            indent(coder -> {
+                write(elze);
+            });
+            line("}");
+        }
     }
 
     /**
