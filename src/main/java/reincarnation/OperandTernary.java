@@ -9,11 +9,10 @@
  */
 package reincarnation;
 
-import com.github.javaparser.ast.expr.ConditionalExpr;
-import com.github.javaparser.ast.expr.Expression;
+import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/05 19:36:14
+ * @version 2018/10/22 19:05:30
  */
 class OperandTernary extends OperandCondition {
 
@@ -74,15 +73,7 @@ class OperandTernary extends OperandCondition {
      * {@inheritDoc}
      */
     @Override
-    public String toString() {
-        return condition + "?" + left + ":" + right;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    Expression build() {
-        return new ConditionalExpr(condition.build(), left.build(), right.build());
+    public void write(Coder coder) {
+        coder.writeTernary(condition, left, right);
     }
 }
