@@ -12,19 +12,20 @@ package reincarnation;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import bee.UserInterface;
 import bee.api.Command;
 import bee.util.JavaCompiler;
 import kiss.I;
-import kiss.WiseFunction;
 import kiss.WiseSupplier;
 import kiss.Ⅱ;
 import reincarnation.Code.Param;
@@ -291,7 +292,7 @@ public class CodeVerifier {
     private static class JavaVerifier<T> implements Verifier {
 
         /** The verifier. */
-        private final WiseFunction verifier;
+        private final Function verifier;
 
         /** The actual verifier method. */
         private final Method method;
@@ -317,11 +318,27 @@ public class CodeVerifier {
 
             switch (method.getParameterCount()) {
             case 0:
-                verifier = param -> method.invoke(instantiator.get());
+                verifier = param -> {
+                    try {
+                        return method.invoke(instantiator.get());
+                    } catch (InvocationTargetException e) {
+                        return e.getCause();
+                    } catch (Throwable e) {
+                        return e;
+                    }
+                };
                 break;
 
             case 1:
-                verifier = param -> method.invoke(instantiator.get(), param);
+                verifier = param -> {
+                    try {
+                        return method.invoke(instantiator.get(), param);
+                    } catch (InvocationTargetException e) {
+                        return e.getCause();
+                    } catch (Throwable e) {
+                        return e;
+                    }
+                };
                 break;
 
             default:
