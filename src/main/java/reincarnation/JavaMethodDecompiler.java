@@ -367,7 +367,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
                 if (match(DUPLICATE_AWAY, PUTFIELD)) {
                     // multiple assignment (i.e. this.a = this.b = 0;)
-                    // current.addOperand(assignment.encolose());
+                    current.addOperand(assign.encolose());
                 } else {
                     // normal assignment
                     current.addExpression(assign);
