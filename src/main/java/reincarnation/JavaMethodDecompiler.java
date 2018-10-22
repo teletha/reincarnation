@@ -773,7 +773,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         case FADD:
         case DADD:
         case LADD:
-            current.join(BinaryOperator.PLUS).enclose();
+            current.join(BinaryOperator.PLUS, opcode).enclose();
             break;
 
         // - operand
@@ -781,7 +781,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         case FSUB:
         case DSUB:
         case LSUB:
-            current.join(BinaryOperator.MINUS).enclose();
+            current.join(BinaryOperator.MINUS, opcode).enclose();
             break;
 
         // * operand
@@ -789,7 +789,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         case FMUL:
         case DMUL:
         case LMUL:
-            current.join(BinaryOperator.MULTIPLY);
+            current.join(BinaryOperator.MULTIPLY, opcode);
             break;
 
         // / operand
@@ -797,7 +797,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         case FDIV:
         case DDIV:
         case LDIV:
-            current.join(BinaryOperator.DIVIDE);
+            current.join(BinaryOperator.DIVIDE, opcode);
             break;
 
         // % operand
@@ -805,43 +805,43 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         case FREM:
         case DREM:
         case LREM:
-            current.join(BinaryOperator.REMAINDER);
+            current.join(BinaryOperator.REMAINDER, opcode);
             break;
 
         // & operand
         case IAND:
         case LAND:
-            current.join(BinaryOperator.BINARY_AND).enclose();
+            current.join(BinaryOperator.BINARY_AND, opcode).enclose();
             break;
 
         // | operand
         case IOR:
         case LOR:
-            current.join(BinaryOperator.BINARY_OR).enclose();
+            current.join(BinaryOperator.BINARY_OR, opcode).enclose();
             break;
 
         // ^ operand
         case IXOR:
         case LXOR:
-            current.join(BinaryOperator.XOR);
+            current.join(BinaryOperator.XOR, opcode);
             break;
 
         // << operand
         case ISHL:
         case LSHL:
-            current.join(BinaryOperator.LEFT_SHIFT).enclose();
+            current.join(BinaryOperator.LEFT_SHIFT, opcode).enclose();
             break;
 
         // >> operand
         case ISHR:
         case LSHR:
-            current.join(BinaryOperator.RIGHT_SHIFT).enclose();
+            current.join(BinaryOperator.RIGHT_SHIFT, opcode).enclose();
             break;
 
         // >>> operand
         case IUSHR:
         case LUSHR:
-            current.join(BinaryOperator.UNSIGNED_RIGHT_SHIFT).enclose();
+            current.join(BinaryOperator.UNSIGNED_RIGHT_SHIFT, opcode).enclose();
             break;
 
         // negative operand

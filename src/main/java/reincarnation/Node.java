@@ -324,10 +324,10 @@ class Node implements Code {
      * @param operator
      * @return Chainable API.
      */
-    final Node join(BinaryOperator operator) {
+    final Node join(BinaryOperator operator, int opecode) {
         Operand right = remove(0);
         Operand left = remove(0);
-        addOperand(new OperandBinary(left, operator, right));
+        addOperand(new OperandBinary(left, operator, right).fix(Util.load(opecode)));
 
         // API definition
         return this;

@@ -26,6 +26,8 @@ class OperandEnclose extends Operand {
      */
     OperandEnclose(Operand value) {
         this.value = value;
+
+        bindTo(value);
     }
 
     /**
