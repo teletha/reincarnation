@@ -183,6 +183,20 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
+    public interface LongParamDouble extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @param A parameter.
+         * @return A result.
+         */
+        double run(long param);
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
     public interface Float extends Code {
 
         /**

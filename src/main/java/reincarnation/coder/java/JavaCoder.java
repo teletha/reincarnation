@@ -483,7 +483,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeCast(Class type, Code code) {
-        write("(", name(type), ")", space, code);
+        write("(", name(type), ")", space, "(", code, ")");
     }
 
     /**

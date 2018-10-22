@@ -365,6 +365,9 @@ public class CodeVerifier {
          */
         private void assertObject(Object expected, Object actual) {
             if (expected == null) {
+                if (actual instanceof Throwable) {
+                    ((Throwable) actual).printStackTrace();
+                }
                 assert actual == null : detailError.get();
             } else {
                 Class type = expected.getClass();

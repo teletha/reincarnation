@@ -985,32 +985,28 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         case I2C:
             // cast int to char
-            current.addOperand(new OperandCast(current.remove(0), char.class));
+            current.addOperand(new OperandCast(current.remove(0).fix(int.class), char.class));
             break;
 
         case L2I:
             // cast long to int
-            // If this exception will be thrown, it is bug of this program. So we must rethrow the
-            // wrapped error in here.
-            throw new Error();
+            current.addOperand(new OperandCast(current.remove(0).fix(long.class), int.class));
+            break;
 
         case I2L:
             // cast int to long
-            // If this exception will be thrown, it is bug of this program. So we must rethrow the
-            // wrapped error in here.
-            throw new Error();
+            current.addOperand(new OperandCast(current.remove(0).fix(int.class), long.class));
+            break;
 
         case L2D:
             // cast long to double
-            // If this exception will be thrown, it is bug of this program. So we must rethrow the
-            // wrapped error in here.
-            throw new Error();
+            current.addOperand(new OperandCast(current.remove(0).fix(long.class), double.class));
+            break;
 
         case D2L:
             // cast double to long
-            // If this exception will be thrown, it is bug of this program. So we must rethrow the
-            // wrapped error in here.
-            throw new Error();
+            current.addOperand(new OperandCast(current.remove(0).fix(double.class), long.class));
+            break;
         }
     }
 
