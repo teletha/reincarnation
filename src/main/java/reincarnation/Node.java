@@ -1135,13 +1135,6 @@ class Node implements Code {
 
         // write code fragment
         coder.writeIf(condition, then, elze);
-        // buffer.write("if", "(" + this + ")", "{");
-        // process(then, coder);
-        // if (elze != null) {
-        // buffer.write("}", "else", "{");
-        // process(elze, coder);
-        // }
-        // buffer.write("}").line();
         process(follow, coder);
     }
 

@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/10 11:20:51
@@ -35,7 +34,6 @@ class AssertionTest extends CodeVerifier {
     void multiple() {
         verify(new Code.RunInt() {
 
-            @Debuggable
             @Override
             public void run(int value) {
                 assert value != 10 || value != 20;
