@@ -9,7 +9,7 @@
  */
 package reincarnation;
 
-import com.github.javaparser.ast.expr.SimpleName;
+import java.util.Objects;
 
 import reincarnation.coder.Coder;
 
@@ -19,7 +19,7 @@ import reincarnation.coder.Coder;
 public class OperandLocalVariable extends Operand {
 
     /** The variable name. */
-    final SimpleName name = new SimpleName();
+    String name;
 
     /** Check whether this local variable is declared or not. */
     boolean declared;
@@ -30,7 +30,7 @@ public class OperandLocalVariable extends Operand {
      * @param index A local index.
      */
     OperandLocalVariable(Class type, String name) {
-        this.name.setId(name);
+        this.name = Objects.requireNonNull(name);
         this.type.set(type);
     }
 
@@ -39,14 +39,14 @@ public class OperandLocalVariable extends Operand {
      */
     @Override
     public void write(Coder coder) {
-        if (name.getId().equals("this")) {
+        if (name.equals("this")) {
             coder.writeThis();
         } else {
             if (declared == false) {
                 declared = true;
-                coder.writeLocalVariableDeclaration(type.v, name.getId());
+                coder.writeLocalVariableDeclaration(type.v, name);
             } else {
-                coder.writeLocalVariable(name.getId());
+                coder.writeLocalVariable(name);
             }
         }
     }
@@ -57,6 +57,6 @@ public class OperandLocalVariable extends Operand {
     @Override
     public String toString() {
         // don't call #write, it will throw error in debug mode.
-        return name.getId();
+        return name;
     }
 }

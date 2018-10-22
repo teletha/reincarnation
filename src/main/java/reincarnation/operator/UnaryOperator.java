@@ -9,49 +9,44 @@
  */
 package reincarnation.operator;
 
-import com.github.javaparser.ast.expr.UnaryExpr;
-import com.github.javaparser.ast.expr.UnaryExpr.Operator;
-
 /**
- * @version 2018/10/13 18:48:58
+ * @version 2018/10/22 19:14:13
  */
 public enum UnaryOperator {
     /** + */
-    PLUS("+", Operator.PLUS),
+    PLUS("+"),
 
     /** - */
-    MINUS("-", Operator.MINUS),
+    MINUS("-"),
 
     /** ! */
-    LOGICAL_COMPLEMENT("!", Operator.LOGICAL_COMPLEMENT),
+    LOGICAL_COMPLEMENT("!"),
 
     /** ~ */
-    BITWISE_COMPLEMENT("~", Operator.BITWISE_COMPLEMENT),
+    BITWISE_COMPLEMENT("~"),
 
     /** -- */
-    POST_DECREMENT("--", Operator.POSTFIX_DECREMENT),
+    POST_DECREMENT("--"),
 
     /** ++ */
-    POST_INCREMENT("++", Operator.POSTFIX_INCREMENT),
+    POST_INCREMENT("++"),
 
     /** -- */
-    PRE_DECREMENT("--", Operator.PREFIX_DECREMENT),
+    PRE_DECREMENT("--"),
 
     /** ++ */
-    PRE_INCREMENT("++", Operator.PREFIX_INCREMENT);
+    PRE_INCREMENT("++");
 
     /** The operator value. */
     private final String operator;
 
-    /** The OP. */
-    private final UnaryExpr.Operator op;
-
     /**
-     * @param operator
+     * Hide constructor.
+     * 
+     * @param operator An operator word.
      */
-    private UnaryOperator(String operator, UnaryExpr.Operator op) {
+    private UnaryOperator(String operator) {
         this.operator = operator;
-        this.op = op;
     }
 
     /**

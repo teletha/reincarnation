@@ -9,83 +9,78 @@
  */
 package reincarnation.operator;
 
-import com.github.javaparser.ast.expr.BinaryExpr;
-import com.github.javaparser.ast.expr.BinaryExpr.Operator;
-
 /**
- * @version 2018/10/13 17:58:14
+ * @version 2018/10/22 19:14:19
  */
 public enum BinaryOperator {
 
     /** && */
-    AND("&&", Operator.BINARY_AND),
+    AND("&&"),
 
     /** || */
-    OR("||", Operator.BINARY_OR),
+    OR("||"),
 
     /** == */
-    EQUAL("==", Operator.BINARY_OR),
+    EQUAL("=="),
 
     /** != */
-    NOT_EQUALS("!=", Operator.BINARY_OR),
+    NOT_EQUALS("!="),
 
     /** < */
-    LESS("<", Operator.BINARY_OR),
+    LESS("<"),
 
     /** <= */
-    LESS_EQUALS("<=", Operator.BINARY_OR),
+    LESS_EQUALS("<="),
 
     /** > */
-    GREATER(">", Operator.BINARY_OR),
+    GREATER(">"),
 
     /** >= */
-    GREATER_EQUALS(">=", Operator.BINARY_OR),
+    GREATER_EQUALS(">="),
 
     /** & */
-    BINARY_AND("&", Operator.BINARY_AND),
+    BINARY_AND("&"),
 
     /** | */
-    BINARY_OR("|", Operator.BINARY_OR),
+    BINARY_OR("|"),
 
     /** ^ */
-    XOR("^", Operator.XOR),
+    XOR("^"),
 
     /** + */
-    PLUS("+", Operator.PLUS),
+    PLUS("+"),
 
     /** - */
-    MINUS("-", Operator.MINUS),
+    MINUS("-"),
 
     /** * */
-    MULTIPLY("*", Operator.MULTIPLY),
+    MULTIPLY("*"),
 
     /** \/ */
-    DIVIDE("/", Operator.DIVIDE),
+    DIVIDE("/"),
 
     /** % */
-    REMAINDER("%", Operator.REMAINDER),
+    REMAINDER("%"),
 
     /** << */
-    LEFT_SHIFT("<<", Operator.LEFT_SHIFT),
+    LEFT_SHIFT("<<"),
 
     /** >> */
-    RIGHT_SHIFT(">>", Operator.SIGNED_RIGHT_SHIFT),
+    RIGHT_SHIFT(">>"),
 
     /** >>> */
-    UNSIGNED_RIGHT_SHIFT(">>>", Operator.UNSIGNED_RIGHT_SHIFT);
+    UNSIGNED_RIGHT_SHIFT(">>>");
 
     /** The operator value. */
     private final String operator;
 
-    /** The OP. */
-    private final BinaryExpr.Operator op;
-
     /**
-     * @param operator
+     * Hide constructor.
+     * 
+     * @param operator An operator word.
      */
-    private BinaryOperator(String operator, BinaryExpr.Operator op) {
+    private BinaryOperator(String operator) {
         this.operator = operator;
-        this.op = op;
     }
 
     /**

@@ -108,7 +108,7 @@ class LocalVariables {
         OperandLocalVariable local = locals.get(index);
 
         if (local != null) {
-            local.name.setId(name);
+            local.name = name;
         }
     }
 
@@ -146,7 +146,7 @@ class LocalVariables {
     void updateParameterInfo(String name, int access) {
         OperandLocalVariable local = locals.get(sequencialUpdateCount++ + offset);
 
-        local.name.setId(name);
+        local.name = name;
     }
 
     /**

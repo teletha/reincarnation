@@ -9,60 +9,56 @@
  */
 package reincarnation.operator;
 
-import com.github.javaparser.ast.expr.AssignExpr.Operator;
-
 /**
- * @version 2018/10/07 1:24:48
+ * @version 2018/10/22 19:14:23
  */
 public enum AssignOperator {
     /** = */
-    ASSIGN("=", Operator.ASSIGN),
+    ASSIGN("="),
 
     /** &= */
-    AND("&=", Operator.BINARY_AND),
+    AND("&="),
 
     /** |= */
-    OR("|=", Operator.BINARY_OR),
+    OR("|="),
 
     /** ^= */
-    XOR("^=", Operator.XOR),
+    XOR("^="),
 
     /** += */
-    PLUS("+=", Operator.PLUS),
+    PLUS("+="),
 
     /** -= */
-    MINUS("-=", Operator.MINUS),
+    MINUS("-="),
 
     /** *= */
-    MULTIPLY("*=", Operator.MULTIPLY),
+    MULTIPLY("*="),
 
     /** \/= */
-    DIVIDE("/=", Operator.DIVIDE),
+    DIVIDE("/="),
 
     /** %= */
-    REMAINDER("%=", Operator.REMAINDER),
+    REMAINDER("%="),
 
     /** <<= */
-    LEFT_SHIFT("<<=", Operator.LEFT_SHIFT),
+    LEFT_SHIFT("<<="),
 
     /** >>= */
-    RIGHT_SHIFT(">>=", Operator.SIGNED_RIGHT_SHIFT),
+    RIGHT_SHIFT(">>="),
 
     /** >>>= */
-    UNSIGNED_RIGHT_SHIFT(">>>=", Operator.UNSIGNED_RIGHT_SHIFT);
+    UNSIGNED_RIGHT_SHIFT(">>>=");
 
     /** The operator value. */
     private final String operator;
 
-    /** The OP. */
-    public final Operator op;
-
     /**
-     * @param operator
+     * Hide constructor.
+     * 
+     * @param operator An operator word.
      */
-    private AssignOperator(String operator, Operator op) {
+    private AssignOperator(String operator) {
         this.operator = operator;
-        this.op = op;
     }
 
     /**
