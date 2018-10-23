@@ -412,6 +412,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             break;
 
         case GETSTATIC:
+            System.out.println(owner + "  @@ " + name);
             current.addOperand(accessClassField(owner, name), type);
             break;
         }
