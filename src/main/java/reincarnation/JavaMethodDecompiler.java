@@ -1300,21 +1300,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         Class returnType = load(Type.getReturnType(desc));
         boolean immediately = returnType == void.class;
 
-        // if (JavaMethodInliner.isInlinable(methodName)) {
-        // String expression = JavaMethodInliner.inline(owner, methodName, desc).apply(contexts,
-        // current);
-        //
-        // if (match(DUPLICATE, INVOKE)) {
-        // current.remove(0);
-        // current.addOperand(expression);
-        // } else if (match(DUPLICATE_AWAY, INVOKE)) {
-        // current.addOperand(expression);
-        // } else {
-        // current.addExpression(expression);
-        // }
-        // return;
-        // }
-
         switch (opcode) {
         // Invoke instance method; special handling for superclass constructor, private method,
         // and instance initialization method invocations
