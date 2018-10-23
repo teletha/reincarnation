@@ -37,6 +37,7 @@ public class OperandFieldAccess extends Operand {
     public OperandFieldAccess(Class owner, String name, Operand context) {
         this.field = find(owner, name, true);
         this.context = Objects.requireNonNull(context);
+        fix(field.getType());
     }
 
     /**

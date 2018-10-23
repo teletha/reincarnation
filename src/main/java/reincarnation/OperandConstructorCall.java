@@ -41,6 +41,8 @@ class OperandConstructorCall extends Operand {
             this.kind = kind;
             this.constructor = ownerType.getDeclaredConstructor(parameterTypes);
             this.params = parameters;
+
+            fix(ownerType);
         } catch (Exception e) {
             throw I.quiet(e);
         }

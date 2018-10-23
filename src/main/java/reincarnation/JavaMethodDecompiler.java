@@ -334,34 +334,31 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         switch (opcode) {
         case PUTFIELD:
+            Operand filed = new OperandFieldAccess(owner, name, current.remove(1));
+
             // Increment (decrement) of field doesn't use increment instruction, so we must
             // distinguish increment (decrement) from addition by pattern matching.
             if (match(DUP, GETFIELD, DUPLICATE_AWAY, CONSTANT_1, ADD, PUTFIELD)) {
                 // The pattenr of post-increment field is like above.
                 current.remove(0);
 
-                // current.addOperand(increment(current.remove(0) + "." + computeFieldName(owner,
-                // name), type, true, true));
+                current.addOperand(increment(filed, type, true, true));
             } else if (match(DUP, GETFIELD, DUPLICATE_AWAY, CONSTANT_1, SUB, PUTFIELD)) {
                 // The pattenr of post-decrement field is like above.
                 current.remove(0);
 
-                // current.addOperand(increment(current.remove(0) + "." + computeFieldName(owner,
-                // name), type, false, true));
+                current.addOperand(increment(filed, type, false, true));
             } else if (match(DUP, GETFIELD, CONSTANT_1, ADD, DUPLICATE_AWAY, PUTFIELD)) {
                 // The pattenr of pre-increment field is like above.
                 current.remove(0);
 
-                // current.addOperand(increment(current.remove(0) + "." + computeFieldName(owner,
-                // name), type, true, false));
+                current.addOperand(increment(filed, type, true, false));
             } else if (match(DUP, GETFIELD, CONSTANT_1, SUB, DUPLICATE_AWAY, PUTFIELD)) {
                 // The pattenr of pre-decrement field is like above.
                 current.remove(0);
 
-                // current.addOperand(increment(current.remove(0) + "." + computeFieldName(owner,
-                // name), type, false, false));
+                current.addOperand(increment(filed, type, false, false));
             } else {
-                Operand filed = new OperandFieldAccess(owner, name, current.remove(1));
                 Operand value = current.remove(0).fix(type);
                 OperandAssign assign = new OperandAssign(filed, AssignOperator.ASSIGN, value);
 
@@ -1329,8 +1326,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
                 if (owner == source.clazz) {
                     // private method invocation
-                    // current.addOperand(translator.translateMethod(owner, methodName, desc,
-                    // parameters, contexts), returnType);
+                    current.addOperand(new OperandMethodCall(owner, methodName, parameters, contexts.remove(0), contexts));
                 } else {
                     // super method invocation
                     // current.addOperand(translator.translateSuperMethod(owner, methodName,

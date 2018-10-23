@@ -219,7 +219,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         line();
         if (method.isSynthetic()) {
-            line(name(method.getReturnType()), space, method.getName(), "()", space, "{");
+            line(accessor(method.getModifiers()), name(method.getReturnType()), space, method.getName(), "(", params, ")", space, "{");
         } else {
             line(accessor(method.getModifiers()), name(method.getReturnType()), space, method.getName(), "(", params, ")", space, "{");
         }
