@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/23 10:11:24
@@ -185,6 +186,7 @@ class IntIncrementTest extends CodeVerifier {
     void postDecrementParentFieldInLocalVariableAccess() {
         verify(new Code.Int() {
 
+            @Debuggable
             @Override
             public int run() {
                 Parent parent = new Parent();

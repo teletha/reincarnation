@@ -26,7 +26,7 @@ import antibug.bytecode.Agent.Translator;
 import kiss.I;
 
 /**
- * @version 2015/01/22 11:43:57
+ * @version 2018/10/23 12:24:42
  */
 class JavaMethodInliner {
 

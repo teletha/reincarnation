@@ -448,7 +448,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeMethodCall(Method method, Code context, List<? extends Code> params) {
         if (method.isSynthetic()) {
-            write(params.get(0), ".", method.getName(), "()");
+            write(context, ".", method.getName(), join("(", params, ", ", ")"));
         } else {
             write(context, ".", method.getName(), join("(", params, ", ", ")"));
         }
