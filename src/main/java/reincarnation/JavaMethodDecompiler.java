@@ -1427,25 +1427,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             break;
 
         case INSTANCEOF:
-            Class clazz = load(type);
-
-            String code;
-
-            // if (clazz == Object.class || clazz == NativeObject.class) {
-            // code = current.remove(0) + " instanceof Object";
-            // } else if (clazz == String.class) {
-            // code = "boot.isString(" + current.remove(0) + ")";
-            // } else if (clazz.isInterface() || clazz.isArray()) {
-            // code = Javascript
-            // .writeMethodCode(Class.class, "isInstance", Javascript.computeClass(clazz),
-            // Object.class, current.remove(0));
-            // } else {
-            // code = current.remove(0) + " instanceof " + Javascript.computeClassName(clazz);
-            // }
-            // current.addOperand(code, boolean.class);
-            // If this exception will be thrown, it is bug of this program. So we must rethrow the
-            // wrapped error in here.
-            throw new Error("IMPLEMENT INSTANCEOF");
+            current.addOperand(new OperandInstanceOf(current.remove(0), load(type)));
+            break;
         }
     }
 

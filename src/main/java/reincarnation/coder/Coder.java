@@ -423,6 +423,14 @@ public abstract class Coder<O extends CodingOption> {
     public abstract void writeUnaryOperation(Code code, UnaryOperator operator);
 
     /**
+     * Instanceof expression.
+     * 
+     * @param code A value to be checked.
+     * @param type A type to check.
+     */
+    public abstract void writeInstanceof(Code code, Class type);
+
+    /**
      * Access to the local variable.
      * 
      * @param name A local variable name.

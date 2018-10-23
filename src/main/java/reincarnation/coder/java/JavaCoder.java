@@ -60,11 +60,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         imports.setBase(reincarnation.clazz);
 
         writePackage(reincarnation.clazz.getPackage());
-        writeImport(reincarnation.classes);
 
         if (options.writeMemberFromTopLevel && Classes.isMemberLike(reincarnation.clazz)) {
-            writeHierarchy(Hierarchy.calculate(reincarnation));
+            Hierarchy hierarchy = Hierarchy.calculate(reincarnation);
+
+            writeImport(hierarchy.classes);
+            writeHierarchy(hierarchy);
         } else {
+            writeImport(reincarnation.classes);
             writeOne(reincarnation);
         }
     }
@@ -365,6 +368,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             write(operator, code);
             break;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeInstanceof(Code code, Class type) {
+        write(code, space, "instanceof", space, name(type));
     }
 
     /**

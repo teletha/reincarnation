@@ -28,6 +28,8 @@ class Hierarchy {
 
     boolean skelton = false;
 
+    final Set<Class> classes = new HashSet();
+
     /**
      * @param clazz
      */
@@ -67,6 +69,7 @@ class Hierarchy {
     static Hierarchy calculate(Reincarnation reincarnation) {
         Class root = Classes.enclosingRoot(reincarnation.clazz);
         Hierarchy hierarchy = new Hierarchy(root);
+        hierarchy.classes.addAll(reincarnation.classes);
         hierarchy.skelton = true;
 
         Set<Class> resolved = new HashSet();
@@ -90,10 +93,10 @@ class Hierarchy {
                     Reincarnation r = Reincarnation.exhume(clazz);
                     queue.addAll(r.classes);
                     queue.addAll(r.anonymous);
+                    hierarchy.classes.addAll(r.classes);
                 }
             }
         }
-
         return hierarchy;
     }
 }

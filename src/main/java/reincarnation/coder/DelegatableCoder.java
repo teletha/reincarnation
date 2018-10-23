@@ -293,6 +293,16 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
+    public void writeInstanceof(Code code, Class type) {
+        // If this exception will be thrown, it is bug of this program. So we must rethrow the
+        // wrapped error in here.
+        throw new Error();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeLocalVariable(String name) {
         // If this exception will be thrown, it is bug of this program. So we must rethrow the
         // wrapped error in here.
