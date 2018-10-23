@@ -213,6 +213,11 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeMethod(Method method, Code code) {
+        // ignore compiler generated method
+        if (method.isSynthetic()) {
+            return;
+        }
+
         String params = join(method.getParameters(), p -> {
             return name(p.getType()) + space + p.getName();
         }, ", ", "", "");
@@ -387,7 +392,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             if (Modifier.isStatic(field.getModifiers())) {
                 write(field.getName());
             } else {
-                write("this.", field.getName());
+                write(context, ".", field.getName());
             }
         } else {
             write(context, ".", field.getName());

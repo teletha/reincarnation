@@ -1300,7 +1300,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         Class returnType = load(Type.getReturnType(desc));
         boolean immediately = returnType == void.class;
 
-        // if (JavaMethodInliner.isInlinable(methodName, returnType)) {
+        // if (JavaMethodInliner.isInlinable(methodName)) {
         // String expression = JavaMethodInliner.inline(owner, methodName, desc).apply(contexts,
         // current);
         //
