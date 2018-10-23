@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.StringJoiner;
 
 import kiss.Variable;
+import reincarnation.OperandLocalVariable;
 import reincarnation.Reincarnation;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -403,7 +404,15 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             if (Modifier.isStatic(field.getModifiers())) {
                 write(field.getName());
             } else {
-                write(context, ".", field.getName());
+                if (current.is(field.getDeclaringClass())) {
+                    write(context, ".", field.getName());
+                } else {
+                    if (context instanceof OperandLocalVariable) {
+                        write("super.", field.getName());
+                    } else {
+                        write(context, ".", field.getName());
+                    }
+                }
             }
         } else {
             write(context, ".", field.getName());
