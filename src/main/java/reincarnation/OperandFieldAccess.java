@@ -31,11 +31,19 @@ public class OperandFieldAccess extends Operand {
     /**
      * Create field access like <code>owner.field</code>.
      * 
-     * @param field A field owner.
+     * @param ownerType A field owner.
      * @param name A field name.
      */
-    public OperandFieldAccess(Class owner, String name, Operand context) {
-        this.field = find(owner, name, true);
+    public OperandFieldAccess(Class ownerType, String name, Operand context) {
+        Class contextType = context.type.v;
+
+        if (contextType == ownerType) {
+
+        }
+        if (duplicated) {
+
+        }
+        this.field = find(ownerType, name, true);
         this.context = Objects.requireNonNull(context);
         fix(field.getType());
     }

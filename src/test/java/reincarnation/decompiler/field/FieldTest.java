@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/23 15:37:11
@@ -178,28 +179,69 @@ class FieldTest extends CodeVerifier {
     }
 
     @Test
-    public void Super() {
-        verify(new SuperChild());
+    void accessHidingFieldFromThis() {
+        verify(new Parent());
+    }
+
+    @Test
+    void accessNestedHidingFieldFromThis() {
+        verify(new Child());
+    }
+
+    @Test
+    void accessNestedHidingFieldFromInstance() {
+        verify(new Code.Int() {
+
+            @Debuggable
+            @Override
+            public int run() {
+                Child child = new Child();
+
+                return child.hide + ((Parent) child).hide + ((Ancestor) child).hide + child.onlyAncestor;
+            }
+        });
     }
 
     /**
      * @version 2018/10/23 15:39:12
      */
-    private static class SuperBase {
+    private static class Ancestor {
 
-        protected int field = 10;
+        public int hide = 10;
+
+        public int ancestorAndChild = 3;
+
+        public int onlyAncestor = 101;
     }
 
     /**
      * @version 2018/10/23 15:39:09
      */
-    private static class SuperChild extends SuperBase implements Code.IntParam {
+    private static class Parent extends Ancestor implements Code.IntParam {
 
-        protected int field = 5;
+        public int hide = 5;
 
         @Override
-        public int run(int value) {
-            return value + this.field + super.field;
+        public int run(int hide) {
+            return hide + this.hide + super.hide;
+        }
+    }
+
+    /**
+     * @version 2018/10/24 9:15:18
+     */
+    private static class Child extends Parent {
+
+        public int hide = 1;
+
+        public int ancestorAndChild = 7;
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int run(int hide) {
+            return hide + this.hide + super.hide + ((Ancestor) this).hide + ancestorAndChild + super.ancestorAndChild;
         }
     }
 
