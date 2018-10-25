@@ -20,6 +20,7 @@ import java.util.Set;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
+import reincarnation.operator.FieldAccessMode;
 import reincarnation.operator.UnaryOperator;
 
 /**
@@ -37,6 +38,21 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     protected DelegatableCoder(Coder<O> coder) {
         this.coder = Objects.requireNonNull(coder);
+        this.indentSize = coder.indentSize;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void write(Object... codes) {
+        for (Object code : codes) {
+            if (code instanceof Code) {
+                ((Code) code).write(this);
+            } else {
+                coder.write(code);
+            }
+        }
     }
 
     /**
@@ -44,9 +60,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void write(Reincarnation reincarnation) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.write(reincarnation);
     }
 
     /**
@@ -54,9 +68,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writePackage(Package info) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writePackage(info);
     }
 
     /**
@@ -64,9 +76,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeImport(Set<Class> classes) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeImport(classes);
     }
 
     /**
@@ -74,9 +84,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeType(Class type, Runnable inner) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeType(type, inner);
     }
 
     /**
@@ -84,9 +92,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeField(Field field) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeField(field);
     }
 
     /**
@@ -94,9 +100,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeStaticField(Field field) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeStaticField(field);
     }
 
     /**
@@ -104,9 +108,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeInitializer(Code code) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeInitializer(code);
     }
 
     /**
@@ -114,9 +116,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeStaticInitializer(Code code) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeStaticInitializer(code);
     }
 
     /**
@@ -124,9 +124,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeConstructor(Constructor constructor, Code code) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeConstructor(constructor, code);
     }
 
     /**
@@ -134,9 +132,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeMethod(Method method, Code code) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeMethod(method, code);
     }
 
     /**
@@ -144,9 +140,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeReturn(Optional<Code> code) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeReturn(code);
     }
 
     /**
@@ -154,9 +148,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeBoolean(boolean code) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeBoolean(code);
     }
 
     /**
@@ -164,9 +156,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeChar(char code) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeChar(code);
     }
 
     /**
@@ -174,9 +164,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeInt(int code) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeInt(code);
     }
 
     /**
@@ -184,9 +172,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeLong(long code) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeLong(code);
     }
 
     /**
@@ -194,9 +180,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeFloat(float code) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeFloat(code);
     }
 
     /**
@@ -204,9 +188,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeDouble(double code) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeDouble(code);
     }
 
     /**
@@ -214,9 +196,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeString(String code) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeString(code);
     }
 
     /**
@@ -224,9 +204,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeClass(Class code) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeClass(code);
     }
 
     /**
@@ -234,9 +212,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeThis() {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeThis();
     }
 
     /**
@@ -244,9 +220,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeNull() {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeNull();
     }
 
     /**
@@ -254,9 +228,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeEnclose(Runnable code) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeEnclose(code);
     }
 
     /**
@@ -264,9 +236,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeAssignOperation(Code left, AssignOperator operator, Code right) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeAssignOperation(left, operator, right);
     }
 
     /**
@@ -274,9 +244,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeBinaryOperation(Code left, BinaryOperator operator, Code right) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeBinaryOperation(left, operator, right);
     }
 
     /**
@@ -284,9 +252,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeUnaryOperation(Code code, UnaryOperator operator) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeUnaryOperation(code, operator);
     }
 
     /**
@@ -294,9 +260,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeInstanceof(Code code, Class type) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeInstanceof(code, type);
     }
 
     /**
@@ -304,9 +268,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeLocalVariable(String name) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeLocalVariable(name);
     }
 
     /**
@@ -314,19 +276,15 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeLocalVariableDeclaration(Class type, String name) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeLocalVariableDeclaration(type, name);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void writeAccessField(Field field, Code context) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+    public void writeAccessField(Field field, Code context, FieldAccessMode mode) {
+        coder.writeAccessField(field, context, mode);
     }
 
     /**
@@ -334,9 +292,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeAccessType(Class type) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeAccessType(type);
     }
 
     /**
@@ -344,9 +300,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeAccessArray(Code array, Code index) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeAccessArray(array, index);
     }
 
     /**
@@ -354,9 +308,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeAccessArrayLength(Code array) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeAccessArrayLength(array);
     }
 
     /**
@@ -364,9 +316,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeConstructorCall(Constructor constructor, List<? extends Code> params) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeConstructorCall(constructor, params);
     }
 
     /**
@@ -374,9 +324,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeSuperConstructorCall(Constructor constructor, List<? extends Code> params) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeSuperConstructorCall(constructor, params);
     }
 
     /**
@@ -384,9 +332,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeThisConstructorCall(Constructor constructor, List<? extends Code> params) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeThisConstructorCall(constructor, params);
     }
 
     /**
@@ -394,9 +340,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeMethodCall(Method method, Code context, List<? extends Code> params) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeMethodCall(method, context, params);
     }
 
     /**
@@ -404,9 +348,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeCreateArray(Class type, List<Code> dimensions) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeCreateArray(type, dimensions);
     }
 
     /**
@@ -414,9 +356,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeCreateArray(Class type, List<Code> dimensions, List<Code> initialValues) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeCreateArray(type, dimensions, initialValues);
     }
 
     /**
@@ -424,9 +364,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeTernary(Code condition, Code then, Code elze) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeTernary(condition, then, elze);
     }
 
     /**
@@ -434,9 +372,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeCast(Class type, Code code) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeCast(type, code);
     }
 
     /**
@@ -444,9 +380,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeThrow(Code code) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeThrow(code);
     }
 
     /**
@@ -454,8 +388,6 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      */
     @Override
     public void writeIf(Code condition, Code then, Code elze) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error();
+        coder.writeIf(condition, then, elze);
     }
 }

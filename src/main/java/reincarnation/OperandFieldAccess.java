@@ -16,6 +16,7 @@ import java.util.Objects;
 import kiss.I;
 import kiss.Signal;
 import reincarnation.coder.Coder;
+import reincarnation.operator.FieldAccessMode;
 
 /**
  * @version 2018/10/13 23:34:58
@@ -28,6 +29,9 @@ public class OperandFieldAccess extends Operand {
     /** The field context. */
     private final Operand context;
 
+    /** The access mode. */
+    private final FieldAccessMode mode;
+
     /**
      * Create field access like <code>owner.field</code>.
      * 
@@ -35,16 +39,16 @@ public class OperandFieldAccess extends Operand {
      * @param name A field name.
      */
     public OperandFieldAccess(Class ownerType, String name, Operand context) {
+        this.field = find(ownerType, name);
+        this.context = Objects.requireNonNull(context);
+
         Class contextType = context.type.v;
 
         if (contextType == ownerType) {
-
+            this.mode = FieldAccessMode.THIS;
+        } else {
+            this.mode = FieldAccessMode.CAST;
         }
-        if (duplicated) {
-
-        }
-        this.field = find(ownerType, name, true);
-        this.context = Objects.requireNonNull(context);
         fix(field.getType());
     }
 
@@ -53,20 +57,38 @@ public class OperandFieldAccess extends Operand {
      * 
      * @param owner A field owner.
      * @param name A field name.
-     * @param acceptPrivate Flag for private field.
      * @return
      */
-    private Field find(Class owner, String name, boolean acceptPrivate) {
-        try {
-            Field field = owner.getDeclaredField(name);
+    private Field find(Class owner, String name) {
+        Class clazz = owner;
+        Field field = null;
+        boolean acceptPrivate = true;
 
-            if (Modifier.isPrivate(field.getModifiers()) && !acceptPrivate) {
-                return find(owner.getSuperclass(), name, false);
+        while (clazz != Object.class) {
+            try {
+                field = clazz.getDeclaredField(name);
+
+                if (!acceptPrivate && Modifier.isPrivate(field.getModifiers())) {
+                    clazz = clazz.getSuperclass();
+                } else {
+                    break;
+                }
+            } catch (NoSuchFieldException e) {
+                acceptPrivate = false;
+                clazz = clazz.getSuperclass();
             }
-            return field;
-        } catch (NoSuchFieldException e) {
-            return find(owner.getSuperclass(), name, false);
         }
+
+        if (field == null) {
+            for (Field f : owner.getFields()) {
+                if (f.getName().equals(name)) {
+                    field = f;
+                    break;
+                }
+            }
+        }
+
+        return field;
     }
 
     /**
@@ -82,6 +104,6 @@ public class OperandFieldAccess extends Operand {
      */
     @Override
     public void write(Coder coder) {
-        coder.writeAccessField(field, context);
+        coder.writeAccessField(field, context, mode);
     }
 }

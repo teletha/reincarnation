@@ -17,15 +17,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.StringJoiner;
 
 import kiss.Variable;
-import reincarnation.OperandLocalVariable;
 import reincarnation.Reincarnation;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
+import reincarnation.coder.CodingOption;
+import reincarnation.coder.DelegatableCoder;
+import reincarnation.coder.Joiner;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
+import reincarnation.operator.FieldAccessMode;
 import reincarnation.operator.UnaryOperator;
 
 /**
@@ -144,10 +146,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         String kind;
         String extend;
+        Joiner accessor = accessor(type.getModifiers());
 
         if (type.isInterface()) {
             kind = "interface";
             extend = join(type.getInterfaces(), this::name, ", ", " extends ", "");
+            accessor.remove("static", "abstract");
         } else if (type.isEnum()) {
             kind = "enum";
             extend = join(type.getInterfaces(), this::name, ", ", " implements ", "");
@@ -158,7 +162,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         }
 
         line();
-        line(accessor(type.getModifiers()), kind, space, simpleName(type), extend, space, "{");
+        line(accessor, kind, space, simpleName(type), extend, space, "{");
         indent(inner::run);
         line("}");
     }
@@ -176,7 +180,11 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeStaticField(Field field) {
-        line(accessor(field.getModifiers()), name(field.getType()), space, field.getName(), ";");
+        if (current.is(Class::isInterface)) {
+            // ignore, write fields in static initializer
+        } else {
+            line(accessor(field.getModifiers()), name(field.getType()), space, field.getName(), ";");
+        }
     }
 
     /**
@@ -191,10 +199,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeStaticInitializer(Code code) {
-        line();
-        line("static {");
-        indent(code::write);
-        line("}");
+        if (current.is(Class::isInterface)) {
+            code.write(new InterfaceCoder(this));
+        } else {
+            line();
+            line("static {");
+            indent(code::write);
+            line("}");
+        }
     }
 
     /**
@@ -399,23 +411,23 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeAccessField(Field field, Code context) {
-        if (imports.hierarchy.contains(field.getDeclaringClass())) {
-            if (Modifier.isStatic(field.getModifiers())) {
-                write(field.getName());
-            } else {
-                if (current.is(field.getDeclaringClass())) {
-                    write(context, ".", field.getName());
-                } else {
-                    if (context instanceof OperandLocalVariable) {
-                        write("super.", field.getName());
-                    } else {
-                        write(context, ".", field.getName());
-                    }
-                }
-            }
-        } else {
+    public void writeAccessField(Field field, Code context, FieldAccessMode mode) {
+        if (Modifier.isStatic(field.getModifiers())) {
             write(context, ".", field.getName());
+        } else {
+            switch (mode) {
+            case THIS:
+                write(context, ".", field.getName());
+                break;
+
+            case SUPER:
+                write("super.", field.getName());
+                break;
+
+            default:
+                write("((", name(field.getDeclaringClass()), ")", space, context, ").", field.getName());
+                break;
+            }
         }
     }
 
@@ -566,8 +578,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param modifier
      * @return
      */
-    private String accessor(int modifier) {
-        StringJoiner joiner = new StringJoiner(space);
+    private Joiner accessor(int modifier) {
+        Joiner joiner = new Joiner().separator(" ").suffix(" ");
 
         if (Modifier.isPublic(modifier)) {
             joiner.add("public");
@@ -598,14 +610,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         if (Modifier.isVolatile(modifier)) {
             joiner.add("volatile");
         }
-
-        String value = joiner.toString();
-
-        if (value.isEmpty()) {
-            return "";
-        } else {
-            return value.concat(" ");
-        }
+        return joiner;
     }
 
     /**
@@ -635,6 +640,35 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             return name.substring(name.lastIndexOf(".") + 1);
         } else {
             return clazz.getSimpleName();
+        }
+    }
+
+    /**
+     * @version 2018/10/25 20:03:24
+     */
+    private class InterfaceCoder extends DelegatableCoder<CodingOption> {
+
+        /**
+         * @param coder
+         */
+        private InterfaceCoder(Coder coder) {
+            super(coder);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeAssignOperation(Code left, AssignOperator operator, Code right) {
+            write(left, space, operator, space, right);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeAccessField(Field field, Code context, FieldAccessMode mode) {
+            write(name(field.getType()), space, field.getName());
         }
     }
 }

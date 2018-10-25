@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/23 15:37:11
@@ -192,12 +191,11 @@ class FieldTest extends CodeVerifier {
     void accessNestedHidingFieldFromInstance() {
         verify(new Code.Int() {
 
-            @Debuggable
             @Override
             public int run() {
                 Child child = new Child();
 
-                return child.hide + ((Parent) child).hide + ((Ancestor) child).hide + child.onlyAncestor;
+                return child.hide + ((Parent) child).hide + ((Ancestor) child).hide + child.onlyAncestor + child.ancestorAndParent + ((Ancestor) child).ancestorAndParent;
             }
         });
     }
@@ -211,6 +209,8 @@ class FieldTest extends CodeVerifier {
 
         public int ancestorAndChild = 3;
 
+        public int ancestorAndParent = 15;
+
         public int onlyAncestor = 101;
     }
 
@@ -220,6 +220,8 @@ class FieldTest extends CodeVerifier {
     private static class Parent extends Ancestor implements Code.IntParam {
 
         public int hide = 5;
+
+        public int ancestorAndParent = 25;
 
         @Override
         public int run(int hide) {

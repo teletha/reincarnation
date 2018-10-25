@@ -10,6 +10,7 @@
 package reincarnation.coder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -76,6 +77,17 @@ public final class Joiner implements Code {
      * @param values
      * @return
      */
+    public Joiner add(Object... values) {
+        values(Arrays.asList(values));
+        return this;
+    }
+
+    /**
+     * Add values.
+     * 
+     * @param values
+     * @return
+     */
     public Joiner values(Collection values) {
         this.values.addAll(values);
 
@@ -85,6 +97,28 @@ public final class Joiner implements Code {
     public Joiner values(Collection values, String separator) {
         this.values.addAll(values);
         this.separator = separator;
+        return this;
+    }
+
+    /**
+     * Add values.
+     * 
+     * @param values
+     * @return
+     */
+    public Joiner remove(Object... values) {
+        remove(Arrays.asList(values));
+        return this;
+    }
+
+    /**
+     * Add values.
+     * 
+     * @param values
+     * @return
+     */
+    public Joiner remove(Collection values) {
+        this.values.removeAll(values);
         return this;
     }
 

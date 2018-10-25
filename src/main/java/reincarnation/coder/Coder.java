@@ -28,6 +28,7 @@ import kiss.model.Model;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
+import reincarnation.operator.FieldAccessMode;
 import reincarnation.operator.UnaryOperator;
 
 /**
@@ -45,7 +46,7 @@ public abstract class Coder<O extends CodingOption> {
     private final Appendable appendable;
 
     /** The current indent size. */
-    private int indentSize = 0;
+    protected int indentSize = 0;
 
     /** The coding options. */
     protected O options;
@@ -177,7 +178,7 @@ public abstract class Coder<O extends CodingOption> {
      * 
      * @param codes
      */
-    protected final void write(Object... codes) {
+    protected void write(Object... codes) {
         try {
             for (Object code : codes) {
                 if (code instanceof Code) {
@@ -450,8 +451,9 @@ public abstract class Coder<O extends CodingOption> {
      * 
      * @param field A field info.
      * @param context A field context.
+     * @param mode A field access mode.
      */
-    public abstract void writeAccessField(Field field, Code context);
+    public abstract void writeAccessField(Field field, Code context, FieldAccessMode mode);
 
     /**
      * Access to type.

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/23 15:49:59
@@ -23,9 +24,10 @@ class InterfaceStaticFieldTest extends CodeVerifier {
     void interfaceAccess() {
         verify(new Code.Text() {
 
+            @Debuggable
             @Override
             public String run() {
-                return InterFace.NAME;
+                return Interface.NAME;
             }
         });
     }
@@ -46,14 +48,13 @@ class InterfaceStaticFieldTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:51:48
      */
-    private static interface InterFace {
-
+    private static interface Interface {
         String NAME = "TEST".substring(1);
     }
 
     /**
      * @version 2018/10/23 15:51:51
      */
-    private static class Clazz implements InterFace {
+    private static class Clazz implements Interface {
     }
 }

@@ -20,6 +20,7 @@ import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.CodingOption;
 import reincarnation.coder.DelegatableCoder;
+import reincarnation.operator.FieldAccessMode;
 
 /**
  * @version 2018/10/23 14:26:49
@@ -89,8 +90,8 @@ class OperandMethodCall extends Operand {
          * {@inheritDoc}
          */
         @Override
-        public void writeAccessField(Field field, Code context) {
-            coder.writeAccessField(field, params.get(0));
+        public void writeAccessField(Field field, Code context, FieldAccessMode mode) {
+            coder.writeAccessField(field, params.get(0), null);
         }
 
     }
