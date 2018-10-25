@@ -9,6 +9,7 @@
  */
 package reincarnation;
 
+import java.beans.Expression;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,11 +19,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ForStmt;
 
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -703,7 +699,7 @@ class Node implements Code {
 
     private void buildNode(Coder coder) {
         for (Operand operand : stack) {
-            coder.line(operand, ";");
+            coder.writeStatement(operand);
         }
     }
 

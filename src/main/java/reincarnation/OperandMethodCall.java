@@ -83,7 +83,7 @@ class OperandMethodCall extends Operand {
          */
         @Override
         public void writeReturn(Optional<Code> code) {
-            code.stream().forEach(e -> e.write(this));
+            code.stream().forEach(c -> c.write(this));
         }
 
         /**
@@ -91,8 +91,15 @@ class OperandMethodCall extends Operand {
          */
         @Override
         public void writeAccessField(Field field, Code context, FieldAccessMode mode) {
-            coder.writeAccessField(field, params.get(0), null);
+            coder.writeAccessField(field, params.get(0), mode);
         }
 
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeStatement(Code code) {
+            code.write(this);
+        }
     }
 }

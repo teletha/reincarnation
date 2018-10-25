@@ -252,6 +252,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
+    public void writeStatement(Code code) {
+        line(code, ";");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeReturn(Optional<Code> code) {
         if (code.isEmpty()) {
             write("return");
@@ -669,6 +677,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         @Override
         public void writeAccessField(Field field, Code context, FieldAccessMode mode) {
             write(name(field.getType()), space, field.getName());
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeStatement(Code code) {
+            line(code, ";");
         }
     }
 }

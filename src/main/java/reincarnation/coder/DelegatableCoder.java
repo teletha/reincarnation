@@ -42,10 +42,12 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
     }
 
     /**
-     * {@inheritDoc}
+     * Write code.
+     * 
+     * @param codes
      */
     @Override
-    protected void write(Object... codes) {
+    public void write(Object... codes) {
         for (Object code : codes) {
             if (code instanceof Code) {
                 ((Code) code).write(this);
@@ -133,6 +135,14 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
     @Override
     public void writeMethod(Method method, Code code) {
         coder.writeMethod(method, code);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeStatement(Code code) {
+        coder.writeStatement(code);
     }
 
     /**

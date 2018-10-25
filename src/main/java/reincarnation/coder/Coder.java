@@ -43,13 +43,15 @@ public abstract class Coder<O extends CodingOption> {
     protected String space = " ";
 
     /** The actual writer. */
-    private final Appendable appendable;
+    protected Appendable appendable;
 
     /** The current indent size. */
     protected int indentSize = 0;
 
     /** The coding options. */
     protected O options;
+
+    protected Coder coder;
 
     /**
      * Create {@link Coder}.
@@ -66,6 +68,7 @@ public abstract class Coder<O extends CodingOption> {
     protected Coder(Appendable appendable) {
         this.appendable = appendable;
         this.options = I.make((Class<O>) Model.collectParameters(getClass(), Coder.class)[0]);
+        this.coder = this;
     }
 
     /**
@@ -178,11 +181,11 @@ public abstract class Coder<O extends CodingOption> {
      * 
      * @param codes
      */
-    protected void write(Object... codes) {
+    public void write(Object... codes) {
         try {
             for (Object code : codes) {
                 if (code instanceof Code) {
-                    ((Code) code).write(this);
+                    ((Code) code).write(coder);
                 } else {
                     appendable.append(String.valueOf(code));
                 }
@@ -223,7 +226,7 @@ public abstract class Coder<O extends CodingOption> {
      */
     protected final void indent(Consumer<Coder> inner) {
         indentSize++;
-        inner.accept(this);
+        inner.accept(coder);
         indentSize--;
     }
 
@@ -305,6 +308,13 @@ public abstract class Coder<O extends CodingOption> {
      * @param method
      */
     public abstract void writeMethod(Method method, Code code);
+
+    /**
+     * Statement.
+     * 
+     * @param code
+     */
+    public abstract void writeStatement(Code code);
 
     /**
      * Return expression.
