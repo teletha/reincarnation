@@ -19,9 +19,9 @@ import reincarnation.coder.java.JavaCoder;
 /**
  * @version 2018/10/22 19:00:10
  */
-abstract class Operand implements Code {
+public abstract class Operand implements Code {
 
-    protected static final Operand Null = new OperandExpression(null).fix(null);
+    public static final Operand Null = new OperandExpression(null).fix(null);
 
     /** The infered type. */
     protected Variable<Class> type = Variable.of(Object.class);

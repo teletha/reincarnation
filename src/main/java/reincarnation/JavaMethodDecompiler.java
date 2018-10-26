@@ -412,7 +412,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             break;
 
         case GETSTATIC:
-            System.out.println(owner + "  @@ " + name);
             current.addOperand(accessClassField(owner, name), type);
             break;
         }
@@ -763,7 +762,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         // null
         case ACONST_NULL:
-            current.addOperand(null); // not "null"
+            current.addOperand(Operand.Null); // not "null"
             break;
 
         // + operand

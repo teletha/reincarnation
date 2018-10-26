@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2018 Nameless Production Committee
+ * Copyright (C) 2018 Reincarnation Development Team
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *          http://opensource.org/licenses/mit-license.php
+ *          https://opensource.org/licenses/MIT
  */
 package reincarnation.coder;
 
@@ -19,7 +19,7 @@ import java.util.function.Function;
 /**
  * @version 2018/10/26 9:41:07
  */
-public final class Joiner<T> implements Code {
+public final class Join<T> implements Code {
 
     /** The separator. */
     private String separator = "";
@@ -45,7 +45,7 @@ public final class Joiner<T> implements Code {
      * @param separator A separaotr chracter.
      * @return Chainable API.
      */
-    public Joiner<T> separator(String separator) {
+    public Join<T> separator(String separator) {
         if (separator != null) {
             this.separator = separator;
         }
@@ -58,7 +58,7 @@ public final class Joiner<T> implements Code {
      * @param prefix A prefix chracter.
      * @return Chainable API.
      */
-    public Joiner<T> prefix(String prefix) {
+    public Join<T> prefix(String prefix) {
         if (prefix != null) {
             this.prefix = prefix;
         }
@@ -71,7 +71,7 @@ public final class Joiner<T> implements Code {
      * @param suffix A suffix chracter.
      * @return Chainable API.
      */
-    public Joiner<T> suffix(String suffix) {
+    public Join<T> suffix(String suffix) {
         if (suffix != null) {
             this.suffix = suffix;
         }
@@ -84,7 +84,7 @@ public final class Joiner<T> implements Code {
      * @param converter A value converter.
      * @return Chainable API.
      */
-    public Joiner<T> converter(Function<T, ?> converter) {
+    public Join<T> converter(Function<T, ?> converter) {
         if (converter != null) {
             this.converter = converter;
         }
@@ -96,7 +96,7 @@ public final class Joiner<T> implements Code {
      * 
      * @return Chainable API.
      */
-    public Joiner<T> ignoreEmpty(boolean ignore) {
+    public Join<T> ignoreEmpty(boolean ignore) {
         this.ignoreEmpty = ignore;
         return this;
     }
@@ -107,7 +107,7 @@ public final class Joiner<T> implements Code {
      * @param values
      * @return
      */
-    public Joiner<T> add(T... values) {
+    public Join<T> add(T... values) {
         add(Arrays.asList(values));
         return this;
     }
@@ -118,7 +118,7 @@ public final class Joiner<T> implements Code {
      * @param values
      * @return
      */
-    public Joiner<T> add(Collection<T> values) {
+    public Join<T> add(Collection<T> values) {
         this.values.addAll(values);
         return this;
     }
@@ -129,7 +129,7 @@ public final class Joiner<T> implements Code {
      * @param values
      * @return
      */
-    public Joiner<T> remove(T... values) {
+    public Join<T> remove(T... values) {
         remove(Arrays.asList(values));
         return this;
     }
@@ -140,7 +140,7 @@ public final class Joiner<T> implements Code {
      * @param values
      * @return
      */
-    public Joiner<T> remove(Collection<T> values) {
+    public Join<T> remove(Collection<T> values) {
         this.values.removeAll(values);
         return this;
     }

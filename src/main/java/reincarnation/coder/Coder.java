@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2018 Nameless Production Committee
+ * Copyright (C) 2018 Reincarnation Development Team
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *          http://opensource.org/licenses/mit-license.php
+ *          https://opensource.org/licenses/MIT
  */
 package reincarnation.coder;
 
@@ -93,8 +93,8 @@ public abstract class Coder<O extends CodingOption> {
      * @param values The values to join.
      * @return A joinable code.
      */
-    protected final <T> Joiner<T> join(T... values) {
-        return new Joiner<T>().add(values);
+    protected final <T> Join<T> join(T... values) {
+        return new Join<T>().add(values);
     }
 
     /**
@@ -103,18 +103,8 @@ public abstract class Coder<O extends CodingOption> {
      * @param values The values to join.
      * @return A joinable code.
      */
-    protected final <T> Joiner<T> join(Collection<T> values) {
-        return new Joiner<T>().add(values);
-    }
-
-    /**
-     * Create joinable code.
-     * 
-     * @param prefix The prefix.
-     * @return A joinable code.
-     */
-    protected final <T> Joiner<T> join(String prefix, Collection<T> values, String separator, String suffix) {
-        return new Joiner().prefix(prefix).add(values).separator(separator).suffix(suffix).ignoreEmpty(false);
+    protected final <T> Join<T> join(Collection<T> values) {
+        return new Join<T>().add(values);
     }
 
     /**

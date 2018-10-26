@@ -1,46 +1,47 @@
 /*
- * Copyright (C) 2016 Nameless Production Committee
+ * Copyright (C) 2018 Reincarnation Development Team
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *          http://opensource.org/licenses/mit-license.php
+ *          https://opensource.org/licenses/MIT
  */
 package reincarnation.decompiler.field;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import booton.soeur.ScriptTester;
-import booton.soeur.Scriptable;
+import reincarnation.Code;
+import reincarnation.CodeVerifier;
 
 /**
- * @version 2012/11/30 15:34:11
+ * @version 2018/10/26 12:29:11
  */
-@SuppressWarnings("unused")
-public class StaticMemberTest extends ScriptTester {
+class StaticMemberTest extends CodeVerifier {
 
     @Test
-    public void StringValueOf() {
-        test(new Scriptable() {
+    void StringValueOf() {
+        verify(new Code.Text() {
 
-            public String act() {
+            @Override
+            public String run() {
                 return String.valueOf((Object) null);
             }
         });
     }
 
     @Test
-    public void StaticMethod() {
-        test(new StaticMethod());
+    void StaticMethod() {
+        verify(new StaticMethod());
     }
 
     /**
-     * @version 2012/12/01 3:42:25
+     * @version 2018/10/26 12:30:37
      */
-    private static class StaticMethod implements Scriptable {
+    private static class StaticMethod implements Code.Int {
 
-        public int act() {
+        @Override
+        public int run() {
             return compute();
         }
 
@@ -50,16 +51,17 @@ public class StaticMemberTest extends ScriptTester {
     }
 
     @Test
-    public void StaticMethodWithParam() {
-        test(new StaticMethodWithParam());
+    void StaticMethodWithParam() {
+        verify(new StaticMethodWithParam());
     }
 
     /**
-     * @version 2012/12/01 3:42:21
+     * @version 2018/10/26 12:30:48
      */
-    private static class StaticMethodWithParam implements Scriptable {
+    private static class StaticMethodWithParam implements Code.IntParam {
 
-        public int act(int value) {
+        @Override
+        public int run(int value) {
             return compute(value);
         }
 
@@ -69,35 +71,37 @@ public class StaticMemberTest extends ScriptTester {
     }
 
     @Test
-    public void GetStaticField() {
-        test(new GetStaticField());
+    void GetStaticField() {
+        verify(new GetStaticField());
     }
 
     /**
-     * @version 2012/12/01 3:42:15
+     * @version 2018/10/26 12:30:58
      */
-    private static class GetStaticField implements Scriptable {
+    private static class GetStaticField implements Code.Int {
 
         private static int field = 10;
 
-        public int act() {
+        @Override
+        public int run() {
             return field;
         }
     }
 
     @Test
-    public void GetStaticFieldFromStaticMethod() {
-        test(new GetStaticFieldFromStaticMethod());
+    void GetStaticFieldFromStaticMethod() {
+        verify(new GetStaticFieldFromStaticMethod());
     }
 
     /**
-     * @version 2012/12/01 3:42:12
+     * @version 2018/10/26 12:31:04
      */
-    private static class GetStaticFieldFromStaticMethod implements Scriptable {
+    private static class GetStaticFieldFromStaticMethod implements Code.Int {
 
         private static int field = 10;
 
-        public int act() {
+        @Override
+        public int run() {
             return compute();
         }
 
@@ -107,12 +111,12 @@ public class StaticMemberTest extends ScriptTester {
     }
 
     @Test
-    public void GetStaticFieldFromSubClass() {
-        test(new GetStaticFieldFromSubClass());
+    void GetStaticFieldFromSubClass() {
+        verify(new GetStaticFieldFromSubClass());
     }
 
     /**
-     * @version 2014/09/23 16:54:45
+     * @version 2018/10/26 12:31:14
      */
     private static class StaticFieldSuperClass {
 
@@ -120,28 +124,30 @@ public class StaticMemberTest extends ScriptTester {
     }
 
     /**
-     * @version 2014/09/23 16:54:45
+     * @version 2018/10/26 12:31:17
      */
-    private static class GetStaticFieldFromSubClass extends StaticFieldSuperClass implements Scriptable {
+    private static class GetStaticFieldFromSubClass extends StaticFieldSuperClass implements Code.Int {
 
-        public int act() {
+        @Override
+        public int run() {
             return superField;
         }
     }
 
     @Test
-    public void SetStaticField() {
-        test(new SetStaticField());
+    void SetStaticField() {
+        verify(new SetStaticField());
     }
 
     /**
-     * @version 2012/12/01 3:42:08
+     * @version 2018/10/26 12:31:25
      */
-    private static class SetStaticField implements Scriptable {
+    private static class SetStaticField implements Code.IntParam {
 
         private static int field;
 
-        public int act(int value) {
+        @Override
+        public int run(int value) {
             field = value;
 
             return field;
@@ -149,16 +155,17 @@ public class StaticMemberTest extends ScriptTester {
     }
 
     @Test
-    public void SetStaticFieldFromSubClass() {
-        test(new SetStaticFieldFromSubClass());
+    void SetStaticFieldFromSubClass() {
+        verify(new SetStaticFieldFromSubClass());
     }
 
     /**
-     * @version 2014/09/23 17:06:51
+     * @version 2018/10/26 12:31:33
      */
-    private static class SetStaticFieldFromSubClass extends StaticFieldSuperClass implements Scriptable {
+    private static class SetStaticFieldFromSubClass extends StaticFieldSuperClass implements Code.IntParam {
 
-        public int act(int value) {
+        @Override
+        public int run(int value) {
             superField = value;
 
             return superField;
@@ -166,14 +173,14 @@ public class StaticMemberTest extends ScriptTester {
     }
 
     @Test
-    public void StaticInitialization() {
-        test(new StaticInitialization());
+    void StaticInitialization() {
+        verify(new StaticInitialization());
     }
 
     /**
-     * @version 2012/12/01 3:42:04
+     * @version 2018/10/26 12:31:40
      */
-    private static class StaticInitialization implements Scriptable {
+    private static class StaticInitialization implements Code.Int {
 
         private static final int field;
 
@@ -181,24 +188,26 @@ public class StaticMemberTest extends ScriptTester {
             field = 10;
         }
 
-        public int act() {
+        @Override
+        public int run() {
             return field;
         }
     }
 
     @Test
-    public void Lazy() {
-        test(new StaticInitialization());
+    void Lazy() {
+        verify(new Lazy());
     }
 
     /**
-     * @version 2013/01/23 16:00:03
+     * @version 2018/10/26 12:31:51
      */
-    private static class Lazy implements Scriptable {
+    private static class Lazy implements Code.Text {
 
         private static String value;
 
-        public String act() {
+        @Override
+        public String run() {
             if (value != null) {
                 return value;
             }

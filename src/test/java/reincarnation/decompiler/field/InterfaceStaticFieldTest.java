@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2016 Nameless Production Committee
+ * Copyright (C) 2018 Reincarnation Development Team
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *          http://opensource.org/licenses/mit-license.php
+ *          https://opensource.org/licenses/MIT
  */
 package reincarnation.decompiler.field;
 
@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/23 15:49:59
@@ -24,7 +23,6 @@ class InterfaceStaticFieldTest extends CodeVerifier {
     void interfaceAccess() {
         verify(new Code.Text() {
 
-            @Debuggable
             @Override
             public String run() {
                 return Interface.NAME;

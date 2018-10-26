@@ -1,15 +1,16 @@
 /*
- * Copyright (C) 2018 Nameless Production Committee
+ * Copyright (C) 2018 Reincarnation Development Team
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *          http://opensource.org/licenses/mit-license.php
+ *          https://opensource.org/licenses/MIT
  */
 package reincarnation.coder.java;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -20,12 +21,13 @@ import java.util.Optional;
 import java.util.Set;
 
 import kiss.Variable;
+import reincarnation.Operand;
 import reincarnation.Reincarnation;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.CodingOption;
+import reincarnation.coder.Join;
 import reincarnation.coder.DelegatableCoder;
-import reincarnation.coder.Joiner;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.FieldAccessMode;
@@ -147,8 +149,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         String kind;
         String extend = "";
-        Joiner<Class> implement;
-        Joiner accessor = accessor(type.getModifiers());
+        Join<Class> implement;
+        Join accessor = accessor(type.getModifiers());
 
         if (type.isInterface()) {
             kind = "interface";
@@ -216,7 +218,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeConstructor(Constructor c, Code code) {
-        Joiner<Parameter> params = join(c.getParameters()).converter(p -> name(p.getType()) + space + p.getName()).separator(", ");
+        Join<Parameter> params = join(c.getParameters()).converter(p -> name(p.getType()) + space + p.getName()).separator(", ");
 
         line();
         line(accessor(c.getModifiers()), simpleName(c.getDeclaringClass()), "(", params, ")", space, "{");
@@ -234,7 +236,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             return;
         }
 
-        Joiner<Parameter> params = join(method.getParameters()).converter(p -> name(p.getType()) + space + p.getName()).separator(", ");
+        Join<Parameter> params = join(method.getParameters()).converter(p -> name(p.getType()) + space + p.getName()).separator(", ");
 
         line();
         if (method.isSynthetic()) {
@@ -419,7 +421,11 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeAccessField(Field field, Code context, FieldAccessMode mode) {
         if (Modifier.isStatic(field.getModifiers())) {
-            write(context, ".", field.getName());
+            if (current.is(field.getDeclaringClass())) {
+                write(field.getName());
+            } else {
+                write(context, ".", field.getName());
+            }
         } else {
             switch (mode) {
             case THIS:
@@ -466,7 +472,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeConstructorCall(Constructor constructor, List<? extends Code> params) {
-        write("new", space, name(constructor.getDeclaringClass()), join("(", params, ", ", ")"));
+        write("new", space, name(constructor.getDeclaringClass()), buildParameter(constructor, params));
     }
 
     /**
@@ -474,7 +480,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeSuperConstructorCall(Constructor constructor, List<? extends Code> params) {
-        write("super", join("(", params, ", ", ")"));
+        write("super", buildParameter(constructor, params));
     }
 
     /**
@@ -482,7 +488,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeThisConstructorCall(Constructor constructor, List<? extends Code> params) {
-        write("this", join("(", params, ", ", ")"));
+        write("this", buildParameter(constructor, params));
     }
 
     /**
@@ -491,10 +497,61 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeMethodCall(Method method, Code context, List<? extends Code> params) {
         if (method.isSynthetic()) {
-            write(context, ".", method.getName(), join("(", params, ", ", ")"));
+            write(context, ".", method.getName(), buildParameter(method, params));
         } else {
-            write(context, ".", method.getName(), join("(", params, ", ", ")"));
+            write(context, ".", method.getName(), buildParameter(method, params));
         }
+    }
+
+    /**
+     * Build parameter expresison.
+     * 
+     * @param executable
+     * @param params
+     * @return
+     */
+    private Join buildParameter(Executable executable, List<? extends Code> params) {
+        Join concat = new Join().ignoreEmpty(false).prefix("(").suffix(")").separator("," + space);
+        Parameter[] parameters = executable.getParameters();
+
+        for (int i = 0; i < params.size(); i++) {
+            Code param = params.get(i);
+
+            if (param == Operand.Null) {
+                concat.add(new InferedCode(parameters[i].getType(), param));
+            } else {
+                concat.add(param);
+            }
+        }
+        return concat;
+    }
+
+    /**
+     * @version 2018/10/26 14:10:50
+     */
+    private static class InferedCode implements Code {
+
+        private final Class type;
+
+        private final Code code;
+
+        /**
+         * @param type
+         * @param code
+         */
+        private InferedCode(Class type, Code code) {
+            this.type = type;
+            this.code = code;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void write(Coder coder) {
+            coder.writeCast(type, code);
+        }
+
     }
 
     /**
@@ -584,8 +641,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param modifier
      * @return
      */
-    private Joiner accessor(int modifier) {
-        Joiner joiner = new Joiner().separator(" ").suffix(" ");
+    private Join accessor(int modifier) {
+        Join joiner = new Join().separator(" ").suffix(" ");
 
         if (Modifier.isPublic(modifier)) {
             joiner.add("public");
