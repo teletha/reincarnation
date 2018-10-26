@@ -12,6 +12,6 @@ package reincarnation.operator;
 /**
  * @version 2018/10/25 13:07:28
  */
-public enum FieldAccessMode {
+public enum AccessMode {
     THIS, SUPER, CAST;
 }

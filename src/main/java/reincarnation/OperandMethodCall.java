@@ -11,6 +11,7 @@ package reincarnation;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,12 +21,15 @@ import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.CodingOption;
 import reincarnation.coder.DelegatableCoder;
-import reincarnation.operator.FieldAccessMode;
+import reincarnation.operator.AccessMode;
 
 /**
  * @version 2018/10/23 14:26:49
  */
 class OperandMethodCall extends Operand {
+
+    /** The call mode. */
+    private final AccessMode mode;
 
     /** The method. */
     private final Method method;
@@ -43,9 +47,10 @@ class OperandMethodCall extends Operand {
      * @param remove
      * @param contexts
      */
-    OperandMethodCall(Class ownerType, String methodName, Class[] parameterTypes, Operand owner, ArrayList<Operand> parameters) {
+    OperandMethodCall(AccessMode mode, Class ownerType, String methodName, Class[] parameterTypes, Operand owner, ArrayList<Operand> parameters) {
         try {
-            this.method = ownerType.getDeclaredMethod(methodName, parameterTypes);
+            this.mode = mode;
+            this.method = find(ownerType, methodName, parameterTypes);
             this.owner = owner;
             this.params = parameters;
         } catch (Exception e) {
@@ -54,12 +59,42 @@ class OperandMethodCall extends Operand {
     }
 
     /**
+     * Find the suitable {@link Field}.
+     * 
+     * @param owner A method owner.
+     * @param name A method name.
+     * @return
+     */
+    private Method find(Class owner, String name, Class[] types) {
+        Class clazz = owner;
+        Method method = null;
+        boolean acceptPrivate = true;
+
+        while (clazz != Object.class) {
+            try {
+                method = clazz.getDeclaredMethod(name, types);
+
+                if (!acceptPrivate && Modifier.isPrivate(method.getModifiers())) {
+                    clazz = clazz.getSuperclass();
+                } else {
+                    break;
+                }
+            } catch (NoSuchMethodException e) {
+                acceptPrivate = false;
+                clazz = clazz.getSuperclass();
+            }
+        }
+
+        return method;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public void write(Coder coder) {
         if (!method.isSynthetic()) {
-            coder.writeMethodCall(method, owner, params);
+            coder.writeMethodCall(method, owner, params, mode);
         } else {
             Code code = Reincarnation.exhume(method.getDeclaringClass()).methods.get(method);
             code.write(new SyntheticMethodInliner(coder));
@@ -90,7 +125,7 @@ class OperandMethodCall extends Operand {
          * {@inheritDoc}
          */
         @Override
-        public void writeAccessField(Field field, Code context, FieldAccessMode mode) {
+        public void writeAccessField(Field field, Code context, AccessMode mode) {
             coder.writeAccessField(field, params.get(0), mode);
         }
 

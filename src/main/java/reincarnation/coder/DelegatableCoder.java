@@ -18,9 +18,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import reincarnation.Reincarnation;
+import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
-import reincarnation.operator.FieldAccessMode;
 import reincarnation.operator.UnaryOperator;
 
 /**
@@ -278,7 +278,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeAccessField(Field field, Code context, FieldAccessMode mode) {
+    public void writeAccessField(Field field, Code context, AccessMode mode) {
         coder.writeAccessField(field, context, mode);
     }
 
@@ -334,8 +334,8 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeMethodCall(Method method, Code context, List<? extends Code> params) {
-        coder.writeMethodCall(method, context, params);
+    public void writeMethodCall(Method method, Code context, List<? extends Code> params, AccessMode mode) {
+        coder.writeMethodCall(method, context, params, mode);
     }
 
     /**

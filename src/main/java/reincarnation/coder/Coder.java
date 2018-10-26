@@ -23,9 +23,9 @@ import java.util.function.Consumer;
 import kiss.I;
 import kiss.model.Model;
 import reincarnation.Reincarnation;
+import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
-import reincarnation.operator.FieldAccessMode;
 import reincarnation.operator.UnaryOperator;
 
 /**
@@ -404,7 +404,7 @@ public abstract class Coder<O extends CodingOption> {
      * @param context A field context.
      * @param mode A field access mode.
      */
-    public abstract void writeAccessField(Field field, Code context, FieldAccessMode mode);
+    public abstract void writeAccessField(Field field, Code context, AccessMode mode);
 
     /**
      * Access to type.
@@ -458,8 +458,9 @@ public abstract class Coder<O extends CodingOption> {
      * @param method A method info.
      * @param context A context object.
      * @param params A list of parameter objects.
+     * @param mode An access mode.
      */
-    public abstract void writeMethodCall(Method method, Code context, List<? extends Code> params);
+    public abstract void writeMethodCall(Method method, Code context, List<? extends Code> params, AccessMode mode);
 
     /**
      * Create array expression.

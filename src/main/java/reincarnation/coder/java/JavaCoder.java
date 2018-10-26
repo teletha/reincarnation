@@ -26,11 +26,11 @@ import reincarnation.Reincarnation;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.CodingOption;
-import reincarnation.coder.Join;
 import reincarnation.coder.DelegatableCoder;
+import reincarnation.coder.Join;
+import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
-import reincarnation.operator.FieldAccessMode;
 import reincarnation.operator.UnaryOperator;
 
 /**
@@ -419,7 +419,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeAccessField(Field field, Code context, FieldAccessMode mode) {
+    public void writeAccessField(Field field, Code context, AccessMode mode) {
         if (Modifier.isStatic(field.getModifiers())) {
             if (current.is(field.getDeclaringClass())) {
                 write(field.getName());
@@ -495,11 +495,15 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeMethodCall(Method method, Code context, List<? extends Code> params) {
+    public void writeMethodCall(Method method, Code context, List<? extends Code> params, AccessMode mode) {
         if (method.isSynthetic()) {
             write(context, ".", method.getName(), buildParameter(method, params));
         } else {
-            write(context, ".", method.getName(), buildParameter(method, params));
+            if (mode == AccessMode.SUPER) {
+                write("super.", method.getName(), buildParameter(method, params));
+            } else {
+                write(context, ".", method.getName(), buildParameter(method, params));
+            }
         }
     }
 
@@ -730,7 +734,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
          * {@inheritDoc}
          */
         @Override
-        public void writeAccessField(Field field, Code context, FieldAccessMode mode) {
+        public void writeAccessField(Field field, Code context, AccessMode mode) {
             write(name(field.getType()), space, field.getName());
         }
 

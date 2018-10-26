@@ -390,14 +390,27 @@ class MethodTest extends CodeVerifier {
     }
 
     @Test
-    void Super() {
-        verify(new SuperChild());
+    void callOverriddenMethod() {
+        verify(new Child());
+    }
+
+    @Test
+    void callOverriddenMethodFromInstance() {
+        verify(new Code.IntParam() {
+
+            @Override
+            public int run(int param) {
+                Child child = new Child();
+
+                return child.compute(param) + ((Parent) child).compute(param) + ((Ancestor) child).compute(param);
+            }
+        });
     }
 
     /**
-     * @version 2018/10/23 15:35:44
+     * @version 2018/10/26 15:44:41
      */
-    static class SuperBase {
+    static class Ancestor {
 
         public int compute(int value) {
             return value + 1;
@@ -405,9 +418,39 @@ class MethodTest extends CodeVerifier {
     }
 
     /**
+     * @version 2018/10/26 15:44:41
+     */
+    static class Parent extends Ancestor {
+
+        @Override
+        public int compute(int value) {
+            return value + 10;
+        }
+    }
+
+    /**
+     * @version 2018/10/26 15:44:41
+     */
+    static class Child extends Parent implements Code.IntParam {
+
+        @Override
+        public int compute(int value) {
+            return value + 100;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int run(int param) {
+            return compute(param) + super.compute(param) + ((Ancestor) this).compute(param);
+        }
+    }
+
+    /**
      * @version 2018/10/23 15:35:40
      */
-    static class SuperChild extends SuperBase implements Code.IntParam {
+    static class SuperChild extends Ancestor implements Code.IntParam {
 
         @Override
         public int run(int value) {

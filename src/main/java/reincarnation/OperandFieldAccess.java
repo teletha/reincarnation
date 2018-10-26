@@ -16,7 +16,7 @@ import java.util.Objects;
 import kiss.I;
 import kiss.Signal;
 import reincarnation.coder.Coder;
-import reincarnation.operator.FieldAccessMode;
+import reincarnation.operator.AccessMode;
 
 /**
  * @version 2018/10/13 23:34:58
@@ -30,7 +30,7 @@ public class OperandFieldAccess extends Operand {
     private final Operand context;
 
     /** The access mode. */
-    private final FieldAccessMode mode;
+    private final AccessMode mode;
 
     /**
      * Create field access like <code>owner.field</code>.
@@ -45,9 +45,9 @@ public class OperandFieldAccess extends Operand {
         Class contextType = context.type.v;
 
         if (contextType == ownerType) {
-            this.mode = FieldAccessMode.THIS;
+            this.mode = AccessMode.THIS;
         } else {
-            this.mode = FieldAccessMode.CAST;
+            this.mode = AccessMode.CAST;
         }
         fix(field.getType());
     }

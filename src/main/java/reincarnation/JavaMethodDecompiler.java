@@ -35,6 +35,7 @@ import reincarnation.Node.Switch;
 import reincarnation.Node.TryCatchFinallyBlocks;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
+import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
@@ -1273,7 +1274,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      * {@inheritDoc}
      */
     @Override
-    public void visitMethodInsn(int opcode, String className, String methodName, String desc, boolean access) {
+    public void visitMethodInsn(int opcode, String className, String method, String desc, boolean access) {
         // recode current instruction
         record(opcode);
 
@@ -1305,18 +1306,16 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // and instance initialization method invocations
         case INVOKESPECIAL:
             // Analyze method argument
-            if (!methodName.equals("<init>")) {
+            if (!method.equals("<init>")) {
                 // push "this" operand
                 contexts.add(0, current.remove(0));
 
                 if (owner == source.clazz) {
                     // private method invocation
-                    current.addOperand(new OperandMethodCall(owner, methodName, parameters, contexts.remove(0), contexts));
+                    current.addOperand(new OperandMethodCall(AccessMode.THIS, owner, method, parameters, contexts.remove(0), contexts));
                 } else {
                     // super method invocation
-                    // current.addOperand(translator.translateSuperMethod(owner, methodName,
-                    // desc,
-                    // parameters, contexts), returnType);
+                    current.addOperand(new OperandMethodCall(AccessMode.SUPER, owner, method, parameters, contexts.remove(0), contexts));
                 }
             } else {
                 // remove type operand
@@ -1344,21 +1343,21 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         case INVOKEVIRTUAL: // method call
         case INVOKEINTERFACE: // interface method call
-            current.addOperand(new OperandMethodCall(owner, methodName, parameters, current.remove(0), contexts));
+            current.addOperand(new OperandMethodCall(AccessMode.THIS, owner, method, parameters, current.remove(0), contexts));
             break;
 
         case INVOKESTATIC: // static method call
-            if (Switch.isEnumSwitchTable(methodName, desc)) {
+            if (Switch.isEnumSwitchTable(method, desc)) {
                 enumSwitchInvoked = true;
             } else {
                 // Non-private static method which is called from child class have parent
                 // class signature.
-                while (!hasStaticMethod(owner, methodName, parameters)) {
+                while (!hasStaticMethod(owner, method, parameters)) {
                     owner = owner.getSuperclass();
                 }
 
                 // translate
-                current.addOperand(new OperandMethodCall(owner, methodName, parameters, new OperandType(owner), contexts));
+                current.addOperand(new OperandMethodCall(AccessMode.THIS, owner, method, parameters, new OperandType(owner), contexts));
             }
             break;
         }
