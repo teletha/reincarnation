@@ -13,6 +13,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -145,24 +146,25 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         current.set(type);
 
         String kind;
-        String extend;
+        String extend = "";
+        Joiner<Class> implement;
         Joiner accessor = accessor(type.getModifiers());
 
         if (type.isInterface()) {
             kind = "interface";
-            extend = join(type.getInterfaces(), this::name, ", ", " extends ", "");
+            implement = join(type.getInterfaces()).prefix(" extends ").converter(this::name);
             accessor.remove("static", "abstract");
         } else if (type.isEnum()) {
             kind = "enum";
-            extend = join(type.getInterfaces(), this::name, ", ", " implements ", "");
+            implement = join(type.getInterfaces()).prefix(" implements ").converter(this::name);
         } else {
             kind = "class";
             extend = type.getSuperclass() == Object.class ? "" : " extends " + name(type.getSuperclass());
-            extend += join(type.getInterfaces(), this::name, ", ", " implements ", "");
+            implement = join(type.getInterfaces()).prefix(" implements ").converter(this::name);
         }
 
         line();
-        line(accessor, kind, space, simpleName(type), extend, space, "{");
+        line(accessor, kind, space, simpleName(type), extend, implement, space, "{");
         indent(inner::run);
         line("}");
     }
@@ -214,9 +216,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeConstructor(Constructor c, Code code) {
-        String params = join(c.getParameters(), p -> {
-            return name(p.getType()) + space + p.getName();
-        }, ", ", "", "");
+        Joiner<Parameter> params = join(c.getParameters()).converter(p -> name(p.getType()) + space + p.getName()).separator(", ");
 
         line();
         line(accessor(c.getModifiers()), simpleName(c.getDeclaringClass()), "(", params, ")", space, "{");
@@ -234,9 +234,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             return;
         }
 
-        String params = join(method.getParameters(), p -> {
-            return name(p.getType()) + space + p.getName();
-        }, ", ", "", "");
+        Joiner<Parameter> params = join(method.getParameters()).converter(p -> name(p.getType()) + space + p.getName()).separator(", ");
 
         line();
         if (method.isSynthetic()) {

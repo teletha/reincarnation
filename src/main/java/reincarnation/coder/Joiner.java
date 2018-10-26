@@ -14,11 +14,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
 /**
- * @version 2018/10/14 9:14:32
+ * @version 2018/10/26 9:41:07
  */
-public final class Joiner implements Code {
+public final class Joiner<T> implements Code {
 
     /** The separator. */
     private String separator = "";
@@ -29,8 +30,14 @@ public final class Joiner implements Code {
     /** The suffix. */
     private String suffix = "";
 
+    /** The literalizer. */
+    private Function<T, ?> converter = Function.identity();
+
+    /** The flag. */
+    private boolean ignoreEmpty = true;
+
     /** The value manager. */
-    private final List values = new ArrayList();
+    private final List<T> values = new ArrayList();
 
     /**
      * Set separator.
@@ -38,7 +45,7 @@ public final class Joiner implements Code {
      * @param separator A separaotr chracter.
      * @return Chainable API.
      */
-    public Joiner separator(String separator) {
+    public Joiner<T> separator(String separator) {
         if (separator != null) {
             this.separator = separator;
         }
@@ -51,7 +58,7 @@ public final class Joiner implements Code {
      * @param prefix A prefix chracter.
      * @return Chainable API.
      */
-    public Joiner prefix(String prefix) {
+    public Joiner<T> prefix(String prefix) {
         if (prefix != null) {
             this.prefix = prefix;
         }
@@ -64,7 +71,7 @@ public final class Joiner implements Code {
      * @param suffix A suffix chracter.
      * @return Chainable API.
      */
-    public Joiner suffix(String suffix) {
+    public Joiner<T> suffix(String suffix) {
         if (suffix != null) {
             this.suffix = suffix;
         }
@@ -72,13 +79,25 @@ public final class Joiner implements Code {
     }
 
     /**
-     * Add values.
+     * Set converter.
      * 
-     * @param values
-     * @return
+     * @param converter A value converter.
+     * @return Chainable API.
      */
-    public Joiner add(Object... values) {
-        values(Arrays.asList(values));
+    public Joiner<T> converter(Function<T, ?> converter) {
+        if (converter != null) {
+            this.converter = converter;
+        }
+        return this;
+    }
+
+    /**
+     * Set suffix.
+     * 
+     * @return Chainable API.
+     */
+    public Joiner<T> ignoreEmpty(boolean ignore) {
+        this.ignoreEmpty = ignore;
         return this;
     }
 
@@ -88,15 +107,8 @@ public final class Joiner implements Code {
      * @param values
      * @return
      */
-    public Joiner values(Collection values) {
-        this.values.addAll(values);
-
-        return this;
-    }
-
-    public Joiner values(Collection values, String separator) {
-        this.values.addAll(values);
-        this.separator = separator;
+    public Joiner<T> add(T... values) {
+        add(Arrays.asList(values));
         return this;
     }
 
@@ -106,7 +118,18 @@ public final class Joiner implements Code {
      * @param values
      * @return
      */
-    public Joiner remove(Object... values) {
+    public Joiner<T> add(Collection<T> values) {
+        this.values.addAll(values);
+        return this;
+    }
+
+    /**
+     * Add values.
+     * 
+     * @param values
+     * @return
+     */
+    public Joiner<T> remove(T... values) {
         remove(Arrays.asList(values));
         return this;
     }
@@ -117,7 +140,7 @@ public final class Joiner implements Code {
      * @param values
      * @return
      */
-    public Joiner remove(Collection values) {
+    public Joiner<T> remove(Collection<T> values) {
         this.values.removeAll(values);
         return this;
     }
@@ -127,15 +150,17 @@ public final class Joiner implements Code {
      */
     @Override
     public void write(Coder coder) {
-        coder.write(prefix);
-        Iterator iterator = values.iterator();
-        if (iterator.hasNext()) {
-            coder.write(iterator.next());
+        if (!ignoreEmpty || values.isEmpty() == false) {
+            coder.write(prefix);
+            Iterator<T> iterator = values.iterator();
+            if (iterator.hasNext()) {
+                coder.write(converter.apply(iterator.next()));
 
-            while (iterator.hasNext()) {
-                coder.write(separator, iterator.next());
+                while (iterator.hasNext()) {
+                    coder.write(separator, converter.apply(iterator.next()));
+                }
             }
+            coder.write(suffix);
         }
-        coder.write(suffix);
     }
 }

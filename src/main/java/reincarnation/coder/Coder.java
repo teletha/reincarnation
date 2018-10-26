@@ -13,15 +13,12 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.StringJoiner;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import kiss.I;
 import kiss.model.Model;
@@ -91,56 +88,13 @@ public abstract class Coder<O extends CodingOption> {
     }
 
     /**
-     * Join by space.
+     * Create joinable code.
      * 
-     * @param values
-     * @param converter
-     * @return
+     * @param values The values to join.
+     * @return A joinable code.
      */
-    protected final <T> String join(T[] values, Function<T, String> converter) {
-        return join(values, converter, space, "", "");
-    }
-
-    /**
-     * Join by space.
-     * 
-     * @param values
-     * @param converter
-     * @return
-     */
-    protected final <T> String join(Collection<T> values, Function<T, String> converter) {
-        return join(values, converter, space, "", "");
-    }
-
-    /**
-     * Join by space.
-     * 
-     * @param values
-     * @param converter
-     * @return
-     */
-    protected final <T> String join(T[] values, Function<T, String> converter, String separator, String prefix, String suffix) {
-        return join(Arrays.asList(values), converter, separator, prefix, suffix);
-    }
-
-    /**
-     * Join by space.
-     * 
-     * @param values
-     * @param converter
-     * @return
-     */
-    protected final <T> String join(Collection<T> values, Function<T, String> converter, String separator, String prefix, String suffix) {
-        if (values.isEmpty()) {
-            return "";
-        }
-
-        StringJoiner joiner = new StringJoiner(separator, prefix, suffix);
-
-        for (T value : values) {
-            joiner.add(converter.apply(value));
-        }
-        return joiner.toString();
+    protected final <T> Joiner<T> join(T... values) {
+        return new Joiner<T>().add(values);
     }
 
     /**
@@ -149,8 +103,8 @@ public abstract class Coder<O extends CodingOption> {
      * @param values The values to join.
      * @return A joinable code.
      */
-    protected final Joiner join(Collection values) {
-        return new Joiner().values(values);
+    protected final <T> Joiner<T> join(Collection<T> values) {
+        return new Joiner<T>().add(values);
     }
 
     /**
@@ -159,18 +113,8 @@ public abstract class Coder<O extends CodingOption> {
      * @param prefix The prefix.
      * @return A joinable code.
      */
-    protected final Joiner prefix(String prefix) {
-        return new Joiner().prefix(prefix);
-    }
-
-    /**
-     * Create joinable code.
-     * 
-     * @param prefix The prefix.
-     * @return A joinable code.
-     */
-    protected final Joiner join(String prefix, Collection values, String separator, String suffix) {
-        return new Joiner().prefix(prefix).values(values, separator).suffix(suffix);
+    protected final <T> Joiner<T> join(String prefix, Collection<T> values, String separator, String suffix) {
+        return new Joiner().prefix(prefix).add(values).separator(separator).suffix(suffix).ignoreEmpty(false);
     }
 
     /**
