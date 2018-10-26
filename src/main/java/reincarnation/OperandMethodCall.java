@@ -24,7 +24,7 @@ import reincarnation.coder.DelegatableCoder;
 import reincarnation.operator.AccessMode;
 
 /**
- * @version 2018/10/23 14:26:49
+ * @version 2018/10/26 21:09:33
  */
 class OperandMethodCall extends Operand {
 
@@ -70,7 +70,7 @@ class OperandMethodCall extends Operand {
         Method method = null;
         boolean acceptPrivate = true;
 
-        while (clazz != Object.class) {
+        while (clazz != null) {
             try {
                 method = clazz.getDeclaredMethod(name, types);
 

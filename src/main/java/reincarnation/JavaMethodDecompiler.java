@@ -298,8 +298,40 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     public void visitEnd() {
         Debugger.print(nodes);
 
+        // Dispose all nodes which contains synchronized block.
+        for (Node node : synchronizer) {
+            dispose(node, true, false);
+        }
+
+        // Separate conditional operands and dispose empty node.
+        for (Node node : nodes.toArray(new Node[nodes.size()])) {
+            if (node.disposable && node.stack.isEmpty()) {
+                dispose(node, false, false);
+            } else {
+                new SequentialConditionInfo(node).split();
+            }
+        }
+
         // Search all backedge nodes.
         searchBackEdge(nodes.get(0), new ArrayDeque());
+
+        // Resoleve all string switch blocks
+        for (Node node : nodes) {
+            if (node.switchy != null) {
+                for (Node disposable : node.switchy.process()) {
+                    dispose(disposable, true, false);
+                }
+            }
+        }
+
+        // Build dominator tree
+        for (Node node : nodes) {
+            Node dominator = node.getDominator();
+
+            if (dominator != null) {
+                dominator.dominators.addIfAbsent(node);
+            }
+        }
 
         // optimize
         removeLastEmptyReturn();

@@ -1466,6 +1466,7 @@ class Node implements Code {
          */
         private void writeRequiredLabel() {
             if (requireLabel) {
+                System.out.println(position + "  @@@@@@ " + entrance.id);
                 // buffer.insertAt(position, "l" + entrance.id + ":");
             }
         }
