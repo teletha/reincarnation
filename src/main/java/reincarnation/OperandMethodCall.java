@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import kiss.I;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.CodingOption;
@@ -48,14 +47,10 @@ class OperandMethodCall extends Operand {
      * @param contexts
      */
     OperandMethodCall(AccessMode mode, Class ownerType, String methodName, Class[] parameterTypes, Operand owner, ArrayList<Operand> parameters) {
-        try {
-            this.mode = mode;
-            this.method = find(ownerType, methodName, parameterTypes);
-            this.owner = owner;
-            this.params = parameters;
-        } catch (Exception e) {
-            throw I.quiet(e);
-        }
+        this.mode = mode;
+        this.method = find(ownerType, methodName, parameterTypes);
+        this.owner = owner;
+        this.params = parameters;
     }
 
     /**

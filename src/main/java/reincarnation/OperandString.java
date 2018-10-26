@@ -27,6 +27,7 @@ class OperandString extends Operand {
                 .replaceAll("\"", "\\\\\"")
                 .replaceAll("\r", "\\\\r")
                 .replaceAll("\n", "\\\\n");
+        fix(String.class);
     }
 
     /**

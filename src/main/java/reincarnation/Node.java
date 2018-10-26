@@ -350,7 +350,7 @@ class Node implements Code {
      * @return Chainable API.
      */
     final Node enclose() {
-        stack.add(new OperandEnclose(remove(0)));
+        stack.add(remove(0).encolose());
 
         // API definition
         return this;
@@ -1054,7 +1054,6 @@ class Node implements Code {
      * @param coder
      */
     private void writeIf(Coder coder) {
-        Debugger.print(this);
         OperandCondition condition = (OperandCondition) stack.peekLast();
 
         Node then = null;

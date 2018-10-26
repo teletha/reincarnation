@@ -104,7 +104,7 @@ class ForTest extends CodeVerifier {
     }
 
     @Test
-    void noneReturnCodeAfterLoopWillConfuseCompiler() throws Exception {
+    void noneReturnCodeAfterLoopWillConfuseCompiler() {
         verify(new Code.Text() {
 
             @Override

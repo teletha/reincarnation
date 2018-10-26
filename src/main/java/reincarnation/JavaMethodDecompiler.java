@@ -1010,7 +1010,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                     value.duplicated = false;
 
                     // duplicate pointer
-                    current.addOperand(new OperandEnclose(assign));
+                    current.addOperand(assign.encolose());
                 }
             }
             break;
@@ -1567,7 +1567,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                         }
 
                         // duplicate pointer
-                        current.addOperand(new OperandEnclose(assign));
+                        current.addOperand(assign.encolose());
                     }
                 }
             }
