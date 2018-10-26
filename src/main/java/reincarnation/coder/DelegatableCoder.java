@@ -382,6 +382,22 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
+    public void writeBreak(Optional<String> label) {
+        coder.writeBreak(label);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeContinue(Optional<String> label) {
+        coder.writeContinue(label);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeIf(Code condition, Code then, Code elze) {
         coder.writeIf(condition, then, elze);
     }
@@ -390,7 +406,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeFor(Code initialize, Code condition, Code updater, Runnable inner) {
+    public void writeFor(Code initialize, Code condition, List<Code> updater, Runnable inner) {
         coder.writeFor(initialize, condition, updater, inner);
     }
 

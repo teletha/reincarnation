@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import java.util.Optional;
+
 import kiss.I;
 import kiss.Signal;
 import kiss.Variable;
@@ -28,6 +30,9 @@ public abstract class Operand implements Code {
 
     /** The flag for operand duplication. */
     boolean duplicated = false;
+
+    /** The comment. */
+    private String comment;
 
     /**
      * Fix as the current type.
@@ -142,6 +147,25 @@ public abstract class Operand implements Code {
      */
     boolean isLarge() {
         return infer().type() == long.class || infer().type() == double.class;
+    }
+
+    /**
+     * Set commnet for this {@link Operand}.
+     * 
+     * @param comment
+     * @return
+     */
+    Operand comment(String comment) {
+        this.comment = comment;
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<String> comment() {
+        return Optional.ofNullable(comment);
     }
 
     /**

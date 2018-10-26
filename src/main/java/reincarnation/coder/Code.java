@@ -9,8 +9,10 @@
  */
 package reincarnation.coder;
 
+import java.util.Optional;
+
 /**
- * @version 2018/10/13 11:34:49
+ * @version 2018/10/26 22:51:00
  */
 public interface Code {
 
@@ -24,4 +26,13 @@ public interface Code {
      * @param coder
      */
     void write(Coder coder);
+
+    /**
+     * Comment for {@link Code}.
+     * 
+     * @return
+     */
+    default Optional<String> comment() {
+        return Optional.empty();
+    }
 }

@@ -128,6 +128,8 @@ public abstract class Coder<O extends CodingOption> {
                 if (code != null) {
                     if (code instanceof Code) {
                         ((Code) code).write(this);
+                    } else if (code instanceof Optional) {
+                        ((Optional) code).ifPresent(this::write);
                     } else {
                         appendable.append(String.valueOf(code));
                     }
@@ -506,6 +508,20 @@ public abstract class Coder<O extends CodingOption> {
     public abstract void writeThrow(Code code);
 
     /**
+     * Break statement.
+     * 
+     * @param label A label of break point.
+     */
+    public abstract void writeBreak(Optional<String> label);
+
+    /**
+     * Continue statement.
+     * 
+     * @param label A label of continue point.
+     */
+    public abstract void writeContinue(Optional<String> label);
+
+    /**
      * If statement.
      * 
      * @param condition A condition.
@@ -522,7 +538,7 @@ public abstract class Coder<O extends CodingOption> {
      * @param updater A updater part.
      * @param inner A inner contents.
      */
-    public abstract void writeFor(Code initialize, Code condition, Code updater, Runnable inner);
+    public abstract void writeFor(Code initialize, Code condition, List<Code> updater, Runnable inner);
 
     /**
      * While statement.

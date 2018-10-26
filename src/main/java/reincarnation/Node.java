@@ -17,6 +17,7 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -104,6 +105,9 @@ class Node implements Code {
     /** The associated loop structure. */
     private Deque<LoopStructure> loops = new ArrayDeque();
 
+    /** The comment for node. */
+    private String comment;
+
     /**
      * @param label
      */
@@ -116,6 +120,15 @@ class Node implements Code {
      */
     Node(String id) {
         this.id = id;
+    }
+
+    /**
+     * Helper to write line commnet.
+     * 
+     * @param comment
+     */
+    final void addComment(String comment) {
+        this.comment = comment;
     }
 
     /**
@@ -548,6 +561,14 @@ class Node implements Code {
 
         // connect enter node with default node
         connect(defaults);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<String> comment() {
+        return Optional.ofNullable(comment);
     }
 
     /**
@@ -994,17 +1015,12 @@ class Node implements Code {
             Node update = backedges.get(0);
             update.written = true;
 
-            // Then, replace all semicolons with comma from update expression node.
-            // update.stack.replaceAll(operand -> {
-            // return operand != END ? operand : new OperandExpression(",");
-            // });
-
             LoopStructure loop = new LoopStructure(this, nodes[0], nodes[1], update, coder);
 
             // write code fragment
             written = false;
 
-            coder.writeFor(null, code(this), code(update), () -> {
+            coder.writeFor(null, code(this), update.stack, () -> {
                 breakables.add(loop);
                 process(nodes[0], coder);
                 breakables.removeLast();
@@ -1169,15 +1185,16 @@ class Node implements Code {
             if (loop != null) {
                 // continue
                 if (loop.hasHeader(next) && hasDominator(loop.entrance)) {
-                    if (Debugger.isEnable()) {
-                        // buffer.comment(id + " -> " + next.id + " continue to " + loop.entrance.id
-                        // + " (" + next.currentCalls + " of " + requiredCalls + ") " + loop);
-                    }
-
                     String label = loop.computeLabelFor(next);
 
-                    if (label.length() != 0 || continueOmittable == null || !continueOmittable) {
-                        // buffer.append("continue", label, ";").line();
+                    if (label != null || continueOmittable == null || !continueOmittable) {
+                        OperandContinue continuer = new OperandContinue(loop.computeLabelFor(next));
+
+                        if (Debugger.isEnable()) {
+                            continuer
+                                    .comment(id + " -> " + next.id + " continue to " + loop.entrance.id + " (" + next.currentCalls + " of " + requiredCalls + ") " + loop);
+                        }
+                        addOperand(continuer);
                     }
                     return;
                 }
@@ -1186,20 +1203,19 @@ class Node implements Code {
                 if (!loop.hasHeader(this) && loop.hasExit(next) && hasDominator(loop.entrance)) {
                     // check whether the current node connects to the exit node directly or not
                     if (loop.exit.incoming.contains(this)) {
+                        OperandBreak breaker = new OperandBreak(loop.computeLabelFor(next));
+
                         if (Debugger.isEnable()) {
-                            // buffer.comment(id + " -> " + next.id + " break to " +
-                            // loop.entrance.id + "(" + next.currentCalls + " of " + requiredCalls +
-                            // ") " + loop);
+                            breaker.comment(id + " -> " + next.id + " break to " + loop.entrance.id + "(" + next.currentCalls + " of " + requiredCalls + ") " + loop);
                         }
-                        // buffer.append("break", loop.computeLabelFor(next), ";").line();
+                        addOperand(breaker);
                     }
                     return;
                 }
             }
 
             if (Debugger.isEnable()) {
-                // buffer.comment(id + " -> " + next.id + " (" + next.currentCalls + " of " +
-                // requiredCalls + ") " + (loop != null ? loop: ""));
+                addComment(id + " -> " + next.id + " (" + next.currentCalls + " of " + requiredCalls + ") " + (loop != null ? loop : ""));
             }
 
             // normal process
@@ -1452,7 +1468,7 @@ class Node implements Code {
          */
         private String computeLabelFor(Node node) {
             if (node.loops.contains(breakables.peekLast())) {
-                return "";
+                return null;
             } else {
                 requireLabel = true;
                 return " l" + entrance.id;
@@ -1466,7 +1482,6 @@ class Node implements Code {
          */
         private void writeRequiredLabel() {
             if (requireLabel) {
-                System.out.println(position + "  @@@@@@ " + entrance.id);
                 // buffer.insertAt(position, "l" + entrance.id + ":");
             }
         }
