@@ -125,10 +125,12 @@ public abstract class Coder<O extends CodingOption> {
     protected final void write(Object... codes) {
         try {
             for (Object code : codes) {
-                if (code instanceof Code) {
-                    ((Code) code).write(this);
-                } else {
-                    appendable.append(String.valueOf(code));
+                if (code != null) {
+                    if (code instanceof Code) {
+                        ((Code) code).write(this);
+                    } else {
+                        appendable.append(String.valueOf(code));
+                    }
                 }
             }
         } catch (IOException e) {
@@ -511,5 +513,23 @@ public abstract class Coder<O extends CodingOption> {
      * @param elze A else part. (maybe null)
      */
     public abstract void writeIf(Code condition, Code then, Code elze);
+
+    /**
+     * For statement.
+     * 
+     * @param initialize A initializer part.
+     * @param condition A condition.
+     * @param updater A updater part.
+     * @param inner A inner contents.
+     */
+    public abstract void writeFor(Code initialize, Code condition, Code updater, Runnable inner);
+
+    /**
+     * While statement.
+     * 
+     * @param condition A condition.
+     * @param inner A inner contents.
+     */
+    public abstract void writeWhile(Code condition, Runnable inner);
 
 }

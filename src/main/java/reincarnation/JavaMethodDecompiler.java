@@ -17,7 +17,9 @@ import static reincarnation.Util.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -296,8 +298,36 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     public void visitEnd() {
         Debugger.print(nodes);
 
+        // Search all backedge nodes.
+        searchBackEdge(nodes.get(0), new ArrayDeque());
+
         // optimize
         removeLastEmptyReturn();
+    }
+
+    /**
+     * <p>
+     * Helper method to search all backedge nodes using depth-first search.
+     * </p>
+     * 
+     * @param node A target node to check.
+     * @param recorder All passed nodes.
+     */
+    private final void searchBackEdge(Node node, Deque<Node> recorder) {
+        // Store the current processing node.
+        recorder.add(node);
+
+        // Step into outgoing nodes.
+        for (Node out : node.outgoing) {
+            if (recorder.contains(out)) {
+                out.backedges.addIfAbsent(node);
+            } else {
+                searchBackEdge(out, recorder);
+            }
+        }
+
+        // Remove the current processing node.
+        recorder.pollLast();
     }
 
     /**

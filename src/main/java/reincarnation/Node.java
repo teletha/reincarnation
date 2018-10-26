@@ -642,9 +642,9 @@ class Node implements Code {
                 if (backs == 0) {
                     writeIf(coder);
                 } else if (backs == 1 && backedges.get(0).outgoing.size() == 1) {
-                    // writeFor(buffer);
+                    writeFor(coder);
                 } else {
-                    // writeWhile(buffer);
+                    writeWhile(coder);
                 }
             }
 
@@ -858,17 +858,15 @@ class Node implements Code {
     }
 
     /**
-     * <p>
      * Write infinite loop structure.
-     * </p>
      * 
-     * @param buffer
+     * @param coder
      */
-    private void writeInfiniteLoop(BlockStmt block) {
+    private void writeInfiniteLoop(Coder coder) {
         // make rewritable this node
         written = false;
 
-        LoopStructure loop = new LoopStructure(this, this, null, null, buffer);
+        LoopStructure loop = new LoopStructure(this, this, null, null, coder);
 
         // clear all backedge nodes of infinite loop
         backedges.clear();
@@ -916,28 +914,34 @@ class Node implements Code {
     }
 
     /**
-     * <p>
      * Write while structure.
-     * </p>
      * 
-     * @param buffer
+     * @param coder
      */
-    private void writeWhile(ScriptWriter buffer) {
+    private void writeWhile(Coder coder) {
         Node[] nodes = detectProcessAndExit();
 
         if (nodes == null) {
-            writeInfiniteLoop(buffer);
+            writeInfiniteLoop(coder);
         } else {
-            LoopStructure loop = new LoopStructure(this, nodes[0], nodes[1], this, buffer);
+            LoopStructure loop = new LoopStructure(this, nodes[0], nodes[1], this, coder);
 
-            // write script fragment
-            buffer.write("while", "(" + this + ")", "{");
-            breakables.add(loop);
-            process(nodes[0], buffer);
-            breakables.removeLast();
-            buffer.write("}").line();
+            // write code fragment
+            coder.writeWhile(code(this), () -> {
+                breakables.add(loop);
+                process(nodes[0], coder);
+                breakables.removeLast();
+            });
             loop.writeRequiredLabel();
-            process(nodes[1], buffer);
+            process(nodes[1], coder);
+
+            // buffer.write("while", "(" + this + ")", "{");
+            // breakables.add(loop);
+            // process(nodes[0], buffer);
+            // breakables.removeLast();
+            // buffer.write("}").line();
+            // loop.writeRequiredLabel();
+            // process(nodes[1], buffer);
         }
     }
 
@@ -976,43 +980,54 @@ class Node implements Code {
     }
 
     /**
-     * <p>
      * Write for structure.
-     * </p>
      * 
-     * @param buffer
+     * @param coder
      */
-    private void writeFor(ScriptWriter buffer) {
+    private void writeFor(Coder coder) {
         Node[] nodes = detectProcessAndExit();
 
         if (nodes == null) {
-            writeInfiniteLoop(buffer);
+            // writeInfiniteLoop(coder);
         } else {
             // setup update expression node
             Node update = backedges.get(0);
             update.written = true;
 
-            // At first, remove tail semicolon.
-            if (update.stack.peekLast() == END) {
-                update.remove(0);
-            }
-
             // Then, replace all semicolons with comma from update expression node.
-            update.stack.replaceAll(operand -> {
-                return operand != END ? operand : new OperandExpression(",");
+            // update.stack.replaceAll(operand -> {
+            // return operand != END ? operand : new OperandExpression(",");
+            // });
+
+            LoopStructure loop = new LoopStructure(this, nodes[0], nodes[1], update, coder);
+
+            // write code fragment
+            written = false;
+
+            coder.writeFor(null, code(this), code(update), () -> {
+                breakables.add(loop);
+                process(nodes[0], coder);
+                breakables.removeLast();
             });
-
-            LoopStructure loop = new LoopStructure(this, nodes[0], nodes[1], update, buffer);
-
-            // write script fragment
-            buffer.write("for", "(;", this + ";", update + ")", "{");
-            breakables.add(loop);
-            process(nodes[0], buffer);
-            breakables.removeLast();
-            buffer.write("}").line();
             loop.writeRequiredLabel();
-            process(nodes[1], buffer);
+            process(nodes[1], coder);
+
+            // buffer.write("for", "(;", this + ";", update + ")", "{");
+            // breakables.add(loop);
+            // process(nodes[0], buffer);
+            // breakables.removeLast();
+            // buffer.write("}").line();
+            // loop.writeRequiredLabel();
+            // process(nodes[1], buffer);
         }
+    }
+
+    private Code code(Node node) {
+        return coder -> {
+            for (Operand operand : node.stack) {
+                operand.write(coder);
+            }
+        };
     }
 
     /**
@@ -1392,7 +1407,7 @@ class Node implements Code {
         private final Node checkpoint;
 
         /** The script buffer. */
-        private final ScriptWriter buffer;
+        private final Coder coder;
 
         /** The label insertion position. */
         private final int position;
@@ -1407,14 +1422,14 @@ class Node implements Code {
          * @param checkpoint The checkpoint node (i.e. condition or update) of this loop structure
          *            if present.
          */
-        private LoopStructure(Node entrance, Node first, Node exit, Node checkpoint, ScriptWriter buffer) {
+        private LoopStructure(Node entrance, Node first, Node exit, Node checkpoint, Coder coder) {
             super(first == checkpoint ? entrance : first);
 
             this.entrance = entrance;
             this.exit = exit;
             this.checkpoint = checkpoint;
-            this.buffer = buffer;
-            this.position = buffer.length();
+            this.coder = coder;
+            this.position = coder.toString().length(); // TODO
 
             // The first node must be the header of breakable structure and
             // be able to omit continue statement.
@@ -1451,7 +1466,7 @@ class Node implements Code {
          */
         private void writeRequiredLabel() {
             if (requireLabel) {
-                buffer.insertAt(position, "l" + entrance.id + ":");
+                // buffer.insertAt(position, "l" + entrance.id + ":");
             }
         }
 

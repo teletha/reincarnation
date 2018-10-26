@@ -620,6 +620,26 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeFor(Code initialize, Code condition, Code updater, Runnable inner) {
+        line("for", space, "(", initialize, ";", condition, ";", updater, ")", space, "{");
+        indent(inner);
+        line("}");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeWhile(Code condition, Runnable inner) {
+        line("while", space, "(", condition, ")", space, "{");
+        indent(inner);
+        line("}");
+    }
+
+    /**
      * Qualified name.
      * 
      * @param type
