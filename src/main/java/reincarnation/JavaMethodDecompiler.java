@@ -1171,11 +1171,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             break;
 
         case IFNULL: // object == null
-            current.condition(current.remove(0), EQ, new OperandExpression("null"), node);
+            current.condition(current.remove(0), EQ, Operand.Null, node);
             break;
 
         case IFNONNULL: // object != null
-            current.condition(current.remove(0), NE, new OperandExpression("null"), node);
+            current.condition(current.remove(0), NE, Operand.Null, node);
             break;
 
         // ==

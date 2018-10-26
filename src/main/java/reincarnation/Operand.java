@@ -21,7 +21,7 @@ import reincarnation.coder.java.JavaCoder;
  */
 public abstract class Operand implements Code {
 
-    public static final Operand Null = new OperandExpression(null).fix(null);
+    public static final Operand Null = new OperandExpression(null).fix(Object.class);
 
     /** The infered type. */
     protected Variable<Class> type = Variable.of(Object.class);

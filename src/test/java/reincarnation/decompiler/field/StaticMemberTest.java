@@ -118,15 +118,15 @@ class StaticMemberTest extends CodeVerifier {
     /**
      * @version 2018/10/26 12:31:14
      */
-    private static class StaticFieldSuperClass {
+    private static class StaticFieldParent {
 
-        protected static int superField = 10;
+        protected static final int superField = "ok".length();
     }
 
     /**
      * @version 2018/10/26 12:31:17
      */
-    private static class GetStaticFieldFromSubClass extends StaticFieldSuperClass implements Code.Int {
+    private static class GetStaticFieldFromSubClass extends StaticFieldParent implements Code.Int {
 
         @Override
         public int run() {
@@ -160,9 +160,16 @@ class StaticMemberTest extends CodeVerifier {
     }
 
     /**
+     * @version 2018/10/26 15:31:23
+     */
+    private static class SetStaticFieldParent {
+        protected static int superField = 10;
+    }
+
+    /**
      * @version 2018/10/26 12:31:33
      */
-    private static class SetStaticFieldFromSubClass extends StaticFieldSuperClass implements Code.IntParam {
+    private static class SetStaticFieldFromSubClass extends SetStaticFieldParent implements Code.IntParam {
 
         @Override
         public int run(int value) {

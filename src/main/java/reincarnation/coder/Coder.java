@@ -108,6 +108,16 @@ public abstract class Coder<O extends CodingOption> {
     }
 
     /**
+     * Create joinable code.
+     * 
+     * @param prefix The prefix.
+     * @return A joinable code.
+     */
+    protected final <T> Join<T> join(String prefix, Collection<T> values, String separator, String suffix) {
+        return new Join().prefix(prefix).add(values).separator(separator).suffix(suffix).ignoreEmpty(false);
+    }
+
+    /**
      * Write code.
      * 
      * @param codes

@@ -141,7 +141,6 @@ class InstanceOfTest extends CodeVerifier {
         verify(new Code.Boolean() {
 
             @Override
-            @SuppressWarnings("null")
             public boolean run() {
                 String value = null;
                 return value instanceof String;
@@ -154,7 +153,6 @@ class InstanceOfTest extends CodeVerifier {
         verify(new Code.Boolean() {
 
             @Override
-            @SuppressWarnings("null")
             public boolean run() {
                 ArrayList value = null;
                 return value instanceof ArrayList;
@@ -167,7 +165,6 @@ class InstanceOfTest extends CodeVerifier {
         verify(new Code.Boolean() {
 
             @Override
-            @SuppressWarnings("null")
             public boolean run() {
                 List value = null;
                 return value instanceof List;
