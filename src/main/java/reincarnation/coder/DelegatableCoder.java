@@ -37,24 +37,9 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * @param coder A delegator.
      */
     protected DelegatableCoder(Coder<O> coder) {
+        super(coder.appendable);
         this.coder = Objects.requireNonNull(coder);
         this.indentSize = coder.indentSize;
-    }
-
-    /**
-     * Write code.
-     * 
-     * @param codes
-     */
-    @Override
-    public void write(Object... codes) {
-        for (Object code : codes) {
-            if (code instanceof Code) {
-                ((Code) code).write(this);
-            } else {
-                coder.write(code);
-            }
-        }
     }
 
     /**

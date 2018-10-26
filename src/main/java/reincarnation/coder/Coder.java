@@ -51,8 +51,6 @@ public abstract class Coder<O extends CodingOption> {
     /** The coding options. */
     protected O options;
 
-    protected Coder coder;
-
     /**
      * Create {@link Coder}.
      */
@@ -68,7 +66,6 @@ public abstract class Coder<O extends CodingOption> {
     protected Coder(Appendable appendable) {
         this.appendable = appendable;
         this.options = I.make((Class<O>) Model.collectParameters(getClass(), Coder.class)[0]);
-        this.coder = this;
     }
 
     /**
@@ -181,11 +178,11 @@ public abstract class Coder<O extends CodingOption> {
      * 
      * @param codes
      */
-    public void write(Object... codes) {
+    protected final void write(Object... codes) {
         try {
             for (Object code : codes) {
                 if (code instanceof Code) {
-                    ((Code) code).write(coder);
+                    ((Code) code).write(this);
                 } else {
                     appendable.append(String.valueOf(code));
                 }
@@ -200,7 +197,7 @@ public abstract class Coder<O extends CodingOption> {
      * 
      * @param codes
      */
-    public final void line(Object... codes) {
+    protected final void line(Object... codes) {
         if (codes.length != 0) {
             write(options.indentChar.repeat(indentSize));
             write(codes);
@@ -226,7 +223,7 @@ public abstract class Coder<O extends CodingOption> {
      */
     protected final void indent(Consumer<Coder> inner) {
         indentSize++;
-        inner.accept(coder);
+        inner.accept(this);
         indentSize--;
     }
 
