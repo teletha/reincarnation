@@ -110,9 +110,7 @@ public abstract class Operand implements Code {
     }
 
     /**
-     * <p>
-     * Enclose this operand.
-     * </p>
+     * Enclose myself.
      * 
      * @return A disclosed operand.
      */

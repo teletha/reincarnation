@@ -495,13 +495,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         if (third instanceof OperandCondition) {
             Operand first = current.peek(0);
-
             // if (first == Node.END) {
             // return;
             // }
 
             Operand second = current.peek(1);
-
+            System.out.println(first + "  " + second + "   " + third);
             // if (second == Node.END) {
             // return;
             // }

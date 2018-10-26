@@ -52,6 +52,14 @@ class OperandEnclose extends Operand {
      * {@inheritDoc}
      */
     @Override
+    Operand encolose() {
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     Operand disclose() {
         return value;
     }

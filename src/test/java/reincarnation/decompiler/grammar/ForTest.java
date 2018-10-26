@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/26 16:10:31
@@ -125,6 +126,7 @@ class ForTest extends CodeVerifier {
     void breakNoLabel() {
         verify(new Code.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 8, to = 10) int value) {
                 for (int i = 0; i < 3; i++) {
