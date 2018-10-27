@@ -9,6 +9,7 @@
  */
 package reincarnation.decompiler.grammar;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
@@ -18,6 +19,7 @@ import reincarnation.Debuggable;
 /**
  * @version 2018/10/26 16:10:31
  */
+@Disabled
 class ForTest extends CodeVerifier {
 
     @Test

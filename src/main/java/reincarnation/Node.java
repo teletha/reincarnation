@@ -638,6 +638,9 @@ class Node implements Code {
                 // do while or normal
                 if (backs == 0) {
                     // normal node with follower
+                    Debugger.print("=================");
+                    Debugger.print(this);
+                    Debugger.print(outgoing.get(0));
                     buildNode(coder);
                     process(outgoing.get(0), coder);
                 } else if (backs == 1) {
@@ -1166,8 +1169,21 @@ class Node implements Code {
         process(follow, coder);
     }
 
-    private void detectBreakOrContinue(Node next) {
+    /**
+     * <p>
+     * Detect a node relationship between this node and the next node.
+     * </p>
+     * 
+     * @param next A next node to write.
+     * @param buffer A script code buffer.
+     */
+    private void process(Node next, Coder coder) {
         if (next != null) {
+            next.currentCalls++;
+
+            // count a number of required write call
+            int requiredCalls = next.incoming.size() - next.backedges.size() + next.additionalCalls;
+
             LoopStructure loop = next.loops.peekLast();
 
             if (loop != null) {
@@ -1202,27 +1218,6 @@ class Node implements Code {
                     return;
                 }
             }
-        }
-    }
-
-    /**
-     * <p>
-     * Detect a node relationship between this node and the next node.
-     * </p>
-     * 
-     * @param next A next node to write.
-     * @param buffer A script code buffer.
-     */
-    private void process(Node next, Coder coder) {
-        if (next != null) {
-            next.currentCalls++;
-
-            // count a number of required write call
-            int requiredCalls = next.incoming.size() - next.backedges.size() + next.additionalCalls;
-
-            detectBreakOrContinue(next);
-
-            LoopStructure loop = next.loops.peekLast();
 
             if (Debugger.isEnable()) {
                 addComment(id + " -> " + next.id + " (" + next.currentCalls + " of " + requiredCalls + ") " + (loop != null ? loop : ""));
