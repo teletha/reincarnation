@@ -21,6 +21,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.github.javaparser.ast.stmt.ForStmt;
+
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
@@ -1164,6 +1166,45 @@ class Node implements Code {
         process(follow, coder);
     }
 
+    private void detectBreakOrContinue(Node next) {
+        if (next != null) {
+            LoopStructure loop = next.loops.peekLast();
+
+            if (loop != null) {
+                // continue
+                if (loop.hasHeader(next) && hasDominator(loop.entrance)) {
+                    String label = loop.computeLabelFor(next);
+
+                    if (label != null || continueOmittable == null || !continueOmittable) {
+                        OperandContinue continuer = new OperandContinue(loop.computeLabelFor(next));
+
+                        if (Debugger.isEnable()) {
+                            continuer
+                                    .comment(id + " -> " + next.id + " continue to " + loop.entrance.id + " (" + next.currentCalls + " of " + ") " + loop);
+                        }
+                        addOperand(continuer);
+                    }
+                    return;
+                }
+
+                // break
+                if (!loop.hasHeader(this) && loop.hasExit(next) && hasDominator(loop.entrance)) {
+                    // check whether the current node connects to the exit node directly or not
+                    if (loop.exit.incoming.contains(this)) {
+                        OperandBreak breaker = new OperandBreak(loop.computeLabelFor(next));
+
+                        if (Debugger.isEnable()) {
+                            breaker.comment(id + " -> " + next.id + " break to " + loop.entrance.id + "(" + next.currentCalls + " of " + ") " + loop);
+                        }
+                        addOperand(breaker);
+                        Debugger.print(this);
+                    }
+                    return;
+                }
+            }
+        }
+    }
+
     /**
      * <p>
      * Detect a node relationship between this node and the next node.
@@ -1179,39 +1220,9 @@ class Node implements Code {
             // count a number of required write call
             int requiredCalls = next.incoming.size() - next.backedges.size() + next.additionalCalls;
 
+            detectBreakOrContinue(next);
+
             LoopStructure loop = next.loops.peekLast();
-
-            if (loop != null) {
-                // continue
-                if (loop.hasHeader(next) && hasDominator(loop.entrance)) {
-                    String label = loop.computeLabelFor(next);
-
-                    if (label != null || continueOmittable == null || !continueOmittable) {
-                        OperandContinue continuer = new OperandContinue(loop.computeLabelFor(next));
-
-                        if (Debugger.isEnable()) {
-                            continuer
-                                    .comment(id + " -> " + next.id + " continue to " + loop.entrance.id + " (" + next.currentCalls + " of " + requiredCalls + ") " + loop);
-                        }
-                        addOperand(continuer);
-                    }
-                    return;
-                }
-
-                // break
-                if (!loop.hasHeader(this) && loop.hasExit(next) && hasDominator(loop.entrance)) {
-                    // check whether the current node connects to the exit node directly or not
-                    if (loop.exit.incoming.contains(this)) {
-                        OperandBreak breaker = new OperandBreak(loop.computeLabelFor(next));
-
-                        if (Debugger.isEnable()) {
-                            breaker.comment(id + " -> " + next.id + " break to " + loop.entrance.id + "(" + next.currentCalls + " of " + requiredCalls + ") " + loop);
-                        }
-                        addOperand(breaker);
-                    }
-                    return;
-                }
-            }
 
             if (Debugger.isEnable()) {
                 addComment(id + " -> " + next.id + " (" + next.currentCalls + " of " + requiredCalls + ") " + (loop != null ? loop : ""));
@@ -1300,6 +1311,7 @@ class Node implements Code {
         if (previous.breaker) {
             previous.breaker = false;
             node.addExpression("break");
+            throw new Error("IMPLEMENT!");
         }
 
         // API definition

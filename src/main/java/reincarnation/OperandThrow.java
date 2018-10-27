@@ -44,6 +44,14 @@ public class OperandThrow extends Operand {
      * {@inheritDoc}
      */
     @Override
+    protected boolean isStatement() {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void write(Coder coder) {
         coder.writeThrow(value);
     }

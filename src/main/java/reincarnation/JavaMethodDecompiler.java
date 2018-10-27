@@ -296,8 +296,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     @Override
     public void visitEnd() {
-        Debugger.print(nodes);
-
         // Dispose all nodes which contains synchronized block.
         for (Node node : synchronizer) {
             dispose(node, true, false);
@@ -335,6 +333,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         // optimize
         removeLastEmptyReturn();
+
+        Debugger.print(nodes);
     }
 
     /**
@@ -486,6 +486,49 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
+        switch (type) {
+        case F_NEW:
+            record(FRAME_NEW);
+            break;
+
+        case F_FULL:
+            record(FRAME_FULL);
+
+            processTernaryOperator();
+            break;
+
+        case F_APPEND:
+            record(FRAME_APPEND);
+            break;
+
+        case F_CHOP:
+            record(FRAME_CHOP);
+            break;
+
+        case F_SAME:
+            record(FRAME_SAME);
+
+            if (nLocal == 0 && nStack == 0) {
+                processTernaryOperator();
+                merge(current.previous);
+            }
+            break;
+
+        case F_SAME1:
+            record(FRAME_SAME1);
+
+            if (nLocal == 0 && nStack == 1) {
+                processTernaryOperator();
+            }
+            break;
+        }
+    }
+
+    /**
      * <p>
      * Helper method to resolve ternary operator.
      * </p>
@@ -495,15 +538,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         if (third instanceof OperandCondition) {
             Operand first = current.peek(0);
-            // if (first == Node.END) {
-            // return;
-            // }
+            if (first.isStatement()) {
+                return;
+            }
 
             Operand second = current.peek(1);
-            System.out.println(first + "  " + second + "   " + third);
-            // if (second == Node.END) {
-            // return;
-            // }
+            if (second.isStatement()) {
+                return;
+            }
 
             Node right = findNodeBy(first);
             Node left = findNodeBy(second);
@@ -520,7 +562,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             // [LEFT value]
             // [label]
             // [RIGHT value]
-            boolean conditionTransition = collect(((OperandCondition) third).then).contains(right);
+            boolean conditionTransition = collectSingleNodePath(((OperandCondition) third).then).contains(right);
 
             // In ternary operator, the left node's outgoing node must not contain right node.
             // But the outgoing nodes contains right node, this sequence will be logical expression.
@@ -529,7 +571,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             // The condition node must be dominator of the left and right nodes.
             boolean dominator = left.hasDominator(condition) && right.hasDominator(condition);
 
-            // The left node must not be dominator of the right node except when condtion and left
+            // The left node must not be dominator of the right node except when condition and left
             // value are in same node.
             boolean values = condition != left && right.hasDominator(left);
 
@@ -573,7 +615,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         }
     }
 
-    private Set<Node> collect(Node node) {
+    private Set<Node> collectSingleNodePath(Node node) {
         Set<Node> nodes = new HashSet();
         nodes.add(node);
 
@@ -602,49 +644,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             }
         }
         throw new IllegalArgumentException("The operand [" + operand + "] is not found in the current context.");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
-        switch (type) {
-        case F_NEW:
-            record(FRAME_NEW);
-            break;
-
-        case F_FULL:
-            record(FRAME_FULL);
-
-            processTernaryOperator();
-            break;
-
-        case F_APPEND:
-            record(FRAME_APPEND);
-            break;
-
-        case F_CHOP:
-            record(FRAME_CHOP);
-            break;
-
-        case F_SAME:
-            record(FRAME_SAME);
-
-            if (nLocal == 0 && nStack == 0) {
-                processTernaryOperator();
-                merge(current.previous);
-            }
-            break;
-
-        case F_SAME1:
-            record(FRAME_SAME1);
-
-            if (nLocal == 0 && nStack == 1) {
-                processTernaryOperator();
-            }
-            break;
-        }
     }
 
     /**

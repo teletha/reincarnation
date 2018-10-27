@@ -126,7 +126,6 @@ class ForTest extends CodeVerifier {
     void breakNoLabel() {
         verify(new Code.IntParam() {
 
-            @Debuggable
             @Override
             public int run(@Param(from = 8, to = 10) int value) {
                 for (int i = 0; i < 3; i++) {
@@ -143,7 +142,7 @@ class ForTest extends CodeVerifier {
     }
 
     @Test
-    void breakInIf() throws Exception {
+    void breakInIf() {
         verify(new Code.IntParam() {
 
             @Override
@@ -159,9 +158,10 @@ class ForTest extends CodeVerifier {
     }
 
     @Test
-    void breakInOneLinerIf() throws Exception {
+    void breakInOneLinerIf() {
         verify(new Code.IntParam() {
 
+            @Debuggable
             @Override
             public int run(int value) {
                 for (; value < 5; value++)

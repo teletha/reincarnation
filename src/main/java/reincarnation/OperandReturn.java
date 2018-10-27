@@ -47,6 +47,14 @@ public class OperandReturn extends Operand {
      * {@inheritDoc}
      */
     @Override
+    protected boolean isStatement() {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void write(Coder coder) {
         if (value == null) {
             coder.writeReturn(Optional.empty());

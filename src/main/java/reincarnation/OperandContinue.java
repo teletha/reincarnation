@@ -34,6 +34,14 @@ class OperandContinue extends Operand {
      * {@inheritDoc}
      */
     @Override
+    protected boolean isStatement() {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void write(Coder coder) {
         coder.writeContinue(Optional.ofNullable(label));
     }

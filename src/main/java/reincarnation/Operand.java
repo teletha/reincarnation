@@ -95,6 +95,24 @@ public abstract class Operand implements Code {
     }
 
     /**
+     * Check {@link Operand} type.
+     * 
+     * @return A result.
+     */
+    protected boolean isStatement() {
+        return false;
+    }
+
+    /**
+     * Check {@link Operand} type.
+     * 
+     * @return A result.
+     */
+    protected final boolean isExpression() {
+        return !isStatement();
+    }
+
+    /**
      * <p>
      * Invert operand value if we can.
      * </p>
