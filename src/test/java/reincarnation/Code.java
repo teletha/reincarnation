@@ -61,6 +61,19 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
+    public interface ObjectParamBoolean extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @return A result.
+         */
+        boolean run(Object param);
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
     public interface Int extends Code {
 
         /**
