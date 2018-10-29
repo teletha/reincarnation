@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -31,7 +32,7 @@ public final class Join<T> implements Code {
     private String suffix = "";
 
     /** The literalizer. */
-    private Function<T, ?> converter = Function.identity();
+    private BiFunction<Integer, T, ?> converter = (i, v) -> v;
 
     /** The flag. */
     private boolean ignoreEmpty = true;
@@ -85,6 +86,16 @@ public final class Join<T> implements Code {
      * @return Chainable API.
      */
     public Join<T> converter(Function<T, ?> converter) {
+        return converter((i, v) -> converter.apply(v));
+    }
+
+    /**
+     * Set converter for last value.
+     * 
+     * @param converter A value converter.
+     * @return Chainable API.
+     */
+    public Join<T> converter(BiFunction<Integer, T, ?> converter) {
         if (converter != null) {
             this.converter = converter;
         }
@@ -151,16 +162,47 @@ public final class Join<T> implements Code {
     @Override
     public void write(Coder coder) {
         if (!ignoreEmpty || values.isEmpty() == false) {
+            int index = 0;
             coder.write(prefix);
             Iterator<T> iterator = values.iterator();
             if (iterator.hasNext()) {
-                coder.write(converter.apply(iterator.next()));
+                coder.write(converter.apply(index++, iterator.next()));
 
                 while (iterator.hasNext()) {
-                    coder.write(separator, converter.apply(iterator.next()));
+                    coder.write(separator, converter.apply(index++, iterator.next()));
                 }
             }
             coder.write(suffix);
         }
+    }
+
+    /**
+     * Create joinable code.
+     * 
+     * @param values The values to join.
+     * @return A joinable code.
+     */
+    public static final <T> Join<T> of(T... values) {
+        return new Join<T>().add(values);
+    }
+
+    /**
+     * Create joinable code.
+     * 
+     * @param values The values to join.
+     * @return A joinable code.
+     */
+    public static final <T> Join<T> of(Collection<T> values) {
+        return new Join<T>().add(values);
+    }
+
+    /**
+     * Create joinable code.
+     * 
+     * @param prefix The prefix.
+     * @return A joinable code.
+     */
+    public static final <T> Join<T> of(String prefix, Collection<T> values, String separator, String suffix) {
+        return new Join().prefix(prefix).add(values).separator(separator).suffix(suffix).ignoreEmpty(false);
     }
 }

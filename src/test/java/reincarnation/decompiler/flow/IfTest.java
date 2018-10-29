@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/28 9:15:52
@@ -382,13 +381,12 @@ public class IfTest extends CodeVerifier {
     void denyInElse() {
         verify(new Code.TextParamBoolean() {
 
-            @Debuggable
             @Override
-            public boolean run(String attrs) {
-                if (attrs == null) {
+            public boolean run(String param) {
+                if (param == null) {
                     return true;
                 } else {
-                    return !attrs.equals("");
+                    return !param.equals("");
                 }
             }
         });

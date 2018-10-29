@@ -12,6 +12,7 @@ package reincarnation.coder.java;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
@@ -150,7 +151,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         String kind;
         String extend = "";
         Join<Class> implement;
-        Join accessor = accessor(type.getModifiers());
+        Join accessor = modifier(type);
 
         if (type.isInterface()) {
             kind = "interface";
@@ -187,7 +188,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         if (current.is(Class::isInterface)) {
             // ignore, write fields in static initializer
         } else {
-            line(accessor(field.getModifiers()), name(field.getType()), space, field.getName(), ";");
+            line(modifier(field), name(field.getType()), space, field.getName(), ";");
         }
     }
 
@@ -218,10 +219,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeConstructor(Constructor c, Code code) {
-        Join<Parameter> params = join(c.getParameters()).converter(p -> name(p.getType()) + space + p.getName()).separator(", ");
-
         line();
-        line(accessor(c.getModifiers()), simpleName(c.getDeclaringClass()), "(", params, ")", space, "{");
+        line(modifier(c), simpleName(c.getDeclaringClass()), parameter(c.getParameters()), space, "{");
         indent(code::write);
         line("}");
     }
@@ -236,16 +235,34 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             return;
         }
 
-        Join<Parameter> params = join(method.getParameters()).converter(p -> name(p.getType()) + space + p.getName()).separator(", ");
-
         line();
-        if (method.isSynthetic()) {
-            line(accessor(method.getModifiers()), name(method.getReturnType()), space, method.getName(), "(", params, ")", space, "{");
-        } else {
-            line(accessor(method.getModifiers()), name(method.getReturnType()), space, method.getName(), "(", params, ")", space, "{");
-        }
+        line(modifier(method), name(method.getReturnType()), space, method.getName(), parameter(method.getParameters()), space, "{");
         indent(code::write);
         line("}");
+    }
+
+    /**
+     * Build parameter types.
+     * 
+     * @param parameters
+     * @return
+     */
+    private Join parameter(Parameter[] parameters) {
+        return Join.of(parameters).prefix("(").suffix(")").ignoreEmpty(false).separator("," + space).converter(p -> {
+            StringBuilder builder = new StringBuilder();
+            if (Modifier.isFinal(p.getModifiers())) {
+                builder.append("final ");
+            }
+
+            if (p.isVarArgs()) {
+                builder.append(name(p.getType().getComponentType())).append("... ");
+            } else {
+                builder.append(name(p.getType())).append(" ");
+            }
+            builder.append(p.getName());
+
+            return builder.toString();
+        });
     }
 
     /**
@@ -681,7 +698,37 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param modifier
      * @return
      */
-    private Join accessor(int modifier) {
+    private Join modifier(Class member) {
+        return modifier(member.getModifiers(), member);
+    }
+
+    /**
+     * Accessor keyword.
+     * 
+     * @param modifier
+     * @return
+     */
+    private Join modifier(Parameter member) {
+        return modifier(member.getModifiers(), member);
+    }
+
+    /**
+     * Accessor keyword.
+     * 
+     * @param modifier
+     * @return
+     */
+    private Join modifier(Member member) {
+        return modifier(member.getModifiers(), member);
+    }
+
+    /**
+     * Accessor keyword.
+     * 
+     * @param modifier
+     * @return
+     */
+    private Join modifier(int modifier, Object type) {
         Join joiner = new Join().separator(" ").suffix(" ");
 
         if (Modifier.isPublic(modifier)) {
@@ -704,14 +751,16 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             joiner.add("native");
         }
 
-        if (Modifier.isStrict(modifier)) {
-            joiner.add("strict");
-        }
-        if (Modifier.isTransient(modifier)) {
-            joiner.add("transient");
-        }
-        if (Modifier.isVolatile(modifier)) {
-            joiner.add("volatile");
+        if (type == Field.class) {
+            if (Modifier.isStrict(modifier)) {
+                joiner.add("strictfp");
+            }
+            if (Modifier.isTransient(modifier)) {
+                joiner.add("transient");
+            }
+            if (Modifier.isVolatile(modifier)) {
+                joiner.add("volatile");
+            }
         }
         return joiner;
     }

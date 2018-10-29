@@ -51,6 +51,8 @@ class OperandMethodCall extends Operand {
         this.method = find(ownerType, methodName, parameterTypes);
         this.owner = owner;
         this.params = parameters;
+
+        fix(method.getReturnType());
     }
 
     /**
