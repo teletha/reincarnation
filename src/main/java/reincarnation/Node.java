@@ -638,9 +638,6 @@ class Node implements Code {
                 // do while or normal
                 if (backs == 0) {
                     // normal node with follower
-                    Debugger.print("=================");
-                    Debugger.print(this);
-                    Debugger.print(outgoing.get(0));
                     buildNode(coder);
                     process(outgoing.get(0), coder);
                 } else if (backs == 1) {
@@ -650,7 +647,7 @@ class Node implements Code {
                     if (backedges.get(0).outgoing.size() == 2) {
                         if (group.exit == null) {
                             // do while
-                            // writeDoWhile(buffer);
+                            writeDoWhile(coder);
                         } else {
                             // infinit loop
                             // writeInfiniteLoop1(group, buffer);
@@ -972,17 +969,14 @@ class Node implements Code {
     }
 
     /**
-     * <p>
      * Write do-while structure.
-     * </p>
      * 
-     * @param buffer
+     * @param coder
      */
-    private void writeDoWhile(ScriptWriter buffer) {
+    private void writeDoWhile(Coder coder) {
         // setup condition expression node
         Node condition = backedges.remove(0);
-
-        condition.written = true;
+        // condition.written = true;
 
         Node exit;
 
@@ -992,17 +986,26 @@ class Node implements Code {
             exit = condition.outgoing.get(0);
         }
 
-        LoopStructure loop = new LoopStructure(this, outgoing.get(0), exit, condition, buffer);
-
-        // write script fragment
-        buffer.write("do", "{");
-        breakables.add(loop);
-        buffer.append(this);
-        process(outgoing.get(0), buffer);
-        breakables.removeLast();
-        buffer.write("}", "while", "(" + condition + ")");
+        LoopStructure loop = new LoopStructure(this, outgoing.get(0), exit, condition, coder);
+        System.out.println(condition);
+        System.out.println(outgoing);
+        // write code fragment
+        coder.writeDoWhile(condition, () -> {
+            breakables.add(loop);
+            process(outgoing.get(0), coder);
+            breakables.removeLast();
+        });
         loop.writeRequiredLabel();
-        condition.process(exit, buffer);
+        process(exit, coder);
+
+        // buffer.write("do", "{");
+        // breakables.add(loop);
+        // buffer.append(this);
+        // process(outgoing.get(0), buffer);
+        // breakables.removeLast();
+        // buffer.write("}", "while", "(" + condition + ")");
+        // loop.writeRequiredLabel();
+        // condition.process(exit, buffer);
     }
 
     /**

@@ -418,4 +418,12 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
         coder.writeWhile(condition, inner);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeDoWhile(Code condition, Runnable inner) {
+        coder.writeDoWhile(condition, inner);
+    }
+
 }

@@ -90,26 +90,6 @@ public abstract class Coder<O extends CodingOption> {
     /**
      * Create joinable code.
      * 
-     * @param values The values to join.
-     * @return A joinable code.
-     */
-    protected final <T> Join<T> join(T... values) {
-        return new Join<T>().add(values);
-    }
-
-    /**
-     * Create joinable code.
-     * 
-     * @param values The values to join.
-     * @return A joinable code.
-     */
-    protected final <T> Join<T> join(Collection<T> values) {
-        return new Join<T>().add(values);
-    }
-
-    /**
-     * Create joinable code.
-     * 
      * @param prefix The prefix.
      * @return A joinable code.
      */
@@ -548,4 +528,11 @@ public abstract class Coder<O extends CodingOption> {
      */
     public abstract void writeWhile(Code condition, Runnable inner);
 
+    /**
+     * Do-While statement.
+     * 
+     * @param condition A condition.
+     * @param inner A inner contents.
+     */
+    public abstract void writeDoWhile(Code condition, Runnable inner);
 }

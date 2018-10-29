@@ -43,6 +43,9 @@ class OperandConstructorCall extends Operand {
             this.params = parameters;
 
             fix(ownerType);
+            for (int i = 0; i < parameterTypes.length; i++) {
+                parameters.get(i).fix(parameterTypes[i]);
+            }
         } catch (Exception e) {
             throw I.quiet(e);
         }

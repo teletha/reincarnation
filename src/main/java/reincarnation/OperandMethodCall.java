@@ -53,6 +53,9 @@ class OperandMethodCall extends Operand {
         this.params = parameters;
 
         fix(method.getReturnType());
+        for (int i = 0; i < parameterTypes.length; i++) {
+            parameters.get(i).fix(parameterTypes[i]);
+        }
     }
 
     /**

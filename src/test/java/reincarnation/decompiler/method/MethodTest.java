@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/23 15:31:37
@@ -170,7 +169,6 @@ class MethodTest extends CodeVerifier {
             return compute(value, value + 1, value + 2);
         }
 
-        @Debuggable
         private int compute(int... values) {
             int i = 0;
 

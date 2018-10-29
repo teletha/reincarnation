@@ -155,15 +155,15 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         if (type.isInterface()) {
             kind = "interface";
-            implement = join(type.getInterfaces()).prefix(" extends ").converter(this::name);
+            implement = Join.of(type.getInterfaces()).prefix(" extends ").converter(this::name);
             accessor.remove("static", "abstract");
         } else if (type.isEnum()) {
             kind = "enum";
-            implement = join(type.getInterfaces()).prefix(" implements ").converter(this::name);
+            implement = Join.of(type.getInterfaces()).prefix(" implements ").converter(this::name);
         } else {
             kind = "class";
             extend = type.getSuperclass() == Object.class ? "" : " extends " + name(type.getSuperclass());
-            implement = join(type.getInterfaces()).prefix(" implements ").converter(this::name);
+            implement = Join.of(type.getInterfaces()).prefix(" implements ").converter(this::name);
         }
 
         line();
@@ -657,7 +657,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeFor(Code initialize, Code condition, List<Code> updater, Runnable inner) {
-        line("for", space, "(", initialize, ";", condition, ";", join(updater).separator(","), ")", space, "{");
+        line("for", space, "(", initialize, ";", condition, ";", Join.of(updater).separator(","), ")", space, "{");
         indent(inner);
         line("}");
     }
@@ -670,6 +670,16 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         line("while", space, "(", condition, ")", space, "{");
         indent(inner);
         line("}");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeDoWhile(Code condition, Runnable inner) {
+        line("do", space, "{");
+        indent(inner);
+        line("}", space, "while", space, "(", condition, ")");
     }
 
     /**

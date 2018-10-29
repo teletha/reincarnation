@@ -19,7 +19,6 @@ import reincarnation.Debuggable;
 /**
  * @version 2018/10/26 16:10:31
  */
-@Disabled
 class ForTest extends CodeVerifier {
 
     @Test
@@ -174,6 +173,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void continueNoLabel() {
         verify(new Code.IntParam() {
@@ -193,6 +193,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void continueNest() throws Exception {
         verify(new Code.IntParam() {
@@ -213,6 +214,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void continueMultiple() throws Exception {
         verify(new Code.IntParam() {
@@ -238,6 +240,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void continueInIf() throws Exception {
         verify(new Code.IntParam() {
@@ -255,6 +258,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void continueInShorthandIf() throws Exception {
         verify(new Code.IntParam() {
@@ -270,6 +274,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void continueInLogicalIf() throws Exception {
         verify(new Code.IntParam() {
@@ -287,6 +292,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void returnNest() throws Exception {
         verify(new Code.IntParam() {
@@ -307,6 +313,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void continueWithLogicalExpressionFail() throws Exception {
         verify(new Code.IntParam() {
@@ -327,6 +334,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void continueWithLogicalExpressionAndAfterProcess() throws Exception {
         verify(new Code.IntParam() {
@@ -346,6 +354,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void continueWithLogicalExpression() throws Exception {
         verify(new Code.IntParam() {
@@ -365,6 +374,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void returnInNest() throws Exception {
         verify(new Code.IntParam() {
@@ -387,6 +397,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void complex() throws Exception {
         verify(new Code.IntParam() {
@@ -408,6 +419,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void infinite() throws Exception {
         verify(new Code.IntParam() {
@@ -431,6 +443,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void infiniteLikeFor() throws Exception {
         verify(new Code.IntParam() {
@@ -451,6 +464,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void infiniteLikeWhile() throws Exception {
         verify(new Code.IntParam() {
@@ -472,6 +486,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void infiniteWithWhile() throws Exception {
         verify(new Code.IntParam() {
@@ -495,6 +510,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void infiniteWithWhileNodes() throws Exception {
         verify(new Code.IntParam() {
@@ -518,6 +534,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void infiniteIfReturn() throws Exception {
         verify(new Code.IntParam() {
@@ -538,6 +555,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
+    @Disabled
     @Test
     void infiniteIfElse() throws Exception {
         verify(new Code.IntParam() {
