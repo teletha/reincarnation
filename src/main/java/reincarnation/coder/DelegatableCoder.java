@@ -398,8 +398,8 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeIf(Code condition, Code then, Code elze) {
-        coder.writeIf(condition, then, elze);
+    public void writeIf(Code condition, Code then, Code elze, Code follow) {
+        coder.writeIf(condition, then, elze, follow);
     }
 
     /**

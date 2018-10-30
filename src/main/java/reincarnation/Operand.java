@@ -99,7 +99,7 @@ public abstract class Operand implements Code {
      * 
      * @return A result.
      */
-    protected boolean isStatement() {
+    public boolean isStatement() {
         return false;
     }
 
@@ -108,7 +108,7 @@ public abstract class Operand implements Code {
      * 
      * @return A result.
      */
-    protected final boolean isExpression() {
+    public final boolean isExpression() {
         return !isStatement();
     }
 

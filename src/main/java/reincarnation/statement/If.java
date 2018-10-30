@@ -7,14 +7,16 @@
  *
  *          https://opensource.org/licenses/MIT
  */
-package reincarnation;
+package reincarnation.statement;
 
+import reincarnation.Node;
+import reincarnation.Operand;
 import reincarnation.coder.Coder;
 
 /**
  * @version 2018/10/27 21:55:57
  */
-public class OperandIf extends Operand {
+public class If extends Statement {
 
     /** The code. */
     private final Operand condition;
@@ -25,6 +27,9 @@ public class OperandIf extends Operand {
     /** The code. */
     private final Node elze;
 
+    /** The following. */
+    private final Node follow;
+
     /**
      * If statement.
      * 
@@ -32,18 +37,11 @@ public class OperandIf extends Operand {
      * @param then
      * @param elze
      */
-    OperandIf(Operand condition, Node then, Node elze) {
+    public If(Operand condition, Node then, Node elze, Node follow) {
         this.condition = condition;
         this.then = then;
         this.elze = elze;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected boolean isStatement() {
-        return true;
+        this.follow = follow;
     }
 
     /**
@@ -51,6 +49,6 @@ public class OperandIf extends Operand {
      */
     @Override
     public void write(Coder coder) {
-        coder.writeIf(condition, then, elze);
+        coder.writeIf(condition, then, elze, follow);
     }
 }

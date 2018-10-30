@@ -507,8 +507,9 @@ public abstract class Coder<O extends CodingOption> {
      * @param condition A condition.
      * @param then A then part.
      * @param elze A else part. (maybe null)
+     * @param follow TODO
      */
-    public abstract void writeIf(Code condition, Code then, Code elze);
+    public abstract void writeIf(Code condition, Code then, Code elze, Code follow);
 
     /**
      * For statement.

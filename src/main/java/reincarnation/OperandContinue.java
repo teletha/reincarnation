@@ -34,7 +34,7 @@ class OperandContinue extends Operand {
      * {@inheritDoc}
      */
     @Override
-    protected boolean isStatement() {
+    public boolean isStatement() {
         return true;
     }
 

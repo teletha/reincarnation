@@ -26,11 +26,15 @@ import com.github.javaparser.ast.stmt.ForStmt;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
+import reincarnation.statement.Following;
+import reincarnation.statement.If;
+import reincarnation.statement.OperandStatement;
+import reincarnation.statement.Statement;
 
 /**
  * @version 2018/10/13 17:07:31
  */
-class Node implements Code {
+public class Node implements Code {
 
     /** The representation of node termination. */
     static final Node Termination = new Node("T");
@@ -109,6 +113,8 @@ class Node implements Code {
 
     /** The comment for node. */
     private String comment;
+
+    private LinkedList<Statement> statements = new LinkedList();
 
     /**
      * @param label
@@ -581,6 +587,16 @@ class Node implements Code {
         if (!written) {
             written = true;
 
+            for (Statement operand : statements) {
+                operand.write(coder);
+            }
+        }
+    }
+
+    public void analyze() {
+        if (!written) {
+            written = true;
+
             // =============================================================
             // Switch Block
             // =============================================================
@@ -633,13 +649,16 @@ class Node implements Code {
 
             if (outs == 0) {
                 // end node
-                buildNode(coder);
+                buildNode();
             } else if (outs == 1) {
                 // do while or normal
                 if (backs == 0) {
                     // normal node with follower
-                    buildNode(coder);
-                    process(outgoing.get(0), coder);
+                    buildNode();
+                    Node next = process(outgoing.get(0));
+                    if (next != null) {
+                        statements.add(new Following(this, next));
+                    }
                 } else if (backs == 1) {
                     // do while or infinite loop
                     BackedgeGroup group = new BackedgeGroup(this);
@@ -647,7 +666,7 @@ class Node implements Code {
                     if (backedges.get(0).outgoing.size() == 2) {
                         if (group.exit == null) {
                             // do while
-                            writeDoWhile(coder);
+                            // writeDoWhile(coder);
                         } else {
                             // infinit loop
                             // writeInfiniteLoop1(group, buffer);
@@ -663,11 +682,11 @@ class Node implements Code {
             } else if (outs == 2) {
                 // while, for or if
                 if (backs == 0) {
-                    writeIf(coder);
+                    writeIf();
                 } else if (backs == 1 && backedges.get(0).outgoing.size() == 1) {
-                    writeFor(coder);
+                    // writeFor(coder);
                 } else {
-                    writeWhile(coder);
+                    // writeWhile(coder);
                 }
             }
 
@@ -720,9 +739,9 @@ class Node implements Code {
         }
     }
 
-    private void buildNode(Coder coder) {
+    private void buildNode() {
         for (Operand operand : stack) {
-            coder.writeStatement(operand);
+            statements.add(new OperandStatement(operand));
         }
     }
 
@@ -942,30 +961,22 @@ class Node implements Code {
      * @param coder
      */
     private void writeWhile(Coder coder) {
-        Node[] nodes = detectProcessAndExit();
-
-        if (nodes == null) {
-            writeInfiniteLoop(coder);
-        } else {
-            LoopStructure loop = new LoopStructure(this, nodes[0], nodes[1], this, coder);
-
-            // write code fragment
-            coder.writeWhile(code(this), () -> {
-                breakables.add(loop);
-                process(nodes[0], coder);
-                breakables.removeLast();
-            });
-            loop.writeRequiredLabel();
-            process(nodes[1], coder);
-
-            // buffer.write("while", "(" + this + ")", "{");
-            // breakables.add(loop);
-            // process(nodes[0], buffer);
-            // breakables.removeLast();
-            // buffer.write("}").line();
-            // loop.writeRequiredLabel();
-            // process(nodes[1], buffer);
-        }
+        // Node[] nodes = detectProcessAndExit();
+        //
+        // if (nodes == null) {
+        // writeInfiniteLoop(coder);
+        // } else {
+        // LoopStructure loop = new LoopStructure(this, nodes[0], nodes[1], this, coder);
+        //
+        // // write code fragment
+        // coder.writeWhile(code(this), () -> {
+        // breakables.add(loop);
+        // process(nodes[0], coder);
+        // breakables.removeLast();
+        // });
+        // loop.writeRequiredLabel();
+        // process(nodes[1], coder);
+        // }
     }
 
     /**
@@ -974,75 +985,58 @@ class Node implements Code {
      * @param coder
      */
     private void writeDoWhile(Coder coder) {
-        // setup condition expression node
-        Node condition = backedges.remove(0);
-        // condition.written = true;
-
-        Node exit;
-
-        if (condition.outgoing.get(0) == this) {
-            exit = condition.outgoing.get(1);
-        } else {
-            exit = condition.outgoing.get(0);
-        }
-
-        LoopStructure loop = new LoopStructure(this, outgoing.get(0), exit, condition, coder);
-        System.out.println(condition);
-        System.out.println(outgoing);
-        // write code fragment
-        coder.writeDoWhile(condition, () -> {
-            breakables.add(loop);
-            process(outgoing.get(0), coder);
-            breakables.removeLast();
-        });
-        loop.writeRequiredLabel();
-        process(exit, coder);
-
-        // buffer.write("do", "{");
+        // // setup condition expression node
+        // Node condition = backedges.remove(0);
+        // // condition.written = true;
+        //
+        // Node exit;
+        // Node inner;
+        //
+        // if (condition.outgoing.get(0) == this) {
+        // exit = condition.outgoing.get(1);
+        // inner = condition.outgoing.get(0);
+        // } else {
+        // exit = condition.outgoing.get(0);
+        // inner = condition.outgoing.get(1);
+        // }
+        //
+        // LoopStructure loop = new LoopStructure(this, outgoing.get(0), exit, condition, coder);
+        //
+        // // write code fragment
+        // coder.writeDoWhile(code(condition), () -> {
         // breakables.add(loop);
-        // buffer.append(this);
-        // process(outgoing.get(0), buffer);
+        // process(inner, coder);
         // breakables.removeLast();
-        // buffer.write("}", "while", "(" + condition + ")");
+        // });
         // loop.writeRequiredLabel();
-        // condition.process(exit, buffer);
+        // process(exit, coder);
     }
 
     /**
      * Write for structure.
-     * 
-     * @param coder
      */
-    private void writeFor(Coder coder) {
+    private void writeFor() {
         Node[] nodes = detectProcessAndExit();
 
         if (nodes == null) {
             // writeInfiniteLoop(coder);
         } else {
-            // setup update expression node
-            Node update = backedges.get(0);
-            update.written = true;
-
-            LoopStructure loop = new LoopStructure(this, nodes[0], nodes[1], update, coder);
-
-            // write code fragment
-            written = false;
-
-            coder.writeFor(null, code(this), update.stack, () -> {
-                breakables.add(loop);
-                process(nodes[0], coder);
-                breakables.removeLast();
-            });
-            loop.writeRequiredLabel();
-            process(nodes[1], coder);
-
-            // buffer.write("for", "(;", this + ";", update + ")", "{");
+            // // setup update expression node
+            // Node update = backedges.get(0);
+            // update.written = true;
+            //
+            // LoopStructure loop = new LoopStructure(this, nodes[0], nodes[1], update, coder);
+            //
+            // // write code fragment
+            // written = false;
+            //
+            // coder.writeFor(null, code(this), update.stack, () -> {
             // breakables.add(loop);
-            // process(nodes[0], buffer);
+            // process(nodes[0], coder);
             // breakables.removeLast();
-            // buffer.write("}").line();
+            // });
             // loop.writeRequiredLabel();
-            // process(nodes[1], buffer);
+            // process(nodes[1], coder);
         }
     }
 
@@ -1061,7 +1055,7 @@ class Node implements Code {
      * 
      * @param coder
      */
-    private void writeIf(Coder coder) {
+    private void writeIf() {
         OperandCondition condition = (OperandCondition) stack.peekLast();
 
         Node then = null;
@@ -1167,9 +1161,10 @@ class Node implements Code {
             }
         }
 
-        // write code fragment
-        coder.writeIf(condition, then, elze);
-        process(follow, coder);
+        process(then);
+        process(elze);
+        process(follow);
+        statements.add(new If(condition, then, elze, follow));
     }
 
     /**
@@ -1178,9 +1173,8 @@ class Node implements Code {
      * </p>
      * 
      * @param next A next node to write.
-     * @param buffer A script code buffer.
      */
-    private void process(Node next, Coder coder) {
+    private Node process(Node next) {
         if (next != null) {
             next.currentCalls++;
 
@@ -1203,7 +1197,7 @@ class Node implements Code {
                         }
                         addOperand(continuer);
                     }
-                    return;
+                    return null;
                 }
 
                 // break
@@ -1218,7 +1212,7 @@ class Node implements Code {
                         addOperand(breaker);
                         Debugger.print(this);
                     }
-                    return;
+                    return null;
                 }
             }
 
@@ -1235,11 +1229,14 @@ class Node implements Code {
                     if (next.continueOmittable == null) next.continueOmittable = continueOmittable;
                     if (!returnOmittable) next.returnOmittable = false;
 
+                    Debugger.print("process " + id + " to  " + next.id);
                     // process next node
-                    next.write(coder);
+                    next.analyze();
+                    return next;
                 }
             }
         }
+        return null;
     }
 
     /**
