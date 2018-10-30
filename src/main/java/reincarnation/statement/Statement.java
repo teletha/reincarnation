@@ -9,10 +9,44 @@
  */
 package reincarnation.statement;
 
+import java.util.Optional;
+
+import reincarnation.Node;
 import reincarnation.coder.Code;
 
 /**
  * @version 2018/10/30 11:06:40
  */
 public abstract class Statement implements Code {
+
+    /** The comment. */
+    private String comment;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final Optional<String> comment() {
+        return Optional.ofNullable(comment);
+    }
+
+    /**
+     * Set comment.
+     * 
+     * @param comment A comment.
+     */
+    public final void comment(String comment) {
+        this.comment = comment;
+    }
+
+    /**
+     * Convert to {@link Code}.
+     * 
+     * @param node
+     * @return
+     */
+    protected final Code code(Node node) {
+        return coder -> {
+        };
+    }
 }

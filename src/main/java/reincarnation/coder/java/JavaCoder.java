@@ -620,7 +620,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeBreak(Optional<String> label) {
-        write("break", label.map(v -> " " + v));
+        line("break", label.map(v -> " " + v), ";");
     }
 
     /**
@@ -628,7 +628,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeContinue(Optional<String> label) {
-        write("continue", label.map(v -> " " + v));
+        line("continue", label.map(v -> " " + v), ";");
     }
 
     /**
@@ -657,27 +657,29 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeFor(Code initialize, Code condition, List<Code> updater, Runnable inner) {
+    public void writeFor(Code initialize, Code condition, List<Code> updater, Runnable inner, Code follow) {
         line("for", space, "(", initialize, ";", condition, ";", Join.of(updater).separator(","), ")", space, "{");
         indent(inner);
         line("}");
+        write(follow);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void writeWhile(Code condition, Runnable inner) {
+    public void writeWhile(Code condition, Runnable inner, Code follow) {
         line("while", space, "(", condition, ")", space, "{");
         indent(inner);
         line("}");
+        write(follow);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void writeDoWhile(Code condition, Runnable inner) {
+    public void writeDoWhile(Code condition, Runnable inner, Code follow) {
         line("do", space, "{");
         indent(inner);
         line("}", space, "while", space, "(", condition, ")");

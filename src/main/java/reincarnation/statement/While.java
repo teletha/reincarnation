@@ -14,24 +14,28 @@ import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/30 23:27:11
+ * @version 2018/10/27 21:55:57
  */
-public class Following extends Statement {
+public class While extends Statement {
 
     /** The code. */
-    private final Code now;
+    private final Code condition;
+
+    /** The code. */
+    private final Node inner;
 
     /** The following. */
     private final Node follow;
 
     /**
-     * Statement.
+     * While statement.
      * 
-     * @param now
-     * @param follow
+     * @param inner
+     * @param elze
      */
-    public Following(Code now, Node follow) {
-        this.now = now;
+    public While(Code condition, Node inner, Node follow) {
+        this.condition = condition;
+        this.inner = inner;
         this.follow = follow;
     }
 
@@ -40,7 +44,10 @@ public class Following extends Statement {
      */
     @Override
     public void write(Coder coder) {
-        if (now != null) now.write(coder);
-        if (follow != null) follow.write(coder);
+        coder.writeWhile(condition, () -> {
+            if (inner != null) {
+                inner.write(coder);
+            }
+        }, follow);
     }
 }

@@ -21,18 +21,19 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.github.javaparser.ast.stmt.ForStmt;
-
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
+import reincarnation.statement.Break;
 import reincarnation.statement.Following;
+import reincarnation.statement.For;
 import reincarnation.statement.If;
 import reincarnation.statement.OperandStatement;
 import reincarnation.statement.Statement;
+import reincarnation.statement.While;
 
 /**
- * @version 2018/10/13 17:07:31
+ * @version 2018/10/31 1:32:16
  */
 public class Node implements Code {
 
@@ -587,8 +588,8 @@ public class Node implements Code {
         if (!written) {
             written = true;
 
-            for (Statement operand : statements) {
-                operand.write(coder);
+            for (Statement statement : statements) {
+                statement.write(coder);
             }
         }
     }
@@ -649,16 +650,12 @@ public class Node implements Code {
 
             if (outs == 0) {
                 // end node
-                buildNode();
+                statements.add(new Following(code(this), null));
             } else if (outs == 1) {
                 // do while or normal
                 if (backs == 0) {
                     // normal node with follower
-                    buildNode();
-                    Node next = process(outgoing.get(0));
-                    if (next != null) {
-                        statements.add(new Following(this, next));
-                    }
+                    statements.add(new Following(code(this), process(outgoing.get(0))));
                 } else if (backs == 1) {
                     // do while or infinite loop
                     BackedgeGroup group = new BackedgeGroup(this);
@@ -684,9 +681,9 @@ public class Node implements Code {
                 if (backs == 0) {
                     writeIf();
                 } else if (backs == 1 && backedges.get(0).outgoing.size() == 1) {
-                    // writeFor(coder);
+                    writeFor();
                 } else {
-                    // writeWhile(coder);
+                    writeWhile();
                 }
             }
 
@@ -960,23 +957,19 @@ public class Node implements Code {
      * 
      * @param coder
      */
-    private void writeWhile(Coder coder) {
-        // Node[] nodes = detectProcessAndExit();
-        //
-        // if (nodes == null) {
-        // writeInfiniteLoop(coder);
-        // } else {
-        // LoopStructure loop = new LoopStructure(this, nodes[0], nodes[1], this, coder);
-        //
-        // // write code fragment
-        // coder.writeWhile(code(this), () -> {
-        // breakables.add(loop);
-        // process(nodes[0], coder);
-        // breakables.removeLast();
-        // });
-        // loop.writeRequiredLabel();
-        // process(nodes[1], coder);
-        // }
+    private void writeWhile() {
+        Node[] nodes = detectProcessAndExit();
+
+        if (nodes == null) {
+            // writeInfiniteLoop();
+        } else {
+            LoopStructure loop = new LoopStructure(this, nodes[0], nodes[1], this);
+
+            // write code fragment
+            breakables.add(loop);
+            statements.add(new While(peek(0), process(nodes[0]), process(nodes[1])));
+            breakables.removeLast();
+        }
     }
 
     /**
@@ -1021,29 +1014,25 @@ public class Node implements Code {
         if (nodes == null) {
             // writeInfiniteLoop(coder);
         } else {
-            // // setup update expression node
-            // Node update = backedges.get(0);
-            // update.written = true;
-            //
-            // LoopStructure loop = new LoopStructure(this, nodes[0], nodes[1], update, coder);
-            //
-            // // write code fragment
-            // written = false;
-            //
-            // coder.writeFor(null, code(this), update.stack, () -> {
-            // breakables.add(loop);
-            // process(nodes[0], coder);
-            // breakables.removeLast();
-            // });
-            // loop.writeRequiredLabel();
-            // process(nodes[1], coder);
+            // setup update expression node
+            Node update = backedges.get(0);
+
+            LoopStructure loop = new LoopStructure(this, nodes[0], nodes[1], update);
+
+            breakables.add(loop);
+            statements.add(new For(null, peek(0), update.stack, process(nodes[0]), process(nodes[1])));
+            breakables.removeLast();
         }
     }
 
     private Code code(Node node) {
         return coder -> {
             for (Operand operand : node.stack) {
-                operand.write(coder);
+                if (operand.isExpression() || operand instanceof OperandAssign) {
+                    coder.writeStatement(operand);
+                } else {
+                    operand.write(coder);
+                }
             }
         };
     }
@@ -1161,10 +1150,7 @@ public class Node implements Code {
             }
         }
 
-        process(then);
-        process(elze);
-        process(follow);
-        statements.add(new If(condition, then, elze, follow));
+        statements.add(new If(condition, process(then), process(elze), process(follow)));
     }
 
     /**
@@ -1204,13 +1190,12 @@ public class Node implements Code {
                 if (!loop.hasHeader(this) && loop.hasExit(next) && hasDominator(loop.entrance)) {
                     // check whether the current node connects to the exit node directly or not
                     if (loop.exit.incoming.contains(this)) {
-                        OperandBreak breaker = new OperandBreak(loop.computeLabelFor(next));
+                        Break breaker = new Break(loop.computeLabelFor(next));
 
                         if (Debugger.isEnable()) {
                             breaker.comment(id + " -> " + next.id + " break to " + loop.entrance.id + "(" + next.currentCalls + " of " + ") " + loop);
                         }
-                        addOperand(breaker);
-                        Debugger.print(this);
+                        statements.add(breaker);
                     }
                     return null;
                 }
@@ -1428,11 +1413,8 @@ public class Node implements Code {
         /** The checkpoint node (i.e. condition or update) of this loop structure if present. */
         private final Node checkpoint;
 
-        /** The script buffer. */
-        private final Coder coder;
-
         /** The label insertion position. */
-        private final int position;
+        private final int position = 0;
 
         /** The flag. */
         private boolean requireLabel;
@@ -1444,14 +1426,12 @@ public class Node implements Code {
          * @param checkpoint The checkpoint node (i.e. condition or update) of this loop structure
          *            if present.
          */
-        private LoopStructure(Node entrance, Node first, Node exit, Node checkpoint, Coder coder) {
+        private LoopStructure(Node entrance, Node first, Node exit, Node checkpoint) {
             super(first == checkpoint ? entrance : first);
 
             this.entrance = entrance;
             this.exit = exit;
             this.checkpoint = checkpoint;
-            this.coder = coder;
-            this.position = coder.toString().length(); // TODO
 
             // The first node must be the header of breakable structure and
             // be able to omit continue statement.

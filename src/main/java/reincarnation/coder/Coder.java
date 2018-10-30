@@ -507,7 +507,7 @@ public abstract class Coder<O extends CodingOption> {
      * @param condition A condition.
      * @param then A then part.
      * @param elze A else part. (maybe null)
-     * @param follow TODO
+     * @param follow A following part.
      */
     public abstract void writeIf(Code condition, Code then, Code elze, Code follow);
 
@@ -518,22 +518,25 @@ public abstract class Coder<O extends CodingOption> {
      * @param condition A condition.
      * @param updater A updater part.
      * @param inner A inner contents.
+     * @param follow A following part.
      */
-    public abstract void writeFor(Code initialize, Code condition, List<Code> updater, Runnable inner);
+    public abstract void writeFor(Code initialize, Code condition, List<Code> updater, Runnable inner, Code follow);
 
     /**
      * While statement.
      * 
      * @param condition A condition.
      * @param inner A inner contents.
+     * @param follow A following part.
      */
-    public abstract void writeWhile(Code condition, Runnable inner);
+    public abstract void writeWhile(Code condition, Runnable inner, Code follow);
 
     /**
      * Do-While statement.
      * 
      * @param condition A condition.
      * @param inner A inner contents.
+     * @param follow A following part.
      */
-    public abstract void writeDoWhile(Code condition, Runnable inner);
+    public abstract void writeDoWhile(Code condition, Runnable inner, Code follow);
 }

@@ -406,24 +406,24 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeFor(Code initialize, Code condition, List<Code> updater, Runnable inner) {
-        coder.writeFor(initialize, condition, updater, inner);
+    public void writeFor(Code initialize, Code condition, List<Code> updater, Runnable inner, Code follow) {
+        coder.writeFor(initialize, condition, updater, inner, follow);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void writeWhile(Code condition, Runnable inner) {
-        coder.writeWhile(condition, inner);
+    public void writeWhile(Code condition, Runnable inner, Code follow) {
+        coder.writeWhile(condition, inner, follow);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void writeDoWhile(Code condition, Runnable inner) {
-        coder.writeDoWhile(condition, inner);
+    public void writeDoWhile(Code condition, Runnable inner, Code follow) {
+        coder.writeDoWhile(condition, inner, follow);
     }
 
 }

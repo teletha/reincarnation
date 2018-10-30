@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/28 9:15:52
@@ -52,7 +51,6 @@ public class IfTest extends CodeVerifier {
     void thenNest() {
         verify(new Code.IntParam() {
 
-            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 if (value < 5) {

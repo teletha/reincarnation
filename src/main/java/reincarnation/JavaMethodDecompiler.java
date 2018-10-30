@@ -252,9 +252,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             node.written = false;
         }
 
-        for (Node node : nodes) {
-            node.write(coder);
-        }
+        nodes.get(0).write(coder);
     }
 
     /**
