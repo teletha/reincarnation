@@ -9,30 +9,24 @@
  */
 package reincarnation.statement;
 
-import reincarnation.Node;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/30 23:27:11
+ * @version 2018/10/31 13:47:52
  */
 public class Following extends Statement {
 
     /** The code. */
-    private final Code now;
-
-    /** The following. */
-    private final Node follow;
+    private final Code[] codes;
 
     /**
      * Statement.
      * 
-     * @param now
-     * @param follow
+     * @param codes
      */
-    public Following(Code now, Node follow) {
-        this.now = now;
-        this.follow = follow;
+    public Following(Code... codes) {
+        this.codes = codes;
     }
 
     /**
@@ -40,7 +34,10 @@ public class Following extends Statement {
      */
     @Override
     public void write(Coder coder) {
-        if (now != null) now.write(coder);
-        if (follow != null) follow.write(coder);
+        for (Code code : codes) {
+            if (code != null) {
+                code.write(coder);
+            }
+        }
     }
 }

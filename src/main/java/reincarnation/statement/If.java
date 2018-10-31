@@ -16,7 +16,7 @@ import reincarnation.coder.Coder;
 /**
  * @version 2018/10/27 21:55:57
  */
-public class If extends Statement {
+public class If extends Nestable {
 
     /** The code. */
     private final Operand condition;

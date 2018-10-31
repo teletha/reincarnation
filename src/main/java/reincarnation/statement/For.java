@@ -18,7 +18,7 @@ import reincarnation.coder.Coder;
 /**
  * @version 2018/10/31 0:27:20
  */
-public class For extends Statement {
+public class For extends Loopable {
 
     /** The code. */
     private final Code initializer;

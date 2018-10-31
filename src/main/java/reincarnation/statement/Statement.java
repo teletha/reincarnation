@@ -11,7 +11,6 @@ package reincarnation.statement;
 
 import java.util.Optional;
 
-import reincarnation.Node;
 import reincarnation.coder.Code;
 
 /**
@@ -39,14 +38,4 @@ public abstract class Statement implements Code {
         this.comment = comment;
     }
 
-    /**
-     * Convert to {@link Code}.
-     * 
-     * @param node
-     * @return
-     */
-    protected final Code code(Node node) {
-        return coder -> {
-        };
-    }
 }

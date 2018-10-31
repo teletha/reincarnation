@@ -16,7 +16,7 @@ import reincarnation.coder.Coder;
 /**
  * @version 2018/10/27 21:55:57
  */
-public class While extends Statement {
+public class While extends Loopable {
 
     /** The code. */
     private final Code condition;

@@ -33,7 +33,6 @@ import reincarnation.statement.Continue;
 import reincarnation.statement.Following;
 import reincarnation.statement.For;
 import reincarnation.statement.If;
-import reincarnation.statement.OperandStatement;
 import reincarnation.statement.Statement;
 import reincarnation.statement.While;
 
@@ -664,7 +663,7 @@ public class Node implements Code {
 
             if (outs == 0) {
                 // end node
-                statements.add(new Following(code(this), null));
+                statements.add(new Following(code(this)));
             } else if (outs == 1) {
                 // do while or normal
                 if (backs == 0) {
@@ -747,12 +746,6 @@ public class Node implements Code {
                 // process(exit, buffer);
                 // }
             }
-        }
-    }
-
-    private void buildNode() {
-        for (Operand operand : stack) {
-            statements.add(new OperandStatement(operand));
         }
     }
 
