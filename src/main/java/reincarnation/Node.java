@@ -29,6 +29,7 @@ import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.statement.Break;
+import reincarnation.statement.Continue;
 import reincarnation.statement.Following;
 import reincarnation.statement.For;
 import reincarnation.statement.If;
@@ -1188,13 +1189,15 @@ public class Node implements Code {
                     String label = loop.computeLabelFor(next);
 
                     if (label != null || continueOmittable == null || !continueOmittable) {
-                        OperandContinue continuer = new OperandContinue(loop.computeLabelFor(next));
+                        Continue continuer = new Continue(label);
 
                         if (Debugger.isEnable()) {
+                            Debugger.print(this);
+                            Debugger.print(next);
                             continuer
                                     .comment(id + " -> " + next.id + " continue to " + loop.entrance.id + " (" + next.currentCalls + " of " + ") " + loop);
                         }
-                        addOperand(continuer);
+                        statements.add(continuer);
                     }
                     return null;
                 }
