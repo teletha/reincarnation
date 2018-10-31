@@ -119,6 +119,14 @@ class OperandCondition extends Operand {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String type() {
+        return super.type() + " then " + then.id + " else " + elze.id;
+    }
+
+    /**
      * <p>
      * Enclose conditional operand if it it {@link OperandTernaryCondition}.
      * </p>

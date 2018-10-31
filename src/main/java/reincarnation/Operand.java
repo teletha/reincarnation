@@ -35,6 +35,15 @@ public abstract class Operand implements Code {
     private String comment;
 
     /**
+     * Compute the human-readable operand type.
+     * 
+     * @return
+     */
+    protected String type() {
+        return getClass().getSimpleName().substring("Operand".length());
+    }
+
+    /**
      * Fix as the current type.
      * 
      * @return Chainable API.

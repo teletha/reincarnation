@@ -248,10 +248,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // reset local variable declaration state
         locals.reset();
 
-        for (Node node : nodes) {
-            node.written = false;
-        }
-
+        nodes.get(0).signal().to(n -> n.written = false);
         nodes.get(0).write(coder);
     }
 
@@ -335,7 +332,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         nodes.get(0).analyze();
 
-        Debugger.print(nodes);
+        Debugger.printFollowing(nodes.peekFirst());
     }
 
     /**

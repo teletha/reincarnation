@@ -21,6 +21,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.github.javaparser.ast.stmt.ForStmt;
+
+import kiss.I;
+import kiss.Signal;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
@@ -129,6 +133,15 @@ public class Node implements Code {
      */
     Node(String id) {
         this.id = id;
+    }
+
+    /**
+     * Build the stream of following nodes.
+     * 
+     * @return
+     */
+    final Signal<Node> signal() {
+        return I.signal(this, n -> n.next).takeWhile(n -> n != null);
     }
 
     /**
@@ -1214,7 +1227,6 @@ public class Node implements Code {
                     if (next.continueOmittable == null) next.continueOmittable = continueOmittable;
                     if (!returnOmittable) next.returnOmittable = false;
 
-                    Debugger.print("process " + id + " to  " + next.id);
                     // process next node
                     next.analyze();
                     return next;
@@ -1282,17 +1294,18 @@ public class Node implements Code {
         previous.connect(node);
         node.connect(next);
 
-        previous.next = node;
-        node.next = next;
-
-        next.previous = node;
+        node.next = previous.next;
         node.previous = previous;
+
+        previous.next.previous = node;
+        previous.next = node;
 
         if (previous.breaker) {
             previous.breaker = false;
             node.addExpression("break");
             throw new Error("IMPLEMENT!");
         }
+        Debugger.print(node);
 
         // API definition
         return node;

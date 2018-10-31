@@ -34,6 +34,14 @@ class OperandEnclose extends Operand {
      * {@inheritDoc}
      */
     @Override
+    protected String type() {
+        return value.type() + " in " + super.type();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     InferredType infer() {
         return value.infer();
     }

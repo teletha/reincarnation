@@ -75,7 +75,7 @@ class ForTest extends CodeVerifier {
     }
 
     @Test
-    void multipleUpdate() throws Exception {
+    void multipleUpdate() {
         verify(new Code.IntParam() {
 
             @Override
@@ -162,7 +162,6 @@ class ForTest extends CodeVerifier {
     void breakInOneLinerIf() {
         verify(new Code.IntParam() {
 
-            @Debuggable
             @Override
             public int run(int value) {
                 for (; value < 5; value++)
@@ -173,7 +172,6 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void continueNoLabel() {
         verify(new Code.IntParam() {
@@ -193,11 +191,11 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
-    void continueNest() throws Exception {
+    void continueNest() {
         verify(new Code.IntParam() {
 
+            @Debuggable
             @Override
             public int run(int value) {
                 root: for (int i = 0; i < 3; i++) {
@@ -216,7 +214,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void continueMultiple() throws Exception {
+    void continueMultiple() {
         verify(new Code.IntParam() {
 
             @Override
@@ -242,7 +240,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void continueInIf() throws Exception {
+    void continueInIf() {
         verify(new Code.IntParam() {
 
             @Override
@@ -260,7 +258,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void continueInShorthandIf() throws Exception {
+    void continueInShorthandIf() {
         verify(new Code.IntParam() {
 
             @Override
@@ -276,7 +274,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void continueInLogicalIf() throws Exception {
+    void continueInLogicalIf() {
         verify(new Code.IntParam() {
 
             @Override
@@ -294,7 +292,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void returnNest() throws Exception {
+    void returnNest() {
         verify(new Code.IntParam() {
 
             @Override
@@ -315,7 +313,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void continueWithLogicalExpressionFail() throws Exception {
+    void continueWithLogicalExpressionFail() {
         verify(new Code.IntParam() {
 
             @Override
@@ -336,7 +334,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void continueWithLogicalExpressionAndAfterProcess() throws Exception {
+    void continueWithLogicalExpressionAndAfterProcess() {
         verify(new Code.IntParam() {
 
             @Override
@@ -356,7 +354,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void continueWithLogicalExpression() throws Exception {
+    void continueWithLogicalExpression() {
         verify(new Code.IntParam() {
 
             @Override
@@ -376,7 +374,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void returnInNest() throws Exception {
+    void returnInNest() {
         verify(new Code.IntParam() {
 
             @Override
@@ -399,7 +397,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void complex() throws Exception {
+    void complex() {
         verify(new Code.IntParam() {
 
             @Override
@@ -421,7 +419,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void infinite() throws Exception {
+    void infinite() {
         verify(new Code.IntParam() {
 
             @Override
@@ -445,7 +443,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void infiniteLikeFor() throws Exception {
+    void infiniteLikeFor() {
         verify(new Code.IntParam() {
 
             @Override
@@ -466,7 +464,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void infiniteLikeWhile() throws Exception {
+    void infiniteLikeWhile() {
         verify(new Code.IntParam() {
 
             @Override
@@ -488,7 +486,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void infiniteWithWhile() throws Exception {
+    void infiniteWithWhile() {
         verify(new Code.IntParam() {
 
             @Override
@@ -512,7 +510,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void infiniteWithWhileNodes() throws Exception {
+    void infiniteWithWhileNodes() {
         verify(new Code.IntParam() {
 
             @Override
@@ -536,7 +534,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void infiniteIfReturn() throws Exception {
+    void infiniteIfReturn() {
         verify(new Code.IntParam() {
 
             @Override
@@ -557,7 +555,7 @@ class ForTest extends CodeVerifier {
 
     @Disabled
     @Test
-    void infiniteIfElse() throws Exception {
+    void infiniteIfElse() {
         verify(new Code.IntParam() {
 
             @Override

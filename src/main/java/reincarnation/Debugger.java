@@ -30,7 +30,7 @@ import kiss.I;
 import reincarnation.Node.TryCatchFinally;
 
 /**
- * @version 2018/10/04 9:09:01
+ * @version 2018/10/31 11:34:57
  */
 public class Debugger extends AnnotationVisitor {
 
@@ -255,6 +255,19 @@ public class Debugger extends AnnotationVisitor {
     public static void print(Node node) {
         if (node != null) {
             print(Collections.singletonList(node));
+        }
+    }
+
+    /**
+     * <p>
+     * Dump node tree.
+     * </p>
+     * 
+     * @param node
+     */
+    public static void printFollowing(Node node) {
+        if (node != null) {
+            print(node.signal().toList());
         }
     }
 
@@ -503,7 +516,7 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /**
-     * @version 2012/11/30 16:09:26
+     * @version 2018/10/31 11:35:02
      */
     private static final class Formatter {
 
@@ -578,62 +591,12 @@ public class Debugger extends AnnotationVisitor {
         private void formatCodeFragment(List<Operand> operands) {
             for (int i = 0; i < operands.size(); i++) {
                 Operand operand = operands.get(i);
-                builder.append(operand).append(" [").append(type(operand)).append("]");
+                builder.append(operand.toString().strip()).append(" [").append(operand.type()).append("]");
 
                 if (i != operands.size() - 1) {
                     builder.append(" ");
                 }
             }
-        }
-
-        /**
-         * <p>
-         * Helper method to detect type of {@link Operand}.
-         * </p>
-         * 
-         * @param operand
-         * @return
-         */
-        private String type(Operand operand) {
-            if (operand instanceof OperandString) {
-                return "String";
-            } else if (operand instanceof OperandExpression) {
-                return "Expression";
-            } else if (operand instanceof OperandCondition) {
-                OperandCondition condition = (OperandCondition) operand;
-
-                StringBuilder builder = new StringBuilder("Condition then ").append(condition.then.id);
-
-                if (condition.elze != null) {
-                    builder.append(" else ").append(condition.elze.id);
-                }
-                return builder.toString();
-            } else if (operand instanceof OperandArray) {
-                return "Array";
-            } else if (operand instanceof OperandNumber) {
-                return "Number";
-            } else if (operand instanceof OperandEnclose) {
-                return type(((OperandEnclose) operand).value) + " in Enclose";
-            } else if (operand instanceof OperandAmbiguousZeroOneTernary) {
-                return "TernaryCondition";
-            } else if (operand instanceof OperandAssign) {
-                return "Assign";
-            } else if (operand instanceof OperandBinary) {
-                return "Binary";
-            } else if (operand instanceof OperandUnary) {
-                return "Unary";
-            } else if (operand instanceof OperandFieldAccess) {
-                return "FieldAccess";
-            } else if (operand instanceof OperandType) {
-                return "Type";
-            } else if (operand instanceof OperandClass) {
-                return "Class";
-            } else if (operand instanceof OperandBoolean) {
-                return "Boolean";
-            } else if (operand instanceof OperandReturn) {
-                return "Return";
-            }
-            return "";
         }
 
         /**
@@ -749,7 +712,7 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /**
-     * @version 2018/10/04 9:31:15
+     * @version 2018/10/31 11:35:08
      */
     private static class DebugContext {
 
