@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import reincarnation.Node;
 import reincarnation.Operand;
 import reincarnation.coder.Code;
+import reincarnation.coder.Coder;
 
 /**
  * @version 2018/10/31 14:48:14
@@ -27,13 +28,25 @@ public abstract class Nestable extends Statement {
     private final LinkedList<Statement> children = new LinkedList();
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void write(Coder coder) {
+        for (Statement child : children) {
+            if (child != null) {
+                child.write(coder);
+            }
+        }
+    }
+
+    /**
      * Add simple statement.
      * 
      * @param code
      */
     public final void add(Code... codes) {
         if (codes != null) {
-            children.add(new Following(codes));
+            children.add(new Follows(codes));
         }
     }
 

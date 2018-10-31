@@ -9,8 +9,6 @@
  */
 package reincarnation.statement;
 
-import reincarnation.coder.Coder;
-
 /**
  * @version 2018/10/31 14:45:44
  */
@@ -20,12 +18,5 @@ public class Root extends Nestable {
      * Build the empty root statement.
      */
     public Root() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void write(Coder coder) {
     }
 }

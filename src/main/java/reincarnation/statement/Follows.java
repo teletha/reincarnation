@@ -15,7 +15,7 @@ import reincarnation.coder.Coder;
 /**
  * @version 2018/10/31 13:47:52
  */
-public class Following extends Statement {
+public class Follows extends Statement {
 
     /** The code. */
     private final Code[] codes;
@@ -25,7 +25,7 @@ public class Following extends Statement {
      * 
      * @param codes
      */
-    public Following(Code... codes) {
+    public Follows(Code... codes) {
         this.codes = codes;
     }
 

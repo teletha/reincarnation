@@ -30,7 +30,7 @@ import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.statement.Break;
 import reincarnation.statement.Continue;
-import reincarnation.statement.Following;
+import reincarnation.statement.Follows;
 import reincarnation.statement.For;
 import reincarnation.statement.If;
 import reincarnation.statement.Statement;
@@ -663,12 +663,12 @@ public class Node implements Code {
 
             if (outs == 0) {
                 // end node
-                statements.add(new Following(code(this)));
+                statements.add(new Follows(code(this)));
             } else if (outs == 1) {
                 // do while or normal
                 if (backs == 0) {
                     // normal node with follower
-                    statements.add(new Following(code(this), process(outgoing.get(0))));
+                    statements.add(new Follows(code(this), process(outgoing.get(0))));
                 } else if (backs == 1) {
                     // do while or infinite loop
                     BackedgeGroup group = new BackedgeGroup(this);
