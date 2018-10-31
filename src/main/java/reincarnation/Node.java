@@ -30,9 +30,9 @@ import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.statement.Break;
 import reincarnation.statement.Continue;
-import reincarnation.statement.Follows;
 import reincarnation.statement.For;
 import reincarnation.statement.If;
+import reincarnation.statement.Nestable;
 import reincarnation.statement.Statement;
 import reincarnation.statement.While;
 
@@ -607,7 +607,7 @@ public class Node implements Code {
         }
     }
 
-    public void analyze() {
+    public void analyze(Nestable parent) {
         if (!written) {
             written = true;
 
@@ -663,12 +663,12 @@ public class Node implements Code {
 
             if (outs == 0) {
                 // end node
-                statements.add(new Follows(code(this)));
+                parent.add(code(this));
             } else if (outs == 1) {
                 // do while or normal
                 if (backs == 0) {
                     // normal node with follower
-                    statements.add(new Follows(code(this), process(outgoing.get(0))));
+                    parent.add(code(this), outgoing.get(0));
                 } else if (backs == 1) {
                     // do while or infinite loop
                     BackedgeGroup group = new BackedgeGroup(this);

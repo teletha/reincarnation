@@ -249,11 +249,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     @Override
     public void write(Coder coder) {
-        // reset local variable declaration state
-        locals.reset();
-
-        nodes.get(0).signal().to(n -> n.written = false);
-        nodes.get(0).write(coder);
+        root.write(coder);
     }
 
     /**
@@ -334,7 +330,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // optimize
         removeLastEmptyReturn();
 
-        nodes.get(0).analyze();
+        nodes.get(0).analyze(root);
 
         Debugger.printFollowing(nodes.peekFirst());
     }
