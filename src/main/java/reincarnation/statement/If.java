@@ -22,13 +22,13 @@ public class If extends Nestable {
     private final Operand condition;
 
     /** The code. */
-    private final Node then;
+    private final Statement then;
 
     /** The code. */
-    private final Node elze;
+    private final Statement elze;
 
     /** The following. */
-    private final Node follow;
+    private final Statement follow;
 
     /**
      * If statement.
@@ -37,11 +37,13 @@ public class If extends Nestable {
      * @param then
      * @param elze
      */
-    public If(Operand condition, Node then, Node elze, Node follow) {
+    public If(Node that, Operand condition, Node then, Node elze, Node follow) {
+        super(that);
+
         this.condition = condition;
-        this.then = then;
-        this.elze = elze;
-        this.follow = follow;
+        this.then = that.process(then);
+        this.elze = that.process(elze);
+        this.follow = that.process(follow);
     }
 
     /**

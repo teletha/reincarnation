@@ -22,10 +22,10 @@ public class While extends Loopable {
     private final Code condition;
 
     /** The code. */
-    private final Node inner;
+    private final Statement inner;
 
     /** The following. */
-    private final Node follow;
+    private final Statement follow;
 
     /**
      * While statement.
@@ -33,10 +33,12 @@ public class While extends Loopable {
      * @param inner
      * @param elze
      */
-    public While(Code condition, Node inner, Node follow) {
+    public While(Node that, Node condition, Node inner, Node follow) {
+        super(that, condition, inner, follow, condition);
+
         this.condition = condition;
-        this.inner = inner;
-        this.follow = follow;
+        this.inner = that.process(inner);
+        this.follow = that.process(follow);
     }
 
     /**

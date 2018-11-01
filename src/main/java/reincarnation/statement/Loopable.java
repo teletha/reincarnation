@@ -34,12 +34,11 @@ public abstract class Loopable extends Breakable {
      * @param checkpoint The checkpoint node (i.e. condition or update) of this loop structure if
      *            present.
      */
-    protected Loopable(Node entrance, Node first, Node exit, Node checkpoint) {
-        super(first);
+    protected Loopable(Node that, Node entrance, Node first, Node exit, Node checkpoint) {
+        super(that, first);
 
         this.entrance = entrance;
         this.exit = exit;
         this.checkpoint = checkpoint;
     }
-
 }

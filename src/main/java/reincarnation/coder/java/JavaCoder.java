@@ -612,7 +612,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeThrow(Code code) {
-        write("throw", space, code);
+        line("throw", space, code, ";");
     }
 
     /**
@@ -657,8 +657,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeFor(Code initialize, Code condition, List<Code> updater, Runnable inner, Code follow) {
-        line("for", space, "(", initialize, ";", condition, ";", Join.of(updater).separator(","), ")", space, "{");
+    public void writeFor(Code initialize, Code condition, Code updater, Runnable inner, Code follow) {
+        line("for", space, "(", initialize, ";", expression(condition), ";", expression(updater), ")", space, "{");
         indent(inner);
         line("}");
         write(follow);
@@ -669,7 +669,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeWhile(Code condition, Runnable inner, Code follow) {
-        line("while", space, "(", condition, ")", space, "{");
+        line("while", space, "(", expression(condition), ")", space, "{");
         indent(inner);
         line("}");
         write(follow);
@@ -682,7 +682,17 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     public void writeDoWhile(Code condition, Runnable inner, Code follow) {
         line("do", space, "{");
         indent(inner);
-        line("}", space, "while", space, "(", condition, ")");
+        line("}", space, "while", space, "(", expression(condition), ")");
+    }
+
+    /**
+     * Write all statements as expression.
+     * 
+     * @param code A target code.
+     * @return A converted code.
+     */
+    private Code expression(Code code) {
+        return c -> code.write(new NonStatementCoder(c));
     }
 
     /**
@@ -805,6 +815,27 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             return name.substring(name.lastIndexOf(".") + 1);
         } else {
             return clazz.getSimpleName();
+        }
+    }
+
+    /**
+     * @version 2018/11/01 15:33:55
+     */
+    private class NonStatementCoder extends DelegatableCoder<CodingOption> {
+
+        /**
+         * @param coder
+         */
+        private NonStatementCoder(Coder<CodingOption> coder) {
+            super(coder);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeStatement(Code code) {
+            write(code);
         }
     }
 

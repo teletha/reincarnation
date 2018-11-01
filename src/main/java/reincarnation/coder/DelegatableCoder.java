@@ -406,7 +406,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeFor(Code initialize, Code condition, List<Code> updater, Runnable inner, Code follow) {
+    public void writeFor(Code initialize, Code condition, Code updater, Runnable inner, Code follow) {
         coder.writeFor(initialize, condition, updater, inner, follow);
     }
 

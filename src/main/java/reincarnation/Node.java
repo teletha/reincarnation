@@ -31,8 +31,8 @@ import reincarnation.operator.BinaryOperator;
 import reincarnation.statement.Break;
 import reincarnation.statement.Continue;
 import reincarnation.statement.For;
+import reincarnation.statement.Fragment;
 import reincarnation.statement.If;
-import reincarnation.statement.Nestable;
 import reincarnation.statement.Statement;
 import reincarnation.statement.While;
 
@@ -119,7 +119,8 @@ public class Node implements Code {
     /** The comment for node. */
     private String comment;
 
-    private LinkedList<Statement> statements = new LinkedList();
+    /** The associated statement. */
+    private Statement statement = Statement.Empty;
 
     /**
      * @param label
@@ -598,16 +599,16 @@ public class Node implements Code {
      */
     @Override
     public void write(Coder coder) {
-        if (!written) {
-            written = true;
-
-            for (Statement statement : statements) {
-                statement.write(coder);
+        for (Operand operand : stack) {
+            if (operand.isExpression() || operand instanceof OperandAssign) {
+                coder.writeStatement(operand);
+            } else {
+                operand.write(coder);
             }
         }
     }
 
-    public void analyze(Nestable parent) {
+    public Statement analyze() {
         if (!written) {
             written = true;
 
@@ -663,12 +664,12 @@ public class Node implements Code {
 
             if (outs == 0) {
                 // end node
-                parent.add(code(this));
+                return new Fragment(this);
             } else if (outs == 1) {
                 // do while or normal
                 if (backs == 0) {
                     // normal node with follower
-                    parent.add(code(this), outgoing.get(0));
+                    return new Fragment(this, process(outgoing.get(0)));
                 } else if (backs == 1) {
                     // do while or infinite loop
                     BackedgeGroup group = new BackedgeGroup(this);
@@ -692,11 +693,11 @@ public class Node implements Code {
             } else if (outs == 2) {
                 // while, for or if
                 if (backs == 0) {
-                    writeIf();
+                    return writeIf();
                 } else if (backs == 1 && backedges.get(0).outgoing.size() == 1) {
-                    writeFor();
+                    return writeFor();
                 } else {
-                    writeWhile();
+                    return writeWhile();
                 }
             }
 
@@ -747,6 +748,7 @@ public class Node implements Code {
                 // }
             }
         }
+        return Statement.Empty;
     }
 
     /**
@@ -908,7 +910,7 @@ public class Node implements Code {
      * 
      * @param coder
      */
-    private void writeInfiniteLoop(Coder coder) {
+    private Statement writeInfiniteLoop(Coder coder) {
         // make rewritable this node
         written = false;
 
@@ -929,6 +931,8 @@ public class Node implements Code {
         breakables.removeLast();
         buffer.write("}");
         loop.writeRequiredLabel();
+
+        return Statement.Empty;
     }
 
     /**
@@ -964,18 +968,17 @@ public class Node implements Code {
      * 
      * @param coder
      */
-    private void writeWhile() {
+    private Statement writeWhile() {
         Node[] nodes = detectProcessAndExit();
 
         if (nodes == null) {
-            // writeInfiniteLoop();
-        } else {
-            LoopStructure loop = new LoopStructure(this, nodes[0], nodes[1], this);
+            // return writeInfiniteLoop();
 
-            // write code fragment
-            breakables.add(loop);
-            statements.add(new While(peek(0), process(nodes[0]), process(nodes[1])));
-            breakables.removeLast();
+            // If this exception will be thrown, it is bug of this program. So we must rethrow the
+            // wrapped error in here.
+            throw new Error();
+        } else {
+            return new While(this, this, nodes[0], nodes[1]);
         }
     }
 
@@ -1015,20 +1018,20 @@ public class Node implements Code {
     /**
      * Write for structure.
      */
-    private void writeFor() {
+    private Statement writeFor() {
         Node[] nodes = detectProcessAndExit();
 
         if (nodes == null) {
             // writeInfiniteLoop(coder);
+
+            // If this exception will be thrown, it is bug of this program. So we must rethrow the
+            // wrapped error in here.
+            throw new Error();
         } else {
             // setup update expression node
             Node update = backedges.get(0);
 
-            LoopStructure loop = new LoopStructure(this, nodes[0], nodes[1], update);
-
-            breakables.add(loop);
-            statements.add(new For(null, peek(0), update.stack, process(nodes[0]), process(nodes[1])));
-            breakables.removeLast();
+            return new For(this, null, this, update, nodes[0], nodes[1]);
         }
     }
 
@@ -1045,13 +1048,9 @@ public class Node implements Code {
     }
 
     /**
-     * <p>
-     * Write if structure.
-     * </p>
-     * 
-     * @param coder
+     * Build if statement.
      */
-    private void writeIf() {
+    private Statement writeIf() {
         OperandCondition condition = (OperandCondition) stack.peekLast();
 
         Node then = null;
@@ -1157,7 +1156,7 @@ public class Node implements Code {
             }
         }
 
-        statements.add(new If(condition, process(then), process(elze), process(follow)));
+        return new If(this, condition, then, elze, follow);
     }
 
     /**
@@ -1167,7 +1166,7 @@ public class Node implements Code {
      * 
      * @param next A next node to write.
      */
-    private Node process(Node next) {
+    public Statement process(Node next) {
         if (next != null) {
             next.currentCalls++;
 
@@ -1190,9 +1189,8 @@ public class Node implements Code {
                             continuer
                                     .comment(id + " -> " + next.id + " continue to " + loop.entrance.id + " (" + next.currentCalls + " of " + ") " + loop);
                         }
-                        statements.add(continuer);
                     }
-                    return null;
+                    return Statement.Empty;
                 }
 
                 // break
@@ -1204,9 +1202,9 @@ public class Node implements Code {
                         if (Debugger.isEnable()) {
                             breaker.comment(id + " -> " + next.id + " break to " + loop.entrance.id + "(" + next.currentCalls + " of " + ") " + loop);
                         }
-                        statements.add(breaker);
+                        System.out.println("BREAKKKKKK");
                     }
-                    return null;
+                    return Statement.Empty;
                 }
             }
 
@@ -1224,12 +1222,11 @@ public class Node implements Code {
                     if (!returnOmittable) next.returnOmittable = false;
 
                     // process next node
-                    next.analyze();
-                    return next;
+                    return next.analyze();
                 }
             }
         }
-        return null;
+        return Statement.Empty;
     }
 
     /**

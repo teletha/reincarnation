@@ -24,7 +24,9 @@ public abstract class Breakable extends Nestable {
      * 
      * @param first The first processing node of this block structure.
      */
-    protected Breakable(Node first) {
+    protected Breakable(Node that, Node first) {
+        super(that);
+
         this.first = first;
     }
 }

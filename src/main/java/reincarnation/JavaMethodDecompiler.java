@@ -41,7 +41,7 @@ import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
-import reincarnation.statement.Root;
+import reincarnation.statement.Statement;
 
 /**
  * @version 2018/10/08 12:56:11
@@ -172,7 +172,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     private final TryCatchFinallyBlocks tries = new TryCatchFinallyBlocks();
 
     /** The root statement. */
-    private final Root root = new Root();
+    private Statement root;
 
     /** The current processing node. */
     private Node current = null;
@@ -249,6 +249,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     @Override
     public void write(Coder coder) {
+        locals.reset();
+
         root.write(coder);
     }
 
@@ -330,7 +332,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // optimize
         removeLastEmptyReturn();
 
-        nodes.get(0).analyze(root);
+        root = nodes.get(0).analyze();
 
         Debugger.printFollowing(nodes.peekFirst());
     }

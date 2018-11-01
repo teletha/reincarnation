@@ -11,6 +11,7 @@ package reincarnation.statement;
 
 import java.util.Optional;
 
+import reincarnation.Node;
 import reincarnation.coder.Coder;
 
 /**
@@ -26,7 +27,9 @@ public class Continue extends Statement {
      * 
      * @param label A target name.
      */
-    public Continue(String label) {
+    public Continue(Node that, String label) {
+        super(that);
+
         this.label = label;
     }
 

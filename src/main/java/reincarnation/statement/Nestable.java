@@ -12,20 +12,22 @@ package reincarnation.statement;
 import java.util.LinkedList;
 
 import reincarnation.Node;
-import reincarnation.Operand;
-import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/31 14:48:14
+ * @version 2018/11/01 16:32:29
  */
 public abstract class Nestable extends Statement {
 
-    /** The parent structure. */
-    private Nestable parent;
-
     /** The children manager. */
     private final LinkedList<Statement> children = new LinkedList();
+
+    /**
+     * @param node
+     */
+    protected Nestable(Node node) {
+        super(node);
+    }
 
     /**
      * {@inheritDoc}
@@ -37,32 +39,5 @@ public abstract class Nestable extends Statement {
                 child.write(coder);
             }
         }
-    }
-
-    /**
-     * Add simple statement.
-     * 
-     * @param code
-     */
-    public final void add(Code... codes) {
-        if (codes != null) {
-            children.add(new Follows(codes));
-        }
-    }
-
-    /**
-     * Add if statement.
-     * 
-     * @param condition
-     * @param then
-     * @param elze
-     * @param follow
-     * @return
-     */
-    public final Nestable addIf(Operand condition, Node then, Node elze, Node follow) {
-        If child = new If(condition, then, elze, follow);
-        children.add(child);
-
-        return child;
     }
 }

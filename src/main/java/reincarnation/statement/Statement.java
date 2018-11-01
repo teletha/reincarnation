@@ -11,15 +11,33 @@ package reincarnation.statement;
 
 import java.util.Optional;
 
+import reincarnation.Node;
 import reincarnation.coder.Code;
+import reincarnation.coder.Coder;
 
 /**
  * @version 2018/10/30 11:06:40
  */
 public abstract class Statement implements Code {
 
+    /** The empty statement. */
+    public static final Statement Empty = new Empty();
+
+    /** The parent structure. */
+    protected Statement parent;
+
     /** The comment. */
     private String comment;
+
+    /** The associated node. */
+    private final Node node;
+
+    /**
+     * @param node
+     */
+    protected Statement(Node node) {
+        this.node = node;
+    }
 
     /**
      * {@inheritDoc}
@@ -38,4 +56,31 @@ public abstract class Statement implements Code {
         this.comment = comment;
     }
 
+    /**
+     * @version 2018/11/01 16:29:25
+     */
+    private static class Empty extends Statement {
+
+        /**
+         * @param node
+         */
+        private Empty() {
+            super(null);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void write(Coder coder) {
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String toString() {
+            return "EmptyStatement";
+        }
+    }
 }

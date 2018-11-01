@@ -520,7 +520,7 @@ public abstract class Coder<O extends CodingOption> {
      * @param inner A inner contents.
      * @param follow A following part.
      */
-    public abstract void writeFor(Code initialize, Code condition, List<Code> updater, Runnable inner, Code follow);
+    public abstract void writeFor(Code initialize, Code condition, Code updater, Runnable inner, Code follow);
 
     /**
      * While statement.

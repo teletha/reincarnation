@@ -9,10 +9,7 @@
  */
 package reincarnation.statement;
 
-import java.util.List;
-
 import reincarnation.Node;
-import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 
 /**
@@ -21,19 +18,19 @@ import reincarnation.coder.Coder;
 public class For extends Loopable {
 
     /** The code. */
-    private final Code initializer;
+    private final Node initializer;
 
     /** The code. */
-    private final Code condition;
+    private final Node condition;
 
     /** The code. */
-    private final List<? extends Code> updater;
+    private final Statement updater;
 
     /** The code. */
-    private final Node inner;
+    private final Statement inner;
 
     /** The following. */
-    private final Node follow;
+    private final Statement follow;
 
     /**
      * For statement.
@@ -44,12 +41,14 @@ public class For extends Loopable {
      * @param inner
      * @param follow
      */
-    public For(Code initializer, Code condition, List<? extends Code> updater, Node inner, Node follow) {
+    public For(Node that, Node initializer, Node condition, Node updater, Node inner, Node follow) {
+        super(that, that, inner, follow, updater);
+
         this.initializer = initializer;
         this.condition = condition;
-        this.updater = updater;
-        this.inner = inner;
-        this.follow = follow;
+        this.updater = that.process(updater);
+        this.inner = that.process(inner);
+        this.follow = that.process(follow);
     }
 
     /**
