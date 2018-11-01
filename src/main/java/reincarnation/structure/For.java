@@ -7,7 +7,7 @@
  *
  *          https://opensource.org/licenses/MIT
  */
-package reincarnation.statement;
+package reincarnation.structure;
 
 import reincarnation.Node;
 import reincarnation.coder.Coder;
@@ -24,13 +24,13 @@ public class For extends Loopable {
     private final Node condition;
 
     /** The code. */
-    private final Statement updater;
+    private final Structure updater;
 
     /** The code. */
-    private final Statement inner;
+    private final Structure inner;
 
     /** The following. */
-    private final Statement follow;
+    private final Structure follow;
 
     /**
      * For statement.

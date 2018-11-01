@@ -28,13 +28,13 @@ import kiss.Signal;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
-import reincarnation.statement.Break;
-import reincarnation.statement.Continue;
-import reincarnation.statement.For;
-import reincarnation.statement.Fragment;
-import reincarnation.statement.If;
-import reincarnation.statement.Statement;
-import reincarnation.statement.While;
+import reincarnation.structure.Break;
+import reincarnation.structure.Continue;
+import reincarnation.structure.For;
+import reincarnation.structure.Fragment;
+import reincarnation.structure.If;
+import reincarnation.structure.Structure;
+import reincarnation.structure.While;
 
 /**
  * @version 2018/10/31 1:32:16
@@ -120,7 +120,7 @@ public class Node implements Code {
     private String comment;
 
     /** The associated statement. */
-    private Statement statement = Statement.Empty;
+    public Structure statement = Structure.Empty;
 
     /**
      * @param label
@@ -608,7 +608,7 @@ public class Node implements Code {
         }
     }
 
-    public Statement analyze() {
+    public Structure analyze() {
         if (!written) {
             written = true;
 
@@ -748,7 +748,7 @@ public class Node implements Code {
                 // }
             }
         }
-        return Statement.Empty;
+        return Structure.Empty;
     }
 
     /**
@@ -910,7 +910,7 @@ public class Node implements Code {
      * 
      * @param coder
      */
-    private Statement writeInfiniteLoop(Coder coder) {
+    private Structure writeInfiniteLoop(Coder coder) {
         // make rewritable this node
         written = false;
 
@@ -932,7 +932,7 @@ public class Node implements Code {
         buffer.write("}");
         loop.writeRequiredLabel();
 
-        return Statement.Empty;
+        return Structure.Empty;
     }
 
     /**
@@ -968,7 +968,7 @@ public class Node implements Code {
      * 
      * @param coder
      */
-    private Statement writeWhile() {
+    private Structure writeWhile() {
         Node[] nodes = detectProcessAndExit();
 
         if (nodes == null) {
@@ -1018,7 +1018,7 @@ public class Node implements Code {
     /**
      * Write for structure.
      */
-    private Statement writeFor() {
+    private Structure writeFor() {
         Node[] nodes = detectProcessAndExit();
 
         if (nodes == null) {
@@ -1050,7 +1050,7 @@ public class Node implements Code {
     /**
      * Build if statement.
      */
-    private Statement writeIf() {
+    private Structure writeIf() {
         OperandCondition condition = (OperandCondition) stack.peekLast();
 
         Node then = null;
@@ -1166,13 +1166,14 @@ public class Node implements Code {
      * 
      * @param next A next node to write.
      */
-    public Statement process(Node next) {
+    public Structure process(Node next) {
         if (next != null) {
             next.currentCalls++;
 
             // count a number of required write call
             int requiredCalls = next.incoming.size() - next.backedges.size() + next.additionalCalls;
 
+            System.out.println(next.statement);
             LoopStructure loop = next.loops.peekLast();
 
             if (loop != null) {
@@ -1181,7 +1182,7 @@ public class Node implements Code {
                     String label = loop.computeLabelFor(next);
 
                     if (label != null || continueOmittable == null || !continueOmittable) {
-                        Continue continuer = new Continue(label);
+                        Continue continuer = new Continue(this, label);
 
                         if (Debugger.isEnable()) {
                             Debugger.print(this);
@@ -1190,21 +1191,21 @@ public class Node implements Code {
                                     .comment(id + " -> " + next.id + " continue to " + loop.entrance.id + " (" + next.currentCalls + " of " + ") " + loop);
                         }
                     }
-                    return Statement.Empty;
+                    return Structure.Empty;
                 }
 
                 // break
                 if (!loop.hasHeader(this) && loop.hasExit(next) && hasDominator(loop.entrance)) {
                     // check whether the current node connects to the exit node directly or not
                     if (loop.exit.incoming.contains(this)) {
-                        Break breaker = new Break(loop.computeLabelFor(next));
+                        Break breaker = new Break(this, loop.computeLabelFor(next));
 
                         if (Debugger.isEnable()) {
                             breaker.comment(id + " -> " + next.id + " break to " + loop.entrance.id + "(" + next.currentCalls + " of " + ") " + loop);
                         }
                         System.out.println("BREAKKKKKK");
                     }
-                    return Statement.Empty;
+                    return Structure.Empty;
                 }
             }
 
@@ -1226,7 +1227,7 @@ public class Node implements Code {
                 }
             }
         }
-        return Statement.Empty;
+        return Structure.Empty;
     }
 
     /**

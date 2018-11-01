@@ -41,7 +41,7 @@ import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
-import reincarnation.statement.Statement;
+import reincarnation.structure.Structure;
 
 /**
  * @version 2018/10/08 12:56:11
@@ -172,7 +172,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     private final TryCatchFinallyBlocks tries = new TryCatchFinallyBlocks();
 
     /** The root statement. */
-    private Statement root;
+    private Structure root;
 
     /** The current processing node. */
     private Node current = null;

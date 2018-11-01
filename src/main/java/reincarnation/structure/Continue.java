@@ -7,7 +7,7 @@
  *
  *          https://opensource.org/licenses/MIT
  */
-package reincarnation.statement;
+package reincarnation.structure;
 
 import java.util.Optional;
 
@@ -17,7 +17,7 @@ import reincarnation.coder.Coder;
 /**
  * @version 2018/10/31 11:38:43
  */
-public class Continue extends Statement {
+public class Continue extends Structure {
 
     /** The target label. */
     private final String label;

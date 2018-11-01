@@ -7,7 +7,7 @@
  *
  *          http://opensource.org/licenses/mit-license.php
  */
-package reincarnation.statement;
+package reincarnation.structure;
 
 import java.util.Optional;
 
@@ -18,13 +18,13 @@ import reincarnation.coder.Coder;
 /**
  * @version 2018/10/30 11:06:40
  */
-public abstract class Statement implements Code {
+public abstract class Structure implements Code {
 
     /** The empty statement. */
-    public static final Statement Empty = new Empty();
+    public static final Structure Empty = new Empty();
 
     /** The parent structure. */
-    protected Statement parent;
+    protected Structure parent;
 
     /** The comment. */
     private String comment;
@@ -35,8 +35,12 @@ public abstract class Statement implements Code {
     /**
      * @param node
      */
-    protected Statement(Node node) {
+    protected Structure(Node node) {
         this.node = node;
+
+        if (node != null) {
+            this.node.statement = this;
+        }
     }
 
     /**
@@ -59,7 +63,7 @@ public abstract class Statement implements Code {
     /**
      * @version 2018/11/01 16:29:25
      */
-    private static class Empty extends Statement {
+    private static class Empty extends Structure {
 
         /**
          * @param node

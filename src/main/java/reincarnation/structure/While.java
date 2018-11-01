@@ -7,42 +7,37 @@
  *
  *          https://opensource.org/licenses/MIT
  */
-package reincarnation.statement;
+package reincarnation.structure;
 
 import reincarnation.Node;
-import reincarnation.Operand;
+import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 
 /**
  * @version 2018/10/27 21:55:57
  */
-public class If extends Nestable {
+public class While extends Loopable {
 
     /** The code. */
-    private final Operand condition;
+    private final Code condition;
 
     /** The code. */
-    private final Statement then;
-
-    /** The code. */
-    private final Statement elze;
+    private final Structure inner;
 
     /** The following. */
-    private final Statement follow;
+    private final Structure follow;
 
     /**
-     * If statement.
+     * While statement.
      * 
-     * @param condition
-     * @param then
+     * @param inner
      * @param elze
      */
-    public If(Node that, Operand condition, Node then, Node elze, Node follow) {
-        super(that);
+    public While(Node that, Node condition, Node inner, Node follow) {
+        super(that, condition, inner, follow, condition);
 
         this.condition = condition;
-        this.then = that.process(then);
-        this.elze = that.process(elze);
+        this.inner = that.process(inner);
         this.follow = that.process(follow);
     }
 
@@ -51,6 +46,10 @@ public class If extends Nestable {
      */
     @Override
     public void write(Coder coder) {
-        coder.writeIf(condition, then, elze, follow);
+        coder.writeWhile(condition, () -> {
+            if (inner != null) {
+                inner.write(coder);
+            }
+        }, follow);
     }
 }
