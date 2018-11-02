@@ -78,6 +78,7 @@ class ForTest extends CodeVerifier {
     void multipleUpdate() {
         verify(new Code.IntParam() {
 
+            @Debuggable
             @Override
             public int run(int value) {
                 for (int i = 0; i < 3; i++, value++) {
@@ -195,7 +196,6 @@ class ForTest extends CodeVerifier {
     void continueNest() {
         verify(new Code.IntParam() {
 
-            @Debuggable
             @Override
             public int run(int value) {
                 root: for (int i = 0; i < 3; i++) {
@@ -212,7 +212,6 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void continueMultiple() {
         verify(new Code.IntParam() {
@@ -238,7 +237,6 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void continueInIf() {
         verify(new Code.IntParam() {
@@ -256,7 +254,6 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void continueInShorthandIf() {
         verify(new Code.IntParam() {
@@ -272,7 +269,6 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void continueInLogicalIf() {
         verify(new Code.IntParam() {
@@ -290,7 +286,6 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void returnNest() {
         verify(new Code.IntParam() {
@@ -311,11 +306,11 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void continueWithLogicalExpressionFail() {
         verify(new Code.IntParam() {
 
+            @Debuggable
             @Override
             public int run(int value) {
                 root: for (int i = 0; i < 3; i++) {
@@ -332,11 +327,11 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void continueWithLogicalExpressionAndAfterProcess() {
         verify(new Code.IntParam() {
 
+            @Debuggable
             @Override
             public int run(int value) {
                 root: for (int i = 0; i < 3; i++) {
@@ -352,7 +347,6 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void continueWithLogicalExpression() {
         verify(new Code.IntParam() {
@@ -372,7 +366,6 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void returnInNest() {
         verify(new Code.IntParam() {
@@ -395,7 +388,6 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void complex() {
         verify(new Code.IntParam() {

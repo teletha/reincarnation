@@ -16,7 +16,7 @@ import reincarnation.Node;
 /**
  * @version 2018/10/31 16:06:57
  */
-public abstract class Breakable extends Nestable {
+public abstract class Breakable extends Structure {
 
     /** The first processing node of this block structure. */
     protected final Node first;

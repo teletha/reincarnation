@@ -9,6 +9,8 @@
  */
 package reincarnation.structure;
 
+import kiss.I;
+import kiss.Signal;
 import reincarnation.Node;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -39,6 +41,22 @@ public class While extends Loopable {
         this.condition = condition;
         this.inner = that.process(inner);
         this.follow = that.process(follow);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Signal<Structure> inner() {
+        return I.signal(inner);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Signal<Structure> follower() {
+        return I.signal(follow);
     }
 
     /**

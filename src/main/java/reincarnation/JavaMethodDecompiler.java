@@ -334,6 +334,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         root = nodes.get(0).analyze();
 
+        // structurize
+        root.structurize();
+
         Debugger.printFollowing(nodes.peekFirst());
     }
 

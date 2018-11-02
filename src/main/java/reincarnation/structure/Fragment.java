@@ -11,6 +11,8 @@ package reincarnation.structure;
 
 import java.util.Objects;
 
+import kiss.I;
+import kiss.Signal;
 import reincarnation.Node;
 import reincarnation.coder.Coder;
 
@@ -44,6 +46,14 @@ public class Fragment extends Structure {
 
         this.code = Objects.requireNonNull(code);
         this.follow = Objects.requireNonNullElse(follow, Structure.Empty);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Signal<Structure> follower() {
+        return I.signal(follow);
     }
 
     /**

@@ -9,6 +9,8 @@
  */
 package reincarnation.structure;
 
+import kiss.I;
+import kiss.Signal;
 import reincarnation.Node;
 import reincarnation.coder.Coder;
 
@@ -49,6 +51,22 @@ public class For extends Loopable {
         this.inner = that.process(inner);
         this.updater = new Fragment(updater);
         this.follow = that.process(follow);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Signal<Structure> inner() {
+        return I.signal(updater, inner);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Signal<Structure> follower() {
+        return I.signal(follow);
     }
 
     /**

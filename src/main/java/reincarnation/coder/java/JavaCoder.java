@@ -635,8 +635,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeContinue(Optional<String> label) {
-        line("continue", label.map(v -> space + "l" + v), ";");
+    public void writeContinue(Optional<String> label, boolean omitLabel) {
+        line("continue", omitLabel ? "" : label.map(v -> space + "l" + v), ";");
     }
 
     /**

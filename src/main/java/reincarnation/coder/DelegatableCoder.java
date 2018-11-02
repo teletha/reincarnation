@@ -398,8 +398,8 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeContinue(Optional<String> label) {
-        coder.writeContinue(label);
+    public void writeContinue(Optional<String> label, boolean omitLabel) {
+        coder.writeContinue(label, omitLabel);
     }
 
     /**

@@ -11,6 +11,8 @@ package reincarnation.structure;
 
 import java.util.Optional;
 
+import kiss.I;
+import kiss.Signal;
 import reincarnation.Node;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -24,7 +26,7 @@ public abstract class Structure implements Code {
     public static final Structure Empty = new Empty();
 
     /** The parent structure. */
-    protected Structure parent;
+    private Structure parent;
 
     /** The comment. */
     private String comment;
@@ -41,6 +43,56 @@ public abstract class Structure implements Code {
         if (node != null) {
             this.associated.structure = this;
         }
+    }
+
+    /**
+     * Structurize.
+     */
+    public final void structurize() {
+        inner().to(child -> {
+            child.parent = this;
+            child.structurize();
+        });
+        follower().to(follow -> {
+            follow.parent = parent;
+            follow.structurize();
+        });
+    }
+
+    /**
+     * Collec the parent structure.
+     * 
+     * @return
+     */
+    public final Signal<Structure> parent() {
+        return I.signal(parent).skipNull();
+    }
+
+    /**
+     * Collec all ancestor structures.
+     * 
+     * @return
+     */
+    public final Signal<Structure> ancestor() {
+        return I.signal(true, parent, s -> s.flatMap(v -> I.signal(v.parent).skipNull()));
+    }
+
+    /**
+     * Collect all inner structures.
+     * 
+     * @return
+     */
+    public Signal<Structure> inner() {
+        return Signal.empty();
+    }
+
+    /**
+     * Collect all follower structures.
+     * 
+     * @return
+     */
+    public Signal<Structure> follower() {
+        return Signal.empty();
     }
 
     /**
@@ -73,32 +125,4 @@ public abstract class Structure implements Code {
      * {@inheritDoc}
      */
     protected abstract void writeCode(Coder coder);
-
-    /**
-     * @version 2018/11/01 16:29:25
-     */
-    private static class Empty extends Structure {
-
-        /**
-         * @param associated
-         */
-        private Empty() {
-            super(null);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void writeCode(Coder coder) {
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String toString() {
-            return "EmptyStatement";
-        }
-    }
 }

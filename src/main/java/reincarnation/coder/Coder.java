@@ -505,8 +505,9 @@ public abstract class Coder<O extends CodingOption> {
      * Continue statement.
      * 
      * @param label A label of continue point.
+     * @param omitLabel You can omit label or not.
      */
-    public abstract void writeContinue(Optional<String> label);
+    public abstract void writeContinue(Optional<String> label, boolean omitLabel);
 
     /**
      * If statement.

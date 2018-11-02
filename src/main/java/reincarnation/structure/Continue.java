@@ -9,8 +9,11 @@
  */
 package reincarnation.structure;
 
+import java.util.LinkedList;
 import java.util.Optional;
 
+import kiss.I;
+import kiss.Variable;
 import reincarnation.Node;
 import reincarnation.coder.Coder;
 
@@ -38,6 +41,19 @@ public class Continue extends Structure {
      */
     @Override
     public void writeCode(Coder coder) {
-        coder.writeContinue(Optional.ofNullable(loopable.entrance.id));
+        LinkedList<Structure> ancestors = ancestor().takeUntil(s -> s instanceof Loopable).to(LinkedList.class);
+
+        if (!ancestors.isEmpty()) {
+            Variable<Boolean> hasFollowers = I.signal(ancestors)
+                    .skip(loopable)
+                    .flatMap(v -> v.follower())
+                    .skip(v -> v instanceof Empty)
+                    .isEmitted()
+                    .to();
+
+            if (hasFollowers.is(true)) {
+                coder.writeContinue(Optional.ofNullable(loopable.entrance.id), ancestors.peekLast() == loopable);
+            }
+        }
     }
 }

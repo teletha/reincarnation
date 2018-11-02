@@ -9,6 +9,8 @@
  */
 package reincarnation.structure;
 
+import kiss.I;
+import kiss.Signal;
 import reincarnation.Node;
 import reincarnation.Operand;
 import reincarnation.coder.Coder;
@@ -16,7 +18,7 @@ import reincarnation.coder.Coder;
 /**
  * @version 2018/10/27 21:55:57
  */
-public class If extends Nestable {
+public class If extends Structure {
 
     /** The code. */
     private final Operand condition;
@@ -44,6 +46,22 @@ public class If extends Nestable {
         this.then = that.process(then);
         this.elze = that.process(elze);
         this.follow = that.process(follow);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Signal<Structure> inner() {
+        return I.signal(then, elze);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Signal<Structure> follower() {
+        return I.signal(follow);
     }
 
     /**
