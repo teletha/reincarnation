@@ -50,7 +50,7 @@ public class If extends Nestable {
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
+    public void writeCode(Coder coder) {
         coder.writeIf(condition, then, elze, follow);
     }
 }

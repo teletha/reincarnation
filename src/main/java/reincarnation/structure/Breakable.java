@@ -9,6 +9,8 @@
  */
 package reincarnation.structure;
 
+import java.util.Optional;
+
 import reincarnation.Node;
 
 /**
@@ -19,6 +21,9 @@ public abstract class Breakable extends Nestable {
     /** The first processing node of this block structure. */
     protected final Node first;
 
+    /** The label state. */
+    private boolean requireLabel;
+
     /**
      * Build {@link Breakable} block structure.
      * 
@@ -28,5 +33,21 @@ public abstract class Breakable extends Nestable {
         super(that);
 
         this.first = first;
+    }
+
+    /**
+     * Set label for this structure.
+     */
+    public final void requireLabel() {
+        requireLabel = true;
+    }
+
+    /**
+     * Compute label text.
+     * 
+     * @return
+     */
+    public final Optional<String> label() {
+        return requireLabel ? Optional.of(associated.id) : Optional.empty();
     }
 }

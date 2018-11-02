@@ -19,25 +19,25 @@ import reincarnation.coder.Coder;
  */
 public class Continue extends Structure {
 
-    /** The target label. */
-    private final String label;
+    /** The target . */
+    private final Loopable loopable;
 
     /**
-     * Build break statement.
+     * Build continue statement.
      * 
-     * @param label A target name.
+     * @param loopable A target to continue.
      */
-    public Continue(Node that, String label) {
+    public Continue(Node that, Loopable loopable) {
         super(that);
 
-        this.label = label;
+        this.loopable = loopable;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
-        coder.writeContinue(Optional.ofNullable(label));
+    public void writeCode(Coder coder) {
+        coder.writeContinue(Optional.ofNullable(loopable.entrance.id));
     }
 }

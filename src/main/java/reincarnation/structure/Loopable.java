@@ -17,10 +17,10 @@ import reincarnation.Node;
 public abstract class Loopable extends Breakable {
 
     /** The super dominator for all nodes in this loop structure. */
-    private final Node entrance;
+    public final Node entrance;
 
     /** The exit node of this loop structure if present. */
-    private final Node exit;
+    public final Node exit;
 
     /** The checkpoint node (i.e. condition or update) of this loop structure if present. */
     private final Node checkpoint;
@@ -40,5 +40,31 @@ public abstract class Loopable extends Breakable {
         this.entrance = entrance;
         this.exit = exit;
         this.checkpoint = checkpoint;
+
+        if (exit != null) {
+            exit.loops.add(this);
+        }
+
+        if (checkpoint != null) {
+            checkpoint.loops.add(this);
+        }
+    }
+
+    /**
+     * Detect whether the specified node is the header of this loop or not.
+     * 
+     * @param node A target node.
+     * @return A result.
+     */
+    public final boolean containsAsHeader(Node node) {
+        return node == entrance || node == checkpoint || node == first;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "Loop[entrance=" + entrance.id + ", first=" + first.id + ", exit=" + exit.id + ", check=" + checkpoint.id + "]";
     }
 }

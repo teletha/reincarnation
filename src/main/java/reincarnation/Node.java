@@ -33,6 +33,7 @@ import reincarnation.structure.Continue;
 import reincarnation.structure.For;
 import reincarnation.structure.Fragment;
 import reincarnation.structure.If;
+import reincarnation.structure.Loopable;
 import reincarnation.structure.Structure;
 import reincarnation.structure.While;
 
@@ -48,7 +49,7 @@ public class Node implements Code {
     private static final Deque<Breakable> breakables = new ArrayDeque();
 
     /** The identified label for this node. */
-    final String id;
+    public final String id;
 
     /** The actual operand stack. */
     final LinkedList<Operand> stack = new LinkedList();
@@ -114,13 +115,13 @@ public class Node implements Code {
     private int currentCalls = 0;
 
     /** The associated loop structure. */
-    private Deque<LoopStructure> loops = new ArrayDeque();
+    public final Deque<Loopable> loops = new ArrayDeque();
 
     /** The comment for node. */
     private String comment;
 
     /** The associated statement. */
-    public Structure statement = Structure.Empty;
+    public Structure structure = Structure.Empty;
 
     /**
      * @param label
@@ -1168,56 +1169,95 @@ public class Node implements Code {
      */
     public Structure process(Node next) {
         if (next != null) {
-            next.currentCalls++;
-
             // count a number of required write call
             int requiredCalls = next.incoming.size() - next.backedges.size() + next.additionalCalls;
 
-            System.out.println(next.statement);
-            LoopStructure loop = next.loops.peekLast();
+            if (requiredCalls == next.currentCalls) {
+                return Structure.Empty;
+            }
 
-            if (loop != null) {
+            next.currentCalls++;
+
+            if (!next.loops.isEmpty()) {
+                Loopable loopable = next.loops.peekLast();
+
                 // continue
-                if (loop.hasHeader(next) && hasDominator(loop.entrance)) {
-                    String label = loop.computeLabelFor(next);
+                if (loopable.containsAsHeader(next) && hasDominator(loopable.entrance)) {
+                    loopable.requireLabel();
 
-                    if (label != null || continueOmittable == null || !continueOmittable) {
-                        Continue continuer = new Continue(this, label);
+                    Continue continuer = new Continue(this, loopable);
 
-                        if (Debugger.isEnable()) {
-                            Debugger.print(this);
-                            Debugger.print(next);
-                            continuer
-                                    .comment(id + " -> " + next.id + " continue to " + loop.entrance.id + " (" + next.currentCalls + " of " + ") " + loop);
-                        }
+                    if (Debugger.isEnable()) {
+                        continuer
+                                .comment(id + " -> " + next.id + " continue to " + loopable.entrance.id + " (" + next.currentCalls + " of " + requiredCalls + ") " + loopable);
                     }
-                    return Structure.Empty;
+                    return continuer;
                 }
 
                 // break
-                if (!loop.hasHeader(this) && loop.hasExit(next) && hasDominator(loop.entrance)) {
+                if (loopable.exit == next && !loopable.containsAsHeader(this) && hasDominator(loopable.entrance)) {
                     // check whether the current node connects to the exit node directly or not
-                    if (loop.exit.incoming.contains(this)) {
-                        Break breaker = new Break(this, loop.computeLabelFor(next));
+                    if (loopable.exit.incoming.contains(this)) {
+                        loopable.requireLabel();
+
+                        Break breaker = new Break(this, loopable);
 
                         if (Debugger.isEnable()) {
-                            breaker.comment(id + " -> " + next.id + " break to " + loop.entrance.id + "(" + next.currentCalls + " of " + ") " + loop);
+                            breaker.comment(id + " -> " + next.id + " break to " + loopable.entrance.id + "(" + next.currentCalls + " of " + requiredCalls + ") " + loopable);
                         }
-                        System.out.println("BREAKKKKKK");
+                        return breaker;
                     }
                     return Structure.Empty;
                 }
             }
 
-            if (Debugger.isEnable()) {
-                addComment(id + " -> " + next.id + " (" + next.currentCalls + " of " + requiredCalls + ") " + (loop != null ? loop : ""));
-            }
+            // if (loop != null) {
+            // // continue
+            // if (loop.hasHeader(next) && hasDominator(loop.entrance)) {
+            // String label = loop.computeLabelFor(next);
+            //
+            // if (label != null || continueOmittable == null || !continueOmittable) {
+            // Continue continuer = new Continue(this, label);
+            //
+            // if (Debugger.isEnable()) {
+            // Debugger.print(this);
+            // Debugger.print(next);
+            // continuer
+            // .comment(id + " -> " + next.id + " continue to " + loop.entrance.id + " (" +
+            // next.currentCalls + " of " + ") " + loop);
+            // }
+            // }
+            // return Structure.Empty;
+            // }
+            //
+            // // break
+            // if (!loop.hasHeader(this) && loop.hasExit(next) && hasDominator(loop.entrance)) {
+            // // check whether the current node connects to the exit node directly or not
+            // if (loop.exit.incoming.contains(this)) {
+            // Break breaker = new Break(this, loop.computeLabelFor(next));
+            //
+            // if (Debugger.isEnable()) {
+            // breaker.comment(id + " -> " + next.id + " break to " + loop.entrance.id + "(" +
+            // next.currentCalls + " of " + ") " + loop);
+            // }
+            // System.out.println("BREAKKKKKK");
+            // }
+            // return Structure.Empty;
+            // }
+            // }
+
+            // if (Debugger.isEnable()) {
+            // addComment(id + " -> " + next.id + " (" + next.currentCalls + " of " + requiredCalls
+            // + ") " + (loop != null ? loop : ""));
+            // }
 
             // normal process
             if (requiredCalls <= next.currentCalls) {
                 Node dominator = next.getDominator();
 
-                if (dominator == null || dominator == this || (loop != null && loop.exit == next)) {
+                if (dominator == null || dominator == this /*
+                                                            * || (loop != null && loop.exit == next)
+                                                            */) {
                     // next node inherits the mode of dominator
                     if (next.continueOmittable == null) next.continueOmittable = continueOmittable;
                     if (!returnOmittable) next.returnOmittable = false;
@@ -1228,6 +1268,7 @@ public class Node implements Code {
             }
         }
         return Structure.Empty;
+
     }
 
     /**

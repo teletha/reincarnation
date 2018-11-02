@@ -481,6 +481,13 @@ public abstract class Coder<O extends CodingOption> {
     public abstract void writeCast(Class type, Code code);
 
     /**
+     * Line comment.
+     * 
+     * @param comment A comment.
+     */
+    public abstract void writeLineComment(Object comment);
+
+    /**
      * Throw statement.
      * 
      * @param code A value to be thrown.
@@ -514,22 +521,24 @@ public abstract class Coder<O extends CodingOption> {
     /**
      * For statement.
      * 
+     * @param label TODO
      * @param initialize A initializer part.
      * @param condition A condition.
      * @param updater A updater part.
      * @param inner A inner contents.
      * @param follow A following part.
      */
-    public abstract void writeFor(Code initialize, Code condition, Code updater, Runnable inner, Code follow);
+    public abstract void writeFor(Optional<String> label, Code initialize, Code condition, Code updater, Runnable inner, Code follow);
 
     /**
      * While statement.
      * 
+     * @param label TODO
      * @param condition A condition.
      * @param inner A inner contents.
      * @param follow A following part.
      */
-    public abstract void writeWhile(Code condition, Runnable inner, Code follow);
+    public abstract void writeWhile(Optional<String> label, Code condition, Runnable inner, Code follow);
 
     /**
      * Do-While statement.

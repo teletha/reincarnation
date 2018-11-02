@@ -19,25 +19,25 @@ import reincarnation.coder.Coder;
  */
 public class Break extends Structure {
 
-    /** The target label. */
-    private final String label;
+    /** The target. */
+    private final Breakable breakable;
 
     /**
      * Build break statement.
      * 
      * @param label A target name.
      */
-    public Break(Node that, String label) {
+    public Break(Node that, Breakable breakable) {
         super(that);
 
-        this.label = label;
+        this.breakable = breakable;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
-        coder.writeBreak(Optional.ofNullable(label));
+    public void writeCode(Coder coder) {
+        coder.writeBreak(Optional.of(breakable.associated.id));
     }
 }

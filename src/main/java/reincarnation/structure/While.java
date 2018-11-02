@@ -45,8 +45,8 @@ public class While extends Loopable {
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
-        coder.writeWhile(condition, () -> {
+    public void writeCode(Coder coder) {
+        coder.writeWhile(label(), condition, () -> {
             if (inner != null) {
                 inner.write(coder);
             }

@@ -46,8 +46,8 @@ public class For extends Loopable {
 
         this.initializer = initializer;
         this.condition = condition;
-        this.updater = that.process(updater);
         this.inner = that.process(inner);
+        this.updater = new Fragment(updater);
         this.follow = that.process(follow);
     }
 
@@ -55,8 +55,8 @@ public class For extends Loopable {
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
-        coder.writeFor(initializer, condition, updater, () -> {
+    public void writeCode(Coder coder) {
+        coder.writeFor(label(), initializer, condition, updater, () -> {
             if (inner != null) inner.write(coder);
         }, follow);
     }

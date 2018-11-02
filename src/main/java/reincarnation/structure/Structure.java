@@ -30,16 +30,16 @@ public abstract class Structure implements Code {
     private String comment;
 
     /** The associated node. */
-    private final Node node;
+    protected final Node associated;
 
     /**
      * @param node
      */
     protected Structure(Node node) {
-        this.node = node;
+        this.associated = node;
 
         if (node != null) {
-            this.node.statement = this;
+            this.associated.structure = this;
         }
     }
 
@@ -61,12 +61,26 @@ public abstract class Structure implements Code {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final void write(Coder coder) {
+        if (comment != null && !comment.isBlank()) coder.writeLineComment(comment);
+        writeCode(coder);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected abstract void writeCode(Coder coder);
+
+    /**
      * @version 2018/11/01 16:29:25
      */
     private static class Empty extends Structure {
 
         /**
-         * @param node
+         * @param associated
          */
         private Empty() {
             super(null);
@@ -76,7 +90,7 @@ public abstract class Structure implements Code {
          * {@inheritDoc}
          */
         @Override
-        public void write(Coder coder) {
+        public void writeCode(Coder coder) {
         }
 
         /**

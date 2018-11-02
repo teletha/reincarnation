@@ -611,6 +611,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
+    public void writeLineComment(Object comment) {
+        line("//", space, comment);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeThrow(Code code) {
         line("throw", space, code, ";");
     }
@@ -620,7 +628,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeBreak(Optional<String> label) {
-        line("break", label.map(v -> " " + v), ";");
+        line("break", label.map(v -> space + "l" + v), ";");
     }
 
     /**
@@ -628,7 +636,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeContinue(Optional<String> label) {
-        line("continue", label.map(v -> " " + v), ";");
+        line("continue", label.map(v -> space + "l" + v), ";");
     }
 
     /**
@@ -657,8 +665,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeFor(Code initialize, Code condition, Code updater, Runnable inner, Code follow) {
-        line("for", space, "(", initialize, ";", expression(condition), ";", expression(updater), ")", space, "{");
+    public void writeFor(Optional<String> label, Code initialize, Code condition, Code updater, Runnable inner, Code follow) {
+        line(label(label), "for", space, "(", initialize, ";", expression(condition), ";", expression(updater), ")", space, "{");
         indent(inner);
         line("}");
         write(follow);
@@ -668,8 +676,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeWhile(Code condition, Runnable inner, Code follow) {
-        line("while", space, "(", expression(condition), ")", space, "{");
+    public void writeWhile(Optional<String> label, Code condition, Runnable inner, Code follow) {
+        line(label(label), "while", space, "(", expression(condition), ")", space, "{");
         indent(inner);
         line("}");
         write(follow);
@@ -693,6 +701,16 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     private Code expression(Code code) {
         return c -> code.write(new NonStatementCoder(c));
+    }
+
+    /**
+     * Write labeled block.
+     * 
+     * @param label
+     * @return
+     */
+    private Optional<String> label(Optional<String> label) {
+        return label.map(v -> "l" + v + space + ":" + space);
     }
 
     /**

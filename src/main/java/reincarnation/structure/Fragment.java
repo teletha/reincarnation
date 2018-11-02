@@ -50,7 +50,7 @@ public class Fragment extends Structure {
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
+    public void writeCode(Coder coder) {
         code.write(coder);
         follow.write(coder);
     }

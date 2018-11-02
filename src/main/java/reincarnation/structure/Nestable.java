@@ -33,7 +33,7 @@ public abstract class Nestable extends Structure {
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
+    public void writeCode(Coder coder) {
         for (Structure child : children) {
             if (child != null) {
                 child.write(coder);

@@ -374,6 +374,14 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
+    public void writeLineComment(Object comment) {
+        coder.writeLineComment(comment);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeThrow(Code code) {
         coder.writeThrow(code);
     }
@@ -406,16 +414,16 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeFor(Code initialize, Code condition, Code updater, Runnable inner, Code follow) {
-        coder.writeFor(initialize, condition, updater, inner, follow);
+    public void writeFor(Optional<String> label, Code initialize, Code condition, Code updater, Runnable inner, Code follow) {
+        coder.writeFor(label, initialize, condition, updater, inner, follow);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void writeWhile(Code condition, Runnable inner, Code follow) {
-        coder.writeWhile(condition, inner, follow);
+    public void writeWhile(Optional<String> label, Code condition, Runnable inner, Code follow) {
+        coder.writeWhile(label, condition, inner, follow);
     }
 
     /**
