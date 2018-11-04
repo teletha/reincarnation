@@ -25,6 +25,7 @@ import com.github.javaparser.ast.stmt.ForStmt;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.Variable;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
@@ -114,8 +115,11 @@ public class Node implements Code {
     /** The number of current write calls. */
     private int currentCalls = 0;
 
-    /** The associated loop structure. */
-    public final Deque<Loopable> loops = new ArrayDeque();
+    /** The relationship with loop structure header. */
+    public final Variable<Loopable> loopHeader = Variable.empty();
+
+    /** The relationship with loop structure exit. */
+    public final Variable<Loopable> loopExit = Variable.empty();
 
     /** The comment for node. */
     private String comment;
@@ -1146,17 +1150,6 @@ public class Node implements Code {
                 follow.currentCalls--;
             }
         }
-
-        // check whether all following nodes can omit continue statement or not
-        if (follow != null && follow.loops.isEmpty()) {
-            then.continueOmittable = false;
-            then.returnOmittable = false;
-            if (elze != null) {
-                elze.continueOmittable = false;
-                elze.returnOmittable = false;
-            }
-        }
-
         return new If(this, condition, then, elze, follow);
     }
 
@@ -1178,10 +1171,10 @@ public class Node implements Code {
 
             next.currentCalls++;
 
-            if (!next.loops.isEmpty()) {
-                Loopable loopable = next.loops.peekLast();
+            // continue
+            if (next.loopHeader.isPresent()) {
+                Loopable loopable = next.loopHeader.v;
 
-                // continue
                 if (loopable.containsAsHeader(next) && hasDominator(loopable.entrance)) {
                     loopable.requireLabel();
 
@@ -1193,8 +1186,12 @@ public class Node implements Code {
                     }
                     return continuer;
                 }
+            }
 
-                // break
+            // break
+            if (next.loopExit.isPresent()) {
+                Loopable loopable = next.loopExit.v;
+
                 if (loopable.exit == next && !loopable.containsAsHeader(this) && hasDominator(loopable.entrance)) {
                     // check whether the current node connects to the exit node directly or not
                     if (loopable.exit.incoming.contains(this)) {

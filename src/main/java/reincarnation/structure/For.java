@@ -44,7 +44,7 @@ public class For extends Loopable {
      * @param follow
      */
     public For(Node that, Node initializer, Node condition, Node updater, Node inner, Node follow) {
-        super(that, that, inner, follow, updater);
+        super(that, that, follow, inner, updater);
 
         this.initializer = initializer;
         this.condition = condition;

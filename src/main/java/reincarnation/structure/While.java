@@ -36,7 +36,7 @@ public class While extends Loopable {
      * @param elze
      */
     public While(Node that, Node condition, Node inner, Node follow) {
-        super(that, condition, inner, follow, condition);
+        super(that, condition, follow, inner, condition);
 
         this.condition = condition;
         this.inner = that.process(inner);

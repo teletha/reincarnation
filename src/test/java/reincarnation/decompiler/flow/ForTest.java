@@ -310,7 +310,6 @@ class ForTest extends CodeVerifier {
     void continueWithLogicalExpressionFail() {
         verify(new Code.IntParam() {
 
-            @Debuggable
             @Override
             public int run(int value) {
                 root: for (int i = 0; i < 3; i++) {

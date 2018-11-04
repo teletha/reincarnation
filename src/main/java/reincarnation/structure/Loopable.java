@@ -29,12 +29,12 @@ public abstract class Loopable extends Breakable {
      * Build {@link Loopable} block structure.
      * 
      * @param entrance The super dominator for all nodes in this loop structure.
-     * @param first The first processing node of this loop structure.
      * @param exit The exit node of this loop structure if present.
+     * @param first The first processing node of this loop structure.
      * @param checkpoint The checkpoint node (i.e. condition or update) of this loop structure if
      *            present.
      */
-    protected Loopable(Node that, Node entrance, Node first, Node exit, Node checkpoint) {
+    protected Loopable(Node that, Node entrance, Node exit, Node first, Node checkpoint) {
         super(that, first);
 
         this.entrance = entrance;
@@ -42,11 +42,11 @@ public abstract class Loopable extends Breakable {
         this.checkpoint = checkpoint;
 
         if (exit != null) {
-            exit.loops.add(this);
+            exit.loopExit.let(this);
         }
 
         if (checkpoint != null) {
-            checkpoint.loops.add(this);
+            checkpoint.loopHeader.let(this);
         }
     }
 
