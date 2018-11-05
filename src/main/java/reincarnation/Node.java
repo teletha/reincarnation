@@ -647,12 +647,20 @@ public class Node implements Code {
                     return new Fragment(this, process(outgoing.get(0)));
                 } else if (backs == 1) {
                     // do while or infinite loop
+                    System.out.println(this);
+                    BackedgeGroup group = new BackedgeGroup(this);
+
                     if (backedges.get(0).outgoing.size() == 2) {
-                        // do while
-                        return writeDoWhile();
+                        if (group.exit == null) {
+                            // do while
+                            return writeDoWhile();
+                        } else {
+                            // infinit loop
+                            return writeInfiniteLoop(group);
+                        }
                     } else {
                         // infinit loop
-                        // writeInfiniteLoop1(group, buffer);
+                        return writeInfiniteLoop(group);
                     }
                 } else {
                     // infinit loop
@@ -721,65 +729,27 @@ public class Node implements Code {
 
     /**
      * Write infinite loop structure.
-     * 
-     * @param coder
      */
-    private void writeInfiniteLoop(Coder coder) {
-        // // make rewritable this node
-        // written = false;
-        //
-        // LoopStructure loop = new LoopStructure(this, this, null, null, coder);
-        //
-        // // clear all backedge nodes of infinite loop
-        // backedges.clear();
-        //
-        // // re-write script fragment
-        // ForStmt loopStatement = new ForStmt();
-        // loopStatement.setInitialization(new NodeList());
-        // loopStatement.setCompare(null);
-        // loopStatement.setUpdate(new NodeList());
-        //
-        // breakables.add(loop);
-        // write(buffer);
-        // loopStatement.setBody();
-        // breakables.removeLast();
-        // buffer.write("}");
-        // loop.writeRequiredLabel();
-        //
-        // return Structure.Empty;
-    }
-
-    /**
-     * Write infinite loop structure.
-     */
-    private Structure writeInfiniteLoop1(BackedgeGroup group) {
+    private Structure writeInfiniteLoop(BackedgeGroup group) {
         if (group.exit != null) group.exit.currentCalls--;
 
-        // make rewritable this node
+        // make reanalyzable this node
         analyzed = false;
-        System.out.println(this);
-        System.out.println(group.exit);
 
         // clear all backedge nodes of infinite loop
         backedges.removeAll(group);
 
-        return new InfiniteLoop(this, this, group.exit);
+        return new InfiniteLoop(this, process(this), group.exit);
     }
 
     /**
      * Write while structure.
-     * 
-     * @param coder
      */
     private Structure writeWhile() {
         Node[] nodes = detectProcessAndExit();
 
         if (nodes == null) {
-            // return writeInfiniteLoop();
-
-            // If this exception will be thrown, it is bug of this program. So we must rethrow the
-            // wrapped error in here.
-            throw new Error();
+            return writeInfiniteLoop(new BackedgeGroup(this));
         } else {
             return new While(this, this, nodes[0], nodes[1]);
         }
@@ -815,11 +785,7 @@ public class Node implements Code {
         Node[] nodes = detectProcessAndExit();
 
         if (nodes == null) {
-            // writeInfiniteLoop(coder);
-
-            // If this exception will be thrown, it is bug of this program. So we must rethrow the
-            // wrapped error in here.
-            throw new Error();
+            return writeInfiniteLoop(new BackedgeGroup(this));
         } else {
             // setup update expression node
             Node update = backedges.get(0);

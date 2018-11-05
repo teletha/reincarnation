@@ -28,13 +28,12 @@ public class InfiniteLoop extends Loopable {
     /**
      * Loop structure.
      * 
-     * @param inner
      * @param follow
      */
-    public InfiniteLoop(Node that, Node inner, Node follow) {
-        super(that, inner, follow, inner, inner);
+    public InfiniteLoop(Node that, Structure inner, Node follow) {
+        super(that, that, follow, that, that);
 
-        this.inner = that.process(inner);
+        this.inner = inner;
         this.follow = that.process(follow);
     }
 

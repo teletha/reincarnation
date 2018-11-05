@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/26 16:10:31
@@ -405,7 +406,6 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void infinite() {
         verify(new Code.IntParam() {
@@ -429,7 +429,6 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void infiniteLikeFor() {
         verify(new Code.IntParam() {
@@ -450,7 +449,6 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void infiniteLikeWhile() {
         verify(new Code.IntParam() {
@@ -477,6 +475,7 @@ class ForTest extends CodeVerifier {
     void infiniteWithWhile() {
         verify(new Code.IntParam() {
 
+            @Debuggable
             @Override
             public int run(int value) {
                 int counter = 1;
@@ -496,7 +495,6 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void infiniteWithWhileNodes() {
         verify(new Code.IntParam() {
@@ -520,7 +518,6 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void infiniteIfReturn() {
         verify(new Code.IntParam() {
@@ -541,13 +538,13 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
     void infiniteIfElse() {
         verify(new Code.IntParam() {
 
+            @Debuggable
             @Override
-            public int run(int value) {
+            public int run(@Param(from = -10, to = 10) int value) {
                 for (;;) {
                     if (0 < value) {
                         value++;
