@@ -88,6 +88,40 @@ class LongIncrementTest extends CodeVerifier {
     }
 
     @Test
+    void incrementVariableInMethodCall() {
+        verify(new Code.LongParam() {
+
+            @Override
+            public long run(long value) {
+                long sum1 = sum(value++, value++, value++);
+                long sum2 = sum(++sum1, ++sum1, ++sum1);
+                return sum(++sum2, sum2++, ++sum2);
+            }
+
+            private long sum(long a, long b, long c) {
+                return a + b + c;
+            }
+        });
+    }
+
+    @Test
+    void decrementVariableInMethodCall() {
+        verify(new Code.LongParam() {
+
+            @Override
+            public long run(long value) {
+                long sum1 = sum(value--, value--, value--);
+                long sum2 = sum(--sum1, --sum1, --sum1);
+                return sum(--sum2, sum2--, --sum2);
+            }
+
+            private long sum(long a, long b, long c) {
+                return a + b + c;
+            }
+        });
+    }
+
+    @Test
     void incrementFieldInFieldAccess() {
         verify(new Code.Long() {
 

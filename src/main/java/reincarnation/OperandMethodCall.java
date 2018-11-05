@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -135,6 +136,20 @@ class OperandMethodCall extends Operand {
         @Override
         public void writeStatement(Code code) {
             code.write(this);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeMethodCall(Method method, Code context, List<? extends Code> parameters, AccessMode mode) {
+            LinkedList<Code> copy = new LinkedList(params);
+            Code delegate = context;
+
+            if (!Modifier.isStatic(method.getModifiers())) {
+                delegate = copy.removeFirst();
+            }
+            coder.writeMethodCall(method, delegate, copy, mode);
         }
     }
 }

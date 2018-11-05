@@ -24,10 +24,10 @@ import reincarnation.operator.UnaryOperator;
 public class OperandUnary extends Operand {
 
     /** The value. */
-    private final Operand value;
+    public final Operand value;
 
     /** The operator. */
-    private final UnaryOperator operator;
+    public final UnaryOperator operator;
 
     /**
      * Create unary operation.

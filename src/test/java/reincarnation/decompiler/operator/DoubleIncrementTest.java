@@ -88,6 +88,40 @@ class DoubleIncrementTest extends CodeVerifier {
     }
 
     @Test
+    void incrementVariableInMethodCall() {
+        verify(new Code.DoubleParam() {
+
+            @Override
+            public double run(double value) {
+                double sum1 = sum(value++, value++, value++);
+                double sum2 = sum(++sum1, ++sum1, ++sum1);
+                return sum(++sum2, sum2++, ++sum2);
+            }
+
+            private double sum(double a, double b, double c) {
+                return a + b + c;
+            }
+        });
+    }
+
+    @Test
+    void decrementVariableInMethodCall() {
+        verify(new Code.DoubleParam() {
+
+            @Override
+            public double run(double value) {
+                double sum1 = sum(value--, value--, value--);
+                double sum2 = sum(--sum1, --sum1, --sum1);
+                return sum(--sum2, sum2--, --sum2);
+            }
+
+            private double sum(double a, double b, double c) {
+                return a + b + c;
+            }
+        });
+    }
+
+    @Test
     void incrementFieldInFieldAccess() {
         verify(new Code.Double() {
 

@@ -49,18 +49,28 @@ class LocalVariables {
     LocalVariables(Class clazz, boolean isStatic, Type[] types) {
         this.clazz = clazz;
         this.offset = isStatic ? 0 : 1;
-        this.size = offset + types.length;
 
         if (isStatic == false) {
             locals.put(0, new OperandLocalVariable(clazz, "this"));
         }
 
+        // count index because primitive long and double occupy double stacks
+        int index = 0;
+
         for (int i = 0; i < types.length; i++) {
-            OperandLocalVariable local = new OperandLocalVariable(Util.load(types[i]), "arg" + i);
+            Class type = Util.load(types[i]);
+            OperandLocalVariable local = new OperandLocalVariable(type, "arg" + index);
             local.declared = true;
             local.fix();
-            locals.put(i + offset, local);
+            locals.put(index + offset, local);
+
+            index++;
+
+            if (type == long.class || type == double.class) {
+                index++;
+            }
         }
+        this.size = index + offset;
     }
 
     /**
@@ -147,6 +157,10 @@ class LocalVariables {
         OperandLocalVariable local = locals.get(sequencialUpdateCount++ + offset);
 
         local.name = name;
+
+        if (local.type.v == long.class || local.type.v == double.class) {
+            sequencialUpdateCount++;
+        }
     }
 
     /**

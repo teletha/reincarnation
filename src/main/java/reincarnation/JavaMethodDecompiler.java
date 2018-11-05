@@ -662,21 +662,21 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         if (increment == 1) {
             // increment
-            if (match(ILOAD, INCREMENT)) {
+            if (match(ILOAD, INCREMENT) && current.peek(0) instanceof OperandUnary == false) {
                 // post increment
                 current.addOperand(new OperandUnary(current.remove(0), UnaryOperator.POST_INCREMENT));
             } else {
                 // pre increment
-                current.addExpression(new OperandUnary(variable, UnaryOperator.PRE_INCREMENT));
+                current.addOperand(new OperandUnary(variable, UnaryOperator.PRE_INCREMENT));
             }
         } else if (increment == -1) {
-            // increment
-            if (match(ILOAD, INCREMENT)) {
-                // post increment
+            // decrement
+            if (match(ILOAD, INCREMENT) && current.peek(0) instanceof OperandUnary == false) {
+                // post decrement
                 current.addOperand(new OperandUnary(current.remove(0), UnaryOperator.POST_DECREMENT));
             } else {
-                // pre increment
-                current.addExpression(new OperandUnary(variable, UnaryOperator.PRE_DECREMENT));
+                // pre decrement
+                current.addOperand(new OperandUnary(variable, UnaryOperator.PRE_DECREMENT));
             }
         } else {
             current.addOperand(new OperandAssign(variable, AssignOperator.PLUS, new OperandNumber(increment)));
@@ -1511,10 +1511,15 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         case LLOAD:
         case DLOAD:
             if (match(INCREMENT, ILOAD)) {
-                String expression = current.peek(0).toString();
-                if (expression.startsWith("++") || expression.startsWith("--")) {
-                    if (expression.substring(2).equals(variable.toString())) {
-                        break;
+                Operand prev = current.peek(0);
+
+                if (prev instanceof OperandUnary) {
+                    OperandUnary unary = (OperandUnary) prev;
+
+                    if (unary.operator == UnaryOperator.PRE_INCREMENT || unary.operator == UnaryOperator.PRE_DECREMENT) {
+                        if (unary.value.equals(variable)) {
+                            break;
+                        }
                     }
                 }
             }
@@ -1541,6 +1546,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 current.remove(0);
 
                 current.addOperand(increment(variable, load(opcode), true, true));
+            } else if (match(LLOAD, DUP2, LCONST_1, LSUB, LSTORE) || match(FLOAD, DUP, FCONST_1, FSUB, FSTORE) || match(DLOAD, DUP2, DCONST_1, DSUB, DSTORE)) {
+                // for long, float and double
+                current.remove(0);
+                current.remove(0);
+
+                current.addOperand(increment(variable, load(opcode), false, true));
             } else {
                 // for other
                 if (current.peek(0) != null) {

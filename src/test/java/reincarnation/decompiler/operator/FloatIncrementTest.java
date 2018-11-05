@@ -88,6 +88,40 @@ class FloatIncrementTest extends CodeVerifier {
     }
 
     @Test
+    void incrementVariableInMethodCall() {
+        verify(new Code.FloatParam() {
+
+            @Override
+            public float run(float value) {
+                float sum1 = sum(value++, value++, value++);
+                float sum2 = sum(++sum1, ++sum1, ++sum1);
+                return sum(++sum2, sum2++, ++sum2);
+            }
+
+            private float sum(float a, float b, float c) {
+                return a + b + c;
+            }
+        });
+    }
+
+    @Test
+    void decrementVariableInMethodCall() {
+        verify(new Code.FloatParam() {
+
+            @Override
+            public float run(float value) {
+                float sum1 = sum(value--, value--, value--);
+                float sum2 = sum(--sum1, --sum1, --sum1);
+                return sum(--sum2, sum2--, --sum2);
+            }
+
+            private float sum(float a, float b, float c) {
+                return a + b + c;
+            }
+        });
+    }
+
+    @Test
     void incrementFieldInFieldAccess() {
         verify(new Code.Float() {
 
