@@ -680,16 +680,9 @@ public class Node implements Code {
                     return new Fragment(this, process(outgoing.get(0)));
                 } else if (backs == 1) {
                     // do while or infinite loop
-                    BackedgeGroup group = new BackedgeGroup(this);
-
                     if (backedges.get(0).outgoing.size() == 2) {
-                        if (group.exit == null) {
-                            // do while
-                            return writeDoWhile();
-                        } else {
-                            // infinit loop
-                            return writeInfiniteLoop1(group);
-                        }
+                        // do while
+                        return writeDoWhile();
                     } else {
                         // infinit loop
                         // writeInfiniteLoop1(group, buffer);

@@ -1,23 +1,21 @@
 /*
- * Copyright (C) 2016 Nameless Production Committee
+ * Copyright (C) 2018 Reincarnation Development Team
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *          http://opensource.org/licenses/mit-license.php
+ *          https://opensource.org/licenses/MIT
  */
 package reincarnation.decompiler.flow;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 
 /**
- * @version 2018/10/29 15:01:13
+ * @version 2018/11/05 14:47:21
  */
 class DoWhileTest extends CodeVerifier {
 
@@ -71,7 +69,6 @@ class DoWhileTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void breakNoLabel() {
         verify(new Code.IntParam() {
 
@@ -188,7 +185,6 @@ class DoWhileTest extends CodeVerifier {
         verify(new Code.IntParam() {
 
             @Override
-            @Debuggable
             public int run(@Param(from = 0, to = 5) int value) {
                 if (value != 3) {
                     do {
@@ -277,7 +273,6 @@ class DoWhileTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void nestContinueJump() {
         verify(new Code.IntParam() {
 
@@ -308,7 +303,6 @@ class DoWhileTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void nestBreakJump() {
         verify(new Code.IntParam() {
 

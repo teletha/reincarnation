@@ -649,7 +649,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             write(then);
         });
 
-        if (elze == null) {
+        if (elze.isEmpty()) {
             line("}");
         } else {
             line("}", space, "else", space, "{");

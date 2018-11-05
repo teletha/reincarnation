@@ -332,12 +332,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // optimize
         removeLastEmptyReturn();
 
-        root = nodes.get(0).analyze();
+        Debugger.printFollowing(nodes.peekFirst());
+
+        root = nodes.peekFirst().analyze();
 
         // structurize
         root.structurize();
 
-        Debugger.printFollowing(nodes.peekFirst());
     }
 
     /**

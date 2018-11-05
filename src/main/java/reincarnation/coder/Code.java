@@ -35,4 +35,13 @@ public interface Code {
     default Optional<String> comment() {
         return Optional.empty();
     }
+
+    /**
+     * Check this code is empty or not.
+     * 
+     * @return A result.
+     */
+    default boolean isEmpty() {
+        return false;
+    }
 }
