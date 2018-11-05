@@ -31,9 +31,11 @@ import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.structure.Break;
 import reincarnation.structure.Continue;
+import reincarnation.structure.DoWhile;
 import reincarnation.structure.For;
 import reincarnation.structure.Fragment;
 import reincarnation.structure.If;
+import reincarnation.structure.InfiniteLoop;
 import reincarnation.structure.Loopable;
 import reincarnation.structure.Structure;
 import reincarnation.structure.While;
@@ -660,7 +662,8 @@ public class Node implements Code {
             for (int i = 0; i < tries.size(); i++) {
                 // buffer.write("try", "{");
             }
-
+            Debugger.print("Analyze");
+            Debugger.print(this);
             // =============================================================
             // Other Block
             // =============================================================
@@ -682,10 +685,10 @@ public class Node implements Code {
                     if (backedges.get(0).outgoing.size() == 2) {
                         if (group.exit == null) {
                             // do while
-                            // writeDoWhile(coder);
+                            return writeDoWhile();
                         } else {
                             // infinit loop
-                            // writeInfiniteLoop1(group, buffer);
+                            return writeInfiniteLoop1(group);
                         }
                     } else {
                         // infinit loop
@@ -941,31 +944,20 @@ public class Node implements Code {
     }
 
     /**
-     * <p>
      * Write infinite loop structure.
-     * </p>
-     * 
-     * @param buffer
      */
-    private void writeInfiniteLoop1(BackedgeGroup group, ScriptWriter buffer) {
-        LoopStructure loop = new LoopStructure(this, this, group.exit, null, buffer);
-
+    private Structure writeInfiniteLoop1(BackedgeGroup group) {
         if (group.exit != null) group.exit.currentCalls--;
 
         // make rewritable this node
         written = false;
+        System.out.println(this);
+        System.out.println(group.exit);
 
         // clear all backedge nodes of infinite loop
         backedges.removeAll(group);
 
-        // re-write script fragment
-        buffer.write("for", "(;;)", "{");
-        breakables.add(loop);
-        write(buffer);
-        breakables.removeLast();
-        buffer.write("}");
-        loop.writeRequiredLabel();
-        process(group.exit, buffer);
+        return new InfiniteLoop(this, this, group.exit);
     }
 
     /**
@@ -989,35 +981,25 @@ public class Node implements Code {
 
     /**
      * Write do-while structure.
-     * 
-     * @param coder
      */
-    private void writeDoWhile(Coder coder) {
-        // // setup condition expression node
-        // Node condition = backedges.remove(0);
-        // // condition.written = true;
-        //
-        // Node exit;
-        // Node inner;
-        //
-        // if (condition.outgoing.get(0) == this) {
-        // exit = condition.outgoing.get(1);
-        // inner = condition.outgoing.get(0);
-        // } else {
-        // exit = condition.outgoing.get(0);
-        // inner = condition.outgoing.get(1);
-        // }
-        //
-        // LoopStructure loop = new LoopStructure(this, outgoing.get(0), exit, condition, coder);
-        //
-        // // write code fragment
-        // coder.writeDoWhile(code(condition), () -> {
-        // breakables.add(loop);
-        // process(inner, coder);
-        // breakables.removeLast();
-        // });
-        // loop.writeRequiredLabel();
-        // process(exit, coder);
+    private Structure writeDoWhile() {
+        // setup condition expression node
+        Node condition = backedges.remove(0);
+
+        // make rewritable this node
+        written = false;
+
+        Node exit;
+        Node inner;
+
+        if (condition.outgoing.get(0) == this) {
+            exit = condition.outgoing.get(1);
+            inner = condition.outgoing.get(0);
+        } else {
+            exit = condition.outgoing.get(0);
+            inner = condition.outgoing.get(1);
+        }
+        return new DoWhile(this, condition, inner, exit);
     }
 
     /**
@@ -1250,18 +1232,7 @@ public class Node implements Code {
 
             // normal process
             if (requiredCalls <= next.currentCalls) {
-                Node dominator = next.getDominator();
-
-                if (dominator == null || dominator == this /*
-                                                            * || (loop != null && loop.exit == next)
-                                                            */) {
-                    // next node inherits the mode of dominator
-                    if (next.continueOmittable == null) next.continueOmittable = continueOmittable;
-                    if (!returnOmittable) next.returnOmittable = false;
-
-                    // process next node
-                    return next.analyze();
-                }
+                return next.analyze();
             }
         }
         return Structure.Empty;
@@ -1357,7 +1328,7 @@ public class Node implements Code {
     }
 
     /**
-     * @version 2014/07/03 11:36:56
+     * @version 2018/11/05 13:17:16
      */
     @SuppressWarnings("serial")
     private static class BackedgeGroup extends ArrayDeque {

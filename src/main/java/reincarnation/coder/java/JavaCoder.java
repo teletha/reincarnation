@@ -666,7 +666,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeFor(Optional<String> label, Code initialize, Code condition, Code updater, Runnable inner, Code follow) {
-        line(label(label), "for", space, "(", initialize, ";", expression(condition), ";", expression(updater), ")", space, "{");
+        line(label(label), "for", space, "(", initialize, ";", space, expression(condition), ";", space, expressions(updater), ")", space, "{");
         indent(inner);
         line("}");
         write(follow);
@@ -687,20 +687,42 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeDoWhile(Code condition, Runnable inner, Code follow) {
-        line("do", space, "{");
+    public void writeDoWhile(Optional<String> label, Code condition, Runnable inner, Code follow) {
+        line(label(label), "do", space, "{");
         indent(inner);
-        line("}", space, "while", space, "(", expression(condition), ")");
+        line("}", space, "while", space, "(", expression(condition), ");");
+        write(follow);
     }
 
     /**
-     * Write all statements as expression.
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeInfinitLoop(Optional<String> label, Runnable inner, Code follow) {
+        line(label(label), "for", space, "(;;)", space, "{");
+        indent(inner);
+        line("}");
+        write(follow);
+    }
+
+    /**
+     * Write all statements as single expression.
      * 
      * @param code A target code.
      * @return A converted code.
      */
     private Code expression(Code code) {
-        return c -> code.write(new NonStatementCoder(c));
+        return c -> code.write(new Expression(c));
+    }
+
+    /**
+     * Write all statements as multiple expressions.
+     * 
+     * @param code A target code.
+     * @return A converted code.
+     */
+    private Code expressions(Code code) {
+        return c -> code.write(new Expressions(c));
     }
 
     /**
@@ -839,12 +861,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     /**
      * @version 2018/11/01 15:33:55
      */
-    private class NonStatementCoder extends DelegatableCoder<CodingOption> {
+    private class Expression extends DelegatableCoder<CodingOption> {
 
         /**
          * @param coder
          */
-        private NonStatementCoder(Coder<CodingOption> coder) {
+        private Expression(Coder<CodingOption> coder) {
             super(coder);
         }
 
@@ -854,6 +876,36 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         @Override
         public void writeStatement(Code code) {
             write(code);
+        }
+    }
+
+    /**
+     * @version 2018/11/05 14:26:01
+     */
+    private class Expressions extends DelegatableCoder<CodingOption> {
+
+        /** The state. */
+        private boolean first = true;
+
+        /**
+         * @param coder
+         */
+        private Expressions(Coder<CodingOption> coder) {
+            super(coder);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeStatement(Code code) {
+            if (first) {
+                first = false;
+
+                write(code);
+            } else {
+                write(",", space, code);
+            }
         }
     }
 

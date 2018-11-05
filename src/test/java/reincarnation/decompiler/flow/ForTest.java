@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/26 16:10:31
@@ -78,7 +77,6 @@ class ForTest extends CodeVerifier {
     void multipleUpdate() {
         verify(new Code.IntParam() {
 
-            @Debuggable
             @Override
             public int run(int value) {
                 for (int i = 0; i < 3; i++, value++) {
@@ -330,7 +328,6 @@ class ForTest extends CodeVerifier {
     void continueWithLogicalExpressionAndAfterProcess() {
         verify(new Code.IntParam() {
 
-            @Debuggable
             @Override
             public int run(int value) {
                 root: for (int i = 0; i < 3; i++) {

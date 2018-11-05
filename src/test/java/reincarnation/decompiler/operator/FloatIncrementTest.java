@@ -15,9 +15,23 @@ import reincarnation.Code;
 import reincarnation.CodeVerifier;
 
 /**
- * @version 2018/10/23 10:10:18
+ * @version 2018/11/05 14:22:43
  */
 class FloatIncrementTest extends CodeVerifier {
+
+    @Test
+    void sequence() {
+        verify(new Code.FloatParam() {
+
+            @Override
+            public float run(float value) {
+                value++;
+                ++value;
+                value++;
+                return ++value;
+            }
+        });
+    }
 
     @Test
     void incrementFieldInMethodCall() {

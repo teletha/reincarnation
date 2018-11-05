@@ -430,8 +430,16 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeDoWhile(Code condition, Runnable inner, Code follow) {
-        coder.writeDoWhile(condition, inner, follow);
+    public void writeDoWhile(Optional<String> label, Code condition, Runnable inner, Code follow) {
+        coder.writeDoWhile(label, condition, inner, follow);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeInfinitLoop(Optional<String> label, Runnable inner, Code follow) {
+        coder.writeInfinitLoop(label, inner, follow);
     }
 
 }

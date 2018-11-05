@@ -522,7 +522,7 @@ public abstract class Coder<O extends CodingOption> {
     /**
      * For statement.
      * 
-     * @param label TODO
+     * @param label A block label.
      * @param initialize A initializer part.
      * @param condition A condition.
      * @param updater A updater part.
@@ -534,7 +534,7 @@ public abstract class Coder<O extends CodingOption> {
     /**
      * While statement.
      * 
-     * @param label TODO
+     * @param label A block label.
      * @param condition A condition.
      * @param inner A inner contents.
      * @param follow A following part.
@@ -544,9 +544,19 @@ public abstract class Coder<O extends CodingOption> {
     /**
      * Do-While statement.
      * 
+     * @param label A block label.
      * @param condition A condition.
      * @param inner A inner contents.
      * @param follow A following part.
      */
-    public abstract void writeDoWhile(Code condition, Runnable inner, Code follow);
+    public abstract void writeDoWhile(Optional<String> label, Code condition, Runnable inner, Code follow);
+
+    /**
+     * Infinit loop structure.
+     * 
+     * @param label A block label.
+     * @param inner A inner contents.
+     * @param follow A following part.
+     */
+    public abstract void writeInfinitLoop(Optional<String> label, Runnable inner, Code follow);
 }

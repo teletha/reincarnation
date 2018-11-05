@@ -15,9 +15,23 @@ import reincarnation.Code;
 import reincarnation.CodeVerifier;
 
 /**
- * @version 2018/10/23 10:12:59
+ * @version 2018/11/05 14:22:54
  */
 class LongIncrementTest extends CodeVerifier {
+
+    @Test
+    void sequence() {
+        verify(new Code.LongParam() {
+
+            @Override
+            public long run(long value) {
+                value++;
+                ++value;
+                value++;
+                return ++value;
+            }
+        });
+    }
 
     @Test
     void incrementFieldInMethodCall() {
