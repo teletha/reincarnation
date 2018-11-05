@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/28 9:15:52
@@ -360,6 +361,23 @@ public class IfTest extends CodeVerifier {
                     result = -10;
                 }
                 return result;
+            }
+        });
+    }
+
+    @Test
+    void ternaryLike() {
+        verify(new Code.IntParam() {
+
+            @Debuggable
+            @Override
+            public int run(int value) {
+                if (0 < value) {
+                    value++;
+                } else {
+                    value--;
+                }
+                return value;
             }
         });
     }

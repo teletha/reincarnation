@@ -596,12 +596,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                     current.remove(0);
                     current.remove(0);
 
-                    if (first instanceof OperandCondition && second instanceof OperandCondition) {
-                        condition
-                                .addOperand(new OperandTernaryCondition((OperandCondition) third, (OperandCondition) second, (OperandCondition) first));
-                    } else {
-                        condition.addOperand(new OperandTernary(((OperandCondition) third).invert(), second, first).encolose());
-                    }
+                    condition.addOperand(new OperandTernary(((OperandCondition) third).invert(), second, first).encolose());
                 }
 
                 // dispose empty nodes

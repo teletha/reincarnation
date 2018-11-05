@@ -647,7 +647,6 @@ public class Node implements Code {
                     return new Fragment(this, process(outgoing.get(0)));
                 } else if (backs == 1) {
                     // do while or infinite loop
-                    System.out.println(this);
                     BackedgeGroup group = new BackedgeGroup(this);
 
                     if (backedges.get(0).outgoing.size() == 2) {
@@ -655,8 +654,9 @@ public class Node implements Code {
                             // do while
                             return writeDoWhile();
                         } else {
+                            return writeDoWhile();
                             // infinit loop
-                            return writeInfiniteLoop(group);
+                            // return writeInfiniteLoop(group);
                         }
                     } else {
                         // infinit loop
@@ -664,7 +664,7 @@ public class Node implements Code {
                     }
                 } else {
                     // infinit loop
-                    // writeInfiniteLoop1(new BackedgeGroup(this), buffer);
+                    return writeInfiniteLoop(new BackedgeGroup(this));
                 }
             } else if (outs == 2) {
                 // while, for or if
@@ -1094,7 +1094,7 @@ public class Node implements Code {
 
             // search exit node of this infinite loop structure (depth-first search)
             //
-            // startfrom base node
+            // start from base node
             if (base != null) {
                 Deque<Node> candidates = new ArrayDeque(base.outgoing);
 

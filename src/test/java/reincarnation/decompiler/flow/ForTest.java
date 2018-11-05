@@ -551,7 +551,6 @@ class ForTest extends CodeVerifier {
                     } else {
                         value--;
                     }
-
                     if (value % 3 == 0) {
                         return value;
                     }
