@@ -17,11 +17,8 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import com.github.javaparser.ast.stmt.ForStmt;
 
 import kiss.I;
 import kiss.Signal;
@@ -41,15 +38,12 @@ import reincarnation.structure.Structure;
 import reincarnation.structure.While;
 
 /**
- * @version 2018/10/31 1:32:16
+ * @version 2018/11/05 15:07:53
  */
 public class Node implements Code {
 
     /** The representation of node termination. */
     static final Node Termination = new Node("T");
-
-    /** The stack of labeled blocks. */
-    private static final Deque<Breakable> breakables = new ArrayDeque();
 
     /** The identified label for this node. */
     public final String id;
@@ -103,13 +97,7 @@ public class Node implements Code {
     private boolean whileFindingDominator;
 
     /** The flag whether this node has already written or not. */
-    boolean written = false;
-
-    /** The flag whether this node can omit continue statement safely or not. */
-    private Boolean continueOmittable;
-
-    /** The flag whether this node can omit return statement safely or not. */
-    private boolean returnOmittable = true;
+    boolean analyzed = false;
 
     /** The number of additional write calls. */
     private int additionalCalls = 0;
@@ -122,9 +110,6 @@ public class Node implements Code {
 
     /** The relationship with loop structure exit. */
     public final Variable<Loopable> loopExit = Variable.empty();
-
-    /** The comment for node. */
-    private String comment;
 
     /** The associated statement. */
     public Structure structure = Structure.Empty;
@@ -150,15 +135,6 @@ public class Node implements Code {
      */
     final Signal<Node> signal() {
         return I.signal(this, n -> n.next).takeWhile(n -> n != null);
-    }
-
-    /**
-     * Helper to write line commnet.
-     * 
-     * @param comment
-     */
-    final void addComment(String comment) {
-        this.comment = comment;
     }
 
     /**
@@ -597,14 +573,6 @@ public class Node implements Code {
      * {@inheritDoc}
      */
     @Override
-    public Optional<String> comment() {
-        return Optional.ofNullable(comment);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void write(Coder coder) {
         for (Operand operand : stack) {
             if (operand.isExpression() || operand instanceof OperandAssign) {
@@ -616,8 +584,8 @@ public class Node implements Code {
     }
 
     public Structure analyze() {
-        if (!written) {
-            written = true;
+        if (!analyzed) {
+            analyzed = true;
 
             // =============================================================
             // Switch Block
@@ -662,8 +630,7 @@ public class Node implements Code {
             for (int i = 0; i < tries.size(); i++) {
                 // buffer.write("try", "{");
             }
-            Debugger.print("Analyze");
-            Debugger.print(this);
+
             // =============================================================
             // Other Block
             // =============================================================
@@ -753,187 +720,33 @@ public class Node implements Code {
     }
 
     /**
-     * <p>
-     * Write script fragment.
-     * </p>
-     * 
-     * @param buffer
-     */
-    final void write(ScriptWriter buffer) {
-        if (!written) {
-            written = true;
-
-            if (lineNumber != -1) {
-                buffer.comment(lineNumber);
-            }
-
-            // =============================================================
-            // Switch Block
-            // =============================================================
-            // Switch block is independent from other blocks, so we must return at the end.
-            if (switchy != null) {
-                // execute first to detect default node
-                Node exit = switchy.searchExit();
-
-                // enter switch
-                buffer.write("switch", "(" + switchy.value + ")", "{");
-                breakables.add(switchy);
-
-                // each cases
-                for (Node node : switchy.cases()) {
-                    for (int value : switchy.values(node)) {
-                        buffer.append("case ", value, ":").line();
-                    }
-                    process(node, buffer);
-                }
-
-                // default case
-                if (!switchy.noDefault) {
-                    buffer.append("default:").line();
-                    process(switchy.defaults, buffer);
-                }
-
-                breakables.pollLast();
-
-                // exit switch
-                buffer.append("}").line();
-
-                // write following node
-                process(exit, buffer);
-
-                return; // must
-            }
-
-            // =============================================================
-            // Try-Catch-Finally Block
-            // =============================================================
-            for (int i = 0; i < tries.size(); i++) {
-                buffer.write("try", "{");
-            }
-
-            // =============================================================
-            // Other Block
-            // =============================================================
-            int outs = outgoing.size();
-            int backs = backedges.size();
-
-            if (outs == 0) {
-                // end node
-                if (!returnOmittable || stack.size() != 2 || stack.get(0) != Return || stack.get(1) != END) {
-                    buffer.append(this);
-                }
-            } else if (outs == 1) {
-                // do while or normal
-                if (backs == 0) {
-                    // normal node with follower
-                    buffer.append(this);
-                    process(outgoing.get(0), buffer);
-                } else if (backs == 1) {
-                    // do while or infinite loop
-                    BackedgeGroup group = new BackedgeGroup(this);
-
-                    if (backedges.get(0).outgoing.size() == 2) {
-                        if (group.exit == null) {
-                            // do while
-                            writeDoWhile(buffer);
-                        } else {
-                            // infinit loop
-                            writeInfiniteLoop1(group, buffer);
-                        }
-                    } else {
-                        // infinit loop
-                        writeInfiniteLoop1(group, buffer);
-                    }
-                } else {
-                    // infinit loop
-                    writeInfiniteLoop1(new BackedgeGroup(this), buffer);
-                }
-            } else if (outs == 2) {
-                // while, for or if
-                if (backs == 0) {
-                    writeIf(buffer);
-                } else if (backs == 1 && backedges.get(0).outgoing.size() == 1) {
-                    writeFor(buffer);
-                } else {
-                    writeWhile(buffer);
-                }
-            }
-
-            // =============================================================
-            // Try-Catch-Finally Block
-            // =============================================================
-            for (TryCatchFinally block : tries) {
-                buffer.write("}", "catch", "($)", "{");
-                buffer.write("$", "=", Javascript.writeMethodCode(Throwable.class, "wrap", Object.class, "$"), ";").line();
-
-                for (int i = 0; i < block.catches.size(); i++) {
-                    Catch current = block.catches.get(i);
-                    String variable = current.variable;
-
-                    if (current.exception == null) {
-                        // finally block
-                        buffer.write(variable, "=", "$;").line();
-                        process(current.node, buffer);
-                    } else {
-                        String condition = current.exception == Throwable.class ? "(true)"
-                                : "($ instanceof " + Javascript.computeClassName(current.exception) + ")";
-                        buffer.write("if", condition, "{");
-                        buffer.write(variable, "=", "$;").line();
-                        process(current.node, buffer);
-                        buffer.write("}", "else");
-
-                        if (i + 1 == block.catches.size()) {
-                            buffer.write("", "{");
-                            buffer.write("throw $;");
-                            buffer.write("}");
-                        } else {
-                            buffer.write(" ");
-                        }
-                    }
-                }
-                buffer.write("}"); // close try statement
-
-                Node exit = block.exit;
-
-                if (exit != null) {
-                    if (Debugger.isEnable()) {
-                        buffer.comment("Start " + block.start.id + "  End " + block.end.id + "   Catcher " + block.catcher.id);
-                    }
-                    buffer.comment("ext block " + exit.id);
-                    process(exit, buffer);
-                }
-            }
-        }
-    }
-
-    /**
      * Write infinite loop structure.
      * 
      * @param coder
      */
-    private Structure writeInfiniteLoop(Coder coder) {
-        // make rewritable this node
-        written = false;
-
-        LoopStructure loop = new LoopStructure(this, this, null, null, coder);
-
-        // clear all backedge nodes of infinite loop
-        backedges.clear();
-
-        // re-write script fragment
-        ForStmt loopStatement = new ForStmt();
-        loopStatement.setInitialization(new NodeList());
-        loopStatement.setCompare(null);
-        loopStatement.setUpdate(new NodeList());
-
-        breakables.add(loop);
-        write(buffer);
-        loopStatement.setBody();
-        breakables.removeLast();
-        buffer.write("}");
-        loop.writeRequiredLabel();
-
-        return Structure.Empty;
+    private void writeInfiniteLoop(Coder coder) {
+        // // make rewritable this node
+        // written = false;
+        //
+        // LoopStructure loop = new LoopStructure(this, this, null, null, coder);
+        //
+        // // clear all backedge nodes of infinite loop
+        // backedges.clear();
+        //
+        // // re-write script fragment
+        // ForStmt loopStatement = new ForStmt();
+        // loopStatement.setInitialization(new NodeList());
+        // loopStatement.setCompare(null);
+        // loopStatement.setUpdate(new NodeList());
+        //
+        // breakables.add(loop);
+        // write(buffer);
+        // loopStatement.setBody();
+        // breakables.removeLast();
+        // buffer.write("}");
+        // loop.writeRequiredLabel();
+        //
+        // return Structure.Empty;
     }
 
     /**
@@ -943,7 +756,7 @@ public class Node implements Code {
         if (group.exit != null) group.exit.currentCalls--;
 
         // make rewritable this node
-        written = false;
+        analyzed = false;
         System.out.println(this);
         System.out.println(group.exit);
 
@@ -980,7 +793,7 @@ public class Node implements Code {
         Node condition = backedges.remove(0);
 
         // make rewritable this node
-        written = false;
+        analyzed = false;
 
         Node exit;
         Node inner;
@@ -1013,18 +826,6 @@ public class Node implements Code {
 
             return new For(this, null, this, update, nodes[0], nodes[1]);
         }
-    }
-
-    private Code code(Node node) {
-        return coder -> {
-            for (Operand operand : node.stack) {
-                if (operand.isExpression() || operand instanceof OperandAssign) {
-                    coder.writeStatement(operand);
-                } else {
-                    operand.write(coder);
-                }
-            }
-        };
     }
 
     /**
@@ -1183,46 +984,6 @@ public class Node implements Code {
                 }
             }
 
-            // if (loop != null) {
-            // // continue
-            // if (loop.hasHeader(next) && hasDominator(loop.entrance)) {
-            // String label = loop.computeLabelFor(next);
-            //
-            // if (label != null || continueOmittable == null || !continueOmittable) {
-            // Continue continuer = new Continue(this, label);
-            //
-            // if (Debugger.isEnable()) {
-            // Debugger.print(this);
-            // Debugger.print(next);
-            // continuer
-            // .comment(id + " -> " + next.id + " continue to " + loop.entrance.id + " (" +
-            // next.currentCalls + " of " + ") " + loop);
-            // }
-            // }
-            // return Structure.Empty;
-            // }
-            //
-            // // break
-            // if (!loop.hasHeader(this) && loop.hasExit(next) && hasDominator(loop.entrance)) {
-            // // check whether the current node connects to the exit node directly or not
-            // if (loop.exit.incoming.contains(this)) {
-            // Break breaker = new Break(this, loop.computeLabelFor(next));
-            //
-            // if (Debugger.isEnable()) {
-            // breaker.comment(id + " -> " + next.id + " break to " + loop.entrance.id + "(" +
-            // next.currentCalls + " of " + ") " + loop);
-            // }
-            // System.out.println("BREAKKKKKK");
-            // }
-            // return Structure.Empty;
-            // }
-            // }
-
-            // if (Debugger.isEnable()) {
-            // addComment(id + " -> " + next.id + " (" + next.currentCalls + " of " + requiredCalls
-            // + ") " + (loop != null ? loop : ""));
-            // }
-
             // normal process
             if (requiredCalls <= next.currentCalls) {
                 return next.analyze();
@@ -1301,7 +1062,6 @@ public class Node implements Code {
             node.addExpression("break");
             throw new Error("IMPLEMENT!");
         }
-        Debugger.print(node);
 
         // API definition
         return node;
@@ -1405,116 +1165,6 @@ public class Node implements Code {
          */
         protected Breakable(Node first) {
             this.first = first;
-        }
-    }
-
-    /**
-     * @version 2013/11/27 14:57:53
-     */
-    private class LoopStructure extends Breakable {
-
-        /** The super dominator for all nodes in this loop structure. */
-        private final Node entrance;
-
-        /** The exit node of this loop structure if present. */
-        private final Node exit;
-
-        /** The checkpoint node (i.e. condition or update) of this loop structure if present. */
-        private final Node checkpoint;
-
-        /** The label insertion position. */
-        private final int position = 0;
-
-        /** The flag. */
-        private boolean requireLabel;
-
-        /**
-         * @param entrance The super dominator for all nodes in this loop structure.
-         * @param first The first processing node of this loop structure.
-         * @param exit The exit node of this loop structure if present.
-         * @param checkpoint The checkpoint node (i.e. condition or update) of this loop structure
-         *            if present.
-         */
-        private LoopStructure(Node entrance, Node first, Node exit, Node checkpoint) {
-            super(first == checkpoint ? entrance : first);
-
-            this.entrance = entrance;
-            this.exit = exit;
-            this.checkpoint = checkpoint;
-
-            // The first node must be the header of breakable structure and
-            // be able to omit continue statement.
-            this.first.continueOmittable = true;
-            this.first.returnOmittable = false;
-
-            // associate this structure with exit and checkpoint nodes
-            loops.add(this);
-            if (exit != null) exit.loops.add(this);
-            if (checkpoint != null) checkpoint.loops.add(this);
-        }
-
-        /**
-         * <p>
-         * Compute label name for the specified node.
-         * </p>
-         * 
-         * @param node
-         * @return
-         */
-        private String computeLabelFor(Node node) {
-            if (node.loops.contains(breakables.peekLast())) {
-                return null;
-            } else {
-                requireLabel = true;
-                return " l" + entrance.id;
-            }
-        }
-
-        /**
-         * <p>
-         * Write loop label if necessary.
-         * </p>
-         */
-        private void writeRequiredLabel() {
-            if (requireLabel) {
-                // buffer.insertAt(position, "l" + entrance.id + ":");
-            }
-        }
-
-        /**
-         * <p>
-         * Detect whether the specified node is the header of this loop or not.
-         * </p>
-         * 
-         * @param node A target node.
-         * @return A result.
-         */
-        private boolean hasHeader(Node node) {
-            return node == entrance || node == checkpoint || node == first;
-        }
-
-        /**
-         * <p>
-         * Detect whether the specified node is the exit of this loop or not.
-         * </p>
-         * 
-         * @param node A target node.
-         * @return A result.
-         */
-        private boolean hasExit(Node node) {
-            return node == exit;
-        }
-
-        private String id(Node node) {
-            return node == null ? "null" : String.valueOf(node.id);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String toString() {
-            return "Loop[entrance=" + id(entrance) + ", first=" + id(first) + ", exit=" + id(exit) + ", check=" + id(checkpoint) + "]";
         }
     }
 

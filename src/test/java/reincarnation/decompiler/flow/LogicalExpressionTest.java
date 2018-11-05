@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 
 /**
  * @version 2018/10/29 14:41:58
@@ -843,6 +844,7 @@ class LogicalExpressionTest extends CodeVerifier {
     void IntArrayForEach() {
         verify(new Code.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 1, to = 10) int value) {
                 int sum = 0;
