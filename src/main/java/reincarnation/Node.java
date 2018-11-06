@@ -49,7 +49,7 @@ public class Node implements Code {
     public final String id;
 
     /** The actual operand stack. */
-    final LinkedList<Operand> stack = new LinkedList();
+    public final LinkedList<Operand> stack = new LinkedList();
 
     /** The node list. */
     final CopyOnWriteArrayList<Node> incoming = new CopyOnWriteArrayList();

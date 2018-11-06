@@ -56,8 +56,8 @@ public class OperandReturn extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public Variable<OperandCondition> asCondition() {
-        return value == null ? Variable.empty() : value.asCondition();
+    public <T extends Operand> Variable<T> as(Class<T> type) {
+        return I.signal(value).as(type).to();
     }
 
     /**

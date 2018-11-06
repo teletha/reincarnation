@@ -14,7 +14,7 @@ import reincarnation.coder.Coder;
 /**
  * @version 2018/11/06 14:17:11
  */
-class OperandTernary extends OperandCondition {
+public class OperandTernary extends OperandCondition {
 
     /** The codition. */
     private Operand condition;
@@ -70,7 +70,11 @@ class OperandTernary extends OperandCondition {
      */
     @Override
     public void write(Coder coder) {
-        coder.writeTernary(condition, left, right);
+        if (isStatement()) {
+            coder.writeIf(condition, c -> c.writeStatement(left), c -> c.writeStatement(right), null);
+        } else {
+            coder.writeTernary(condition, left, right);
+        }
     }
 
     /**

@@ -69,8 +69,8 @@ class OperandEnclose extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public Variable<OperandCondition> asCondition() {
-        return value.asCondition();
+    public <T extends Operand> Variable<T> as(Class<T> type) {
+        return I.signal(value).as(type).to();
     }
 
     /**
@@ -79,6 +79,14 @@ class OperandEnclose extends Operand {
     @Override
     protected Signal<Operand> children() {
         return I.signal(value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isStatement() {
+        return value.isStatement();
     }
 
     /**

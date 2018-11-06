@@ -19,6 +19,7 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -237,6 +238,16 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /**
+     * Dump all node tree.
+     * 
+     * @param node
+     */
+    public static void print(String message, LinkedList<Node> nodes) {
+        print(message);
+        print(nodes.peekFirst().signal().toList());
+    }
+
+    /**
      * @param message
      */
     public static void print(Object message) {
@@ -255,19 +266,6 @@ public class Debugger extends AnnotationVisitor {
     public static void print(Node node) {
         if (node != null) {
             print(Collections.singletonList(node));
-        }
-    }
-
-    /**
-     * <p>
-     * Dump node tree.
-     * </p>
-     * 
-     * @param node
-     */
-    public static void printFollowing(Node node) {
-        if (node != null) {
-            print(node.signal().toList());
         }
     }
 

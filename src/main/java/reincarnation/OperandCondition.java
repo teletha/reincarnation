@@ -11,7 +11,6 @@ package reincarnation;
 
 import kiss.I;
 import kiss.Signal;
-import kiss.Variable;
 import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
 
@@ -118,14 +117,6 @@ class OperandCondition extends Operand {
         // Make group if left transition node equals to transition node or next node of the
         // right condition node.
         group = left.then == right.then || left.then == right.elze;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Variable<OperandCondition> asCondition() {
-        return Variable.of(this);
     }
 
     /**

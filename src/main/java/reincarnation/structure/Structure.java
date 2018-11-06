@@ -48,7 +48,7 @@ public abstract class Structure implements Code {
     /**
      * Structurize.
      */
-    public final void structurize() {
+    public void structurize() {
         inner().to(child -> {
             child.parent = this;
             child.structurize();

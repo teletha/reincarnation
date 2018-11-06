@@ -34,6 +34,9 @@ public abstract class Operand implements Code {
     /** The comment. */
     private String comment;
 
+    /** The mark. */
+    private boolean statement;
+
     /**
      * Display the human-readable operand info.
      * 
@@ -109,7 +112,7 @@ public abstract class Operand implements Code {
      * @return A result.
      */
     public boolean isStatement() {
-        return false;
+        return statement;
     }
 
     /**
@@ -122,12 +125,14 @@ public abstract class Operand implements Code {
     }
 
     /**
-     * Check {@link Operand} type.
-     * 
-     * @return A result.
+     * Mark this {@link Operand} as statement.
      */
-    public Variable<OperandCondition> asCondition() {
-        return Variable.empty();
+    public final void markAsStatement() {
+        statement = true;
+    }
+
+    public <T extends Operand> Variable<T> as(Class<T> type) {
+        return I.signal(this).as(type).to();
     }
 
     /**
