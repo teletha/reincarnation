@@ -81,19 +81,6 @@ class OperandExpression extends Operand {
      * {@inheritDoc}
      */
     @Override
-    Operand disclose() {
-        if (expression != null) {
-            if (expression instanceof Operand) {
-                ((Operand) expression).disclose();
-            }
-        }
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     protected Signal<Operand> children() {
         if (expression instanceof Operand) {
             return I.signal((Operand) expression);
@@ -114,7 +101,7 @@ class OperandExpression extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
+    protected void writeCode(Coder coder) {
         if (expression == null) {
             coder.writeNull();
         } else if (expression instanceof reincarnation.coder.Code) {

@@ -11,7 +11,7 @@ package reincarnation.decompiler.operator;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class NegateOperatorTest extends CodeVerifier {
 
     @Test
     void shiftInside() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -32,7 +32,7 @@ class NegateOperatorTest extends CodeVerifier {
 
     @Test
     void shiftOutside() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {

@@ -13,7 +13,6 @@ import java.util.Optional;
 
 import kiss.I;
 import kiss.Signal;
-import kiss.Variable;
 import reincarnation.coder.Coder;
 
 /**
@@ -56,15 +55,7 @@ public class OperandReturn extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public <T extends Operand> Variable<T> as(Class<T> type) {
-        return I.signal(value).as(type).to();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void write(Coder coder) {
+    protected void writeCode(Coder coder) {
         if (value == null) {
             coder.writeReturn(Optional.empty());
         } else {

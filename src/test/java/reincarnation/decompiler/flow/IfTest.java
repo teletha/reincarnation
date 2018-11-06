@@ -11,7 +11,7 @@ package reincarnation.decompiler.flow;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 import reincarnation.Debuggable;
 
@@ -22,7 +22,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void normal() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -36,7 +36,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void then() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -50,7 +50,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void thenNest() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
@@ -68,7 +68,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void thenNestImmidiately() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
@@ -85,7 +85,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void nestReturn() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -102,7 +102,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void nestComplexLogicalExpression() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -120,7 +120,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void integer() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(int value) {
@@ -135,7 +135,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void object() {
-        verify(new Code.ObjectParamBoolean() {
+        verify(new TestCode.ObjectParamBoolean() {
 
             @Override
             public boolean run(Object o) {
@@ -150,7 +150,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void object2() {
-        verify(new Code.ObjectParamBoolean() {
+        verify(new TestCode.ObjectParamBoolean() {
 
             @Override
             public boolean run(Object o) {
@@ -165,7 +165,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void ifelse() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int o) {
@@ -180,7 +180,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void multiple() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int o) {
@@ -197,7 +197,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void sequence() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int o) {
@@ -219,7 +219,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void ifelseWithFollowing() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int o) {
@@ -235,7 +235,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void shorthand() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int o) {
@@ -247,7 +247,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void shorthandLine() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int o) {
@@ -261,7 +261,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void shorthandElse() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int o) {
@@ -275,7 +275,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void shorthandMultiple() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int o) {
@@ -291,7 +291,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void shorthandWithExpression() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int o) {
@@ -304,7 +304,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void shorthandElseWithExpression() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int o) {
@@ -319,7 +319,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void shorthandInFlow() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(int o) {
@@ -334,7 +334,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void shorthandInNest() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 10) int o) {
@@ -351,7 +351,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void noElse() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -367,7 +367,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void ternaryLike() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Debuggable
             @Override
@@ -384,7 +384,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void oneLiner() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int o) {
@@ -397,7 +397,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void denyInElse() {
-        verify(new Code.TextParamBoolean() {
+        verify(new TestCode.TextParamBoolean() {
 
             @Override
             public boolean run(String param) {
@@ -412,7 +412,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void whileInElse() {
-        verify(new Code.TextParam() {
+        verify(new TestCode.TextParam() {
 
             private boolean flag;
 
@@ -432,7 +432,7 @@ public class IfTest extends CodeVerifier {
 
     @Test
     void multipleInWhile() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {

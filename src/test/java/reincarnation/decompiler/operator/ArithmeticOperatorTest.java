@@ -11,7 +11,7 @@ package reincarnation.decompiler.operator;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
 
     @Test
     void AdditionLeft() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -32,7 +32,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
 
     @Test
     void AdditonRight() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -43,7 +43,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
 
     @Test
     void SubtractionLeft() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -54,7 +54,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
 
     @Test
     void SubtractionRight() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -65,7 +65,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
 
     @Test
     void MultiplicationLeft() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -76,7 +76,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
 
     @Test
     void MultiplicationRight() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -87,7 +87,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
 
     @Test
     void DivisionLeft() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -98,7 +98,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
 
     @Test
     void DivisionRight() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(@Param(doubles = {1, 3, 4}) double value) {
@@ -109,7 +109,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
 
     @Test
     void ReminderLeft() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -120,7 +120,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
 
     @Test
     void ReminderRight() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 1, to = 10) int value) {
@@ -131,7 +131,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
 
     @Test
     void Complex() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 1, to = 10) int value) {
@@ -142,7 +142,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
 
     @Test
     void Negative() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {

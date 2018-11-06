@@ -11,7 +11,7 @@ package reincarnation.decompiler.primitives;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -23,7 +23,7 @@ class DoubleInAssertTest extends CodeVerifier {
 
     @Test
     void less() throws Exception {
-        verify(new Code.Run() {
+        verify(new TestCode.Run() {
 
             private double value = 10D;
 

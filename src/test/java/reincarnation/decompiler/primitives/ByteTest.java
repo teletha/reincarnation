@@ -11,7 +11,7 @@ package reincarnation.decompiler.primitives;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ public class ByteTest extends CodeVerifier {
 
     @Test
     public void zero() {
-        verify(new Code.ByteParam() {
+        verify(new TestCode.ByteParam() {
 
             @Override
             public byte run(byte value) {
@@ -32,7 +32,7 @@ public class ByteTest extends CodeVerifier {
 
     @Test
     public void one() {
-        verify(new Code.ByteParam() {
+        verify(new TestCode.ByteParam() {
 
             @Override
             public byte run(byte value) {
@@ -43,7 +43,7 @@ public class ByteTest extends CodeVerifier {
 
     @Test
     public void two() {
-        verify(new Code.ByteParam() {
+        verify(new TestCode.ByteParam() {
 
             @Override
             public byte run(byte value) {
@@ -54,7 +54,7 @@ public class ByteTest extends CodeVerifier {
 
     @Test
     public void three() {
-        verify(new Code.ByteParam() {
+        verify(new TestCode.ByteParam() {
 
             @Override
             public byte run(byte value) {
@@ -65,7 +65,7 @@ public class ByteTest extends CodeVerifier {
 
     @Test
     public void minus() {
-        verify(new Code.ByteParam() {
+        verify(new TestCode.ByteParam() {
 
             @Override
             public byte run(byte value) {
@@ -76,7 +76,7 @@ public class ByteTest extends CodeVerifier {
 
     @Test
     public void max() {
-        verify(new Code.ByteParam() {
+        verify(new TestCode.ByteParam() {
 
             @Override
             public byte run(byte value) {
@@ -87,7 +87,7 @@ public class ByteTest extends CodeVerifier {
 
     @Test
     public void min() {
-        verify(new Code.ByteParam() {
+        verify(new TestCode.ByteParam() {
 
             @Override
             public byte run(byte value) {

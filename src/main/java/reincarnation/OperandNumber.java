@@ -75,7 +75,7 @@ class OperandNumber extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
+    protected void writeCode(Coder coder) {
         if (type.is(boolean.class)) {
             if (value.intValue() == 0) {
                 coder.writeBoolean(false);

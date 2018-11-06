@@ -11,7 +11,7 @@ package reincarnation.decompiler.primitives;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void zero() {
-        verify(new Code.Long() {
+        verify(new TestCode.Long() {
 
             @Override
             public long run() {
@@ -32,7 +32,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void one() {
-        verify(new Code.Long() {
+        verify(new TestCode.Long() {
 
             @Override
             public long run() {
@@ -43,7 +43,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void two() {
-        verify(new Code.Long() {
+        verify(new TestCode.Long() {
 
             @Override
             public long run() {
@@ -54,7 +54,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void three() {
-        verify(new Code.Long() {
+        verify(new TestCode.Long() {
 
             @Override
             public long run() {
@@ -65,7 +65,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void minus() {
-        verify(new Code.Long() {
+        verify(new TestCode.Long() {
 
             @Override
             public long run() {
@@ -76,7 +76,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void max() {
-        verify(new Code.Long() {
+        verify(new TestCode.Long() {
 
             @Override
             public long run() {
@@ -87,7 +87,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void min() {
-        verify(new Code.Long() {
+        verify(new TestCode.Long() {
 
             @Override
             public long run() {
@@ -98,7 +98,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void add() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long param) {
@@ -109,7 +109,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void addAssignable() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -120,7 +120,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void negate() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -131,7 +131,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void subtract() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -142,7 +142,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void subtractAssignable() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -153,7 +153,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void multiply() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -164,7 +164,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void multiplyAssignable() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -175,7 +175,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void divide() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -186,7 +186,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void divideAssignable() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -197,7 +197,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void modulo() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -208,7 +208,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void moduloAssignable() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -219,7 +219,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void bitFlag() {
-        verify(new Code.LongParamBoolean() {
+        verify(new TestCode.LongParamBoolean() {
 
             @Override
             public boolean run(long value) {
@@ -230,7 +230,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void bitAnd() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -241,7 +241,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void bitOr() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -252,7 +252,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void bitOrAssignable() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -263,7 +263,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void bitXor() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -274,7 +274,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void bitXorAssignable() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -285,7 +285,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void bitNot() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -296,7 +296,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void shiftLeft() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -307,7 +307,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void shiftLeftAssignable() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -318,7 +318,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void shiftRight() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -329,7 +329,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void shiftRightAssignable() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -340,7 +340,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void unsignedShiftRight() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -351,7 +351,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void unsignedShiftRightAssignable() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -362,7 +362,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void equal() {
-        verify(new Code.LongParamBoolean() {
+        verify(new TestCode.LongParamBoolean() {
 
             @Override
             public boolean run(long value) {
@@ -373,7 +373,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void notEqual() {
-        verify(new Code.LongParamBoolean() {
+        verify(new TestCode.LongParamBoolean() {
 
             @Override
             public boolean run(long value) {
@@ -384,7 +384,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void less() {
-        verify(new Code.LongParamBoolean() {
+        verify(new TestCode.LongParamBoolean() {
 
             @Override
             public boolean run(long value) {
@@ -395,7 +395,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void lessEqual() {
-        verify(new Code.LongParamBoolean() {
+        verify(new TestCode.LongParamBoolean() {
 
             @Override
             public boolean run(long value) {
@@ -406,7 +406,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void greater() {
-        verify(new Code.LongParamBoolean() {
+        verify(new TestCode.LongParamBoolean() {
 
             @Override
             public boolean run(long value) {
@@ -417,7 +417,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void greaterEqual() {
-        verify(new Code.LongParamBoolean() {
+        verify(new TestCode.LongParamBoolean() {
 
             @Override
             public boolean run(long value) {
@@ -428,7 +428,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void postIncrement() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -439,7 +439,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void postIncrementValue() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -451,7 +451,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void postIncrementLike() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -462,7 +462,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void preIncrement() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -473,7 +473,7 @@ class LongTest extends CodeVerifier {
 
     @Test
     void preIncrementInStatement() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
             public long run(long value) {
@@ -490,7 +490,7 @@ class LongTest extends CodeVerifier {
     /**
      * @version 2018/10/05 15:21:36
      */
-    private static class IncrementStaticField implements Code.Long {
+    private static class IncrementStaticField implements TestCode.Long {
 
         private static long index = 1;
 
@@ -512,7 +512,7 @@ class LongTest extends CodeVerifier {
     /**
      * @version 2018/10/05 15:21:40
      */
-    private static class DecrementStaticField implements Code.Long {
+    private static class DecrementStaticField implements TestCode.Long {
 
         private static long index = 1;
 
@@ -534,7 +534,7 @@ class LongTest extends CodeVerifier {
     /**
      * @version 2018/10/05 15:21:43
      */
-    private static class PreincrementStaticField implements Code.Long {
+    private static class PreincrementStaticField implements TestCode.Long {
 
         private static long index = 1;
 
@@ -556,7 +556,7 @@ class LongTest extends CodeVerifier {
     /**
      * @version 2018/10/05 15:21:46
      */
-    private static class PredecrementStaticField implements Code.Long {
+    private static class PredecrementStaticField implements TestCode.Long {
 
         private static long index = 1;
 

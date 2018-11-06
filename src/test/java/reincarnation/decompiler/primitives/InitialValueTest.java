@@ -11,7 +11,7 @@ package reincarnation.decompiler.primitives;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class InitialValueTest extends CodeVerifier {
 
     @Test
     void Interger() {
-        verify(new Code.Int() {
+        verify(new TestCode.Int() {
 
             private int uninitialized;
 
@@ -34,7 +34,7 @@ class InitialValueTest extends CodeVerifier {
 
     @Test
     void Long() {
-        verify(new Code.Long() {
+        verify(new TestCode.Long() {
 
             private long uninitialized;
 
@@ -47,7 +47,7 @@ class InitialValueTest extends CodeVerifier {
 
     @Test
     void Float() {
-        verify(new Code.Float() {
+        verify(new TestCode.Float() {
 
             private float uninitialized;
 
@@ -60,7 +60,7 @@ class InitialValueTest extends CodeVerifier {
 
     @Test
     void Double() {
-        verify(new Code.Double() {
+        verify(new TestCode.Double() {
 
             private double uninitialized;
 
@@ -73,7 +73,7 @@ class InitialValueTest extends CodeVerifier {
 
     @Test
     void Byte() {
-        verify(new Code.Byte() {
+        verify(new TestCode.Byte() {
 
             private byte uninitialized;
 
@@ -86,7 +86,7 @@ class InitialValueTest extends CodeVerifier {
 
     @Test
     void Short() {
-        verify(new Code.Short() {
+        verify(new TestCode.Short() {
 
             private short uninitialized;
 
@@ -99,7 +99,7 @@ class InitialValueTest extends CodeVerifier {
 
     @Test
     void Char() {
-        verify(new Code.Char() {
+        verify(new TestCode.Char() {
 
             private char uninitialized;
 
@@ -112,7 +112,7 @@ class InitialValueTest extends CodeVerifier {
 
     @Test
     void Boolean() {
-        verify(new Code.Boolean() {
+        verify(new TestCode.Boolean() {
 
             private boolean uninitialized;
 
@@ -131,7 +131,7 @@ class InitialValueTest extends CodeVerifier {
     /**
      * @version 2018/10/10 11:14:08
      */
-    private static class Static implements Code.Int {
+    private static class Static implements TestCode.Int {
 
         private static int uninitialized;
 

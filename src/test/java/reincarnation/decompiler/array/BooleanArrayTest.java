@@ -12,7 +12,7 @@ package reincarnation.decompiler.array;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -22,7 +22,7 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void base() {
-        verify(new Code.BooleanArray() {
+        verify(new TestCode.BooleanArray() {
 
             @Override
             public boolean[] run() {
@@ -37,7 +37,7 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void multipleAssign() throws Exception {
-        verify(new Code.BooleanArray() {
+        verify(new TestCode.BooleanArray() {
 
             @Override
             public boolean[] run() {
@@ -51,7 +51,7 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void ArrayWithExpression() {
-        verify(new Code.BooleanArray() {
+        verify(new TestCode.BooleanArray() {
 
             private boolean field = true;
 
@@ -68,7 +68,7 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void ArrayByShorthand() {
-        verify(new Code.BooleanArray() {
+        verify(new TestCode.BooleanArray() {
 
             @Override
 
@@ -80,7 +80,7 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void ArrayByShorthandWithAllFalse() {
-        verify(new Code.BooleanArray() {
+        verify(new TestCode.BooleanArray() {
 
             @Override
             public boolean[] run() {
@@ -91,7 +91,7 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void ArrayWithExpressionByShorthand() {
-        verify(new Code.BooleanArray() {
+        verify(new TestCode.BooleanArray() {
 
             private boolean field = true;
 
@@ -104,7 +104,7 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void ArraySoMany() {
-        verify(new Code.BooleanArray() {
+        verify(new TestCode.BooleanArray() {
 
             @Override
             public boolean[] run() {
@@ -115,7 +115,7 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void MultiDimensionArray() {
-        verify(new Code.Object<boolean[][]>() {
+        verify(new TestCode.Object<boolean[][]>() {
 
             @Override
             public boolean[][] run() {
@@ -131,7 +131,7 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void MultiDimensionArrayByShorthand() {
-        verify(new Code.Object<boolean[][]>() {
+        verify(new TestCode.Object<boolean[][]>() {
 
             @Override
             public boolean[][] run() {
@@ -142,7 +142,7 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void ThreeDimensionArray() {
-        verify(new Code.Object<boolean[][][]>() {
+        verify(new TestCode.Object<boolean[][][]>() {
 
             @Override
             public boolean[][][] run() {
@@ -157,7 +157,7 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void ThreeDimensionArrayWithoutNeedlessDeclaration() {
-        verify(new Code.Object<boolean[][][]>() {
+        verify(new TestCode.Object<boolean[][][]>() {
 
             @Override
             public boolean[][][] run() {
@@ -172,7 +172,7 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void ArrayAccess() {
-        verify(new Code.BooleanParam() {
+        verify(new TestCode.BooleanParam() {
 
             @Override
             public boolean run(boolean value) {
@@ -185,7 +185,7 @@ public class BooleanArrayTest extends CodeVerifier {
 
     @Test
     public void ArrayLength() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(ints = {0, 1, 10}) int value) {
@@ -197,7 +197,7 @@ public class BooleanArrayTest extends CodeVerifier {
     @Test
     @Disabled
     public void ArrayFor() {
-        verify(new Code() {
+        verify(new TestCode() {
 
             public int run(boolean value) {
                 int sum = 0;
@@ -216,7 +216,7 @@ public class BooleanArrayTest extends CodeVerifier {
     @Test
     @Disabled
     public void ArrayForEach() {
-        verify(new Code() {
+        verify(new TestCode() {
 
             public int run(boolean value) {
                 int sum = 0;

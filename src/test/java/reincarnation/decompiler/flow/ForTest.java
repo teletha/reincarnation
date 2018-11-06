@@ -12,7 +12,7 @@ package reincarnation.decompiler.flow;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 import reincarnation.Debuggable;
 
@@ -23,7 +23,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void normal() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -38,7 +38,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void withoutInitialize() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -56,7 +56,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void withoutUpdate() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
@@ -76,7 +76,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void multipleUpdate() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -90,7 +90,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void afterProcess() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -107,7 +107,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void noneReturnCodeAfterLoopWillConfuseCompiler() {
-        verify(new Code.Text() {
+        verify(new TestCode.Text() {
 
             @Override
             public String run() {
@@ -125,7 +125,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void breakNoLabel() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 8, to = 10) int value) {
@@ -144,7 +144,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void breakInIf() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -160,7 +160,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void breakInOneLinerIf() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -174,7 +174,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void continueNoLabel() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 1, to = 10) int value) {
@@ -193,7 +193,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void continueNest() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -213,7 +213,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void continueMultiple() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -238,7 +238,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void continueInIf() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -255,7 +255,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void continueInShorthandIf() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -270,7 +270,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void continueInLogicalIf() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -287,7 +287,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void returnNest() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -307,7 +307,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void continueWithLogicalExpressionFail() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -327,7 +327,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void continueWithLogicalExpressionAndAfterProcess() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -346,7 +346,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void continueWithLogicalExpression() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -365,7 +365,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void returnInNest() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -387,7 +387,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void complex() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -408,7 +408,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void infinite() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -431,7 +431,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void infiniteLikeFor() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -451,7 +451,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void infiniteLikeWhile() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -473,7 +473,7 @@ class ForTest extends CodeVerifier {
     @Disabled
     @Test
     void infiniteWithWhile() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Debuggable
             @Override
@@ -497,7 +497,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void infiniteWithWhileNodes() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -520,7 +520,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void infiniteIfReturn() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -540,7 +540,7 @@ class ForTest extends CodeVerifier {
 
     @Test
     void infiniteIfElse() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Debuggable
             @Override

@@ -163,16 +163,6 @@ class OperandCondition extends Operand {
      * {@inheritDoc}
      */
     @Override
-    Operand disclose() {
-        group = false;
-
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     protected Signal<Operand> children() {
         return I.signal(left, right);
     }
@@ -181,7 +171,7 @@ class OperandCondition extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
+    protected void writeCode(Coder coder) {
         // convert int to char if needed
         Class leftType = left.infer().type();
         Class rightType = right.infer().type();

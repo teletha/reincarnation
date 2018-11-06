@@ -11,7 +11,7 @@ package reincarnation.decompiler.constructor;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void NoParameterTopLevelClass() {
-        verify(new Code.Text() {
+        verify(new TestCode.Text() {
 
             @Override
             public String run() {
@@ -32,7 +32,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void ImplicitConstructorOfPublicMember() {
-        verify(new Code.Text() {
+        verify(new TestCode.Text() {
 
             @Override
             public String run() {
@@ -54,7 +54,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void ImplicitConstructorOfProtectedMember() {
-        verify(new Code.Text() {
+        verify(new TestCode.Text() {
 
             @Override
             public String run() {
@@ -76,7 +76,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void ImplicitConstructorOfPackageMember() {
-        verify(new Code.Text() {
+        verify(new TestCode.Text() {
 
             @Override
             public String run() {
@@ -98,7 +98,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void ImplicitConstructorOfPrivateMember() {
-        verify(new Code.Text() {
+        verify(new TestCode.Text() {
 
             @Override
             public String run() {
@@ -125,7 +125,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void ExplicitConstructorOfPrivateMember() {
-        verify(new Code.Text() {
+        verify(new TestCode.Text() {
 
             @Override
             public String run() {
@@ -156,7 +156,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void Parameter() {
-        verify(new Code.TextParam() {
+        verify(new TestCode.TextParam() {
 
             @Override
             public String run(String value) {
@@ -184,7 +184,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void Parameters() {
-        verify(new Code.TextParam() {
+        verify(new TestCode.TextParam() {
 
             @Override
             public String run(String value) {
@@ -218,7 +218,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void Overload1() {
-        verify(new Code.Text() {
+        verify(new TestCode.Text() {
 
             @Override
             public String run() {
@@ -229,7 +229,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void Overload2() {
-        verify(new Code.TextParam() {
+        verify(new TestCode.TextParam() {
 
             @Override
             public String run(String value) {
@@ -240,7 +240,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void Overload3() {
-        verify(new Code.TextParam() {
+        verify(new TestCode.TextParam() {
 
             @Override
             public String run(String value) {
@@ -251,7 +251,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void Overload4() {
-        verify(new Code.TextParam() {
+        verify(new TestCode.TextParam() {
 
             @Override
             public String run(String value) {
@@ -298,7 +298,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void Extend1() {
-        verify(new Code.TextParam() {
+        verify(new TestCode.TextParam() {
 
             @Override
             public String run(String value) {
@@ -311,7 +311,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void Extend2() {
-        verify(new Code.TextParam() {
+        verify(new TestCode.TextParam() {
 
             @Override
             public String run(String value) {
@@ -366,7 +366,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void Inner() {
-        verify(new Code.TextParam() {
+        verify(new TestCode.TextParam() {
 
             private String value = "outer";
 
@@ -386,7 +386,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void Local() {
-        verify(new Code.TextParam() {
+        verify(new TestCode.TextParam() {
 
             @Override
             public String run(String value) {
@@ -408,7 +408,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void SameNameLocalClassInDifferentMethods() {
-        verify(new Code.TextParam() {
+        verify(new TestCode.TextParam() {
 
             @Override
             public String run(String value) {
@@ -436,7 +436,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void Anonymous() {
-        verify(new Code.TextParam() {
+        verify(new TestCode.TextParam() {
 
             @Override
             public String run(String value) {
@@ -453,7 +453,7 @@ class ConstructorTest extends CodeVerifier {
 
     @Test
     void AnonymousWIthOuterAccess() {
-        verify(new Code.TextParam() {
+        verify(new TestCode.TextParam() {
 
             @Override
             public String run(final String value) {

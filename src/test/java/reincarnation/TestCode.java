@@ -17,12 +17,12 @@ import java.lang.annotation.Target;
 /**
  * @version 2018/10/09 21:53:26
  */
-public interface Code<Self extends Code> {
+public interface TestCode<Self extends TestCode> {
 
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface Run extends Code {
+    public interface Run extends TestCode {
 
         /**
          * Write testable code.
@@ -35,7 +35,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface RunInt extends Code {
+    public interface RunInt extends TestCode {
 
         /**
          * Write testable code.
@@ -48,7 +48,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface Object<T> extends Code {
+    public interface Object<T> extends TestCode {
 
         /**
          * Write testable code.
@@ -61,7 +61,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface ObjectParamBoolean extends Code {
+    public interface ObjectParamBoolean extends TestCode {
 
         /**
          * Write testable code.
@@ -74,7 +74,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface Int extends Code {
+    public interface Int extends TestCode {
 
         /**
          * Write testable code.
@@ -87,7 +87,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface IntArray extends Code {
+    public interface IntArray extends TestCode {
 
         /**
          * Write testable code.
@@ -100,7 +100,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface IntParam extends Code {
+    public interface IntParam extends TestCode {
 
         /**
          * Write testable code.
@@ -114,7 +114,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface IntParamBoolean extends Code {
+    public interface IntParamBoolean extends TestCode {
 
         /**
          * Write testable code.
@@ -128,7 +128,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface IntParamText extends Code {
+    public interface IntParamText extends TestCode {
 
         /**
          * Write testable code.
@@ -142,7 +142,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface Long extends Code {
+    public interface Long extends TestCode {
 
         /**
          * Write testable code.
@@ -155,7 +155,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface LongArray extends Code {
+    public interface LongArray extends TestCode {
 
         /**
          * Write testable code.
@@ -168,7 +168,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface LongParam extends Code {
+    public interface LongParam extends TestCode {
 
         /**
          * Write testable code.
@@ -182,7 +182,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface LongParamBoolean extends Code {
+    public interface LongParamBoolean extends TestCode {
 
         /**
          * Write testable code.
@@ -196,7 +196,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface LongParamInt extends Code {
+    public interface LongParamInt extends TestCode {
 
         /**
          * Write testable code.
@@ -210,7 +210,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface LongParamDouble extends Code {
+    public interface LongParamDouble extends TestCode {
 
         /**
          * Write testable code.
@@ -224,7 +224,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface Float extends Code {
+    public interface Float extends TestCode {
 
         /**
          * Write testable code.
@@ -237,7 +237,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface FloatArray extends Code {
+    public interface FloatArray extends TestCode {
 
         /**
          * Write testable code.
@@ -250,7 +250,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface FloatParam extends Code {
+    public interface FloatParam extends TestCode {
 
         /**
          * Write testable code.
@@ -264,7 +264,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface FloatParamBoolean extends Code {
+    public interface FloatParamBoolean extends TestCode {
 
         /**
          * Write testable code.
@@ -278,7 +278,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface FloatParamInt extends Code {
+    public interface FloatParamInt extends TestCode {
 
         /**
          * Write testable code.
@@ -292,7 +292,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface Double extends Code {
+    public interface Double extends TestCode {
 
         /**
          * Write testable code.
@@ -305,7 +305,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface DoubleArray extends Code {
+    public interface DoubleArray extends TestCode {
 
         /**
          * Write testable code.
@@ -318,7 +318,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface DoubleParam extends Code {
+    public interface DoubleParam extends TestCode {
 
         /**
          * Write testable code.
@@ -332,7 +332,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface DoubleParamBoolean extends Code {
+    public interface DoubleParamBoolean extends TestCode {
 
         /**
          * Write testable code.
@@ -346,7 +346,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface DoubleParamInt extends Code {
+    public interface DoubleParamInt extends TestCode {
 
         /**
          * Write testable code.
@@ -360,7 +360,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface Byte extends Code {
+    public interface Byte extends TestCode {
 
         /**
          * Write testable code.
@@ -373,7 +373,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface ByteArray extends Code {
+    public interface ByteArray extends TestCode {
 
         /**
          * Write testable code.
@@ -386,7 +386,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface ByteParam extends Code {
+    public interface ByteParam extends TestCode {
 
         /**
          * Write testable code.
@@ -400,7 +400,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface ByteParamBoolean extends Code {
+    public interface ByteParamBoolean extends TestCode {
 
         /**
          * Write testable code.
@@ -414,7 +414,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface Short extends Code {
+    public interface Short extends TestCode {
 
         /**
          * Write testable code.
@@ -427,7 +427,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface ShortArray extends Code {
+    public interface ShortArray extends TestCode {
 
         /**
          * Write testable code.
@@ -440,7 +440,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface ShortParam extends Code {
+    public interface ShortParam extends TestCode {
 
         /**
          * Write testable code.
@@ -454,7 +454,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface ShortParamBoolean extends Code {
+    public interface ShortParamBoolean extends TestCode {
 
         /**
          * Write testable code.
@@ -468,7 +468,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface ShortParamInt extends Code {
+    public interface ShortParamInt extends TestCode {
 
         /**
          * Write testable code.
@@ -482,7 +482,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface Char extends Code {
+    public interface Char extends TestCode {
 
         /**
          * Write testable code.
@@ -495,7 +495,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface CharArray extends Code {
+    public interface CharArray extends TestCode {
 
         /**
          * Write testable code.
@@ -508,7 +508,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface CharParam extends Code {
+    public interface CharParam extends TestCode {
 
         /**
          * Write testable code.
@@ -522,7 +522,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface CharParamBoolean extends Code {
+    public interface CharParamBoolean extends TestCode {
 
         /**
          * Write testable code.
@@ -536,7 +536,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface CharParamInt extends Code {
+    public interface CharParamInt extends TestCode {
 
         /**
          * Write testable code.
@@ -550,7 +550,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface Boolean extends Code {
+    public interface Boolean extends TestCode {
 
         /**
          * Write testable code.
@@ -563,7 +563,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface BooleanArray extends Code {
+    public interface BooleanArray extends TestCode {
 
         /**
          * Write testable code.
@@ -576,7 +576,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface BooleanParam extends Code {
+    public interface BooleanParam extends TestCode {
 
         /**
          * Write testable code.
@@ -590,7 +590,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface BooleanParamInt extends Code {
+    public interface BooleanParamInt extends TestCode {
 
         /**
          * Write testable code.
@@ -604,7 +604,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface Text extends Code {
+    public interface Text extends TestCode {
 
         /**
          * Write testable code.
@@ -617,7 +617,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface TextArray extends Code {
+    public interface TextArray extends TestCode {
 
         /**
          * Write testable code.
@@ -630,7 +630,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface TextParam extends Code {
+    public interface TextParam extends TestCode {
 
         /**
          * Write testable code.
@@ -644,7 +644,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface TextParamBoolean extends Code {
+    public interface TextParamBoolean extends TestCode {
 
         /**
          * Write testable code.
@@ -658,7 +658,7 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
-    public interface TextParamInt extends Code {
+    public interface TextParamInt extends TestCode {
 
         /**
          * Write testable code.

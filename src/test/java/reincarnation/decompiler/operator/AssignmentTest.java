@@ -11,7 +11,7 @@ package reincarnation.decompiler.operator;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 import reincarnation.Debuggable;
 
@@ -22,7 +22,7 @@ class AssignmentTest extends CodeVerifier {
 
     @Test
     void onelineInExpresion() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -35,7 +35,7 @@ class AssignmentTest extends CodeVerifier {
 
     @Test
     void dual() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Debuggable
             @Override
@@ -51,7 +51,7 @@ class AssignmentTest extends CodeVerifier {
 
     @Test
     void multiple() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -66,7 +66,7 @@ class AssignmentTest extends CodeVerifier {
 
     @Test
     void fieldDual() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             private int a;
 
@@ -83,7 +83,7 @@ class AssignmentTest extends CodeVerifier {
 
     @Test
     void fieldMultiple() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             private double a;
 
@@ -102,7 +102,7 @@ class AssignmentTest extends CodeVerifier {
 
     @Test
     void fieldMix() {
-        verify(new Code.LongParam() {
+        verify(new TestCode.LongParam() {
 
             private long a;
 

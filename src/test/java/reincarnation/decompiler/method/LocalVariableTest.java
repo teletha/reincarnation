@@ -11,7 +11,7 @@ package reincarnation.decompiler.method;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class LocalVariableTest extends CodeVerifier {
 
     @Test
     void parallel() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -43,7 +43,7 @@ class LocalVariableTest extends CodeVerifier {
 
     @Test
     void PrimitiveLongAndDoubleUses2Stacks() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -64,7 +64,7 @@ class LocalVariableTest extends CodeVerifier {
     /**
      * @version 2018/11/05 11:47:41
      */
-    private static class CompilerGenerator implements Code.Double {
+    private static class CompilerGenerator implements TestCode.Double {
 
         @Override
         public double run() {

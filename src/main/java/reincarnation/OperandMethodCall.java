@@ -93,7 +93,7 @@ class OperandMethodCall extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
+    protected void writeCode(Coder coder) {
         if (!method.isSynthetic()) {
             coder.writeMethodCall(method, owner, params, mode);
         } else {

@@ -11,7 +11,7 @@ package reincarnation.decompiler.field;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -27,7 +27,7 @@ class FieldTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:37:59
      */
-    private static class IntField implements Code.IntParam {
+    private static class IntField implements TestCode.IntParam {
 
         private int field = 10;
 
@@ -45,7 +45,7 @@ class FieldTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:37:56
      */
-    private static class IntFieldWithExpresison implements Code.IntParam {
+    private static class IntFieldWithExpresison implements TestCode.IntParam {
 
         private int field = 10;
 
@@ -63,7 +63,7 @@ class FieldTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:38:06
      */
-    private static class LongField implements Code.LongParam {
+    private static class LongField implements TestCode.LongParam {
 
         private long field = 9876543210L;
 
@@ -81,7 +81,7 @@ class FieldTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:38:25
      */
-    private static class FloatField implements Code.FloatParam {
+    private static class FloatField implements TestCode.FloatParam {
 
         private float field = 3.1415f;
 
@@ -99,7 +99,7 @@ class FieldTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:38:32
      */
-    private static class DoubleField implements Code.DoubleParam {
+    private static class DoubleField implements TestCode.DoubleParam {
 
         private double field = 3.14159265358979323846264338327950288419716939937510d;
 
@@ -117,7 +117,7 @@ class FieldTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:38:41
      */
-    private static class BooleanField implements Code.BooleanParam {
+    private static class BooleanField implements TestCode.BooleanParam {
 
         private boolean field = false;
 
@@ -143,7 +143,7 @@ class FieldTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:38:49
      */
-    private static class ExtendChild extends ExtendBase implements Code.IntParam {
+    private static class ExtendChild extends ExtendBase implements TestCode.IntParam {
 
         @Override
         public int run(int value) {
@@ -167,7 +167,7 @@ class FieldTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:38:58
      */
-    private static class OverrideChild extends OverrideBase implements Code.IntParam {
+    private static class OverrideChild extends OverrideBase implements TestCode.IntParam {
 
         protected int field = 5;
 
@@ -189,7 +189,7 @@ class FieldTest extends CodeVerifier {
 
     @Test
     void accessNestedHidingFieldFromInstance() {
-        verify(new Code.Int() {
+        verify(new TestCode.Int() {
 
             @Override
             public int run() {
@@ -217,7 +217,7 @@ class FieldTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:39:09
      */
-    private static class Parent extends Ancestor implements Code.IntParam {
+    private static class Parent extends Ancestor implements TestCode.IntParam {
 
         public int hide = 5;
 
@@ -255,7 +255,7 @@ class FieldTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:39:17
      */
-    private static class Wrapper implements Code.IntParam {
+    private static class Wrapper implements TestCode.IntParam {
 
         private int field = 10;
 

@@ -12,7 +12,7 @@ package reincarnation.decompiler.flow;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 import reincarnation.Debuggable;
 
@@ -23,7 +23,7 @@ class DoWhileTest extends CodeVerifier {
 
     @Test
     void normal() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -38,7 +38,7 @@ class DoWhileTest extends CodeVerifier {
 
     @Test
     void equivalent() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -57,7 +57,7 @@ class DoWhileTest extends CodeVerifier {
 
     @Test
     void complexCondition() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -72,7 +72,7 @@ class DoWhileTest extends CodeVerifier {
 
     @Test
     void breakNoLabel() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -92,7 +92,7 @@ class DoWhileTest extends CodeVerifier {
 
     @Test
     void breakInfinite() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -111,7 +111,7 @@ class DoWhileTest extends CodeVerifier {
 
     @Test
     void continueNoLabel() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -132,7 +132,7 @@ class DoWhileTest extends CodeVerifier {
 
     @Test
     void continueAndBreak() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -156,7 +156,7 @@ class DoWhileTest extends CodeVerifier {
 
     @Test
     void oneLiner() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -170,7 +170,7 @@ class DoWhileTest extends CodeVerifier {
 
     @Test
     void oneLinerComplexCondition() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -184,7 +184,7 @@ class DoWhileTest extends CodeVerifier {
 
     @Test
     void inIf() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Debuggable
             @Override
@@ -201,7 +201,7 @@ class DoWhileTest extends CodeVerifier {
 
     @Test
     void inIfOneLiner() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
             @Debuggable
             @Override
             public int run(int value) {
@@ -218,7 +218,7 @@ class DoWhileTest extends CodeVerifier {
     @Test
     @Disabled
     void inOneLinerIf() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Debuggable
             @Override
@@ -233,7 +233,7 @@ class DoWhileTest extends CodeVerifier {
 
     @Test
     void continueThenFollow() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
@@ -256,7 +256,7 @@ class DoWhileTest extends CodeVerifier {
 
     @Test
     void withWhile() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -279,7 +279,7 @@ class DoWhileTest extends CodeVerifier {
 
     @Test
     void nestContinueJump() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
@@ -309,7 +309,7 @@ class DoWhileTest extends CodeVerifier {
 
     @Test
     void nestBreakJump() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {

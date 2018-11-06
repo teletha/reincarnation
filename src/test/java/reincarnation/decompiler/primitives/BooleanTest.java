@@ -11,7 +11,7 @@ package reincarnation.decompiler.primitives;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class BooleanTest extends CodeVerifier {
 
     @Test
     void value() {
-        verify(new Code.BooleanParam() {
+        verify(new TestCode.BooleanParam() {
 
             @Override
             public boolean run(boolean value) {
@@ -32,7 +32,7 @@ class BooleanTest extends CodeVerifier {
 
     @Test
     void negate() {
-        verify(new Code.BooleanParam() {
+        verify(new TestCode.BooleanParam() {
 
             @Override
             public boolean run(boolean value) {
@@ -43,7 +43,7 @@ class BooleanTest extends CodeVerifier {
 
     @Test
     void negateTwice() {
-        verify(new Code.BooleanParam() {
+        verify(new TestCode.BooleanParam() {
 
             @Override
             public boolean run(boolean value) {
@@ -54,7 +54,7 @@ class BooleanTest extends CodeVerifier {
 
     @Test
     void negateInVariable() {
-        verify(new Code.BooleanParam() {
+        verify(new TestCode.BooleanParam() {
 
             @Override
             public boolean run(boolean value) {
@@ -67,7 +67,7 @@ class BooleanTest extends CodeVerifier {
 
     @Test
     void negateTwiceInVariable() {
-        verify(new Code.BooleanParam() {
+        verify(new TestCode.BooleanParam() {
 
             @Override
             public boolean run(boolean value) {
@@ -80,7 +80,7 @@ class BooleanTest extends CodeVerifier {
 
     @Test
     void classEquality() {
-        verify(new Code.Boolean() {
+        verify(new TestCode.Boolean() {
 
             @Override
             public boolean run() {
@@ -91,7 +91,7 @@ class BooleanTest extends CodeVerifier {
 
     @Test
     void arrayClassEquality() {
-        verify(new Code.Boolean() {
+        verify(new TestCode.Boolean() {
 
             @Override
             public boolean run() {

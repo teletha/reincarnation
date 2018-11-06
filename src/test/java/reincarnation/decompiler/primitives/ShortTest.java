@@ -11,7 +11,7 @@ package reincarnation.decompiler.primitives;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class ShortTest extends CodeVerifier {
 
     @Test
     void zero() {
-        verify(new Code.Short() {
+        verify(new TestCode.Short() {
 
             @Override
             public short run() {
@@ -32,7 +32,7 @@ class ShortTest extends CodeVerifier {
 
     @Test
     void one() {
-        verify(new Code.Short() {
+        verify(new TestCode.Short() {
 
             @Override
             public short run() {
@@ -43,7 +43,7 @@ class ShortTest extends CodeVerifier {
 
     @Test
     void two() {
-        verify(new Code.Short() {
+        verify(new TestCode.Short() {
 
             @Override
             public short run() {
@@ -54,7 +54,7 @@ class ShortTest extends CodeVerifier {
 
     @Test
     void three() {
-        verify(new Code.Short() {
+        verify(new TestCode.Short() {
 
             @Override
             public short run() {
@@ -65,7 +65,7 @@ class ShortTest extends CodeVerifier {
 
     @Test
     void minus() {
-        verify(new Code.Short() {
+        verify(new TestCode.Short() {
 
             @Override
             public short run() {
@@ -76,7 +76,7 @@ class ShortTest extends CodeVerifier {
 
     @Test
     void max() {
-        verify(new Code.Short() {
+        verify(new TestCode.Short() {
 
             @Override
             public short run() {
@@ -87,7 +87,7 @@ class ShortTest extends CodeVerifier {
 
     @Test
     void min() {
-        verify(new Code.Short() {
+        verify(new TestCode.Short() {
 
             @Override
             public short run() {

@@ -38,7 +38,7 @@ public class OperandLocalVariable extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
+    protected void writeCode(Coder coder) {
         if (name.equals("this")) {
             coder.writeThis();
         } else {

@@ -11,7 +11,7 @@ package reincarnation.decompiler.primitives;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void zero() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -32,7 +32,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void one() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -43,7 +43,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void two() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -54,7 +54,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void three() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -65,7 +65,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void minus() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -76,7 +76,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void max() {
-        verify(new Code.Float() {
+        verify(new TestCode.Float() {
 
             @Override
             public float run() {
@@ -87,7 +87,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void min() {
-        verify(new Code.Float() {
+        verify(new TestCode.Float() {
 
             @Override
             public float run() {
@@ -98,7 +98,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void add() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -109,7 +109,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void addAssignable() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -120,7 +120,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void subtract() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -131,7 +131,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void subtractAssignable() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -142,7 +142,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void multiply() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -153,7 +153,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void multiplyAssignable() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -164,7 +164,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void divide() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -175,7 +175,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void divideAssignable() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -186,7 +186,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void modulo() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -197,7 +197,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void moduloAssignable() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -208,7 +208,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void postIncrement() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -219,7 +219,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void postIncrementValue() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -231,7 +231,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void postIncrementLike() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -242,7 +242,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void preIncrement() {
-        verify(new Code.FloatParam() {
+        verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
@@ -253,7 +253,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void equal() {
-        verify(new Code.FloatParamBoolean() {
+        verify(new TestCode.FloatParamBoolean() {
 
             @Override
             public boolean run(float value) {
@@ -264,7 +264,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void notEqual() {
-        verify(new Code.FloatParamBoolean() {
+        verify(new TestCode.FloatParamBoolean() {
 
             @Override
             public boolean run(float value) {
@@ -275,7 +275,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void less() {
-        verify(new Code.FloatParamBoolean() {
+        verify(new TestCode.FloatParamBoolean() {
 
             @Override
             public boolean run(float value) {
@@ -286,7 +286,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void lessEqual() {
-        verify(new Code.FloatParamBoolean() {
+        verify(new TestCode.FloatParamBoolean() {
 
             @Override
             public boolean run(float value) {
@@ -297,7 +297,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void greater() {
-        verify(new Code.FloatParamBoolean() {
+        verify(new TestCode.FloatParamBoolean() {
 
             @Override
             public boolean run(float value) {
@@ -308,7 +308,7 @@ class FloatTest extends CodeVerifier {
 
     @Test
     void greaterEqual() {
-        verify(new Code.FloatParamBoolean() {
+        verify(new TestCode.FloatParamBoolean() {
 
             @Override
             public boolean run(float value) {
@@ -325,7 +325,7 @@ class FloatTest extends CodeVerifier {
     /**
      * @version 2018/10/10 11:03:49
      */
-    private static class IncrementStaticField implements Code.Float {
+    private static class IncrementStaticField implements TestCode.Float {
 
         private static float index = 1;
 
@@ -347,7 +347,7 @@ class FloatTest extends CodeVerifier {
     /**
      * @version 2018/10/10 11:03:41
      */
-    private static class DecrementStaticField implements Code.Float {
+    private static class DecrementStaticField implements TestCode.Float {
 
         private static float index = 1;
 
@@ -369,7 +369,7 @@ class FloatTest extends CodeVerifier {
     /**
      * @version 2018/10/10 11:03:34
      */
-    private static class PreincrementStaticField implements Code.Float {
+    private static class PreincrementStaticField implements TestCode.Float {
 
         private static float index = 1;
 
@@ -391,7 +391,7 @@ class FloatTest extends CodeVerifier {
     /**
      * @version 2018/10/10 11:03:14
      */
-    private static class PredecrementStaticField implements Code.Float {
+    private static class PredecrementStaticField implements TestCode.Float {
 
         private static float index = 1;
 

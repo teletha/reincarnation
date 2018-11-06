@@ -11,7 +11,7 @@ package reincarnation.decompiler.primitives;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void zero() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -32,7 +32,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void one() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -43,7 +43,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void two() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -54,7 +54,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void three() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -65,7 +65,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void minus() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -76,7 +76,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void max() {
-        verify(new Code.Double() {
+        verify(new TestCode.Double() {
 
             @Override
             public double run() {
@@ -87,7 +87,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void min() {
-        verify(new Code.Double() {
+        verify(new TestCode.Double() {
 
             @Override
             public double run() {
@@ -98,7 +98,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void add() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -109,7 +109,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void addAssignable() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -120,7 +120,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void subtract() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -131,7 +131,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void subtractAssignable() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -142,7 +142,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void multiply() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -153,7 +153,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void multiplyAssignable() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -164,7 +164,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void divide() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -175,7 +175,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void divideAssignable() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -186,7 +186,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void modulo() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -197,7 +197,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void moduloAssignable() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -208,7 +208,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void postIncrement() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -219,7 +219,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void postIncrementValue() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -231,7 +231,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void postIncrementLike() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -242,7 +242,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void preIncrement() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -253,7 +253,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void equal() {
-        verify(new Code.DoubleParamBoolean() {
+        verify(new TestCode.DoubleParamBoolean() {
 
             @Override
             public boolean run(double value) {
@@ -264,7 +264,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void notEqual() {
-        verify(new Code.DoubleParamBoolean() {
+        verify(new TestCode.DoubleParamBoolean() {
 
             @Override
             public boolean run(double value) {
@@ -275,7 +275,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void less() {
-        verify(new Code.DoubleParamBoolean() {
+        verify(new TestCode.DoubleParamBoolean() {
 
             @Override
             public boolean run(double value) {
@@ -286,7 +286,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void lessEqual() {
-        verify(new Code.DoubleParamBoolean() {
+        verify(new TestCode.DoubleParamBoolean() {
 
             @Override
             public boolean run(double value) {
@@ -297,7 +297,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void lessEqual2() {
-        verify(new Code.DoubleParamBoolean() {
+        verify(new TestCode.DoubleParamBoolean() {
 
             @Override
             public boolean run(double value) {
@@ -308,7 +308,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void greater() {
-        verify(new Code.DoubleParamBoolean() {
+        verify(new TestCode.DoubleParamBoolean() {
 
             @Override
             public boolean run(double value) {
@@ -319,7 +319,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void greater2() {
-        verify(new Code.DoubleParamBoolean() {
+        verify(new TestCode.DoubleParamBoolean() {
 
             @Override
             public boolean run(double value) {
@@ -330,7 +330,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void greaterEqual() {
-        verify(new Code.DoubleParamBoolean() {
+        verify(new TestCode.DoubleParamBoolean() {
 
             @Override
             public boolean run(double value) {
@@ -341,7 +341,7 @@ class DoubleTest extends CodeVerifier {
 
     @Test
     void greaterEqual2() {
-        verify(new Code.DoubleParamBoolean() {
+        verify(new TestCode.DoubleParamBoolean() {
 
             @Override
             public boolean run(double value) {
@@ -358,7 +358,7 @@ class DoubleTest extends CodeVerifier {
     /**
      * @version 2018/10/10 9:38:09
      */
-    private static class IncrementStaticField implements Code.Double {
+    private static class IncrementStaticField implements TestCode.Double {
 
         private static double index = 1;
 
@@ -380,7 +380,7 @@ class DoubleTest extends CodeVerifier {
     /**
      * @version 2018/10/10 9:37:58
      */
-    private static class DecrementStaticField implements Code.Double {
+    private static class DecrementStaticField implements TestCode.Double {
 
         private static double index = 1;
 
@@ -402,7 +402,7 @@ class DoubleTest extends CodeVerifier {
     /**
      * @version 2018/10/10 9:38:01
      */
-    private static class PreincrementStaticField implements Code.Double {
+    private static class PreincrementStaticField implements TestCode.Double {
 
         private static double index = 1;
 
@@ -424,7 +424,7 @@ class DoubleTest extends CodeVerifier {
     /**
      * @version 2018/10/10 9:38:04
      */
-    private static class PredecrementStaticField implements Code.Double {
+    private static class PredecrementStaticField implements TestCode.Double {
 
         private static double index = 1;
 

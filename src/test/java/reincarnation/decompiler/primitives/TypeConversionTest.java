@@ -11,7 +11,7 @@ package reincarnation.decompiler.primitives;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class TypeConversionTest extends CodeVerifier {
 
     @Test
     void longToInt() {
-        verify(new Code.Run() {
+        verify(new TestCode.Run() {
 
             @Override
             public void run() {
@@ -51,7 +51,7 @@ class TypeConversionTest extends CodeVerifier {
 
     @Test
     void intToLong() {
-        verify(new Code.Run() {
+        verify(new TestCode.Run() {
 
             @Override
             public void run() {

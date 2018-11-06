@@ -38,7 +38,7 @@ class OperandAmbiguousZeroOneTernary extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
+    protected void writeCode(Coder coder) {
         if (type.is(boolean.class)) {
             condition.write(coder);
         } else {

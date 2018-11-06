@@ -11,7 +11,7 @@ package reincarnation.decompiler.field;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class StaticMemberTest extends CodeVerifier {
 
     @Test
     void StringValueOf() {
-        verify(new Code.Text() {
+        verify(new TestCode.Text() {
 
             @Override
             public String run() {
@@ -38,7 +38,7 @@ class StaticMemberTest extends CodeVerifier {
     /**
      * @version 2018/10/26 12:30:37
      */
-    private static class StaticMethod implements Code.Int {
+    private static class StaticMethod implements TestCode.Int {
 
         @Override
         public int run() {
@@ -58,7 +58,7 @@ class StaticMemberTest extends CodeVerifier {
     /**
      * @version 2018/10/26 12:30:48
      */
-    private static class StaticMethodWithParam implements Code.IntParam {
+    private static class StaticMethodWithParam implements TestCode.IntParam {
 
         @Override
         public int run(int value) {
@@ -78,7 +78,7 @@ class StaticMemberTest extends CodeVerifier {
     /**
      * @version 2018/10/26 12:30:58
      */
-    private static class GetStaticField implements Code.Int {
+    private static class GetStaticField implements TestCode.Int {
 
         private static int field = 10;
 
@@ -96,7 +96,7 @@ class StaticMemberTest extends CodeVerifier {
     /**
      * @version 2018/10/26 12:31:04
      */
-    private static class GetStaticFieldFromStaticMethod implements Code.Int {
+    private static class GetStaticFieldFromStaticMethod implements TestCode.Int {
 
         private static int field = 10;
 
@@ -126,7 +126,7 @@ class StaticMemberTest extends CodeVerifier {
     /**
      * @version 2018/10/26 12:31:17
      */
-    private static class GetStaticFieldFromSubClass extends StaticFieldParent implements Code.Int {
+    private static class GetStaticFieldFromSubClass extends StaticFieldParent implements TestCode.Int {
 
         @Override
         public int run() {
@@ -142,7 +142,7 @@ class StaticMemberTest extends CodeVerifier {
     /**
      * @version 2018/10/26 12:31:25
      */
-    private static class SetStaticField implements Code.IntParam {
+    private static class SetStaticField implements TestCode.IntParam {
 
         private static int field;
 
@@ -169,7 +169,7 @@ class StaticMemberTest extends CodeVerifier {
     /**
      * @version 2018/10/26 12:31:33
      */
-    private static class SetStaticFieldFromSubClass extends SetStaticFieldParent implements Code.IntParam {
+    private static class SetStaticFieldFromSubClass extends SetStaticFieldParent implements TestCode.IntParam {
 
         @Override
         public int run(int value) {
@@ -187,7 +187,7 @@ class StaticMemberTest extends CodeVerifier {
     /**
      * @version 2018/10/26 12:31:40
      */
-    private static class StaticInitialization implements Code.Int {
+    private static class StaticInitialization implements TestCode.Int {
 
         private static final int field;
 
@@ -209,7 +209,7 @@ class StaticMemberTest extends CodeVerifier {
     /**
      * @version 2018/10/26 12:31:51
      */
-    private static class Lazy implements Code.Text {
+    private static class Lazy implements TestCode.Text {
 
         private static String value;
 

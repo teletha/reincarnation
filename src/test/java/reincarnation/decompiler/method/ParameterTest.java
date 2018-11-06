@@ -11,15 +11,15 @@ package reincarnation.decompiler.method;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code.BooleanParam;
-import reincarnation.Code.ByteParam;
-import reincarnation.Code.CharParam;
-import reincarnation.Code.DoubleParam;
-import reincarnation.Code.FloatParam;
-import reincarnation.Code.IntParam;
-import reincarnation.Code.LongParam;
-import reincarnation.Code.ShortParam;
-import reincarnation.Code.TextParam;
+import reincarnation.TestCode.BooleanParam;
+import reincarnation.TestCode.ByteParam;
+import reincarnation.TestCode.CharParam;
+import reincarnation.TestCode.DoubleParam;
+import reincarnation.TestCode.FloatParam;
+import reincarnation.TestCode.IntParam;
+import reincarnation.TestCode.LongParam;
+import reincarnation.TestCode.ShortParam;
+import reincarnation.TestCode.TextParam;
 import reincarnation.CodeVerifier;
 
 /**

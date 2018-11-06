@@ -11,7 +11,7 @@ package reincarnation.decompiler.flow;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void base() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -32,7 +32,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void postIncrement() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -43,7 +43,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void preIncrement() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -54,7 +54,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void logicalExpressionInLeft() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(int value) {
@@ -65,7 +65,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void logicalExpressionInRight() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             private boolean a = true;
 
@@ -78,7 +78,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void logicalExpressionInBoth() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(int value) {
@@ -89,7 +89,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void logicalCondition() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             private boolean a = true;
 
@@ -102,7 +102,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void logicalAll() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(int value) {
@@ -113,7 +113,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void logicalAllUnformat() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(int value) {
@@ -128,7 +128,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void string() {
-        verify(new Code.IntParamText() {
+        verify(new TestCode.IntParamText() {
 
             @Override
             public String run(int value) {
@@ -139,7 +139,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void stringNest() {
-        verify(new Code.IntParamText() {
+        verify(new TestCode.IntParamText() {
 
             @Override
             public String run(int value) {
@@ -150,7 +150,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void stringComplex() {
-        verify(new Code.IntParamText() {
+        verify(new TestCode.IntParamText() {
 
             @Override
             public String run(@Param(ints = {-1, 0, 1, 2, 3}) int value) {
@@ -161,7 +161,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void nestRight() {
-        verify(new Code.IntParamText() {
+        verify(new TestCode.IntParamText() {
 
             @Override
             public String run(int value) {
@@ -172,7 +172,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void nestLeft() {
-        verify(new Code.IntParamText() {
+        verify(new TestCode.IntParamText() {
 
             @Override
             public String run(int value) {
@@ -183,7 +183,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void withExpression() {
-        verify(new Code.TextParamInt() {
+        verify(new TestCode.TextParamInt() {
 
             @Override
             public int run(String value) {
@@ -194,7 +194,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void withExpressionThenAssignToVariable() {
-        verify(new Code.TextParam() {
+        verify(new TestCode.TextParam() {
 
             boolean flag = true;
 
@@ -209,7 +209,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void withAssignToVariable() {
-        verify(new Code.BooleanParamInt() {
+        verify(new TestCode.BooleanParamInt() {
 
             @Override
             public int run(boolean flag) {
@@ -222,7 +222,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void afterLogicalExpression() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -234,7 +234,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void inIf() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -249,7 +249,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void ifConditionLogical() {
-        verify(new Code.IntParamText() {
+        verify(new TestCode.IntParamText() {
 
             @Override
             public String run(int value) {
@@ -267,7 +267,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void ifConditionTernary() {
-        verify(new Code.IntParamText() {
+        verify(new TestCode.IntParamText() {
 
             @Override
             public String run(int value) {
@@ -285,7 +285,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void ifConditionTernaryBoolean() {
-        verify(new Code.IntParamText() {
+        verify(new TestCode.IntParamText() {
 
             @Override
             public String run(int value) {
@@ -299,7 +299,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void whileConditionTernary() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = -5, to = 5) int value) {
@@ -313,7 +313,7 @@ class TernaryExpressionTest extends CodeVerifier {
 
     @Test
     void withLogical() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 0, to = 10) int value) {

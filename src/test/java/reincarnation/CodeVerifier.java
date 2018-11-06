@@ -29,7 +29,7 @@ import bee.util.JavaCompiler;
 import kiss.I;
 import kiss.WiseSupplier;
 import kiss.Ⅱ;
-import reincarnation.Code.Param;
+import reincarnation.TestCode.Param;
 import reincarnation.coder.java.JavaCoder;
 import reincarnation.coder.java.JavaCodingOption;
 
@@ -74,7 +74,7 @@ public class CodeVerifier {
      * 
      * @param code A target code to verify.
      */
-    protected final void verify(Code code) {
+    protected final void verify(TestCode code) {
         JavaVerifier base = new JavaVerifier<>(I.pair(code.getClass(), IllegalCallerException::new));
         List inputs = prepareInputs(base.method);
         List expecteds = new ArrayList();
@@ -204,7 +204,7 @@ public class CodeVerifier {
      * @param code
      * @return
      */
-    private <T extends Code> Ⅱ<Class<T>, Supplier<Throwable>> recompile(T code) {
+    private <T extends TestCode> Ⅱ<Class<T>, Supplier<Throwable>> recompile(T code) {
         Class target = code.getClass();
 
         JavaCodingOption options = new JavaCodingOption();

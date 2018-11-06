@@ -69,7 +69,7 @@ public class OperandTernary extends OperandCondition {
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
+    protected void writeCode(Coder coder) {
         if (isStatement()) {
             coder.writeIf(condition, c -> c.writeStatement(left), c -> c.writeStatement(right), null);
         } else {

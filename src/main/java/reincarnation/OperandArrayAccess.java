@@ -37,7 +37,7 @@ class OperandArrayAccess extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
+    protected void writeCode(Coder coder) {
         coder.writeAccessArray(array, index);
     }
 }

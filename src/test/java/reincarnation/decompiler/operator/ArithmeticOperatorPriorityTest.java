@@ -11,7 +11,7 @@ package reincarnation.decompiler.operator;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class ArithmeticOperatorPriorityTest extends CodeVerifier {
 
     @Test
     void shiftWithAdd() {
-        verify(new Code.Run() {
+        verify(new TestCode.Run() {
 
             @Override
             public void run() {

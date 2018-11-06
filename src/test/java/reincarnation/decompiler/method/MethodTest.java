@@ -11,7 +11,7 @@ package reincarnation.decompiler.method;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -27,7 +27,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:32:19
      */
-    private static class Basic implements Code.Int {
+    private static class Basic implements TestCode.Int {
 
         @Override
         public int run() {
@@ -47,7 +47,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:32:31
      */
-    private static class Param implements Code.IntParam {
+    private static class Param implements TestCode.IntParam {
 
         @Override
         public int run(int value) {
@@ -67,7 +67,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:32:40
      */
-    private static class MultipleParams implements Code.IntParam {
+    private static class MultipleParams implements TestCode.IntParam {
 
         @Override
         public int run(int value) {
@@ -87,7 +87,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:32:50
      */
-    private static class ArrayParam implements Code.IntParam {
+    private static class ArrayParam implements TestCode.IntParam {
 
         @Override
         public int run(int value) {
@@ -115,7 +115,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:32:58
      */
-    private static class AssignLocalParam implements Code.IntParam {
+    private static class AssignLocalParam implements TestCode.IntParam {
 
         @Override
         public int run(int value) {
@@ -138,7 +138,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:33:05
      */
-    private static class AssignFieldParam implements Code.IntParam {
+    private static class AssignFieldParam implements TestCode.IntParam {
 
         private int local;
 
@@ -162,7 +162,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:33:10
      */
-    private static class VariableParam implements Code.IntParam {
+    private static class VariableParam implements TestCode.IntParam {
 
         @Override
         public int run(int value) {
@@ -188,7 +188,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:33:14
      */
-    private static class VariableParamWithBase implements Code.IntParam {
+    private static class VariableParamWithBase implements TestCode.IntParam {
 
         @Override
         public int run(int value) {
@@ -214,7 +214,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:33:19
      */
-    private static class VariableParamWithBaseOnly implements Code.IntParam {
+    private static class VariableParamWithBaseOnly implements TestCode.IntParam {
 
         @Override
         public int run(int value) {
@@ -240,7 +240,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:33:24
      */
-    private static class Nest implements Code.IntParam {
+    private static class Nest implements TestCode.IntParam {
 
         @Override
         public int run(int value) {
@@ -264,7 +264,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:33:29
      */
-    private static class Overload implements Code.IntParam {
+    private static class Overload implements TestCode.IntParam {
 
         @Override
         public int run(int value) {
@@ -298,7 +298,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:33:36
      */
-    private static class ExtendPublic extends BasePublic implements Code.IntParam {
+    private static class ExtendPublic extends BasePublic implements TestCode.IntParam {
 
         @Override
         public int run(int value) {
@@ -324,7 +324,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:33:50
      */
-    private static class ExtendProtected extends BaseProtected implements Code.IntParam {
+    private static class ExtendProtected extends BaseProtected implements TestCode.IntParam {
 
         @Override
         public int run(int value) {
@@ -350,7 +350,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:35:06
      */
-    private static class ExtendPackage extends BasePackage implements Code.IntParam {
+    private static class ExtendPackage extends BasePackage implements TestCode.IntParam {
 
         @Override
         public int run(int value) {
@@ -376,7 +376,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:35:14
      */
-    private static class OverrideChild extends OverrideBase implements Code.IntParam {
+    private static class OverrideChild extends OverrideBase implements TestCode.IntParam {
 
         @Override
         public int run(int value) {
@@ -396,7 +396,7 @@ class MethodTest extends CodeVerifier {
 
     @Test
     void callOverriddenMethodFromInstance() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int param) {
@@ -431,7 +431,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/26 15:44:41
      */
-    static class Child extends Parent implements Code.IntParam {
+    static class Child extends Parent implements TestCode.IntParam {
 
         @Override
         public int compute(int value) {
@@ -450,7 +450,7 @@ class MethodTest extends CodeVerifier {
     /**
      * @version 2018/10/23 15:35:40
      */
-    static class SuperChild extends Ancestor implements Code.IntParam {
+    static class SuperChild extends Ancestor implements TestCode.IntParam {
 
         @Override
         public int run(int value) {

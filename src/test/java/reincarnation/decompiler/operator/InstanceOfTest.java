@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -28,7 +28,7 @@ class InstanceOfTest extends CodeVerifier {
         verify(new Base());
     }
 
-    private static class Base implements Code.Boolean {
+    private static class Base implements TestCode.Boolean {
 
         @Override
         public boolean run() {
@@ -67,7 +67,7 @@ class InstanceOfTest extends CodeVerifier {
         verify(new OBJECT());
     }
 
-    private static class OBJECT implements Code.Boolean {
+    private static class OBJECT implements TestCode.Boolean {
 
         @Override
         public boolean run() {
@@ -80,11 +80,11 @@ class InstanceOfTest extends CodeVerifier {
         verify(new ValidInterface());
     }
 
-    private static class ValidInterface implements Code.Boolean {
+    private static class ValidInterface implements TestCode.Boolean {
 
         @Override
         public boolean run() {
-            return this instanceof Code.Boolean;
+            return this instanceof TestCode.Boolean;
         }
     }
 
@@ -93,7 +93,7 @@ class InstanceOfTest extends CodeVerifier {
         verify(new ValidInterface());
     }
 
-    private static class InivalidInterface implements Code.Boolean {
+    private static class InivalidInterface implements TestCode.Boolean {
 
         @Override
         public boolean run() {
@@ -103,7 +103,7 @@ class InstanceOfTest extends CodeVerifier {
 
     @Test
     void StringLiteral() {
-        verify(new Code.Boolean() {
+        verify(new TestCode.Boolean() {
 
             @Override
             public boolean run() {
@@ -114,7 +114,7 @@ class InstanceOfTest extends CodeVerifier {
 
     @Test
     void ArrayPrimitive() {
-        verify(new Code.Boolean() {
+        verify(new TestCode.Boolean() {
 
             @Override
             public boolean run() {
@@ -126,7 +126,7 @@ class InstanceOfTest extends CodeVerifier {
 
     @Test
     void ArrayObject() {
-        verify(new Code.Boolean() {
+        verify(new TestCode.Boolean() {
 
             @Override
             public boolean run() {
@@ -138,7 +138,7 @@ class InstanceOfTest extends CodeVerifier {
 
     @Test
     void StringNull() {
-        verify(new Code.Boolean() {
+        verify(new TestCode.Boolean() {
 
             @Override
             public boolean run() {
@@ -150,7 +150,7 @@ class InstanceOfTest extends CodeVerifier {
 
     @Test
     void ConcreateNull() {
-        verify(new Code.Boolean() {
+        verify(new TestCode.Boolean() {
 
             @Override
             public boolean run() {
@@ -162,7 +162,7 @@ class InstanceOfTest extends CodeVerifier {
 
     @Test
     void InterfaceNull() {
-        verify(new Code.Boolean() {
+        verify(new TestCode.Boolean() {
 
             @Override
             public boolean run() {

@@ -11,7 +11,7 @@ package reincarnation.decompiler.field;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class InterfaceStaticFieldTest extends CodeVerifier {
 
     @Test
     void interfaceAccess() {
-        verify(new Code.Text() {
+        verify(new TestCode.Text() {
 
             @Override
             public String run() {
@@ -33,7 +33,7 @@ class InterfaceStaticFieldTest extends CodeVerifier {
     @Test
     @SuppressWarnings("static-access")
     void instanceAccess() {
-        verify(new Code.Text() {
+        verify(new TestCode.Text() {
 
             @Override
             public String run() {

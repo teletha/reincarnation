@@ -37,6 +37,9 @@ public abstract class Operand implements Code {
     /** The mark. */
     private boolean statement;
 
+    /** The state. */
+    private boolean enclosed;
+
     /**
      * Display the human-readable operand info.
      * 
@@ -107,6 +110,26 @@ public abstract class Operand implements Code {
     }
 
     /**
+     * Enclose myself.
+     * 
+     * @return Chainable API.
+     */
+    public final Operand encolose() {
+        enclosed = true;
+        return this;
+    }
+
+    /**
+     * Disclose myself.
+     * 
+     * @return Chainable API.
+     */
+    public final Operand disclose() {
+        enclosed = false;
+        return this;
+    }
+
+    /**
      * Check {@link Operand} type.
      * 
      * @return A result.
@@ -151,26 +174,6 @@ public abstract class Operand implements Code {
     }
 
     /**
-     * Enclose myself.
-     * 
-     * @return A disclosed operand.
-     */
-    Operand encolose() {
-        return new OperandEnclose(this);
-    }
-
-    /**
-     * <p>
-     * Disclose the outmost parenthesis if we can.
-     * </p>
-     * 
-     * @return A disclosed operand.
-     */
-    Operand disclose() {
-        return this;
-    }
-
-    /**
      * <p>
      * Infer the type of this {@link Operand}.
      * </p>
@@ -211,11 +214,22 @@ public abstract class Operand implements Code {
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error(getClass() + " must implement write method!");
+    public final void write(Coder coder) {
+        if (enclosed) {
+            coder.writeEnclose(() -> {
+                writeCode(coder);
+            });
+        } else {
+            writeCode(coder);
+        }
     }
+
+    /**
+     * Write code actually.
+     * 
+     * @param coder
+     */
+    protected abstract void writeCode(Coder coder);
 
     /**
      * {@inheritDoc}

@@ -11,7 +11,7 @@ package reincarnation.decompiler.grammar;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class AssertionTest extends CodeVerifier {
 
     @Test
     void single() {
-        verify(new Code.RunInt() {
+        verify(new TestCode.RunInt() {
 
             @Override
             public void run(int value) {
@@ -32,7 +32,7 @@ class AssertionTest extends CodeVerifier {
 
     @Test
     void multiple() {
-        verify(new Code.RunInt() {
+        verify(new TestCode.RunInt() {
 
             @Override
             public void run(int value) {

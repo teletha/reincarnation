@@ -11,7 +11,7 @@ package reincarnation.decompiler.flow;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void True() {
-        verify(new Code.Boolean() {
+        verify(new TestCode.Boolean() {
 
             @Override
             public boolean run() {
@@ -32,7 +32,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void False() {
-        verify(new Code.Boolean() {
+        verify(new TestCode.Boolean() {
 
             @Override
             public boolean run() {
@@ -43,7 +43,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Equal() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(int value) {
@@ -54,7 +54,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Not() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(int value) {
@@ -65,7 +65,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Or() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(int value) {
@@ -76,7 +76,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void NotOr() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(int value) {
@@ -87,7 +87,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void OrNot() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(int value) {
@@ -98,7 +98,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void NotOrNot() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(int value) {
@@ -109,7 +109,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void MultipleOr() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -120,7 +120,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void OrWithOtherStatement() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(int value) {
@@ -133,7 +133,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void And() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -144,7 +144,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void NotAnd() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -155,7 +155,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void AndNot() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -166,7 +166,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void NotAndNot() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -177,7 +177,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void MultipleAnd() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -188,7 +188,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void postIncrement() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 10) int value) {
@@ -199,7 +199,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void preIncrement() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 10) int value) {
@@ -210,7 +210,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void postDecrement() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 10) int value) {
@@ -221,7 +221,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void preDecrement() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 10) int value) {
@@ -232,7 +232,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex1() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -243,7 +243,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex2() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -254,7 +254,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex3() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -265,7 +265,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex4() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -276,7 +276,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex5() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -287,7 +287,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex6() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -298,7 +298,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex10() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -309,7 +309,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex11() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -320,7 +320,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex12() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -331,7 +331,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex13() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -342,7 +342,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex14() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 24) int value) {
@@ -353,7 +353,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex20() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 48) int value) {
@@ -364,7 +364,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex21() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 48) int value) {
@@ -375,7 +375,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex22() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 48) int value) {
@@ -386,7 +386,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex23() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 48) int value) {
@@ -397,7 +397,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex24() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 128) int value) {
@@ -408,7 +408,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex25() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 128) int value) {
@@ -419,7 +419,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex26() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 128) int value) {
@@ -430,7 +430,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex27() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 128) int value) {
@@ -441,7 +441,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex28() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 128) int value) {
@@ -452,7 +452,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex29() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 128) int value) {
@@ -463,7 +463,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex30() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 128) int value) {
@@ -474,7 +474,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Complex31() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 128) int value) {
@@ -485,7 +485,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void IfOr() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -500,7 +500,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void IfAnd() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 12) int value) {
@@ -515,7 +515,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void IfComplex1() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -530,7 +530,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void IfComplex2() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 48) int value) {
@@ -545,7 +545,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void MethodOr() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 5) int value) {
@@ -560,7 +560,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void MethodAnd() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 0, to = 48) int value) {
@@ -575,7 +575,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void MethodComplex1() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 0, to = 48) int value) {
@@ -590,7 +590,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void MethodComplex2() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 0, to = 48) int value) {
@@ -605,7 +605,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void WithMethodCall() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 0, to = 12) int value) {
@@ -624,7 +624,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void VariableOr() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 1, to = 5) int value) {
@@ -637,7 +637,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void VariableAnd() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 0, to = 24) int value) {
@@ -650,7 +650,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void VariableComplex1() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 0, to = 24) int value) {
@@ -663,7 +663,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void VariableComplex2() {
-        verify(new Code.IntParamBoolean() {
+        verify(new TestCode.IntParamBoolean() {
 
             @Override
             public boolean run(@Param(from = 0, to = 48) int value) {
@@ -676,7 +676,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void ConditionalOperator() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -687,7 +687,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void ConditionalOperatorLogicalSum() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -698,7 +698,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void ConditionalOperatorComplex() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -709,7 +709,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void ConditionalOperatorNest1() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -720,7 +720,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void ConditionalOperatorNest2() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -731,7 +731,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void ConditionalOperatorNest3() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -742,7 +742,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void ConditionalOperatorNest4() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -753,7 +753,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void ConditionalOperatorNest5() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 100) int value) {
@@ -764,7 +764,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void ConditionalOperatorWithIf() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -779,7 +779,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void ConditionalOperatorInMethod() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -794,7 +794,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void ConditionalOperatorWithLogicalSumInMethod() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -809,7 +809,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void ConditionalOperatorComplexInMethod() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 48) int value) {
@@ -824,7 +824,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void Anonymous() {
-        verify(new Code.Text() {
+        verify(new TestCode.Text() {
 
             @Override
             public String run() {
@@ -841,7 +841,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void IntArrayForEach() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 1, to = 10) int value) {
@@ -858,7 +858,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void If() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -872,7 +872,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void IfElse() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -887,7 +887,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void lfElseAfter() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -903,7 +903,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void IfNest() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -920,7 +920,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void IfNestComplex() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
@@ -938,7 +938,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void DoWhile() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -953,7 +953,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void DoWhileEquivalent() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -971,7 +971,7 @@ class LogicalExpressionTest extends CodeVerifier {
     }
 
     void DoWhileBreak() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -990,7 +990,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void DoWhileInfiniteBreak() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -1009,7 +1009,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void DoWhileContinue() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -1030,7 +1030,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void For() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -1045,7 +1045,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void ForWithoutInitialize() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 5) int value) {
@@ -1063,7 +1063,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void ForWithoutUpdate() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
@@ -1083,7 +1083,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void ForBreak() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
@@ -1102,7 +1102,7 @@ class LogicalExpressionTest extends CodeVerifier {
 
     @Test
     void ForContinue() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 10) int value) {

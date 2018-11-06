@@ -65,6 +65,10 @@ public class Fragment extends Structure {
     public void structurize() {
         super.structurize();
 
+        for (Operand operand : code.stack) {
+            operand.disclose();
+        }
+
         I.signal(code.stack).flatVariable(o -> o.as(OperandTernary.class)).skipNull().to(Operand::markAsStatement);
     }
 

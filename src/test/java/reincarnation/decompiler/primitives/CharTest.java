@@ -11,7 +11,7 @@ package reincarnation.decompiler.primitives;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ public class CharTest extends CodeVerifier {
 
     @Test
     public void primitive() {
-        verify(new Code.CharParam() {
+        verify(new TestCode.CharParam() {
 
             @Override
             public char run(char value) {
@@ -32,7 +32,7 @@ public class CharTest extends CodeVerifier {
 
     @Test
     public void equalToChar() {
-        verify(new Code.CharParamBoolean() {
+        verify(new TestCode.CharParamBoolean() {
 
             @Override
             public boolean run(char value) {
@@ -43,7 +43,7 @@ public class CharTest extends CodeVerifier {
 
     @Test
     public void equalToNumber1() {
-        verify(new Code.CharParamBoolean() {
+        verify(new TestCode.CharParamBoolean() {
 
             @Override
             public boolean run(char value) {
@@ -54,7 +54,7 @@ public class CharTest extends CodeVerifier {
 
     @Test
     public void equalToNumber2() {
-        verify(new Code.CharParamBoolean() {
+        verify(new TestCode.CharParamBoolean() {
 
             @Override
             public boolean run(char value) {
@@ -65,7 +65,7 @@ public class CharTest extends CodeVerifier {
 
     @Test
     public void add() {
-        verify(new Code.CharParamInt() {
+        verify(new TestCode.CharParamInt() {
 
             @Override
             public int run(char value) {
@@ -76,7 +76,7 @@ public class CharTest extends CodeVerifier {
 
     @Test
     public void subtract() {
-        verify(new Code.CharParamInt() {
+        verify(new TestCode.CharParamInt() {
 
             @Override
             public int run(char value) {
@@ -87,7 +87,7 @@ public class CharTest extends CodeVerifier {
 
     @Test
     public void codition() {
-        verify(new Code.CharParamBoolean() {
+        verify(new TestCode.CharParamBoolean() {
 
             @Override
             public boolean run(char value) {
@@ -98,7 +98,7 @@ public class CharTest extends CodeVerifier {
 
     @Test
     public void cast() {
-        verify(new Code.CharParam() {
+        verify(new TestCode.CharParam() {
 
             @Override
             public char run(char value) {

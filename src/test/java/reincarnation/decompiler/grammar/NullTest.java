@@ -11,7 +11,7 @@ package reincarnation.decompiler.grammar;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class NullTest extends CodeVerifier {
 
     @Test
     void Null() {
-        verify(new Code.Object() {
+        verify(new TestCode.Object() {
 
             @Override
             public Object run() {

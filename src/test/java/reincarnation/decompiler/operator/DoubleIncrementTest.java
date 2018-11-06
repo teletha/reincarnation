@@ -11,7 +11,7 @@ package reincarnation.decompiler.operator;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class DoubleIncrementTest extends CodeVerifier {
 
     @Test
     void sequence() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -35,7 +35,7 @@ class DoubleIncrementTest extends CodeVerifier {
 
     @Test
     void incrementFieldInMethodCall() {
-        verify(new Code.Double() {
+        verify(new TestCode.Double() {
 
             private double index = 0;
 
@@ -52,7 +52,7 @@ class DoubleIncrementTest extends CodeVerifier {
 
     @Test
     void decrementFieldInMethodCall() {
-        verify(new Code.Double() {
+        verify(new TestCode.Double() {
 
             private double index = 0;
 
@@ -69,7 +69,7 @@ class DoubleIncrementTest extends CodeVerifier {
 
     @Test
     void preincrementFieldInMethodCall() {
-        verify(new Code.Double() {
+        verify(new TestCode.Double() {
 
             private double index = 0;
 
@@ -86,7 +86,7 @@ class DoubleIncrementTest extends CodeVerifier {
 
     @Test
     void predecrementFieldInMethodCall() {
-        verify(new Code.Double() {
+        verify(new TestCode.Double() {
 
             private double index = 0;
 
@@ -103,7 +103,7 @@ class DoubleIncrementTest extends CodeVerifier {
 
     @Test
     void incrementVariableInMethodCall() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -120,7 +120,7 @@ class DoubleIncrementTest extends CodeVerifier {
 
     @Test
     void decrementVariableInMethodCall() {
-        verify(new Code.DoubleParam() {
+        verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
@@ -137,7 +137,7 @@ class DoubleIncrementTest extends CodeVerifier {
 
     @Test
     void incrementFieldInFieldAccess() {
-        verify(new Code.Double() {
+        verify(new TestCode.Double() {
 
             private double index = 1;
 
@@ -154,7 +154,7 @@ class DoubleIncrementTest extends CodeVerifier {
 
     @Test
     void decrementFieldInFieldAccess() {
-        verify(new Code.Double() {
+        verify(new TestCode.Double() {
 
             private double index = 1;
 
@@ -171,7 +171,7 @@ class DoubleIncrementTest extends CodeVerifier {
 
     @Test
     void preincrementFieldInFieldAccess() {
-        verify(new Code.Double() {
+        verify(new TestCode.Double() {
 
             private double index = 1;
 
@@ -188,7 +188,7 @@ class DoubleIncrementTest extends CodeVerifier {
 
     @Test
     void predecrementFieldInFieldAccess() {
-        verify(new Code.Double() {
+        verify(new TestCode.Double() {
 
             private double index = 1;
 

@@ -11,7 +11,7 @@ package reincarnation.decompiler.operator;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.Code;
+import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 
 /**
@@ -21,7 +21,7 @@ class IntIncrementTest extends CodeVerifier {
 
     @Test
     void sequence() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -35,7 +35,7 @@ class IntIncrementTest extends CodeVerifier {
 
     @Test
     void incrementFieldInMethodCall() {
-        verify(new Code.Int() {
+        verify(new TestCode.Int() {
 
             private int index = 0;
 
@@ -52,7 +52,7 @@ class IntIncrementTest extends CodeVerifier {
 
     @Test
     void decrementFieldInMethodCall() {
-        verify(new Code.Int() {
+        verify(new TestCode.Int() {
 
             private int index = 0;
 
@@ -69,7 +69,7 @@ class IntIncrementTest extends CodeVerifier {
 
     @Test
     void preincrementFieldInMethodCall() {
-        verify(new Code.Int() {
+        verify(new TestCode.Int() {
 
             private int index = 0;
 
@@ -86,7 +86,7 @@ class IntIncrementTest extends CodeVerifier {
 
     @Test
     void predecrementFieldInMethodCall() {
-        verify(new Code.Int() {
+        verify(new TestCode.Int() {
 
             private int index = 0;
 
@@ -103,7 +103,7 @@ class IntIncrementTest extends CodeVerifier {
 
     @Test
     void incrementVariableInMethodCall() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -120,7 +120,7 @@ class IntIncrementTest extends CodeVerifier {
 
     @Test
     void decrementVariableInMethodCall() {
-        verify(new Code.IntParam() {
+        verify(new TestCode.IntParam() {
 
             @Override
             public int run(int value) {
@@ -137,7 +137,7 @@ class IntIncrementTest extends CodeVerifier {
 
     @Test
     void incrementFieldInFieldAccess() {
-        verify(new Code.Int() {
+        verify(new TestCode.Int() {
 
             private int index = 1;
 
@@ -154,7 +154,7 @@ class IntIncrementTest extends CodeVerifier {
 
     @Test
     void decrementFieldInFieldAccess() {
-        verify(new Code.Int() {
+        verify(new TestCode.Int() {
 
             private int index = 1;
 
@@ -171,7 +171,7 @@ class IntIncrementTest extends CodeVerifier {
 
     @Test
     void preincrementFieldInFieldAccess() {
-        verify(new Code.Int() {
+        verify(new TestCode.Int() {
 
             private int index = 1;
 
@@ -188,7 +188,7 @@ class IntIncrementTest extends CodeVerifier {
 
     @Test
     void predecrementFieldInFieldAccess() {
-        verify(new Code.Int() {
+        verify(new TestCode.Int() {
 
             private int index = 1;
 
@@ -205,7 +205,7 @@ class IntIncrementTest extends CodeVerifier {
 
     @Test
     void postIncrementParentFieldInLocalVariableAccess() {
-        verify(new Code.Int() {
+        verify(new TestCode.Int() {
 
             @Override
             public int run() {
@@ -218,7 +218,7 @@ class IntIncrementTest extends CodeVerifier {
 
     @Test
     void preIncrementParentFieldInLocalVariableAccess() {
-        verify(new Code.Int() {
+        verify(new TestCode.Int() {
 
             @Override
             public int run() {
@@ -231,7 +231,7 @@ class IntIncrementTest extends CodeVerifier {
 
     @Test
     void postDecrementParentFieldInLocalVariableAccess() {
-        verify(new Code.Int() {
+        verify(new TestCode.Int() {
 
             @Override
             public int run() {
@@ -244,7 +244,7 @@ class IntIncrementTest extends CodeVerifier {
 
     @Test
     void preDecrementParentFieldInLocalVariableAccess() {
-        verify(new Code.Int() {
+        verify(new TestCode.Int() {
 
             @Override
             public int run() {
