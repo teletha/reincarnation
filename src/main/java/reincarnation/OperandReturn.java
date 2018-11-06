@@ -62,4 +62,12 @@ public class OperandReturn extends Operand {
             coder.writeReturn(Optional.of(value));
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String info() {
+        return value.info();
+    }
 }

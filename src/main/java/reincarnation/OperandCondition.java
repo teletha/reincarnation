@@ -22,7 +22,7 @@ import reincarnation.operator.BinaryOperator;
  * change depending on the content of the description of the logical expression.
  * </p>
  * 
- * @version 2018/10/05 19:36:46
+ * @version 2018/11/06 10:31:57
  */
 class OperandCondition extends Operand {
 
@@ -59,6 +59,7 @@ class OperandCondition extends Operand {
     /** The transition node. */
     Node then;
 
+    /** The transition node. */
     Node elze;
 
     /** The operator of this conditional expression. */
@@ -122,20 +123,20 @@ class OperandCondition extends Operand {
      * {@inheritDoc}
      */
     @Override
-    protected String type() {
-        return super.type() + " then " + then.id + " else " + elze.id;
+    protected String info() {
+        return super.info() + " then " + then.id + " else " + (elze == null ? "NONE" : elze.id);
     }
 
     /**
      * <p>
-     * Enclose conditional operand if it it {@link OperandTernaryCondition}.
+     * Enclose conditional operand if it it {@link OperandTernary}.
      * </p>
      * 
      * @param condition A target condition.
      * @return A result.
      */
     private Operand encloseIfTernay(OperandCondition condition) {
-        if (condition instanceof OperandTernaryCondition) {
+        if (condition instanceof OperandTernary) {
             return condition.encolose();
         } else {
             return condition;
@@ -148,14 +149,6 @@ class OperandCondition extends Operand {
     @Override
     int computeMultiplicity() {
         return left.computeMultiplicity() + right.computeMultiplicity();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    InferredType infer() {
-        return new InferredType(boolean.class);
     }
 
     /**

@@ -128,6 +128,20 @@ public interface Code<Self extends Code> {
     /**
      * @version 2018/04/04 16:29:00
      */
+    public interface IntParamText extends Code {
+
+        /**
+         * Write testable code.
+         * 
+         * @param A parameter.
+         * @return A result.
+         */
+        String run(int param);
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
     public interface Long extends Code {
 
         /**

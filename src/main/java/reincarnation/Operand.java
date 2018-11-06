@@ -35,12 +35,12 @@ public abstract class Operand implements Code {
     private String comment;
 
     /**
-     * Compute the human-readable operand type.
+     * Display the human-readable operand info.
      * 
      * @return
      */
-    protected String type() {
-        return getClass().getSimpleName().substring("Operand".length());
+    protected String info() {
+        return getClass().getSimpleName().substring("Operand".length()) + type.map(v -> v == Object.class ? "" : "#" + v.getSimpleName());
     }
 
     /**

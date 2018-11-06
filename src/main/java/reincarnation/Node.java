@@ -798,7 +798,7 @@ public class Node implements Code {
      * Build if statement.
      */
     private Structure writeIf() {
-        OperandCondition condition = (OperandCondition) stack.peekLast();
+        OperandCondition condition = (OperandCondition) stack.peekLast().disclose();
 
         Node then = null;
         Node elze = null;
@@ -991,7 +991,7 @@ public class Node implements Code {
          * exit-node
          * </pre>
          */
-        OperandCondition condition = (OperandCondition) stack.peekLast();
+        OperandCondition condition = (OperandCondition) stack.peekLast().disclose();
 
         if (condition.then != nodes[0]) {
             condition.invert();

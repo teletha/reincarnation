@@ -10,7 +10,6 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static org.objectweb.asm.Type.*;
 import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
 import static reincarnation.Util.*;
@@ -163,7 +162,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     private final Reincarnation source;
 
     /** The method return type. */
-    private final Type returnType;
+    private final Class returnType;
 
     /** The local variable manager. */
     private final LocalVariables locals;
@@ -238,7 +237,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         super(ASM7);
 
         this.source = source;
-        this.returnType = returns;
+        this.returnType = Util.load(returns);
         this.locals = locals;
 
         Debugger.recordMethodName(source.clazz.getName());
@@ -941,10 +940,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 current.peek(0).invert();
             }
             Operand operand = current.remove(0);
+            operand.fix(returnType);
 
-            if (returnType == BOOLEAN_TYPE) {
-                operand = operand.fix(boolean.class);
-            }
             current.addOperand(new OperandReturn(operand));
             current.destination = Termination;
             break;
@@ -953,7 +950,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         case LRETURN:
         case FRETURN:
         case DRETURN:
-            current.addOperand(new OperandReturn(current.remove(match(DUP, JUMP, ARETURN) ? 1 : 0)));
+            current.addOperand(new OperandReturn(current.remove(match(DUP, JUMP, ARETURN) ? 1 : 0).fix(returnType)));
             current.destination = Termination;
             break;
 

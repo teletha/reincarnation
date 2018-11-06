@@ -591,7 +591,7 @@ public class Debugger extends AnnotationVisitor {
         private void formatCodeFragment(List<Operand> operands) {
             for (int i = 0; i < operands.size(); i++) {
                 Operand operand = operands.get(i);
-                builder.append(operand.toString().strip()).append(" [").append(operand.type()).append("]");
+                builder.append(operand.toString().strip()).append(" [").append(operand.info()).append("]");
 
                 if (i != operands.size() - 1) {
                     builder.append(" ");

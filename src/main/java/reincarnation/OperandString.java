@@ -12,7 +12,7 @@ package reincarnation;
 import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/13 17:51:45
+ * @version 2018/11/06 10:46:03
  */
 class OperandString extends Operand {
 
@@ -34,15 +34,15 @@ class OperandString extends Operand {
      * {@inheritDoc}
      */
     @Override
-    InferredType infer() {
-        return new InferredType(String.class);
+    public void write(Coder coder) {
+        coder.writeString(expression);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
-        coder.writeString(expression);
+    protected String info() {
+        return "String";
     }
 }

@@ -12,7 +12,7 @@ package reincarnation;
 import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/22 19:05:30
+ * @version 2018/11/06 10:31:04
  */
 class OperandTernary extends OperandCondition {
 
@@ -25,9 +25,6 @@ class OperandTernary extends OperandCondition {
     /** The right value. */
     private Operand right;
 
-    /** The inferred type. */
-    private InferredType type;
-
     /**
      * 
      */
@@ -37,17 +34,16 @@ class OperandTernary extends OperandCondition {
         this.condition = condition;
         this.left = left.disclose();
         this.right = right.disclose();
-        this.type = new InferredType(right, left);
 
-        // if (left instanceof OperandCondition && right instanceof OperandCondition) {
-        // OperandCondition leftCondition = (OperandCondition) left;
-        // OperandCondition rightCondition = (OperandCondition) right;
-        //
-        // if (leftCondition.then == rightCondition.then && leftCondition.elze ==
-        // rightCondition.elze) {
-        // condition.invert();
-        // }
-        // }
+        if (left instanceof OperandCondition && right instanceof OperandCondition) {
+            OperandCondition leftCondition = (OperandCondition) left;
+            OperandCondition rightCondition = (OperandCondition) right;
+
+            if (leftCondition.then == rightCondition.then && leftCondition.elze == rightCondition.elze) {
+                condition.invert();
+            }
+        }
+        bindTo(left).bindTo(right);
     }
 
     /**
@@ -65,15 +61,15 @@ class OperandTernary extends OperandCondition {
      * {@inheritDoc}
      */
     @Override
-    InferredType infer() {
-        return type;
+    public void write(Coder coder) {
+        coder.writeTernary(condition, left, right);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void write(Coder coder) {
-        coder.writeTernary(condition, left, right);
+    protected String info() {
+        return super.info() + "<" + left.info() + " and " + right.info() + ">";
     }
 }
