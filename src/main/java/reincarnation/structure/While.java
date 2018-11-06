@@ -47,7 +47,7 @@ public class While extends Loopable {
      * {@inheritDoc}
      */
     @Override
-    public Signal<Structure> inner() {
+    public Signal<Structure> children() {
         return I.signal(inner);
     }
 

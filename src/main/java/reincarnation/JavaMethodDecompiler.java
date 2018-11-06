@@ -336,7 +336,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         // structurize
         root.structurize();
-
     }
 
     /**

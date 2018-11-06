@@ -11,9 +11,8 @@ package reincarnation.decompiler.flow;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
+import reincarnation.TestCode;
 
 /**
  * @version 2018/10/28 9:15:52
@@ -369,7 +368,6 @@ public class IfTest extends CodeVerifier {
     void ternaryLike() {
         verify(new TestCode.IntParam() {
 
-            @Debuggable
             @Override
             public int run(int value) {
                 if (0 < value) {

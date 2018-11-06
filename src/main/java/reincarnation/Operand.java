@@ -21,7 +21,7 @@ import reincarnation.coder.java.JavaCoder;
 /**
  * @version 2018/10/22 19:00:10
  */
-public abstract class Operand implements Code {
+public abstract class Operand implements Code<Operand> {
 
     public static final Operand Null = new OperandExpression(null).fix(Object.class);
 
@@ -253,16 +253,5 @@ public abstract class Operand implements Code {
         } else {
             return children().flatMap(o -> o.find(type));
         }
-    }
-
-    /**
-     * Collect all child {@link Operand}s.
-     * 
-     * @return
-     */
-    protected Signal<Operand> children() {
-        // If this exception will be thrown, it is bug of this program. So we must rethrow the
-        // wrapped error in here.
-        throw new Error("Implemetn #children at " + getClass().getName());
     }
 }

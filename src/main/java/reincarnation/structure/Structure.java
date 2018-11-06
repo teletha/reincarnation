@@ -18,9 +18,9 @@ import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/30 11:06:40
+ * @version 2018/11/06 17:41:45
  */
-public abstract class Structure implements Code {
+public abstract class Structure implements Code<Structure> {
 
     /** The empty statement. */
     public static final Structure Empty = new Empty();
@@ -48,8 +48,8 @@ public abstract class Structure implements Code {
     /**
      * Structurize.
      */
-    public void structurize() {
-        inner().to(child -> {
+    public final void structurize() {
+        children().to(child -> {
             child.parent = this;
             child.structurize();
         });
@@ -82,7 +82,8 @@ public abstract class Structure implements Code {
      * 
      * @return
      */
-    public Signal<Structure> inner() {
+    @Override
+    public Signal<Structure> children() {
         return Signal.empty();
     }
 

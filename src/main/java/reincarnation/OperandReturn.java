@@ -39,7 +39,7 @@ public class OperandReturn extends Operand {
      * {@inheritDoc}
      */
     @Override
-    protected Signal<Operand> children() {
+    public Signal<Operand> children() {
         return value == null ? Signal.empty() : I.signal(value);
     }
 

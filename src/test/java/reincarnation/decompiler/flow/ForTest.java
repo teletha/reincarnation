@@ -12,9 +12,9 @@ package reincarnation.decompiler.flow;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
 import reincarnation.Debuggable;
+import reincarnation.TestCode;
 
 /**
  * @version 2018/10/26 16:10:31
@@ -470,14 +470,14 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @Test
+    @Disabled
     void infiniteWithWhile() {
         verify(new TestCode.IntParam() {
 
             @Debuggable
             @Override
-            public int run(int value) {
+            public int run(@Param(from = -10, to = 10) int value) {
                 int counter = 1;
 
                 for (;;) {
@@ -542,7 +542,6 @@ class ForTest extends CodeVerifier {
     void infiniteIfElse() {
         verify(new TestCode.IntParam() {
 
-            @Debuggable
             @Override
             public int run(@Param(from = -10, to = 10) int value) {
                 for (;;) {

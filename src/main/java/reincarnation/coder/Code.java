@@ -11,10 +11,12 @@ package reincarnation.coder;
 
 import java.util.Optional;
 
+import kiss.Signal;
+
 /**
  * @version 2018/10/26 22:51:00
  */
-public interface Code {
+public interface Code<C extends Code> {
 
     /** The empty code. */
     Code Empty = coder -> {
@@ -43,5 +45,14 @@ public interface Code {
      */
     default boolean isEmpty() {
         return false;
+    }
+
+    /**
+     * Find all children {@link Code} fragments.
+     * 
+     * @return
+     */
+    default Signal<C> children() {
+        return Signal.empty();
     }
 }

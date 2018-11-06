@@ -52,7 +52,7 @@ public class If extends Structure {
      * {@inheritDoc}
      */
     @Override
-    public Signal<Structure> inner() {
+    public Signal<Structure> children() {
         return I.signal(then, elze);
     }
 

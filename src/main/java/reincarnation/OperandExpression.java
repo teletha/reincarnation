@@ -81,7 +81,7 @@ class OperandExpression extends Operand {
      * {@inheritDoc}
      */
     @Override
-    protected Signal<Operand> children() {
+    public Signal<Operand> children() {
         if (expression instanceof Operand) {
             return I.signal((Operand) expression);
         } else {

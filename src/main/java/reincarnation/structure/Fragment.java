@@ -14,8 +14,6 @@ import java.util.Objects;
 import kiss.I;
 import kiss.Signal;
 import reincarnation.Node;
-import reincarnation.Operand;
-import reincarnation.OperandTernary;
 import reincarnation.coder.Coder;
 
 /**
@@ -48,6 +46,14 @@ public class Fragment extends Structure {
 
         this.code = Objects.requireNonNull(code);
         this.follow = Objects.requireNonNullElse(follow, Structure.Empty);
+
+        code.children().to(operand -> {
+            // top level opereands MUST NOT be enclosed.
+            operand.disclose();
+
+            // top level ternary operands MUST be statement.
+            operand.markAsStatement();
+        });
     }
 
     /**
@@ -56,20 +62,6 @@ public class Fragment extends Structure {
     @Override
     public Signal<Structure> follower() {
         return I.signal(follow);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void structurize() {
-        super.structurize();
-
-        for (Operand operand : code.stack) {
-            operand.disclose();
-        }
-
-        I.signal(code.stack).flatVariable(o -> o.as(OperandTernary.class)).skipNull().to(Operand::markAsStatement);
     }
 
     /**

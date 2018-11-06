@@ -40,7 +40,7 @@ import reincarnation.structure.While;
 /**
  * @version 2018/11/05 15:07:53
  */
-public class Node implements Code {
+public class Node implements Code<Operand> {
 
     /** The representation of node termination. */
     static final Node Termination = new Node("T");
@@ -49,7 +49,7 @@ public class Node implements Code {
     public final String id;
 
     /** The actual operand stack. */
-    public final LinkedList<Operand> stack = new LinkedList();
+    final LinkedList<Operand> stack = new LinkedList();
 
     /** The node list. */
     final CopyOnWriteArrayList<Node> incoming = new CopyOnWriteArrayList();
@@ -573,9 +573,17 @@ public class Node implements Code {
      * {@inheritDoc}
      */
     @Override
+    public Signal<Operand> children() {
+        return I.signal(stack);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void write(Coder coder) {
         for (Operand operand : stack) {
-            if (operand.isExpression() || operand instanceof OperandAssign) {
+            if (operand.isStatement()) {
                 coder.writeStatement(operand);
             } else {
                 operand.write(coder);

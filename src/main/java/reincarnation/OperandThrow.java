@@ -36,7 +36,7 @@ public class OperandThrow extends Operand {
      * {@inheritDoc}
      */
     @Override
-    protected Signal<Operand> children() {
+    public Signal<Operand> children() {
         return I.signal(value);
     }
 

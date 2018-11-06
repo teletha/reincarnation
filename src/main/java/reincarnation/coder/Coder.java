@@ -239,7 +239,7 @@ public abstract class Coder<O extends CodingOption> {
      * 
      * @param code
      */
-    public abstract void writeStatement(Code code);
+    public abstract void writeStatement(Code<?> code);
 
     /**
      * Return expression.

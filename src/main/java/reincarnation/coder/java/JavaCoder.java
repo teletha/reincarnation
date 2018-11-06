@@ -269,7 +269,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeStatement(Code code) {
+    public void writeStatement(Code<?> code) {
         line(code, ";", code.comment().map(" // "::concat));
     }
 
@@ -279,9 +279,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeReturn(Optional<Code> code) {
         if (code.isEmpty()) {
-            line("return;");
+            write("return");
         } else {
-            line("return", space, code.get(), ";");
+            write("return", space, code.get());
         }
     }
 
@@ -620,7 +620,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeThrow(Code code) {
-        line("throw", space, code, ";");
+        write("throw", space, code);
     }
 
     /**
