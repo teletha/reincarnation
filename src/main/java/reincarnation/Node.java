@@ -994,7 +994,7 @@ public class Node implements Code {
         OperandCondition condition = (OperandCondition) stack.peekLast().disclose();
 
         if (condition.then != nodes[0]) {
-            condition.invert();
+            // condition.invert();
         }
         return nodes;
     }

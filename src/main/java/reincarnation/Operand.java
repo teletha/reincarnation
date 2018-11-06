@@ -122,6 +122,15 @@ public abstract class Operand implements Code {
     }
 
     /**
+     * Check {@link Operand} type.
+     * 
+     * @return A result.
+     */
+    public Variable<OperandCondition> asCondition() {
+        return Variable.empty();
+    }
+
+    /**
      * <p>
      * Invert operand value if we can.
      * </p>

@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import reincarnation.Code;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 
 /**
  * @version 2018/11/06 9:10:19
@@ -270,7 +269,6 @@ class TernaryExpressionTest extends CodeVerifier {
     void ifConditionTernary() {
         verify(new Code.IntParamText() {
 
-            @Debuggable
             @Override
             public String run(int value) {
                 if (value < 0 ? value == -1 : value == 2) {
@@ -303,7 +301,6 @@ class TernaryExpressionTest extends CodeVerifier {
     void whileConditionTernary() {
         verify(new Code.IntParam() {
 
-            @Debuggable
             @Override
             public int run(@Param(from = -5, to = 5) int value) {
                 while (value < 0 ? value != -1 : value != 7) {
@@ -319,8 +316,8 @@ class TernaryExpressionTest extends CodeVerifier {
         verify(new Code.IntParamBoolean() {
 
             @Override
-            public boolean run(@Param(from = 0, to = 12) int value) {
-                return value % 2 == 0 && (value % 3 == 0 ? value == 6 : value == 7);
+            public boolean run(@Param(from = 0, to = 10) int value) {
+                return value < 8 && (value < 5 ? value == 4 : value == 6);
             }
         });
     }

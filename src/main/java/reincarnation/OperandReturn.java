@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.Variable;
 import reincarnation.coder.Coder;
 
 /**
@@ -55,6 +56,14 @@ public class OperandReturn extends Operand {
      * {@inheritDoc}
      */
     @Override
+    public Variable<OperandCondition> asCondition() {
+        return value == null ? Variable.empty() : value.asCondition();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void write(Coder coder) {
         if (value == null) {
             coder.writeReturn(Optional.empty());
@@ -68,6 +77,6 @@ public class OperandReturn extends Operand {
      */
     @Override
     protected String info() {
-        return value.info();
+        return super.info() + " - " + value.info();
     }
 }

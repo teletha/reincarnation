@@ -579,8 +579,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             boolean values = condition != left && right.hasDominator(left);
 
             if (conditionTransition && dominator && !values) {
-                Debugger.print("Create ternary operator. condition[" + third + "]  left[" + second + "]  right[" + first + "]");
-                Debugger.print(nodes);
+                Debugger.print("Start ternary operator. condition[" + third + "]  left[" + second + "]  right[" + first + "]");
+                Debugger.printFollowing(nodes.peekFirst());
 
                 if (first.isTrue() && second.isFalse()) {
                     current.remove(0);
@@ -595,7 +595,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                     current.remove(0);
                     current.remove(0);
 
-                    condition.addOperand(new OperandTernary(((OperandCondition) third).invert(), second, first).encolose());
+                    OperandCondition con = (OperandCondition) third;
+
+                    if (con.then == right) {
+                        condition.addOperand(new OperandTernary(con, first, second).encolose());
+                    } else if (con.then == left) {
+                        condition.addOperand(new OperandTernary(con, second, first).encolose());
+                    }
                 }
 
                 // dispose empty nodes
@@ -609,6 +615,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
                 // process recursively
                 processTernaryOperator();
+
+                Debugger.print("End ternary operator. condition[" + third + "]  left[" + second + "]  right[" + first + "]");
+                Debugger.printFollowing(nodes.peekFirst());
             }
         }
     }
@@ -1751,17 +1760,20 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             return;
         }
 
+        Debugger.print("Start merging logical condition");
+        Debugger.printFollowing(nodes.peekFirst());
+
         // Search and merge the sequencial conditional operands in this node from right to left.
         int start = info.start;
         OperandCondition left = null;
-        OperandCondition right = (OperandCondition) node.peek(start);
+        OperandCondition right = node.peek(start).asCondition().v;
 
         for (int index = 1; index < info.conditions.size(); index++) {
             left = (OperandCondition) node.peek(start + index);
 
             if (info.canMerge(left, right)) {
                 // Merge two adjucent conditional operands.
-                right = new OperandCondition(left, (OperandCondition) node.remove(--start + index));
+                right = new OperandCondition(left, node.remove(--start + index).asCondition().v);
 
                 node.set(start + index, right);
             } else {
@@ -1786,6 +1798,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 }
             }
         }
+
+        Debugger.print("End merging logical condition");
+        Debugger.printFollowing(nodes.peekFirst());
     }
 
     /**
@@ -2084,12 +2099,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             // Search the sequential conditional operands in the specified node from right to left.
             for (int index = 0; index < node.stack.size(); index++) {
                 Operand operand = node.peek(index);
-                if (operand instanceof OperandCondition == false) {
+                if (operand.asCondition().isAbsent()) {
                     // non-conditional operand is found
                     if (conditions.isEmpty()) {
-                        // if (operand == Return) {
-                        // returned = true;
-                        // }
+                        if (operand instanceof OperandReturn) {
+                            returned = true;
+                        }
                         // conditional operand is not found as yet, so we should continue to search
                         continue;
                     } else {
@@ -2099,7 +2114,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 }
 
                 // conditional operand is found
-                OperandCondition condition = (OperandCondition) operand;
+                OperandCondition condition = operand.asCondition().v;
 
                 if (conditions.isEmpty()) {
                     // this is first condition

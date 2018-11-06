@@ -11,6 +11,7 @@ package reincarnation;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.Variable;
 import reincarnation.coder.Coder;
 
 /**
@@ -28,14 +29,6 @@ class OperandEnclose extends Operand {
         this.value = value;
 
         bindTo(value);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected String info() {
-        return value.info() + " in " + super.info();
     }
 
     /**
@@ -76,6 +69,14 @@ class OperandEnclose extends Operand {
      * {@inheritDoc}
      */
     @Override
+    public Variable<OperandCondition> asCondition() {
+        return value.asCondition();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected Signal<Operand> children() {
         return I.signal(value);
     }
@@ -88,5 +89,13 @@ class OperandEnclose extends Operand {
         coder.writeEnclose(() -> {
             value.write(coder);
         });
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String info() {
+        return super.info() + " - " + value.info();
     }
 }

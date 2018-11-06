@@ -11,6 +11,7 @@ package reincarnation;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.Variable;
 import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
 
@@ -123,8 +124,8 @@ class OperandCondition extends Operand {
      * {@inheritDoc}
      */
     @Override
-    protected String info() {
-        return super.info() + " then " + then.id + " else " + (elze == null ? "NONE" : elze.id);
+    public Variable<OperandCondition> asCondition() {
+        return Variable.of(this);
     }
 
     /**
@@ -249,5 +250,13 @@ class OperandCondition extends Operand {
         } else {
             coder.writeBinaryOperation(left, operator, right);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String info() {
+        return super.info() + " then " + then.id + " else " + (elze == null ? "SAME" : elze.id);
     }
 }

@@ -12,7 +12,7 @@ package reincarnation;
 import reincarnation.coder.Coder;
 
 /**
- * @version 2018/11/06 10:31:04
+ * @version 2018/11/06 14:17:11
  */
 class OperandTernary extends OperandCondition {
 
@@ -40,7 +40,8 @@ class OperandTernary extends OperandCondition {
             OperandCondition rightCondition = (OperandCondition) right;
 
             if (leftCondition.then == rightCondition.then && leftCondition.elze == rightCondition.elze) {
-                condition.invert();
+                this.then = leftCondition.then;
+                this.elze = leftCondition.elze;
             }
         }
         bindTo(left).bindTo(right);
@@ -52,6 +53,13 @@ class OperandTernary extends OperandCondition {
     @Override
     OperandTernary invert() {
         condition.invert();
+        left.invert();
+        right.invert();
+
+        // swap side
+        Operand swap = left;
+        left = right;
+        right = swap;
 
         // API definition
         return this;
