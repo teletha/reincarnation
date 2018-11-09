@@ -51,7 +51,7 @@ public class Fragment extends Structure {
             // top level opereands MUST NOT be enclosed.
             operand.disclose();
 
-            // top level ternary operands MUST be statement.
+            // top level operands MUST be statement.
             operand.markAsStatement();
         });
     }
