@@ -12,7 +12,6 @@ package reincarnation.decompiler.flow;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 /**
@@ -410,7 +409,7 @@ class ForTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            @Debuggable
+
             public int run(int value) {
                 for (;;) {
                     value++;
@@ -434,7 +433,7 @@ class ForTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            @Debuggable
+
             public int run(int value) {
                 for (;;) {
                     if (value < 5) {
@@ -454,7 +453,6 @@ class ForTest extends CodeVerifier {
     void infiniteLikeWhile() {
         verify(new TestCode.IntParam() {
 
-            @Debuggable
             @Override
             public int run(int value) {
                 for (;;) {
@@ -476,7 +474,6 @@ class ForTest extends CodeVerifier {
     void infiniteWithWhile() {
         verify(new TestCode.IntParam() {
 
-            @Debuggable
             @Override
             public int run(@Param(from = -10, to = 10) int value) {
                 int counter = 1;
@@ -500,7 +497,6 @@ class ForTest extends CodeVerifier {
     void infiniteWithWhileNodes() {
         verify(new TestCode.IntParam() {
 
-            @Debuggable
             @Override
             public int run(@Param(from = -10, to = 10) int value) {
                 for (;;) {

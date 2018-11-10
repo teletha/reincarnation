@@ -745,14 +745,9 @@ public class Node implements Code<Operand> {
         analyzed = false;
 
         // clear all backedge nodes of infinite loop
-        incoming.removeAll(backedges);
+        incoming.removeAll(group);
         backedges.removeAll(group);
-
-        currentCalls = next.incoming.size() - next.backedges.size() + next.additionalCalls - 1;
-        // if (incoming.isEmpty()) additionalCalls++;
-
-        System.out.println("Infinit " + id);
-        // additionalCalls += backedges.size();
+        currentCalls = incoming.size() - backedges.size() + additionalCalls - 1;
 
         return new InfiniteLoop(this, process(this), group.exit);
     }
@@ -911,18 +906,15 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * <p>
      * Detect a node relationship between this node and the next node.
-     * </p>
      * 
      * @param next A next node to write.
+     * @return An analyzed {@link Structure}.
      */
     public Structure process(Node next) {
         if (next != null) {
             // count a number of required write call
             int requiredCalls = next.incoming.size() - next.backedges.size() + next.additionalCalls;
-
-            System.out.println(next.id + "  " + requiredCalls + "  " + next.backedges.size() + " " + next.currentCalls);
 
             if (requiredCalls == next.currentCalls) {
                 return Structure.Empty;
