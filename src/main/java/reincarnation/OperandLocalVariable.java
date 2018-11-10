@@ -24,6 +24,8 @@ public class OperandLocalVariable extends Operand {
     /** Check whether this local variable is declared or not. */
     boolean declared;
 
+    boolean declaration;
+
     /**
      * Create local variable with index.
      * 

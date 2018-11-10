@@ -539,6 +539,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         Operand third = current.peek(2);
 
         if (third instanceof OperandCondition) {
+            OperandCondition condition = (OperandCondition) third;
+
             Operand first = current.peek(0);
             if (first.isStatement()) {
                 return;
@@ -549,11 +551,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 return;
             }
 
-            Node right = findNodeBy(first);
-            Node left = findNodeBy(second);
-            Node condition = findNodeBy(third);
+            Node rightNode = findNodeBy(first);
+            Node leftNode = findNodeBy(second);
+            Node conditionNode = findNodeBy(third);
 
-            if (right == left) {
+            if (rightNode == leftNode) {
                 return;
             }
 
@@ -564,30 +566,31 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             // [LEFT value]
             // [label]
             // [RIGHT value]
-            boolean conditionTransition = collectSingleNodePath(((OperandCondition) third).then).contains(right);
+            boolean conditionTransition = collectSingleNodePath(condition.then).contains(rightNode);
 
             // In ternary operator, the left node's outgoing node must not contain right node.
-            // But the outgoing nodes contains right node, this sequence will be logical expression.
-            // boolean leftTransition = condition == left || !left.outgoing.contains(right);
+            // But the outgoing nodes contains right node, this sequence will be logical expression
+            // or if statement.
+            boolean leftTransition = conditionNode == leftNode || !leftNode.outgoing.contains(rightNode);
 
             // The condition node must be dominator of the left and right nodes.
-            boolean dominator = left.hasDominator(condition) && right.hasDominator(condition);
+            boolean dominator = leftNode.hasDominator(conditionNode) && rightNode.hasDominator(conditionNode);
 
             // The left node must not be dominator of the right node except when condition and left
             // value are in same node.
-            boolean values = condition != left && right.hasDominator(left);
+            boolean values = conditionNode != leftNode && rightNode.hasDominator(leftNode);
 
-            if (conditionTransition && dominator && !values) {
+            if (leftTransition && conditionTransition && dominator && !values) {
                 Debugger.print("Start ternary operator. condition[" + third + "]  left[" + second + "]  right[" + first + "]", nodes);
 
                 if (first.isTrue() && second.isFalse()) {
                     current.remove(0);
                     current.remove(0);
-                    condition.addOperand(new OperandAmbiguousZeroOneTernary(current.remove(0)));
+                    conditionNode.addOperand(new OperandAmbiguousZeroOneTernary(current.remove(0)));
                 } else if (first.isFalse() && second.isTrue()) {
                     current.remove(0);
                     current.remove(0);
-                    condition.addOperand(new OperandAmbiguousZeroOneTernary(current.remove(0).invert()));
+                    conditionNode.addOperand(new OperandAmbiguousZeroOneTernary(current.remove(0).invert()));
                 } else {
                     current.remove(0);
                     current.remove(0);
@@ -595,20 +598,20 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
                     OperandCondition con = (OperandCondition) third;
 
-                    if (con.then == right) {
-                        condition.addOperand(new OperandTernary(con, first, second).encolose());
-                    } else if (con.then == left) {
-                        condition.addOperand(new OperandTernary(con, second, first).encolose());
+                    if (con.then == rightNode) {
+                        conditionNode.addOperand(new OperandTernary(con, first, second).encolose());
+                    } else if (con.then == leftNode) {
+                        conditionNode.addOperand(new OperandTernary(con, second, first).encolose());
                     }
                 }
 
                 // dispose empty nodes
-                if (right.stack.isEmpty()) {
-                    dispose(right);
+                if (rightNode.stack.isEmpty()) {
+                    dispose(rightNode);
                 }
 
-                if (left.stack.isEmpty()) {
-                    dispose(left);
+                if (leftNode.stack.isEmpty()) {
+                    dispose(leftNode);
                 }
 
                 // process recursively
