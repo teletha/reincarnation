@@ -9,11 +9,11 @@
  */
 package reincarnation.decompiler.array;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
+import reincarnation.TestCode;
 
 /**
  * @version 2018/10/09 9:25:34
@@ -195,10 +195,11 @@ public class BooleanArrayTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     public void ArrayFor() {
-        verify(new TestCode() {
+        verify(new TestCode.BooleanParamInt() {
 
+            @Debuggable
+            @Override
             public int run(boolean value) {
                 int sum = 0;
                 boolean[] array = {true, false, true};
@@ -214,10 +215,10 @@ public class BooleanArrayTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     public void ArrayForEach() {
-        verify(new TestCode() {
-
+        verify(new TestCode.BooleanParamInt() {
+            @Debuggable
+            @Override
             public int run(boolean value) {
                 int sum = 0;
                 boolean[] array = {true, false, true};
