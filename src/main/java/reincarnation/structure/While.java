@@ -32,6 +32,7 @@ public class While extends Loopable {
     /**
      * While statement.
      * 
+     * @param that The node which indicate 'this' variable.
      * @param inner
      * @param elze
      */

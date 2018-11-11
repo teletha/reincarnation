@@ -25,22 +25,22 @@ public abstract class Structure implements Code<Structure> {
     /** The empty statement. */
     public static final Structure Empty = new Empty();
 
+    /** The associated node. */
+    protected final Node associated;
+
     /** The parent structure. */
     private Structure parent;
 
     /** The comment. */
     private String comment;
 
-    /** The associated node. */
-    protected final Node associated;
-
     /**
-     * @param node
+     * @param that The node which indicate 'this' variable.
      */
-    protected Structure(Node node) {
-        this.associated = node;
+    protected Structure(Node that) {
+        this.associated = that;
 
-        if (node != null) {
+        if (that != null) {
             this.associated.structure = this;
         }
     }
@@ -57,10 +57,11 @@ public abstract class Structure implements Code<Structure> {
             follow.parent = parent;
             follow.structurize();
         });
+        analyze();
     }
 
     /**
-     * Collec the parent structure.
+     * Collect the parent structure.
      * 
      * @return
      */
@@ -69,12 +70,21 @@ public abstract class Structure implements Code<Structure> {
     }
 
     /**
-     * Collec all ancestor structures.
+     * Collect all ancestor structures.
      * 
      * @return
      */
     public final Signal<Structure> ancestor() {
         return I.signal(true, parent, s -> s.flatMap(v -> I.signal(v.parent).skipNull()));
+    }
+
+    /**
+     * Collect all descendent structures.
+     * 
+     * @return
+     */
+    public final Signal<Structure> descendent() {
+        return I.signal(true, this, s -> s.flatMap(v -> v.children().merge(v.follower()))).skip(this).skip(s -> s instanceof Empty);
     }
 
     /**
@@ -123,7 +133,16 @@ public abstract class Structure implements Code<Structure> {
     }
 
     /**
-     * {@inheritDoc}
+     * Analyze this {@link Structure} only once.
+     */
+    protected void analyze() {
+        // do nothing
+    }
+
+    /**
+     * Write code actually.
+     * 
+     * @param coder A target {@link Coder}.
      */
     protected abstract void writeCode(Coder coder);
 }

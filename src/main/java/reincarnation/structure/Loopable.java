@@ -28,6 +28,7 @@ public abstract class Loopable extends Breakable {
     /**
      * Build {@link Loopable} block structure.
      * 
+     * @param that The node which indicate 'this' variable.
      * @param entrance The super dominator for all nodes in this loop structure.
      * @param exit The exit node of this loop structure if present.
      * @param first The first processing node of this loop structure.

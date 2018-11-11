@@ -927,8 +927,6 @@ public class Node implements Code<Operand> {
                 Loopable loopable = next.loopHeader.v;
 
                 if (loopable.containsAsHeader(next) && hasDominator(loopable.entrance)) {
-                    loopable.requireLabel();
-
                     Continue continuer = new Continue(this, loopable);
 
                     if (Debugger.isEnable()) {
@@ -946,8 +944,6 @@ public class Node implements Code<Operand> {
                 if (loopable.exit == next && !loopable.containsAsHeader(this) && hasDominator(loopable.entrance)) {
                     // check whether the current node connects to the exit node directly or not
                     if (loopable.exit.incoming.contains(this)) {
-                        loopable.requireLabel();
-
                         Break breaker = new Break(this, loopable);
 
                         if (Debugger.isEnable()) {

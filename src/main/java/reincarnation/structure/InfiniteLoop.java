@@ -28,6 +28,7 @@ public class InfiniteLoop extends Loopable {
     /**
      * Loop structure.
      * 
+     * @param that The node which indicate 'this' variable.
      * @param follow
      */
     public InfiniteLoop(Node that, Structure inner, Node follow) {

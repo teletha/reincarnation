@@ -18,22 +18,32 @@ import reincarnation.Node;
 import reincarnation.coder.Coder;
 
 /**
- * @version 2018/10/31 11:38:43
+ * @version 2018/11/11 9:51:58
  */
-public class Continue extends Structure {
+public class Continue extends Jumpable<Loopable> {
 
-    /** The target . */
-    private final Loopable loopable;
+    /** The omit state. */
+    protected final Variable<Boolean> hasFollowers = Variable.of(false);
 
     /**
      * Build continue statement.
      * 
+     * @param that The node which indicate 'this' variable.
      * @param loopable A target to continue.
      */
     public Continue(Node that, Loopable loopable) {
-        super(that);
+        super(that, loopable);
+    }
 
-        this.loopable = loopable;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void analyze() {
+        LinkedList<Breakable> ancestors = ancestor().takeUntil(s -> s instanceof Loopable).to(LinkedList.class);
+
+        I.signal(ancestors).skip(breakable).flatMap(v -> v.follower()).skip(v -> v instanceof Empty).isEmitted().to(hasFollowers);
+        I.signal(ancestors).as(Breakable.class).first().is(s -> s == breakable).to(omitLabel::accept);
     }
 
     /**
@@ -41,19 +51,8 @@ public class Continue extends Structure {
      */
     @Override
     public void writeCode(Coder coder) {
-        LinkedList<Structure> ancestors = ancestor().takeUntil(s -> s instanceof Loopable).to(LinkedList.class);
-
-        if (!ancestors.isEmpty()) {
-            Variable<Boolean> hasFollowers = I.signal(ancestors)
-                    .skip(loopable)
-                    .flatMap(v -> v.follower())
-                    .skip(v -> v instanceof Empty)
-                    .isEmitted()
-                    .to();
-
-            if (hasFollowers.is(true)) {
-                coder.writeContinue(Optional.ofNullable(loopable.entrance.id), ancestors.peekLast() == loopable);
-            }
+        if (hasFollowers.is(true)) {
+            coder.writeContinue(Optional.ofNullable(breakable.entrance.id), omitLabel.v);
         }
     }
 }

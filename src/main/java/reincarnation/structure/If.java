@@ -35,6 +35,7 @@ public class If extends Structure {
     /**
      * If statement.
      * 
+     * @param that The node which indicate 'this' variable.
      * @param condition
      * @param then
      * @param elze

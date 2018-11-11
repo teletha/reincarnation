@@ -32,6 +32,7 @@ public class DoWhile extends Loopable {
     /**
      * Do-While statement.
      * 
+     * @param that The node which indicate 'this' variable.
      * @param inner
      * @param elze
      */

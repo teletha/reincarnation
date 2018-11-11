@@ -17,20 +17,16 @@ import reincarnation.coder.Coder;
 /**
  * @version 2018/10/31 0:36:33
  */
-public class Break extends Structure {
-
-    /** The target. */
-    private final Breakable breakable;
+public class Break extends Jumpable<Breakable> {
 
     /**
      * Build break statement.
      * 
+     * @param that The node which indicate 'this' variable.
      * @param label A target name.
      */
     public Break(Node that, Breakable breakable) {
-        super(that);
-
-        this.breakable = breakable;
+        super(that, breakable);
     }
 
     /**

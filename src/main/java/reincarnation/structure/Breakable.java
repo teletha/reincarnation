@@ -9,8 +9,12 @@
  */
 package reincarnation.structure;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
+import kiss.I;
+import kiss.Variable;
 import reincarnation.Node;
 
 /**
@@ -21,12 +25,13 @@ public abstract class Breakable extends Structure {
     /** The first processing node of this block structure. */
     protected final Node first;
 
-    /** The label state. */
-    private boolean requireLabel;
+    /** The associated jumpers. */
+    protected final Set<Jumpable<? extends Breakable>> jumpers = new HashSet();
 
     /**
      * Build {@link Breakable} block structure.
      * 
+     * @param that The node which indicate 'this' variable.
      * @param first The first processing node of this block structure.
      */
     protected Breakable(Node that, Node first) {
@@ -36,18 +41,13 @@ public abstract class Breakable extends Structure {
     }
 
     /**
-     * Set label for this structure.
-     */
-    public final void requireLabel() {
-        requireLabel = true;
-    }
-
-    /**
      * Compute label text.
      * 
      * @return
      */
-    public final Optional<String> label() {
-        return requireLabel ? Optional.of(associated.id) : Optional.empty();
+    protected final Optional<String> label() {
+        Variable<Boolean> requireLabel = I.signal(jumpers).any(jumper -> jumper.omitLabel.is(false)).to();
+
+        return requireLabel.v ? Optional.of(associated.id) : Optional.empty();
     }
 }
