@@ -40,10 +40,10 @@ public class Continue extends Jumpable<Loopable> {
      */
     @Override
     protected void analyze() {
-        LinkedList<Breakable> ancestors = ancestor().takeUntil(s -> s instanceof Loopable).to(LinkedList.class);
+        LinkedList<Structure> ancestors = ancestor().takeUntil(s -> s instanceof Loopable).to(LinkedList.class);
 
-        I.signal(ancestors).skip(breakable).flatMap(v -> v.follower()).skip(v -> v instanceof Empty).isEmitted().to(hasFollowers);
-        I.signal(ancestors).as(Breakable.class).first().is(s -> s == breakable).to(omitLabel::accept);
+        I.signal(ancestors).skip(breakable).flatMap(Structure::follower).skip(Structure::isEmpty).isEmitted().to(hasFollowers);
+        I.signal(ancestors).as(Breakable.class).first().is(s -> s == breakable).to(omitLabel);
     }
 
     /**
@@ -51,7 +51,7 @@ public class Continue extends Jumpable<Loopable> {
      */
     @Override
     public void writeCode(Coder coder) {
-        if (hasFollowers.is(true)) {
+        if (hasFollowers.is(true) || omitLabel.is(false)) {
             coder.writeContinue(Optional.ofNullable(breakable.entrance.id), omitLabel.v);
         }
     }
