@@ -11,6 +11,7 @@ package reincarnation.coder;
 
 import java.util.Optional;
 
+import kiss.I;
 import kiss.Signal;
 
 /**
@@ -54,5 +55,14 @@ public interface Code<C extends Code> {
      */
     default Signal<C> children() {
         return Signal.empty();
+    }
+
+    /**
+     * Collect all descendent {@link Code} fragments.
+     * 
+     * @return
+     */
+    default Signal<C> descendent() {
+        return I.signal(this).merge(children().skipNull().flatMap(c -> c.descendent()));
     }
 }

@@ -24,7 +24,7 @@ public class OperandReturn extends Operand {
     public static final OperandReturn Empty = new OperandReturn(null);
 
     /** The statement. */
-    private final Operand value;
+    private final Optional<Operand> value;
 
     /**
      * Build return expression.
@@ -32,7 +32,7 @@ public class OperandReturn extends Operand {
      * @param value A returned value, may be null.
      */
     public OperandReturn(Operand value) {
-        this.value = value;
+        this.value = value == null ? Optional.empty() : Optional.of(value.disclose());
     }
 
     /**
@@ -40,7 +40,7 @@ public class OperandReturn extends Operand {
      */
     @Override
     public Signal<Operand> children() {
-        return value == null ? Signal.empty() : I.signal(value);
+        return I.signal(value::get);
     }
 
     /**
@@ -56,11 +56,7 @@ public class OperandReturn extends Operand {
      */
     @Override
     protected void writeCode(Coder coder) {
-        if (value == null) {
-            coder.writeReturn(Optional.empty());
-        } else {
-            coder.writeReturn(Optional.of(value));
-        }
+        coder.writeReturn(value);
     }
 
     /**
@@ -68,6 +64,6 @@ public class OperandReturn extends Operand {
      */
     @Override
     protected String info() {
-        return super.info() + " - " + value.info();
+        return super.info() + " - " + value.get().info();
     }
 }

@@ -11,8 +11,9 @@ package reincarnation.decompiler.method;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
+import reincarnation.TestCode;
 
 /**
  * @version 2018/11/05 11:45:32
@@ -23,6 +24,7 @@ class LocalVariableTest extends CodeVerifier {
     void parallel() {
         verify(new TestCode.IntParam() {
 
+            @Debuggable
             @Override
             public int run(int value) {
                 if (value < 1) {
@@ -31,12 +33,37 @@ class LocalVariableTest extends CodeVerifier {
                     value = value - 1;
                     value = x * value;
                 } else {
-                    int y = value;
+                    int x = value;
 
                     value = value + 1;
-                    value = y * value;
+                    value = x * value;
                 }
                 return value;
+            }
+        });
+    }
+
+    @Test
+    void parallel2() {
+        verify(new TestCode.IntParam() {
+
+            @Debuggable
+            @Override
+            public int run(int value) {
+                int x;
+
+                if (value < 1) {
+                    x = value;
+
+                    value = value - 1;
+                    value = x * value;
+                } else {
+                    x = value;
+
+                    value = value + 1;
+                    value = x * value;
+                }
+                return value + x;
             }
         });
     }

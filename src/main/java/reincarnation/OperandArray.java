@@ -11,7 +11,10 @@ package reincarnation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import kiss.I;
+import kiss.Signal;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 
@@ -87,7 +90,7 @@ class OperandArray extends Operand {
      */
     OperandArray(List<Operand> dimensions, Class type) {
         this.dimension = calculateDimension(type);
-        this.dimensions = dimensions;
+        this.dimensions = Objects.requireNonNull(dimensions);
         this.type = type.getComponentType();
 
         fix(type);
@@ -119,6 +122,14 @@ class OperandArray extends Operand {
             }
         }
         items.set(i, value.fix(type));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Signal<Operand> children() {
+        return I.signal(dimensions).merge(I.signal(items));
     }
 
     /**

@@ -9,11 +9,14 @@
  */
 package reincarnation.structure;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import kiss.I;
 import kiss.Signal;
 import reincarnation.Node;
+import reincarnation.OperandLocalVariable;
 import reincarnation.coder.Coder;
 
 /**
@@ -26,6 +29,9 @@ public class Fragment extends Structure {
 
     /** The following structure. */
     private final Structure follow;
+
+    /** The local variable manager. */
+    private final Set<OperandLocalVariable> variables = new HashSet();
 
     /**
      * Code fragment.
@@ -53,6 +59,9 @@ public class Fragment extends Structure {
 
             // top level operands MUST be statement.
             operand.markAsStatement();
+
+            // collect all local variables
+            operand.descendent().as(OperandLocalVariable.class).to(variables::add);
         });
     }
 

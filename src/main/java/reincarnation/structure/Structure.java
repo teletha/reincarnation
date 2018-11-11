@@ -79,15 +79,6 @@ public abstract class Structure implements Code<Structure> {
     }
 
     /**
-     * Collect all descendent structures.
-     * 
-     * @return
-     */
-    public final Signal<Structure> descendent() {
-        return I.signal(true, this, s -> s.flatMap(v -> v.children().merge(v.follower()))).skip(this).skip(s -> s instanceof Empty);
-    }
-
-    /**
      * Collect all inner structures.
      * 
      * @return

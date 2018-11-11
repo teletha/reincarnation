@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import kiss.I;
+import kiss.Signal;
 import reincarnation.coder.Coder;
 
 /**
@@ -24,6 +26,14 @@ public class OperandArrayLength extends Operand {
      */
     public OperandArrayLength(Operand context) {
         this.context = context;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Signal<Operand> children() {
+        return I.signal(context);
     }
 
     /**
