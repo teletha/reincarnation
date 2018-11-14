@@ -49,22 +49,22 @@ public class Node implements Code<Operand> {
     public final String id;
 
     /** The actual operand stack. */
-    final LinkedList<Operand> stack = new LinkedList();
+    final LinkedList<Operand> stack = new LinkedList<>();
 
     /** The node list. */
-    final CopyOnWriteArrayList<Node> incoming = new CopyOnWriteArrayList();
+    final CopyOnWriteArrayList<Node> incoming = new CopyOnWriteArrayList<>();
 
     /** The node list. */
-    final CopyOnWriteArrayList<Node> outgoing = new CopyOnWriteArrayList();
+    final CopyOnWriteArrayList<Node> outgoing = new CopyOnWriteArrayList<>();
 
     /** The node list. */
-    final CopyOnWriteArrayList<Node> dominators = new CopyOnWriteArrayList();
+    final CopyOnWriteArrayList<Node> dominators = new CopyOnWriteArrayList<>();
 
     /** The node list. */
-    final CopyOnWriteArrayList<Node> backedges = new CopyOnWriteArrayList();
+    final CopyOnWriteArrayList<Node> backedges = new CopyOnWriteArrayList<>();
 
     /** The try-catch-finally starting node list. */
-    final List<TryCatchFinally> tries = new CopyOnWriteArrayList();
+    final List<TryCatchFinally> tries = new CopyOnWriteArrayList<>();
 
     /** The line number. */
     int lineNumber = -1;
@@ -161,7 +161,7 @@ public class Node implements Code<Operand> {
      * 
      * @param operand A new operand to add.
      */
-    final void addOperand(Object operand, Class type) {
+    final void addOperand(Object operand, Class<?> type) {
         stack.add(new OperandExpression(operand, type));
     }
 
@@ -370,7 +370,7 @@ public class Node implements Code<Operand> {
      */
     final boolean hasDominator(Node dominator) {
         Node current = this;
-        Set<Node> recorder = new HashSet();
+        Set<Node> recorder = new HashSet<>();
 
         while (current != null && recorder.add(current)) {
             if (current == dominator) {
@@ -396,7 +396,7 @@ public class Node implements Code<Operand> {
             // We must search a immediate dominator.
             //
             // At first, we can ignore the older incoming nodes.
-            List<Node> candidates = new CopyOnWriteArrayList(incoming);
+            List<Node> candidates = new CopyOnWriteArrayList<Node>(incoming);
 
             // compute backedges
             for (Node node : candidates) {
@@ -457,7 +457,7 @@ public class Node implements Code<Operand> {
      * @return
      */
     Set<Node> getPureIncoming() {
-        Set<Node> nodes = new HashSet(incoming);
+        Set<Node> nodes = new HashSet<Node>(incoming);
         nodes.removeAll(backedges);
 
         return nodes;
@@ -473,10 +473,10 @@ public class Node implements Code<Operand> {
      */
     final boolean canReachTo(Node node, Node... exclusionNodes) {
         List<Node> exclusions = Arrays.asList(exclusionNodes);
-        Set<Node> recorder = new HashSet();
+        Set<Node> recorder = new HashSet<Node>();
         recorder.add(this);
 
-        Deque<Node> queue = new ArrayDeque();
+        Deque<Node> queue = new ArrayDeque<Node>();
         queue.add(this);
 
         while (!queue.isEmpty()) {
@@ -1055,7 +1055,7 @@ public class Node implements Code<Operand> {
      * @version 2018/11/05 13:17:16
      */
     @SuppressWarnings("serial")
-    private static class BackedgeGroup extends ArrayDeque {
+    private static class BackedgeGroup extends ArrayDeque<Node> {
 
         /** The loop exit node. */
         private Node exit;
@@ -1101,10 +1101,10 @@ public class Node implements Code<Operand> {
             //
             // start from base node
             if (base != null) {
-                Deque<Node> candidates = new ArrayDeque(base.outgoing);
+                Deque<Node> candidates = new ArrayDeque<Node>(base.outgoing);
 
                 // record accessed nodes to avoid second access
-                Set<Node> recorder = new HashSet(entrance.incoming);
+                Set<Node> recorder = new HashSet<Node>(entrance.incoming);
                 recorder.add(entrance);
 
                 while (!candidates.isEmpty()) {
@@ -1160,7 +1160,7 @@ public class Node implements Code<Operand> {
         final CopyOnWriteArrayList<Node> cases;
 
         /** The case value of this switch statement. */
-        private final List<Integer> keys = new ArrayList();
+        private final List<Integer> keys = new ArrayList<Integer>();
 
         /** Whether this switch has default node or not. */
         private boolean noDefault = false;
@@ -1205,7 +1205,7 @@ public class Node implements Code<Operand> {
          * @return A collected case values.
          */
         private List<Integer> values(Node node) {
-            CopyOnWriteArrayList<Integer> values = new CopyOnWriteArrayList();
+            CopyOnWriteArrayList<Integer> values = new CopyOnWriteArrayList<Integer>();
 
             for (int i = 0; i < cases.size(); i++) {
                 if (cases.get(i) == node) {
@@ -1224,7 +1224,7 @@ public class Node implements Code<Operand> {
          * @return A collected case values.
          */
         private List<Node> cases() {
-            CopyOnWriteArrayList<Node> nodes = new CopyOnWriteArrayList();
+            CopyOnWriteArrayList<Node> nodes = new CopyOnWriteArrayList<Node>();
 
             for (int i = 0; i < cases.size(); i++) {
                 if (cases.get(i) != defaults) {
@@ -1258,10 +1258,10 @@ public class Node implements Code<Operand> {
             }
 
             if (!noDefault) {
-                Set<Node> record = new HashSet();
+                Set<Node> record = new HashSet<Node>();
                 record.addAll(defaults.outgoing);
 
-                List<Node> nodes = new LinkedList();
+                List<Node> nodes = new LinkedList<Node>();
                 nodes.addAll(defaults.outgoing);
 
                 while (!nodes.isEmpty()) {
@@ -1303,7 +1303,7 @@ public class Node implements Code<Operand> {
          * </p>
          */
         List<Node> process() {
-            List<Node> disposables = new ArrayList();
+            List<Node> disposables = new ArrayList<Node>();
 
             if (isStringSwitch) {
                 // skip the value equivalent node like the following:
@@ -1366,7 +1366,7 @@ public class Node implements Code<Operand> {
     static class TryCatchFinallyBlocks {
 
         /** The managed try-catch-finally blocks. */
-        private final List<TryCatchFinally> blocks = new ArrayList();
+        private final List<TryCatchFinally> blocks = new ArrayList<>();
 
         /**
          * <p>
@@ -1378,7 +1378,7 @@ public class Node implements Code<Operand> {
          * @param catcher
          * @param exception
          */
-        void addTryCatchFinallyBlock(Node start, Node end, Node catcher, Class exception) {
+        void addTryCatchFinallyBlock(Node start, Node end, Node catcher, Class<?> exception) {
             for (TryCatchFinally block : blocks) {
                 // The try-catch-finally block which indicates the same start node
                 // without error class means finally block.
@@ -1445,10 +1445,10 @@ public class Node implements Code<Operand> {
             // Purge the catch block which is inside loop structure directly.
             for (TryCatchFinally block : blocks) {
                 for (Catch catchBlock : block.catches) {
-                    Set<Node> recorder = new HashSet();
+                    Set<Node> recorder = new HashSet<>();
                     recorder.add(catchBlock.node);
 
-                    Deque<Node> queue = new ArrayDeque();
+                    Deque<Node> queue = new ArrayDeque<>();
                     queue.add(catchBlock.node);
 
                     while (!queue.isEmpty()) {
@@ -1506,7 +1506,7 @@ public class Node implements Code<Operand> {
         final Node catcher;
 
         /** The catch blocks. */
-        final List<Catch> catches = new ArrayList();
+        final List<Catch> catches = new ArrayList<>();
 
         /** The exit node. */
         Node exit;
@@ -1517,7 +1517,7 @@ public class Node implements Code<Operand> {
          * @param catcher
          * @param exception
          */
-        private TryCatchFinally(Node start, Node end, Node catcher, Class exception) {
+        private TryCatchFinally(Node start, Node end, Node catcher, Class<?> exception) {
             this.start = start;
             this.end = end;
             this.catcher = catcher;
@@ -1534,7 +1534,7 @@ public class Node implements Code<Operand> {
          * @param exception
          * @param catcher
          */
-        private void addCatchBlock(Class exception, Node catcher) {
+        private void addCatchBlock(Class<?> exception, Node catcher) {
             for (Catch block : catches) {
                 if (block.exception == exception) {
                     return;
@@ -1550,11 +1550,11 @@ public class Node implements Code<Operand> {
          * </p>
          */
         private void searchExit() {
-            Deque<Node> nodes = new ArrayDeque();
+            Deque<Node> nodes = new ArrayDeque<>();
             nodes.addAll(catcher.outgoing); // catcher node must be first
             nodes.addAll(end.outgoing); // then end node
 
-            Set<Node> recorder = new HashSet(nodes);
+            Set<Node> recorder = new HashSet<>(nodes);
 
             while (!nodes.isEmpty()) {
                 Node node = nodes.pollFirst();
@@ -1579,19 +1579,18 @@ public class Node implements Code<Operand> {
     private static class Catch {
 
         /** The Throwable class, may be null for finally statmenet. */
-        private final Class exception;
+        private final Class<?> exception;
 
         /** The associated node. */
         private final Node node;
 
-        /** The exception variable name. */
         private Operand variable;
 
         /**
          * @param exception
          * @param node
          */
-        private Catch(Class exception, Node node) {
+        private Catch(Class<?> exception, Node node) {
             this.exception = exception;
             this.node = node;
             this.node.additionalCalls++;

@@ -9,8 +9,11 @@
  */
 package reincarnation;
 
-import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Util.*;
+import static org.objectweb.asm.Opcodes.DLOAD;
+import static org.objectweb.asm.Opcodes.DSTORE;
+import static org.objectweb.asm.Opcodes.LLOAD;
+import static org.objectweb.asm.Opcodes.LSTORE;
+import static reincarnation.Util.load;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,16 +31,16 @@ import org.objectweb.asm.Type;
 class LocalVariables {
 
     /** The this type. */
-    private final Class clazz;
+    private final Class<?> clazz;
 
     /** Flag for static or normal. */
     private final int offset;
 
     /** The ignorable variable index. */
-    private final List<Integer> ignores = new ArrayList();
+    private final List<Integer> ignores = new ArrayList<>();
 
     /** The local variable manager. */
-    private final Map<Integer, OperandLocalVariable> locals = new HashMap();
+    private final Map<Integer, OperandLocalVariable> locals = new HashMap<>();
 
     private final int size;
 
@@ -46,7 +49,7 @@ class LocalVariables {
      * @param isStatic
      * @param types
      */
-    LocalVariables(Class clazz, boolean isStatic, Type[] types) {
+    LocalVariables(Class<?> clazz, boolean isStatic, Type[] types) {
         this.clazz = clazz;
         this.offset = isStatic ? 0 : 1;
 
@@ -58,7 +61,7 @@ class LocalVariables {
         int index = 0;
 
         for (int i = 0; i < types.length; i++) {
-            Class type = Util.load(types[i]);
+            Class<?> type = Util.load(types[i]);
             OperandLocalVariable local = new OperandLocalVariable(type, "arg" + index);
             local.declared = true;
             local.fix();

@@ -69,6 +69,23 @@ class LocalVariableTest extends CodeVerifier {
     }
 
     @Test
+    void sameNameInFollower() {
+        verify(new TestCode.IntParam() {
+
+            @Debuggable
+            @Override
+            public int run(int value) {
+                if (value < 1) {
+                    int x = value;
+                    value = x * 2;
+                }
+                int x = value;
+                return x + 3;
+            }
+        });
+    }
+
+    @Test
     void PrimitiveLongAndDoubleUses2Stacks() {
         verify(new TestCode.DoubleParam() {
 
