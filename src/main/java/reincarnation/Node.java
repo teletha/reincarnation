@@ -134,7 +134,7 @@ public class Node implements Code<Operand> {
      * @return
      */
     final Signal<Node> signal() {
-        return I.signal(this, n -> n.next).takeWhile(n -> n != null);
+        return I.signal(this).recurse(n -> n.next).takeWhile(n -> n != null);
     }
 
     /**
