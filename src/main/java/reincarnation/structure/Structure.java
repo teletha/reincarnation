@@ -85,7 +85,7 @@ public abstract class Structure implements Code<Structure> {
      */
     @Override
     public Signal<Structure> children() {
-        return Signal.empty();
+        return I.signal();
     }
 
     /**
@@ -94,7 +94,7 @@ public abstract class Structure implements Code<Structure> {
      * @return
      */
     public Signal<Structure> follower() {
-        return Signal.empty();
+        return I.signal();
     }
 
     /**

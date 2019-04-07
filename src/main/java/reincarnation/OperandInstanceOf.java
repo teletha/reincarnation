@@ -40,7 +40,7 @@ public class OperandInstanceOf extends Operand {
      */
     @Override
     public Signal<Operand> children() {
-        return value == null ? Signal.empty() : I.signal(value);
+        return value == null ? I.signal() : I.signal(value);
     }
 
     /**

@@ -54,7 +54,7 @@ public interface Code<C extends Code> {
      * @return
      */
     default Signal<C> children() {
-        return Signal.empty();
+        return I.signal();
     }
 
     /**

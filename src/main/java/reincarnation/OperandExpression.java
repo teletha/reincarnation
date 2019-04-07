@@ -85,7 +85,7 @@ class OperandExpression extends Operand {
         if (expression instanceof Operand) {
             return I.signal((Operand) expression);
         } else {
-            return Signal.empty();
+            return I.signal();
         }
     }
 
