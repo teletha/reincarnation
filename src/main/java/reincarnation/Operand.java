@@ -95,7 +95,7 @@ public abstract class Operand implements Code<Operand> {
             if (other.isFixed()) {
                 fix(other.type.v);
             } else {
-                type.observeNow().skip(Object.class).to(other.type::set);
+                type.observing().skip(Object.class).to(other.type::set);
             }
         }
         return this;
