@@ -44,12 +44,8 @@ public class OperandLocalVariable extends Operand {
         if (name.equals("this")) {
             coder.writeThis();
         } else {
-            if (declared == false) {
-                declared = true;
-                coder.writeLocalVariableDeclaration(type.v, name);
-            } else {
-                coder.writeLocalVariable(name);
-            }
+            coder.writeLocalVariable(type.v, name, !declared);
+            declared = true;
         }
     }
 

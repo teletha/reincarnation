@@ -367,14 +367,16 @@ public abstract class Coder<O extends CodingOption> {
     public abstract void writeInstanceof(Code code, Class type);
 
     /**
-     * Access to the local variable.
+     * Access the local variable.
      * 
+     * @param type A infered type of local variabel.
      * @param name A local variable name.
+     * @param declaration Is fisrt access?
      */
-    public abstract void writeLocalVariable(String name);
+    public abstract void writeLocalVariable(Class type, String name, boolean declaration);
 
     /**
-     * Declare the local variable.
+     * Declare the local variable declaration in header.
      * 
      * @param type A infered type of local variabel.
      * @param name A local variable name.

@@ -420,8 +420,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeLocalVariable(String name) {
-        write(name);
+    public void writeLocalVariable(Class type, String name, boolean declaration) {
+        if (declaration) {
+            write(name(type), space, name);
+        } else {
+            write(name);
+        }
     }
 
     /**
@@ -429,7 +433,6 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeLocalVariableDeclaration(Class type, String name) {
-        write(name(type), space, name);
     }
 
     /**
