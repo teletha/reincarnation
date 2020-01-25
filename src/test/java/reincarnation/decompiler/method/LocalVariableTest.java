@@ -66,6 +66,29 @@ class LocalVariableTest extends CodeVerifier {
     }
 
     @Test
+    void parallelWithSameNameAndDifferenceType() {
+        verify(new TestCode.IntParam() {
+
+            @Debuggable
+            @Override
+            public int run(int value) {
+                if (value < 1) {
+                    int x = value;
+
+                    value = value - 1;
+                    value = x * value;
+                } else {
+                    long x = value;
+
+                    value = value + 1;
+                    value = (int) (x * value);
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
     void sameNameInFollower() {
         verify(new TestCode.IntParam() {
 
