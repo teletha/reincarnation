@@ -433,6 +433,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeLocalVariableDeclaration(Class type, String name) {
+        line(name(type), space, name, ";");
     }
 
     /**

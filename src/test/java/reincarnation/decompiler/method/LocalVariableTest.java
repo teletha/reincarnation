@@ -15,9 +15,6 @@ import reincarnation.CodeVerifier;
 import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
-/**
- * @version 2018/11/05 11:45:32
- */
 class LocalVariableTest extends CodeVerifier {
 
     @Test

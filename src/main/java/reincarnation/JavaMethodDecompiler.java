@@ -249,6 +249,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     @Override
     public void write(Coder coder) {
         locals.reset();
+        // for (OperandLocalVariable variable : locals.list()) {
+        // coder.writeLocalVariableDeclaration(variable.type.v, variable.name);
+        // variable.declared = true;
+        // }
+
         root.write(coder);
     }
 

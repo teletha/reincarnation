@@ -9,10 +9,7 @@
  */
 package reincarnation;
 
-import static org.objectweb.asm.Opcodes.DLOAD;
-import static org.objectweb.asm.Opcodes.DSTORE;
-import static org.objectweb.asm.Opcodes.LLOAD;
-import static org.objectweb.asm.Opcodes.LSTORE;
+import static org.objectweb.asm.Opcodes.*;
 import static reincarnation.Util.load;
 
 import java.util.ArrayList;
@@ -22,6 +19,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.objectweb.asm.Type;
+
+import kiss.I;
 
 /**
  * Manage local variables.
@@ -175,5 +174,13 @@ class LocalVariables {
                 e.getValue().declared = false;
             }
         }
+    }
+
+    /**
+     * 
+     * @return
+     */
+    List<OperandLocalVariable> list() {
+        return I.signal(locals.values()).skip(offset + sequencialUpdateCount).toList();
     }
 }
