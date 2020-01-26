@@ -1886,7 +1886,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     private final boolean match(int... opcodes) {
         root: for (int i = 0; i < opcodes.length; i++) {
             int record = records[(recordIndex + i + records.length - opcodes.length) % records.length];
-    
+
             switch (opcodes[i]) {
             case ADD:
                 switch (record) {
@@ -1895,11 +1895,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case FADD:
                 case DADD:
                     continue root;
-    
+
                 default:
                     return false;
                 }
-    
+
             case SUB:
                 switch (record) {
                 case ISUB:
@@ -1907,11 +1907,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case FSUB:
                 case DSUB:
                     continue root;
-    
+
                 default:
                     return false;
                 }
-    
+
             case CONSTANT_0:
                 switch (record) {
                 case ICONST_0:
@@ -1919,11 +1919,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case FCONST_0:
                 case DCONST_0:
                     continue root;
-    
+
                 default:
                     return false;
                 }
-    
+
             case CONSTANT_1:
                 switch (record) {
                 case ICONST_1:
@@ -1931,31 +1931,31 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case FCONST_1:
                 case DCONST_1:
                     continue root;
-    
+
                 default:
                     return false;
                 }
-    
+
             case DUPLICATE:
                 switch (record) {
                 case DUP:
                 case DUP2:
                     continue root;
-    
+
                 default:
                     return false;
                 }
-    
+
             case DUPLICATE_AWAY:
                 switch (record) {
                 case DUP_X1:
                 case DUP2_X1:
                     continue root;
-    
+
                 default:
                     return false;
                 }
-    
+
             case RETURNS:
                 switch (record) {
                 case RETURN:
@@ -1965,11 +1965,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case FRETURN:
                 case DRETURN:
                     continue root;
-    
+
                 default:
                     return false;
                 }
-    
+
             case JUMP:
                 switch (record) {
                 case IFEQ:
@@ -1990,11 +1990,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case IF_ICMPNE:
                 case GOTO:
                     continue root;
-    
+
                 default:
                     return false;
                 }
-    
+
             case CMP:
                 switch (record) {
                 case IFEQ:
@@ -2014,31 +2014,31 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case IF_ICMPLT:
                 case IF_ICMPNE:
                     continue root;
-    
+
                 default:
                     return false;
                 }
-    
+
             case FCMP:
                 switch (record) {
                 case FCMPG:
                 case FCMPL:
                     continue root;
-    
+
                 default:
                     return false;
                 }
-    
+
             case DCMP:
                 switch (record) {
                 case DCMPG:
                 case DCMPL:
                     continue root;
-    
+
                 default:
                     return false;
                 }
-    
+
             case FRAME:
                 switch (record) {
                 case FRAME_APPEND:
@@ -2048,11 +2048,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case FRAME_SAME:
                 case FRAME_SAME1:
                     continue root;
-    
+
                 default:
                     return false;
                 }
-    
+
             case INVOKE:
                 switch (record) {
                 case INVOKEINTERFACE:
@@ -2060,11 +2060,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case INVOKESTATIC:
                 case INVOKEVIRTUAL:
                     continue root;
-    
+
                 default:
                     return false;
                 }
-    
+
             case STORE:
                 switch (record) {
                 case ISTORE:
@@ -2073,11 +2073,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case DSTORE:
                 case ASTORE:
                     continue root;
-    
+
                 default:
                     return false;
                 }
-    
+
             case LOAD:
                 switch (record) {
                 case ILOAD:
@@ -2086,11 +2086,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case DLOAD:
                 case ALOAD:
                     continue root;
-    
+
                 default:
                     return false;
                 }
-    
+
             default:
                 if (record != opcodes[i]) {
                     return false;
