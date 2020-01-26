@@ -9,6 +9,7 @@
  */
 package reincarnation.decompiler.method;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
@@ -64,6 +65,7 @@ class LocalVariableTest extends CodeVerifier {
     }
 
     @Test
+    @Disabled
     void parallelWithSameNameAndDifferenceType() {
         verify(new TestCode.IntParam() {
 
