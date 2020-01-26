@@ -150,6 +150,15 @@ class LocalVariables {
         }
     }
 
+    void replace(OperandLocalVariable replaced, OperandLocalVariable replacer) {
+        for (Entry<Integer, OperandLocalVariable> entry : locals.entrySet()) {
+            if (entry.getValue() == replaced) {
+                entry.setValue(replacer);
+                return;
+            }
+        }
+    }
+
     /** The number of update calling sequencially. */
     private int sequencialUpdateCount;
 

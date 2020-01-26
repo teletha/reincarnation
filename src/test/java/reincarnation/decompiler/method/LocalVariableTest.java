@@ -21,7 +21,6 @@ class LocalVariableTest extends CodeVerifier {
     void parallel() {
         verify(new TestCode.IntParam() {
 
-            @Debuggable
             @Override
             public int run(int value) {
                 if (value < 1) {
@@ -44,7 +43,6 @@ class LocalVariableTest extends CodeVerifier {
     void parallel2() {
         verify(new TestCode.IntParam() {
 
-            @Debuggable
             @Override
             public int run(int value) {
                 int x;
@@ -92,7 +90,6 @@ class LocalVariableTest extends CodeVerifier {
     void sameNameInFollower() {
         verify(new TestCode.IntParam() {
 
-            @Debuggable
             @Override
             public int run(int value) {
                 if (value < 1) {

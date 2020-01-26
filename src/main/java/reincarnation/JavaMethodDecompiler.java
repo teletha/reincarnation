@@ -1506,7 +1506,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         record(opcode);
 
         // retrieve local variable name
-        Operand variable = locals.name(position, opcode, current);
+        OperandLocalVariable variable = locals.name(position, opcode, current);
 
         switch (opcode) {
         case ILOAD:
@@ -1579,6 +1579,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                         if (match(ARRAYLENGTH, DUP, ISTORE, ANEWARRAY, DUP, ASTORE)) {
                             current.addOperand(enumValues[1]);
                             current.addOperand(enumValues[0]);
+                        }
+
+                        // Array#length for enhanced for-loop produces special bytecode
+                        if (match(ALOAD, DUP, ASTORE)) {
+                            locals.replace(variable, (OperandLocalVariable) operand);
+                            current.addOperand(operand);
+                            return;
                         }
 
                         // duplicate pointer

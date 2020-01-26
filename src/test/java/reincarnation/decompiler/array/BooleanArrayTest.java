@@ -12,7 +12,6 @@ package reincarnation.decompiler.array;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 /**
@@ -198,7 +197,6 @@ public class BooleanArrayTest extends CodeVerifier {
     public void ArrayFor() {
         verify(new TestCode.BooleanParamInt() {
 
-            @Debuggable
             @Override
             public int run(boolean value) {
                 int sum = 0;
@@ -217,7 +215,6 @@ public class BooleanArrayTest extends CodeVerifier {
     @Test
     public void ArrayForEach() {
         verify(new TestCode.BooleanParamInt() {
-            @Debuggable
             @Override
             public int run(boolean value) {
                 int sum = 0;
