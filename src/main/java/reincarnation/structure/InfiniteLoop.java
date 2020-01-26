@@ -31,10 +31,10 @@ public class InfiniteLoop extends Loopable {
      * @param that The node which indicate 'this' variable.
      * @param follow
      */
-    public InfiniteLoop(Node that, Structure inner, Node follow) {
+    public InfiniteLoop(Node that, Node inner, Node follow) {
         super(that, that, follow, that, that);
 
-        this.inner = inner;
+        this.inner = inner.analyze();
         this.follow = that.process(follow);
     }
 

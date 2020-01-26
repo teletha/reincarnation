@@ -55,7 +55,7 @@ class WhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 while (value < 5) {
                     value++;
 
@@ -257,7 +257,7 @@ class WhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 // @formatter:off
                 while (value < 0) {if (value % 2==0) {value +=3;} else {value+= 5;}};
                 // @formatter:on
@@ -268,7 +268,7 @@ class WhileTest extends CodeVerifier {
     }
 
     @Test
-    void sequentialWithComplexCondition() throws Exception {
+    void sequentialWithComplexCondition() {
         verify(new TestCode.IntParam() {
 
             @Override
@@ -346,7 +346,7 @@ class WhileTest extends CodeVerifier {
     @Test
     void infiniteMultipleStatementBreak() {
         verify(new TestCode.IntParam() {
-
+            @Debuggable
             @Override
             public int run(@Param(from = -5, to = 5) int value) {
                 while (true) {
@@ -357,7 +357,7 @@ class WhileTest extends CodeVerifier {
                     }
 
                     if (value % 2 == 0) {
-                        value++;
+                        value += 2;
                         break;
                     }
                 }
@@ -369,7 +369,7 @@ class WhileTest extends CodeVerifier {
     @Test
     void infiniteMultipleStatementBreaks() {
         verify(new TestCode.IntParam() {
-            @Debuggable
+
             @Override
             public int run(@Param(from = -5, to = 5) int value) {
                 while (true) {
@@ -471,7 +471,7 @@ class WhileTest extends CodeVerifier {
     }
 
     @Test
-    void inifinitContinue() throws Exception {
+    void inifinitContinue() {
         verify(new TestCode.IntParam() {
 
             @Override
@@ -492,7 +492,7 @@ class WhileTest extends CodeVerifier {
     }
 
     @Test
-    void inifinitContinueWithShorthandIf() throws Exception {
+    void inifinitContinueWithShorthandIf() {
         verify(new TestCode.IntParam() {
 
             @Override
@@ -511,7 +511,7 @@ class WhileTest extends CodeVerifier {
     }
 
     @Test
-    void inifinitContinueWithShorthandIfInAnotherIf() throws Exception {
+    void inifinitContinueWithShorthandIfInAnotherIf() {
         verify(new TestCode.IntParam() {
 
             @Override
@@ -534,9 +534,8 @@ class WhileTest extends CodeVerifier {
     }
 
     @Test
-    void infiniteNest() throws Exception {
+    void infiniteNest() {
         verify(new TestCode.IntParam() {
-
             @Override
             public int run(@Param(from = -5, to = 5) int value) {
                 while (true) {
@@ -563,9 +562,9 @@ class WhileTest extends CodeVerifier {
     }
 
     @Test
-    void infiniteNestBreakAndContinue() throws Exception {
+    void infiniteNestBreakAndContinue() {
         verify(new TestCode.IntParam() {
-
+            @Debuggable
             @Override
             public int run(@Param(from = -5, to = 10) int value) {
                 int a = 0;

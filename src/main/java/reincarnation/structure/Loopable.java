@@ -66,6 +66,7 @@ public abstract class Loopable extends Breakable {
      */
     @Override
     public String toString() {
-        return "Loop[entrance=" + entrance.id + ", first=" + first.id + ", exit=" + exit.id + ", check=" + checkpoint.id + "]";
+        String exitId = exit == null ? "" : exit.id;
+        return "Loop[entrance=" + entrance.id + ", first=" + first.id + ", exit=" + exitId + ", check=" + checkpoint.id + "]";
     }
 }

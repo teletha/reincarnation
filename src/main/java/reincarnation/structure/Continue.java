@@ -10,7 +10,6 @@
 package reincarnation.structure;
 
 import java.util.LinkedList;
-import java.util.Optional;
 
 import kiss.I;
 import kiss.Variable;
@@ -52,7 +51,7 @@ public class Continue extends Jumpable<Loopable> {
     @Override
     public void writeCode(Coder coder) {
         if (hasFollowers.is(true) || omitLabel.is(false)) {
-            coder.writeContinue(Optional.ofNullable(breakable.entrance.id), omitLabel.v);
+            coder.writeContinue(breakable.label(), omitLabel.v);
         }
     }
 }

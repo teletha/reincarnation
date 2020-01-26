@@ -22,11 +22,16 @@ import reincarnation.Node;
  */
 public abstract class Breakable extends Structure {
 
+    private static int labelReference = 0;
+
     /** The first processing node of this block structure. */
     protected final Node first;
 
     /** The associated jumpers. */
     protected final Set<Jumpable<? extends Breakable>> jumpers = new HashSet();
+
+    /** The block label. */
+    private Optional<String> label = null;
 
     /**
      * Build {@link Breakable} block structure.
@@ -46,8 +51,11 @@ public abstract class Breakable extends Structure {
      * @return
      */
     protected final Optional<String> label() {
-        Variable<Boolean> requireLabel = I.signal(jumpers).any(jumper -> jumper.omitLabel.is(false)).to();
+        if (label == null) {
+            Variable<Boolean> requireLabel = I.signal(jumpers).any(jumper -> jumper.omitLabel.is(false)).to();
 
-        return requireLabel.v ? Optional.of(associated.id) : Optional.empty();
+            label = requireLabel.v ? Optional.of(String.valueOf(labelReference++)) : Optional.empty();
+        }
+        return label;
     }
 }

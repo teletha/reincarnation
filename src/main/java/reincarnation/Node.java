@@ -717,9 +717,8 @@ public class Node implements Code<Operand> {
                             // do while
                             return writeDoWhile();
                         } else {
-                            return writeDoWhile();
                             // infinit loop
-                            // return writeInfiniteLoop(group);
+                            return writeInfiniteLoop(group);
                         }
                     } else {
                         // infinit loop
@@ -802,9 +801,9 @@ public class Node implements Code<Operand> {
         // clear all backedge nodes of infinite loop
         incoming.removeAll(group);
         backedges.removeAll(group);
-        currentCalls = incoming.size() - backedges.size() + additionalCalls - 1;
+        currentCalls = incoming.size() - backedges.size() + additionalCalls + 1;
 
-        return new InfiniteLoop(this, process(this), group.exit);
+        return new InfiniteLoop(this, this, group.exit);
     }
 
     /**
@@ -1016,7 +1015,6 @@ public class Node implements Code<Operand> {
             }
         }
         return Structure.Empty;
-
     }
 
     /**

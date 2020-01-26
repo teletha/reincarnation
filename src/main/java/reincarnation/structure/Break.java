@@ -9,8 +9,6 @@
  */
 package reincarnation.structure;
 
-import java.util.Optional;
-
 import reincarnation.Node;
 import reincarnation.coder.Coder;
 
@@ -34,6 +32,6 @@ public class Break extends Jumpable<Breakable> {
      */
     @Override
     public void writeCode(Coder coder) {
-        coder.writeBreak(Optional.of(breakable.associated.id));
+        coder.writeBreak(breakable.label());
     }
 }

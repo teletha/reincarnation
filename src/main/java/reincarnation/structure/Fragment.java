@@ -53,16 +53,24 @@ public class Fragment extends Structure {
         this.code = Objects.requireNonNull(code);
         this.follow = Objects.requireNonNullElse(follow, Structure.Empty);
 
-        code.children().to(operand -> {
-            // top level opereands MUST NOT be enclosed.
-            operand.disclose();
+        code.children()
+                .to(operand -> {
+                    // top level opereands MUST NOT be enclosed.
+                    operand.disclose();
 
-            // top level operands MUST be statement.
-            operand.markAsStatement();
+                    // top level operands MUST be statement.
+                    operand.markAsStatement();
 
-            // collect all local variables
-            operand.descendent().as(OperandLocalVariable.class).to(variables::add);
-        });
+                    // collect all local variables
+                    operand.descendent().as(OperandLocalVariable.class).to(variables::add);
+                });
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void analyze() {
     }
 
     /**
