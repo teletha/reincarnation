@@ -12,6 +12,7 @@ package reincarnation.decompiler.flow;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class WhileTest extends CodeVerifier {
@@ -289,7 +290,7 @@ class WhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 while (true) {
                     value++;
 
@@ -307,7 +308,7 @@ class WhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 while (true) {
                     value++;
 
@@ -327,7 +328,7 @@ class WhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 while (true) {
                     value++;
 
@@ -347,7 +348,7 @@ class WhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 while (true) {
                     value++;
 
@@ -368,9 +369,9 @@ class WhileTest extends CodeVerifier {
     @Test
     void infiniteMultipleStatementBreaks() {
         verify(new TestCode.IntParam() {
-
+            @Debuggable
             @Override
-            public int run(int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 while (true) {
                     value++;
 
@@ -394,7 +395,7 @@ class WhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 while (true) {
                     value++;
 
@@ -420,7 +421,7 @@ class WhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 while (true) {
                     value++;
 
@@ -446,7 +447,7 @@ class WhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 while (true) {
                     value++;
 
@@ -474,7 +475,7 @@ class WhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 10) int value) {
+            public int run(@Param(from = -5, to = 10) int value) {
                 while (true) {
                     value++;
 
@@ -495,7 +496,7 @@ class WhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 10) int value) {
+            public int run(@Param(from = -5, to = 10) int value) {
                 while (true) {
                     value++;
 
@@ -514,7 +515,7 @@ class WhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 20) int value) {
+            public int run(@Param(from = -5, to = 20) int value) {
                 while (true) {
                     value++;
 
@@ -537,7 +538,7 @@ class WhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 while (true) {
                     while (true) {
                         value++;
@@ -566,7 +567,7 @@ class WhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 10) int value) {
+            public int run(@Param(from = -5, to = 10) int value) {
                 int a = 0;
 
                 while (true) {
