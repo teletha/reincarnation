@@ -24,7 +24,7 @@ class DoWhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 5) int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 do {
                     value++;
                 } while (value < 3);
@@ -39,7 +39,7 @@ class DoWhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 5) int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 while (true) {
                     value++;
 
@@ -58,7 +58,7 @@ class DoWhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 5) int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 do {
                     value += 2;
                 } while (++value < 4 || ++value % 3 == 0);
@@ -73,7 +73,7 @@ class DoWhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 5) int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 do {
                     value++;
 
@@ -93,7 +93,7 @@ class DoWhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 5) int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 do {
                     value++;
 
@@ -112,7 +112,7 @@ class DoWhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 5) int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 do {
                     value += 2;
 
@@ -157,7 +157,7 @@ class DoWhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 5) int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 // @formatter:off
                 do {value+= 2;} while (value < 3);
                 // @formatter:on
@@ -171,7 +171,7 @@ class DoWhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 5) int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 // @formatter:off
                 do {value += 2;} while (++value < 10 && value % 2 == 0);
                 // @formatter:on
@@ -185,7 +185,7 @@ class DoWhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 5) int value) {
+            public int run(@Param(from = -5, to = 5) int value) {
                 if (value != 3) {
                     do {
                         value += 2;
@@ -231,7 +231,7 @@ class DoWhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 10) int value) {
+            public int run(@Param(from = -5, to = 10) int value) {
                 do {
                     value += 5;
 
@@ -277,7 +277,7 @@ class DoWhileTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 10) int value) {
+            public int run(@Param(from = -5, to = 10) int value) {
                 root: do {
                     value += 2;
 
