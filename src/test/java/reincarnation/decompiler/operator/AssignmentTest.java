@@ -11,13 +11,9 @@ package reincarnation.decompiler.operator;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
+import reincarnation.TestCode;
 
-/**
- * @version 2018/10/22 19:17:57
- */
 class AssignmentTest extends CodeVerifier {
 
     @Test
@@ -37,7 +33,6 @@ class AssignmentTest extends CodeVerifier {
     void dual() {
         verify(new TestCode.IntParam() {
 
-            @Debuggable
             @Override
             public int run(int value) {
                 int a, b;

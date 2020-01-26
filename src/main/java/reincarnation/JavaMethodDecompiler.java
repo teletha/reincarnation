@@ -155,6 +155,16 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     private static final int INVOKE = 480;
 
+    /**
+     * Represents a store instruction. ISTORE, ASTORE etc
+     */
+    private static final int STORE = 490;
+
+    /**
+     * Represents a store instruction. ILOAD, ALOAD etc
+     */
+    private static final int LOAD = 500;
+
     /** The extra opcode for byte code parsing. */
     private static final int LABEL = 300;
 
@@ -190,6 +200,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
     /** The current start position of instruction records. */
     private int recordIndex = 0;
+
+    /** The record of recent local variable reference position. */
+    private int[] localVarialbeAccess = new int[10];
+
+    /** The record of recent local variable reference position. */
+    private int localVarialbeAccessIndex = 0;
 
     /**
      * {@link Enum#values} produces special bytecode, so we must handle it by special way.
@@ -1504,6 +1520,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     public void visitVarInsn(int opcode, int position) {
         // recode current instruction
         record(opcode);
+        recordLocalVariableAccess(position);
 
         // retrieve local variable name
         OperandLocalVariable variable = locals.name(position, opcode, current);
@@ -1540,57 +1557,79 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         case LSTORE:
         case FSTORE:
         case DSTORE:
-            // Increment not-int type doesn't use Iinc instruction, so we must distinguish
-            // increment from addition by pattern matching. Post increment code of non-int type
-            // leaves characteristic pattern like the following.
-            if (match(LLOAD, DUP2, LCONST_1, LADD, LSTORE) || match(FLOAD, DUP, FCONST_1, FADD, FSTORE) || match(DLOAD, DUP2, DCONST_1, DADD, DSTORE)) {
-                // for long, float and double
-                current.remove(0);
-                current.remove(0);
+            if (matchLocalVariableAccess(position, position)) {
+                // Increment not-int type doesn't use Iinc instruction, so we must distinguish
+                // increment from addition by pattern matching. Post increment code of non-int type
+                // leaves characteristic pattern like the following.
+                if (match(LOAD, DUPLICATE, CONSTANT_1, ADD, STORE)) {
+                    // for long, float and double
+                    current.remove(0);
+                    current.remove(0);
 
-                current.addOperand(increment(variable, load(opcode), true, true));
-            } else if (match(LLOAD, DUP2, LCONST_1, LSUB, LSTORE) || match(FLOAD, DUP, FCONST_1, FSUB, FSTORE) || match(DLOAD, DUP2, DCONST_1, DSUB, DSTORE)) {
-                // for long, float and double
-                current.remove(0);
-                current.remove(0);
+                    current.addOperand(increment(variable, load(opcode), true, true));
+                    return;
+                } else if (match(LOAD, CONSTANT_1, ADD, DUPLICATE, STORE)) {
+                    // for long, float and double
+                    current.remove(0);
+                    current.remove(0);
 
-                current.addOperand(increment(variable, load(opcode), false, true));
-            } else {
-                // for other
-                if (current.peek(0) != null) {
-                    // retrieve and remove it
-                    Operand operand = current.remove(0, false);
+                    current.addOperand(increment(variable, load(opcode), true, false));
+                    return;
+                } else if (match(LOAD, DUPLICATE, CONSTANT_1, SUB, STORE)) {
+                    // for long, float and double
+                    current.remove(0);
+                    current.remove(0);
 
-                    // Enum#values produces special bytecode, so we must handle it by special way.
-                    if (match(ASTORE, ICONST_0, ALOAD, ARRAYLENGTH, DUP, ISTORE)) {
-                        enumValues[0] = current.remove(0);
-                        enumValues[1] = current.remove(0);
+                    current.addOperand(increment(variable, load(opcode), false, true));
+                    return;
+                } else if (match(LOAD, CONSTANT_1, SUB, DUPLICATE, STORE)) {
+                    // for long, float and double
+                    current.remove(0);
+                    current.remove(0);
+
+                    current.addOperand(increment(variable, load(opcode), false, false));
+                    return;
+                }
+            }
+
+            // for other
+            if (current.peek(0) != null) {
+                // retrieve and remove it
+                Operand operand = current.remove(0, false);
+
+                // Enum#values produces special bytecode, so we must handle it by special way.
+                if (match(ASTORE, ICONST_0, ALOAD, ARRAYLENGTH, DUP, ISTORE)) {
+                    enumValues[0] = current.remove(0);
+                    enumValues[1] = current.remove(0);
+                }
+
+                OperandAssign assign = new OperandAssign(variable, AssignOperator.ASSIGN, operand);
+
+                if (!operand.duplicated) {
+                    current.addExpression(assign);
+                } else {
+                    operand.duplicated = false;
+
+                    // Enum#values produces special bytecode,
+                    // so we must handle it by special way.
+                    if (match(ARRAYLENGTH, DUP, ISTORE, ANEWARRAY, DUP, ASTORE)) {
+                        current.addOperand(enumValues[1]);
+                        current.addOperand(enumValues[0]);
                     }
 
-                    OperandAssign assign = new OperandAssign(variable, AssignOperator.ASSIGN, operand);
-
-                    if (!operand.duplicated) {
-                        current.addExpression(assign);
-                    } else {
-                        operand.duplicated = false;
-
-                        // Enum#values produces special bytecode,
-                        // so we must handle it by special way.
-                        if (match(ARRAYLENGTH, DUP, ISTORE, ANEWARRAY, DUP, ASTORE)) {
-                            current.addOperand(enumValues[1]);
-                            current.addOperand(enumValues[0]);
-                        }
-
-                        // Array#length for enhanced for-loop produces special bytecode
-                        if (match(ALOAD, DUP, ASTORE)) {
-                            locals.replace(variable, (OperandLocalVariable) operand);
-                            current.addOperand(operand);
-                            return;
-                        }
-
-                        // duplicate pointer
-                        current.addOperand(assign.encolose());
+                    // Array#length for enhanced for-loop produces special bytecode
+                    if (match(ALOAD, DUP, ASTORE)) {
+                        locals.replace(variable, (OperandLocalVariable) operand);
+                        current.addOperand(operand);
+                        return;
                     }
+
+                    if (locals.isLocal(variable) && match(DUP, STORE)) {
+                        current.stack.add(variable);
+                    }
+
+                    // duplicate pointer
+                    current.addOperand(assign.encolose());
                 }
             }
             break;
@@ -1826,6 +1865,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     }
 
     /**
+     * Record the access to local variable.
+     */
+    private final void recordLocalVariableAccess(int position) {
+        localVarialbeAccess[localVarialbeAccessIndex++] = position;
+
+        if (localVarialbeAccessIndex == localVarialbeAccess.length) {
+            localVarialbeAccessIndex = 0; // loop index
+        }
+    }
+
+    /**
      * <p>
      * Pattern matching for the recent instructions.
      * </p>
@@ -1836,7 +1886,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     private final boolean match(int... opcodes) {
         root: for (int i = 0; i < opcodes.length; i++) {
             int record = records[(recordIndex + i + records.length - opcodes.length) % records.length];
-
+    
             switch (opcodes[i]) {
             case ADD:
                 switch (record) {
@@ -1845,11 +1895,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case FADD:
                 case DADD:
                     continue root;
-
+    
                 default:
                     return false;
                 }
-
+    
             case SUB:
                 switch (record) {
                 case ISUB:
@@ -1857,11 +1907,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case FSUB:
                 case DSUB:
                     continue root;
-
+    
                 default:
                     return false;
                 }
-
+    
             case CONSTANT_0:
                 switch (record) {
                 case ICONST_0:
@@ -1869,11 +1919,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case FCONST_0:
                 case DCONST_0:
                     continue root;
-
+    
                 default:
                     return false;
                 }
-
+    
             case CONSTANT_1:
                 switch (record) {
                 case ICONST_1:
@@ -1881,31 +1931,31 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case FCONST_1:
                 case DCONST_1:
                     continue root;
-
+    
                 default:
                     return false;
                 }
-
+    
             case DUPLICATE:
                 switch (record) {
                 case DUP:
                 case DUP2:
                     continue root;
-
+    
                 default:
                     return false;
                 }
-
+    
             case DUPLICATE_AWAY:
                 switch (record) {
                 case DUP_X1:
                 case DUP2_X1:
                     continue root;
-
+    
                 default:
                     return false;
                 }
-
+    
             case RETURNS:
                 switch (record) {
                 case RETURN:
@@ -1915,11 +1965,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case FRETURN:
                 case DRETURN:
                     continue root;
-
+    
                 default:
                     return false;
                 }
-
+    
             case JUMP:
                 switch (record) {
                 case IFEQ:
@@ -1940,11 +1990,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case IF_ICMPNE:
                 case GOTO:
                     continue root;
-
+    
                 default:
                     return false;
                 }
-
+    
             case CMP:
                 switch (record) {
                 case IFEQ:
@@ -1964,31 +2014,31 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case IF_ICMPLT:
                 case IF_ICMPNE:
                     continue root;
-
+    
                 default:
                     return false;
                 }
-
+    
             case FCMP:
                 switch (record) {
                 case FCMPG:
                 case FCMPL:
                     continue root;
-
+    
                 default:
                     return false;
                 }
-
+    
             case DCMP:
                 switch (record) {
                 case DCMPG:
                 case DCMPL:
                     continue root;
-
+    
                 default:
                     return false;
                 }
-
+    
             case FRAME:
                 switch (record) {
                 case FRAME_APPEND:
@@ -1998,11 +2048,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case FRAME_SAME:
                 case FRAME_SAME1:
                     continue root;
-
+    
                 default:
                     return false;
                 }
-
+    
             case INVOKE:
                 switch (record) {
                 case INVOKEINTERFACE:
@@ -2010,15 +2060,58 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 case INVOKESTATIC:
                 case INVOKEVIRTUAL:
                     continue root;
-
+    
                 default:
                     return false;
                 }
-
+    
+            case STORE:
+                switch (record) {
+                case ISTORE:
+                case LSTORE:
+                case FSTORE:
+                case DSTORE:
+                case ASTORE:
+                    continue root;
+    
+                default:
+                    return false;
+                }
+    
+            case LOAD:
+                switch (record) {
+                case ILOAD:
+                case LLOAD:
+                case FLOAD:
+                case DLOAD:
+                case ALOAD:
+                    continue root;
+    
+                default:
+                    return false;
+                }
+    
             default:
                 if (record != opcodes[i]) {
                     return false;
                 }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * <p>
+     * Pattern matching for the recent local variable access.
+     * </p>
+     * 
+     * @param position A sequence of local variable positions to match.
+     * @return A result.
+     */
+    private final boolean matchLocalVariableAccess(int... position) {
+        for (int i = 0; i < position.length; i++) {
+            if (localVarialbeAccess[(localVarialbeAccessIndex + i + localVarialbeAccess.length - position.length) % localVarialbeAccess.length] != position[i]) {
+                return false;
             }
         }
         return true;

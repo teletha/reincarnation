@@ -159,6 +159,15 @@ class LocalVariables {
         }
     }
 
+    boolean isLocal(OperandLocalVariable variable) {
+        for (Entry<Integer, OperandLocalVariable> entry : locals.entrySet()) {
+            if (entry.getValue() == variable) {
+                return offset + sequencialUpdateCount < entry.getKey();
+            }
+        }
+        return false;
+    }
+
     /** The number of update calling sequencially. */
     private int sequencialUpdateCount;
 

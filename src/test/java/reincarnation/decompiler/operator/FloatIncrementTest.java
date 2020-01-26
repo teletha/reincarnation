@@ -11,8 +11,8 @@ package reincarnation.decompiler.operator;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.TestCode;
 
 /**
  * @version 2018/11/05 14:22:43
