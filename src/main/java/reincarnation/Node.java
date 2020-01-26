@@ -13,8 +13,10 @@ import java.beans.Expression;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Deque;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -436,6 +438,59 @@ public class Node implements Code<Operand> {
 
         // API definition
         return dominator;
+    }
+
+    /**
+     * Get all dominator nodes for this node. The first element is the nearest parent dominator
+     * node.
+     */
+    final List<Node> getDominators() {
+        List<Node> nodes = new ArrayList();
+        Node dom = getDominator();
+        while (dom != null) {
+            nodes.add(dom);
+            dom = dom.getDominator();
+        }
+        return nodes;
+    }
+
+    /**
+     * Find the lowest common dominator node with the specified node.
+     * 
+     * @param target
+     * @return
+     */
+    final Node getLowestCommonDominator(Node target) {
+        List<Node> doms = getDominators();
+        doms.add(0, this);
+
+        while (target != null && !doms.contains(target)) {
+            target = target.getDominator();
+        }
+        return target;
+    }
+
+    /**
+     * Find the lowest common dominator node with the specified node.
+     * 
+     * @param target
+     * @return
+     */
+    static Node getLowestCommonDominator(Collection<Node> targets) {
+        int size = targets.size();
+
+        if (size == 0) {
+            return null;
+        } else if (size == 1) {
+            return targets.iterator().next();
+        } else {
+            Iterator<Node> iterator = targets.iterator();
+            Node base = iterator.next();
+            while (iterator.hasNext()) {
+                base = base.getLowestCommonDominator(iterator.next());
+            }
+            return base;
+        }
     }
 
     /**

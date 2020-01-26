@@ -249,10 +249,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     @Override
     public void write(Coder coder) {
         locals.reset();
-        // for (OperandLocalVariable variable : locals.list()) {
-        // coder.writeLocalVariableDeclaration(variable.type.v, variable.name);
-        // variable.declared = true;
-        // }
+        locals.analyze(root);
 
         root.write(coder);
     }
@@ -666,7 +663,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         record(INCREMENT);
 
         // retrieve the local variable name
-        Operand variable = locals.name(position);
+        Operand variable = locals.name(position, current);
 
         if (increment == 1) {
             // increment
@@ -1509,7 +1506,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         record(opcode);
 
         // retrieve local variable name
-        Operand variable = locals.name(position, opcode);
+        Operand variable = locals.name(position, opcode, current);
 
         switch (opcode) {
         case ILOAD:

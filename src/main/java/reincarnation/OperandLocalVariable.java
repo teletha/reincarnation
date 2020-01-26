@@ -9,9 +9,12 @@
  */
 package reincarnation;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import reincarnation.coder.Coder;
+import reincarnation.structure.Structure;
 
 /**
  * @version 2018/10/22 18:08:07
@@ -23,6 +26,12 @@ public class OperandLocalVariable extends Operand {
 
     /** Check whether this local variable is declared or not. */
     boolean declared;
+
+    /** Check whether this local variable's declaration location is clear or unclear. */
+    private boolean unclear;
+
+    /** Holds all nodes that refer to this local variable. */
+    final Set<Node> references = new HashSet();
 
     /**
      * Create local variable with index.
@@ -41,6 +50,10 @@ public class OperandLocalVariable extends Operand {
     protected void writeCode(Coder coder) {
         if (name.equals("this")) {
             coder.writeThis();
+        } else if (unclear) {
+            coder.writeLocalVariableDeclaration(type.v, name);
+            unclear = false;
+            declared = true;
         } else {
             coder.writeLocalVariable(type.v, name, !declared);
             declared = true;
@@ -54,5 +67,29 @@ public class OperandLocalVariable extends Operand {
     public String toString() {
         // don't call #write, it will throw error in debug mode.
         return name;
+    }
+
+    /**
+     * <p>
+     * Analyze at which node this local variable is declared. Some local variables are used across
+     * multiple nodes, and it is not always possible to uniquely identify the declaration location.
+     * </p>
+     * <p>
+     * Check the lowest common dominator node of all nodes that refer to this local variable, and if
+     * the dominator node is included in the reference node, declare it at the first reference.
+     * Otherwise, declare in the header of the dominator node.
+     * </p>
+     */
+    void analyze(Structure root) {
+        // calculate the lowest common dominator node
+        Node common = Node.getLowestCommonDominator(references);
+
+        if (common == null || references.contains(common)) {
+            // do nothing
+        } else {
+            // insert variable declaration at the header of common dominator node
+            unclear = true;
+            root.unclearLocalVariable(this);
+        }
     }
 }

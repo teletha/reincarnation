@@ -21,6 +21,7 @@ import java.util.Map.Entry;
 import org.objectweb.asm.Type;
 
 import kiss.I;
+import reincarnation.structure.Structure;
 
 /**
  * Manage local variables.
@@ -83,8 +84,8 @@ class LocalVariables {
      * @param order An order by which this variable was declared.
      * @return An identified local variable name for ECMAScript.
      */
-    OperandLocalVariable name(int order) {
-        return name(order, 0);
+    OperandLocalVariable name(int order, Node reference) {
+        return name(order, 0, reference);
     }
 
     /**
@@ -95,7 +96,7 @@ class LocalVariables {
      * @param order An order by which this variable was declared.
      * @return An identified local variable name for ECMAScript.
      */
-    OperandLocalVariable name(int order, int opcode) {
+    OperandLocalVariable name(int order, int opcode, Node reference) {
         // ignore long or double second index
         switch (opcode) {
         case LLOAD:
@@ -107,7 +108,10 @@ class LocalVariables {
         }
 
         // Compute local variable name
-        return locals.computeIfAbsent(order, key -> new OperandLocalVariable(load(opcode), "local" + key));
+        OperandLocalVariable variable = locals.computeIfAbsent(order, key -> new OperandLocalVariable(load(opcode), "local" + key));
+        variable.references.add(reference);
+
+        return variable;
     }
 
     /**
@@ -177,10 +181,9 @@ class LocalVariables {
     }
 
     /**
-     * 
-     * @return
+     * Analyze all local variables except parameters and "this".
      */
-    List<OperandLocalVariable> list() {
-        return I.signal(locals.values()).skip(offset + sequencialUpdateCount).toList();
+    void analyze(Structure root) {
+        I.signal(locals.values()).skip(offset + sequencialUpdateCount).to(v -> v.analyze(root));
     }
 }
