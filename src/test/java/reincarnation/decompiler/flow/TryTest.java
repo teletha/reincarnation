@@ -17,6 +17,7 @@ import java.util.Map.Entry;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class TryTest extends CodeVerifier {
@@ -49,6 +50,7 @@ class TryTest extends CodeVerifier {
     void TryCatch() {
         verify(new TestCode.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
@@ -194,6 +196,7 @@ class TryTest extends CodeVerifier {
     void TryMultipleCatchAfter() {
         verify(new TestCode.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {

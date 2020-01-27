@@ -83,6 +83,7 @@ public class OperandLocalVariable extends Operand {
     void analyze(Structure root) {
         // calculate the lowest common dominator node
         Node common = Node.getLowestCommonDominator(references);
+        Debugger.info(common);
 
         if (common == null || references.contains(common)) {
             // do nothing

@@ -9,7 +9,7 @@
  */
 package reincarnation;
 
-import static org.objectweb.asm.Opcodes.*;
+import static org.objectweb.asm.Opcodes.ASM7;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -137,7 +137,6 @@ public class Debugger extends AnnotationVisitor {
     public static boolean isEnable() {
         if (debugger.enable && debugger.firstTime) {
             debugger.firstTime = false;
-
             printInfo(false);
         }
         return debugger.enable;
@@ -244,6 +243,8 @@ public class Debugger extends AnnotationVisitor {
      */
     public static void print(String message, LinkedList<Node> nodes) {
         print(message);
+        print(nodes.peekFirst());
+        print("ok");
         print(nodes.peekFirst().signal().toList());
     }
 

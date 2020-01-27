@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import kiss.Variable;
+import kiss.Ⅱ;
 import reincarnation.Operand;
 import reincarnation.Reincarnation;
 import reincarnation.coder.Code;
@@ -705,6 +706,25 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     public void writeInfinitLoop(Optional<String> label, Runnable inner, Code follow) {
         line(label(label), "for", space, "(;;)", space, "{");
         indent(inner);
+        line("}");
+        write(follow);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeTryCatchFinally(Code tryBlock, List<Ⅱ<Class, Code>> catchBlocks, Code follow) {
+        line("try", space, "{");
+        indent(tryBlock::write);
+        for (Ⅱ<Class, Code> catchBlock : catchBlocks) {
+            if (catchBlock.ⅰ != null) {
+                line("}", space, "catch(", name(catchBlock.ⅰ), space, "e)", space, "{");
+            } else {
+                line("}", space, "finally", space, "{");
+            }
+            indent(catchBlock.ⅱ::write);
+        }
         line("}");
         write(follow);
     }

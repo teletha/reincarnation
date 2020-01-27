@@ -25,6 +25,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import kiss.I;
 import kiss.Signal;
 import kiss.Variable;
+import kiss.Ⅱ;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
@@ -37,6 +38,7 @@ import reincarnation.structure.If;
 import reincarnation.structure.InfiniteLoop;
 import reincarnation.structure.Loopable;
 import reincarnation.structure.Structure;
+import reincarnation.structure.Try;
 import reincarnation.structure.While;
 
 /**
@@ -690,8 +692,12 @@ public class Node implements Code<Operand> {
             // =============================================================
             // Try-Catch-Finally Block
             // =============================================================
-            for (int i = 0; i < tries.size(); i++) {
-                // buffer.write("try", "{");
+            if (!tries.isEmpty()) {
+                TryCatchFinally removed = tries.remove(0);
+
+                List<Ⅱ<Class, Structure>> catches = I.signal(removed.catches).map(c -> I.pair(c.exception, process(c.node))).toList();
+
+                return new Try(this, removed.start, catches, removed.exit);
             }
 
             // =============================================================
@@ -1632,7 +1638,7 @@ public class Node implements Code<Operand> {
     private static class Catch {
 
         /** The Throwable class, may be null for finally statmenet. */
-        private final Class<?> exception;
+        private final Class exception;
 
         /** The associated node. */
         private final Node node;

@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import kiss.I;
+import kiss.Ⅱ;
 import kiss.model.Model;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AccessMode;
@@ -561,4 +562,12 @@ public abstract class Coder<O extends CodingOption> {
      * @param follow A following part.
      */
     public abstract void writeInfinitLoop(Optional<String> label, Runnable inner, Code follow);
+
+    /**
+     * Try-Catch-Finally structure.
+     * @param follow A following part.
+     * @param label A block label.
+     * @param inner A inner contents.
+     */
+    public abstract void writeTryCatchFinally(Code tryBlock, List<Ⅱ<Class, Code>> catchBlocks, Code follow);
 }

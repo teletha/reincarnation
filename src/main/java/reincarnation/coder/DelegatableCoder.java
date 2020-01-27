@@ -17,6 +17,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import kiss.Ⅱ;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
@@ -442,4 +443,11 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
         coder.writeInfinitLoop(label, inner, follow);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeTryCatchFinally(Code tryBlock, List<Ⅱ<Class, Code>> catchBlocks, Code follow) {
+        coder.writeTryCatchFinally(tryBlock, catchBlocks, follow);
+    }
 }

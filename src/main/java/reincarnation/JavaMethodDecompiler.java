@@ -345,6 +345,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             }
         }
 
+        // Resolve all try-catch-finally blocks.
+        tries.process();
+
         // optimize
         removeLastEmptyReturn();
 
@@ -1470,6 +1473,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     @Override
     public void visitParameter(String name, int access) {
         locals.updateParameterInfo(name, access);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void visitTryCatchBlock(Label start, Label end, Label handler, String type) {
+        tries.addTryCatchFinallyBlock(getNode(start), getNode(end), getNode(handler), load(type));
     }
 
     /**
