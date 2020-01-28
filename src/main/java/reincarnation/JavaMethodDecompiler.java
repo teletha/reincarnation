@@ -1635,6 +1635,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                         return;
                     }
 
+                    if (match(FRAME, STORE)) {
+                        System.out.println("exception param ");
+                    }
+
                     if (locals.isLocal(variable) && match(DUP, STORE)) {
                         current.stack.add(variable);
                     }

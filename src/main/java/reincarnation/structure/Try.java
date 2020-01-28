@@ -34,7 +34,7 @@ public class Try extends Structure {
     public Try(Node that, Node tryBlock, List<Ⅱ<Class, Structure>> catchBlocks, Node follow) {
         super(that);
 
-        this.tryBlock = that.process(tryBlock);
+        this.tryBlock = tryBlock.analyze();
         this.catchBlocks = catchBlocks;
         this.follow = that.process(follow);
     }

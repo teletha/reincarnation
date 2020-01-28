@@ -650,6 +650,16 @@ public class Node implements Code<Operand> {
 
     public Structure analyze() {
         if (!analyzed) {
+            // =============================================================
+            // Try-Catch-Finally Block
+            // =============================================================
+            if (!tries.isEmpty()) {
+                TryCatchFinally removed = tries.remove(0);
+                List<Ⅱ<Class, Structure>> catches = I.signal(removed.catches).map(c -> I.pair(c.exception, process(c.node))).toList();
+                removed.exit.additionalCalls++;
+                return new Try(this, removed.start, catches, removed.exit);
+            }
+
             analyzed = true;
 
             // =============================================================
@@ -687,17 +697,6 @@ public class Node implements Code<Operand> {
                 // process(exit, buffer);
                 //
                 // return; // must
-            }
-
-            // =============================================================
-            // Try-Catch-Finally Block
-            // =============================================================
-            if (!tries.isEmpty()) {
-                TryCatchFinally removed = tries.remove(0);
-
-                List<Ⅱ<Class, Structure>> catches = I.signal(removed.catches).map(c -> I.pair(c.exception, process(c.node))).toList();
-
-                return new Try(this, removed.start, catches, removed.exit);
             }
 
             // =============================================================
