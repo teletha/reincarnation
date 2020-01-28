@@ -52,11 +52,18 @@ public class OperandLocalVariable extends Operand {
             coder.writeThis();
         } else if (unclear) {
             coder.writeLocalVariableDeclaration(type.v, name);
-            unclear = false;
-            declared = true;
+            if (!Debugger.whileDebug) {
+                unclear = false;
+                declared = true;
+            }
         } else {
             coder.writeLocalVariable(type.v, name, !declared);
-            declared = true;
+            if (declared == false) {
+                new Error().printStackTrace();
+            }
+            if (!Debugger.whileDebug) {
+                declared = true;
+            }
         }
     }
 

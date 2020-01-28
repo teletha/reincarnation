@@ -11,8 +11,8 @@ package reincarnation.decompiler.operator;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.TestCode;
 
 /**
  * @version 2018/11/05 14:22:58
@@ -270,27 +270,27 @@ class IntIncrementTest extends CodeVerifier {
         private class Child {
 
             int postIncrement() {
-                int old = value++;
+                int old2 = value++;
 
-                return old;
+                return old2;
             }
 
             int preIncrement() {
-                int old = ++value;
+                int old3 = ++value;
 
-                return old;
+                return old3;
             }
 
             int postDecrement() {
-                int old = value--;
+                int old4 = value--;
 
-                return old;
+                return old4;
             }
 
             int preDecrement() {
-                int old = --value;
+                int old5 = --value;
 
-                return old;
+                return old5;
             }
         }
     }

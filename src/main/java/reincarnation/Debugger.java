@@ -36,6 +36,9 @@ import reincarnation.Node.TryCatchFinally;
 public class Debugger extends AnnotationVisitor {
 
     /** The processing environment. */
+    static boolean whileDebug = false;
+
+    /** The processing environment. */
     private static final boolean whileTest;
 
     /** The list for debug patterns. */
@@ -241,10 +244,8 @@ public class Debugger extends AnnotationVisitor {
      * 
      * @param node
      */
-    public static void print(String message, LinkedList<Node> nodes) {
-        print(message);
-        print(nodes.peekFirst());
-        print("ok");
+    public static void print(LinkedList<Node> nodes, Object... messages) {
+        print(messages);
         print(nodes.peekFirst().signal().toList());
     }
 
@@ -281,18 +282,6 @@ public class Debugger extends AnnotationVisitor {
         if (isEnable()) {
             System.out.println(format(nodes));
         }
-    }
-
-    /**
-     * <p>
-     * Dump node tree.
-     * </p>
-     * 
-     * @param nodes
-     */
-    public static void print(String text, List<Node> nodes) {
-        print(text);
-        print(nodes);
     }
 
     /**
@@ -588,14 +577,17 @@ public class Debugger extends AnnotationVisitor {
          * @param operands
          */
         private void formatCodeFragment(List<Operand> operands) {
+            whileDebug = true;
             for (int i = 0; i < operands.size(); i++) {
                 Operand operand = operands.get(i);
+
                 builder.append(operand.toString().strip()).append(" [").append(operand.info()).append("]");
 
                 if (i != operands.size() - 1) {
                     builder.append(" ");
                 }
             }
+            whileDebug = false;
         }
 
         /**

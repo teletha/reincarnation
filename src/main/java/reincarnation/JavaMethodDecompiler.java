@@ -264,7 +264,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     @Override
     public void write(Coder coder) {
-        locals.reset();
         locals.analyze(root);
 
         root.write(coder);
@@ -351,9 +350,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // optimize
         removeLastEmptyReturn();
 
-        Debugger.print("Before Analyze", nodes);
+        Debugger.print(nodes, "Before Analyze");
         root = nodes.peekFirst().analyze();
-        Debugger.print("After Analyze", nodes);
+        Debugger.print(nodes, "After Analyze");
 
         // structurize
         root.structurize();
@@ -601,7 +600,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             boolean values = conditionNode != leftNode && rightNode.hasDominator(leftNode);
 
             if (leftTransition && conditionTransition && dominator && !values) {
-                Debugger.print("Start ternary operator. condition[" + third + "]  left[" + second + "]  right[" + first + "]", nodes);
+                Debugger.print(nodes, "Start ternary operator. condition[", third, "]  left[", second, "]  right[", first, "]");
 
                 if (first.isTrue() && second.isFalse()) {
                     current.remove(0);
@@ -637,7 +636,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 // process recursively
                 processTernaryOperator();
 
-                Debugger.print("End ternary operator. condition[" + third + "]  left[" + second + "]  right[" + first + "]", nodes);
+                Debugger.print(nodes, "End ternary operator. condition[", third, "]  left[", second, "]  right[", first, "]");
             }
         }
     }
@@ -1560,8 +1559,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             break;
 
         case ASTORE:
-            if (match(FRAME_SAME1, ASTORE) || match(FRAME_FULL, ASTORE)) {
+            if (match(GOTO, FRAME_SAME1, ASTORE) || match(GOTO, FRAME_FULL, ASTORE)) {
                 tries.assignVariableName(current, variable);
+                variable.declared = true;
             }
 
         case ISTORE:
@@ -1633,10 +1633,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                         locals.replace(variable, (OperandLocalVariable) operand);
                         current.addOperand(operand);
                         return;
-                    }
-
-                    if (match(FRAME, STORE)) {
-                        System.out.println("exception param ");
                     }
 
                     if (locals.isLocal(variable) && match(DUP, STORE)) {
@@ -1822,7 +1818,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             return;
         }
 
-        Debugger.print("Start merging logical condition", nodes);
+        Debugger.print(nodes, "Start merging logical condition");
 
         // Search and merge the sequencial conditional operands in this node from right to left.
         int start = info.start;
@@ -1860,7 +1856,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             }
         }
 
-        Debugger.print("End merging logical condition", nodes);
+        Debugger.print(nodes, "End merging logical condition");
     }
 
     /**

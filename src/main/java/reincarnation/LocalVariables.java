@@ -188,17 +188,6 @@ class LocalVariables {
     }
 
     /**
-     * 
-     */
-    void reset() {
-        for (Entry<Integer, OperandLocalVariable> e : locals.entrySet()) {
-            if (size <= e.getKey()) {
-                e.getValue().declared = false;
-            }
-        }
-    }
-
-    /**
      * Analyze all local variables except parameters and "this".
      */
     void analyze(Structure root) {
