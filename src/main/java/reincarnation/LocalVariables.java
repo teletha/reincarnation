@@ -10,7 +10,7 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Util.load;
+import static reincarnation.Util.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,8 +42,6 @@ class LocalVariables {
     /** The local variable manager. */
     private final Map<Integer, OperandLocalVariable> locals = new HashMap<>();
 
-    private final int size;
-
     /**
      * @param clazz
      * @param isStatic
@@ -72,19 +70,6 @@ class LocalVariables {
                 index++;
             }
         }
-        this.size = index + offset;
-    }
-
-    /**
-     * <p>
-     * Compute the identified qualified local variable name for ECMAScript.
-     * </p>
-     * 
-     * @param order An order by which this variable was declared.
-     * @return An identified local variable name for ECMAScript.
-     */
-    OperandLocalVariable name(int order, Node reference) {
-        return name(order, 0, reference);
     }
 
     /**
