@@ -9,13 +9,10 @@
  */
 package reincarnation;
 
-import static org.objectweb.asm.Opcodes.*;
 import static reincarnation.Util.load;
 
 import java.lang.reflect.Parameter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -31,14 +28,8 @@ import reincarnation.structure.Structure;
  */
 class LocalVariables {
 
-    /** The this type. */
-    private final Class<?> clazz;
-
     /** Flag for static or normal. */
     private int offset;
-
-    /** The ignorable variable index. */
-    private final List<Integer> ignores = new ArrayList<>();
 
     /** The local variable manager. */
     private final Map<Integer, OperandLocalVariable> locals = new HashMap<>();
@@ -49,8 +40,6 @@ class LocalVariables {
      * @param types
      */
     LocalVariables(Class<?> clazz, boolean isStatic, Type[] types, Parameter[] parameters) {
-        this.clazz = clazz;
-
         if (isStatic == false) {
             locals.put(offset++, new OperandLocalVariable(clazz, "this"));
         }
@@ -75,16 +64,6 @@ class LocalVariables {
      * @return An identified local variable name for ECMAScript.
      */
     OperandLocalVariable name(int order, int opcode, Node reference) {
-        // ignore long or double second index
-        switch (opcode) {
-        case LLOAD:
-        case LSTORE:
-        case DLOAD:
-        case DSTORE:
-            ignores.add(order + 1);
-            break;
-        }
-
         // Compute local variable name
         OperandLocalVariable variable = locals.computeIfAbsent(order, key -> new OperandLocalVariable(load(opcode), "local" + key));
         variable.references.add(reference);
