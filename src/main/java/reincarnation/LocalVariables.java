@@ -10,8 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,42 +34,35 @@ class LocalVariables {
     /** The this type. */
     private final Class<?> clazz;
 
-    /** Flag for static or normal. */
-    private final int offset;
+    /** This or parameter offset. */
+    private int offset;
 
     /** The ignorable variable index. */
     private final List<Integer> ignores = new ArrayList<>();
 
     /** The local variable manager. */
-    private final Map<Integer, OperandLocalVariable> locals = new HashMap<>();
+    private final Map<Integer, List<OperandLocalVariable>> locals = new HashMap<>();
 
     /**
      * @param clazz
      * @param isStatic
      * @param types
      */
-    LocalVariables(Class<?> clazz, boolean isStatic, Type[] types) {
+    LocalVariables(Class<?> clazz, boolean isStatic, Type[] types, Parameter[] parameters) {
         this.clazz = clazz;
-        this.offset = isStatic ? 0 : 1;
 
         if (isStatic == false) {
-            locals.put(0, new OperandLocalVariable(clazz, "this"));
+            locals.put(offset++, I.list(new OperandLocalVariable(clazz, "this", LocalVariableDeclaration.None)));
         }
 
-        // count index because primitive long and double occupy double stacks
-        int index = 0;
-
-        for (int i = 0; i < types.length; i++) {
+        for (int i = 0; i < parameters.length; i++) {
             Class<?> type = Util.load(types[i]);
-            OperandLocalVariable local = new OperandLocalVariable(type, "arg" + index).declared();
+            OperandLocalVariable local = new OperandLocalVariable(type, parameters[i].getName(), LocalVariableDeclaration.None);
             local.fix();
-            locals.put(index + offset, local);
+            locals.put(offset, I.list(local));
 
-            index++;
-
-            if (type == long.class || type == double.class) {
-                index++;
-            }
+            // count index because primitive long and double occupy double stacks
+            offset += type == long.class || type == double.class ? 2 : 1;
         }
     }
 
@@ -92,10 +86,24 @@ class LocalVariables {
         }
 
         // Compute local variable name
-        OperandLocalVariable variable = locals.computeIfAbsent(order, key -> new OperandLocalVariable(load(opcode), "local" + key));
-        variable.references.add(reference);
+        List<OperandLocalVariable> list = locals.get(order);
 
-        return variable;
+        if (list == null) {
+            // first access
+            OperandLocalVariable variable = new OperandLocalVariable(load(opcode), "local" + order, LocalVariableDeclaration.None)
+                    .usedAt(reference);
+            locals.put(order, I.list(variable));
+            return variable;
+        } else {
+            // other access
+            OperandLocalVariable base = list.get(0);
+            base.usedAt(reference);
+
+            if (list.size() == 1) {
+                list.add(new OperandLocalVariable(base.type.v, base.name, LocalVariableDeclaration.None));
+            }
+            return list.get(1);
+        }
     }
 
     /**
@@ -104,11 +112,13 @@ class LocalVariables {
      * @param index
      * @param name
      */
-    void name(int index, String name) {
-        OperandLocalVariable local = locals.get(index);
+    void rename(int index, String name) {
+        List<OperandLocalVariable> list = locals.get(index);
 
-        if (local != null) {
-            local.name = name;
+        if (list != null) {
+            for (OperandLocalVariable variable : list) {
+                variable.name = name;
+            }
         }
     }
 
@@ -125,7 +135,7 @@ class LocalVariables {
             return new InferredType(clazz);
         }
 
-        OperandLocalVariable local = locals.get(position);
+        OperandLocalVariable local = locals.get(position).get(0);
 
         if (local == null) {
             return new InferredType();
@@ -135,46 +145,27 @@ class LocalVariables {
     }
 
     void replace(OperandLocalVariable replaced, OperandLocalVariable replacer) {
-        for (Entry<Integer, OperandLocalVariable> entry : locals.entrySet()) {
-            if (entry.getValue() == replaced) {
-                entry.setValue(replacer);
+        for (Entry<Integer, List<OperandLocalVariable>> entry : locals.entrySet()) {
+            if (entry.getValue().get(0) == replaced) {
+                entry.setValue(I.list(replacer));
                 return;
             }
         }
     }
 
     boolean isLocal(OperandLocalVariable variable) {
-        for (Entry<Integer, OperandLocalVariable> entry : locals.entrySet()) {
-            if (entry.getValue() == variable) {
-                return offset + sequencialUpdateCount < entry.getKey();
+        for (Entry<Integer, List<OperandLocalVariable>> entry : locals.entrySet()) {
+            if (entry.getValue().get(0) == variable) {
+                return offset < entry.getKey();
             }
         }
         return false;
-    }
-
-    /** The number of update calling sequencially. */
-    private int sequencialUpdateCount;
-
-    /**
-     * Update parameter info.
-     * 
-     * @param name A parameter name.
-     * @param access A parameter modifier.
-     */
-    void updateParameterInfo(String name, int access) {
-        OperandLocalVariable local = locals.get(sequencialUpdateCount++ + offset);
-
-        local.name = name;
-
-        if (local.type.v == long.class || local.type.v == double.class) {
-            sequencialUpdateCount++;
-        }
     }
 
     /**
      * Analyze all local variables except parameters and "this".
      */
     void analyze(Structure root) {
-        I.signal(locals.values()).skip(offset + sequencialUpdateCount).to(v -> v.analyze(root));
+        I.signal(locals.entrySet()).skip(e -> e.getKey() < offset).to(e -> e.getValue().get(0).analyze(root));
     }
 }
