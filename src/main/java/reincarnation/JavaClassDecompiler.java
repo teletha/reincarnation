@@ -10,10 +10,11 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Objects;
 
 import org.objectweb.asm.ClassVisitor;
@@ -79,20 +80,27 @@ class JavaClassDecompiler extends ClassVisitor {
         Type returnType = type.getReturnType();
         Type[] parameterTypes = type.getArgumentTypes();
         boolean isStatic = (access & ACC_STATIC) != 0;
-        LocalVariables locals = new LocalVariables(source.clazz, isStatic, parameterTypes);
-
-        JavaMethodDecompiler decompiler = new JavaMethodDecompiler(source, locals, returnType);
+        JavaMethodDecompiler decompiler;
 
         try {
             if (name.equals("<init>")) {
                 // initializer or constructor
                 Constructor constructor = source.clazz.getDeclaredConstructor(load(parameterTypes));
+                LocalVariables locals = new LocalVariables(source.clazz, isStatic, parameterTypes, constructor.getParameters());
+                decompiler = new JavaMethodDecompiler(source, locals, returnType);
+
                 source.constructors.put(constructor, decompiler);
             } else if (name.equals("<clinit>")) {
+                LocalVariables locals = new LocalVariables(source.clazz, isStatic, parameterTypes, new Parameter[0]);
+                decompiler = new JavaMethodDecompiler(source, locals, returnType);
+
                 // static initializer
                 source.staticInitializer.add(decompiler);
             } else {
                 Method method = source.clazz.getDeclaredMethod(name, load(parameterTypes));
+                LocalVariables locals = new LocalVariables(source.clazz, isStatic, parameterTypes, method.getParameters());
+                decompiler = new JavaMethodDecompiler(source, locals, returnType);
+
                 source.methods.put(method, decompiler);
             }
         } catch (Exception e) {

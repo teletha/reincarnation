@@ -10,8 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +48,7 @@ class LocalVariables {
      * @param isStatic
      * @param types
      */
-    LocalVariables(Class<?> clazz, boolean isStatic, Type[] types) {
+    LocalVariables(Class<?> clazz, boolean isStatic, Type[] types, Parameter[] parameters) {
         this.clazz = clazz;
         this.offset = isStatic ? 0 : 1;
 
@@ -60,7 +61,7 @@ class LocalVariables {
 
         for (int i = 0; i < types.length; i++) {
             Class<?> type = Util.load(types[i]);
-            OperandLocalVariable local = new OperandLocalVariable(type, "arg" + index).declared();
+            OperandLocalVariable local = new OperandLocalVariable(type, parameters[i].getName()).declared();
             local.fix();
             locals.put(index + offset, local);
 
@@ -96,20 +97,6 @@ class LocalVariables {
         variable.references.add(reference);
 
         return variable;
-    }
-
-    /**
-     * Rename local variable.
-     * 
-     * @param index
-     * @param name
-     */
-    void name(int index, String name) {
-        OperandLocalVariable local = locals.get(index);
-
-        if (local != null) {
-            local.name = name;
-        }
     }
 
     /**

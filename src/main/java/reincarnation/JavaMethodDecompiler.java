@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -1351,7 +1351,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     @Override
     public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
-        locals.name(index, name);
     }
 
     /**
