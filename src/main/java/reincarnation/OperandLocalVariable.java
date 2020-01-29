@@ -24,21 +24,23 @@ public class OperandLocalVariable extends Operand {
     /** The variable name. */
     String name;
 
-    /** The declaration type. */
-    private LocalVariableDeclaration declaration;
+    /** Check whether this local variable is declared or not. */
+    private boolean declared = false;
+
+    /** Check whether this local variable's declaration location is clear or unclear. */
+    private boolean unclear;
 
     /** Holds all nodes that refer to this local variable. */
-    private final Set<Node> references = new HashSet();
+    final Set<Node> references = new HashSet();
 
     /**
      * Create local variable with index.
      * 
      * @param index A local index.
      */
-    OperandLocalVariable(Class type, String name, LocalVariableDeclaration declaration) {
+    OperandLocalVariable(Class type, String name) {
         this.name = Objects.requireNonNull(name);
         this.type.set(type);
-        this.declaration = declaration;
     }
 
     /**
@@ -48,8 +50,18 @@ public class OperandLocalVariable extends Operand {
     protected void writeCode(Coder coder) {
         if (name.equals("this")) {
             coder.writeThis();
+        } else if (unclear) {
+            coder.writeLocalVariableDeclaration(type.v, name);
+            if (!Debugger.whileDebug) {
+                unclear = false;
+                declared();
+            }
         } else {
-            coder.writeLocalVariable(type.v, name, declaration);
+            coder.writeLocalVariable(type.v, name, !declared);
+
+            if (!Debugger.whileDebug) {
+                declared();
+            }
         }
     }
 
@@ -77,20 +89,22 @@ public class OperandLocalVariable extends Operand {
         // calculate the lowest common dominator node
         Node common = Node.getLowestCommonDominator(references);
 
-        if (common == null) {
+        if (common == null || references.contains(common)) {
             // do nothing
-        } else if (references.contains(common)) {
-            declaration = LocalVariableDeclaration.With;
-            System.out.println("need declare " + name + "  " + declaration);
         } else {
             // insert variable declaration at the header of common dominator node
-            root.unclearLocalVariable(new OperandLocalVariable(type.v, name, LocalVariableDeclaration.Only));
+            unclear = true;
+            root.unclearLocalVariable(this);
         }
     }
 
-    OperandLocalVariable usedAt(Node user) {
-        if (user != null) {
-            this.references.add(user);
+    OperandLocalVariable declared() {
+        if (declared == false) {
+            this.declared = true;
+
+            if (name.equals("old2")) {
+                new Error().printStackTrace();
+            }
         }
         return this;
     }

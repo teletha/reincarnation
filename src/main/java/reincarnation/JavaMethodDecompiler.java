@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.load;
+import static reincarnation.Util.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -1351,7 +1351,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     @Override
     public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
-        locals.rename(index, name);
+        locals.name(index, name);
     }
 
     /**
@@ -1471,6 +1471,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     @Override
     public void visitParameter(String name, int access) {
+        locals.updateParameterInfo(name, access);
     }
 
     /**
@@ -1560,6 +1561,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         case ASTORE:
             if (match(GOTO, FRAME_SAME1, ASTORE) || match(GOTO, FRAME_FULL, ASTORE)) {
                 tries.assignVariableName(current, variable);
+                variable.declared();
             }
 
         case ISTORE:

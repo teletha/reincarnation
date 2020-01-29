@@ -10,11 +10,10 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Util.load;
+import static reincarnation.Util.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.Objects;
 
 import org.objectweb.asm.ClassVisitor;
@@ -80,45 +79,27 @@ class JavaClassDecompiler extends ClassVisitor {
         Type returnType = type.getReturnType();
         Type[] parameterTypes = type.getArgumentTypes();
         boolean isStatic = (access & ACC_STATIC) != 0;
+        LocalVariables locals = new LocalVariables(source.clazz, isStatic, parameterTypes);
+
+        JavaMethodDecompiler decompiler = new JavaMethodDecompiler(source, locals, returnType);
 
         try {
-            Parameter[] parameters;
-
             if (name.equals("<init>")) {
                 // initializer or constructor
                 Constructor constructor = source.clazz.getDeclaredConstructor(load(parameterTypes));
-                parameters = constructor.getParameters();
-
-                LocalVariables locals = new LocalVariables(source.clazz, isStatic, parameterTypes, parameters);
-                JavaMethodDecompiler decompiler = new JavaMethodDecompiler(source, locals, returnType);
-
                 source.constructors.put(constructor, decompiler);
-
-                return decompiler;
             } else if (name.equals("<clinit>")) {
-                parameters = new Parameter[0];
-
-                LocalVariables locals = new LocalVariables(source.clazz, isStatic, parameterTypes, parameters);
-                JavaMethodDecompiler decompiler = new JavaMethodDecompiler(source, locals, returnType);
-
                 // static initializer
                 source.staticInitializer.add(decompiler);
-
-                return decompiler;
             } else {
                 Method method = source.clazz.getDeclaredMethod(name, load(parameterTypes));
-                parameters = method.getParameters();
-
-                LocalVariables locals = new LocalVariables(source.clazz, isStatic, parameterTypes, parameters);
-                JavaMethodDecompiler decompiler = new JavaMethodDecompiler(source, locals, returnType);
-
                 source.methods.put(method, decompiler);
-
-                return decompiler;
             }
         } catch (Exception e) {
             throw I.quiet(e);
         }
+
+        return decompiler;
     }
 
     // /**
