@@ -1561,7 +1561,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         case ASTORE:
             if (match(GOTO, FRAME_SAME1, ASTORE) || match(GOTO, FRAME_FULL, ASTORE)) {
                 tries.assignVariableName(current, variable);
-                variable.declared = true;
+                variable.declared();
             }
 
         case ISTORE:

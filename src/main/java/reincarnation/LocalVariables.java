@@ -62,8 +62,7 @@ class LocalVariables {
 
         for (int i = 0; i < types.length; i++) {
             Class<?> type = Util.load(types[i]);
-            OperandLocalVariable local = new OperandLocalVariable(type, "arg" + index);
-            local.declared = true;
+            OperandLocalVariable local = new OperandLocalVariable(type, "arg" + index).declared();
             local.fix();
             locals.put(index + offset, local);
 

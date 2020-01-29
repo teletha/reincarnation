@@ -25,7 +25,7 @@ public class OperandLocalVariable extends Operand {
     String name;
 
     /** Check whether this local variable is declared or not. */
-    boolean declared;
+    private boolean declared = false;
 
     /** Check whether this local variable's declaration location is clear or unclear. */
     private boolean unclear;
@@ -54,15 +54,13 @@ public class OperandLocalVariable extends Operand {
             coder.writeLocalVariableDeclaration(type.v, name);
             if (!Debugger.whileDebug) {
                 unclear = false;
-                declared = true;
+                declared();
             }
         } else {
             coder.writeLocalVariable(type.v, name, !declared);
-            if (declared == false) {
-                new Error().printStackTrace();
-            }
+
             if (!Debugger.whileDebug) {
-                declared = true;
+                declared();
             }
         }
     }
@@ -98,5 +96,16 @@ public class OperandLocalVariable extends Operand {
             unclear = true;
             root.unclearLocalVariable(this);
         }
+    }
+
+    OperandLocalVariable declared() {
+        if (declared == false) {
+            this.declared = true;
+
+            if (name.equals("old2")) {
+                new Error().printStackTrace();
+            }
+        }
+        return this;
     }
 }
