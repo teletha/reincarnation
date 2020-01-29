@@ -1470,7 +1470,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     @Override
     public void visitParameter(String name, int access) {
-        locals.updateParameterInfo(name, access);
     }
 
     /**
