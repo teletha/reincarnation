@@ -14,7 +14,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import reincarnation.coder.Coder;
-import reincarnation.structure.Structure;
 
 /**
  * @version 2018/10/22 18:08:07
@@ -26,9 +25,6 @@ public class OperandLocalVariable extends Operand {
 
     /** Check whether this local variable is declared or not. */
     private boolean declared = false;
-
-    /** Check whether this local variable's declaration location is clear or unclear. */
-    private boolean unclear;
 
     /** The declration type. */
     private final LocalVariableDeclaration declaration;
@@ -83,39 +79,21 @@ public class OperandLocalVariable extends Operand {
         return name;
     }
 
-    /**
-     * <p>
-     * Analyze at which node this local variable is declared. Some local variables are used across
-     * multiple nodes, and it is not always possible to uniquely identify the declaration location.
-     * </p>
-     * <p>
-     * Check the lowest common dominator node of all nodes that refer to this local variable, and if
-     * the dominator node is included in the reference node, declare it at the first reference.
-     * Otherwise, declare in the header of the dominator node.
-     * </p>
-     */
-    void analyze(Structure root) {
-        // calculate the lowest common dominator node
-        Node common = Node.getLowestCommonDominator(references);
-
-        if (common == null || references.contains(common)) {
-            // do nothing
-        } else {
-            // insert variable declaration at the header of common dominator node
-            OperandLocalVariable variable = new OperandLocalVariable(type.v, name, LocalVariableDeclaration.Only);
-            root.unclearLocalVariable(variable);
-            declared();
-        }
-    }
-
     OperandLocalVariable declared() {
         if (declared == false) {
             this.declared = true;
-
-            if (name.equals("old2")) {
-                new Error().printStackTrace();
-            }
         }
         return this;
+    }
+
+    /**
+     * @param reference
+     */
+    public void add(Node reference) {
+        boolean add = this.references.add(reference);
+
+        if (add == false) {
+            System.out.println(name + "   is alread added " + reference.id);
+        }
     }
 }

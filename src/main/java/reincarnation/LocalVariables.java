@@ -9,7 +9,7 @@
  */
 package reincarnation;
 
-import static reincarnation.Util.load;
+import static reincarnation.Util.*;
 
 import java.lang.reflect.Parameter;
 import java.util.HashMap;
@@ -19,6 +19,7 @@ import java.util.Map.Entry;
 import org.objectweb.asm.Type;
 
 import kiss.I;
+import reincarnation.coder.Coder;
 import reincarnation.structure.Structure;
 
 /**
@@ -66,7 +67,7 @@ class LocalVariables {
     OperandLocalVariable name(int order, int opcode, Node reference) {
         // Compute local variable name
         OperandLocalVariable variable = locals.computeIfAbsent(order, key -> new OperandLocalVariable(load(opcode), "local" + key));
-        variable.references.add(reference);
+        variable.add(reference);
 
         return variable;
     }
@@ -91,8 +92,48 @@ class LocalVariables {
 
     /**
      * Analyze all local variables except parameters and "this".
+     * <p>
+     * Analyze at which node this local variable is declared. Some local variables are used across
+     * multiple nodes, and it is not always possible to uniquely identify the declaration location.
+     * </p>
+     * <p>
+     * Check the lowest common dominator node of all nodes that refer to this local variable, and if
+     * the dominator node is included in the reference node, declare it at the first reference.
+     * Otherwise, declare in the header of the dominator node.
+     * </p>
      */
     void analyze(Structure root) {
-        I.signal(locals.values()).skip(offset).to(v -> v.analyze(root));
+        I.signal(locals.values()).skip(offset).to(variable -> {
+            // calculate the lowest common dominator node
+            Node common = Node.getLowestCommonDominator(variable.references);
+
+            if (common == null) {
+                // do nothing
+            } else if (variable.references.contains(common)) {
+
+            } else {
+                // insert variable declaration at the header of common dominator node
+                OperandLocalVariable insert = new OperandLocalVariable(variable.type.v, variable.name, LocalVariableDeclaration.Only);
+                root.unclearLocalVariable(insert);
+                variable.declared();
+            }
+        });
+    }
+
+    /**
+     * 
+     */
+    private static class OperandLocalVariableReference extends Operand {
+
+        /** The delegation. */
+        private OperandLocalVariable delegation;
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected void writeCode(Coder coder) {
+            delegation.write(coder);
+        }
     }
 }
