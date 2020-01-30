@@ -51,13 +51,13 @@ public class OperandLocalVariable extends Operand {
         if (name.equals("this")) {
             coder.writeThis();
         } else if (unclear) {
-            coder.writeLocalVariableDeclaration(type.v, name);
+            coder.writeLocalVariable(type.v, name, LocalVariableDeclaration.Only);
             if (!Debugger.whileDebug) {
                 unclear = false;
                 declared();
             }
         } else {
-            coder.writeLocalVariable(type.v, name, !declared);
+            coder.writeLocalVariable(type.v, name, declared ? LocalVariableDeclaration.None : LocalVariableDeclaration.With);
 
             if (!Debugger.whileDebug) {
                 declared();

@@ -23,6 +23,7 @@ import java.util.function.Consumer;
 import kiss.I;
 import kiss.Ⅱ;
 import kiss.model.Model;
+import reincarnation.LocalVariableDeclaration;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
@@ -372,17 +373,9 @@ public abstract class Coder<O extends CodingOption> {
      * 
      * @param type A infered type of local variabel.
      * @param name A local variable name.
-     * @param declaration Is fisrt access?
+     * @param declaration Declaration type.
      */
-    public abstract void writeLocalVariable(Class type, String name, boolean declaration);
-
-    /**
-     * Declare the local variable declaration in header.
-     * 
-     * @param type A infered type of local variabel.
-     * @param name A local variable name.
-     */
-    public abstract void writeLocalVariableDeclaration(Class type, String name);
+    public abstract void writeLocalVariable(Class type, String name, LocalVariableDeclaration declaration);
 
     /**
      * Access to field.
@@ -565,6 +558,7 @@ public abstract class Coder<O extends CodingOption> {
 
     /**
      * Try-Catch-Finally structure.
+     * 
      * @param follow A following part.
      * @param label A block label.
      * @param inner A inner contents.

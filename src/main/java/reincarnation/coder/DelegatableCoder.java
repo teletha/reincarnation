@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import kiss.Ⅱ;
+import reincarnation.LocalVariableDeclaration;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
@@ -263,16 +264,8 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeLocalVariable(Class type, String name, boolean declaration) {
+    public void writeLocalVariable(Class type, String name, LocalVariableDeclaration declaration) {
         coder.writeLocalVariable(type, name, declaration);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void writeLocalVariableDeclaration(Class type, String name) {
-        coder.writeLocalVariableDeclaration(type, name);
     }
 
     /**

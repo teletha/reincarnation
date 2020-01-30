@@ -23,6 +23,7 @@ import java.util.Set;
 
 import kiss.Variable;
 import kiss.Ⅱ;
+import reincarnation.LocalVariableDeclaration;
 import reincarnation.Operand;
 import reincarnation.Reincarnation;
 import reincarnation.coder.Code;
@@ -421,20 +422,20 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeLocalVariable(Class type, String name, boolean declaration) {
-        if (declaration) {
+    public void writeLocalVariable(Class type, String name, LocalVariableDeclaration declaration) {
+        switch (declaration) {
+        case With:
             write(name(type), space, name);
-        } else {
-            write(name);
-        }
-    }
+            break;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void writeLocalVariableDeclaration(Class type, String name) {
-        line(name(type), space, name, ";");
+        case Only:
+            line(name(type), space, name, ";");
+            break;
+
+        default:
+            write(name);
+            break;
+        }
     }
 
     /**
