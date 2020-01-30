@@ -496,6 +496,7 @@ class TryTest extends CodeVerifier {
                 return value;
             }
 
+            @Debuggable
             private int error(int value) {
                 try {
                     for (int i = 0; i < 3; i++) {

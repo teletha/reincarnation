@@ -13,16 +13,15 @@ import java.util.List;
 
 import kiss.I;
 import kiss.Signal;
-import kiss.Ⅱ;
+import kiss.Ⅲ;
 import reincarnation.Node;
-import reincarnation.Operand;
 import reincarnation.coder.Coder;
 
 public class Try extends Structure {
 
     private final Structure tryBlock;
 
-    private final List<Ⅱ<Operand, Structure>> catchBlocks;
+    private final List<Ⅲ<Class, String, Structure>> catchBlocks;
 
     private final Structure follow;
 
@@ -32,7 +31,7 @@ public class Try extends Structure {
      * @param catchBlocks
      * @param follow
      */
-    public Try(Node that, Node tryBlock, List<Ⅱ<Operand, Structure>> catchBlocks, Node follow) {
+    public Try(Node that, Node tryBlock, List<Ⅲ<Class, String, Structure>> catchBlocks, Node follow) {
         super(that);
 
         this.tryBlock = tryBlock.analyze();
@@ -45,7 +44,7 @@ public class Try extends Structure {
      */
     @Override
     public Signal<Structure> children() {
-        return I.signal(tryBlock).merge(I.signal(catchBlocks).map(v -> v.ⅱ())).skipNull();
+        return I.signal(tryBlock).merge(I.signal(catchBlocks).map(v -> v.ⅲ)).skipNull();
     }
 
     /**

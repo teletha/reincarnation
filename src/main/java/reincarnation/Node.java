@@ -25,7 +25,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import kiss.I;
 import kiss.Signal;
 import kiss.Variable;
-import kiss.Ⅱ;
+import kiss.Ⅲ;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
@@ -655,8 +655,12 @@ public class Node implements Code<Operand> {
             // =============================================================
             if (!tries.isEmpty()) {
                 TryCatchFinally removed = tries.remove(0);
-                List<Ⅱ<Operand, Structure>> catches = I.signal(removed.catches).map(c -> I.pair(c.variable, process(c.node))).toList();
-                removed.exit.additionalCalls++;
+                List<Ⅲ<Class, String, Structure>> catches = I.signal(removed.catches)
+                        .map(c -> I.pair(c.exception, "e", process(c.node)))
+                        .toList();
+                if (removed.exit != null) {
+                    removed.exit.additionalCalls++;
+                }
                 return new Try(this, removed.start, catches, removed.exit);
             }
 

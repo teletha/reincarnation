@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import kiss.Variable;
-import kiss.Ⅱ;
+import kiss.Ⅲ;
 import reincarnation.LocalVariableDeclaration;
 import reincarnation.Operand;
 import reincarnation.Reincarnation;
@@ -238,7 +238,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         }
 
         line();
-        line(modifier(method), name(method.getReturnType()), space, method.getName(), parameter(method.getParameters()), space, "{");
+        line(modifier(method), name(method.getReturnType()), space, method
+                .getName(), parameter(method.getParameters()), thrower(method.getExceptionTypes()), space, "{");
         indent(code::write);
         line("}");
     }
@@ -264,6 +265,18 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             builder.append(p.getName());
 
             return builder.toString();
+        });
+    }
+
+    /**
+     * Build throws declaration.
+     * 
+     * @param parameters
+     * @return
+     */
+    private Join thrower(Class[] exceptions) {
+        return Join.of(exceptions).prefix(space + "throws" + space).ignoreEmpty(true).separator("," + space).converter(type -> {
+            return name(type);
         });
     }
 
@@ -715,16 +728,16 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeTryCatchFinally(Code tryBlock, List<Ⅱ<Operand, Code>> catchBlocks, Code follow) {
+    public void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code follow) {
         line("try", space, "{");
         indent(tryBlock::write);
-        for (Ⅱ<Operand, Code> catchBlock : catchBlocks) {
+        for (Ⅲ<Class, String, Code> catchBlock : catchBlocks) {
             if (catchBlock.ⅰ != null) {
-                line("}", space, "catch(", catchBlock.ⅰ, ")", space, "{");
+                line("}", space, "catch(", name(catchBlock.ⅰ), space, catchBlock.ⅱ, ")", space, "{");
             } else {
                 line("}", space, "finally", space, "{");
             }
-            indent(catchBlock.ⅱ::write);
+            indent(catchBlock.ⅲ::write);
         }
         line("}");
         write(follow);

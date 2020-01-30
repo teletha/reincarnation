@@ -29,7 +29,7 @@ public class Util {
      * @return
      */
     static Class load(String internalName) {
-        return load(Type.getObjectType(internalName));
+        return internalName == null ? null : load(Type.getObjectType(internalName));
     }
 
     /**
