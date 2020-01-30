@@ -30,6 +30,9 @@ public class OperandLocalVariable extends Operand {
     /** Check whether this local variable's declaration location is clear or unclear. */
     private boolean unclear;
 
+    /** The declration type. */
+    private final LocalVariableDeclaration declaration;
+
     /** Holds all nodes that refer to this local variable. */
     final Set<Node> references = new HashSet();
 
@@ -39,8 +42,18 @@ public class OperandLocalVariable extends Operand {
      * @param index A local index.
      */
     OperandLocalVariable(Class type, String name) {
+        this(type, name, LocalVariableDeclaration.None);
+    }
+
+    /**
+     * Create local variable with index.
+     * 
+     * @param index A local index.
+     */
+    OperandLocalVariable(Class type, String name, LocalVariableDeclaration declaration) {
         this.name = Objects.requireNonNull(name);
         this.type.set(type);
+        this.declaration = declaration;
     }
 
     /**
@@ -50,12 +63,8 @@ public class OperandLocalVariable extends Operand {
     protected void writeCode(Coder coder) {
         if (name.equals("this")) {
             coder.writeThis();
-        } else if (unclear) {
-            coder.writeLocalVariable(type.v, name, LocalVariableDeclaration.Only);
-            if (!Debugger.whileDebug) {
-                unclear = false;
-                declared();
-            }
+        } else if (declaration == LocalVariableDeclaration.Only) {
+            coder.writeLocalVariable(type.v, name, declaration);
         } else {
             coder.writeLocalVariable(type.v, name, declared ? LocalVariableDeclaration.None : LocalVariableDeclaration.With);
 
@@ -93,8 +102,9 @@ public class OperandLocalVariable extends Operand {
             // do nothing
         } else {
             // insert variable declaration at the header of common dominator node
-            unclear = true;
-            root.unclearLocalVariable(this);
+            OperandLocalVariable variable = new OperandLocalVariable(type.v, name, LocalVariableDeclaration.Only);
+            root.unclearLocalVariable(variable);
+            declared();
         }
     }
 
