@@ -19,6 +19,7 @@ import java.util.Set;
 
 import kiss.Ⅱ;
 import reincarnation.LocalVariableDeclaration;
+import reincarnation.Operand;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
@@ -440,7 +441,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeTryCatchFinally(Code tryBlock, List<Ⅱ<Class, Code>> catchBlocks, Code follow) {
+    public void writeTryCatchFinally(Code tryBlock, List<Ⅱ<Operand, Code>> catchBlocks, Code follow) {
         coder.writeTryCatchFinally(tryBlock, catchBlocks, follow);
     }
 }

@@ -10,5 +10,5 @@
 package reincarnation;
 
 public enum LocalVariableDeclaration {
-    None, With, Only;
+    Unknown, None, With, Only;
 }

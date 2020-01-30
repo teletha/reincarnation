@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.load;
+import static reincarnation.Util.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -681,7 +681,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         record(INCREMENT);
 
         // retrieve the local variable name
-        Operand variable = locals.name(position, ILOAD, current);
+        Operand variable = locals.find(position, ILOAD, current);
 
         if (increment == 1) {
             // increment
@@ -1531,7 +1531,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         recordLocalVariableAccess(position);
 
         // retrieve local variable name
-        OperandLocalVariable variable = locals.name(position, opcode, current);
+        OperandLocalVariable variable = locals.find(position, opcode, current);
 
         switch (opcode) {
         case ILOAD:
@@ -1559,7 +1559,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         case ASTORE:
             if (match(GOTO, FRAME_SAME1, ASTORE) || match(GOTO, FRAME_FULL, ASTORE)) {
                 tries.assignVariableName(current, variable);
-                variable.declared();
             }
 
         case ISTORE:

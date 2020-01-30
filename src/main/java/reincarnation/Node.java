@@ -655,7 +655,7 @@ public class Node implements Code<Operand> {
             // =============================================================
             if (!tries.isEmpty()) {
                 TryCatchFinally removed = tries.remove(0);
-                List<Ⅱ<Class, Structure>> catches = I.signal(removed.catches).map(c -> I.pair(c.exception, process(c.node))).toList();
+                List<Ⅱ<Operand, Structure>> catches = I.signal(removed.catches).map(c -> I.pair(c.variable, process(c.node))).toList();
                 removed.exit.additionalCalls++;
                 return new Try(this, removed.start, catches, removed.exit);
             }

@@ -24,6 +24,7 @@ import kiss.I;
 import kiss.Ⅱ;
 import kiss.model.Model;
 import reincarnation.LocalVariableDeclaration;
+import reincarnation.Operand;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
@@ -563,5 +564,5 @@ public abstract class Coder<O extends CodingOption> {
      * @param label A block label.
      * @param inner A inner contents.
      */
-    public abstract void writeTryCatchFinally(Code tryBlock, List<Ⅱ<Class, Code>> catchBlocks, Code follow);
+    public abstract void writeTryCatchFinally(Code tryBlock, List<Ⅱ<Operand, Code>> catchBlocks, Code follow);
 }
