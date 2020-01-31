@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.load;
+import static reincarnation.Util.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -1557,8 +1557,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             break;
 
         case ASTORE:
-            if (match(GOTO, FRAME_SAME1, ASTORE) || match(GOTO, FRAME_FULL, ASTORE)) {
-                tries.assignVariableName(current, variable);
+            if (match(FRAME_SAME1, ASTORE) || match(FRAME_FULL, ASTORE)) {
+                tries.assignExceptionVariable(current, variable);
             }
 
         case ISTORE:

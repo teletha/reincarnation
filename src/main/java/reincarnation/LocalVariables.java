@@ -44,12 +44,12 @@ class LocalVariables {
      */
     LocalVariables(Class<?> clazz, boolean isStatic, Type[] types, Parameter[] parameters) {
         if (isStatic == false) {
-            declared.put(offset++, new OperandLocalVariable(clazz, "this", None));
+            declared.put(offset++, new OperandLocalVariable(clazz, "this"));
         }
 
         for (int i = 0; i < types.length; i++) {
             Class<?> type = Util.load(types[i]);
-            OperandLocalVariable variable = new OperandLocalVariable(type, parameters[i].getName(), None);
+            OperandLocalVariable variable = new OperandLocalVariable(type, parameters[i].getName());
             variable.fix();
             declared.put(offset, variable);
 
@@ -75,7 +75,7 @@ class LocalVariables {
         }
 
         // Compute local variable name
-        variable = undeclared.computeIfAbsent(order, key -> new OperandLocalVariable(load(opcode), "local" + key, With));
+        variable = undeclared.computeIfAbsent(order, key -> new OperandLocalVariable(load(opcode), "local" + key).set(With));
         variable.add(reference);
 
         return variable;

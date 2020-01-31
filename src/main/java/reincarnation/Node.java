@@ -104,7 +104,7 @@ public class Node implements Code<Operand> {
     boolean analyzed = false;
 
     /** The number of additional write calls. */
-    private int additionalCalls = 0;
+    int additionalCalls = 0;
 
     /** The number of current write calls. */
     private int currentCalls = 0;
@@ -656,7 +656,7 @@ public class Node implements Code<Operand> {
             if (!tries.isEmpty()) {
                 TryCatchFinally removed = tries.remove(0);
                 List<Ⅲ<Class, String, Structure>> catches = I.signal(removed.catches)
-                        .map(c -> I.pair(c.exception, "e", process(c.node)))
+                        .map(c -> I.pair(c.exception, c.variable.toString(), process(c.node)))
                         .toList();
                 if (removed.exit != null) {
                     removed.exit.additionalCalls++;
@@ -1483,7 +1483,7 @@ public class Node implements Code<Operand> {
             for (TryCatchFinally block : blocks) {
                 block.start.connect(block.catcher);
 
-                for (Catch catchBlock : block.catches) {
+                for (CatchOrFinallyBlock catchBlock : block.catches) {
                     block.start.connect(catchBlock.node);
                 }
             }
@@ -1499,14 +1499,14 @@ public class Node implements Code<Operand> {
             for (TryCatchFinally block : blocks) {
                 block.start.disconnect(block.catcher);
 
-                for (Catch catchBlock : block.catches) {
+                for (CatchOrFinallyBlock catchBlock : block.catches) {
                     block.start.disconnect(catchBlock.node);
                 }
             }
 
             // Purge the catch block which is inside loop structure directly.
             for (TryCatchFinally block : blocks) {
-                for (Catch catchBlock : block.catches) {
+                for (CatchOrFinallyBlock catchBlock : block.catches) {
                     Set<Node> recorder = new HashSet<>();
                     recorder.add(catchBlock.node);
 
@@ -1542,11 +1542,11 @@ public class Node implements Code<Operand> {
          * @param current A target node.
          * @param variable A variable name.
          */
-        void assignVariableName(Node current, Operand variable) {
+        void assignExceptionVariable(Node current, OperandLocalVariable variable) {
             for (TryCatchFinally block : blocks) {
-                for (Catch catchBlock : block.catches) {
-                    if (catchBlock.node == current) {
-                        catchBlock.variable = variable;
+                for (CatchOrFinallyBlock catchOrFinally : block.catches) {
+                    if (catchOrFinally.node == current) {
+                        catchOrFinally.variable = variable.set(LocalVariableDeclaration.None);
                     }
                 }
             }
@@ -1568,7 +1568,7 @@ public class Node implements Code<Operand> {
         final Node catcher;
 
         /** The catch blocks. */
-        final List<Catch> catches = new ArrayList<>();
+        final List<CatchOrFinallyBlock> catches = new ArrayList<>();
 
         /** The exit node. */
         Node exit;
@@ -1597,13 +1597,14 @@ public class Node implements Code<Operand> {
          * @param catcher
          */
         private void addCatchBlock(Class<?> exception, Node catcher) {
-            for (Catch block : catches) {
+            for (CatchOrFinallyBlock block : catches) {
                 if (block.exception == exception) {
                     return;
                 }
             }
             catcher.disposable = false;
-            catches.add(new Catch(exception, catcher));
+            catcher.additionalCalls++;
+            catches.add(new CatchOrFinallyBlock(exception, catcher));
         }
 
         /**
@@ -1636,9 +1637,9 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * @version 2013/04/11 11:32:44
+     * 
      */
-    private static class Catch {
+    private static class CatchOrFinallyBlock {
 
         /** The Throwable class, may be null for finally statmenet. */
         private final Class exception;
@@ -1646,16 +1647,15 @@ public class Node implements Code<Operand> {
         /** The associated node. */
         private final Node node;
 
-        private Operand variable;
+        private OperandLocalVariable variable;
 
         /**
          * @param exception
          * @param node
          */
-        private Catch(Class<?> exception, Node node) {
+        private CatchOrFinallyBlock(Class<?> exception, Node node) {
             this.exception = exception;
             this.node = node;
-            this.node.additionalCalls++;
         }
     }
 }

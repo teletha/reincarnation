@@ -25,7 +25,7 @@ public class OperandLocalVariable extends Operand {
     String name;
 
     /** The declration type. */
-    private LocalVariableDeclaration declaration;
+    private LocalVariableDeclaration declaration = LocalVariableDeclaration.None;
 
     private boolean firstAccess = true;
 
@@ -37,10 +37,22 @@ public class OperandLocalVariable extends Operand {
      * 
      * @param index A local index.
      */
-    OperandLocalVariable(Class type, String name, LocalVariableDeclaration declaration) {
+    OperandLocalVariable(Class type, String name) {
         this.name = Objects.requireNonNull(name);
         this.type.set(type);
-        this.declaration = declaration;
+    }
+
+    /**
+     * Set declaration type.
+     * 
+     * @param declaration
+     * @return Chainable API.
+     */
+    final OperandLocalVariable set(LocalVariableDeclaration declaration) {
+        if (declaration != null) {
+            this.declaration = declaration;
+        }
+        return this;
     }
 
     /**

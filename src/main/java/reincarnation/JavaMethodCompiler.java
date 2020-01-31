@@ -1824,7 +1824,7 @@ class JavaMethodCompiler extends MethodVisitor {
 
         case ASTORE:
             if (match(FRAME_SAME1, ASTORE) || match(FRAME_FULL, ASTORE)) {
-                tries.assignVariableName(current, variable);
+                tries.assignExceptionVariable(current, variable);
             }
 
         case ISTORE:
