@@ -65,7 +65,8 @@ public abstract class Operand implements Code<Operand> {
      * @return Chainable API.
      */
     protected final Operand fix(Class type) {
-        this.type.let(type);
+        this.type.set(type);
+        this.type.fix();
 
         return this;
     }

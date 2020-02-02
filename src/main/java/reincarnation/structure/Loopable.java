@@ -43,11 +43,13 @@ public abstract class Loopable extends Breakable {
         this.checkpoint = checkpoint;
 
         if (exit != null) {
-            exit.loopExit.let(this);
+            exit.loopExit.set(this);
+            exit.loopExit.fix();
         }
 
         if (checkpoint != null) {
-            checkpoint.loopHeader.let(this);
+            checkpoint.loopHeader.set(this);
+            checkpoint.loopHeader.fix();
         }
     }
 

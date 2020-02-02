@@ -471,6 +471,7 @@ class TryTest extends CodeVerifier {
                 return value;
             }
 
+            @Debuggable
             private int error(int value) {
                 try {
                     value = Throw.error(value);
@@ -653,6 +654,7 @@ class TryTest extends CodeVerifier {
                 return count(value) + counter;
             }
 
+            @Debuggable
             private int count(int value) {
                 try {
                     if (value % 2 == 0) {
