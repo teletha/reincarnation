@@ -119,14 +119,12 @@ public class Node implements Code<Operand> {
     public Structure structure = Structure.Empty;
 
     /**
-     * @param label
      */
     Node(int id) {
         this(String.valueOf(id));
     }
 
     /**
-     * @param label
      */
     Node(String id) {
         this.id = id;
@@ -190,7 +188,6 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * @param operands
      */
     final void addExpression(Expression operand, InferredType type) {
         stack.add(new OperandExpression(operand, type));
@@ -475,7 +472,6 @@ public class Node implements Code<Operand> {
     /**
      * Find the lowest common dominator node with the specified node.
      * 
-     * @param target
      * @return
      */
     static Node getLowestCommonDominator(Collection<Node> targets) {

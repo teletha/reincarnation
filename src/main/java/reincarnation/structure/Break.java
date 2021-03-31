@@ -21,7 +21,6 @@ public class Break extends Jumpable<Breakable> {
      * Build break statement.
      * 
      * @param that The node which indicate 'this' variable.
-     * @param label A target name.
      */
     public Break(Node that, Breakable breakable) {
         super(that, breakable);

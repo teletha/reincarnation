@@ -44,8 +44,6 @@ class OperandMethodCall extends Operand {
      * @param ownerType
      * @param methodName
      * @param parameters
-     * @param remove
-     * @param contexts
      */
     OperandMethodCall(AccessMode mode, Class ownerType, String methodName, Class[] parameterTypes, Operand owner, ArrayList<Operand> parameters) {
         this.mode = mode;

@@ -558,10 +558,6 @@ public abstract class Coder<O extends CodingOption> {
 
     /**
      * Try-Catch-Finally structure.
-     * 
-     * @param follow A following part.
-     * @param label A block label.
-     * @param inner A inner contents.
      */
     public abstract void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code follow);
 }

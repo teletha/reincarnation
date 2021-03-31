@@ -111,21 +111,14 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /**
-     * <p>
      * Register current processing target.
-     * </p>
-     * 
-     * @param style A class name regex.
-     * @param methodName A method name regex.
      */
     public static void enable() {
         debugger.enable = true;
     }
 
     /**
-     * <p>
      * Register debug target.
-     * </p>
      * 
      * @param className A class name regex.
      * @param methodName A method name regex.
@@ -241,8 +234,6 @@ public class Debugger extends AnnotationVisitor {
 
     /**
      * Dump all node tree.
-     * 
-     * @param node
      */
     public static void print(LinkedList<Node> nodes, Object... messages) {
         print(messages);

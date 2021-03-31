@@ -26,8 +26,6 @@ public interface TestCode<Self extends TestCode> {
 
         /**
          * Write testable code.
-         * 
-         * @return A result.
          */
         void run();
     }
@@ -39,8 +37,6 @@ public interface TestCode<Self extends TestCode> {
 
         /**
          * Write testable code.
-         * 
-         * @return A result.
          */
         void run(int value);
     }
@@ -105,7 +101,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         int run(int param);
@@ -119,7 +114,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         boolean run(int param);
@@ -133,7 +127,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         String run(int param);
@@ -173,7 +166,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         long run(long param);
@@ -187,7 +179,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         boolean run(long param);
@@ -201,7 +192,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         int run(long param);
@@ -215,7 +205,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         double run(long param);
@@ -255,7 +244,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         float run(float param);
@@ -269,7 +257,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         boolean run(float param);
@@ -283,7 +270,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         int run(float param);
@@ -323,7 +309,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         double run(double param);
@@ -337,7 +322,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         boolean run(double param);
@@ -351,7 +335,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         int run(double param);
@@ -391,7 +374,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         byte run(byte param);
@@ -405,7 +387,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         boolean run(byte param);
@@ -445,7 +426,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         short run(short param);
@@ -459,7 +439,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         boolean run(short param);
@@ -473,7 +452,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         int run(short param);
@@ -513,7 +491,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         char run(char param);
@@ -527,7 +504,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         boolean run(char param);
@@ -541,7 +517,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         int run(char param);
@@ -581,7 +556,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         boolean run(boolean param);
@@ -595,7 +569,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         int run(boolean param);
@@ -635,7 +608,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         String run(String param);
@@ -649,7 +621,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         boolean run(String param);
@@ -663,7 +634,6 @@ public interface TestCode<Self extends TestCode> {
         /**
          * Write testable code.
          * 
-         * @param A parameter.
          * @return A result.
          */
         int run(String param);

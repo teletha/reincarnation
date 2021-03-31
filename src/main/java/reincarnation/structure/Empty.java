@@ -17,7 +17,6 @@ import reincarnation.coder.Coder;
 class Empty extends Structure {
 
     /**
-     * @param associated
      */
     Empty() {
         super(null);

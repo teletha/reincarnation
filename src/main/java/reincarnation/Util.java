@@ -35,7 +35,6 @@ public class Util {
     /**
      * Load {@link Class} by {@link Opcodes}.
      * 
-     * @param internalName
      * @return
      */
     static Class load(int opecode) {
@@ -123,7 +122,7 @@ public class Util {
     /**
      * Load {@link Class} by internal type.
      * 
-     * @param internalName
+     * @param internalType
      * @return
      */
     static Class load(Type internalType) {

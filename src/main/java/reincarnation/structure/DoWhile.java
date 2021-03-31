@@ -34,7 +34,6 @@ public class DoWhile extends Loopable {
      * 
      * @param that The node which indicate 'this' variable.
      * @param inner
-     * @param elze
      */
     public DoWhile(Node that, Node condition, Node inner, Node follow) {
         super(that, inner, follow, inner, condition);

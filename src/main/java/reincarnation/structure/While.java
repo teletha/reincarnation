@@ -34,7 +34,6 @@ public class While extends Loopable {
      * 
      * @param that The node which indicate 'this' variable.
      * @param inner
-     * @param elze
      */
     public While(Node that, Node condition, Node inner, Node follow) {
         super(that, condition, follow, inner, condition);

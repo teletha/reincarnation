@@ -85,7 +85,6 @@ class OperandArray extends Operand {
     /**
      * Create array.
      * 
-     * @param size A initial size.
      * @param type A array type.
      */
     OperandArray(List<Operand> dimensions, Class type) {

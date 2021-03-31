@@ -34,9 +34,6 @@ class JavaClassDecompiler extends ClassVisitor {
 
     /**
      * Java class decompiler
-     * 
-     * @param clazz A target class.
-     * @param unit The compilation unit.
      */
     JavaClassDecompiler(Reincarnation source) {
         super(ASM7);

@@ -75,7 +75,7 @@ public class Failuer extends AssertionError {
     /**
      * Add reason of this {@link Failuer}.
      * 
-     * @param reason
+     * @param reasons
      * @return Chainable API.
      */
     public Failuer reason(Object[] reasons) {

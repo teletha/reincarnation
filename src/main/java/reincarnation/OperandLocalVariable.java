@@ -34,8 +34,6 @@ public class OperandLocalVariable extends Operand {
 
     /**
      * Create local variable with index.
-     * 
-     * @param index A local index.
      */
     OperandLocalVariable(Class type, String name) {
         this.name = Objects.requireNonNull(name);

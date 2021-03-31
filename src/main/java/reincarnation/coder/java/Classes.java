@@ -57,8 +57,6 @@ class Classes {
     /**
      * Check member type.
      * 
-     * @param root
-     * @param target
      * @return
      */
     static boolean isMember(Class encloser, Class target) {
