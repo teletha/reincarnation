@@ -39,7 +39,7 @@ public class Continue extends Jumpable<Loopable> {
      */
     @Override
     protected void analyze() {
-        LinkedList<Structure> ancestors = ancestor().takeUntil(s -> s instanceof Loopable).to(LinkedList.class);
+        LinkedList<Structure> ancestors = ancestor().takeUntil(s -> s instanceof Loopable).toCollection(new LinkedList());
 
         I.signal(ancestors).skip(breakable).flatMap(Structure::follower).skip(Structure::isEmpty).isEmitted().to(hasFollowers);
         I.signal(ancestors).as(Breakable.class).first().is(s -> s == breakable).to(omitLabel);
