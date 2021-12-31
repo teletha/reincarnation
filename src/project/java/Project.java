@@ -20,5 +20,7 @@ public class Project extends bee.api.Project {
         require("com.github.teletha", "icymanipulator").atAnnotation();
         require("com.github.teletha", "antibug").atTest();
         require("com.github.teletha", "viewtify").atTest();
+
+        versionControlSystem("https://github.com/teletha/reincarnation");
     }
 }
