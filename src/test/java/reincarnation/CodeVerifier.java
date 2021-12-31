@@ -220,9 +220,9 @@ public class CodeVerifier {
         }
 
         try {
-            JavaCompiler compiler = new JavaCompiler(notifier);
-            compiler.addSource(JavaCoder.computeName(target.getEnclosingClass()), decompiled);
-            compiler.addClassPath(Locator.directory("target/test-classes"));
+            JavaCompiler compiler = JavaCompiler.with(notifier)
+                    .addSource(JavaCoder.computeName(target.getEnclosingClass()), decompiled)
+                    .addClassPath(Locator.directory("target/test-classes"));
 
             ClassLoader loader = compiler.compile();
             Class<T> loadedClass = (Class<T>) loader.loadClass(JavaCoder.computeName(target));
@@ -403,7 +403,7 @@ public class CodeVerifier {
     }
 
     /**
-     * @version 2018/10/04 8:48:47
+     * 
      */
     private static class Silent extends UserInterface {
 
@@ -414,8 +414,16 @@ public class CodeVerifier {
          * {@inheritDoc}
          */
         @Override
-        protected void write(String message) {
+        protected void write(int type, String message) {
             this.message.append(message).append("\r\n");
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected void write(Throwable error) {
+            error.printStackTrace();
         }
 
         /**

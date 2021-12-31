@@ -14,7 +14,11 @@ public class Project extends bee.api.Project {
 
         require("org.ow2.asm", "asm");
         require("com.github.teletha", "sinobu");
+        require("com.github.teletha", "psychopath");
+        require("com.github.javaparser", "javaparser-core");
+
+        require("com.github.teletha", "icymanipulator").atAnnotation();
         require("com.github.teletha", "antibug").atTest();
-        require("com.github.teletha", "psychopath").atTest();
+        require("com.github.teletha", "viewtify").atTest();
     }
 }
