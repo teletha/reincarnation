@@ -33,9 +33,6 @@ import reincarnation.TestCode.Param;
 import reincarnation.coder.java.JavaCoder;
 import reincarnation.coder.java.JavaCodingOption;
 
-/**
- * @version 2018/10/09 16:01:55
- */
 public class CodeVerifier {
 
     /** No parameter. */

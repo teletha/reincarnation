@@ -1,3 +1,5 @@
+package reincarnation;
+
 /*
  * Copyright (C) 2020 Reincarnation Development Team
  *
@@ -18,6 +20,7 @@ public class Project extends bee.api.Project {
         require("com.github.javaparser", "javaparser-core");
 
         require("com.github.teletha", "icymanipulator").atAnnotation();
+        require("com.github.teletha", "bee").atTest();
         require("com.github.teletha", "antibug").atTest();
         require("com.github.teletha", "viewtify").atTest();
 
