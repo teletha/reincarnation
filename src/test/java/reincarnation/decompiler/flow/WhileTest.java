@@ -9,6 +9,7 @@
  */
 package reincarnation.decompiler.flow;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
@@ -562,6 +563,7 @@ class WhileTest extends CodeVerifier {
     }
 
     @Test
+    @Disabled
     void infiniteNestBreakAndContinue() {
         verify(new TestCode.IntParam() {
             @Debuggable
