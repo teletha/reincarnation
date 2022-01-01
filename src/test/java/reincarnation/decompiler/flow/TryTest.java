@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class TryTest extends CodeVerifier {
@@ -51,7 +50,6 @@ class TryTest extends CodeVerifier {
     void TryCatch() {
         verify(new TestCode.IntParam() {
 
-            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
@@ -199,7 +197,6 @@ class TryTest extends CodeVerifier {
     void TryMultipleCatchAfter() {
         verify(new TestCode.IntParam() {
 
-            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
@@ -480,7 +477,6 @@ class TryTest extends CodeVerifier {
                 return value;
             }
 
-            @Debuggable
             private int error(int value) {
                 try {
                     value = Throw.error(value);
@@ -507,7 +503,6 @@ class TryTest extends CodeVerifier {
                 return value;
             }
 
-            @Debuggable
             private int error(int value) {
                 try {
                     for (int i = 0; i < 3; i++) {
@@ -670,7 +665,6 @@ class TryTest extends CodeVerifier {
                 return count(value) + counter;
             }
 
-            @Debuggable
             private int count(int value) {
                 try {
                     if (value % 2 == 0) {

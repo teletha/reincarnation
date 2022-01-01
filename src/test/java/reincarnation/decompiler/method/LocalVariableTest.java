@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class LocalVariableTest extends CodeVerifier {
@@ -69,7 +68,6 @@ class LocalVariableTest extends CodeVerifier {
     void parallelWithSameNameAndDifferenceType() {
         verify(new TestCode.IntParam() {
 
-            @Debuggable
             @Override
             public int run(int value) {
                 if (value < 1) {

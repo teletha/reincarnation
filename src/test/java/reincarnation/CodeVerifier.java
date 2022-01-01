@@ -217,11 +217,11 @@ public class CodeVerifier {
         }
 
         try {
-            JavaCompiler compiler = JavaCompiler.with(notifier)
+            ClassLoader loader = JavaCompiler.with(notifier)
                     .addSource(JavaCoder.computeName(target.getEnclosingClass()), decompiled)
-                    .addClassPath(Locator.directory("target/test-classes"));
+                    .addClassPath(Locator.directory("target/test-classes"))
+                    .compile();
 
-            ClassLoader loader = compiler.compile();
             Class<T> loadedClass = (Class<T>) loader.loadClass(JavaCoder.computeName(target));
             assert target != loadedClass; // load from different classloader
 

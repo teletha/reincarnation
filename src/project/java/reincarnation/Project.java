@@ -1,5 +1,7 @@
 package reincarnation;
 
+import bee.task.Compile;
+
 /*
  * Copyright (C) 2020 Reincarnation Development Team
  *
@@ -25,5 +27,7 @@ public class Project extends bee.api.Project {
         require("com.github.teletha", "viewtify").atTest();
 
         versionControlSystem("https://github.com/teletha/reincarnation");
+
+        Compile.useECJ = true;
     }
 }

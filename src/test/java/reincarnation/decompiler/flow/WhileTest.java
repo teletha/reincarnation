@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class WhileTest extends CodeVerifier {
@@ -347,7 +346,6 @@ class WhileTest extends CodeVerifier {
     @Test
     void infiniteMultipleStatementBreak() {
         verify(new TestCode.IntParam() {
-            @Debuggable
             @Override
             public int run(@Param(from = -5, to = 5) int value) {
                 while (true) {
@@ -566,7 +564,6 @@ class WhileTest extends CodeVerifier {
     @Disabled
     void infiniteNestBreakAndContinue() {
         verify(new TestCode.IntParam() {
-            @Debuggable
             @Override
             public int run(@Param(from = -5, to = 10) int value) {
                 int a = 0;
