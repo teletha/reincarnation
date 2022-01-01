@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/zenburn.min.css" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<script async="true" src="highlight.js"></script>
+		<script src="mimic.js" type="module"></script>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="N">
+		<header class="X">
+			<h1 class="f" date="2022-01-01" ver="0.6"><code>Reincarnation</code></h1>
+			<nav class="K"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#package"/>
+					</svg><code>API</code></a><a href="https://github.com//teletha/reincarnation/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#user"/>
+					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#activity"/>
+					</svg>Activity</a><a href="https://github.com//teletha/reincarnation" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#github"/>
+					</svg>Repository</a></nav>
+			<div class="L" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#sun"/>
+					</svg>
+				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<main class="d">
+			<nav class="O">
+				<div></div>
+			</nav>
+			<article class="b" id="Article">
+				<section class="k"><code class="R">reincarnation</code>
+					<h2 class="Class W"><code class="e">OperandInstanceOf</code></h2>
+					<ul class="C E">
+						<li><code><a href="api/reincarnation.Operand.html">Operand</a></code></li>
+					</ul>
+					<ul class="C F">
+						<li><code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.Operand.html">Operand</a></code></code></code></li>
+					</ul>
+				</section>
+				<section class="k" id="OperandInstanceOf(reincarnation.Operand,java.lang.Class)">
+					<h2 class="h"><i class="PUBLIC"></i><code class="e">OperandInstanceOf</code><code class="c">(<code><a href="api/reincarnation.Operand.html">Operand</a></code> <code class="parameterName">value</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.Operand.html">Operand</a></code> <code>value</code></td>
+							<td><span>A value to check.</span></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>type</code></td>
+							<td><span>A type to check.</span></td>
+						</tr>
+					</table><span class="B">Build instanceof expression.</span></section>
+				<section class="k" id="children()">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">children</code><code class="c">()</code><i class="I"><code>kiss.Signal<code class="parameters"><code><a href="api/reincarnation.Operand.html">Operand</a></code></code></code></i></h2>
+					<table class="T">
+						<tr class="i">
+							<td><code>kiss.Signal<code class="parameters"><code><a href="api/reincarnation.Operand.html">Operand</a></code></code></code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeCode(reincarnation.coder.Coder)">
+					<h2 class="h"><i class="OVERRIDE PROTECTED"></i><code class="e">writeCode</code><code class="c">(<code><a href="api/reincarnation.coder.Coder.html">Coder</a></code> <code class="parameterName">coder</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Coder.html">Coder</a></code> <code>coder</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+			</article>
+			<aside class="S" id="SubNavi">
+				<div class="J">
+					<h5 class="Z">Constructors</h5>
+					<ul>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.OperandInstanceOf.html#OperandInstanceOf(reincarnation.Operand,java.lang.Class)">OperandInstanceOf</a></code><code class="c">(<code><a href="api/reincarnation.Operand.html">Operand</a></code> <code class="parameterName">value</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code></li>
+					</ul>
+					<h5 class="Z">Methods</h5>
+					<ul>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.OperandInstanceOf.html#children()">children</a></code><code class="c">()</code><i class="j"><code>kiss.Signal<code class="parameters"><code><a href="api/reincarnation.Operand.html">Operand</a></code></code></code></i></li>
+						<li><i class="OVERRIDE PROTECTED"></i><code><a href="api/reincarnation.OperandInstanceOf.html#writeCode(reincarnation.coder.Coder)">writeCode</a></code><code class="c">(<code><a href="api/reincarnation.coder.Coder.html">Coder</a></code> <code class="parameterName">coder</code>)</code><i class="j"><code>void</code></i></li>
+					</ul>
+				</div>
+			</aside>
+		</main>
+		<script src="root.js"></script>
+		<script src="main.js" type="module"></script>
+	</body>
+</html>

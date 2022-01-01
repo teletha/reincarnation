@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<link href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/zenburn.min.css" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<script async="true" src="highlight.js"></script>
+		<script src="mimic.js" type="module"></script>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="N">
+		<header class="X">
+			<h1 class="f" date="2022-01-01" ver="0.6"><code>Reincarnation</code></h1>
+			<nav class="K"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#package"/>
+					</svg><code>API</code></a><a href="https://github.com//teletha/reincarnation/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#user"/>
+					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#activity"/>
+					</svg>Activity</a><a href="https://github.com//teletha/reincarnation" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#github"/>
+					</svg>Repository</a></nav>
+			<div class="L" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#sun"/>
+					</svg>
+				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<main class="d">
+			<nav class="O">
+				<div></div>
+			</nav>
+			<article class="b" id="Article">
+				<section class="k"><code class="R">reincarnation.coder</code>
+					<h2 class="AbstractClass W"><code class="e">DelegatableCoder</code><code class="c">&#60;<code>O</code>&#62;</code></h2>
+					<ul class="C D">
+						<li><code>O</code><code class="extends"><code><a href="api/reincarnation.coder.CodingOption.html">CodingOption</a></code></code></li>
+					</ul>
+					<ul class="C E">
+						<li><code><a href="api/reincarnation.coder.Coder.html">Coder</a><code class="parameters"><code>O</code></code></code></li>
+					</ul>
+				</section>
+				<section class="k" id="coder">
+					<h2 class="h"><i class="FINAL"><i class="PROTECTED"></i></i><code class="e">coder</code><i class="I"><code class="return"><a href="api/reincarnation.coder.Coder.html">Coder</a><code class="parameters"><code>O</code></code></code></i></h2><span class="B">The delegator.</span></section>
+				<section class="k" id="DelegatableCoder(reincarnation.coder.Coder)">
+					<h2 class="h"><i class="PROTECTED"></i><code class="e">DelegatableCoder</code><code class="c">(<code><a href="api/reincarnation.coder.Coder.html">Coder</a><code class="parameters"><code>O</code></code></code> <code class="parameterName">coder</code>)</code></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Coder.html">Coder</a><code class="parameters"><code>O</code></code></code> <code>coder</code></td>
+							<td><span>A delegator.</span></td>
+						</tr>
+					</table><span class="B">Default coder.</span></section>
+				<section class="k" id="write(reincarnation.Reincarnation)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">write</code><code class="c">(<code><a href="api/reincarnation.Reincarnation.html">Reincarnation</a></code> <code class="parameterName">reincarnation</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.Reincarnation.html">Reincarnation</a></code> <code>reincarnation</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writePackage(java.lang.Package)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writePackage</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Package.html">Package</a></code> <code class="parameterName">info</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Package.html">Package</a></code> <code>info</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeImport(java.util.Set)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeImport</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code> <code class="parameterName">classes</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code> <code>classes</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeType(java.lang.Class,java.lang.Runnable)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeType</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code class="parameterName">inner</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>type</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code>inner</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeField(java.lang.reflect.Field)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeField</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code> <code class="parameterName">field</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code> <code>field</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeStaticField(java.lang.reflect.Field)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeStaticField</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code> <code class="parameterName">field</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code> <code>field</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeInitializer(reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeInitializer</code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeStaticInitializer(reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeStaticInitializer</code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeConstructor(java.lang.reflect.Constructor,reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeConstructor</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code> <code class="parameterName">constructor</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code> <code>constructor</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeMethod(java.lang.reflect.Method,reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeMethod</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code> <code class="parameterName">method</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code> <code>method</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeStatement(reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeStatement</code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeReturn(java.util.Optional)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeReturn</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeBoolean(boolean)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeBoolean</code><code class="c">(<code>boolean</code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code>boolean</code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeChar(char)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeChar</code><code class="c">(<code>char</code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code>char</code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeInt(int)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeInt</code><code class="c">(<code>int</code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code>int</code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeLong(long)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeLong</code><code class="c">(<code>long</code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code>long</code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeFloat(float)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeFloat</code><code class="c">(<code>float</code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code>float</code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeDouble(double)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeDouble</code><code class="c">(<code>double</code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code>double</code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeString(java.lang.String)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeString</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeClass(java.lang.Class)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeClass</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeThis()">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeThis</code><code class="c">()</code><i class="I"><code>void</code></i></h2>
+				</section>
+				<section class="k" id="writeNull()">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeNull</code><code class="c">()</code><i class="I"><code>void</code></i></h2>
+				</section>
+				<section class="k" id="writeEnclose(java.lang.Runnable)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeEnclose</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeAssignOperation(reincarnation.coder.Code,reincarnation.operator.AssignOperator,reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeAssignOperation</code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">left</code>, <code><a href="api/reincarnation.operator.AssignOperator.html">AssignOperator</a></code> <code class="parameterName">operator</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">right</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>left</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.operator.AssignOperator.html">AssignOperator</a></code> <code>operator</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>right</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeBinaryOperation(reincarnation.coder.Code,reincarnation.operator.BinaryOperator,reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeBinaryOperation</code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">left</code>, <code><a href="api/reincarnation.operator.BinaryOperator.html">BinaryOperator</a></code> <code class="parameterName">operator</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">right</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>left</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.operator.BinaryOperator.html">BinaryOperator</a></code> <code>operator</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>right</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeUnaryOperation(reincarnation.coder.Code,reincarnation.operator.UnaryOperator)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeUnaryOperation</code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>, <code><a href="api/reincarnation.operator.UnaryOperator.html">UnaryOperator</a></code> <code class="parameterName">operator</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>code</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.operator.UnaryOperator.html">UnaryOperator</a></code> <code>operator</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeInstanceof(reincarnation.coder.Code,java.lang.Class)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeInstanceof</code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>code</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>type</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeLocalVariable(java.lang.Class,java.lang.String,reincarnation.LocalVariableDeclaration)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeLocalVariable</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">name</code>, <code><a href="api/reincarnation.LocalVariableDeclaration.html">LocalVariableDeclaration</a></code> <code class="parameterName">declaration</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>type</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code>name</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.LocalVariableDeclaration.html">LocalVariableDeclaration</a></code> <code>declaration</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeAccessField(java.lang.reflect.Field,reincarnation.coder.Code,reincarnation.operator.AccessMode)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeAccessField</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code> <code class="parameterName">field</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">context</code>, <code><a href="api/reincarnation.operator.AccessMode.html">AccessMode</a></code> <code class="parameterName">mode</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code> <code>field</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>context</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.operator.AccessMode.html">AccessMode</a></code> <code>mode</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeAccessType(java.lang.Class)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeAccessType</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>type</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeAccessArray(reincarnation.coder.Code,reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeAccessArray</code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">array</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">index</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>array</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>index</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeAccessArrayLength(reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeAccessArrayLength</code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">array</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>array</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeConstructorCall(java.lang.reflect.Constructor,java.util.List)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeConstructorCall</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code> <code class="parameterName">constructor</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></code> <code class="parameterName">params</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code> <code>constructor</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></code> <code>params</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeSuperConstructorCall(java.lang.reflect.Constructor,java.util.List)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeSuperConstructorCall</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code> <code class="parameterName">constructor</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></code> <code class="parameterName">params</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code> <code>constructor</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></code> <code>params</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeThisConstructorCall(java.lang.reflect.Constructor,java.util.List)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeThisConstructorCall</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code> <code class="parameterName">constructor</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></code> <code class="parameterName">params</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code> <code>constructor</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></code> <code>params</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeMethodCall(java.lang.reflect.Method,reincarnation.coder.Code,java.util.List,reincarnation.operator.AccessMode)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeMethodCall</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code> <code class="parameterName">method</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">context</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></code> <code class="parameterName">params</code>, <code><a href="api/reincarnation.operator.AccessMode.html">AccessMode</a></code> <code class="parameterName">mode</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code> <code>method</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>context</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></code> <code>params</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.operator.AccessMode.html">AccessMode</a></code> <code>mode</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeCreateArray(java.lang.Class,java.util.List)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeCreateArray</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code> <code class="parameterName">dimensions</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>type</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code> <code>dimensions</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeCreateArray(java.lang.Class,java.util.List,java.util.List)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeCreateArray</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code> <code class="parameterName">dimensions</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code> <code class="parameterName">initialValues</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>type</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code> <code>dimensions</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code> <code>initialValues</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeTernary(reincarnation.coder.Code,reincarnation.coder.Code,reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeTernary</code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">condition</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">then</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">elze</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>condition</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>then</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>elze</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeCast(java.lang.Class,reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeCast</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>type</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeLineComment(java.lang.Object)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeLineComment</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">comment</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code>comment</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeThrow(reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeThrow</code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>code</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeBreak(java.util.Optional)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeBreak</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code class="parameterName">label</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code>label</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeContinue(java.util.Optional,boolean)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeContinue</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code class="parameterName">label</code>, <code>boolean</code> <code class="parameterName">omitLabel</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code>label</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code>boolean</code> <code>omitLabel</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeIf(reincarnation.coder.Code,reincarnation.coder.Code,reincarnation.coder.Code,reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeIf</code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">condition</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">then</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">elze</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">follow</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>condition</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>then</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>elze</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>follow</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeFor(java.util.Optional,reincarnation.coder.Code,reincarnation.coder.Code,reincarnation.coder.Code,java.lang.Runnable,reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeFor</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code class="parameterName">label</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">initialize</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">condition</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">updater</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code class="parameterName">inner</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">follow</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code>label</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>initialize</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>condition</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>updater</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code>inner</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>follow</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeWhile(java.util.Optional,reincarnation.coder.Code,java.lang.Runnable,reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeWhile</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code class="parameterName">label</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">condition</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code class="parameterName">inner</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">follow</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code>label</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>condition</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code>inner</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>follow</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeDoWhile(java.util.Optional,reincarnation.coder.Code,java.lang.Runnable,reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeDoWhile</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code class="parameterName">label</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">condition</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code class="parameterName">inner</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">follow</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code>label</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>condition</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code>inner</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>follow</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeInfinitLoop(java.util.Optional,java.lang.Runnable,reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeInfinitLoop</code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code class="parameterName">label</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code class="parameterName">inner</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">follow</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code>label</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code>inner</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>follow</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="k" id="writeTryCatchFinally(reincarnation.coder.Code,java.util.List,reincarnation.coder.Code)">
+					<h2 class="h"><i class="OVERRIDE PUBLIC"></i><code class="e">writeTryCatchFinally</code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">tryBlock</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>kiss.Ⅲ<code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></code></code> <code class="parameterName">catchBlocks</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">follow</code>)</code><i class="I"><code>void</code></i></h2>
+					<table class="T">
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>tryBlock</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>kiss.Ⅲ<code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></code></code> <code>catchBlocks</code></td>
+							<td></td>
+						</tr>
+						<tr class="V">
+							<td><code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code>follow</code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+			</article>
+			<aside class="S" id="SubNavi">
+				<div class="J">
+					<h5 class="Z">Constructors</h5>
+					<ul>
+						<li><i class="PROTECTED"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#DelegatableCoder(reincarnation.coder.Coder)">DelegatableCoder</a></code><code class="c">(<code><a href="api/reincarnation.coder.Coder.html">Coder</a><code class="parameters"><code>O</code></code></code> <code class="parameterName">coder</code>)</code></li>
+					</ul>
+					<h5 class="Z">Fields</h5>
+					<ul>
+						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#coder">coder</a></code><i class="j"><code class="return"><a href="api/reincarnation.coder.Coder.html">Coder</a><code class="parameters"><code>O</code></code></code></i></li>
+					</ul>
+					<h5 class="Z">Methods</h5>
+					<ul>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#write(reincarnation.Reincarnation)">write</a></code><code class="c">(<code><a href="api/reincarnation.Reincarnation.html">Reincarnation</a></code> <code class="parameterName">reincarnation</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writePackage(java.lang.Package)">writePackage</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Package.html">Package</a></code> <code class="parameterName">info</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeImport(java.util.Set)">writeImport</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code> <code class="parameterName">classes</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeType(java.lang.Class,java.lang.Runnable)">writeType</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code class="parameterName">inner</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeField(java.lang.reflect.Field)">writeField</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code> <code class="parameterName">field</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeStaticField(java.lang.reflect.Field)">writeStaticField</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code> <code class="parameterName">field</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeInitializer(reincarnation.coder.Code)">writeInitializer</a></code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeStaticInitializer(reincarnation.coder.Code)">writeStaticInitializer</a></code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeConstructor(java.lang.reflect.Constructor,reincarnation.coder.Code)">writeConstructor</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code> <code class="parameterName">constructor</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeMethod(java.lang.reflect.Method,reincarnation.coder.Code)">writeMethod</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code> <code class="parameterName">method</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeStatement(reincarnation.coder.Code)">writeStatement</a></code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeReturn(java.util.Optional)">writeReturn</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeBoolean(boolean)">writeBoolean</a></code><code class="c">(<code>boolean</code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeChar(char)">writeChar</a></code><code class="c">(<code>char</code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeInt(int)">writeInt</a></code><code class="c">(<code>int</code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeLong(long)">writeLong</a></code><code class="c">(<code>long</code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeFloat(float)">writeFloat</a></code><code class="c">(<code>float</code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeDouble(double)">writeDouble</a></code><code class="c">(<code>double</code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeString(java.lang.String)">writeString</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeClass(java.lang.Class)">writeClass</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeThis()">writeThis</a></code><code class="c">()</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeNull()">writeNull</a></code><code class="c">()</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeEnclose(java.lang.Runnable)">writeEnclose</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeAssignOperation(reincarnation.coder.Code,reincarnation.operator.AssignOperator,reincarnation.coder.Code)">writeAssignOperation</a></code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">left</code>, <code><a href="api/reincarnation.operator.AssignOperator.html">AssignOperator</a></code> <code class="parameterName">operator</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">right</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeBinaryOperation(reincarnation.coder.Code,reincarnation.operator.BinaryOperator,reincarnation.coder.Code)">writeBinaryOperation</a></code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">left</code>, <code><a href="api/reincarnation.operator.BinaryOperator.html">BinaryOperator</a></code> <code class="parameterName">operator</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">right</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeUnaryOperation(reincarnation.coder.Code,reincarnation.operator.UnaryOperator)">writeUnaryOperation</a></code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>, <code><a href="api/reincarnation.operator.UnaryOperator.html">UnaryOperator</a></code> <code class="parameterName">operator</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeInstanceof(reincarnation.coder.Code,java.lang.Class)">writeInstanceof</a></code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeLocalVariable(java.lang.Class,java.lang.String,reincarnation.LocalVariableDeclaration)">writeLocalVariable</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">name</code>, <code><a href="api/reincarnation.LocalVariableDeclaration.html">LocalVariableDeclaration</a></code> <code class="parameterName">declaration</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeAccessField(java.lang.reflect.Field,reincarnation.coder.Code,reincarnation.operator.AccessMode)">writeAccessField</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code> <code class="parameterName">field</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">context</code>, <code><a href="api/reincarnation.operator.AccessMode.html">AccessMode</a></code> <code class="parameterName">mode</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeAccessType(java.lang.Class)">writeAccessType</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeAccessArray(reincarnation.coder.Code,reincarnation.coder.Code)">writeAccessArray</a></code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">array</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">index</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeAccessArrayLength(reincarnation.coder.Code)">writeAccessArrayLength</a></code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">array</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeConstructorCall(java.lang.reflect.Constructor,java.util.List)">writeConstructorCall</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code> <code class="parameterName">constructor</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></code> <code class="parameterName">params</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeSuperConstructorCall(java.lang.reflect.Constructor,java.util.List)">writeSuperConstructorCall</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code> <code class="parameterName">constructor</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></code> <code class="parameterName">params</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeThisConstructorCall(java.lang.reflect.Constructor,java.util.List)">writeThisConstructorCall</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code> <code class="parameterName">constructor</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></code> <code class="parameterName">params</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeMethodCall(java.lang.reflect.Method,reincarnation.coder.Code,java.util.List,reincarnation.operator.AccessMode)">writeMethodCall</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code> <code class="parameterName">method</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">context</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></code> <code class="parameterName">params</code>, <code><a href="api/reincarnation.operator.AccessMode.html">AccessMode</a></code> <code class="parameterName">mode</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeCreateArray(java.lang.Class,java.util.List)">writeCreateArray</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code> <code class="parameterName">dimensions</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeCreateArray(java.lang.Class,java.util.List,java.util.List)">writeCreateArray</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code> <code class="parameterName">dimensions</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code> <code class="parameterName">initialValues</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeTernary(reincarnation.coder.Code,reincarnation.coder.Code,reincarnation.coder.Code)">writeTernary</a></code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">condition</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">then</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">elze</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeCast(java.lang.Class,reincarnation.coder.Code)">writeCast</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">type</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeLineComment(java.lang.Object)">writeLineComment</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">comment</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeThrow(reincarnation.coder.Code)">writeThrow</a></code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">code</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeBreak(java.util.Optional)">writeBreak</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code class="parameterName">label</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeContinue(java.util.Optional,boolean)">writeContinue</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code class="parameterName">label</code>, <code>boolean</code> <code class="parameterName">omitLabel</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeIf(reincarnation.coder.Code,reincarnation.coder.Code,reincarnation.coder.Code,reincarnation.coder.Code)">writeIf</a></code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">condition</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">then</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">elze</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">follow</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeFor(java.util.Optional,reincarnation.coder.Code,reincarnation.coder.Code,reincarnation.coder.Code,java.lang.Runnable,reincarnation.coder.Code)">writeFor</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code class="parameterName">label</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">initialize</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">condition</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">updater</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code class="parameterName">inner</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">follow</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeWhile(java.util.Optional,reincarnation.coder.Code,java.lang.Runnable,reincarnation.coder.Code)">writeWhile</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code class="parameterName">label</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">condition</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code class="parameterName">inner</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">follow</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeDoWhile(java.util.Optional,reincarnation.coder.Code,java.lang.Runnable,reincarnation.coder.Code)">writeDoWhile</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code class="parameterName">label</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">condition</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code class="parameterName">inner</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">follow</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeInfinitLoop(java.util.Optional,java.lang.Runnable,reincarnation.coder.Code)">writeInfinitLoop</a></code><code class="c">(<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code></code></code> <code class="parameterName">label</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code> <code class="parameterName">inner</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">follow</code>)</code><i class="j"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.DelegatableCoder.html#writeTryCatchFinally(reincarnation.coder.Code,java.util.List,reincarnation.coder.Code)">writeTryCatchFinally</a></code><code class="c">(<code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">tryBlock</code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>kiss.Ⅲ<code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html">Class</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html">String</a></code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></code></code> <code class="parameterName">catchBlocks</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code> <code class="parameterName">follow</code>)</code><i class="j"><code>void</code></i></li>
+					</ul>
+				</div>
+			</aside>
+		</main>
+		<script src="root.js"></script>
+		<script src="main.js" type="module"></script>
+	</body>
+</html>
