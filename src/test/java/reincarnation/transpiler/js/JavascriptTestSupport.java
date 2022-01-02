@@ -9,16 +9,17 @@
  */
 package reincarnation.transpiler.js;
 
-import static viewtify.ui.UIWeb.Operation.*;
+import static viewtify.ui.UIWeb.Operation.script;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.concurrent.ArrayBlockingQueue;
 
+import javafx.application.Platform;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-import javafx.application.Platform;
 import kiss.I;
 import kiss.Variable;
 import psychopath.File;
