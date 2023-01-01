@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://docs.oracle.com/en/java/javase/16/"><img src="https://img.shields.io/badge/Java-Release%2016-green"/></a>
+    <a href="https://docs.oracle.com/en/java/javase/19/"><img src="https://img.shields.io/badge/Java-Release%2019-green"/></a>
     <span>&nbsp;</span>
     <a href="https://jitpack.io/#teletha/reincarnation"><img src="https://img.shields.io/jitpack/v/github/teletha/reincarnation?label=Repository&color=green"></a>
     <span>&nbsp;</span>
@@ -7,13 +7,18 @@
 </p>
 
 
-## About The Project
+## Summary
+
+<p align="right"><a href="#top">back to top</a></p>
+
+
+## Usage
 
 <p align="right"><a href="#top">back to top</a></p>
 
 
 ## Prerequisites
-Reincarnation runs on all major operating systems and requires only [Java version 16](https://docs.oracle.com/en/java/javase/16/) or later to run.
+Reincarnation runs on all major operating systems and requires only [Java version 19](https://docs.oracle.com/en/java/javase/19/) or later to run.
 To check, please run `java -version` from the command line interface. You should see something like this:
 ```
 > java -version
@@ -23,7 +28,7 @@ OpenJDK 64-Bit Server VM (build 16+36-2231, mixed mode, sharing)
 ```
 <p align="right"><a href="#top">back to top</a></p>
 
-## Using in your build
+## Install
 For any code snippet below, please substitute the version given with the version of Reincarnation you wish to use.
 #### [Maven](https://maven.apache.org/)
 Add JitPack repository at the end of repositories element in your build.xml:
@@ -101,47 +106,18 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 <p align="right"><a href="#top">back to top</a></p>
 
 
-## Built with
+## Dependency
 Reincarnation depends on the following products on runtime.
-* [asm-9.2](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.2)
-* [javaparser-core-3.23.1](https://mvnrepository.com/artifact/com.github.javaparser/javaparser-core/3.23.1)
+* [asm-9.4](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.4)
+* [cfr-0.152](https://mvnrepository.com/artifact/org.benf/cfr/0.152)
+* [javaparser-core-3.24.10](https://mvnrepository.com/artifact/com.github.javaparser/javaparser-core/3.24.10)
 * [psychopath-1.6.0](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.6.0)
-* [sinobu-2.11.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/2.11.0)
-
-Reincarnation depends on the following products on test.
-* [altfx-1.1.1](https://mvnrepository.com/artifact/com.github.teletha/altfx/1.1.1)
-* [antibug-1.2.7](https://mvnrepository.com/artifact/com.github.teletha/antibug/1.2.7)
-* [apiguardian-api-1.1.2](https://mvnrepository.com/artifact/org.apiguardian/apiguardian-api/1.1.2)
-* [byte-buddy-1.12.6](https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy/1.12.6)
-* [byte-buddy-agent-1.12.6](https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy-agent/1.12.6)
-* [controlsfx-11.1.1](https://mvnrepository.com/artifact/org.controlsfx/controlsfx/11.1.1)
-* [javafx-base-18-ea+8](https://mvnrepository.com/artifact/org.openjfx/javafx-base/18-ea+8)
-* [javafx-base-18-ea+8-win](https://mvnrepository.com/artifact/org.openjfx/javafx-base/18-ea+8)
-* [javafx-controls-18-ea+8](https://mvnrepository.com/artifact/org.openjfx/javafx-controls/18-ea+8)
-* [javafx-controls-18-ea+8-win](https://mvnrepository.com/artifact/org.openjfx/javafx-controls/18-ea+8)
-* [javafx-graphics-18-ea+8](https://mvnrepository.com/artifact/org.openjfx/javafx-graphics/18-ea+8)
-* [javafx-graphics-18-ea+8-win](https://mvnrepository.com/artifact/org.openjfx/javafx-graphics/18-ea+8)
-* [javafx-media-18-ea+8](https://mvnrepository.com/artifact/org.openjfx/javafx-media/18-ea+8)
-* [javafx-media-18-ea+8-win](https://mvnrepository.com/artifact/org.openjfx/javafx-media/18-ea+8)
-* [javafx-web-18-ea+8](https://mvnrepository.com/artifact/org.openjfx/javafx-web/18-ea+8)
-* [javafx-web-18-ea+8-win](https://mvnrepository.com/artifact/org.openjfx/javafx-web/18-ea+8)
-* [junit-jupiter-api-5.8.2](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api/5.8.2)
-* [junit-jupiter-engine-5.8.2](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine/5.8.2)
-* [junit-jupiter-params-5.8.2](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params/5.8.2)
-* [junit-platform-commons-1.8.2](https://mvnrepository.com/artifact/org.junit.platform/junit-platform-commons/1.8.2)
-* [junit-platform-engine-1.8.2](https://mvnrepository.com/artifact/org.junit.platform/junit-platform-engine/1.8.2)
-* [junit-platform-launcher-1.8.2](https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher/1.8.2)
-* [openjfx-monocle-jdk-12.0.1+2](https://mvnrepository.com/artifact/org.testfx/openjfx-monocle/jdk-12.0.1+2)
-* [opentest4j-1.2.0](https://mvnrepository.com/artifact/org.opentest4j/opentest4j/1.2.0)
-* [psychopath-1.6.0](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.6.0)
-* [sinobu-2.11.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/2.11.0)
-* [stylist-1.3.3](https://mvnrepository.com/artifact/com.github.teletha/stylist/1.3.3)
-* [viewtify-2.1.0](https://mvnrepository.com/artifact/com.github.teletha/viewtify/2.1.0)
+* [sinobu-3.0.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.0.0)
 <p align="right"><a href="#top">back to top</a></p>
 
 
 ## License
-Copyright (C) 2021 The REINCARNATION Development Team
+Copyright (C) 2023 The REINCARNATION Development Team
 
 MIT License
 
