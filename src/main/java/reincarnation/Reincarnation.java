@@ -24,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.objectweb.asm.ClassReader;
 
 import kiss.I;
+import psychopath.File;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.java.JavaCoder;

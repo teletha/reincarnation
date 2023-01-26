@@ -20,6 +20,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
+import org.benf.cfr.reader.Main;
 import org.junit.jupiter.api.Test;
 
 import kiss.I;
@@ -31,9 +32,14 @@ public class CFRTest {
 
     @Test
     void testName() {
-        // Main.main(new String[] {"kiss.Variable"});
+        // Options option = new OptionsImpl(new HashMap());
+        // ClassFileSource2 source = new ClassFileSourceImpl(option);
+        //
+        // DCCommonState state = new DCCommonState(option, source);
 
-        Variable2<String> a = Variable2.of("10");
+        Main.main(new String[] {"kiss.Variable"});
+
+        Variable<String> a = Variable.of("10");
         System.out.println(a);
         a.set("change");
         System.out.println(a);
@@ -42,7 +48,7 @@ public class CFRTest {
         System.out.println(a);
     }
 
-    public static class Variable2<V> implements Consumer<V>, Supplier<V> {
+    public static class Variable<V> implements Consumer<V>, Supplier<V> {
         private static final MethodHandle set;
 
         public final transient V v;
@@ -53,17 +59,7 @@ public class CFRTest {
 
         private volatile WiseBiFunction<V, V, V> interceptor;
 
-        static {
-            try {
-                Field field = Variable2.class.getField("v");
-                field.setAccessible(true);
-                set = MethodHandles.lookup().unreflectSetter(field);
-            } catch (Exception exception) {
-                throw I.quiet(exception);
-            }
-        }
-
-        protected Variable2(V v) {
+        protected Variable(V v) {
             this.v = v;
         }
 
@@ -87,7 +83,7 @@ public class CFRTest {
             return this.v;
         }
 
-        public final Variable2<V> intercept(WiseBiFunction<V, V, V> wiseBiFunction) {
+        public final Variable<V> intercept(WiseBiFunction<V, V, V> wiseBiFunction) {
             this.interceptor = wiseBiFunction;
             return this;
         }
@@ -120,24 +116,24 @@ public class CFRTest {
             return this.fix;
         }
 
-        public final Variable2<V> fix() {
+        public final Variable<V> fix() {
             this.fix = true;
             return this;
         }
 
-        public final <R> Variable2<R> flatMap(Function<V, Variable2<R>> function) {
-            return this.v == null || function == null ? new Variable2<>(null) : function.apply(this.v);
+        public final <R> Variable<R> flatMap(Function<V, Variable<R>> function) {
+            return this.v == null || function == null ? new Variable(null) : function.apply(this.v);
         }
 
-        public final <R> Variable2<R> map(Function<? super V, ? extends R> function) {
+        public final <R> Variable<R> map(Function<? super V, ? extends R> function) {
             if (this.v != null && function != null) {
                 try {
-                    return Variable2.of(function.apply(this.v));
+                    return Variable.of(function.apply(this.v));
                 } catch (Throwable throwable) {
                     // empty catch block
                 }
             }
-            return Variable2.empty();
+            return Variable.empty();
         }
 
         public final V next() {
@@ -217,10 +213,10 @@ public class CFRTest {
 
         @Override
         public final boolean equals(Object object) {
-            if (!(object instanceof Variable2)) {
+            if (!(object instanceof Variable)) {
                 return false;
             }
-            return ((Variable2) object).is(this.v);
+            return ((Variable) object).is(this.v);
         }
 
         @Override
@@ -228,12 +224,22 @@ public class CFRTest {
             return String.valueOf(this.v);
         }
 
-        public static <T> Variable2<T> of(T t) {
-            return new Variable2<T>(t);
+        public static <T> Variable<T> of(T t) {
+            return new Variable<T>(t);
         }
 
-        public static <T> Variable2<T> empty() {
-            return new Variable2<>(null);
+        public static <T> Variable<T> empty() {
+            return new Variable(null);
+        }
+
+        static {
+            try {
+                Field field = Variable.class.getField("v");
+                field.setAccessible(true);
+                set = MethodHandles.lookup().unreflectSetter(field);
+            } catch (Exception exception) {
+                throw I.quiet(exception);
+            }
         }
     }
 
