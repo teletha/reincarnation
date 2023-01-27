@@ -9,29 +9,19 @@
  */
 package reincarnation.decompiler;
 
-import psychopath.File;
-import psychopath.Location;
 import reincarnation.Reincarnation;
+import reincarnation.coder.java.JavaCodingOption;
 
-public class ReincarnationDecompiler extends Decompiler {
+public class ReincarnationDecompiler implements Decompiler {
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void execute(File input, File output) {
-        Location dir = input;
-        String fqcn = input.name().replace(".class", "");
+    public String decompile(Class target) {
+        JavaCodingOption options = new JavaCodingOption();
+        options.writeMemberFromTopLevel = true;
 
-        while (true) {
-            try {
-                output.text(Reincarnation.rebirth(Class.forName(fqcn)));
-                break;
-            } catch (ClassNotFoundException e) {
-                // try next
-                dir = dir.parent();
-                fqcn = dir.name() + "." + fqcn;
-            }
-        }
+        return Reincarnation.rebirth(target, options);
     }
 }

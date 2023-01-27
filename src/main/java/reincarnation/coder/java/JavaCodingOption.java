@@ -11,11 +11,8 @@ package reincarnation.coder.java;
 
 import reincarnation.coder.CodingOption;
 
-/**
- * @version 2018/10/19 12:47:28
- */
 public class JavaCodingOption extends CodingOption {
 
-    /** The write menber class from top level class, this is mainly used for test. */
+    /** The write member class from top level class, this is mainly used for test. */
     public boolean writeMemberFromTopLevel;
 }

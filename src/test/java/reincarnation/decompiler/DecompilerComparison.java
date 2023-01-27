@@ -10,16 +10,46 @@
  */
 package reincarnation.decompiler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DecompilerComparison {
 
     public static void main(String[] args) {
-        for (Decompiler decompiler : List.of(new CFRDecompiler(), new ReincarnationDecompiler())) {
+        List<String> names = new ArrayList();
+
+        for (Decompiler decompiler : List.of(new ReincarnationDecompiler(), new FernFlowerDecompiler())) {
             try {
                 System.out.println(decompiler.decompile(DecompilerComparison.class));
+
+                root: for (int i = 0; i < args.length; i++) {
+                    System.out.println(args[i]);
+
+                    if (args[i].equals("stop")) {
+                        return;
+                    } else {
+                        names.add(i % 2 == 0 ? "none" : args[i]);
+
+                        do {
+                            if (i == 5) {
+                                break root;
+                            } else if (i == 8) {
+                                continue root;
+                            }
+                        } while (i++ < 10);
+
+                        System.out.println("END");
+                    }
+                }
+
+                // I.signal(names).to(name -> {
+                // System.out.println(name);
+                // });
             } catch (Exception e) {
-                throw new Error("FAIL!");
+                System.out.println("Fail to decompile.");
+                e.printStackTrace(System.out);
+            } finally {
+                System.out.println("=====================================");
             }
         }
     }

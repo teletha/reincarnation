@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class TryTest extends CodeVerifier {
@@ -627,7 +628,6 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryCatchFinally() {
         verify(new TestCode.IntParam() {
 
@@ -638,6 +638,7 @@ class TryTest extends CodeVerifier {
                 return count(value) + counter;
             }
 
+            @Debuggable
             private int count(int value) {
                 try {
                     if (value % 2 == 0) {
