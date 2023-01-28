@@ -17,6 +17,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import kiss.Variable;
 import kiss.Ⅲ;
 import reincarnation.LocalVariableDeclaration;
 import reincarnation.Reincarnation;
@@ -136,7 +137,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeReturn(Optional<Code> code) {
+    public void writeReturn(Variable<Code> code) {
         coder.writeReturn(code);
     }
 

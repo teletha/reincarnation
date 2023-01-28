@@ -15,8 +15,8 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
+import kiss.Variable;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.CodingOption;
@@ -116,8 +116,8 @@ class OperandMethodCall extends Operand {
          * {@inheritDoc}
          */
         @Override
-        public void writeReturn(Optional<Code> code) {
-            code.stream().forEach(c -> c.write(this));
+        public void writeReturn(Variable<Code> code) {
+            code.to(c -> c.write(this));
         }
 
         /**

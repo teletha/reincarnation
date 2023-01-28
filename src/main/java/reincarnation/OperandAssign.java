@@ -18,16 +18,14 @@ import reincarnation.operator.AssignOperator;
 
 /**
  * Binary operation expression.
- * 
- * @version 2018/10/13 18:07:49
  */
 public class OperandAssign extends Operand {
 
     /** The left value. */
-    private final Operand left;
+    final Operand left;
 
     /** The right value. */
-    private final Operand right;
+    final Operand right;
 
     /** The operator. */
     private final AssignOperator operator;
@@ -45,6 +43,16 @@ public class OperandAssign extends Operand {
         this.operator = Objects.requireNonNull(operator);
 
         bindTo(left.bindTo(right));
+    }
+
+    /**
+     * Test whether this operand assigns to the specified node or not.
+     * 
+     * @param node
+     * @return
+     */
+    final boolean isAssignedTo(Operand node) {
+        return left.equals(node);
     }
 
     /**

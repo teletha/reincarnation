@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import kiss.I;
+import kiss.Variable;
 import kiss.Ⅲ;
 import kiss.model.Model;
 import reincarnation.LocalVariableDeclaration;
@@ -248,7 +249,7 @@ public abstract class Coder<O extends CodingOption> {
      * 
      * @param code A return code, may be empty.
      */
-    public abstract void writeReturn(Optional<Code> code);
+    public abstract void writeReturn(Variable<Code> code);
 
     /**
      * Boolean literal.

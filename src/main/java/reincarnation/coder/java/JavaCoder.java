@@ -292,8 +292,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeReturn(Optional<Code> code) {
-        if (code.isEmpty()) {
+    public void writeReturn(Variable<Code> code) {
+        if (code.isAbsent()) {
             write("return");
         } else {
             write("return", space, code.get());

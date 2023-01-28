@@ -257,6 +257,7 @@ class TryTest extends CodeVerifier {
     void TryCatchInTry() {
         verify(new TestCode.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
@@ -365,6 +366,7 @@ class TryTest extends CodeVerifier {
     void TryCatchFinallyAfter() {
         verify(new TestCode.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
@@ -646,8 +648,14 @@ class TryTest extends CodeVerifier {
                     }
                     return counter += 1;
                 } catch (Error e) {
+                    if (value % 5 == 0) {
+                        return 10;
+                    }
                     return counter += 2;
                 } finally {
+                    if (value % 7 == 0) {
+                        return 7;
+                    }
                     counter += 3;
                 }
             }
@@ -655,7 +663,6 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryCatchFinallyNodes() {
         verify(new TestCode.IntParam() {
 
@@ -666,6 +673,7 @@ class TryTest extends CodeVerifier {
                 return count(value) + counter;
             }
 
+            @Debuggable
             private int count(int value) {
                 try {
                     if (value % 2 == 0) {

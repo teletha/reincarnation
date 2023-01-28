@@ -9,22 +9,18 @@
  */
 package reincarnation;
 
-import java.util.Optional;
-
 import kiss.I;
 import kiss.Signal;
+import kiss.Variable;
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/10/14 10:17:27
- */
 public class OperandReturn extends Operand {
 
     /** The empty return for reuse. */
     public static final OperandReturn Empty = new OperandReturn(null);
 
     /** The statement. */
-    private final Optional<Operand> value;
+    final Variable<Operand> value;
 
     /**
      * Build return expression.
@@ -32,7 +28,7 @@ public class OperandReturn extends Operand {
      * @param value A returned value, may be null.
      */
     public OperandReturn(Operand value) {
-        this.value = value == null ? Optional.empty() : Optional.of(value.disclose());
+        this.value = value == null ? Variable.empty() : Variable.of(value.disclose());
     }
 
     /**

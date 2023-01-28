@@ -10,18 +10,21 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.load;
+import static reincarnation.Util.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.objectweb.asm.AnnotationVisitor;
@@ -32,8 +35,8 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
 import kiss.I;
+import kiss.Variable;
 import reincarnation.Node.Switch;
-import reincarnation.Node.TryCatchFinallyBlocks;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.operator.AccessMode;
@@ -178,7 +181,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     private final LocalVariables locals;
 
     /** The pool of try-catch-finally blocks. */
-    private final TryCatchFinallyBlocks tries = new TryCatchFinallyBlocks();
+    private final TryCatchFinallyManager tries = new TryCatchFinallyManager();
 
     /** The root statement. */
     private Structure root;
@@ -312,6 +315,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         for (Node node : synchronizer) {
             dispose(node, true, false);
         }
+
+        Debugger.print(nodes);
+
+        tries.disposeCopiedFinallyBlock();
+        tries.disposeLastThrowInOriginalFinally();
 
         // Separate conditional operands and dispose empty node.
         for (Node node : nodes.toArray(new Node[nodes.size()])) {
@@ -1664,7 +1672,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     private final void dispose(Node target, boolean clearStack, boolean recursive) {
         if (nodes.contains(target)) {
-
             // remove actually
             nodes.remove(target);
 
@@ -2147,16 +2154,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     }
 
     /**
-     * <p>
      * Check static method.
-     * </p>
      * 
      * @param owner
      * @param name
      * @param types
      * @return
      */
-    private boolean hasStaticMethod(Class owner, String name, Class[] types) {
+    private final boolean hasStaticMethod(Class owner, String name, Class[] types) {
         if (owner == null) {
             return false;
         }
@@ -2168,6 +2173,38 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         } catch (NoSuchMethodException e) {
             return false;
         }
+    }
+
+    /**
+     * Merge into one node if the specified nodes mean the immediate return.
+     * 
+     * @param prev
+     * @param next
+     */
+    private final boolean mergeImmediateReturn(Node prev, Node next) {
+        // next node must have the return operand only
+        if (next.stack.size() == 1 && next.incoming.size() == 1) {
+            Operand operand = next.stack.peek();
+            if (operand instanceof OperandReturn returnOp) {
+                Variable<OperandLocalVariable> local = returnOp.find(OperandLocalVariable.class).first().to();
+                if (local.isPresent()) {
+                    OperandLocalVariable returnLocal = local.v;
+
+                    operand = prev.stack.peekFirst();
+                    if (operand instanceof OperandAssign assignOp && assignOp.isAssignedTo(returnLocal)) {
+                        returnOp.value.set(assignOp.right);
+
+                        prev.disconnect(next);
+                        for (Node incoming : prev.incoming) {
+                            incoming.connect(next);
+                        }
+                        dispose(prev, true, true);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -2322,6 +2359,296 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          */
         private boolean canMerge(OperandCondition left, OperandCondition right) {
             return left.then == right.then || left.then == right.elze;
+        }
+    }
+
+    /**
+     * Manage all try-catch-finally blocks.
+     */
+    private class TryCatchFinallyManager {
+
+        /** The managed try-catch-finally blocks. */
+        private final List<TryCatchFinally> blocks = new ArrayList<>();
+
+        /** The copied finally node manager. */
+        private final Map<Node, List<Node>> finallyCopies = new HashMap();
+
+        /**
+         * Add new try-catch-finally block.
+         * 
+         * @param start
+         * @param end
+         * @param catcher
+         * @param exception
+         */
+        private void addTryCatchFinallyBlock(Node start, Node end, Node catcher, Class<?> exception) {
+            // In Java 6 and later, the old jsr and ret instructions are effectively deprecated.
+            // These instructions were used to build mini-subroutines inside methods.
+            // The finally node is copied on all exit nodes by compiler , so we must remove it.
+            if (exception == null) {
+                finallyCopies.computeIfAbsent(catcher, key -> new ArrayList()).add(end);
+
+                for (TryCatchFinally block : blocks) {
+                    // The try-catch-finally block which indicates the same start and end nodes
+                    // means multiple catches.
+                    if (block.start == start) {
+                        block.addCatchOrFinallyBlock(exception, catcher);
+
+                        finallyCopies.computeIfAbsent(catcher, key -> new ArrayList()).add(block.end);
+                        return;
+                    }
+                }
+                return;
+            }
+
+            for (TryCatchFinally block : blocks) {
+                // The try-catch-finally block which indicates the same start and end nodes
+                // means multiple catches.
+                if (block.start == start && block.end == end) {
+                    block.addCatchOrFinallyBlock(exception, catcher);
+                    return;
+                }
+            }
+            blocks.add(new TryCatchFinally(start, end, catcher, exception));
+        }
+
+        /**
+         * 
+         */
+        private void disposeCopiedFinallyBlock() {
+            for (Entry<Node, List<Node>> entry : finallyCopies.entrySet()) {
+                int deletableSize = countFinallyBlockSize(entry.getKey());
+                for (Node deletable : entry.getValue()) {
+                    List<Node> incomings = new ArrayList(deletable.incoming);
+                    incomings.forEach(in -> in.disconnect(deletable));
+
+                    Node node = deletable;
+                    for (int i = 0; i < deletableSize;) {
+                        if (!node.stack.isEmpty()) i++;
+                        node = node.next;
+                    }
+
+                    for (Node in : node.incoming) {
+                        in.disconnect(node);
+                    }
+
+                    if (incomings.size() != 1 || !mergeImmediateReturn(incomings.get(0), node)) {
+                        for (Node in : incomings) {
+                            in.connect(node);
+                        }
+                    }
+                    Debugger.print(incomings);
+                }
+            }
+        }
+
+        /**
+         * Dispose the throw operand from the tail node in finally block.
+         */
+        private void disposeLastThrowInOriginalFinally() {
+            for (Node finallyBlock : finallyCopies.keySet()) {
+                for (Node tail : finallyBlock.tails()) {
+                    if (tail.stack.peekFirst() instanceof OperandThrow) {
+                        dispose(tail, true, false);
+                    }
+                }
+            }
+        }
+
+        /**
+         * Count the number of nodes to be copied by compiler.
+         * 
+         * @param node
+         * @return
+         */
+        private int countFinallyBlockSize(Node node) {
+            int size = 0;
+            while (node.next != null && node.stack.peekFirst() instanceof OperandThrow == false) {
+                if (!node.stack.isEmpty()) size++;
+                node = node.next;
+            }
+            return size;
+        }
+
+        /**
+         * Analyze and process.
+         */
+        private void process() {
+            // To analyze try-catch-finally statement tree, we must connect each nodes.
+            // But these connections disturb the analysis of other statements (e.g. if, for).
+            // So we must disconnect them immediately after analysis of try-catch-finally statement.
+
+            // At first, do connecting only.
+            for (TryCatchFinally block : blocks) {
+                block.start.connect(block.catcher);
+
+                for (CatchOrFinally catchBlock : block.blocks) {
+                    block.start.connect(catchBlock.node);
+                }
+            }
+
+            // Then, we can analyze.
+            for (TryCatchFinally block : blocks) {
+                // Associate node with block.
+                block.start.tries.add(block);
+                block.searchExit();
+            }
+
+            // At last, disconnect immediately after analysis.
+            for (TryCatchFinally block : blocks) {
+                block.start.disconnect(block.catcher);
+
+                for (CatchOrFinally catchBlock : block.blocks) {
+                    block.start.disconnect(catchBlock.node);
+                }
+            }
+
+            // Purge the catch block which is inside loop structure directly.
+            for (TryCatchFinally block : blocks) {
+                for (CatchOrFinally catchOrFinally : block.blocks) {
+                    Set<Node> recorder = new HashSet<>();
+                    recorder.add(catchOrFinally.node);
+
+                    Deque<Node> queue = new ArrayDeque<>();
+                    queue.add(catchOrFinally.node);
+
+                    while (!queue.isEmpty()) {
+                        Node node = queue.pollFirst();
+
+                        for (Node out : node.outgoing) {
+                            if (out.hasDominator(catchOrFinally.node)) {
+                                if (recorder.add(out)) {
+                                    // test next node
+                                    queue.add(out);
+                                }
+                            } else {
+                                if (!out.backedges.isEmpty()) {
+                                    // purge the catch block from the loop structure
+                                    node.disconnect(out);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * Set exception variable name.
+         * 
+         * @param current A target node.
+         * @param variable A variable name.
+         */
+        private void assignExceptionVariable(Node current, OperandLocalVariable variable) {
+            for (TryCatchFinally block : blocks) {
+                for (CatchOrFinally catchOrFinally : block.blocks) {
+                    if (catchOrFinally.node == current) {
+                        catchOrFinally.variable = variable.set(LocalVariableDeclaration.None);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Data holder for try-catch-finally block.
+     */
+    static class TryCatchFinally {
+
+        /** The start node. */
+        final Node start;
+
+        /** The end node. */
+        final Node end;
+
+        /** The catcher node. */
+        final Node catcher;
+
+        /** The catch or finally blocks. */
+        final List<CatchOrFinally> blocks = new ArrayList<>();
+
+        /** The exit node. */
+        Node exit;
+
+        /**
+         * @param start
+         * @param end
+         * @param catcher
+         * @param exception
+         */
+        private TryCatchFinally(Node start, Node end, Node catcher, Class<?> exception) {
+            this.start = start;
+            this.end = end;
+            this.catcher = catcher;
+            start.disposable = end.disposable = catcher.disposable = false;
+
+            addCatchOrFinallyBlock(exception, catcher);
+        }
+
+        /**
+         * Add catch or finally block.
+         * 
+         * @param exception
+         * @param catcherOrFinally
+         */
+        private void addCatchOrFinallyBlock(Class<?> exception, Node catcherOrFinally) {
+            for (CatchOrFinally block : blocks) {
+                if (block.exception == exception) {
+                    return;
+                }
+            }
+            catcherOrFinally.disposable = false;
+            catcherOrFinally.additionalCalls++;
+            blocks.add(new CatchOrFinally(exception, catcherOrFinally));
+        }
+
+        /**
+         * Search exit node of this try-catch-finally block.
+         */
+        private void searchExit() {
+            Deque<Node> nodes = new ArrayDeque<>();
+            nodes.addAll(catcher.outgoing); // catcher node must be first
+            nodes.addAll(end.outgoing); // then end node
+
+            Set<Node> recorder = new HashSet<>(nodes);
+
+            while (!nodes.isEmpty()) {
+                Node node = nodes.pollFirst();
+
+                if (node.getDominator() == start) {
+                    exit = node;
+                    return;
+                }
+
+                for (Node n : node.outgoing) {
+                    if (recorder.add(n)) {
+                        nodes.add(n);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 
+     */
+    static class CatchOrFinally {
+
+        /** The Throwable class, may be null for finally statmenet. */
+        final Class exception;
+
+        /** The associated node. */
+        final Node node;
+
+        OperandLocalVariable variable;
+
+        /**
+         * @param exception
+         * @param node
+         */
+        CatchOrFinally(Class<?> exception, Node node) {
+            this.exception = exception;
+            this.node = node;
         }
     }
 }

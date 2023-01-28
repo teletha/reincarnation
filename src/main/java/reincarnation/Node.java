@@ -26,6 +26,7 @@ import kiss.I;
 import kiss.Signal;
 import kiss.Variable;
 import kiss.Ⅲ;
+import reincarnation.JavaMethodDecompiler.TryCatchFinally;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
@@ -128,6 +129,15 @@ public class Node implements Code<Operand> {
      */
     Node(String id) {
         this.id = id;
+    }
+
+    /**
+     * Traverse the chained tail node.
+     * 
+     * @return
+     */
+    final List<Node> tails() {
+        return I.signal(outgoing).recurseMap(n -> n.flatIterable(x -> x.outgoing)).take(n -> n.outgoing.isEmpty()).toList();
     }
 
     /**
@@ -259,10 +269,8 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * <p>
      * Helper method to peek the operand which is stored in the specified index from the operands
      * stack.
-     * </p>
      * 
      * @param index An index that you want to peek from the operands stack.
      * @return A target operand.
@@ -484,7 +492,7 @@ public class Node implements Code<Operand> {
         } else {
             Iterator<Node> iterator = targets.iterator();
             Node base = iterator.next();
-            while (iterator.hasNext()) {
+            while (base != null && iterator.hasNext()) {
                 base = base.getLowestCommonDominator(iterator.next());
             }
             return base;
@@ -492,9 +500,7 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * <p>
      * Retrieve the valid destination node.
-     * </p>
      * 
      * @return An actual destination node of this node.
      */
@@ -503,9 +509,7 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * <p>
      * Collect pure incoming nodes which is not backedge.
-     * </p>
      * 
      * @return
      */
@@ -517,9 +521,7 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * <p>
      * Detect whether the specified node is traversable from this node.
-     * </p>
      * 
      * @param node A target node.
      * @return A result.
@@ -547,9 +549,7 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * <p>
      * Helper method to check whether the specified node is incoming.
-     * </p>
      * 
      * @param node
      * @return
@@ -559,9 +559,7 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * <p>
      * Helper method to check whether the specified node is outgoing.
-     * </p>
      * 
      * @param node
      * @return
@@ -571,9 +569,7 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * <p>
      * Helper method to connect nodes each other.
-     * </p>
      * 
      * @param node A target node.
      */
@@ -585,9 +581,7 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * <p>
      * Helper method to disconnect nodes each other.
-     * </p>
      * 
      * @param node A target node.
      */
@@ -599,9 +593,7 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * <p>
      * Create switch statement.
-     * </p>
      * 
      * @param defaults A default node.
      * @param keys A case key values.
@@ -651,7 +643,7 @@ public class Node implements Code<Operand> {
             // =============================================================
             if (!tries.isEmpty()) {
                 TryCatchFinally removed = tries.remove(0);
-                List<Ⅲ<Class, String, Structure>> catches = I.signal(removed.catches)
+                List<Ⅲ<Class, String, Structure>> catches = I.signal(removed.blocks)
                         .map(c -> I.pair(c.exception, c.variable.toString(), process(c.node)))
                         .toList();
                 if (removed.exit != null) {
@@ -1415,243 +1407,6 @@ public class Node implements Code<Operand> {
         @Override
         public String toString() {
             return "Switch [enter=" + enter.id + "]";
-        }
-    }
-
-    /**
-     * @version 2013/11/24 23:28:29
-     */
-    static class TryCatchFinallyBlocks {
-
-        /** The managed try-catch-finally blocks. */
-        private final List<TryCatchFinally> blocks = new ArrayList<>();
-
-        /**
-         * <p>
-         * Manage block.
-         * </p>
-         * 
-         * @param start
-         * @param end
-         * @param catcher
-         * @param exception
-         */
-        void addTryCatchFinallyBlock(Node start, Node end, Node catcher, Class<?> exception) {
-            for (TryCatchFinally block : blocks) {
-                // The try-catch-finally block which indicates the same start node
-                // without error class means finally block.
-                // But this translator ignores finally block to use compiler duplicated codes.
-                if (exception == null && block.start == start) {
-                    // block.finalizer = end;
-                    return;
-                }
-
-                // The try-catch-finally block which indicates the same start and end nodes
-                // means multiple catches.
-                if (block.start == start && block.end == end) {
-                    block.addCatchBlock(exception, catcher);
-                    return;
-                }
-
-                // In Java 6 and later, the old jsr and ret instructions are effectively deprecated.
-                // These instructions were used to build mini-subroutines inside methods.
-                //
-                // The try-catch block which indicates the same catch node is copied by compiler,
-                // so we must ignore it.
-                if (block.catcher == catcher) {
-                    return;
-                }
-            }
-            blocks.add(new TryCatchFinally(start, end, catcher, exception));
-        }
-
-        /**
-         * <p>
-         * Preprocess.
-         * </p>
-         */
-        void process() {
-            // To analyze try-catch-finally statement tree, we must connect each nodes.
-            // But these connections disturb the analysis of other statements (e.g. if, for).
-            // So we must disconnect them immediately after analysis of try-catch-finally statement.
-
-            // At first, do connecting only.
-            for (TryCatchFinally block : blocks) {
-                block.start.connect(block.catcher);
-
-                for (CatchOrFinallyBlock catchBlock : block.catches) {
-                    block.start.connect(catchBlock.node);
-                }
-            }
-
-            // Then, we can analyze.
-            for (TryCatchFinally block : blocks) {
-                // Associate node with block.
-                block.start.tries.add(block);
-                block.searchExit();
-            }
-
-            // At last, disconnect immediately after analysis.
-            for (TryCatchFinally block : blocks) {
-                block.start.disconnect(block.catcher);
-
-                for (CatchOrFinallyBlock catchBlock : block.catches) {
-                    block.start.disconnect(catchBlock.node);
-                }
-            }
-
-            // Purge the catch block which is inside loop structure directly.
-            for (TryCatchFinally block : blocks) {
-                for (CatchOrFinallyBlock catchBlock : block.catches) {
-                    Set<Node> recorder = new HashSet<>();
-                    recorder.add(catchBlock.node);
-
-                    Deque<Node> queue = new ArrayDeque<>();
-                    queue.add(catchBlock.node);
-
-                    while (!queue.isEmpty()) {
-                        Node node = queue.pollFirst();
-
-                        for (Node out : node.outgoing) {
-                            if (out.hasDominator(catchBlock.node)) {
-                                if (recorder.add(out)) {
-                                    // test next node
-                                    queue.add(out);
-                                }
-                            } else {
-                                if (!out.backedges.isEmpty()) {
-                                    // purge the catch block from the loop structure
-                                    node.disconnect(out);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        /**
-         * <p>
-         * Set exception variable name.
-         * </p>
-         * 
-         * @param current A target node.
-         * @param variable A variable name.
-         */
-        void assignExceptionVariable(Node current, OperandLocalVariable variable) {
-            for (TryCatchFinally block : blocks) {
-                for (CatchOrFinallyBlock catchOrFinally : block.catches) {
-                    if (catchOrFinally.node == current) {
-                        catchOrFinally.variable = variable.set(LocalVariableDeclaration.None);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * @version 2013/04/11 19:45:29
-     */
-    static class TryCatchFinally {
-
-        /** The start node. */
-        final Node start;
-
-        /** The end node. */
-        final Node end;
-
-        /** The catcher node. */
-        final Node catcher;
-
-        /** The catch blocks. */
-        final List<CatchOrFinallyBlock> catches = new ArrayList<>();
-
-        /** The exit node. */
-        Node exit;
-
-        /**
-         * @param start
-         * @param end
-         * @param catcher
-         * @param exception
-         */
-        private TryCatchFinally(Node start, Node end, Node catcher, Class<?> exception) {
-            this.start = start;
-            this.end = end;
-            this.catcher = catcher;
-            start.disposable = end.disposable = catcher.disposable = false;
-
-            addCatchBlock(exception, catcher);
-        }
-
-        /**
-         * <p>
-         * Add catch block.
-         * </p>
-         * 
-         * @param exception
-         * @param catcher
-         */
-        private void addCatchBlock(Class<?> exception, Node catcher) {
-            for (CatchOrFinallyBlock block : catches) {
-                if (block.exception == exception) {
-                    return;
-                }
-            }
-            catcher.disposable = false;
-            catcher.additionalCalls++;
-            catches.add(new CatchOrFinallyBlock(exception, catcher));
-        }
-
-        /**
-         * <p>
-         * Search exit node of this try-catch-finally block.
-         * </p>
-         */
-        private void searchExit() {
-            Deque<Node> nodes = new ArrayDeque<>();
-            nodes.addAll(catcher.outgoing); // catcher node must be first
-            nodes.addAll(end.outgoing); // then end node
-
-            Set<Node> recorder = new HashSet<>(nodes);
-
-            while (!nodes.isEmpty()) {
-                Node node = nodes.pollFirst();
-
-                if (node.getDominator() == start) {
-                    exit = node;
-                    return;
-                }
-
-                for (Node n : node.outgoing) {
-                    if (recorder.add(n)) {
-                        nodes.add(n);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * 
-     */
-    private static class CatchOrFinallyBlock {
-
-        /** The Throwable class, may be null for finally statmenet. */
-        private final Class exception;
-
-        /** The associated node. */
-        private final Node node;
-
-        private OperandLocalVariable variable;
-
-        /**
-         * @param exception
-         * @param node
-         */
-        private CatchOrFinallyBlock(Class<?> exception, Node node) {
-            this.exception = exception;
-            this.node = node;
         }
     }
 }
