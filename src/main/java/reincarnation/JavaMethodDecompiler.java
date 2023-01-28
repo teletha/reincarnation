@@ -2440,17 +2440,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                     List<Node> incomings = new ArrayList(deletable.incoming);
                     incomings.forEach(in -> in.disconnect(deletable));
 
-                    Deque<Node> nodes = deletable.outgoingRecursively()
-                            .take(Node::isNotEmpty)
-                            .take(deletableSize + 1)
-                            .toCollection(new ArrayDeque());
-
-                    Debugger.print(new ArrayList(nodes));
-
-                    Node node = nodes.pollLast();
-                    for (Node n : nodes) {
-                        n.disconnect(node);
-                    }
+                    Node node = deletable.outgoingRecursively().take(Node::isNotEmpty).take(deletableSize + 1).to().exact();
+                    deletable.outgoingRecursively().takeUntil(n -> n == node).to(n -> n.disconnect(node));
 
                     incomings.forEach(in -> in.connect(node));
 

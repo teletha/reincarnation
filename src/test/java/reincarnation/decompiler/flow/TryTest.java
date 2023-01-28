@@ -366,6 +366,7 @@ class TryTest extends CodeVerifier {
     void TryCatchFinallyAfter() {
         verify(new TestCode.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
