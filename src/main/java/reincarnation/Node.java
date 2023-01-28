@@ -141,18 +141,25 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * Build the stream of following nodes.
+     * Traverse forward sibling nodes.
      * 
      * @return
      */
-    final Signal<Node> signal() {
+    final Signal<Node> nexts() {
         return I.signal(this).recurse(n -> n.next).takeWhile(n -> n != null);
     }
 
     /**
-     * <p>
+     * Traverse outgoing nodes recursively.
+     * 
+     * @return
+     */
+    final Signal<Node> outgoingRecursively() {
+        return I.signal(this).recurseMap(n -> n.flatIterable(x -> x.outgoing)).takeWhile(n -> n != null);
+    }
+
+    /**
      * Helper method to add new operand to the top of operands stack.
-     * </p>
      * 
      * @param operand A new operand to add.
      */
@@ -167,9 +174,7 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * <p>
      * Helper method to add new operand to the top of operands stack.
-     * </p>
      * 
      * @param operand A new operand to add.
      */
@@ -593,6 +598,53 @@ public class Node implements Code<Operand> {
     }
 
     /**
+     * Disconnect node from incomings or outgoings.
+     * 
+     * @param incoming
+     * @param outgoing
+     */
+    final void disconnect(boolean incoming, boolean outgoing) {
+        if (incoming) this.incoming.forEach(in -> in.disconnect(this));
+        if (outgoing) this.outgoing.forEach(out -> out.disconnect(this));
+    }
+
+    /**
+     * Disconnect from the previous node and connect to the next node on incoming nodes.
+     * 
+     * @param prev
+     * @param next
+     */
+    final void switchIncoming(Node prev, Node next) {
+        int indexPrev = incoming.indexOf(prev);
+        int indexNext = incoming.indexOf(next);
+
+        if (indexPrev != -1 && indexNext == -1) {
+            incoming.set(indexPrev, next);
+
+            disconnect(prev);
+            connect(next);
+        }
+    }
+
+    /**
+     * Disconnect from the previous node and connect to the next node on incoming nodes.
+     * 
+     * @param prev
+     * @param next
+     */
+    final void switchOutgoing(Node prev, Node next) {
+        int indexPrev = outgoing.indexOf(prev);
+        int indexNext = outgoing.indexOf(next);
+
+        if (indexPrev != -1 && indexNext == -1) {
+            outgoing.set(indexPrev, next);
+
+            disconnect(prev);
+            connect(next);
+        }
+    }
+
+    /**
      * Create switch statement.
      * 
      * @param defaults A default node.
@@ -612,6 +664,14 @@ public class Node implements Code<Operand> {
 
         // connect enter node with default node
         connect(defaults);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isEmpty() {
+        return stack.isEmpty();
     }
 
     /**

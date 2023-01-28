@@ -36,7 +36,7 @@ class JavaClassDecompiler extends ClassVisitor {
      * Java class decompiler
      */
     JavaClassDecompiler(Reincarnation source) {
-        super(ASM7);
+        super(ASM9);
 
         this.source = Objects.requireNonNull(source);
     }

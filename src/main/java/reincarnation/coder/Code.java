@@ -14,9 +14,6 @@ import java.util.Optional;
 import kiss.I;
 import kiss.Signal;
 
-/**
- * @version 2018/10/26 22:51:00
- */
 public interface Code<C extends Code> {
 
     /** The empty code. */
@@ -46,6 +43,15 @@ public interface Code<C extends Code> {
      */
     default boolean isEmpty() {
         return false;
+    }
+
+    /**
+     * Check this code is empty or not.
+     * 
+     * @return A result.
+     */
+    default boolean isNotEmpty() {
+        return !isEmpty();
     }
 
     /**

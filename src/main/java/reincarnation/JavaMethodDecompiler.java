@@ -10,17 +10,18 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -252,7 +253,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      * @param returns
      */
     JavaMethodDecompiler(Reincarnation source, LocalVariables locals, Type returns) {
-        super(ASM7);
+        super(ASM9);
 
         this.source = source;
         this.returnType = Util.load(returns);
@@ -1568,6 +1569,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 tries.assignExceptionVariable(current, variable);
             }
 
+            if (tries.isCatcher(current)) {
+                variable.catcher = true;
+            }
+
         case ISTORE:
         case LSTORE:
         case FSTORE:
@@ -2196,9 +2201,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
                         prev.disconnect(next);
                         for (Node incoming : prev.incoming) {
-                            incoming.connect(next);
+                            incoming.switchOutgoing(prev, next);
                         }
-                        dispose(prev, true, true);
                         return true;
                     }
                 }
@@ -2371,7 +2375,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         private final List<TryCatchFinally> blocks = new ArrayList<>();
 
         /** The copied finally node manager. */
-        private final Map<Node, List<Node>> finallyCopies = new HashMap();
+        private final Map<Node, Set<Node>> finallyCopies = new LinkedHashMap();
 
         /**
          * Add new try-catch-finally block.
@@ -2386,7 +2390,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             // These instructions were used to build mini-subroutines inside methods.
             // The finally node is copied on all exit nodes by compiler , so we must remove it.
             if (exception == null) {
-                finallyCopies.computeIfAbsent(catcher, key -> new ArrayList()).add(end);
+                finallyCopies.computeIfAbsent(catcher, key -> new LinkedHashSet()).add(end);
 
                 for (TryCatchFinally block : blocks) {
                     // The try-catch-finally block which indicates the same start and end nodes
@@ -2394,7 +2398,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                     if (block.start == start) {
                         block.addCatchOrFinallyBlock(exception, catcher);
 
-                        finallyCopies.computeIfAbsent(catcher, key -> new ArrayList()).add(block.end);
+                        finallyCopies.computeIfAbsent(catcher, key -> new LinkedHashSet()).add(block.end);
                         return;
                     }
                 }
@@ -2413,31 +2417,46 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         }
 
         /**
+         * @param node
+         * @return
+         */
+        private boolean isCatcher(Node node) {
+            for (TryCatchFinally block : blocks) {
+                if (block.catcher == node) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
          * 
          */
         private void disposeCopiedFinallyBlock() {
-            for (Entry<Node, List<Node>> entry : finallyCopies.entrySet()) {
+            for (Entry<Node, Set<Node>> entry : finallyCopies.entrySet()) {
                 int deletableSize = countFinallyBlockSize(entry.getKey());
+
                 for (Node deletable : entry.getValue()) {
                     List<Node> incomings = new ArrayList(deletable.incoming);
                     incomings.forEach(in -> in.disconnect(deletable));
 
-                    Node node = deletable;
-                    for (int i = 0; i < deletableSize;) {
-                        if (!node.stack.isEmpty()) i++;
-                        node = node.next;
+                    Deque<Node> nodes = deletable.outgoingRecursively()
+                            .take(Node::isNotEmpty)
+                            .take(deletableSize + 1)
+                            .toCollection(new ArrayDeque());
+
+                    Debugger.print(new ArrayList(nodes));
+
+                    Node node = nodes.pollLast();
+                    for (Node n : nodes) {
+                        n.disconnect(node);
                     }
 
-                    for (Node in : node.incoming) {
-                        in.disconnect(node);
-                    }
+                    incomings.forEach(in -> in.connect(node));
 
-                    if (incomings.size() != 1 || !mergeImmediateReturn(incomings.get(0), node)) {
-                        for (Node in : incomings) {
-                            in.connect(node);
-                        }
+                    if (node.incoming.size() != 1 || !mergeImmediateReturn(incomings.get(0), node)) {
+                        incomings.forEach(in -> in.connect(node));
                     }
-                    Debugger.print(incomings);
                 }
             }
         }
@@ -2464,7 +2483,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         private int countFinallyBlockSize(Node node) {
             int size = 0;
             while (node.next != null && node.stack.peekFirst() instanceof OperandThrow == false) {
-                if (!node.stack.isEmpty()) size++;
+                if (node.isNotEmpty()) size++;
                 node = node.next;
             }
             return size;
@@ -2626,6 +2645,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                     }
                 }
             }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String toString() {
+            return "TryCatchFinally [start=" + start.id + ", end=" + end.id + ", catcher=" + catcher.id + ", blocks=" + blocks + ", exit=" + exit + "]";
         }
     }
 

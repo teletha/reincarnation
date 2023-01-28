@@ -9,8 +9,8 @@
  */
 package reincarnation;
 
-import static reincarnation.LocalVariableDeclaration.*;
-import static reincarnation.Util.*;
+import static reincarnation.LocalVariableDeclaration.With;
+import static reincarnation.Util.load;
 
 import java.lang.reflect.Parameter;
 import java.util.HashMap;
@@ -24,8 +24,6 @@ import reincarnation.structure.Structure;
 
 /**
  * Manage local variables.
- * 
- * @version 2018/10/13 23:21:23
  */
 class LocalVariables {
 
@@ -59,9 +57,7 @@ class LocalVariables {
     }
 
     /**
-     * <p>
      * Compute the identified qualified local variable name for ECMAScript.
-     * </p>
      * 
      * @param order An order by which this variable was declared.
      * @return An identified local variable name for ECMAScript.
@@ -76,7 +72,7 @@ class LocalVariables {
 
         // Compute local variable name
         variable = undeclared.computeIfAbsent(order, key -> new OperandLocalVariable(load(opcode), "local" + key).set(With));
-        variable.add(reference);
+        variable.references.add(reference);
 
         return variable;
     }

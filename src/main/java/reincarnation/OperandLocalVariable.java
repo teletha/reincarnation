@@ -16,13 +16,10 @@ import java.util.Set;
 import reincarnation.coder.Coder;
 import reincarnation.structure.Structure;
 
-/**
- * @version 2018/10/22 18:08:07
- */
 public class OperandLocalVariable extends Operand {
 
     /** The variable name. */
-    String name;
+    private final String name;
 
     /** The declration type. */
     private LocalVariableDeclaration declaration = LocalVariableDeclaration.None;
@@ -30,7 +27,10 @@ public class OperandLocalVariable extends Operand {
     private boolean firstAccess = true;
 
     /** Holds all nodes that refer to this local variable. */
-    private final Set<Node> references = new HashSet();
+    final Set<Node> references = new HashSet();
+
+    /** This variable is declared at exception catcher or not. */
+    boolean catcher;
 
     /**
      * Create local variable with index.
@@ -64,6 +64,7 @@ public class OperandLocalVariable extends Operand {
             coder.writeLocalVariable(type.v, name, LocalVariableDeclaration.None);
         } else {
             coder.writeLocalVariable(type.v, name, declaration);
+
             if (!Debugger.whileDebug) {
                 firstAccess = false;
             }
@@ -87,9 +88,7 @@ public class OperandLocalVariable extends Operand {
         // calculate the lowest common dominator node
         Node common = Node.getLowestCommonDominator(references);
 
-        if (common == null) {
-            // do nothing
-        } else if (references.contains(common)) {
+        if (common == null || references.contains(common) || catcher) {
             // do nothing
         } else {
             // insert variable declaration at the header of common dominator node
@@ -98,6 +97,9 @@ public class OperandLocalVariable extends Operand {
         }
     }
 
+    /**
+     * Reset access flag.
+     */
     void reset() {
         firstAccess = true;
     }
@@ -109,12 +111,5 @@ public class OperandLocalVariable extends Operand {
     public String toString() {
         // don't call #write, it will throw error in debug mode.
         return name;
-    }
-
-    /**
-     * @param reference
-     */
-    public void add(Node reference) {
-        this.references.add(reference);
     }
 }

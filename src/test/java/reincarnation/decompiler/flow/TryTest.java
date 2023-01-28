@@ -14,13 +14,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import reincarnation.CodeVerifier;
 import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
+@Execution(ExecutionMode.SAME_THREAD)
 class TryTest extends CodeVerifier {
 
     private static class Throw {
@@ -174,7 +176,6 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryMultipleCatchInherited() {
         verify(new TestCode.IntParam() {
 
@@ -194,10 +195,10 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryMultipleCatchAfter() {
         verify(new TestCode.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
@@ -297,10 +298,10 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryCatchInTryAfter() {
         verify(new TestCode.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
@@ -321,7 +322,6 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryCatchWithFrameFull() {
         verify(new TestCode.IntParam() {
 
@@ -366,7 +366,6 @@ class TryTest extends CodeVerifier {
     void TryCatchFinallyAfter() {
         verify(new TestCode.IntParam() {
 
-            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
@@ -383,7 +382,6 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryCatchFinallyReturnImmediately() {
         verify(new TestCode.IntParam() {
 
@@ -407,7 +405,6 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryCatchFinallyReturnImmediatelyWithAfter() {
         verify(new TestCode.IntParam() {
 
@@ -432,7 +429,6 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryCatchFinallyAfterNestAtFinally() {
         verify(new TestCode.IntParam() {
 
@@ -466,7 +462,6 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryFinally() {
         verify(new TestCode.IntParam() {
 
@@ -492,7 +487,6 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryFinally2() {
         verify(new TestCode.IntParam() {
 
@@ -520,7 +514,6 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryFinallyVoid() {
         verify(new TestCode.IntParam() {
 
@@ -549,7 +542,6 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryFinallyNest1() {
         verify(new TestCode.IntParam() {
 
@@ -574,7 +566,6 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryFinallyNest2() {
         verify(new TestCode.IntParam() {
 
@@ -603,7 +594,6 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryFinallyNest3() {
         verify(new TestCode.IntParam() {
 
@@ -649,7 +639,7 @@ class TryTest extends CodeVerifier {
                     return counter += 1;
                 } catch (Error e) {
                     if (value % 5 == 0) {
-                        return 10;
+                        return 5;
                     }
                     return counter += 2;
                 } finally {
