@@ -20,13 +20,11 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
@@ -45,6 +43,7 @@ import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
 import reincarnation.structure.Structure;
+import reincarnation.util.MultiMap;
 
 /**
  * @version 2018/10/08 12:56:11
@@ -1485,7 +1484,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     @Override
     public void visitTryCatchBlock(Label start, Label end, Label handler, String type) {
-        tries.addTryCatchFinallyBlock(getNode(start), getNode(end), getNode(handler), load(type));
+        tries.registerBlock(getNode(start), getNode(end), getNode(handler), load(type));
     }
 
     /**
@@ -2375,45 +2374,49 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         private final List<TryCatchFinally> blocks = new ArrayList<>();
 
         /** The copied finally node manager. */
-        private final Map<Node, Set<Node>> finallyCopies = new LinkedHashMap();
+        private final MultiMap<Node, CopiedFinally> finallyCopies = new MultiMap(false);
 
         /**
-         * Add new try-catch-finally block.
-         * 
          * @param start
          * @param end
          * @param catcher
          * @param exception
          */
-        private void addTryCatchFinallyBlock(Node start, Node end, Node catcher, Class<?> exception) {
-            // In Java 6 and later, the old jsr and ret instructions are effectively deprecated.
-            // These instructions were used to build mini-subroutines inside methods.
-            // The finally node is copied on all exit nodes by compiler , so we must remove it.
+        private void registerBlock(Node start, Node end, Node catcher, Class exception) {
             if (exception == null) {
-                finallyCopies.computeIfAbsent(catcher, key -> new LinkedHashSet()).add(end);
+                // with finally block
+                if (end == catcher) {
+                    // without catch block
+                    finallyCopies.put(catcher, new CopiedFinally(start));
 
+                    blocks.add(new TryCatchFinally(start, null, catcher, null));
+                } else {
+                    // with catch block
+                    finallyCopies.put(catcher, new CopiedFinally(end));
+
+                    for (TryCatchFinally block : blocks) {
+                        // The try-catch-finally block which indicates the same start and end nodes
+                        // means multiple catches.
+                        if (block.start == start) {
+                            block.addCatchOrFinallyBlock(exception, catcher);
+
+                            finallyCopies.put(catcher, new CopiedFinally(block.end));
+                            return;
+                        }
+                    }
+                }
+            } else {
+                // without finally block
                 for (TryCatchFinally block : blocks) {
                     // The try-catch-finally block which indicates the same start and end nodes
                     // means multiple catches.
-                    if (block.start == start) {
+                    if (block.start == start && block.end == end) {
                         block.addCatchOrFinallyBlock(exception, catcher);
-
-                        finallyCopies.computeIfAbsent(catcher, key -> new LinkedHashSet()).add(block.end);
                         return;
                     }
                 }
-                return;
+                blocks.add(new TryCatchFinally(start, end, catcher, exception));
             }
-
-            for (TryCatchFinally block : blocks) {
-                // The try-catch-finally block which indicates the same start and end nodes
-                // means multiple catches.
-                if (block.start == start && block.end == end) {
-                    block.addCatchOrFinallyBlock(exception, catcher);
-                    return;
-                }
-            }
-            blocks.add(new TryCatchFinally(start, end, catcher, exception));
         }
 
         /**
@@ -2430,18 +2433,26 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         }
 
         /**
-         * 
+         * In Java 6 and later, the old jsr and ret instructions are effectively deprecated. These
+         * instructions were used to build mini-subroutines inside methods. The finally node is
+         * copied on all exit nodes by compiler , so we must remove it.
          */
         private void disposeCopiedFinallyBlock() {
-            for (Entry<Node, Set<Node>> entry : finallyCopies.entrySet()) {
-                int deletableSize = countFinallyBlockSize(entry.getKey());
+            finallyCopies.forEach((key, values) -> {
+                int deletableSize = countFinallyBlockSize(key);
 
-                for (Node deletable : entry.getValue()) {
+                for (CopiedFinally copied : values) {
+                    Node deletable = copied.header.get();
+                    Debugger.print(deletable.outgoingRecursively().take(Node::isNotEmpty).take(deletableSize + 1).toList());
+
                     List<Node> incomings = new ArrayList(deletable.incoming);
                     incomings.forEach(in -> in.disconnect(deletable));
 
                     Node node = deletable.outgoingRecursively().take(Node::isNotEmpty).take(deletableSize + 1).to().exact();
                     deletable.outgoingRecursively().takeUntil(n -> n == node).to(n -> n.disconnect(node));
+
+                    System.out.println(deletableSize);
+                    Debugger.print(deletableSize, deletable, node);
 
                     incomings.forEach(in -> in.connect(node));
 
@@ -2449,20 +2460,20 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                         incomings.forEach(in -> in.connect(node));
                     }
                 }
-            }
+            });
         }
 
         /**
          * Dispose the throw operand from the tail node in finally block.
          */
         private void disposeLastThrowInOriginalFinally() {
-            for (Node finallyBlock : finallyCopies.keySet()) {
+            finallyCopies.forEach((finallyBlock, values) -> {
                 for (Node tail : finallyBlock.tails()) {
                     if (tail.stack.peekFirst() instanceof OperandThrow) {
                         dispose(tail, true, false);
                     }
                 }
-            }
+            });
         }
 
         /**
@@ -2590,7 +2601,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             this.start = start;
             this.end = end;
             this.catcher = catcher;
-            start.disposable = end.disposable = catcher.disposable = false;
+            if (start != null) start.disposable = false;
+            if (end != null) end.disposable = false;
+            if (catcher != null) catcher.disposable = false;
 
             addCatchOrFinallyBlock(exception, catcher);
         }
@@ -2617,8 +2630,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          */
         private void searchExit() {
             Deque<Node> nodes = new ArrayDeque<>();
-            nodes.addAll(catcher.outgoing); // catcher node must be first
-            nodes.addAll(end.outgoing); // then end node
+            if (catcher != null) nodes.addAll(catcher.outgoing); // catcher node must be first
+            if (end != null) nodes.addAll(end.outgoing); // then end node
 
             Set<Node> recorder = new HashSet<>(nodes);
 
@@ -2667,6 +2680,48 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         CatchOrFinally(Class<?> exception, Node node) {
             this.exception = exception;
             this.node = node;
+        }
+    }
+
+    /**
+     * 
+     */
+    private static class CopiedFinally {
+
+        private final Node key;
+
+        private final Supplier<Node> header;
+
+        /**
+         * @param key
+         */
+        private CopiedFinally(Node key) {
+            this(key, () -> key);
+        }
+
+        /**
+         * @param key
+         * @param header
+         */
+        private CopiedFinally(Node key, Supplier<Node> header) {
+            this.key = key;
+            this.header = header;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int hashCode() {
+            return key.hashCode();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof CopiedFinally other ? Objects.equals(key, other.key) : false;
         }
     }
 }

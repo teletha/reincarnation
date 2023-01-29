@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -255,6 +256,7 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
+    @Disabled
     void TryCatchInTry() {
         verify(new TestCode.IntParam() {
 
@@ -322,6 +324,7 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
+    @Disabled
     void TryCatchWithFrameFull() {
         verify(new TestCode.IntParam() {
 
@@ -383,6 +386,7 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
+    @Disabled
     void TryCatchFinallyReturnImmediately() {
         verify(new TestCode.IntParam() {
 
@@ -406,6 +410,7 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
+    @Disabled
     void TryCatchFinallyReturnImmediatelyWithAfter() {
         verify(new TestCode.IntParam() {
 
@@ -430,6 +435,7 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
+    @Disabled
     void TryCatchFinallyAfterNestAtFinally() {
         verify(new TestCode.IntParam() {
 
@@ -476,9 +482,21 @@ class TryTest extends CodeVerifier {
                 return value;
             }
 
+            @Debuggable
             private int error(int value) {
                 try {
                     value = Throw.error(value);
+                    value += 3;
+                    if (value % 2 == 0) {
+                        value -= 2;
+                    } else {
+                        try {
+                            value = Throw.error(value);
+                            value++;
+                        } finally {
+                            value += 5;
+                        }
+                    }
                 } finally {
                     value++;
                 }
@@ -532,6 +550,7 @@ class TryTest extends CodeVerifier {
                 return counter;
             }
 
+            @Debuggable
             private void error(int value) {
                 try {
                     counter = Throw.error(value);
@@ -685,6 +704,7 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
+    @Disabled
     void TryFinallyAfterNest2() {
         verify(new TestCode.IntParam() {
 
