@@ -795,53 +795,6 @@ public class Node implements Code<Operand> {
                     return writeWhile();
                 }
             }
-
-            // =============================================================
-            // Try-Catch-Finally Block
-            // =============================================================
-            for (TryCatchFinally block : tries) {
-                // buffer.write("}", "catch", "($)", "{");
-                // buffer.write("$", "=", Javascript.writeMethodCode(Throwable.class, "wrap",
-                // Object.class, "$"), ";").line();
-                //
-                // for (int i = 0; i < block.catches.size(); i++) {
-                // Catch current = block.catches.get(i);
-                // String variable = current.variable;
-                //
-                // if (current.exception == null) {
-                // // finally block
-                // buffer.write(variable, "=", "$;").line();
-                // process(current.node, buffer);
-                // } else {
-                // String condition = current.exception == Throwable.class ? "(true)"
-                // : "($ instanceof " + Javascript.computeClassName(current.exception) + ")";
-                // buffer.write("if", condition, "{");
-                // buffer.write(variable, "=", "$;").line();
-                // process(current.node, buffer);
-                // buffer.write("}", "else");
-                //
-                // if (i + 1 == block.catches.size()) {
-                // buffer.write("", "{");
-                // buffer.write("throw $;");
-                // buffer.write("}");
-                // } else {
-                // buffer.write(" ");
-                // }
-                // }
-                // }
-                // buffer.write("}"); // close try statement
-                //
-                // Node exit = block.exit;
-                //
-                // if (exit != null) {
-                // if (Debugger.isEnable()) {
-                // buffer.comment("Start " + block.start.id + " End " + block.end.id + " Catcher " +
-                // block.catcher.id);
-                // }
-                // buffer.comment("ext block " + exit.id);
-                // process(exit, buffer);
-                // }
-            }
         }
         return Structure.Empty;
     }

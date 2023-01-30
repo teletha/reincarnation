@@ -486,19 +486,8 @@ class TryTest extends CodeVerifier {
             private int error(int value) {
                 try {
                     value = Throw.error(value);
-                    value += 3;
-                    if (value % 2 == 0) {
-                        value -= 2;
-                    } else {
-                        try {
-                            value = Throw.error(value);
-                            value++;
-                        } finally {
-                            value += 5;
-                        }
-                    }
                 } finally {
-                    value++;
+                    value += 10;
                 }
                 return value;
             }
@@ -519,6 +508,7 @@ class TryTest extends CodeVerifier {
                 return value;
             }
 
+            @Debuggable
             private int error(int value) {
                 try {
                     for (int i = 0; i < 3; i++) {
@@ -565,19 +555,20 @@ class TryTest extends CodeVerifier {
     void TryFinallyNest1() {
         verify(new TestCode.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
                     try {
                         value += 1;
                     } finally {
-                        value += 2;
+                        value *= 2;
                     }
                 } finally {
                     try {
                         value += 3;
                     } finally {
-                        value += 4;
+                        value *= 4;
                     }
                 }
                 return value;
@@ -589,6 +580,7 @@ class TryTest extends CodeVerifier {
     void TryFinallyNest2() {
         verify(new TestCode.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
@@ -658,15 +650,12 @@ class TryTest extends CodeVerifier {
                     }
                     return counter += 1;
                 } catch (Error e) {
-                    if (value % 5 == 0) {
-                        return 5;
+                    if (value % 3 == 0) {
+                        return 3;
                     }
-                    return counter += 2;
+                    return counter += 3;
                 } finally {
-                    if (value % 7 == 0) {
-                        return 7;
-                    }
-                    counter += 3;
+                    counter--;
                 }
             }
         });

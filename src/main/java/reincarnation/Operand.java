@@ -252,7 +252,7 @@ public abstract class Operand implements Code<Operand> {
         if (type == getClass()) {
             return I.signal((T) this);
         } else {
-            return children().flatMap(o -> o.find(type));
+            return children().skipNull().flatMap(o -> o.find(type));
         }
     }
 }

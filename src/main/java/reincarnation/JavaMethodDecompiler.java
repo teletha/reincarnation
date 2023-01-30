@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.load;
+import static reincarnation.Util.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -45,9 +45,6 @@ import reincarnation.operator.UnaryOperator;
 import reincarnation.structure.Structure;
 import reincarnation.util.MultiMap;
 
-/**
- * @version 2018/10/08 12:56:11
- */
 class JavaMethodDecompiler extends MethodVisitor implements Code {
 
     /** The description of {@link Debugger}. */
@@ -1484,7 +1481,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     @Override
     public void visitTryCatchBlock(Label start, Label end, Label handler, String type) {
-        tries.registerBlock(getNode(start), getNode(end), getNode(handler), load(type));
+        tries.addBlock(getNode(start), getNode(end), getNode(handler), load(type));
     }
 
     /**
@@ -2382,12 +2379,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          * @param catcher
          * @param exception
          */
-        private void registerBlock(Node start, Node end, Node catcher, Class exception) {
+        private void addBlock(Node start, Node end, Node catcher, Class exception) {
             if (exception == null) {
                 // with finally block
                 if (end == catcher) {
                     // without catch block
-                    finallyCopies.put(catcher, new CopiedFinally(start));
+                    finallyCopies.put(catcher, new CopiedFinally(end, true, () -> I.signal(end.tails()).last().to().exact().next));
 
                     blocks.add(new TryCatchFinally(start, null, catcher, null));
                 } else {
@@ -2404,6 +2401,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                             return;
                         }
                     }
+                    blocks.add(new TryCatchFinally(start, end, catcher, exception));
                 }
             } else {
                 // without finally block
@@ -2440,10 +2438,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         private void disposeCopiedFinallyBlock() {
             finallyCopies.forEach((key, values) -> {
                 int deletableSize = countFinallyBlockSize(key);
+                List<CopiedFinally> tails = new ArrayList();
 
                 for (CopiedFinally copied : values) {
                     Node deletable = copied.header.get();
-                    Debugger.print(deletable.outgoingRecursively().take(Node::isNotEmpty).take(deletableSize + 1).toList());
 
                     List<Node> incomings = new ArrayList(deletable.incoming);
                     incomings.forEach(in -> in.disconnect(deletable));
@@ -2451,13 +2449,37 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                     Node node = deletable.outgoingRecursively().take(Node::isNotEmpty).take(deletableSize + 1).to().exact();
                     deletable.outgoingRecursively().takeUntil(n -> n == node).to(n -> n.disconnect(node));
 
-                    System.out.println(deletableSize);
-                    Debugger.print(deletableSize, deletable, node);
-
                     incomings.forEach(in -> in.connect(node));
+
+                    System.out
+                            .println("Finally effect " + node.id + "  key:" + key.id + "  incomings:" + incomings + "  deletable:" + deletable.id + "  tail:" + deletable
+                                    .tails()
+                                    .stream()
+                                    .map(x -> x.id)
+                                    .toList());
+
+                    tails.add(copied);
+                    copied.connection = node;
 
                     if (node.incoming.size() != 1 || !mergeImmediateReturn(incomings.get(0), node)) {
                         incomings.forEach(in -> in.connect(node));
+                    }
+                }
+
+                // Dispose the throw operand from the tail node in finally block.
+                for (Node tail : key.tails()) {
+                    if (tail.stack.peekFirst() instanceof OperandThrow) {
+                        System.out.println(tail.incoming.stream().map(x -> x.outgoing).toList());
+                        tail.incoming.stream().filter(x -> !x.outgoing.isEmpty()).forEach(x -> {
+                            System.out.println(x.id + "ppp");
+                            tails.forEach(y -> {
+                                if (y.connectable) {
+                                    System.out.println(y.key + "  " + y.connection);
+                                    x.connect(y.connection);
+                                }
+                            });
+                        });
+                        dispose(tail, true, false);
                     }
                 }
             });
@@ -2467,13 +2489,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          * Dispose the throw operand from the tail node in finally block.
          */
         private void disposeLastThrowInOriginalFinally() {
-            finallyCopies.forEach((finallyBlock, values) -> {
-                for (Node tail : finallyBlock.tails()) {
-                    if (tail.stack.peekFirst() instanceof OperandThrow) {
-                        dispose(tail, true, false);
-                    }
-                }
-            });
+            // finallyCopies.forEach((key, values) -> {
+            // for (Node tail : key.tails()) {
+            // if (tail.stack.peekFirst() instanceof OperandThrow) {
+            // dispose(tail, true, false);
+            // }
+            // }
+            // });
         }
 
         /**
@@ -2692,19 +2714,24 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         private final Supplier<Node> header;
 
+        private boolean connectable;
+
+        private Node connection;
+
         /**
          * @param key
          */
         private CopiedFinally(Node key) {
-            this(key, () -> key);
+            this(key, false, () -> key);
         }
 
         /**
          * @param key
          * @param header
          */
-        private CopiedFinally(Node key, Supplier<Node> header) {
+        private CopiedFinally(Node key, boolean connectable, Supplier<Node> header) {
             this.key = key;
+            this.connectable = connectable;
             this.header = header;
         }
 
