@@ -589,7 +589,7 @@ class TryTest extends CodeVerifier {
                     try {
                         value += 2;
                     } finally {
-                        value += 3;
+                        value *= 3;
                     }
                 } finally {
                     value += 4;
@@ -597,7 +597,7 @@ class TryTest extends CodeVerifier {
                     try {
                         value += 5;
                     } finally {
-                        value += 6;
+                        value *= 6;
                     }
                 }
                 return value;
@@ -609,20 +609,21 @@ class TryTest extends CodeVerifier {
     void TryFinallyNest3() {
         verify(new TestCode.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
                     try {
                         value += 1;
                     } finally {
-                        value += 2;
+                        value *= 2;
                     }
                     value += 3;
                 } finally {
                     try {
                         value += 4;
                     } finally {
-                        value += 5;
+                        value *= 5;
                     }
                     value += 6;
                 }
