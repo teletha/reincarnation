@@ -26,7 +26,7 @@ import reincarnation.TestCode;
 @Execution(ExecutionMode.SAME_THREAD)
 class TryTest extends CodeVerifier {
 
-    private static class Throw {
+    private static class MaybeThrow {
 
         private static int error(int value) {
             if (value % 2 == 0) {
@@ -57,7 +57,7 @@ class TryTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
-                    return Throw.error(value);
+                    return MaybeThrow.error(value);
                 } catch (Error e) {
                     return -1;
                 }
@@ -72,7 +72,7 @@ class TryTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
-                    value = Throw.error(value);
+                    value = MaybeThrow.error(value);
                 } catch (Error e) {
                     value += 2;
                 }
@@ -88,8 +88,8 @@ class TryTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
-                    value = Throw.error(value);
-                    value = Throw.error(value);
+                    value = MaybeThrow.error(value);
+                    value = MaybeThrow.error(value);
                 } catch (Error e) {
                     value += 2;
                 }
@@ -105,7 +105,7 @@ class TryTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
-                    value = Throw.error(value);
+                    value = MaybeThrow.error(value);
                 } catch (Error e) {
                     return 50;
                 }
@@ -121,7 +121,7 @@ class TryTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
-                    value = Throw.error(value);
+                    value = MaybeThrow.error(value);
                 } catch (Error e) {
                     // do nothing
                 }
@@ -146,7 +146,7 @@ class TryTest extends CodeVerifier {
             private int error(int value) {
                 try {
                     if (value != 3) {
-                        return Throw.exception(value);
+                        return MaybeThrow.exception(value);
                     }
                 } catch (Exception e) {
                     // do nothing
@@ -163,8 +163,8 @@ class TryTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
-                    value = Throw.error(value);
-                    value = Throw.exception(value);
+                    value = MaybeThrow.error(value);
+                    value = MaybeThrow.exception(value);
 
                     return value + 100;
                 } catch (Exception e) {
@@ -183,8 +183,8 @@ class TryTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
-                    value = Throw.io(value);
-                    value = Throw.exception(value);
+                    value = MaybeThrow.io(value);
+                    value = MaybeThrow.exception(value);
                 } catch (IOException e) {
                     value = value + 2;
                 } catch (Exception e) {
@@ -203,8 +203,8 @@ class TryTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
-                    value = Throw.error(value);
-                    value = Throw.exception(value);
+                    value = MaybeThrow.error(value);
+                    value = MaybeThrow.exception(value);
                 } catch (Exception e) {
                     value = 20;
                 } catch (Error e) {
@@ -222,10 +222,10 @@ class TryTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
-                    return Throw.error(value);
+                    return MaybeThrow.error(value);
                 } catch (Error e) {
                     try {
-                        return Throw.exception(value);
+                        return MaybeThrow.exception(value);
                     } catch (Exception e2) {
                         return value;
                     }
@@ -241,10 +241,10 @@ class TryTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
-                    value = Throw.error(value);
+                    value = MaybeThrow.error(value);
                 } catch (Error e) {
                     try {
-                        value = Throw.exception(value);
+                        value = MaybeThrow.exception(value);
                     } catch (Exception e2) {
                         value = value + 3;
                     }
@@ -264,10 +264,10 @@ class TryTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
-                    value = Throw.exception(value);
+                    value = MaybeThrow.exception(value);
 
                     try {
-                        value = Throw.error(value);
+                        value = MaybeThrow.error(value);
                     } catch (Error e) {
                         return value + 1;
                     }
@@ -287,11 +287,11 @@ class TryTest extends CodeVerifier {
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
                     try {
-                        value = Throw.error(value);
+                        value = MaybeThrow.error(value);
                     } catch (Error e) {
                         return value + 1;
                     }
-                    return Throw.exception(value);
+                    return MaybeThrow.exception(value);
                 } catch (Exception e) {
                     return value + 3;
                 }
@@ -307,10 +307,10 @@ class TryTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
-                    value = Throw.exception(value);
+                    value = MaybeThrow.exception(value);
 
                     try {
-                        value = Throw.error(value);
+                        value = MaybeThrow.error(value);
                     } catch (Error e) {
                         value = value + 4;
                     }
@@ -350,13 +350,13 @@ class TryTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 3) int value) {
                 try {
-                    value = Throw.error(value);
+                    value = MaybeThrow.error(value);
                 } catch (Error e) {
                     return -1;
                 }
 
                 try {
-                    value = Throw.exception(value);
+                    value = MaybeThrow.exception(value);
                 } catch (Exception e) {
                     return -1;
                 }
@@ -373,7 +373,7 @@ class TryTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
-                    value = Throw.error(value);
+                    value = MaybeThrow.error(value);
                 } catch (Error e) {
                     value = value + 1;
                 } finally {
@@ -399,7 +399,7 @@ class TryTest extends CodeVerifier {
 
             private int calc(int value) {
                 try {
-                    return Throw.error(value);
+                    return MaybeThrow.error(value);
                 } catch (Error e) {
                     return 10;
                 } finally {
@@ -423,7 +423,7 @@ class TryTest extends CodeVerifier {
 
             private int calc(int value) {
                 try {
-                    return Throw.error(value);
+                    return MaybeThrow.error(value);
                 } catch (Error e) {
                     value = value + 3;
                 } finally {
@@ -472,68 +472,12 @@ class TryTest extends CodeVerifier {
     void TryFinally() {
         verify(new TestCode.IntParam() {
 
-            @Override
-            public int run(@Param(from = 0, to = 10) int value) {
-                try {
-                    value = error(value);
-                } catch (Error e) {
-                    // do nothing
-                }
-                return value;
-            }
-
-            @Debuggable
-            private int error(int value) {
-                try {
-                    value = Throw.error(value);
-                } finally {
-                    value += 10;
-                }
-                return value;
-            }
-        });
-    }
-
-    @Test
-    void TryFinally2() {
-        verify(new TestCode.IntParam() {
-
-            @Override
-            public int run(@Param(from = 0, to = 10) int value) {
-                try {
-                    value = error(value);
-                } catch (Error e) {
-                    // do nothing
-                }
-                return value;
-            }
-
-            @Debuggable
-            private int error(int value) {
-                try {
-                    for (int i = 0; i < 3; i++) {
-                        value = Throw.error(value);
-                    }
-                } finally {
-                    value++;
-                }
-                return value;
-            }
-        });
-    }
-
-    @Test
-    void TryFinallyVoid() {
-        verify(new TestCode.IntParam() {
-
             private int counter = 0;
 
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
-                    if (value != 0) {
-                        error(value);
-                    }
+                    counter *= error(value);
                 } catch (Error e) {
                     // do nothing
                 }
@@ -541,9 +485,9 @@ class TryTest extends CodeVerifier {
             }
 
             @Debuggable
-            private void error(int value) {
+            private int error(int value) {
                 try {
-                    counter = Throw.error(value);
+                    return MaybeThrow.error(value);
                 } finally {
                     counter++;
                 }
@@ -552,7 +496,35 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    void TryFinallyNest1() {
+    void TryFinallyAfter() {
+        verify(new TestCode.IntParam() {
+
+            private int counter = 0;
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                try {
+                    counter *= error(value);
+                } catch (Error e) {
+                    // do nothing
+                }
+                return counter;
+            }
+
+            @Debuggable
+            private int error(int value) {
+                try {
+                    value = MaybeThrow.error(value);
+                } finally {
+                    counter++;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void TryFinallyAfterNestTryNestFinally() {
         verify(new TestCode.IntParam() {
 
             @Debuggable
@@ -633,7 +605,7 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    void TryCatchFinally() {
+    void TryCatchThrowFinally() {
         verify(new TestCode.IntParam() {
 
             private int counter = 0;
@@ -646,18 +618,61 @@ class TryTest extends CodeVerifier {
             @Debuggable
             private int count(int value) {
                 try {
-                    if (value % 2 == 0) {
-                        throw new Error();
-                    }
-                    return counter += 1;
+                    return MaybeThrow.error(value);
                 } catch (Error e) {
-                    if (value % 3 == 0) {
-                        return 3;
-                    }
-                    return counter += 3;
+                    throw e;
                 } finally {
                     counter--;
                 }
+            }
+        });
+    }
+
+    @Test
+    void TryCatchReturnFinally() {
+        verify(new TestCode.IntParam() {
+
+            private int counter = 0;
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                return count(value) + counter;
+            }
+
+            @Debuggable
+            private int count(int value) {
+                try {
+                    return MaybeThrow.error(value);
+                } catch (Error e) {
+                    return value + 1;
+                } finally {
+                    counter--;
+                }
+            }
+        });
+    }
+
+    @Test
+    void TryCatchFinallyAfterr() {
+        verify(new TestCode.IntParam() {
+
+            private int counter = 0;
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                return count(value) + counter;
+            }
+
+            @Debuggable
+            private int count(int value) {
+                try {
+                    value = MaybeThrow.error(value);
+                } catch (Error e) {
+                    counter++;
+                } finally {
+                    counter--;
+                }
+                return counter;
             }
         });
     }
