@@ -80,6 +80,14 @@ public class CodeVerifier {
             expecteds.add(base.verifier.apply(input));
         }
 
+        if (base.method.isAnnotationPresent(ShowJavaResultOnly.class)) {
+            System.out.println("Show Java result : " + base.method);
+            for (int i = 0; i < inputs.size(); i++) {
+                System.out.println(inputs.get(i) + " : " + expecteds.get(i));
+            }
+            return;
+        }
+
         // java decompiler
         JavaVerifier java = new JavaVerifier(recompile(code));
 
