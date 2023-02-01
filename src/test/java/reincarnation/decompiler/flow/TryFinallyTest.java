@@ -21,6 +21,71 @@ import reincarnation.TestCode;
 class TryFinallyTest extends CodeVerifier {
 
     @Test
+    void normal() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            @Debuggable
+            public int run(@Param(from = 0, to = 10) int param) {
+                try {
+                    return param + 1;
+                } finally {
+                    param *= 2;
+                }
+            }
+        });
+    }
+
+    @Test
+    void normalAfter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            @Debuggable
+            public int run(@Param(from = 0, to = 10) int param) {
+                try {
+                    param += 1;
+                } finally {
+                    param *= 2;
+                }
+                return param;
+            }
+        });
+    }
+
+    @Test
+    void emptyTry() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                try {
+                    // empty
+                } finally {
+                    param *= 2;
+                }
+                return param;
+            }
+        });
+    }
+
+    @Test
+    void emptyFinally() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                try {
+                    param += 2;
+                } finally {
+                    // empty
+                }
+                return param;
+            }
+        });
+    }
+
+    @Test
     void returnInTry() {
         verify(new TestCode.IntParam() {
 

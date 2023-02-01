@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -2446,7 +2446,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                     List<Node> incomings = new ArrayList(deletable.incoming);
                     incomings.forEach(in -> in.disconnect(deletable));
 
-                    Node node = deletable.outgoingRecursively().take(Node::isNotEmpty).take(deletableSize + 1).to().exact();
+                    Node node = deletable.outgoingRecursively().take(Node::isNotEmpty).take(deletableSize + 1).to().v;
+                    if (node == null) {
+                        continue;
+                    }
                     deletable.outgoingRecursively().takeUntil(n -> n == node).to(n -> n.disconnect(node));
 
                     incomings.forEach(in -> in.connect(node));

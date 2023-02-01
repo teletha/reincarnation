@@ -484,10 +484,15 @@ class TryTest extends CodeVerifier {
                 try {
                     return MaybeThrow.error(value);
                 } catch (Error e) {
-                    return value + 1;
+                    try {
+                        value = MaybeThrow.error(value + 1);
+                    } catch (Error x) {
+                        value += 5;
+                    }
                 } finally {
                     counter--;
                 }
+                return value;
             }
         });
     }
