@@ -31,6 +31,7 @@ class TryTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
+            @Debuggable
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
                     return MaybeThrow.error(value);
@@ -45,6 +46,7 @@ class TryTest extends CodeVerifier {
     void TryCatchAfter() {
         verify(new TestCode.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
@@ -119,6 +121,7 @@ class TryTest extends CodeVerifier {
                 }
             }
 
+            @Debuggable
             private int error(int value) {
                 try {
                     if (value != 3) {
@@ -136,6 +139,7 @@ class TryTest extends CodeVerifier {
     void TryMultipleCatch() {
         verify(new TestCode.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
@@ -155,7 +159,7 @@ class TryTest extends CodeVerifier {
     @Test
     void TryMultipleCatchInherited() {
         verify(new TestCode.IntParam() {
-
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
@@ -195,6 +199,7 @@ class TryTest extends CodeVerifier {
     void TryCatchInCatch() {
         verify(new TestCode.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
@@ -232,7 +237,6 @@ class TryTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryCatchInTry() {
         verify(new TestCode.IntParam() {
 
@@ -259,6 +263,7 @@ class TryTest extends CodeVerifier {
     void TryCatchInTryImmediately() {
         verify(new TestCode.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {

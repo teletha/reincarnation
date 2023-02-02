@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.load;
+import static reincarnation.Util.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -2454,13 +2454,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
                     incomings.forEach(in -> in.connect(node));
 
-                    System.out
-                            .println("Finally effect " + node.id + "  key:" + key.id + "  incomings:" + incomings + "  deletable:" + deletable.id + "  tail:" + deletable
-                                    .tails()
-                                    .stream()
-                                    .map(x -> x.id)
-                                    .toList());
-
                     tails.add(copied);
                     copied.connection = node;
 
@@ -2472,12 +2465,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 // Dispose the throw operand from the tail node in finally block.
                 for (Node tail : key.tails()) {
                     if (tail.stack.peekFirst() instanceof OperandThrow) {
-                        System.out.println(tail.incoming.stream().map(x -> x.outgoing).toList());
                         tail.incoming.stream().filter(x -> !x.outgoing.isEmpty()).forEach(x -> {
-                            System.out.println(x.id + "ppp");
                             tails.forEach(y -> {
                                 if (y.connectable) {
-                                    System.out.println(y.key + "  " + y.connection);
                                     x.connect(y.connection);
                                 }
                             });
