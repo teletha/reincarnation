@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -2364,7 +2364,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     private class TryCatchFinallyManager {
 
         /** The managed try-catch-finally blocks. */
-        private final List<TryCatchFinally> blocks = new ArrayList<>();
+        private final Deque<TryCatchFinally> blocks = new ArrayDeque();
 
         /**
          * @param start
@@ -2378,11 +2378,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 if (end == handler) {
                     // without catch block
 
-                    blocks.add(new TryCatchFinally(start, end, handler, exception));
+                    blocks.addFirst(new TryCatchFinally(start, end, handler, exception));
                 } else {
                     // with catch block
 
-                    blocks.add(new TryCatchFinally(start, end, handler, null));
+                    blocks.addFirst(new TryCatchFinally(start, end, handler, null));
                 }
             } else {
                 // without finally block
@@ -2400,7 +2400,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                         return;
                     }
                 }
-                blocks.add(new TryCatchFinally(start, end, handler, exception));
+                blocks.addFirst(new TryCatchFinally(start, end, handler, exception));
             }
         }
 
@@ -2466,6 +2466,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
             // Then, we can analyze.
             for (TryCatchFinally block : blocks) {
+                System.out.println(block.handler.id);
                 // Associate node with block.
                 block.start.tries.add(block);
                 block.searchExit();
