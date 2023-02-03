@@ -702,14 +702,14 @@ public class Node implements Code<Operand> {
             // Try-Catch-Finally Block
             // =============================================================
             if (!tries.isEmpty()) {
-                TryCatchFinally removed = tries.remove(0);
-                List<Ⅲ<Class, String, Structure>> catches = I.signal(removed.blocks)
+                TryCatchFinally tryBlock = tries.remove(0);
+                List<Ⅲ<Class, String, Structure>> catches = I.signal(tryBlock.catchers)
                         .map(c -> I.pair(c.exception, c.variable.toString(), process(c.node)))
                         .toList();
-                if (removed.exit != null) {
-                    removed.exit.additionalCalls++;
+                if (tryBlock.exit != null) {
+                    tryBlock.exit.additionalCalls++;
                 }
-                return new Try(this, removed.start, catches, removed.exit);
+                return new Try(this, tryBlock.start, catches, tryBlock.finaly, tryBlock.exit);
             }
 
             analyzed = true;

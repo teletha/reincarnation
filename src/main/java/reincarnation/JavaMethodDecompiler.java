@@ -22,9 +22,7 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-import java.util.function.Supplier;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
@@ -43,7 +41,6 @@ import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
 import reincarnation.structure.Structure;
-import reincarnation.util.MultiMap;
 
 class JavaMethodDecompiler extends MethodVisitor implements Code {
 
@@ -315,8 +312,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         Debugger.print(nodes);
 
-        tries.disposeCopiedFinallyBlock();
-        tries.disposeLastThrowInOriginalFinally();
+        tries.preprocess();
 
         // Separate conditional operands and dispose empty node.
         for (Node node : nodes.toArray(new Node[nodes.size()])) {
@@ -2370,50 +2366,41 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         /** The managed try-catch-finally blocks. */
         private final List<TryCatchFinally> blocks = new ArrayList<>();
 
-        /** The copied finally node manager. */
-        private final MultiMap<Node, CopiedFinally> finallyCopies = new MultiMap(false);
-
         /**
          * @param start
          * @param end
-         * @param catcher
+         * @param handler
          * @param exception
          */
-        private void addBlock(Node start, Node end, Node catcher, Class exception) {
+        private void addBlock(Node start, Node end, Node handler, Class exception) {
             if (exception == null) {
                 // with finally block
-                if (end == catcher) {
+                if (end == handler) {
                     // without catch block
-                    finallyCopies.put(catcher, new CopiedFinally(end, true, () -> I.signal(end.tails()).last().to().exact().next));
 
-                    blocks.add(new TryCatchFinally(start, null, catcher, null));
+                    blocks.add(new TryCatchFinally(start, end, handler, exception));
                 } else {
                     // with catch block
-                    finallyCopies.put(catcher, new CopiedFinally(end));
 
-                    for (TryCatchFinally block : blocks) {
-                        // The try-catch-finally block which indicates the same start and end nodes
-                        // means multiple catches.
-                        if (block.start == start) {
-                            block.addCatchOrFinallyBlock(exception, catcher);
-
-                            finallyCopies.put(catcher, new CopiedFinally(block.end));
-                            return;
-                        }
-                    }
-                    blocks.add(new TryCatchFinally(start, end, catcher, exception));
+                    blocks.add(new TryCatchFinally(start, end, handler, null));
                 }
             } else {
                 // without finally block
                 for (TryCatchFinally block : blocks) {
+                    for (Catcher registered : block.catchers) {
+                        if (registered.node == handler) {
+                            return;
+                        }
+                    }
+
                     // The try-catch-finally block which indicates the same start and end nodes
                     // means multiple catches.
                     if (block.start == start && block.end == end) {
-                        block.addCatchOrFinallyBlock(exception, catcher);
+                        block.addCatchBlock(exception, handler);
                         return;
                     }
                 }
-                blocks.add(new TryCatchFinally(start, end, catcher, exception));
+                blocks.add(new TryCatchFinally(start, end, handler, exception));
             }
         }
 
@@ -2423,7 +2410,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          */
         private boolean isCatcher(Node node) {
             for (TryCatchFinally block : blocks) {
-                if (block.catcher == node) {
+                if (block.handler == node) {
                     return true;
                 }
             }
@@ -2436,59 +2423,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          * copied on all exit nodes by compiler , so we must remove it.
          */
         private void disposeCopiedFinallyBlock() {
-            finallyCopies.forEach((key, values) -> {
-                int deletableSize = countFinallyBlockSize(key);
-                List<CopiedFinally> tails = new ArrayList();
 
-                for (CopiedFinally copied : values) {
-                    Node deletable = copied.header.get();
-
-                    List<Node> incomings = new ArrayList(deletable.incoming);
-                    incomings.forEach(in -> in.disconnect(deletable));
-
-                    Node node = deletable.outgoingRecursively().take(Node::isNotEmpty).take(deletableSize + 1).to().v;
-                    if (node == null) {
-                        continue;
-                    }
-                    deletable.outgoingRecursively().takeUntil(n -> n == node).to(n -> n.disconnect(node));
-
-                    incomings.forEach(in -> in.connect(node));
-
-                    tails.add(copied);
-                    copied.connection = node;
-
-                    if (node.incoming.size() != 1 || !mergeImmediateReturn(incomings.get(0), node)) {
-                        incomings.forEach(in -> in.connect(node));
-                    }
-                }
-
-                // Dispose the throw operand from the tail node in finally block.
-                for (Node tail : key.tails()) {
-                    if (tail.stack.peekFirst() instanceof OperandThrow) {
-                        tail.incoming.stream().filter(x -> !x.outgoing.isEmpty()).forEach(x -> {
-                            tails.forEach(y -> {
-                                if (y.connectable) {
-                                    x.connect(y.connection);
-                                }
-                            });
-                        });
-                        dispose(tail, true, false);
-                    }
-                }
-            });
-        }
-
-        /**
-         * Dispose the throw operand from the tail node in finally block.
-         */
-        private void disposeLastThrowInOriginalFinally() {
-            // finallyCopies.forEach((key, values) -> {
-            // for (Node tail : key.tails()) {
-            // if (tail.stack.peekFirst() instanceof OperandThrow) {
-            // dispose(tail, true, false);
-            // }
-            // }
-            // });
         }
 
         /**
@@ -2506,6 +2441,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             return size;
         }
 
+        private void preprocess() {
+            for (TryCatchFinally block : blocks) {
+                block.disposeLastThrowInOriginalFinally();
+            }
+        }
+
         /**
          * Analyze and process.
          */
@@ -2516,9 +2457,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
             // At first, do connecting only.
             for (TryCatchFinally block : blocks) {
-                block.start.connect(block.catcher);
+                block.start.connect(block.handler);
 
-                for (CatchOrFinally catchBlock : block.blocks) {
+                for (Catcher catchBlock : block.catchers) {
                     block.start.connect(catchBlock.node);
                 }
             }
@@ -2532,16 +2473,16 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
             // At last, disconnect immediately after analysis.
             for (TryCatchFinally block : blocks) {
-                block.start.disconnect(block.catcher);
+                block.start.disconnect(block.handler);
 
-                for (CatchOrFinally catchBlock : block.blocks) {
+                for (Catcher catchBlock : block.catchers) {
                     block.start.disconnect(catchBlock.node);
                 }
             }
 
             // Purge the catch block which is inside loop structure directly.
             for (TryCatchFinally block : blocks) {
-                for (CatchOrFinally catchOrFinally : block.blocks) {
+                for (Catcher catchOrFinally : block.catchers) {
                     Set<Node> recorder = new HashSet<>();
                     recorder.add(catchOrFinally.node);
 
@@ -2577,7 +2518,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          */
         private void assignExceptionVariable(Node current, OperandLocalVariable variable) {
             for (TryCatchFinally block : blocks) {
-                for (CatchOrFinally catchOrFinally : block.blocks) {
+                for (Catcher catchOrFinally : block.catchers) {
                     if (catchOrFinally.node == current) {
                         catchOrFinally.variable = variable.set(LocalVariableDeclaration.None);
                     }
@@ -2589,7 +2530,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     /**
      * Data holder for try-catch-finally block.
      */
-    static class TryCatchFinally {
+    class TryCatchFinally {
 
         /** The start node. */
         final Node start;
@@ -2597,11 +2538,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         /** The end node. */
         final Node end;
 
-        /** The catcher node. */
-        final Node catcher;
+        /** The catcher or finally node. */
+        final Node handler;
 
-        /** The catch or finally blocks. */
-        final List<CatchOrFinally> blocks = new ArrayList<>();
+        /** The catcher nodes. */
+        final List<Catcher> catchers = new ArrayList<>();
+
+        /** The finally node. */
+        final Node finaly;
 
         /** The exit node. */
         Node exit;
@@ -2609,58 +2553,55 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         /**
          * @param start
          * @param end
-         * @param catcher
+         * @param handler
          * @param exception
          */
-        private TryCatchFinally(Node start, Node end, Node catcher, Class<?> exception) {
+        private TryCatchFinally(Node start, Node end, Node handler, Class<?> exception) {
             this.start = start;
             this.end = end;
-            this.catcher = catcher;
-            if (start != null) start.disposable = false;
-            if (end != null) end.disposable = false;
-            if (catcher != null) catcher.disposable = false;
+            this.handler = handler;
+            start.disposable = end.disposable = handler.disposable = false;
 
-            addCatchOrFinallyBlock(exception, catcher);
+            if (exception == null) {
+                finaly = handler;
+            } else {
+                finaly = null;
+                addCatchBlock(exception, handler);
+            }
         }
 
         /**
          * Add catch or finally block.
          * 
          * @param exception
-         * @param catcherOrFinally
+         * @param node A new catch node to add.
          */
-        private void addCatchOrFinallyBlock(Class<?> exception, Node catcherOrFinally) {
-            for (CatchOrFinally block : blocks) {
-                if (block.exception == exception) {
+        private void addCatchBlock(Class<?> exception, Node node) {
+            for (Catcher catcher : catchers) {
+                if (catcher.exception == exception) {
                     return;
                 }
             }
-            catcherOrFinally.disposable = false;
-            catcherOrFinally.additionalCalls++;
-            blocks.add(new CatchOrFinally(exception, catcherOrFinally));
+            node.disposable = false;
+            node.additionalCalls++;
+            catchers.add(new Catcher(exception, node));
         }
 
         /**
          * Search exit node of this try-catch-finally block.
          */
         private void searchExit() {
-            Deque<Node> nodes = new ArrayDeque<>();
-            if (catcher != null) nodes.addAll(catcher.outgoing); // catcher node must be first
-            if (end != null) nodes.addAll(end.outgoing); // then end node
+            I.signal(catchers).flatIterable(c -> c.node.tails()).map(n -> n.next).skipNull().last().to(n -> exit = n);
+        }
 
-            Set<Node> recorder = new HashSet<>(nodes);
-
-            while (!nodes.isEmpty()) {
-                Node node = nodes.pollFirst();
-
-                if (node.getDominator() == start) {
-                    exit = node;
-                    return;
-                }
-
-                for (Node n : node.outgoing) {
-                    if (recorder.add(n)) {
-                        nodes.add(n);
+        /**
+         * Dispose the throw operand from the tail node in finally block.
+         */
+        private void disposeLastThrowInOriginalFinally() {
+            if (finaly != null) {
+                for (Node tail : finaly.tails()) {
+                    if (tail.stack.peekFirst() instanceof OperandThrow thrower) {
+                        dispose(tail, true, false);
                     }
                 }
             }
@@ -2671,14 +2612,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          */
         @Override
         public String toString() {
-            return "TryCatchFinally [start=" + start.id + ", end=" + end.id + ", catcher=" + catcher.id + ", blocks=" + blocks + ", exit=" + exit + "]";
+            return "TryCatchFinally [start=" + start.id + ", end=" + end.id + ", catcher=" + handler.id + ", blocks=" + catchers + ", exit=" + exit + "]";
         }
     }
 
     /**
      * 
      */
-    static class CatchOrFinally {
+    static class Catcher {
 
         /** The Throwable class, may be null for finally statmenet. */
         final Class exception;
@@ -2686,62 +2627,16 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         /** The associated node. */
         final Node node;
 
+        /** The variablen name holder. */
         OperandLocalVariable variable;
 
         /**
          * @param exception
          * @param node
          */
-        CatchOrFinally(Class<?> exception, Node node) {
+        Catcher(Class<?> exception, Node node) {
             this.exception = exception;
             this.node = node;
-        }
-    }
-
-    /**
-     * 
-     */
-    private static class CopiedFinally {
-
-        private final Node key;
-
-        private final Supplier<Node> header;
-
-        private boolean connectable;
-
-        private Node connection;
-
-        /**
-         * @param key
-         */
-        private CopiedFinally(Node key) {
-            this(key, false, () -> key);
-        }
-
-        /**
-         * @param key
-         * @param header
-         */
-        private CopiedFinally(Node key, boolean connectable, Supplier<Node> header) {
-            this.key = key;
-            this.connectable = connectable;
-            this.header = header;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public int hashCode() {
-            return key.hashCode();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean equals(Object obj) {
-            return obj instanceof CopiedFinally other ? Objects.equals(key, other.key) : false;
         }
     }
 }

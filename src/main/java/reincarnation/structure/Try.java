@@ -23,6 +23,8 @@ public class Try extends Structure {
 
     private final List<Ⅲ<Class, String, Structure>> catchBlocks;
 
+    private final Structure finallyBlock;
+
     private final Structure follow;
 
     /**
@@ -31,11 +33,12 @@ public class Try extends Structure {
      * @param catchBlocks
      * @param follow
      */
-    public Try(Node that, Node tryBlock, List<Ⅲ<Class, String, Structure>> catchBlocks, Node follow) {
+    public Try(Node that, Node tryBlock, List<Ⅲ<Class, String, Structure>> catchBlocks, Node finallyBlock, Node follow) {
         super(that);
 
         this.tryBlock = tryBlock.analyze();
         this.catchBlocks = catchBlocks;
+        this.finallyBlock = that.process(finallyBlock);
         this.follow = that.process(follow);
     }
 
@@ -60,6 +63,6 @@ public class Try extends Structure {
      */
     @Override
     protected void writeCode(Coder coder) {
-        coder.writeTryCatchFinally(tryBlock, catchBlocks, follow);
+        coder.writeTryCatchFinally(tryBlock, catchBlocks, finallyBlock, follow);
     }
 }

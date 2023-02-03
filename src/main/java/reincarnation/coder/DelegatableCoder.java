@@ -441,7 +441,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code follow) {
-        coder.writeTryCatchFinally(tryBlock, catchBlocks, follow);
+    public void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code finallyBlock, Code follow) {
+        coder.writeTryCatchFinally(tryBlock, catchBlocks, null, follow);
     }
 }

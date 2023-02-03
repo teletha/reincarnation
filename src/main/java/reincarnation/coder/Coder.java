@@ -559,6 +559,11 @@ public abstract class Coder<O extends CodingOption> {
 
     /**
      * Try-Catch-Finally structure.
+     * 
+     * @param tryBlock Try block.
+     * @param catchBlocks Catch blocks.
+     * @param finallyBlock Finally block.
+     * @param follow Exit of try-catch-finally block.
      */
-    public abstract void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code follow);
+    public abstract void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code finallyBlock, Code follow);
 }
