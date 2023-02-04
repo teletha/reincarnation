@@ -2386,7 +2386,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                     // without catch block
                     finallyCopies.put(catcher, new CopiedFinally(end, true, () -> I.signal(end.tails()).last().to().exact().next));
 
-                    blocks.add(new TryCatchFinally(start, null, catcher, null));
+                    blocks.add(0, new TryCatchFinally(start, null, catcher, null));
                 } else {
                     // with catch block
                     finallyCopies.put(catcher, new CopiedFinally(end));
@@ -2401,11 +2401,15 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                             return;
                         }
                     }
-                    blocks.add(new TryCatchFinally(start, end, catcher, exception));
+                    blocks.add(0, new TryCatchFinally(start, end, catcher, exception));
                 }
             } else {
                 // without finally block
                 for (TryCatchFinally block : blocks) {
+                    if (block.catcher == catcher) {
+                        return;
+                    }
+
                     // The try-catch-finally block which indicates the same start and end nodes
                     // means multiple catches.
                     if (block.start == start && block.end == end) {
@@ -2413,7 +2417,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                         return;
                     }
                 }
-                blocks.add(new TryCatchFinally(start, end, catcher, exception));
+                blocks.add(0, new TryCatchFinally(start, end, catcher, exception));
             }
         }
 
@@ -2664,6 +2668,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                     }
                 }
             }
+
+            I.signal(blocks).flatIterable(c -> c.node.tails()).map(n -> n.next).skipNull().last().to(n -> exit = n);
         }
 
         /**

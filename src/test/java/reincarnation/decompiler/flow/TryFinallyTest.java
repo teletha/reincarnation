@@ -9,6 +9,7 @@
  */
 package reincarnation.decompiler.flow;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -217,6 +218,42 @@ class TryFinallyTest extends CodeVerifier {
                     value -= 6;
                 }
                 return value;
+            }
+        });
+    }
+
+    @Test
+    @Disabled
+    void TryFinallyAfterNest2() {
+        verify(new TestCode.IntParam() {
+
+            private int id = 0;
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                count(value);
+                return id;
+            }
+
+            private int count(int value) {
+                try {
+                    try {
+                        if (value % 2 == 0) {
+                            throw new Exception();
+                        }
+
+                        id += value;
+                    } catch (Exception e) {
+                        return id += value * 2;
+                    } finally {
+                        id += 3;
+                    }
+
+                    id += 4;
+                } finally {
+                    id += 5;
+                }
+                return 0;
             }
         });
     }
