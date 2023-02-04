@@ -23,7 +23,7 @@ import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 @Execution(ExecutionMode.SAME_THREAD)
-class TryTest extends CodeVerifier {
+class TryCatchTest extends CodeVerifier {
 
     @Test
     void TryCatch() {
