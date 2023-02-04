@@ -55,6 +55,56 @@ class TryFinallyTest extends CodeVerifier {
     }
 
     @Test
+    void nodesInTryAndFinallyAfter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            @Debuggable
+            public int run(@Param(from = 0, to = 10) int param) {
+                try {
+                    if (param % 2 == 0) {
+                        param += 1;
+                    } else {
+                        param += 2;
+                    }
+                } finally {
+                    if (param % 3 == 0) {
+                        param *= 3;
+                    } else {
+                        param *= 4;
+                    }
+                }
+                return param;
+            }
+        });
+    }
+
+    @Test
+    void halfNodesInTryAndFinallyAfter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            @Debuggable
+            public int run(@Param(from = 0, to = 10) int param) {
+                try {
+                    if (param % 2 == 0) {
+                        return -1;
+                    } else {
+                        param += 2;
+                    }
+                } finally {
+                    if (param % 3 == 0) {
+                        param *= 3;
+                    } else {
+                        return -4;
+                    }
+                }
+                return param;
+            }
+        });
+    }
+
+    @Test
     void emptyTry() {
         verify(new TestCode.IntParam() {
 
