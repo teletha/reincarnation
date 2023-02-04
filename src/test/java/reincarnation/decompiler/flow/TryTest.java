@@ -163,7 +163,7 @@ class TryTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
-                    value = MaybeThrow.io(value);
+                    value = MaybeThrow.runtime(value);
                     value = MaybeThrow.exception(value);
                 } catch (IOException e) {
                     value = value + 2;
@@ -275,6 +275,66 @@ class TryTest extends CodeVerifier {
                     return MaybeThrow.exception(value);
                 } catch (Exception e) {
                     return value + 3;
+                }
+            }
+        });
+    }
+
+    @Test
+    void TryCatchsInTry() {
+        verify(new TestCode.IntParam() {
+
+            @Debuggable
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                try {
+                    try {
+                        value = MaybeThrow.error(value);
+                    } catch (Error e) {
+                        return value + 10;
+                    }
+
+                    value += 5;
+
+                    try {
+                        value = MaybeThrow.exception(value);
+                    } catch (Exception e) {
+                        return value + 20;
+                    }
+                    return MaybeThrow.runtime(value);
+                } catch (RuntimeException e) {
+                    return value + 30;
+                }
+            }
+        });
+    }
+
+    @Test
+    void TryCatchsInTryMultiCatches() {
+        verify(new TestCode.IntParam() {
+
+            @Debuggable
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                try {
+                    try {
+                        value = MaybeThrow.error(value);
+                    } catch (Error e) {
+                        return value + 1;
+                    }
+
+                    value += 5;
+
+                    try {
+                        value = MaybeThrow.error(value);
+                    } catch (Error e) {
+                        return value + 2;
+                    }
+                    return MaybeThrow.exception(value);
+                } catch (Exception e) {
+                    return value + 3;
+                } catch (Error e) {
+                    return value + 4;
                 }
             }
         });

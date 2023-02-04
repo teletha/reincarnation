@@ -9,8 +9,6 @@
  */
 package reincarnation.decompiler.flow;
 
-import java.io.IOException;
-
 public class MaybeThrow {
 
     /**
@@ -40,14 +38,14 @@ public class MaybeThrow {
     }
 
     /**
-     * Maybe throw io exception.
+     * Maybe throw runtime exception.
      * 
      * @param value
      * @return
      */
-    public static int io(int value) throws IOException {
+    public static int runtime(int value) {
         if (value % 4 == 0) {
-            throw new IOException();
+            throw new RuntimeException();
         }
         return value + 300;
     }
