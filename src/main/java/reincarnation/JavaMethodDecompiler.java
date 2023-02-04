@@ -2194,11 +2194,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                     operand = prev.stack.peekFirst();
                     if (operand instanceof OperandAssign assignOp && assignOp.isAssignedTo(returnLocal)) {
                         returnOp.value.set(assignOp.right);
+                        prev.stack.clear();
+                        prev.stack.add(returnOp);
 
                         prev.disconnect(next);
                         for (Node incoming : prev.incoming) {
                             incoming.switchOutgoing(prev, next);
                         }
+
                         return true;
                     }
                 }
@@ -2454,7 +2457,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                     if (node == null) {
                         continue;
                     }
-                    deletable.outgoingRecursively().takeUntil(n -> n == node).to(n -> n.disconnect(node));
+
+                    System.out.println(deletable.id + "  size: " + deletableSize);
+                    deletable.outgoingRecursively().takeUntil(n -> n == node).to(n -> {
+                        n.disconnect(node);
+                    });
 
                     incomings.forEach(in -> in.connect(node));
 

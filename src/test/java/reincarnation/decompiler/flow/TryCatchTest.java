@@ -367,6 +367,7 @@ class TryCatchTest extends CodeVerifier {
     void TryCatchWithFrameFull() {
         verify(new TestCode.IntParam() {
 
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 for (int i = 0; i < 1; i++) {

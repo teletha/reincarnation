@@ -11,15 +11,15 @@ package reincarnation.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
 public class MultiMap<K, V> {
 
     /** The actual map. */
-    private final Map<K, List<V>> map = new ConcurrentHashMap();
+    private final Map<K, List<V>> map = new LinkedHashMap();
 
     /** The set mode. */
     private final boolean acceptDuplication;
