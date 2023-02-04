@@ -728,18 +728,16 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code finallyBlock, Code follow) {
+    public void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code follow) {
         line("try", space, "{");
         indent(tryBlock::write);
         for (Ⅲ<Class, String, Code> catchBlock : catchBlocks) {
             if (catchBlock.ⅰ != null) {
                 line("}", space, "catch(", name(catchBlock.ⅰ), space, catchBlock.ⅱ, ")", space, "{");
+            } else {
+                line("}", space, "finally", space, "{");
             }
             indent(catchBlock.ⅲ::write);
-        }
-        if (finallyBlock.isNotEmpty()) {
-            line("}", space, "finally", space, "{");
-            indent(finallyBlock::write);
         }
         line("}");
         write(follow);
