@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -1650,6 +1650,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         }
     }
 
+    private final boolean isDisposed(Node node) {
+        return !nodes.contains(node);
+    }
+
     /**
      * <p>
      * Helper method to dispose the specified node.
@@ -1680,6 +1684,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     private final void dispose(Node target, boolean clearStack, boolean recursive, boolean linkSibling) {
         if (nodes.contains(target)) {
+            System.out.println("Dispose " + target.id);
+
             // remove actually
             nodes.remove(target);
 
@@ -2381,7 +2387,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         private final List<TryCatchFinally> blocks = new ArrayList<>();
 
         /** The copied finally node manager. */
-        private final MultiMap<Node, CopiedFinally> finallyCopies = new MultiMap(true);
+        private final MultiMap<CopiedFinally, CopiedFinally> finallyCopies = new MultiMap(true);
 
         /**
          * @param start
@@ -2391,7 +2397,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          */
         private void addBlock(Node start, Node end, Node catcher, Class exception) {
             if (exception == null) {
-                finallyCopies.put(catcher, new CopiedFinally(end, catcher));
+                CopiedFinally c = new CopiedFinally(start, end, catcher);
+                finallyCopies.put(c, c);
 
                 // with finally block
                 if (end == catcher) {
@@ -2448,33 +2455,39 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         /**
          * In Java 6 and later, the old jsr and ret instructions are effectively deprecated. These
          * instructions were used to build mini-subroutines inside methods. The finally node is
-         * copied on all exit nodes by compiler , so we must remove it.
+         * copied on all exit nodes by compiler , so we must remove it.}
          */
         private void disposeCopiedFinallyBlock() {
             finallyCopies.forEach((key, copies) -> {
-                int deletableSize = countFinallyBlockSize(key);
+                if (!isDisposed(key.start)) {
+                    int deletableSize = countFinallyBlockSize(key.handler);
 
-                I.signal(key.tails())
-                        .last()
-                        .map(n -> n.next)
-                        .flatMap(Node::outgoingRecursively)
-                        .take(Node::isNotEmpty)
-                        .take(deletableSize)
-                        .buffer()
-                        .flatIterable(n -> n)
-                        .to(n -> dispose(n, true, false));
+                    I.signal(key.handler.tails())
+                            .last()
+                            .map(n -> n.next)
+                            .flatMap(Node::outgoingRecursively)
+                            .take(Node::isNotEmpty)
+                            .take(deletableSize)
+                            .skip(n -> isDisposed(n.previous))
+                            .effect(e -> System.out.println(e + "  @" + key.handler.id))
+                            .buffer()
+                            .flatIterable(n -> n)
+                            .to(n -> dispose(n, true, false));
 
-                I.signal(copies)
-                        .take(c -> c.end != c.handler)
-                        .flatMap(c -> c.end.outgoingRecursively())
-                        .take(Node::isNotEmpty)
-                        .take(deletableSize)
-                        .buffer()
-                        .flatIterable(n -> n)
-                        .to(n -> dispose(n, true, false));
+                    I.signal(copies)
+                            .skip(c -> isDisposed(c.start))
+                            .effect(c -> System.out.println(c.start.id))
+                            .take(c -> c.end != c.handler)
+                            .flatMap(c -> c.end.outgoingRecursively())
+                            .take(Node::isNotEmpty)
+                            .take(deletableSize)
+                            .buffer()
+                            .flatIterable(n -> n)
+                            .to(n -> dispose(n, true, false));
 
-                // Dispose the throw operand from the tail node in finally block.
-                I.signal(key.tails()).take(n -> n.stack.peekFirst() instanceof OperandThrow).to(n -> dispose(n, true, false));
+                    // Dispose the throw operand from the tail node in finally block.
+                    I.signal(key.handler.tails()).take(n -> n.stack.peekFirst() instanceof OperandThrow).to(n -> dispose(n, true, false));
+                }
             });
         }
 
@@ -2692,6 +2705,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     private static class CopiedFinally {
 
+        private final Node start;
+
         private final Node end;
 
         private final Node handler;
@@ -2699,7 +2714,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         /**
          * @param key
          */
-        private CopiedFinally(Node end, Node handler) {
+        private CopiedFinally(Node start, Node end, Node handler) {
+            this.start = start;
             this.end = end;
             this.handler = handler;
         }
