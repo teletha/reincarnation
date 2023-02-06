@@ -113,18 +113,18 @@ class TryFinallyTest extends CodeVerifier {
             public int run(@Param(from = 0, to = 10) int param) {
                 try {
                     if (param % 2 == 0) {
-                        return -2;
+                        return param - 20;
                     }
                     param += 1;
 
                     if (param % 3 == 0) {
-                        return -3;
+                        return param - 30;
                     }
 
                     param += 2;
 
                     if (param % 5 == 0) {
-                        return -5;
+                        return param - 50;
                     }
                 } finally {
                     param += 10;

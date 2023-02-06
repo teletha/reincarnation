@@ -24,7 +24,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Supplier;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
@@ -316,7 +315,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         Debugger.print(nodes);
 
         tries.disposeCopiedFinallyBlock();
-        tries.disposeLastThrowInOriginalFinally();
 
         // Separate conditional operands and dispose empty node.
         for (Node node : nodes.toArray(new Node[nodes.size()])) {
@@ -1658,7 +1656,16 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      * </p>
      */
     private final void dispose(Node target) {
-        dispose(target, false, true);
+        dispose(target, false, true, true);
+    }
+
+    /**
+     * <p>
+     * Helper method to dispose the specified node.
+     * </p>
+     */
+    private final void dispose(Node target, boolean clearStack, boolean recursive) {
+        dispose(target, clearStack, recursive, true);
     }
 
     /**
@@ -1671,7 +1678,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      *            the previous node.
      * @param recursive true will dispose the previous node if it is empty.
      */
-    private final void dispose(Node target, boolean clearStack, boolean recursive) {
+    private final void dispose(Node target, boolean clearStack, boolean recursive, boolean linkSibling) {
         if (nodes.contains(target)) {
             // remove actually
             nodes.remove(target);
@@ -2374,7 +2381,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         private final List<TryCatchFinally> blocks = new ArrayList<>();
 
         /** The copied finally node manager. */
-        private final MultiMap<Node, CopiedFinally> finallyCopies = new MultiMap(false);
+        private final MultiMap<Node, CopiedFinally> finallyCopies = new MultiMap(true);
 
         /**
          * @param start
@@ -2384,23 +2391,24 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          */
         private void addBlock(Node start, Node end, Node catcher, Class exception) {
             if (exception == null) {
+                finallyCopies.put(catcher, new CopiedFinally(end, catcher));
+
                 // with finally block
                 if (end == catcher) {
                     // without catch block
-                    finallyCopies.put(catcher, new CopiedFinally(end, true, () -> I.signal(end.tails()).last().to().exact().next));
-
                     blocks.add(0, new TryCatchFinally(start, null, catcher, null));
                 } else {
                     // with catch block
-                    finallyCopies.put(catcher, new CopiedFinally(end));
 
                     for (TryCatchFinally block : blocks) {
                         // The try-catch-finally block which indicates the same start and end nodes
                         // means multiple catches.
                         if (block.start == start) {
                             block.addCatchOrFinallyBlock(exception, catcher);
+                            return;
+                        }
 
-                            finallyCopies.put(catcher, new CopiedFinally(block.end));
+                        if (block.catcher == catcher) {
                             return;
                         }
                     }
@@ -2443,63 +2451,31 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          * copied on all exit nodes by compiler , so we must remove it.
          */
         private void disposeCopiedFinallyBlock() {
-            finallyCopies.forEach((key, values) -> {
+            finallyCopies.forEach((key, copies) -> {
                 int deletableSize = countFinallyBlockSize(key);
-                List<CopiedFinally> tails = new ArrayList();
 
-                for (CopiedFinally copied : values) {
-                    Node deletable = copied.header.get();
+                I.signal(key.tails())
+                        .last()
+                        .map(n -> n.next)
+                        .flatMap(Node::outgoingRecursively)
+                        .take(Node::isNotEmpty)
+                        .take(deletableSize)
+                        .buffer()
+                        .flatIterable(n -> n)
+                        .to(n -> dispose(n, true, false));
 
-                    List<Node> incomings = new ArrayList(deletable.incoming);
-                    incomings.forEach(in -> in.disconnect(deletable));
-
-                    Node node = deletable.outgoingRecursively().take(Node::isNotEmpty).take(deletableSize + 1).to().v;
-                    if (node == null) {
-                        continue;
-                    }
-
-                    System.out.println(deletable.id + "  size: " + deletableSize);
-                    deletable.outgoingRecursively().takeUntil(n -> n == node).to(n -> {
-                        n.disconnect(node);
-                    });
-
-                    incomings.forEach(in -> in.connect(node));
-
-                    tails.add(copied);
-                    copied.connection = node;
-
-                    if (node.incoming.size() != 1 || !mergeImmediateReturn(incomings.get(0), node)) {
-                        incomings.forEach(in -> in.connect(node));
-                    }
-                }
+                I.signal(copies)
+                        .take(c -> c.end != c.handler)
+                        .flatMap(c -> c.end.outgoingRecursively())
+                        .take(Node::isNotEmpty)
+                        .take(deletableSize)
+                        .buffer()
+                        .flatIterable(n -> n)
+                        .to(n -> dispose(n, true, false));
 
                 // Dispose the throw operand from the tail node in finally block.
-                for (Node tail : key.tails()) {
-                    if (tail.stack.peekFirst() instanceof OperandThrow) {
-                        tail.incoming.stream().filter(x -> !x.outgoing.isEmpty()).forEach(x -> {
-                            tails.forEach(y -> {
-                                if (y.connectable) {
-                                    x.connect(y.connection);
-                                }
-                            });
-                        });
-                        dispose(tail, true, false);
-                    }
-                }
+                I.signal(key.tails()).take(n -> n.stack.peekFirst() instanceof OperandThrow).to(n -> dispose(n, true, false));
             });
-        }
-
-        /**
-         * Dispose the throw operand from the tail node in finally block.
-         */
-        private void disposeLastThrowInOriginalFinally() {
-            // finallyCopies.forEach((key, values) -> {
-            // for (Node tail : key.tails()) {
-            // if (tail.stack.peekFirst() instanceof OperandThrow) {
-            // dispose(tail, true, false);
-            // }
-            // }
-            // });
         }
 
         /**
@@ -2716,29 +2692,16 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     private static class CopiedFinally {
 
-        private final Node key;
+        private final Node end;
 
-        private final Supplier<Node> header;
-
-        private boolean connectable;
-
-        private Node connection;
+        private final Node handler;
 
         /**
          * @param key
          */
-        private CopiedFinally(Node key) {
-            this(key, false, () -> key);
-        }
-
-        /**
-         * @param key
-         * @param header
-         */
-        private CopiedFinally(Node key, boolean connectable, Supplier<Node> header) {
-            this.key = key;
-            this.connectable = connectable;
-            this.header = header;
+        private CopiedFinally(Node end, Node handler) {
+            this.end = end;
+            this.handler = handler;
         }
 
         /**
@@ -2746,7 +2709,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          */
         @Override
         public int hashCode() {
-            return key.hashCode();
+            return handler.hashCode();
         }
 
         /**
@@ -2754,7 +2717,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          */
         @Override
         public boolean equals(Object obj) {
-            return obj instanceof CopiedFinally other ? Objects.equals(key, other.key) : false;
+            return obj instanceof CopiedFinally other ? Objects.equals(handler, other.handler) : false;
         }
     }
 }
