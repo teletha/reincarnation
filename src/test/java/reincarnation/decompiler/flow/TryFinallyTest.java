@@ -105,6 +105,36 @@ class TryFinallyTest extends CodeVerifier {
     }
 
     @Test
+    void multipleReturnInTry() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            @Debuggable
+            public int run(@Param(from = 0, to = 10) int param) {
+                try {
+                    if (param % 2 == 0) {
+                        return -2;
+                    }
+                    param += 1;
+
+                    if (param % 3 == 0) {
+                        return -3;
+                    }
+
+                    param += 2;
+
+                    if (param % 5 == 0) {
+                        return -5;
+                    }
+                } finally {
+                    param += 10;
+                }
+                return param;
+            }
+        });
+    }
+
+    @Test
     void emptyTry() {
         verify(new TestCode.IntParam() {
 
