@@ -2386,38 +2386,24 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          */
         private void addBlock(Node start, Node end, Node catcher, Class exception) {
             if (exception == null) {
+                // with finally block
                 CopiedFinally c = new CopiedFinally(start, end, catcher);
                 finallyCopies.put(c, c);
 
-                // with finally block
-                if (end == catcher) {
-                    // without catch block
-                    for (TryCatchFinally block : blocks) {
-                        // The try-catch-finally block which indicates the same start and end nodes
-                        // means multiple catches.
-                        if (block.catcher == catcher) {
-                            return;
-                        }
+                for (TryCatchFinally block : blocks) {
+                    // The try-catch-finally block which indicates the same start and end nodes
+                    // means multiple catches.
+                    if (block.start == start && end != catcher) {
+                        block.addCatchOrFinallyBlock(exception, catcher);
+                        return;
                     }
 
-                    blocks.add(0, new TryCatchFinally(start, end, catcher, exception));
-                } else {
-                    // with catch block
-
-                    for (TryCatchFinally block : blocks) {
-                        // The try-catch-finally block which indicates the same start and end nodes
-                        // means multiple catches.
-                        if (block.start == start) {
-                            block.addCatchOrFinallyBlock(exception, catcher);
-                            return;
-                        }
-
-                        if (block.catcher == catcher) {
-                            return;
-                        }
+                    if (block.catcher == catcher) {
+                        return;
                     }
-                    blocks.add(0, new TryCatchFinally(start, end, catcher, exception));
                 }
+
+                blocks.add(0, new TryCatchFinally(start, end, catcher, exception));
             } else {
                 // without finally block
                 for (TryCatchFinally block : blocks) {
@@ -2452,12 +2438,19 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         /**
          * In Java 6 and later, the old jsr and ret instructions are effectively deprecated. These
          * instructions were used to build mini-subroutines inside methods. The finally node is
-         * copied on all exit nodes by compiler , so we must remove it.}
+         * copied on all exit nodes by compiler , so we must remove it.
          */
         private void disposeCopiedFinallyBlock() {
             finallyCopies.forEach((key, copies) -> {
                 if (!isDisposed(key.start)) {
-                    int deletableSize = countFinallyBlockSize(key.handler);
+                    // calculate the size of finally block
+                    int deletableSize = key.handler.outgoingRecursively()
+                            .takeWhile(n -> n.stack.peekFirst() instanceof OperandThrow == false)
+                            .take(Node::isNotEmpty)
+                            .count()
+                            .to()
+                            .exact()
+                            .intValue();
 
                     key.handler.tails()
                             .last()
@@ -2480,30 +2473,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
                     // Dispose the throw operand from the tail node in finally block.
                     key.handler.tails().take(Node::isThrow).to(n -> dispose(n, true, true));
-
-                    // key.handler.tails().skip(Node::isReturn).skip(Node::isThrow).to(n -> {
-                    // System.out.println(n.id + " is tail");
-                    // n.connect(n.next);
-                    // Debugger.print(n);
-                    // });
                 }
             });
-        }
-
-        /**
-         * Count the number of nodes to be copied by compiler.
-         * 
-         * @param node
-         * @return
-         */
-        private int countFinallyBlockSize(Node node) {
-            return node.outgoingRecursively()
-                    .takeWhile(n -> n.stack.peekFirst() instanceof OperandThrow == false)
-                    .take(Node::isNotEmpty)
-                    .count()
-                    .to()
-                    .exact()
-                    .intValue();
         }
 
         /**
@@ -2589,7 +2560,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     /**
      * Data holder for try-catch-finally block.
      */
-    class TryCatchFinally {
+    static class TryCatchFinally {
 
         /** The start node. */
         final Node start;
