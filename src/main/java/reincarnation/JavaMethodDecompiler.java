@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -2465,23 +2465,21 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                             .flatMap(Node::outgoingRecursively)
                             .take(Node::isNotEmpty)
                             .take(deletableSize)
-                            .skip(n -> isDisposed(n.previous))
                             .buffer()
                             .flatIterable(n -> n)
-                            .to(n -> dispose(n, true, false));
+                            .to(n -> dispose(n, true, true));
 
                     I.signal(copies)
-                            .skip(c -> isDisposed(c.start))
                             .take(c -> c.end != c.handler)
                             .flatMap(c -> c.end.outgoingRecursively())
                             .take(Node::isNotEmpty)
                             .take(deletableSize)
                             .buffer()
                             .flatIterable(n -> n)
-                            .to(n -> dispose(n, true, false));
+                            .to(n -> dispose(n, true, true));
 
                     // Dispose the throw operand from the tail node in finally block.
-                    key.handler.tails().take(Node::isThrow).to(n -> dispose(n, true, false));
+                    key.handler.tails().take(Node::isThrow).to(n -> dispose(n, true, true));
 
                     // key.handler.tails().skip(Node::isReturn).skip(Node::isThrow).to(n -> {
                     // System.out.println(n.id + " is tail");
@@ -2591,7 +2589,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     /**
      * Data holder for try-catch-finally block.
      */
-    static class TryCatchFinally {
+    class TryCatchFinally {
 
         /** The start node. */
         final Node start;
@@ -2667,17 +2665,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 }
             }
 
-            I.signal(blocks)
-                    .flatMap(c -> c.node.tails())
-                    .flatMap(Node::next)
-                    .skipNull()
-                    .skip(Node::isEmpty)
-                    .diff(Node::isAfter)
-                    .last()
-                    .to(n -> {
-                        System.out.println(n.id);
-                        exit = n;
-                    });
+            I.signal(blocks).flatMap(c -> c.node.tails()).flatMap(Node::next).skipNull().diff(Node::isAfter).last().to(n -> {
+                System.out.println(catcher.id + " Exit node is " + n.id);
+                exit = n;
+            });
         }
 
         /**
