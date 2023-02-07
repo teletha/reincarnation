@@ -132,12 +132,80 @@ public class Node implements Code<Operand> {
     }
 
     /**
+     * Check node type.
+     * 
+     * @return
+     */
+    final boolean isThrow() {
+        return stack.peekFirst() instanceof OperandThrow;
+    }
+
+    /**
+     * Check node type.
+     * 
+     * @return
+     */
+    final boolean isReturn() {
+        return stack.peekFirst() instanceof OperandReturn;
+    }
+
+    /**
+     * Detect node positioning.
+     * 
+     * @param target
+     * @return
+     */
+    final boolean isBefore(Node target) {
+        while (target != null) {
+            if (target == this) {
+                return true;
+            }
+            target = target.previous;
+        }
+        return false;
+    }
+
+    /**
+     * Detect node positioning.
+     * 
+     * @param target
+     * @return
+     */
+    final boolean isAfter(Node target) {
+        while (target != null) {
+            if (target == this) {
+                return true;
+            }
+            target = target.next;
+        }
+        return false;
+    }
+
+    /**
      * Traverse the chained tail node.
      * 
      * @return
      */
-    final List<Node> tails() {
-        return I.signal(outgoing).recurseMap(n -> n.flatIterable(x -> x.outgoing)).take(n -> n.outgoing.isEmpty()).toList();
+    final Signal<Node> tails() {
+        return I.signal(outgoing).recurseMap(n -> n.flatIterable(x -> x.outgoing)).take(n -> n.outgoing.isEmpty());
+    }
+
+    /**
+     * Traverse backward sibling node.
+     * 
+     * @return
+     */
+    final Signal<Node> prev() {
+        return I.signal(previous);
+    }
+
+    /**
+     * Traverse forward sibling node.
+     * 
+     * @return
+     */
+    final Signal<Node> next() {
+        return I.signal(next);
     }
 
     /**

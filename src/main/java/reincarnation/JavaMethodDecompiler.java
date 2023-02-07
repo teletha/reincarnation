@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.load;
+import static reincarnation.Util.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -1660,16 +1660,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      * </p>
      */
     private final void dispose(Node target) {
-        dispose(target, false, true, true);
-    }
-
-    /**
-     * <p>
-     * Helper method to dispose the specified node.
-     * </p>
-     */
-    private final void dispose(Node target, boolean clearStack, boolean recursive) {
-        dispose(target, clearStack, recursive, true);
+        dispose(target, false, true);
     }
 
     /**
@@ -1682,10 +1673,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      *            the previous node.
      * @param recursive true will dispose the previous node if it is empty.
      */
-    private final void dispose(Node target, boolean clearStack, boolean recursive, boolean linkSibling) {
+    private final void dispose(Node target, boolean clearStack, boolean recursive) {
         if (nodes.contains(target)) {
-            System.out.println("Dispose " + target.id);
-
             // remove actually
             nodes.remove(target);
 
@@ -2403,7 +2392,15 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 // with finally block
                 if (end == catcher) {
                     // without catch block
-                    blocks.add(0, new TryCatchFinally(start, null, catcher, null));
+                    for (TryCatchFinally block : blocks) {
+                        // The try-catch-finally block which indicates the same start and end nodes
+                        // means multiple catches.
+                        if (block.catcher == catcher) {
+                            return;
+                        }
+                    }
+
+                    blocks.add(0, new TryCatchFinally(start, end, catcher, exception));
                 } else {
                     // with catch block
 
@@ -2462,21 +2459,19 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 if (!isDisposed(key.start)) {
                     int deletableSize = countFinallyBlockSize(key.handler);
 
-                    I.signal(key.handler.tails())
+                    key.handler.tails()
                             .last()
                             .map(n -> n.next)
                             .flatMap(Node::outgoingRecursively)
                             .take(Node::isNotEmpty)
                             .take(deletableSize)
                             .skip(n -> isDisposed(n.previous))
-                            .effect(e -> System.out.println(e + "  @" + key.handler.id))
                             .buffer()
                             .flatIterable(n -> n)
                             .to(n -> dispose(n, true, false));
 
                     I.signal(copies)
                             .skip(c -> isDisposed(c.start))
-                            .effect(c -> System.out.println(c.start.id))
                             .take(c -> c.end != c.handler)
                             .flatMap(c -> c.end.outgoingRecursively())
                             .take(Node::isNotEmpty)
@@ -2486,7 +2481,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                             .to(n -> dispose(n, true, false));
 
                     // Dispose the throw operand from the tail node in finally block.
-                    I.signal(key.handler.tails()).take(n -> n.stack.peekFirst() instanceof OperandThrow).to(n -> dispose(n, true, false));
+                    key.handler.tails().take(Node::isThrow).to(n -> dispose(n, true, false));
+
+                    // key.handler.tails().skip(Node::isReturn).skip(Node::isThrow).to(n -> {
+                    // System.out.println(n.id + " is tail");
+                    // n.connect(n.next);
+                    // Debugger.print(n);
+                    // });
                 }
             });
         }
@@ -2498,12 +2499,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          * @return
          */
         private int countFinallyBlockSize(Node node) {
-            int size = 0;
-            while (node.next != null && node.stack.peekFirst() instanceof OperandThrow == false) {
-                if (node.isNotEmpty()) size++;
-                node = node.next;
-            }
-            return size;
+            return node.outgoingRecursively()
+                    .takeWhile(n -> n.stack.peekFirst() instanceof OperandThrow == false)
+                    .take(Node::isNotEmpty)
+                    .count()
+                    .to()
+                    .exact()
+                    .intValue();
         }
 
         /**
@@ -2665,7 +2667,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 }
             }
 
-            I.signal(blocks).flatIterable(c -> c.node.tails()).map(n -> n.next).skipNull().last().to(n -> exit = n);
+            I.signal(blocks).flatMap(c -> c.node.tails()).flatMap(Node::next).skipNull().diff(Node::isAfter).last().to(n -> exit = n);
         }
 
         /**
