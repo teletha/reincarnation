@@ -2667,7 +2667,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 }
             }
 
-            I.signal(blocks).flatMap(c -> c.node.tails()).flatMap(Node::next).skipNull().diff(Node::isAfter).last().to(n -> exit = n);
+            I.signal(blocks)
+                    .flatMap(c -> c.node.tails())
+                    .flatMap(Node::next)
+                    .skipNull()
+                    .skip(Node::isEmpty)
+                    .diff(Node::isAfter)
+                    .last()
+                    .to(n -> {
+                        System.out.println(n.id);
+                        exit = n;
+                    });
         }
 
         /**
