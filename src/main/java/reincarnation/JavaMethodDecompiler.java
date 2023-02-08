@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.load;
+import static reincarnation.Util.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -33,7 +33,6 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
 import kiss.I;
-import kiss.Variable;
 import reincarnation.Node.Switch;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -349,26 +348,32 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // Resolve all try-catch-finally blocks.
         tries.process();
 
-        // optimize
-        removeLastEmptyReturn();
+        // ============================================
+        // Code Optimization
+        // ============================================
+        optimizeLastEmptyReturn();
+        optimizeImmediateReturn();
 
+        // ============================================
+        // Analyze node relation
+        // ============================================
         Debugger.print(nodes, "Before Analyze");
         root = nodes.peekFirst().analyze();
         Debugger.print(nodes, "After Analyze");
 
-        // structurize
+        // ============================================
+        // Build code structure
+        // ============================================
         root.structurize();
     }
 
     /**
-     * <p>
      * Helper method to search all backedge nodes using depth-first search.
-     * </p>
      * 
      * @param node A target node to check.
      * @param recorder All passed nodes.
      */
-    private final void searchBackEdge(Node node, Deque<Node> recorder) {
+    private void searchBackEdge(Node node, Deque<Node> recorder) {
         // Store the current processing node.
         recorder.add(node);
 
@@ -388,12 +393,41 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     /**
      * Remove {@link OperandReturn} if it is empty at last.
      */
-    private void removeLastEmptyReturn() {
+    private void optimizeLastEmptyReturn() {
         Node lastNode = nodes.peekLast();
         Operand lastOperand = lastNode.peek(0);
 
         if (lastOperand == OperandReturn.Empty) {
             lastNode.remove(0);
+        }
+    }
+
+    /**
+     * Merge into one node if the specified nodes mean the immediate return.
+     * 
+     * @param node
+     */
+    private void optimizeImmediateReturn() {
+        // copy all nodes to avoid concurrent modification exception
+        List<Node> copied = new ArrayList(nodes);
+
+        for (Node node : copied) {
+            for (Node out : node.outgoing) {
+                // next node must have the return operand only
+                if (out.stack.size() == 1 && out.incoming.size() == 1) {
+                    Operand operand = out.stack.peek();
+                    if (operand instanceof OperandReturn returnOp && returnOp.value.v instanceof OperandLocalVariable localOp) {
+                        operand = node.stack.peekFirst();
+                        if (operand instanceof OperandAssign assignOp && assignOp.isAssignedTo(localOp)) {
+                            returnOp.value.set(assignOp.right);
+                            node.stack.clear();
+                            node.stack.add(returnOp);
+
+                            dispose(out, true, false);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -2179,40 +2213,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     }
 
     /**
-     * Merge into one node if the specified nodes mean the immediate return.
-     * 
-     * @param prev
-     * @param next
-     */
-    private final boolean mergeImmediateReturn(Node prev, Node next) {
-        // next node must have the return operand only
-        if (next.stack.size() == 1 && next.incoming.size() == 1) {
-            Operand operand = next.stack.peek();
-            if (operand instanceof OperandReturn returnOp) {
-                Variable<OperandLocalVariable> local = returnOp.find(OperandLocalVariable.class).first().to();
-                if (local.isPresent()) {
-                    OperandLocalVariable returnLocal = local.v;
-
-                    operand = prev.stack.peekFirst();
-                    if (operand instanceof OperandAssign assignOp && assignOp.isAssignedTo(returnLocal)) {
-                        returnOp.value.set(assignOp.right);
-                        prev.stack.clear();
-                        prev.stack.add(returnOp);
-
-                        prev.disconnect(next);
-                        for (Node incoming : prev.incoming) {
-                            incoming.switchOutgoing(prev, next);
-                        }
-
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
      * @version 2018/10/03 15:57:48
      */
     private class SequentialConditionInfo {
@@ -2445,7 +2445,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 if (!isDisposed(key.start)) {
                     // calculate the size of finally block
                     int deletableSize = key.handler.outgoingRecursively()
-                            .takeWhile(n -> n.stack.peekFirst() instanceof OperandThrow == false)
+                            .takeWhile(n -> !n.isThrow())
                             .take(Node::isNotEmpty)
                             .count()
                             .to()
@@ -2636,10 +2636,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 }
             }
 
-            I.signal(blocks).flatMap(c -> c.node.tails()).flatMap(Node::next).skipNull().diff(Node::isAfter).last().to(n -> {
-                System.out.println(catcher.id + " Exit node is " + n.id);
-                exit = n;
-            });
+            I.signal(blocks).flatMap(c -> c.node.tails()).flatMap(Node::next).skipNull().diff(Node::isAfter).last().to(n -> exit = n);
         }
 
         /**

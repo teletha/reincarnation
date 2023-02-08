@@ -15,13 +15,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
-@Execution(ExecutionMode.SAME_THREAD)
 class TryCatchTest extends CodeVerifier {
 
     @Test
@@ -29,7 +27,6 @@ class TryCatchTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
                     return MaybeThrow.error(value);
@@ -355,7 +352,7 @@ class TryCatchTest extends CodeVerifier {
     @Test
     void TryCatchWithFrameFull() {
         verify(new TestCode.IntParam() {
-
+            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 for (int i = 0; i < 1; i++) {

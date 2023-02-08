@@ -11,13 +11,10 @@ package reincarnation.decompiler.flow;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import reincarnation.CodeVerifier;
 import reincarnation.TestCode;
 
-@Execution(ExecutionMode.SAME_THREAD)
 class TryFinallyTest extends CodeVerifier {
 
     @Test
@@ -25,7 +22,6 @@ class TryFinallyTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-
             public int run(@Param(from = 0, to = 10) int param) {
                 try {
                     return param + 1;
@@ -41,7 +37,6 @@ class TryFinallyTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-
             public int run(@Param(from = 0, to = 10) int param) {
                 try {
                     param += 1;
@@ -58,7 +53,6 @@ class TryFinallyTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-
             public int run(@Param(from = 0, to = 10) int param) {
                 try {
                     if (param % 2 == 0) {
@@ -83,7 +77,6 @@ class TryFinallyTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-
             public int run(@Param(from = 0, to = 10) int param) {
                 try {
                     if (param % 2 == 0) {
@@ -108,7 +101,6 @@ class TryFinallyTest extends CodeVerifier {
         verify(new TestCode.IntParam() {
 
             @Override
-
             public int run(@Param(from = 0, to = 10) int param) {
                 try {
                     if (param % 2 == 0) {

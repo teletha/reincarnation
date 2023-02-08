@@ -66,9 +66,6 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /** The use flag. */
-    private static boolean enabled = false;
-
-    /** The use flag. */
     private boolean enable = false;
 
     /** The use flag. */
@@ -114,7 +111,6 @@ public class Debugger extends AnnotationVisitor {
     @Override
     public void visitEnd() {
         enable = true;
-        enabled = true;
     }
 
     /**
@@ -145,20 +141,6 @@ public class Debugger extends AnnotationVisitor {
             printInfo(false);
         }
         return enable;
-    }
-
-    /**
-     * Check whether ths debugger was enabled at least in the current processing context. If you
-     * call this method once, the enabled state will be reseted.
-     * 
-     * @return
-     */
-    public static boolean wasEnabled() {
-        try {
-            return enabled;
-        } finally {
-            enabled = false;
-        }
     }
 
     /**

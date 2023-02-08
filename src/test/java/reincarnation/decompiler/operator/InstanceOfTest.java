@@ -16,6 +16,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 /**
@@ -140,6 +141,7 @@ class InstanceOfTest extends CodeVerifier {
     void StringNull() {
         verify(new TestCode.Boolean() {
 
+            @Debuggable
             @Override
             public boolean run() {
                 String value = null;

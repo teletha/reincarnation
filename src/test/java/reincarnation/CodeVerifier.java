@@ -260,7 +260,7 @@ public class CodeVerifier {
         String decompiled = Reincarnation.rebirth(target, options);
         Silent notifier = new Silent();
 
-        if (Debugger.wasEnabled()) {
+        if (Debugger.isEnable()) {
             for (String line : format(decompiled)) {
                 System.out.println(line);
             }

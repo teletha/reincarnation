@@ -9,9 +9,6 @@
  */
 package reincarnation.operator;
 
-/**
- * @version 2018/10/22 19:14:23
- */
 public enum AssignOperator {
     /** = */
     ASSIGN("="),

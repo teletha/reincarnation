@@ -11,14 +11,11 @@ package reincarnation.decompiler.flow;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import reincarnation.CodeVerifier;
 import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
-@Execution(ExecutionMode.SAME_THREAD)
 class TryCatchFinallyTest extends CodeVerifier {
 
     @Test

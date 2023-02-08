@@ -52,7 +52,7 @@ public class OperandAssign extends Operand {
      * @return
      */
     final boolean isAssignedTo(Operand node) {
-        return left.equals(node);
+        return left.equals(node) && operator == AssignOperator.ASSIGN;
     }
 
     /**
