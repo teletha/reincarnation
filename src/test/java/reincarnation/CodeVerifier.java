@@ -22,6 +22,12 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
+
 import bee.UserInterface;
 import bee.api.Command;
 import bee.util.JavaCompiler;
@@ -65,6 +71,42 @@ public class CodeVerifier {
 
     /** The built-in parameters. */
     private static final List<String> texts = List.of("", " ", "a", "A", "あ", "\\", "\t", "some value");
+
+    /**
+     * Change degub state.
+     */
+    @BeforeAll
+    protected static final void enableDebugByClass(TestInfo info) {
+        if (info.getTestClass().get().isAnnotationPresent(Debuggable.class)) {
+            Debugger.enableDebugByClass = true;
+        }
+    }
+
+    /**
+     * Change degub state.
+     */
+    @AfterAll
+    protected static final void disableDebugByClass() {
+        Debugger.enableDebugByClass = false;
+    }
+
+    /**
+     * Change degub state.
+     */
+    @BeforeEach
+    protected final void enableDebugByMethod(TestInfo info) {
+        if (info.getTestMethod().get().isAnnotationPresent(Debuggable.class)) {
+            Debugger.enableDebugByMethod = true;
+        }
+    }
+
+    /**
+     * Change degub state.
+     */
+    @AfterEach
+    protected final void diableDebugByMethod() {
+        Debugger.enableDebugByMethod = false;
+    }
 
     /**
      * Verify decompiled code.

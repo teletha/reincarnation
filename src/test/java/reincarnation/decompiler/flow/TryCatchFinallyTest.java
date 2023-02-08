@@ -25,7 +25,6 @@ class TryCatchFinallyTest extends CodeVerifier {
     void TryCatchFinallyAfter() {
         verify(new TestCode.IntParam() {
 
-            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
@@ -52,7 +51,6 @@ class TryCatchFinallyTest extends CodeVerifier {
                 return counter + calc(value);
             }
 
-            @Debuggable
             private int calc(int value) {
                 try {
                     return MaybeThrow.error(value);
@@ -135,7 +133,6 @@ class TryCatchFinallyTest extends CodeVerifier {
                 return count(value) + counter;
             }
 
-            @Debuggable
             private int count(int value) {
                 try {
                     return MaybeThrow.error(value);
@@ -159,7 +156,6 @@ class TryCatchFinallyTest extends CodeVerifier {
                 return count(value) + counter;
             }
 
-            @Debuggable
             private int count(int value) {
                 try {
                     return MaybeThrow.error(value);
@@ -188,7 +184,6 @@ class TryCatchFinallyTest extends CodeVerifier {
                 return count(value) + counter;
             }
 
-            @Debuggable
             private int count(int value) {
                 try {
                     value = MaybeThrow.error(value);
@@ -203,6 +198,7 @@ class TryCatchFinallyTest extends CodeVerifier {
     }
 
     @Test
+    @Debuggable
     void TryCatchFinallyNodes() {
         verify(new TestCode.IntParam() {
 
@@ -213,7 +209,6 @@ class TryCatchFinallyTest extends CodeVerifier {
                 return count(value) + counter;
             }
 
-            @Debuggable
             private int count(int value) {
                 try {
                     if (value % 2 == 0) {

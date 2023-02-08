@@ -36,6 +36,12 @@ public class Debugger extends AnnotationVisitor {
     static boolean whileDebug = false;
 
     /** The processing environment. */
+    static boolean enableDebugByClass;
+
+    /** The processing environment. */
+    static boolean enableDebugByMethod;
+
+    /** The processing environment. */
     private static final boolean whileTest;
 
     /** The list for debug patterns. */
@@ -132,11 +138,13 @@ public class Debugger extends AnnotationVisitor {
      * @return
      */
     public static boolean isEnable() {
-        if (debugger.enable && debugger.firstTime) {
+        boolean enable = debugger.enable || enableDebugByClass || enableDebugByMethod;
+
+        if (enable && debugger.firstTime) {
             debugger.firstTime = false;
             printInfo(false);
         }
-        return debugger.enable;
+        return enable;
     }
 
     /**
