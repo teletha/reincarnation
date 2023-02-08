@@ -18,19 +18,17 @@ import reincarnation.operator.BinaryOperator;
 
 /**
  * Binary operation expression.
- * 
- * @version 2018/10/13 17:54:39
  */
 public class OperandBinary extends Operand {
 
     /** The left value. */
-    private final Operand left;
+    final Operand left;
 
     /** The right value. */
-    private final Operand right;
+    final Operand right;
 
     /** The operator. */
-    private final BinaryOperator operator;
+    final BinaryOperator operator;
 
     /**
      * Create binary operation.

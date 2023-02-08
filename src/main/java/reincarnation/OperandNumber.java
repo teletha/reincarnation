@@ -11,9 +11,6 @@ package reincarnation;
 
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/10/05 19:36:00
- */
 class OperandNumber extends Operand {
 
     /** The actual value of this operand. */
@@ -34,26 +31,45 @@ class OperandNumber extends Operand {
         return new InferredType(value.getClass());
     }
 
-    // /**
-    // * {@inheritDoc}
-    // */
-    // @Override
-    // protected Operand castActual(Class type) {
-    // if (type == char.class) {
-    // char ch = (char) value.intValue();
-    //
-    // if (Character.isSurrogate(ch) == false) {
-    // return new OperandString(String.valueOf(ch));
-    // }
-    // } else if (type == boolean.class) {
-    // if (value.intValue() == 0) {
-    // return new OperandBoolean(false);
-    // } else if (value.intValue() == 1) {
-    // return new OperandBoolean(true);
-    // }
-    // }
-    // return this;
-    // }
+    /**
+     * Check whether this value is positive or not.
+     * 
+     * @return
+     */
+    final boolean isPositive() {
+        return value.doubleValue() > 0;
+    }
+
+    /**
+     * Check whether this value is negative or not.
+     * 
+     * @return
+     */
+    final boolean isNegative() {
+        return value.doubleValue() < 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    final OperandNumber invert() {
+        if (value instanceof Integer n) {
+            return new OperandNumber(n * -1);
+        } else if (value instanceof Long n) {
+            return new OperandNumber(n * -1);
+        } else if (value instanceof Float n) {
+            return new OperandNumber(n * -1);
+        } else if (value instanceof Double n) {
+            return new OperandNumber(n * -1);
+        } else if (value instanceof Short n) {
+            return new OperandNumber(n * -1);
+        } else if (value instanceof Byte n) {
+            return new OperandNumber(n * -1);
+        } else {
+            return this;
+        }
+    }
 
     /**
      * {@inheritDoc}

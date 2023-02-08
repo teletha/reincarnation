@@ -353,6 +353,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // ============================================
         optimizeLastEmptyReturn();
         optimizeImmediateReturn();
+        optimizeShorthandAssign();
 
         // ============================================
         // Analyze node relation
@@ -429,6 +430,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 }
             }
         }
+    }
+
+    /**
+     * Shorthand the binary assign from {a = a + 1} to {a += 1}.
+     */
+    private void optimizeShorthandAssign() {
+        nodes.forEach(node -> node.children().as(OperandAssign.class).to(OperandAssign::shorten));
     }
 
     /**

@@ -9,9 +9,8 @@
  */
 package reincarnation.operator;
 
-/**
- * @version 2018/10/22 19:14:19
- */
+import kiss.Variable;
+
 public enum BinaryOperator {
 
     /** && */
@@ -81,6 +80,25 @@ public enum BinaryOperator {
      */
     private BinaryOperator(String operator) {
         this.operator = operator;
+    }
+
+    /**
+     * Convert to the suitable {@link AssignOperator}.
+     * 
+     * @return
+     */
+    public Variable<AssignOperator> toAssignOperator() {
+        return Variable.of(switch (this) {
+        case PLUS -> AssignOperator.PLUS;
+        case MINUS -> AssignOperator.MINUS;
+        case MULTIPLY -> AssignOperator.MULTIPLY;
+        case DIVIDE -> AssignOperator.DIVIDE;
+        case REMAINDER -> AssignOperator.REMAINDER;
+        case LEFT_SHIFT -> AssignOperator.LEFT_SHIFT;
+        case RIGHT_SHIFT -> AssignOperator.RIGHT_SHIFT;
+        case UNSIGNED_RIGHT_SHIFT -> AssignOperator.UNSIGNED_RIGHT_SHIFT;
+        default -> null;
+        });
     }
 
     /**

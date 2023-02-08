@@ -22,13 +22,13 @@ import reincarnation.operator.AssignOperator;
 public class OperandAssign extends Operand {
 
     /** The left value. */
-    final Operand left;
+    private Operand left;
 
     /** The right value. */
-    final Operand right;
+    Operand right;
 
     /** The operator. */
-    private final AssignOperator operator;
+    private AssignOperator operator;
 
     /**
      * Create binary operation.
@@ -53,6 +53,23 @@ public class OperandAssign extends Operand {
      */
     final boolean isAssignedTo(Operand node) {
         return left.equals(node) && operator == AssignOperator.ASSIGN;
+    }
+
+    /**
+     * Change to the shorter assignment if possible.
+     */
+    final void shorten() {
+        if (operator == AssignOperator.ASSIGN && right instanceof OperandBinary binary && left == binary.left) {
+            binary.operator.toAssignOperator().to(assignOperator -> {
+                operator = assignOperator;
+                right = binary.right;
+            });
+        }
+
+        if (operator == AssignOperator.PLUS && right instanceof OperandNumber num && num.isNegative()) {
+            operator = AssignOperator.MINUS;
+            right = num.invert();
+        }
     }
 
     /**
