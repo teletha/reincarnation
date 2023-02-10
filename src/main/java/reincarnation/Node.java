@@ -772,7 +772,9 @@ public class Node implements Code<Operand> {
             if (!tries.isEmpty()) {
                 TryCatchFinally removed = tries.remove(0);
                 List<Ⅲ<Class, String, Structure>> catches = I.signal(removed.blocks)
-                        .map(c -> I.pair(c.exception, c.variable.toString(), process(c.node)))
+                        .effect(catchOrFinally -> catchOrFinally.variable.set(LocalVariableDeclaration.None))
+                        .map(catchOrFinally -> I
+                                .pair(catchOrFinally.exception, catchOrFinally.variable.toString(), process(catchOrFinally.node)))
                         .toList();
                 if (removed.exit != null) {
                     removed.exit.additionalCalls++;

@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -2399,14 +2399,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 finallyCopies.put(c, c);
 
                 for (TryCatchFinally block : blocks) {
+                    if (block.catcher == catcher) {
+                        return;
+                    }
+
                     // The try-catch-finally block which indicates the same start and end nodes
                     // means multiple catches.
                     if (block.start == start && end != catcher) {
                         block.addCatchOrFinallyBlock(exception, catcher);
-                        return;
-                    }
-
-                    if (block.catcher == catcher) {
                         return;
                     }
                 }
@@ -2558,7 +2558,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             for (TryCatchFinally block : blocks) {
                 for (CatchOrFinally catchOrFinally : block.blocks) {
                     if (catchOrFinally.node == current) {
-                        catchOrFinally.variable = variable.set(LocalVariableDeclaration.None);
+                        catchOrFinally.variable = variable;
                     }
                 }
             }
