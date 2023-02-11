@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.load;
+import static reincarnation.Util.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -242,6 +242,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     /** The flag whether the next new instruction is used for assert statement or not. */
     private boolean assertNew = false;
 
+    /** The default debugger. */
+    private Debugger debugger = Debugger.current();
+
     /**
      * @param locals
      * @param returns
@@ -253,7 +256,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         this.returnType = Util.load(returns);
         this.locals = locals;
 
-        Debugger.recordMethodName(source.clazz.getName());
+        debugger.recordMethodName(source.clazz.getName());
     }
 
     /**
@@ -272,7 +275,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
         if (desc.equals(DEBUGGER)) {
-            return I.make(Debugger.class);
+            return debugger;
         }
         return null; // do nothing
     }
@@ -311,7 +314,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             dispose(node, true, false);
         }
 
-        Debugger.print(nodes);
+        debugger.print(nodes);
 
         tries.disposeCopiedFinallyBlock();
 
@@ -358,9 +361,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // ============================================
         // Analyze node relation
         // ============================================
-        Debugger.print(nodes, "Before Analyze");
+        debugger.print(nodes, "Before Analyze");
         root = nodes.peekFirst().analyze();
-        Debugger.print(nodes, "After Analyze");
+        debugger.print(nodes, "After Analyze");
 
         // ============================================
         // Build code structure
@@ -644,7 +647,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             boolean values = conditionNode != leftNode && rightNode.hasDominator(leftNode);
 
             if (leftTransition && conditionTransition && dominator && !values) {
-                Debugger.print(nodes, "Start ternary operator. condition[", third, "]  left[", second, "]  right[", first, "]");
+                debugger.print(nodes, "Start ternary operator. condition[", third, "]  left[", second, "]  right[", first, "]");
 
                 if (first.isTrue() && second.isFalse()) {
                     current.remove(0);
@@ -680,7 +683,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 // process recursively
                 processTernaryOperator();
 
-                Debugger.print(nodes, "End ternary operator. condition[", third, "]  left[", second, "]  right[", first, "]");
+                debugger.print(nodes, "End ternary operator. condition[", third, "]  left[", second, "]  right[", first, "]");
             }
         }
     }
@@ -1387,7 +1390,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     public void visitLineNumber(int line, Label start) {
         getNode(start).lineNumber = line;
 
-        Debugger.recordMethodLineNumber(line);
+        debugger.recordMethodLineNumber(line);
     }
 
     /**
@@ -1866,7 +1869,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             return;
         }
 
-        Debugger.print(nodes, "Start merging logical condition");
+        debugger.print(nodes, "Start merging logical condition");
 
         // Search and merge the sequencial conditional operands in this node from right to left.
         int start = info.start;
@@ -1904,7 +1907,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             }
         }
 
-        Debugger.print(nodes, "End merging logical condition");
+        debugger.print(nodes, "End merging logical condition");
     }
 
     /**

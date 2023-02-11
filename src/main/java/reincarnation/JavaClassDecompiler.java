@@ -10,7 +10,7 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Util.load;
+import static reincarnation.Util.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -46,7 +46,7 @@ class JavaClassDecompiler extends ClassVisitor {
      */
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-        Debugger.start(source.clazz);
+        Debugger.current().start(source.clazz);
 
         source.require(Util.load(superName));
         for (String i : interfaces) {
@@ -133,6 +133,6 @@ class JavaClassDecompiler extends ClassVisitor {
      */
     @Override
     public void visitEnd() {
-        Debugger.finish(source.clazz);
+        Debugger.current().finish(source.clazz);
     }
 }

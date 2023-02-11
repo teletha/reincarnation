@@ -11,6 +11,7 @@ package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
 
+import java.io.PrintStream;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +28,6 @@ import java.util.regex.Pattern;
 
 import org.objectweb.asm.AnnotationVisitor;
 
-import kiss.I;
 import reincarnation.JavaMethodDecompiler.TryCatchFinally;
 
 public class Debugger extends AnnotationVisitor {
@@ -41,14 +41,23 @@ public class Debugger extends AnnotationVisitor {
     /** The processing environment. */
     static boolean enableDebugByMethod;
 
+    /** The instance holder. */
+    private static final ThreadLocal<Debugger> local = ThreadLocal.withInitial(() -> new Debugger());
+
+    /**
+     * Retrieve the current debbuger.
+     * 
+     * @return
+     */
+    public static Debugger current() {
+        return local.get();
+    }
+
     /** The processing environment. */
     private static final boolean whileTest;
 
     /** The list for debug patterns. */
     private static final List<Pattern[]> patterns = new ArrayList();
-
-    /** The current debugger. */
-    private static Debugger debugger = new Debugger();
 
     // initialization
     static {
@@ -66,22 +75,32 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /** The use flag. */
-    private boolean enable = false;
+    private boolean enable;
 
     /** The use flag. */
-    private boolean firstTime = true;
+    private boolean firstTime;
 
     /** Can i use getDominator safely? */
-    private boolean dominatorSafe = false;
+    private boolean dominatorSafe;
+
+    /** The output. */
+    private StringBuilder log = new StringBuilder();
 
     /**
      * 
      */
     private Debugger() {
         super(ASM9);
+        reset();
+    }
 
-        // update
-        debugger = this;
+    /**
+     * Reset debbuging state.
+     */
+    public void reset() {
+        enable = false;
+        firstTime = true;
+        dominatorSafe = false;
     }
 
     /**
@@ -116,8 +135,8 @@ public class Debugger extends AnnotationVisitor {
     /**
      * Register current processing target.
      */
-    public static void enable() {
-        debugger.enable = true;
+    public void enable() {
+        enable = true;
     }
 
     /**
@@ -126,31 +145,29 @@ public class Debugger extends AnnotationVisitor {
      * @param className A class name regex.
      * @param methodName A method name regex.
      */
-    public static void enable(String className, String methodName) {
+    public void enable(String className, String methodName) {
         patterns.add(new Pattern[] {Pattern.compile(className), Pattern.compile(methodName)});
     }
 
     /**
      * @return
      */
-    public static boolean isEnable() {
-        boolean enable = debugger.enable || enableDebugByClass || enableDebugByMethod;
+    public boolean isEnable() {
+        boolean enable = this.enable || enableDebugByClass || enableDebugByMethod;
 
-        if (enable && debugger.firstTime) {
-            debugger.firstTime = false;
+        if (enable && firstTime) {
+            firstTime = false;
             printInfo(false);
         }
         return enable;
     }
 
     /**
-     * <p>
      * Print debug message.
-     * </p>
      * 
      * @param values
      */
-    public static void info(Object... values) {
+    public void info(Object... values) {
         StringBuilder text = new StringBuilder();
         CopyOnWriteArrayList<Node> nodes = new CopyOnWriteArrayList();
 
@@ -177,18 +194,15 @@ public class Debugger extends AnnotationVisitor {
         }
         text.append("   ").append(linkableMethodInfo(false));
 
-        System.out.println(text);
-        System.out.println(format(nodes));
+        print(text);
     }
 
     /**
-     * <p>
      * Print debug message.
-     * </p>
      * 
      * @param values
      */
-    public static void print(Object... values) {
+    public void print(Object... values) {
         if (isEnable()) {
             info(values);
         }
@@ -197,14 +211,14 @@ public class Debugger extends AnnotationVisitor {
     /**
      * Print method info as header like.
      */
-    private static void printInfo(boolean safe) {
-        debugger.dominatorSafe = safe;
+    private void printInfo(boolean safe) {
+        current().dominatorSafe = safe;
 
         if (isEnable()) {
             String text = linkableMethodInfo(true);
             int base = (120 - text.length()) / 2;
 
-            System.out.println("//" + "-".repeat(base) + " " + linkableMethodInfo(true) + " " + "-".repeat(base) + "//");
+            print("//" + "-".repeat(base) + " " + linkableMethodInfo(true) + " " + "-".repeat(base) + "//");
         }
     }
 
@@ -213,7 +227,7 @@ public class Debugger extends AnnotationVisitor {
      * 
      * @return
      */
-    private static String linkableMethodInfo(boolean head) {
+    private String linkableMethodInfo(boolean head) {
         String methodName;
 
         if (whileTest) {
@@ -240,7 +254,7 @@ public class Debugger extends AnnotationVisitor {
     /**
      * Dump all node tree.
      */
-    public static void print(LinkedList<Node> nodes, Object... messages) {
+    public void print(LinkedList<Node> nodes, Object... messages) {
         print(messages);
         print(nodes.peekFirst().nexts().toList());
     }
@@ -248,47 +262,41 @@ public class Debugger extends AnnotationVisitor {
     /**
      * @param message
      */
-    public static void print(Object message) {
+    public void print(Object message) {
         if (isEnable()) {
-            System.out.println(message);
+            log.append(message).append("\r\n");
         }
     }
 
     /**
-     * <p>
      * Dump node tree.
-     * </p>
      * 
      * @param node
      */
-    public static void print(Node node) {
+    public void print(Node node) {
         if (node != null) {
             print(Collections.singletonList(node));
         }
     }
 
     /**
-     * <p>
      * Dump node tree.
-     * </p>
      * 
      * @param nodes
      */
-    public static void print(List<Node> nodes) {
+    public void print(List<Node> nodes) {
         if (isEnable()) {
-            System.out.println(format(nodes));
+            print(format(nodes));
         }
     }
 
     /**
-     * <p>
      * Compute actual test class name.
-     * </p>
      * 
      * @param clazz
      * @return
      */
-    private static String computeTestClassName(Class clazz) {
+    private String computeTestClassName(Class clazz) {
         String name = clazz.getName();
 
         int index = name.indexOf('$');
@@ -300,14 +308,12 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /**
-     * <p>
      * Compute actual test method name.
-     * </p>
      * 
      * @param testClassName
      * @return
      */
-    private static String computeTestMethodName(String testClassName) {
+    private String computeTestMethodName(String testClassName) {
         for (StackTraceElement element : new Error().getStackTrace()) {
             if (element.getClassName().equals(testClassName)) {
                 return element.getMethodName();
@@ -317,14 +323,12 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /**
-     * <p>
      * Helper method to format node tree.
-     * </p>
      * 
      * @param nodes
      * @return
      */
-    private static String format(List<Node> nodes) {
+    private String format(List<Node> nodes) {
         Set<TryCatchFinally> tries = new LinkedHashSet();
 
         for (Node node : nodes) {
@@ -401,14 +405,12 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /**
-     * <p>
      * Create single item list.
-     * </p>
      * 
      * @param node
      * @return
      */
-    private static List<Node> list(Node node) {
+    private List<Node> list(Node node) {
         if (node == null) {
             return Collections.EMPTY_LIST;
         }
@@ -416,15 +418,13 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /**
-     * <p>
      * Helper method to compute dominator node.
-     * </p>
      * 
      * @param target
      * @return
      */
-    private static Node getDominator(Node target) {
-        if (debugger.dominatorSafe) {
+    private Node getDominator(Node target) {
+        if (current().dominatorSafe) {
             return target.getDominator();
         } else {
             return getDominator(target, new HashSet());
@@ -436,7 +436,7 @@ public class Debugger extends AnnotationVisitor {
      * 
      * @return A dominator node. If this node is root, <code>null</code>.
      */
-    private static Node getDominator(Node target, Set<Node> nodes) {
+    private Node getDominator(Node target, Set<Node> nodes) {
         if (!nodes.add(target)) {
             return null;
         }
@@ -485,7 +485,7 @@ public class Debugger extends AnnotationVisitor {
      * @param dominator A dominator node.
      * @return A result.
      */
-    private static boolean hasDominator(Node target, Node dominator, Set<Node> nodes) {
+    private boolean hasDominator(Node target, Node dominator, Set<Node> nodes) {
         Node current = target;
 
         while (current != null) {
@@ -497,6 +497,16 @@ public class Debugger extends AnnotationVisitor {
 
         // Not Found
         return false;
+    }
+
+    /**
+     * Write log and clear buffer.
+     * 
+     * @param output
+     */
+    public void writeTo(PrintStream output) {
+        output.print(log);
+        log = new StringBuilder();
     }
 
     /**
@@ -596,16 +606,14 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /** The compiling route. */
-    private static Deque<DebugContext> route = new ArrayDeque();
+    private Deque<DebugContext> route = new ArrayDeque();
 
     /**
-     * <p>
      * Record starting class compiling.
-     * </p>
      * 
      * @param clazz A target class.
      */
-    static void start(Class clazz) {
+    void start(Class clazz) {
         DebugContext context = route.peekFirst();
 
         if (context == null || context.clazz != clazz) {
@@ -614,38 +622,32 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /**
-     * <p>
      * Record finishing class compiling.
-     * </p>
      * 
      * @param clazz A target class.
      */
-    static void finish(Class clazz) {
+    void finish(Class clazz) {
         route.pollFirst();
     }
 
     /**
-     * <p>
      * Record starting method compiling.
-     * </p>
      * 
      * @param method A target method name.
      */
-    static void recordMethodName(String method) {
+    void recordMethodName(String method) {
         DebugContext context = route.peekFirst();
         context.method = method;
         context.line = 1;
-        I.make(Debugger.class).visit(method, context.clazz);
+        visit(method, context.clazz);
     }
 
     /**
-     * <p>
      * Record line number.
-     * </p>
      * 
      * @param line
      */
-    static void recordMethodLineNumber(int line) {
+    void recordMethodLineNumber(int line) {
         DebugContext context = route.peekFirst();
 
         if (context.line == 1) {
@@ -655,51 +657,43 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /**
-     * <p>
      * Retrieve the current compiling class info.
-     * </p>
      * 
      * @return The current compiling class.
      */
-    static Class getScript() {
+    Class getScript() {
         return route.peekFirst().clazz;
     }
 
     /**
-     * <p>
      * Retrieve the current compiling class info.
-     * </p>
      * 
      * @return The current compiling class.
      */
-    static String getMethodName() {
+    String getMethodName() {
         return route.peekFirst().method;
     }
 
     /**
-     * <p>
      * Retrieve the current compiling class info.
-     * </p>
      * 
      * @return The current compiling class.
      */
-    static int getMethodLine() {
+    int getMethodLine() {
         return route.peekFirst().line;
     }
 
     /**
-     * <p>
      * Retrieve the current compiling class info.
-     * </p>
      * 
      * @return The current compiling class.
      */
-    static int getLine() {
+    int getLine() {
         return route.peekFirst().lineNow;
     }
 
     /**
-     * @version 2018/10/31 11:35:08
+     * 
      */
     private static class DebugContext {
 

@@ -72,6 +72,9 @@ public class CodeVerifier {
     /** The built-in parameters. */
     private static final List<String> texts = List.of("", " ", "a", "A", "あ", "\\", "\t", "some value");
 
+    /** The current debugger. */
+    private Debugger debugger = Debugger.current();
+
     /**
      * Change degub state.
      */
@@ -106,6 +109,14 @@ public class CodeVerifier {
     @AfterEach
     protected final void diableDebugByMethod() {
         Debugger.enableDebugByMethod = false;
+    }
+
+    /**
+     * Delegate system output.
+     */
+    @BeforeEach
+    protected final void resetDebugger() {
+        debugger.reset();
     }
 
     /**
@@ -260,10 +271,13 @@ public class CodeVerifier {
         String decompiled = Reincarnation.rebirth(target, options);
         Silent notifier = new Silent();
 
-        if (Debugger.isEnable()) {
+        if (debugger.isEnable()) {
             for (String line : format(decompiled)) {
-                System.out.println(line);
+                debugger.print(line);
             }
+            debugger.print("\r\n");
+
+            debugger.writeTo(System.out);
         }
 
         try {
@@ -276,9 +290,7 @@ public class CodeVerifier {
             assert target != loadedClass; // load from different classloader
 
             return I.pair(loadedClass, () -> code(decompiled));
-        } catch (Exception e) {
-            throw I.quiet(e);
-        } catch (Error e) {
+        } catch (Throwable e) {
             throw Failuer.type("Compile Error")
                     .reason(e)
                     .reason("=================================================")

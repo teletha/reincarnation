@@ -1063,7 +1063,7 @@ public class Node implements Code<Operand> {
                 if (loopable.containsAsHeader(next) && hasDominator(loopable.entrance)) {
                     Continue continuer = new Continue(this, loopable);
 
-                    if (Debugger.isEnable()) {
+                    if (Debugger.current().isEnable()) {
                         continuer
                                 .comment(id + " -> " + next.id + " continue to " + loopable.entrance.id + " (" + next.currentCalls + " of " + requiredCalls + ") " + loopable);
                     }
@@ -1080,7 +1080,7 @@ public class Node implements Code<Operand> {
                     if (loopable.exit.incoming.contains(this)) {
                         Break breaker = new Break(this, loopable);
 
-                        if (Debugger.isEnable()) {
+                        if (Debugger.current().isEnable()) {
                             breaker.comment(id + " -> " + next.id + " break to " + loopable.entrance.id + "(" + next.currentCalls + " of " + requiredCalls + ") " + loopable);
                         }
                         return breaker;

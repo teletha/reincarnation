@@ -9,7 +9,6 @@
  */
 package reincarnation.decompiler.flow;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
@@ -291,7 +290,6 @@ class TryFinallyTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryFinallyAfterNest2() {
         verify(new TestCode.IntParam() {
 
