@@ -1869,7 +1869,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             return;
         }
 
-        debugger.print(nodes, "Start merging logical condition");
+        Runnable diff = debugger.diff(nodes, "Merging logical condition");
 
         // Search and merge the sequencial conditional operands in this node from right to left.
         int start = info.start;
@@ -1907,7 +1907,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             }
         }
 
-        debugger.print(nodes, "End merging logical condition");
+        diff.run();
     }
 
     /**

@@ -290,6 +290,19 @@ public class Debugger extends AnnotationVisitor {
         }
     }
 
+    public Runnable diff(List<Node> nodes, String label) {
+        String before = format(nodes);
+
+        return () -> {
+            String after = format(nodes);
+
+            if (!before.equals(after)) {
+                print(label);
+                print(before + "\r\n" + after);
+            }
+        };
+    }
+
     /**
      * Compute actual test class name.
      * 
