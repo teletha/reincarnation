@@ -658,7 +658,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             boolean values = conditionNode != leftNode && rightNode.hasDominator(leftNode);
 
             if (leftTransition && conditionTransition && dominator && !values) {
-                debugger.info(nodes, "Start ternary operator. condition[", third, "]  left[", second, "]  right[", first, "]");
+                if (debugger.isEnable()) {
+                    debugger.print(nodes, "Start ternary operator. condition[", third, "]  left[", second, "]  right[", first, "]");
+                }
 
                 if (first.isTrue() && second.isFalse()) {
                     current.remove(0);
@@ -694,7 +696,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 // process recursively
                 processTernaryOperator();
 
-                debugger.info(nodes, "End ternary operator. condition[", third, "]  left[", second, "]  right[", first, "]");
+                if (debugger.isEnable()) {
+                    debugger.print(nodes, "End ternary operator. condition[", third, "]  left[", second, "]  right[", first, "]");
+                }
             }
         }
     }

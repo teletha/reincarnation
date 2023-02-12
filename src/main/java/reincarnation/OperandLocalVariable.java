@@ -60,10 +60,8 @@ public class OperandLocalVariable extends Operand {
     protected void writeCode(Coder coder) {
         if (name.equals("this")) {
             coder.writeThis();
-        } else if (firstAccess == false) {
-            coder.writeLocalVariable(type.v, name, LocalVariableDeclaration.None);
         } else {
-            coder.writeLocalVariable(type.v, name, declaration);
+            coder.writeLocalVariable(type.v, name, firstAccess ? declaration : LocalVariableDeclaration.None);
 
             if (!Debugger.whileDebug) {
                 firstAccess = false;

@@ -24,13 +24,13 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.objectweb.asm.AnnotationVisitor;
 
@@ -176,25 +176,11 @@ public class Debugger extends AnnotationVisitor {
      */
     public void info(Object... values) {
         StringBuilder text = new StringBuilder();
-        CopyOnWriteArrayList<Node> nodes = new CopyOnWriteArrayList();
 
         for (Object value : values) {
             if (value instanceof Node) {
                 Node node = (Node) value;
-                nodes.addIfAbsent(node);
                 text.append("n").append(node.id);
-            } else if (value instanceof List) {
-                List<Node> list = (List<Node>) value;
-
-                for (Node node : list) {
-                    nodes.addIfAbsent(node);
-                }
-            } else if (value instanceof Set) {
-                Set<Node> list = (Set<Node>) value;
-
-                for (Node node : list) {
-                    nodes.addIfAbsent(node);
-                }
             } else {
                 text.append(value);
             }
@@ -248,14 +234,6 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /**
-     * Dump all node tree.
-     */
-    public void print(LinkedList<Node> nodes, Object... messages) {
-        print(messages);
-        print(nodes.peekFirst().nexts().toList());
-    }
-
-    /**
      * @param message
      */
     public void print(Object message) {
@@ -283,6 +261,16 @@ public class Debugger extends AnnotationVisitor {
     public void print(List<Node> nodes) {
         if (isEnable()) {
             print(format(nodes));
+        }
+    }
+
+    /**
+     * Dump all node tree.
+     */
+    public void print(List<Node> nodes, Object... messages) {
+        if (isEnable()) {
+            print(Stream.of(messages).map(Object::toString).collect(Collectors.joining(" ")));
+            print(nodes.get(0).nexts().toList());
         }
     }
 
