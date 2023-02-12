@@ -17,7 +17,6 @@ import java.util.Map.Entry;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class TryCatchTest extends CodeVerifier {
@@ -352,7 +351,6 @@ class TryCatchTest extends CodeVerifier {
     @Test
     void TryCatchWithFrameFull() {
         verify(new TestCode.IntParam() {
-            @Debuggable
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 for (int i = 0; i < 1; i++) {

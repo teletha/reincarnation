@@ -24,7 +24,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.objectweb.asm.ClassReader;
 
 import kiss.I;
-import psychopath.File;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.java.JavaCoder;
@@ -32,13 +31,11 @@ import reincarnation.coder.java.JavaCodingOption;
 
 /**
  * {@link Reincarnation} is a unit of decompilation.
- * 
- * @version 2018/10/19 12:36:08
  */
 public final class Reincarnation {
 
     /** The cache. */
-    private static final Map<Class, Reincarnation> cache = new ConcurrentHashMap();
+    static final Map<Class, Reincarnation> cache = new ConcurrentHashMap();
 
     /** The target class. */
     public final Class clazz;

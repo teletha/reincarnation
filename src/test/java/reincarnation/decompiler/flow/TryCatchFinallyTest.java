@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class TryCatchFinallyTest extends CodeVerifier {
@@ -195,7 +194,6 @@ class TryCatchFinallyTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable
     void TryCatchFinallyNodes() {
         verify(new TestCode.IntParam() {
 

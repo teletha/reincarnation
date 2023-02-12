@@ -22,11 +22,13 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.extension.AfterAllCallback;
+import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
+import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 import bee.UserInterface;
 import bee.api.Command;
@@ -72,52 +74,11 @@ public class CodeVerifier {
     /** The built-in parameters. */
     private static final List<String> texts = List.of("", " ", "a", "A", "あ", "\\", "\t", "some value");
 
+    @RegisterExtension
+    private final TestLifecycleManager manager = new TestLifecycleManager();
+
     /** The current debugger. */
     private Debugger debugger = Debugger.current();
-
-    /**
-     * Change degub state.
-     */
-    @BeforeAll
-    protected static final void enableDebugByClass(TestInfo info) {
-        if (info.getTestClass().get().isAnnotationPresent(Debuggable.class)) {
-            Debugger.enableDebugByClass = true;
-        }
-    }
-
-    /**
-     * Change degub state.
-     */
-    @AfterAll
-    protected static final void disableDebugByClass() {
-        Debugger.enableDebugByClass = false;
-    }
-
-    /**
-     * Change degub state.
-     */
-    @BeforeEach
-    protected final void enableDebugByMethod(TestInfo info) {
-        if (info.getTestMethod().get().isAnnotationPresent(Debuggable.class)) {
-            Debugger.enableDebugByMethod = true;
-        }
-    }
-
-    /**
-     * Change degub state.
-     */
-    @AfterEach
-    protected final void diableDebugByMethod() {
-        Debugger.enableDebugByMethod = false;
-    }
-
-    /**
-     * Delegate system output.
-     */
-    @BeforeEach
-    protected final void resetDebugger() {
-        debugger.reset();
-    }
 
     /**
      * Verify decompiled code.
@@ -125,27 +86,37 @@ public class CodeVerifier {
      * @param code A target code to verify.
      */
     protected final void verify(TestCode code) {
-        JavaVerifier base = new JavaVerifier<>(I.pair(code.getClass(), IllegalCallerException::new));
-        List inputs = prepareInputs(base.method);
-        List expecteds = new ArrayList();
+        try {
+            JavaVerifier base = new JavaVerifier<>(I.pair(code.getClass(), IllegalCallerException::new));
+            List inputs = prepareInputs(base.method);
+            List expecteds = new ArrayList();
 
-        for (Object input : inputs) {
-            expecteds.add(base.verifier.apply(input));
-        }
-
-        if (base.method.isAnnotationPresent(ShowJavaResultOnly.class)) {
-            System.out.println("Show Java result : " + base.method);
-            for (int i = 0; i < inputs.size(); i++) {
-                System.out.println(inputs.get(i) + " : " + expecteds.get(i));
+            for (Object input : inputs) {
+                expecteds.add(base.verifier.apply(input));
             }
-            return;
-        }
 
-        // java decompiler
-        JavaVerifier java = new JavaVerifier(recompile(code));
+            if (base.method.isAnnotationPresent(ShowJavaResultOnly.class)) {
+                System.out.println("Show Java result : " + base.method);
+                for (int i = 0; i < inputs.size(); i++) {
+                    System.out.println(inputs.get(i) + " : " + expecteds.get(i));
+                }
+                return;
+            }
 
-        for (int i = 0; i < inputs.size(); i++) {
-            java.verify(inputs.get(i), expecteds.get(i));
+            // java decompiler
+            JavaVerifier java = new JavaVerifier(recompile(code));
+
+            for (int i = 0; i < inputs.size(); i++) {
+                java.verify(inputs.get(i), expecteds.get(i));
+            }
+        } catch (Throwable e) {
+            // Discard decompile infomation and mark as debuggable.
+            if (!manager.powerAsserted) {
+                Reincarnation.cache.remove(code.getClass());
+                debugger.enable();
+            }
+
+            throw I.quiet(e);
         }
     }
 
@@ -505,6 +476,56 @@ public class CodeVerifier {
          */
         @Override
         public void endCommand(String name, Command command) {
+        }
+    }
+
+    /**
+     * Manage test lifecycle.
+     */
+    static class TestLifecycleManager
+            implements BeforeTestExecutionCallback, AfterTestExecutionCallback, BeforeAllCallback, AfterAllCallback {
+
+        private boolean powerAsserted;
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void beforeTestExecution(ExtensionContext context) throws Exception {
+            if (context.getRequiredTestMethod().isAnnotationPresent(Debuggable.class)) {
+                Debugger.enableDebugByMethod = true;
+            }
+
+            Method method = (Method) context.getStore(Namespace.GLOBAL).get(context.getRequiredTestMethod());
+            if (method != null) {
+                powerAsserted = true;
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void afterTestExecution(ExtensionContext context) throws Exception {
+            Debugger.enableDebugByMethod = false;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void beforeAll(ExtensionContext context) throws Exception {
+            if (context.getRequiredTestClass().isAnnotationPresent(Debuggable.class)) {
+                Debugger.enableDebugByClass = true;
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void afterAll(ExtensionContext context) throws Exception {
+            Debugger.enableDebugByClass = false;
         }
     }
 }
