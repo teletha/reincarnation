@@ -18,10 +18,6 @@ public class Project extends bee.api.Project {
         require("com.github.teletha", "sinobu");
         require("com.github.teletha", "psychopath");
         require("com.github.javaparser", "javaparser-core");
-        require("org.benf", "cfr");
-
-        // for jetbrains fernflower
-        require("org.jetbrains", "annotations").atTest();
 
         require("com.github.teletha", "icymanipulator").atAnnotation();
         require("com.github.teletha", "bee").atTest();

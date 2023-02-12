@@ -9,9 +9,13 @@
  */
 package reincarnation;
 
-import static org.objectweb.asm.Opcodes.*;
+import static org.objectweb.asm.Opcodes.ASM9;
 
 import java.io.PrintStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Executable;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,11 +27,14 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.objectweb.asm.AnnotationVisitor;
 
+import kiss.I;
 import reincarnation.JavaMethodDecompiler.TryCatchFinally;
 
 public class Debugger extends AnnotationVisitor {
@@ -198,17 +205,6 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /**
-     * Print debug message.
-     * 
-     * @param values
-     */
-    public void print(Object... values) {
-        if (isEnable()) {
-            info(values);
-        }
-    }
-
-    /**
      * Print method info as header like.
      */
     private void printInfo(boolean safe) {
@@ -290,17 +286,99 @@ public class Debugger extends AnnotationVisitor {
         }
     }
 
-    public Runnable diff(List<Node> nodes, String label) {
-        String before = format(nodes);
+    /**
+     * Print the current processing method info.
+     */
+    public void printMethod() {
+        if (isEnable()) {
+            Executable m = getMember();
+            String name = m instanceof Constructor ? "Constructor" : m instanceof Method ? "Method " + m.getName() : "StaticInitializer";
 
-        return () -> {
-            String after = format(nodes);
-
-            if (!before.equals(after)) {
-                print(label);
-                print(before + "\r\n" + after);
+            Class clazz = getScript();
+            if (clazz.isAnonymousClass()) {
+                clazz = clazz.getEnclosingClass();
             }
-        };
+
+            StringJoiner joiner = new StringJoiner(", ", "(", ")");
+            for (Parameter p : m.getParameters()) {
+                Class<?> type = p.getType();
+                if (type != clazz) joiner.add(type.getSimpleName() + " " + p.getName());
+            }
+
+            print(Printable.stain(name + joiner, "21") + " (" + clazz.getSimpleName() + ".java:" + getLine() + ")");
+        }
+    }
+
+    /**
+     * Dump node tree if it was chabged.
+     * 
+     * @param nodes
+     * @param label
+     * @return
+     */
+    public Printable diff(List<Node> nodes, String label) {
+        if (isEnable()) {
+            String before = format(nodes);
+
+            return () -> {
+                String after = format(nodes);
+
+                if (!before.equals(after)) {
+                    Deque<String> befores = I.collect(ArrayDeque.class, before.split("\r\n"));
+                    Deque<String> afters = I.collect(ArrayDeque.class, after.split("\r\n"));
+
+                    // delete same line from head and tail
+                    int erased = erase(befores.iterator(), afters.iterator());
+                    erased += erase(befores.descendingIterator(), afters.descendingIterator());
+
+                    print(label + (erased <= 0 ? " (show full nodes)" : " (show the changed nodes only - hide " + erased + " nodes)"));
+                    print(Printable.stain(befores.stream().collect(Collectors.joining("\r\n")), "9") + "\r\n" + Printable
+                            .stain(afters.stream().collect(Collectors.joining("\r\n")), "78") + "\r\n");
+                }
+            };
+        } else {
+            return () -> {
+            };
+        }
+    }
+
+    /**
+     * Erase same lines.
+     * 
+     * @param before
+     * @param after
+     */
+    private int erase(Iterator<String> before, Iterator<String> after) {
+        int count = 0;
+        while (after.hasNext() && before.hasNext()) {
+            if (!before.next().equals(after.next())) continue;
+            before.remove();
+            after.remove();
+            count++;
+        }
+        return count;
+    }
+
+    /**
+     * Print node's diff.
+     */
+    interface Printable extends AutoCloseable {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        void close();
+
+        /**
+         * Colorize your text.
+         * 
+         * @param code
+         * @param colorCode
+         * @return
+         */
+        private static String stain(String text, String colorCode) {
+            return "[38;5;" + colorCode + "m" + text + "[0m";
+        }
     }
 
     /**
@@ -646,13 +724,16 @@ public class Debugger extends AnnotationVisitor {
     /**
      * Record starting method compiling.
      * 
-     * @param method A target method name.
+     * @param member A target method name.
      */
-    void recordMethodName(String method) {
-        DebugContext context = route.peekFirst();
-        context.method = method;
-        context.line = 1;
-        visit(method, context.clazz);
+    void recordMethodName(Executable member) {
+        if (member != null) {
+            DebugContext context = route.peekFirst();
+            context.member = member;
+            context.method = member.toString();
+            context.line = 1;
+            visit(member.toString(), context.clazz);
+        }
     }
 
     /**
@@ -676,6 +757,15 @@ public class Debugger extends AnnotationVisitor {
      */
     Class getScript() {
         return route.peekFirst().clazz;
+    }
+
+    /**
+     * Retrieve the current compiling member info.
+     * 
+     * @return The current compiling member.
+     */
+    Executable getMember() {
+        return route.peekFirst().member;
     }
 
     /**
@@ -712,6 +802,9 @@ public class Debugger extends AnnotationVisitor {
 
         /** The current compiling class. */
         private final Class clazz;
+
+        /** The current compiling member. */
+        private Executable member;
 
         /** The current compiling method. */
         private String method;

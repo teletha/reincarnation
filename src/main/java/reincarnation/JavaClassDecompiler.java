@@ -10,7 +10,7 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -84,19 +84,19 @@ class JavaClassDecompiler extends ClassVisitor {
                 // initializer or constructor
                 Constructor constructor = source.clazz.getDeclaredConstructor(load(parameterTypes));
                 LocalVariables locals = new LocalVariables(source.clazz, isStatic, parameterTypes, constructor.getParameters());
-                decompiler = new JavaMethodDecompiler(source, locals, returnType);
+                decompiler = new JavaMethodDecompiler(source, locals, returnType, constructor);
 
                 source.constructors.put(constructor, decompiler);
             } else if (name.equals("<clinit>")) {
                 LocalVariables locals = new LocalVariables(source.clazz, isStatic, parameterTypes, new Parameter[0]);
-                decompiler = new JavaMethodDecompiler(source, locals, returnType);
+                decompiler = new JavaMethodDecompiler(source, locals, returnType, null);
 
                 // static initializer
                 source.staticInitializer.add(decompiler);
             } else {
                 Method method = source.clazz.getDeclaredMethod(name, load(parameterTypes));
                 LocalVariables locals = new LocalVariables(source.clazz, isStatic, parameterTypes, method.getParameters());
-                decompiler = new JavaMethodDecompiler(source, locals, returnType);
+                decompiler = new JavaMethodDecompiler(source, locals, returnType, method);
 
                 source.methods.put(method, decompiler);
             }

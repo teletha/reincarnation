@@ -10,10 +10,11 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
+import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayDeque;
@@ -33,6 +34,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
 import kiss.I;
+import reincarnation.Debugger.Printable;
 import reincarnation.Node.Switch;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -246,17 +248,19 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     private Debugger debugger = Debugger.current();
 
     /**
+     * @param source
      * @param locals
      * @param returns
+     * @param descriptor
      */
-    JavaMethodDecompiler(Reincarnation source, LocalVariables locals, Type returns) {
+    JavaMethodDecompiler(Reincarnation source, LocalVariables locals, Type returns, Executable descriptor) {
         super(ASM9);
 
         this.source = source;
         this.returnType = Util.load(returns);
         this.locals = locals;
 
-        debugger.recordMethodName(source.clazz.getName());
+        debugger.recordMethodName(descriptor);
     }
 
     /**
@@ -314,6 +318,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             dispose(node, true, false);
         }
 
+        debugger.printMethod();
         debugger.print(nodes);
 
         tries.disposeCopiedFinallyBlock();
@@ -354,16 +359,22 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // ============================================
         // Code Optimization
         // ============================================
-        optimizeLastEmptyReturn();
-        optimizeImmediateReturn();
-        optimizeShorthandAssign();
+        try (Printable diff = debugger.diff(nodes, "Delete tail empty return")) {
+            optimizeTailEmptyReturn();
+        }
+        try (Printable diff = debugger.diff(nodes, "Merge immediate return")) {
+            optimizeImmediateReturn();
+        }
+        try (Printable diff = debugger.diff(nodes, "Build shorthand assign")) {
+            optimizeShorthandAssign();
+        }
 
         // ============================================
         // Analyze node relation
         // ============================================
-        debugger.print(nodes, "Before Analyze");
-        root = nodes.peekFirst().analyze();
-        debugger.print(nodes, "After Analyze");
+        try (Printable diff = debugger.diff(nodes, "Analyze nodes")) {
+            root = nodes.peekFirst().analyze();
+        }
 
         // ============================================
         // Build code structure
@@ -397,7 +408,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     /**
      * Remove {@link OperandReturn} if it is empty at last.
      */
-    private void optimizeLastEmptyReturn() {
+    private void optimizeTailEmptyReturn() {
         Node lastNode = nodes.peekLast();
         Operand lastOperand = lastNode.peek(0);
 
@@ -647,7 +658,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             boolean values = conditionNode != leftNode && rightNode.hasDominator(leftNode);
 
             if (leftTransition && conditionTransition && dominator && !values) {
-                debugger.print(nodes, "Start ternary operator. condition[", third, "]  left[", second, "]  right[", first, "]");
+                debugger.info(nodes, "Start ternary operator. condition[", third, "]  left[", second, "]  right[", first, "]");
 
                 if (first.isTrue() && second.isFalse()) {
                     current.remove(0);
@@ -683,7 +694,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 // process recursively
                 processTernaryOperator();
 
-                debugger.print(nodes, "End ternary operator. condition[", third, "]  left[", second, "]  right[", first, "]");
+                debugger.info(nodes, "End ternary operator. condition[", third, "]  left[", second, "]  right[", first, "]");
             }
         }
     }
@@ -1700,9 +1711,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     }
 
     /**
-     * <p>
      * Helper method to dispose the specified node.
-     * </p>
      */
     private final void dispose(Node target) {
         dispose(target, false, true);
@@ -1783,9 +1792,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     }
 
     /**
-     * <p>
      * Create new node after the specified node.
-     * </p>
      * 
      * @param index A index node.
      * @return A created node.
@@ -1813,9 +1820,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     }
 
     /**
-     * <p>
      * Retrieve the asossiated node of the specified label.
-     * </p>
      * 
      * @param label A label for node.
      * @return An asossiated and cached node.
@@ -1833,9 +1838,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     }
 
     /**
-     * <p>
      * Link all nodes as order of appearance.
-     * </p>
      * 
      * @param nodes A sequence of nodes.
      * @return A last node.
@@ -1854,9 +1857,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     }
 
     /**
-     * <p>
      * Helper method to merge all conditional operands.
-     * </p>
      */
     private final void merge(Node node) {
         if (node == null) {
@@ -1869,45 +1870,43 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             return;
         }
 
-        Runnable diff = debugger.diff(nodes, "Merging logical condition");
+        try (Printable diff = debugger.diff(nodes, "Merging logical condition")) {
+            // Search and merge the sequencial conditional operands in this node from right to left.
+            int start = info.start;
+            OperandCondition left = null;
+            OperandCondition right = node.peek(start).as(OperandCondition.class).v;
 
-        // Search and merge the sequencial conditional operands in this node from right to left.
-        int start = info.start;
-        OperandCondition left = null;
-        OperandCondition right = node.peek(start).as(OperandCondition.class).v;
+            for (int index = 1; index < info.conditions.size(); index++) {
+                left = (OperandCondition) node.peek(start + index);
 
-        for (int index = 1; index < info.conditions.size(); index++) {
-            left = (OperandCondition) node.peek(start + index);
+                if (info.canMerge(left, right)) {
+                    // Merge two adjucent conditional operands.
+                    right = new OperandCondition(left, node.remove(--start + index).as(OperandCondition.class).v);
 
-            if (info.canMerge(left, right)) {
-                // Merge two adjucent conditional operands.
-                right = new OperandCondition(left, node.remove(--start + index).as(OperandCondition.class).v);
-
-                node.set(start + index, right);
-            } else {
-                right = left;
-                left = null;
+                    node.set(start + index, right);
+                } else {
+                    right = left;
+                    left = null;
+                }
             }
-        }
 
-        // If the previous node is terminated by conditional operand and the target node is started
-        // by conditional operand, we should try to merge them.
-        if (info.conditionalHead && node.previous != null) {
-            Operand operand = node.previous.peek(0);
+            // If the previous node is terminated by conditional operand and the target node is
+            // started by conditional operand, we should try to merge them.
+            if (info.conditionalHead && node.previous != null) {
+                Operand operand = node.previous.peek(0);
 
-            if (operand instanceof OperandCondition) {
-                OperandCondition condition = (OperandCondition) operand;
+                if (operand instanceof OperandCondition) {
+                    OperandCondition condition = (OperandCondition) operand;
 
-                if (info.canMerge(condition, right) && condition.elze == node) {
-                    dispose(node);
+                    if (info.canMerge(condition, right) && condition.elze == node) {
+                        dispose(node);
 
-                    // Merge recursively
-                    merge(node.previous);
+                        // Merge recursively
+                        merge(node.previous);
+                    }
                 }
             }
         }
-
-        diff.run();
     }
 
     /**
@@ -1938,9 +1937,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     }
 
     /**
-     * <p>
      * Pattern matching for the recent instructions.
-     * </p>
      * 
      * @param opcodes A sequence of opecodes to match.
      * @return A result.
@@ -2163,9 +2160,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     }
 
     /**
-     * <p>
      * Pattern matching for the recent local variable access.
-     * </p>
      * 
      * @param position A sequence of local variable positions to match.
      * @return A result.
@@ -2180,9 +2175,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     }
 
     /**
-     * <p>
      * Write increment/decrement code.
-     * </p>
      * 
      * @param context A current context value.
      * @param type A current context type.
