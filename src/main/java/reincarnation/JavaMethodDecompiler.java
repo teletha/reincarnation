@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -260,7 +260,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         this.returnType = Util.load(returns);
         this.locals = locals;
 
-        debugger.recordMethodName(descriptor);
+        debugger.startMethod(descriptor);
+        debugger.print(descriptor + "    " + Thread.currentThread());
     }
 
     /**
@@ -384,7 +385,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // ============================================
         // Reset debugger state
         // ============================================
-        debugger.reset();
+        debugger.finishMethod();
     }
 
     /**
@@ -1410,7 +1411,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     public void visitLineNumber(int line, Label start) {
         getNode(start).lineNumber = line;
 
-        debugger.recordMethodLineNumber(line);
+        debugger.recordLine(line);
     }
 
     /**

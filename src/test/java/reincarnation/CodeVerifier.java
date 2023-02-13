@@ -111,9 +111,9 @@ public class CodeVerifier {
             // Discard decompile infomation and mark as debuggable.
             if (!manager.powerAsserted) {
                 Reincarnation.cache.remove(code.getClass());
-                debugger.enableByMethod = true;
+                // debugger.enableByMethod = true;
             } else {
-                debugger.enableByMethod = false;
+                // debugger.enableByMethod = false;
             }
 
             throw I.quiet(e);
@@ -499,10 +499,8 @@ public class CodeVerifier {
             }
 
             Method decompileMethod = (Method) context.getStore(Namespace.GLOBAL).get(testMethod);
-            System.out.println(testMethod + "  " + decompileMethod);
             if (decompileMethod != null) {
                 powerAsserted = true;
-                System.out.println("Power asserted " + testMethod);
             }
         }
 
@@ -512,11 +510,10 @@ public class CodeVerifier {
         @Override
         public void afterTestExecution(ExtensionContext context) throws Exception {
             Method testMethod = context.getRequiredTestMethod();
+            System.out.println("After " + testMethod);
             if (testMethod.isAnnotationPresent(Debuggable.class) || powerAsserted) {
                 debugger.enableByMethod = false;
             }
-
-            System.out.println(testMethod + "  " + debugger.enableByMethod + "  " + powerAsserted);
         }
     }
 }

@@ -73,29 +73,13 @@ public class Debugger {
     boolean enableByClass;
 
     /** The use flag. */
-    private boolean firstTime;
+    private boolean used;
 
     /** Can i use getDominator safely? */
     private boolean dominatorSafe;
 
     /** The buffered IO. */
     private StringBuilder buffer;
-
-    /**
-     * 
-     */
-    private Debugger() {
-        reset();
-    }
-
-    /**
-     * Disable debug mode.
-     */
-    public void reset() {
-        enable = false;
-        firstTime = true;
-        dominatorSafe = false;
-    }
 
     /**
      * Replace system IO.
@@ -114,8 +98,8 @@ public class Debugger {
     public boolean isEnable() {
         boolean enable = this.enable || enableByMethod || enableByClass;
 
-        if (enable && firstTime) {
-            firstTime = false;
+        if (enable && !used) {
+            used = true;
             printInfo(false);
         }
         return enable;
@@ -165,7 +149,7 @@ public class Debugger {
         String methodName;
 
         if (whileTest) {
-            String testClassName = computeTestClassName(getScript());
+            String testClassName = computeTestClassName(getTarget());
             String testMethodName = computeTestMethodName(testClassName);
 
             methodName = testMethodName == null ? getMethodName() : testMethodName;
@@ -177,7 +161,7 @@ public class Debugger {
             methodName = "#".concat(methodName);
         }
 
-        Class clazz = getScript();
+        Class clazz = getTarget();
 
         if (clazz.isAnonymousClass()) {
             clazz = clazz.getEnclosingClass();
@@ -238,7 +222,7 @@ public class Debugger {
             Executable m = getExecutable();
             String name = m instanceof Constructor ? "Constructor" : m instanceof Method ? "Method " + m.getName() : "StaticInitializer";
 
-            Class clazz = getScript();
+            Class clazz = getTarget();
             if (clazz.isAnonymousClass()) {
                 clazz = clazz.getEnclosingClass();
             }
@@ -658,15 +642,24 @@ public class Debugger {
     /**
      * Record starting method compiling.
      * 
-     * @param member A target method name.
+     * @param executable A target method, constructor or initializer.
      */
-    void recordMethodName(Executable member) {
-        if (member != null) {
+    void startMethod(Executable executable) {
+        if (executable != null) {
             DebugContext context = route.peekFirst();
-            context.member = member;
-            context.method = member.toString();
+            context.executable = executable;
+            context.signature = executable.toString();
             context.line = 1;
         }
+    }
+
+    /**
+     * Record finishing method compiling.
+     */
+    void finishMethod() {
+        enable = false;
+        used = false;
+        dominatorSafe = false;
     }
 
     /**
@@ -674,7 +667,7 @@ public class Debugger {
      * 
      * @param line
      */
-    void recordMethodLineNumber(int line) {
+    void recordLine(int line) {
         DebugContext context = route.peekFirst();
 
         if (context.line == 1) {
@@ -688,7 +681,7 @@ public class Debugger {
      * 
      * @return The current compiling class.
      */
-    Class getScript() {
+    Class getTarget() {
         return route.peekFirst().clazz;
     }
 
@@ -698,7 +691,7 @@ public class Debugger {
      * @return The current compiling member.
      */
     Executable getExecutable() {
-        return route.peekFirst().member;
+        return route.peekFirst().executable;
     }
 
     /**
@@ -707,7 +700,7 @@ public class Debugger {
      * @return The current compiling class.
      */
     String getMethodName() {
-        return route.peekFirst().method;
+        return route.peekFirst().signature;
     }
 
     /**
@@ -737,10 +730,10 @@ public class Debugger {
         private final Class clazz;
 
         /** The current compiling member. */
-        private Executable member;
+        private Executable executable;
 
         /** The current compiling method. */
-        private String method;
+        private String signature;
 
         /** The current compiling method position. */
         private int line = 1;
@@ -762,7 +755,7 @@ public class Debugger {
         public String toString() {
             StringBuilder builder = new StringBuilder(" at ").append(clazz.getName())
                     .append('.')
-                    .append(method)
+                    .append(signature)
                     .append('(')
                     .append(clazz.getSimpleName())
                     .append(".java:")
