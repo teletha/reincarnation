@@ -22,9 +22,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
-import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
@@ -77,8 +75,8 @@ public class CodeVerifier {
     @RegisterExtension
     private final TestLifecycleManager manager = new TestLifecycleManager();
 
-    /** The current debugger. */
-    private Debugger debugger = Debugger.current();
+    /** The current debbuger. */
+    private final Debugger debugger = Debugger.current();
 
     /**
      * Verify decompiled code.
@@ -113,7 +111,9 @@ public class CodeVerifier {
             // Discard decompile infomation and mark as debuggable.
             if (!manager.powerAsserted) {
                 Reincarnation.cache.remove(code.getClass());
-                debugger.enable();
+                debugger.enableByMethod = true;
+            } else {
+                debugger.enableByMethod = false;
             }
 
             throw I.quiet(e);
@@ -234,6 +234,8 @@ public class CodeVerifier {
      * @return
      */
     private <T extends TestCode> Ⅱ<Class<T>, Supplier<Throwable>> recompile(T code) {
+        StringBuilder output = debugger.replaceOutput();
+
         Class target = code.getClass();
 
         JavaCodingOption options = new JavaCodingOption();
@@ -242,13 +244,13 @@ public class CodeVerifier {
         String decompiled = Reincarnation.rebirth(target, options);
         Silent notifier = new Silent();
 
-        if (debugger.isEnable()) {
+        if (!output.isEmpty()) {
             for (String line : format(decompiled)) {
-                debugger.print(line);
+                output.append(line).append("\r\n");
             }
-            debugger.print("\r\n");
+            output.append("\r\n");
 
-            debugger.writeTo(System.out);
+            System.out.println(output);
         }
 
         try {
@@ -482,8 +484,7 @@ public class CodeVerifier {
     /**
      * Manage test lifecycle.
      */
-    static class TestLifecycleManager
-            implements BeforeTestExecutionCallback, AfterTestExecutionCallback, BeforeAllCallback, AfterAllCallback {
+    class TestLifecycleManager implements BeforeTestExecutionCallback, AfterTestExecutionCallback {
 
         private boolean powerAsserted;
 
@@ -492,13 +493,16 @@ public class CodeVerifier {
          */
         @Override
         public void beforeTestExecution(ExtensionContext context) throws Exception {
-            if (context.getRequiredTestMethod().isAnnotationPresent(Debuggable.class)) {
-                Debugger.enableDebugByMethod = true;
+            Method testMethod = context.getRequiredTestMethod();
+            if (testMethod.isAnnotationPresent(Debuggable.class)) {
+                debugger.enableByMethod = true;
             }
 
-            Method method = (Method) context.getStore(Namespace.GLOBAL).get(context.getRequiredTestMethod());
-            if (method != null) {
+            Method decompileMethod = (Method) context.getStore(Namespace.GLOBAL).get(testMethod);
+            System.out.println(testMethod + "  " + decompileMethod);
+            if (decompileMethod != null) {
                 powerAsserted = true;
+                System.out.println("Power asserted " + testMethod);
             }
         }
 
@@ -507,25 +511,12 @@ public class CodeVerifier {
          */
         @Override
         public void afterTestExecution(ExtensionContext context) throws Exception {
-            Debugger.enableDebugByMethod = false;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void beforeAll(ExtensionContext context) throws Exception {
-            if (context.getRequiredTestClass().isAnnotationPresent(Debuggable.class)) {
-                Debugger.enableDebugByClass = true;
+            Method testMethod = context.getRequiredTestMethod();
+            if (testMethod.isAnnotationPresent(Debuggable.class) || powerAsserted) {
+                debugger.enableByMethod = false;
             }
-        }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void afterAll(ExtensionContext context) throws Exception {
-            Debugger.enableDebugByClass = false;
+            System.out.println(testMethod + "  " + debugger.enableByMethod + "  " + powerAsserted);
         }
     }
 }

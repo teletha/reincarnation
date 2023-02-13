@@ -20,7 +20,6 @@ class TryCatchFinallyTest extends CodeVerifier {
     @Test
     void TryCatchFinallyAfter() {
         verify(new TestCode.IntParam() {
-
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {

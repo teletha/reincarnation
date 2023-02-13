@@ -9,15 +9,11 @@
  */
 package reincarnation;
 
-import static org.objectweb.asm.Opcodes.ASM9;
-
-import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
@@ -28,25 +24,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.objectweb.asm.AnnotationVisitor;
 
 import kiss.I;
 import reincarnation.JavaMethodDecompiler.TryCatchFinally;
 
-public class Debugger extends AnnotationVisitor {
+public class Debugger {
 
     /** The processing environment. */
     static boolean whileDebug = false;
-
-    /** The processing environment. */
-    static boolean enableDebugByClass;
-
-    /** The processing environment. */
-    static boolean enableDebugByMethod;
 
     /** The instance holder. */
     private static final ThreadLocal<Debugger> local = ThreadLocal.withInitial(() -> new Debugger());
@@ -63,13 +50,8 @@ public class Debugger extends AnnotationVisitor {
     /** The processing environment. */
     private static final boolean whileTest;
 
-    /** The list for debug patterns. */
-    private static final List<Pattern[]> patterns = new ArrayList();
-
     // initialization
     static {
-        // enable(".+\\$OffsetIdPrinterParser", "parse");
-
         boolean flag = false;
 
         for (StackTraceElement element : new Error().getStackTrace()) {
@@ -81,8 +63,14 @@ public class Debugger extends AnnotationVisitor {
         whileTest = flag;
     }
 
-    /** The use flag. */
-    private boolean enable;
+    /** The debugging state. */
+    boolean enable;
+
+    /** The debugging state. */
+    boolean enableByMethod;
+
+    /** The debugging state. */
+    boolean enableByClass;
 
     /** The use flag. */
     private boolean firstTime;
@@ -90,19 +78,18 @@ public class Debugger extends AnnotationVisitor {
     /** Can i use getDominator safely? */
     private boolean dominatorSafe;
 
-    /** The output. */
-    private StringBuilder log = new StringBuilder();
+    /** The buffered IO. */
+    private StringBuilder buffer;
 
     /**
      * 
      */
     private Debugger() {
-        super(ASM9);
         reset();
     }
 
     /**
-     * Reset debbuging state.
+     * Disable debug mode.
      */
     public void reset() {
         enable = false;
@@ -111,56 +98,21 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void visit(String methodName, Object type) {
-        if (!patterns.isEmpty()) {
-            Class clazz = (Class) type;
-
-            Iterator<Pattern[]> iterator = patterns.iterator();
-
-            while (iterator.hasNext()) {
-                Pattern[] patterns = iterator.next();
-
-                if (patterns[0].matcher(clazz.getName()).matches() && patterns[1].matcher(methodName).matches()) {
-                    enable = true;
-                    return;
-                }
-            }
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void visitEnd() {
-        enable = true;
-    }
-
-    /**
-     * Register current processing target.
-     */
-    public void enable() {
-        enable = true;
-    }
-
-    /**
-     * Register debug target.
+     * Replace system IO.
      * 
-     * @param className A class name regex.
-     * @param methodName A method name regex.
+     * @return
      */
-    public void enable(String className, String methodName) {
-        patterns.add(new Pattern[] {Pattern.compile(className), Pattern.compile(methodName)});
+    public StringBuilder replaceOutput() {
+        return this.buffer = new StringBuilder();
     }
 
     /**
+     * Check whether the current context enable debugger or not.
+     * 
      * @return
      */
     public boolean isEnable() {
-        boolean enable = this.enable || enableDebugByClass || enableDebugByMethod;
+        boolean enable = this.enable || enableByMethod || enableByClass;
 
         if (enable && firstTime) {
             firstTime = false;
@@ -238,7 +190,11 @@ public class Debugger extends AnnotationVisitor {
      */
     public void print(Object message) {
         if (isEnable()) {
-            log.append(message).append("\r\n");
+            if (buffer == null) {
+                System.out.println(message);
+            } else {
+                buffer.append(message).append("\r\n");
+            }
         }
     }
 
@@ -279,7 +235,7 @@ public class Debugger extends AnnotationVisitor {
      */
     public void printMethod() {
         if (isEnable()) {
-            Executable m = getMember();
+            Executable m = getExecutable();
             String name = m instanceof Constructor ? "Constructor" : m instanceof Method ? "Method " + m.getName() : "StaticInitializer";
 
             Class clazz = getScript();
@@ -579,16 +535,6 @@ public class Debugger extends AnnotationVisitor {
     }
 
     /**
-     * Write log and clear buffer.
-     * 
-     * @param output
-     */
-    public void writeTo(PrintStream output) {
-        output.print(log);
-        log = new StringBuilder();
-    }
-
-    /**
      * @version 2018/10/31 11:35:02
      */
     private static final class Formatter {
@@ -720,7 +666,6 @@ public class Debugger extends AnnotationVisitor {
             context.member = member;
             context.method = member.toString();
             context.line = 1;
-            visit(member.toString(), context.clazz);
         }
     }
 
@@ -752,7 +697,7 @@ public class Debugger extends AnnotationVisitor {
      * 
      * @return The current compiling member.
      */
-    Executable getMember() {
+    Executable getExecutable() {
         return route.peekFirst().member;
     }
 

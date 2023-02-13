@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.load;
+import static reincarnation.Util.*;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -245,7 +245,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     private boolean assertNew = false;
 
     /** The default debugger. */
-    private Debugger debugger = Debugger.current();
+    private final Debugger debugger = Debugger.current();
 
     /**
      * @param source
@@ -279,7 +279,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
         if (desc.equals(DEBUGGER)) {
-            return debugger;
+            debugger.enable = true;
         }
         return null; // do nothing
     }
@@ -380,6 +380,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // Build code structure
         // ============================================
         root.structurize();
+
+        // ============================================
+        // Reset debugger state
+        // ============================================
+        debugger.reset();
     }
 
     /**
