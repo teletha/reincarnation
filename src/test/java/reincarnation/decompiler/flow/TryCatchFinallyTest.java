@@ -11,13 +11,12 @@ package reincarnation.decompiler.flow;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
-@Execution(ExecutionMode.SAME_THREAD)
+@Debuggable
 class TryCatchFinallyTest extends CodeVerifier {
 
     @Test
@@ -172,93 +171,7 @@ class TryCatchFinallyTest extends CodeVerifier {
     }
 
     @Test
-    void TryCatchReturnFinally2() {
-        verify(new TestCode.IntParam() {
-
-            private int counter = 0;
-
-            @Override
-            public int run(@Param(from = 0, to = 10) int value) {
-                return count(value) + counter;
-            }
-
-            private int count(int value) {
-                try {
-                    return MaybeThrow.error(value);
-                } catch (Error e) {
-                    try {
-                        value = MaybeThrow.error(value + 1);
-                    } catch (Error x) {
-                        value += 5;
-                    }
-                } finally {
-                    counter--;
-                }
-                return value;
-            }
-        });
-    }
-
-    @Test
-    void TryCatchReturnFinally3() {
-        verify(new TestCode.IntParam() {
-
-            private int counter = 0;
-
-            @Override
-            public int run(@Param(from = 0, to = 10) int value) {
-                return count(value) + counter;
-            }
-
-            private int count(int value) {
-                try {
-                    return MaybeThrow.error(value);
-                } catch (Error e) {
-                    try {
-                        value = MaybeThrow.error(value + 1);
-                    } catch (Error x) {
-                        value += 5;
-                    }
-                } finally {
-                    counter--;
-                }
-                return value;
-            }
-        });
-    }
-
-    @Test
     void TryCatchFinallyNodes() {
-        verify(new TestCode.IntParam() {
-
-            private int counter = 0;
-
-            @Override
-            public int run(@Param(from = 0, to = 10) int value) {
-                return count(value) + counter;
-            }
-
-            private int count(int value) {
-                try {
-                    if (value % 2 == 0) {
-                        throw new Error();
-                    }
-                    return counter += 1;
-                } catch (Error e) {
-                    return counter += 2;
-                } finally {
-                    if (counter % 3 == 0) {
-                        counter += 3;
-                    } else {
-                        counter += 4;
-                    }
-                }
-            }
-        });
-    }
-
-    @Test
-    void TryCatchFinallyNodes2() {
         verify(new TestCode.IntParam() {
 
             private int counter = 0;

@@ -35,18 +35,6 @@ public class Debugger {
     /** The processing environment. */
     static boolean whileDebug = false;
 
-    /** The instance holder. */
-    private static final ThreadLocal<Debugger> local = ThreadLocal.withInitial(() -> new Debugger());
-
-    /**
-     * Retrieve the current debbuger.
-     * 
-     * @return
-     */
-    public static Debugger current() {
-        return local.get();
-    }
-
     /** The processing environment. */
     private static final boolean whileTest;
 
@@ -63,14 +51,23 @@ public class Debugger {
         whileTest = flag;
     }
 
+    /** The instance holder per thread. */
+    private static final ThreadLocal<Debugger> local = ThreadLocal.withInitial(() -> new Debugger());
+
+    /**
+     * Retrieve the current debbuger.
+     * 
+     * @return
+     */
+    public static Debugger current() {
+        return local.get();
+    }
+
     /** The debugging state. */
     boolean enable;
 
     /** The debugging state. */
-    boolean enableByMethod;
-
-    /** The debugging state. */
-    boolean enableByClass;
+    boolean enableForcibly;
 
     /** The use flag. */
     private boolean used;
@@ -80,6 +77,12 @@ public class Debugger {
 
     /** The buffered IO. */
     private StringBuilder buffer;
+
+    /**
+     * Hide constructor.
+     */
+    private Debugger() {
+    }
 
     /**
      * Replace system IO.
@@ -96,7 +99,16 @@ public class Debugger {
      * @return
      */
     public boolean isEnable() {
-        boolean enable = this.enable || enableByMethod || enableByClass;
+        return isEnable(getExecutable());
+    }
+
+    /**
+     * Check whether the specified context enable debugger or not.
+     * 
+     * @return
+     */
+    public boolean isEnable(Executable executable) {
+        boolean enable = this.enable || this.enableForcibly;
 
         if (enable && !used) {
             used = true;

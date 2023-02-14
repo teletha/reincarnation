@@ -20,20 +20,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
-import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
-import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
-import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 
 import bee.UserInterface;
 import bee.api.Command;
 import bee.util.JavaCompiler;
 import kiss.I;
 import kiss.WiseSupplier;
-import kiss.Ⅱ;
 import psychopath.Locator;
 import reincarnation.TestCode.Param;
 import reincarnation.coder.java.JavaCoder;
@@ -72,11 +68,25 @@ public class CodeVerifier {
     /** The built-in parameters. */
     private static final List<String> texts = List.of("", " ", "a", "A", "あ", "\\", "\t", "some value");
 
-    @RegisterExtension
-    private final TestLifecycleManager manager = new TestLifecycleManager();
-
     /** The current debbuger. */
     private final Debugger debugger = Debugger.current();
+
+    /** The debug mode. */
+    private boolean enableDebug;
+
+    @BeforeEach
+    void enableDebugMode(TestInfo info) {
+        Method method = info.getTestMethod().get();
+        Class clazz = info.getTestClass().get();
+        if (method.isAnnotationPresent(Debuggable.class) || clazz.isAnnotationPresent(Debuggable.class)) {
+            enableDebug = true;
+        }
+    }
+
+    @AfterEach
+    void disableDebugMode(TestInfo info) {
+        enableDebug = false;
+    }
 
     /**
      * Verify decompiled code.
@@ -84,38 +94,80 @@ public class CodeVerifier {
      * @param code A target code to verify.
      */
     protected final void verify(TestCode code) {
+        Class target = code.getClass();
+        String decompiled = null;
+        StringBuilder debug = debugger.replaceOutput();
+
+        // ====================================================
+        // execute test code and store results by java
+        // ====================================================
+        JavaVerifier base = new JavaVerifier(target, "Execute original test case by java.");
+        List inputs = prepareInputs(base.method);
+        List expecteds = new ArrayList();
+
+        for (Object input : inputs) {
+            expecteds.add(base.verifier.apply(input));
+        }
+
+        if (base.method.isAnnotationPresent(ShowJavaResultOnly.class)) {
+            System.out.println("Show Java result : " + base.method);
+            for (int i = 0; i < inputs.size(); i++) {
+                System.out.println(inputs.get(i) + " : " + expecteds.get(i));
+            }
+            return;
+        }
+
         try {
-            JavaVerifier base = new JavaVerifier<>(I.pair(code.getClass(), IllegalCallerException::new));
-            List inputs = prepareInputs(base.method);
-            List expecteds = new ArrayList();
+            // ====================================================
+            // decompile code
+            // ====================================================
+            JavaCodingOption options = new JavaCodingOption();
+            options.writeMemberFromTopLevel = true;
 
-            for (Object input : inputs) {
-                expecteds.add(base.verifier.apply(input));
+            debugger.enableForcibly = enableDebug;
+            decompiled = Reincarnation.rebirth(target, options);
+            debugger.enableForcibly = false;
+
+            // ====================================================
+            // recompile java code
+            // ====================================================
+            Class recompiledClass;
+            Silent notifier = new Silent();
+            try {
+                ClassLoader loader = JavaCompiler.with(notifier)
+                        .addSource(JavaCoder.computeName(target.getEnclosingClass()), decompiled)
+                        .addClassPath(Locator.directory("target/test-classes"))
+                        .compile();
+
+                recompiledClass = loader.loadClass(JavaCoder.computeName(target));
+                assert target != recompiledClass; // load from different classloader
+            } catch (Throwable e) {
+                throw Failuer.type("Compile Error")
+                        .reason(e)
+                        .reason("=================================================")
+                        .reason(notifier.message)
+                        .reason("-------------------------------------------------")
+                        .reason(format(decompiled))
+                        .reason("=================================================");
             }
 
-            if (base.method.isAnnotationPresent(ShowJavaResultOnly.class)) {
-                System.out.println("Show Java result : " + base.method);
-                for (int i = 0; i < inputs.size(); i++) {
-                    System.out.println(inputs.get(i) + " : " + expecteds.get(i));
-                }
-                return;
-            }
-
-            // java decompiler
-            JavaVerifier java = new JavaVerifier(recompile(code));
+            // ====================================================
+            // execute recompiled code and compare result with original
+            // ====================================================
+            JavaVerifier java = new JavaVerifier(recompiledClass, decompiled);
 
             for (int i = 0; i < inputs.size(); i++) {
                 java.verify(inputs.get(i), expecteds.get(i));
             }
         } catch (Throwable e) {
-            // Discard decompile infomation and mark as debuggable.
-            if (!manager.powerAsserted) {
-                Reincarnation.cache.remove(code.getClass());
-                // debugger.enableByMethod = true;
-            } else {
-                // debugger.enableByMethod = false;
-            }
+            if (!debug.isEmpty()) {
+                for (String line : format(decompiled)) {
+                    debug.append(line).append("\r\n");
+                }
+                debug.append("\r\n");
 
+                System.out.println(debug);
+            }
             throw I.quiet(e);
         }
     }
@@ -228,66 +280,6 @@ public class CodeVerifier {
     }
 
     /**
-     * Decompile and recompile code.
-     * 
-     * @param code
-     * @return
-     */
-    private <T extends TestCode> Ⅱ<Class<T>, Supplier<Throwable>> recompile(T code) {
-        StringBuilder output = debugger.replaceOutput();
-
-        Class target = code.getClass();
-
-        JavaCodingOption options = new JavaCodingOption();
-        options.writeMemberFromTopLevel = true;
-
-        String decompiled = Reincarnation.rebirth(target, options);
-        Silent notifier = new Silent();
-
-        if (!output.isEmpty()) {
-            for (String line : format(decompiled)) {
-                output.append(line).append("\r\n");
-            }
-            output.append("\r\n");
-
-            System.out.println(output);
-        }
-
-        try {
-            ClassLoader loader = JavaCompiler.with(notifier)
-                    .addSource(JavaCoder.computeName(target.getEnclosingClass()), decompiled)
-                    .addClassPath(Locator.directory("target/test-classes"))
-                    .compile();
-
-            Class<T> loadedClass = (Class<T>) loader.loadClass(JavaCoder.computeName(target));
-            assert target != loadedClass; // load from different classloader
-
-            return I.pair(loadedClass, () -> code(decompiled));
-        } catch (Throwable e) {
-            throw Failuer.type("Compile Error")
-                    .reason(e)
-                    .reason("=================================================")
-                    .reason(notifier.message)
-                    .reason("-------------------------------------------------")
-                    .reason(format(decompiled))
-                    .reason("=================================================");
-        }
-    }
-
-    /**
-     * Show decompiled formated code.
-     * 
-     * @param code
-     * @return
-     */
-    private Throwable code(String code) {
-        return Failuer.type("Invalid Decompilation")
-                .reason("=================================================")
-                .reason(code)
-                .reason("=================================================");
-    }
-
-    /**
      * Format as line-numbered code.
      * 
      * @param code
@@ -303,6 +295,19 @@ public class CodeVerifier {
             lines[i] = "0".repeat(max - size) + number + "    " + lines[i];
         }
         return lines;
+    }
+
+    /**
+     * Throw the failure of decompilation.
+     * 
+     * @param message
+     * @return
+     */
+    private static Throwable error(String message) {
+        return Failuer.type("Invalid Decompilation")
+                .reason("=================================================")
+                .reason(message)
+                .reason("=================================================");
     }
 
     /**
@@ -330,23 +335,23 @@ public class CodeVerifier {
         /** The actual verifier method. */
         private final Method method;
 
-        /** The error notifier. */
-        private final Supplier<Throwable> detailError;
+        /** The detailed error. */
+        private final String detailError;
 
         /**
          * @param type
          * @param detailError
          */
-        private JavaVerifier(Ⅱ<Class, Supplier<Throwable>> context) {
-            this.detailError = context.ⅱ;
+        private JavaVerifier(Class clazz, String detailError) {
+            this.detailError = detailError;
 
             // we smust create new instance for each parameters
-            Constructor c = context.ⅰ.getDeclaredConstructors()[0];
+            Constructor c = clazz.getDeclaredConstructors()[0];
             c.setAccessible(true);
             WiseSupplier instantiator = () -> c.newInstance((Object[]) Array.newInstance(Object.class, c.getParameterCount()));
 
             // search verifier method
-            method = I.signal(context.ⅰ.getDeclaredMethods()).take(m -> m.getName().equals("run")).first().to().v;
+            method = I.signal(clazz.getDeclaredMethods()).take(m -> m.getName().equals("run")).first().to().v;
             method.setAccessible(true);
 
             switch (method.getParameterCount()) {
@@ -400,7 +405,7 @@ public class CodeVerifier {
                 if (actual instanceof Throwable) {
                     ((Throwable) actual).printStackTrace();
                 }
-                assert actual == null : detailError.get();
+                assert actual == null : error(detailError);
             } else {
                 Class type = expected.getClass();
 
@@ -410,7 +415,7 @@ public class CodeVerifier {
                     assert type.isInstance(actual);
                     assert Objects.equals(((Throwable) expected).getMessage(), ((Throwable) actual).getMessage());
                 } else {
-                    assert expected.equals(actual) : detailError.get();
+                    assert expected.equals(actual) : error(detailError);
                 }
             }
         }
@@ -423,7 +428,7 @@ public class CodeVerifier {
          */
         private void assertArray(Object expected, Object actual) {
             // check array size
-            assert Array.getLength(expected) == Array.getLength(actual) : detailError.get();
+            assert Array.getLength(expected) == Array.getLength(actual) : error(detailError);
 
             // check each items
             int size = Array.getLength(expected);
@@ -478,42 +483,6 @@ public class CodeVerifier {
          */
         @Override
         public void endCommand(String name, Command command) {
-        }
-    }
-
-    /**
-     * Manage test lifecycle.
-     */
-    class TestLifecycleManager implements BeforeTestExecutionCallback, AfterTestExecutionCallback {
-
-        private boolean powerAsserted;
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void beforeTestExecution(ExtensionContext context) throws Exception {
-            Method testMethod = context.getRequiredTestMethod();
-            if (testMethod.isAnnotationPresent(Debuggable.class)) {
-                debugger.enableByMethod = true;
-            }
-
-            Method decompileMethod = (Method) context.getStore(Namespace.GLOBAL).get(testMethod);
-            if (decompileMethod != null) {
-                powerAsserted = true;
-            }
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void afterTestExecution(ExtensionContext context) throws Exception {
-            Method testMethod = context.getRequiredTestMethod();
-            System.out.println("After " + testMethod);
-            if (testMethod.isAnnotationPresent(Debuggable.class) || powerAsserted) {
-                debugger.enableByMethod = false;
-            }
         }
     }
 }
