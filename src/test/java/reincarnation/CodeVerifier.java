@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 import org.junit.jupiter.api.AfterEach;
@@ -68,24 +70,27 @@ public class CodeVerifier {
     /** The built-in parameters. */
     private static final List<String> texts = List.of("", " ", "a", "A", "あ", "\\", "\t", "some value");
 
+    /** The debugged class manager. */
+    private static final Set<Class> debugged = ConcurrentHashMap.newKeySet();
+
     /** The current debbuger. */
     private final Debugger debugger = Debugger.current();
 
     /** The debug mode. */
-    private boolean enableDebug;
+    private boolean debuggable;
 
     @BeforeEach
     void enableDebugMode(TestInfo info) {
         Method method = info.getTestMethod().get();
         Class clazz = info.getTestClass().get();
         if (method.isAnnotationPresent(Debuggable.class) || clazz.isAnnotationPresent(Debuggable.class)) {
-            enableDebug = true;
+            debuggable = true;
         }
     }
 
     @AfterEach
     void disableDebugMode(TestInfo info) {
-        enableDebug = false;
+        debuggable = false;
     }
 
     /**
@@ -95,8 +100,6 @@ public class CodeVerifier {
      */
     protected final void verify(TestCode code) {
         Class target = code.getClass();
-        String decompiled = null;
-        StringBuilder debug = debugger.replaceOutput();
 
         // ====================================================
         // execute test code and store results by java
@@ -117,17 +120,13 @@ public class CodeVerifier {
             return;
         }
 
+        // ====================================================
+        // decompile code
+        // ====================================================
+        StringBuilder debugLog = debugger.replaceOutput();
+        String decompiled = decompile(target, debuggable);
+
         try {
-            // ====================================================
-            // decompile code
-            // ====================================================
-            JavaCodingOption options = new JavaCodingOption();
-            options.writeMemberFromTopLevel = true;
-
-            debugger.enableForcibly = enableDebug;
-            decompiled = Reincarnation.rebirth(target, options);
-            debugger.enableForcibly = false;
-
             // ====================================================
             // recompile java code
             // ====================================================
@@ -160,16 +159,33 @@ public class CodeVerifier {
                 java.verify(inputs.get(i), expecteds.get(i));
             }
         } catch (Throwable e) {
-            if (!debug.isEmpty()) {
-                for (String line : format(decompiled)) {
-                    debug.append(line).append("\r\n");
-                }
-                debug.append("\r\n");
-
-                System.out.println(debug);
+            if (debugLog.isEmpty() && debugged.add(target)) {
+                // decompile with debug mode
+                Reincarnation.cache.remove(target);
+                decompiled = decompile(target, true);
             }
             throw I.quiet(e);
+        } finally {
+            if (!debugLog.isEmpty()) {
+                for (String line : format(decompiled)) {
+                    debugLog.append(line).append("\r\n");
+                }
+                debugLog.append("\r\n");
+
+                System.out.println(debugLog);
+            }
         }
+    }
+
+    private String decompile(Class target, boolean debug) {
+        JavaCodingOption options = new JavaCodingOption();
+        options.writeMemberFromTopLevel = true;
+
+        debugger.enableForcibly = debug;
+        String decompiled = Reincarnation.rebirth(target, options);
+        debugger.enableForcibly = false;
+
+        return decompiled;
     }
 
     /**
