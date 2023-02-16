@@ -663,46 +663,40 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             boolean values = conditionNode != leftNode && rightNode.hasDominator(leftNode);
 
             if (leftTransition && conditionTransition && dominator && !values) {
-                if (debugger.isEnable()) {
-                    debugger.print(nodes, "Start ternary operator. condition[", third, "]  left[", second, "]  right[", first, "]");
-                }
+                try (Printable diff = debugger.diff(nodes, "Handle ternary operator")) {
+                    if (first.isTrue() && second.isFalse()) {
+                        current.remove(0);
+                        current.remove(0);
+                        conditionNode.addOperand(new OperandAmbiguousZeroOneTernary(current.remove(0)));
+                    } else if (first.isFalse() && second.isTrue()) {
+                        current.remove(0);
+                        current.remove(0);
+                        conditionNode.addOperand(new OperandAmbiguousZeroOneTernary(current.remove(0).invert()));
+                    } else {
+                        current.remove(0);
+                        current.remove(0);
+                        current.remove(0);
 
-                if (first.isTrue() && second.isFalse()) {
-                    current.remove(0);
-                    current.remove(0);
-                    conditionNode.addOperand(new OperandAmbiguousZeroOneTernary(current.remove(0)));
-                } else if (first.isFalse() && second.isTrue()) {
-                    current.remove(0);
-                    current.remove(0);
-                    conditionNode.addOperand(new OperandAmbiguousZeroOneTernary(current.remove(0).invert()));
-                } else {
-                    current.remove(0);
-                    current.remove(0);
-                    current.remove(0);
+                        OperandCondition con = (OperandCondition) third;
 
-                    OperandCondition con = (OperandCondition) third;
-
-                    if (con.then == rightNode) {
-                        conditionNode.addOperand(new OperandTernary(con, first, second).encolose());
-                    } else if (con.then == leftNode) {
-                        conditionNode.addOperand(new OperandTernary(con, second, first).encolose());
+                        if (con.then == rightNode) {
+                            conditionNode.addOperand(new OperandTernary(con, first, second).encolose());
+                        } else if (con.then == leftNode) {
+                            conditionNode.addOperand(new OperandTernary(con, second, first).encolose());
+                        }
                     }
-                }
 
-                // dispose empty nodes
-                if (rightNode.stack.isEmpty()) {
-                    dispose(rightNode);
-                }
+                    // dispose empty nodes
+                    if (rightNode.stack.isEmpty()) {
+                        dispose(rightNode);
+                    }
 
-                if (leftNode.stack.isEmpty()) {
-                    dispose(leftNode);
-                }
+                    if (leftNode.stack.isEmpty()) {
+                        dispose(leftNode);
+                    }
 
-                // process recursively
-                processTernaryOperator();
-
-                if (debugger.isEnable()) {
-                    debugger.print(nodes, "End ternary operator. condition[", third, "]  left[", second, "]  right[", first, "]");
+                    // process recursively
+                    processTernaryOperator();
                 }
             }
         }

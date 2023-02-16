@@ -11,12 +11,9 @@ package reincarnation.decompiler.flow;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.TestCode;
 
-/**
- * @version 2018/11/06 9:10:19
- */
 class TernaryExpressionTest extends CodeVerifier {
 
     @Test

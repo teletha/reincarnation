@@ -25,7 +25,6 @@ import java.util.Set;
 import java.util.StringJoiner;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import kiss.I;
 import reincarnation.JavaMethodDecompiler.TryCatchFinally;
@@ -118,27 +117,6 @@ public class Debugger {
     }
 
     /**
-     * Print debug message.
-     * 
-     * @param values
-     */
-    public void info(Object... values) {
-        StringBuilder text = new StringBuilder();
-
-        for (Object value : values) {
-            if (value instanceof Node) {
-                Node node = (Node) value;
-                text.append("n").append(node.id);
-            } else {
-                text.append(value);
-            }
-        }
-        text.append("   ").append(linkableMethodInfo(false));
-
-        print(text);
-    }
-
-    /**
      * Print method info as header like.
      */
     private void printInfo(boolean safe) {
@@ -197,32 +175,11 @@ public class Debugger {
     /**
      * Dump node tree.
      * 
-     * @param node
-     */
-    public void print(Node node) {
-        if (node != null) {
-            print(Collections.singletonList(node));
-        }
-    }
-
-    /**
-     * Dump node tree.
-     * 
      * @param nodes
      */
     public void print(List<Node> nodes) {
         if (isEnable()) {
             print(format(nodes));
-        }
-    }
-
-    /**
-     * Dump all node tree.
-     */
-    public void print(List<Node> nodes, Object... messages) {
-        if (isEnable()) {
-            print(Stream.of(messages).map(Object::toString).collect(Collectors.joining(" ")));
-            print(nodes.get(0).nexts().toList());
         }
     }
 
