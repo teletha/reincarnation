@@ -99,8 +99,14 @@ class TryFinallyTest extends CodeVerifier {
     void multipleReturnInTry() {
         verify(new TestCode.IntParam() {
 
+            private int field = 0;
+
             @Override
             public int run(@Param(from = 0, to = 10) int param) {
+                return count(param) + field;
+            }
+
+            private int count(int param) {
                 try {
                     if (param % 2 == 0) {
                         return param - 20;
@@ -117,7 +123,7 @@ class TryFinallyTest extends CodeVerifier {
                         return param - 50;
                     }
                 } finally {
-                    param += 10;
+                    field += 10;
                 }
                 return param;
             }

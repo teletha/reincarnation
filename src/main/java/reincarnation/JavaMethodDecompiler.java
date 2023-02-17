@@ -2408,6 +2408,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                         block.addCatchOrFinallyBlock(exception, catcher);
                         return;
                     }
+
+                    for (CatchOrFinally cof : block.blocks) {
+                        if (cof.node == catcher) {
+                            return;
+                        }
+                    }
                 }
 
                 blocks.add(0, new TryCatchFinally(start, end, catcher, exception));
@@ -2449,6 +2455,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          */
         private void disposeCopiedFinallyBlock() {
             finallyCopies.forEach((key, copies) -> {
+                System.out.println(key.start.id);
                 if (!isDisposed(key.start)) {
                     // calculate the size of finally block
                     int deletableSize = key.handler.outgoingRecursively()
@@ -2459,24 +2466,30 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                             .exact()
                             .intValue();
 
-                    key.handler.tails()
-                            .last()
-                            .map(n -> n.next)
-                            .flatMap(Node::outgoingRecursively)
-                            .take(Node::isNotEmpty)
-                            .take(deletableSize)
-                            .buffer()
-                            .flatIterable(n -> n)
-                            .to(n -> dispose(n, true, true));
+                    try (Printable diff = debugger
+                            .diff(nodes, "Remove copied finally nodes [size: " + deletableSize + "] from the next node of handler's [" + key.handler.id + "] last tail.")) {
+                        key.handler.tails()
+                                .last()
+                                .map(n -> n.next)
+                                .flatMap(Node::outgoingRecursively)
+                                .take(Node::isNotEmpty)
+                                .take(deletableSize)
+                                .buffer()
+                                .flatIterable(n -> n)
+                                .to(n -> dispose(n, true, true));
+                    }
 
-                    I.signal(copies)
-                            .take(c -> c.end != c.handler)
-                            .flatMap(c -> c.end.outgoingRecursively())
-                            .take(Node::isNotEmpty)
-                            .take(deletableSize)
-                            .buffer()
-                            .flatIterable(n -> n)
-                            .to(n -> dispose(n, true, true));
+                    try (Printable diff = debugger
+                            .diff(nodes, "Remove copied finally nodes [size: " + deletableSize + "] from end's outgoings")) {
+                        I.signal(copies)
+                                .take(c -> c.end != c.handler)
+                                .flatMap(c -> c.end.outgoingRecursively())
+                                .take(Node::isNotEmpty)
+                                .take(deletableSize)
+                                .buffer()
+                                .flatIterable(n -> n)
+                                .to(n -> dispose(n, true, true));
+                    }
 
                     // Dispose the throw operand from the tail node in finally block.
                     key.handler.tails().take(Node::isThrow).to(n -> dispose(n, true, true));
