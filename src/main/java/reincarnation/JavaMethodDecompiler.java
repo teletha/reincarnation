@@ -2455,7 +2455,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
          */
         private void disposeCopiedFinallyBlock() {
             finallyCopies.forEach((key, copies) -> {
-                System.out.println(key.start.id);
                 if (!isDisposed(key.start)) {
                     // calculate the size of finally block
                     int deletableSize = key.handler.outgoingRecursively()
@@ -2481,14 +2480,16 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
                     try (Printable diff = debugger
                             .diff(nodes, "Remove copied finally nodes [size: " + deletableSize + "] from end's outgoings")) {
-                        I.signal(copies)
-                                .take(c -> c.end != c.handler)
-                                .flatMap(c -> c.end.outgoingRecursively())
-                                .take(Node::isNotEmpty)
-                                .take(deletableSize)
-                                .buffer()
-                                .flatIterable(n -> n)
-                                .to(n -> dispose(n, true, true));
+                        for (CopiedFinally copy : copies) {
+                            I.signal(copy)
+                                    .take(c -> c.end != c.handler)
+                                    .flatMap(c -> c.end.outgoingRecursively())
+                                    .take(Node::isNotEmpty)
+                                    .take(deletableSize)
+                                    .buffer()
+                                    .flatIterable(n -> n)
+                                    .to(n -> dispose(n, true, true));
+                        }
                     }
 
                     // Dispose the throw operand from the tail node in finally block.
