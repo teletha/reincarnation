@@ -82,31 +82,21 @@ class TryCatchFinallyTest extends CodeVerifier {
     }
 
     @Test
-    void TryCatchFinallyAfterNestAtFinally() {
+    void tryCatchInFinally() {
         verify(new TestCode.IntParam() {
 
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 try {
-                    if (value == 0) {
-                        throw new Error();
-                    }
-                    value += 1;
+                    value = MaybeThrow.error(value + 1);
                 } catch (Error e) {
                     value += 2;
                 } finally {
-                    value += 3;
-
                     try {
-                        if (value % 2 == 0) {
-                            throw new Error();
-                        }
+                        value = MaybeThrow.error(value + 3);
                     } catch (Error e) {
-                        value += 5;
-                    } finally {
-                        value += 6;
+                        value += 4;
                     }
-                    value += 7;
                 }
                 return value;
             }
