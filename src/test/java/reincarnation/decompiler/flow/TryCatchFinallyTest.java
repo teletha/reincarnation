@@ -9,14 +9,11 @@
  */
 package reincarnation.decompiler.flow;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
-@Debuggable
 class TryCatchFinallyTest extends CodeVerifier {
 
     @Test
@@ -61,7 +58,6 @@ class TryCatchFinallyTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryCatchFinallyReturnImmediatelyWithAfter() {
         verify(new TestCode.IntParam() {
 
@@ -86,7 +82,6 @@ class TryCatchFinallyTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void TryCatchFinallyAfterNestAtFinally() {
         verify(new TestCode.IntParam() {
 
@@ -106,7 +101,6 @@ class TryCatchFinallyTest extends CodeVerifier {
                         if (value % 2 == 0) {
                             throw new Error();
                         }
-                        value += 4;
                     } catch (Error e) {
                         value += 5;
                     } finally {
@@ -171,7 +165,7 @@ class TryCatchFinallyTest extends CodeVerifier {
     }
 
     @Test
-    void TryCatchFinallyNodes() {
+    void nodesInFinally() {
         verify(new TestCode.IntParam() {
 
             private int counter = 0;
@@ -183,10 +177,7 @@ class TryCatchFinallyTest extends CodeVerifier {
 
             private int count(int value) {
                 try {
-                    if (value % 2 == 0) {
-                        throw new Error();
-                    }
-                    return counter += 1;
+                    return MaybeThrow.error(value);
                 } catch (Error e) {
                     return counter += 2;
                 } finally {

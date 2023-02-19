@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -1787,7 +1787,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
             // dispose empty node recursively
             if (recursive && target.previous != null) {
-                if (target.previous.stack.isEmpty()) {
+                if (target.previous.stack.isEmpty() && !target.previous.incoming.isEmpty()) {
                     dispose(target.previous, clearStack, recursive);
                 }
             }
@@ -2467,15 +2467,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
                     try (Printable diff = debugger
                             .diff(nodes, "Remove copied finally nodes [size: " + deletableSize + "] from the next node of handler's [" + key.handler.id + "] last tail.")) {
-                        key.handler.tails()
-                                .last()
-                                .map(n -> n.next)
-                                .flatMap(Node::outgoingRecursively)
-                                .take(Node::isNotEmpty)
-                                .take(deletableSize)
-                                .buffer()
-                                .flatIterable(n -> n)
-                                .to(n -> dispose(n, true, true));
+                        if (!match(key)) {
+                            key.handler.tails()
+                                    .last()
+                                    .map(n -> n.next)
+                                    .flatMap(Node::outgoingRecursively)
+                                    .take(Node::isNotEmpty)
+                                    .take(deletableSize)
+                                    .buffer()
+                                    .flatIterable(n -> n)
+                                    .to(n -> dispose(n, true, true));
+                        }
                     }
 
                     try (Printable diff = debugger
@@ -2496,6 +2498,15 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                     key.handler.tails().take(Node::isThrow).to(n -> dispose(n, true, true));
                 }
             });
+        }
+
+        private boolean match(CopiedFinally copied) {
+            for (TryCatchFinally block : blocks) {
+                if (block.hasCatch() && block.start == copied.start && block.end == copied.end) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /**
@@ -2613,6 +2624,15 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             if (catcher != null) catcher.disposable = false;
 
             addCatchOrFinallyBlock(exception, catcher);
+        }
+
+        /**
+         * Test whether this try-catch-finally block has any catch block or not.
+         * 
+         * @return
+         */
+        private boolean hasCatch() {
+            return blocks.stream().anyMatch(n -> n.exception != null);
         }
 
         /**

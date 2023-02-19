@@ -121,12 +121,17 @@ public class CodeVerifier {
         }
 
         // ====================================================
-        // decompile code
+        // prepare recompile
         // ====================================================
         StringBuilder debugLog = debugger.replaceOutput();
-        String decompiled = decompile(target, debuggable);
+        String decompiled = "";
 
         try {
+            // ====================================================
+            // decompile code
+            // ====================================================
+            decompiled = decompile(target, debuggable);
+
             // ====================================================
             // recompile java code
             // ====================================================
