@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.load;
+import static reincarnation.Util.*;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -2531,6 +2531,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 // Associate node with block.
                 block.start.tries.add(block);
                 block.searchExit();
+                block.purgeUnreachableCatch();
             }
 
             // At last, disconnect immediately after analysis.
@@ -2677,13 +2678,20 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 }
             }
 
-            I.signal(blocks)
-                    .flatMap(c -> c.node.tails())
-                    .map(n -> n.next == null ? n : n.next)
-                    .skipNull()
-                    .diff(Node::isAfter)
-                    .last()
-                    .to(n -> exit = n);
+            I.signal(blocks).flatMap(c -> c.node.tails()).flatMap(Node::next).skipNull().diff(Node::isAfter).last().to(n -> exit = n);
+        }
+
+        /**
+         * 
+         */
+        private void purgeUnreachableCatch() {
+            if (exit == null) {
+                catcher.junction().to(junction -> {
+                    catcher.outgoingRecursively().takeWhile(node -> node != junction).reverse().first().to(node -> {
+                        node.disconnect(junction);
+                    });
+                });
+            }
         }
 
         /**

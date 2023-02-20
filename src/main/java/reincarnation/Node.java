@@ -227,6 +227,15 @@ public class Node implements Code<Operand> {
     }
 
     /**
+     * Traverse the first outgoing junction point.
+     * 
+     * @return
+     */
+    final Signal<Node> junction() {
+        return outgoingRecursively().take(n -> n.incoming.size() > 1 && getLowestCommonDominator(n.incoming) != this);
+    }
+
+    /**
      * Helper method to add new operand to the top of operands stack.
      * 
      * @param operand A new operand to add.
@@ -1090,6 +1099,9 @@ public class Node implements Code<Operand> {
             }
 
             // normal process
+            // System.out
+            // .println("id:" + id + " req:" + requiredCalls + " add:" + next.additionalCalls + "
+            // next.current:" + next.currentCalls + "[" + next.id + "]");
             if (requiredCalls <= next.currentCalls) {
                 return next.analyze();
             }

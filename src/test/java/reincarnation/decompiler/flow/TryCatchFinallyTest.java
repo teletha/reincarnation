@@ -35,7 +35,7 @@ class TryCatchFinallyTest extends CodeVerifier {
     }
 
     @Test
-    void TryCatchFinallyReturnImmediately() {
+    void immediateReturnInCatch() {
         verify(new TestCode.IntParam() {
 
             private int counter = 0;
@@ -96,6 +96,29 @@ class TryCatchFinallyTest extends CodeVerifier {
                         value = MaybeThrow.error(value + 3);
                     } catch (Error e) {
                         value += 4;
+                    }
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void tryCatchNodesInFinally() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                try {
+                    value = MaybeThrow.error(value + 1);
+                } catch (Error e) {
+                    value += 2;
+                } finally {
+                    try {
+                        value = MaybeThrow.error(value + 3);
+                    } catch (Error e) {
+                        value += 4;
+                        value *= 5;
                     }
                 }
                 return value;
