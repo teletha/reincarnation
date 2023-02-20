@@ -17,7 +17,7 @@ import reincarnation.TestCode;
 class TryCatchFinallyTest extends CodeVerifier {
 
     @Test
-    void TryCatchFinallyAfter() {
+    void after() {
         verify(new TestCode.IntParam() {
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
@@ -27,7 +27,6 @@ class TryCatchFinallyTest extends CodeVerifier {
                     value = value + 1;
                 } finally {
                     value = value + 2;
-                    value = value + 4;
                 }
                 return value;
             }
@@ -35,7 +34,7 @@ class TryCatchFinallyTest extends CodeVerifier {
     }
 
     @Test
-    void immediateReturnInCatch() {
+    void immediateReturnInTryAndCatch() {
         verify(new TestCode.IntParam() {
 
             private int counter = 0;
@@ -58,7 +57,7 @@ class TryCatchFinallyTest extends CodeVerifier {
     }
 
     @Test
-    void TryCatchFinallyReturnImmediatelyWithAfter() {
+    void immediateReturnInTryWithAfter() {
         verify(new TestCode.IntParam() {
 
             private int counter = 0;
@@ -77,6 +76,86 @@ class TryCatchFinallyTest extends CodeVerifier {
                     counter = counter + 2;
                 }
                 return value + 1;
+            }
+        });
+    }
+
+    @Test
+    void immediateReturnInCatchWithAfter() {
+        verify(new TestCode.IntParam() {
+
+            private int counter = 0;
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                return counter + calc(value);
+            }
+
+            private int calc(int value) {
+                try {
+                    value = MaybeThrow.error(value);
+                } catch (Error e) {
+                    return 30;
+                } finally {
+                    counter = counter + 2;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void tryCatchInTry() {
+        verify(new TestCode.IntParam() {
+
+            private int counter = 0;
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                return count(value) + counter;
+            }
+
+            private int count(int value) {
+                try {
+                    try {
+                        value = MaybeThrow.exception(value + 1);
+                    } catch (Exception e) {
+                        value = MaybeThrow.error(value + 2);
+                    }
+                } catch (Error e) {
+                    value += 10;
+                } finally {
+                    counter--;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void tryCatchInCatch() {
+        verify(new TestCode.IntParam() {
+
+            private int counter = 0;
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                return count(value) + counter;
+            }
+
+            private int count(int value) {
+                try {
+                    return MaybeThrow.error(value);
+                } catch (Error e) {
+                    try {
+                        value = MaybeThrow.error(value + 1);
+                    } catch (Error x) {
+                        value += 5;
+                    }
+                } finally {
+                    counter--;
+                }
+                return value;
             }
         });
     }
@@ -127,7 +206,7 @@ class TryCatchFinallyTest extends CodeVerifier {
     }
 
     @Test
-    void TryCatchThrowFinally() {
+    void rethrow() {
         verify(new TestCode.IntParam() {
 
             private int counter = 0;
@@ -145,34 +224,6 @@ class TryCatchFinallyTest extends CodeVerifier {
                 } finally {
                     counter--;
                 }
-            }
-        });
-    }
-
-    @Test
-    void TryCatchReturnFinally() {
-        verify(new TestCode.IntParam() {
-
-            private int counter = 0;
-
-            @Override
-            public int run(@Param(from = 0, to = 10) int value) {
-                return count(value) + counter;
-            }
-
-            private int count(int value) {
-                try {
-                    return MaybeThrow.error(value);
-                } catch (Error e) {
-                    try {
-                        value = MaybeThrow.error(value + 1);
-                    } catch (Error x) {
-                        value += 5;
-                    }
-                } finally {
-                    counter--;
-                }
-                return value;
             }
         });
     }
