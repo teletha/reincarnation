@@ -1183,23 +1183,6 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * Create new back bridge node.
-     * 
-     * @return
-     */
-    Node createBackBridge() {
-        Node node = new Node("*" + id);
-
-        for (Node in : incoming) {
-            in.disconnect(this);
-            in.connect(node);
-        }
-        node.connect(this);
-
-        return node;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

@@ -477,9 +477,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 // do nothing
             } else {
                 // insert variable declaration at the header of common dominator node
-                Node bridge = common.createBackBridge();
+                Node bridge = createNodeBefore(common, true);
                 bridge.stack.add(local);
-                nodes.add(nodes.indexOf(common), bridge);
             }
         }
     }
@@ -1579,7 +1578,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         case NEW:
             if (assertNew) {
                 assertNew = false;
-                current = createNodeAfter(current);
+                current = createNodeAfter(current, false);
                 current.previous.connect(current);
 
                 merge(current.previous);
@@ -1818,12 +1817,45 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     }
 
     /**
+     * Create new node before the specified node.
+     * 
+     * @param index A index node.
+     * @return A created node.
+     */
+    private final Node createNodeBefore(Node index, boolean connectable) {
+        Node created = new Node("+" + index.id);
+
+        // switch line number
+        created.lineNumber = index.lineNumber;
+        index.lineNumber = -1;
+
+        // switch previous and next nodes
+        link(index.previous, created, index);
+
+        created.destination = index;
+
+        if (connectable) {
+            for (Node in : index.incoming) {
+                in.disconnect(index);
+                in.connect(created);
+            }
+            created.connect(index);
+        }
+
+        // insert to node list
+        nodes.add(nodes.indexOf(index), created);
+
+        // API definition
+        return created;
+    }
+
+    /**
      * Create new node after the specified node.
      * 
      * @param index A index node.
      * @return A created node.
      */
-    private final Node createNodeAfter(Node index) {
+    private final Node createNodeAfter(Node index, boolean connectable) {
         Node created = new Node(index.id + "+");
 
         // switch line number
@@ -1831,11 +1863,18 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         index.lineNumber = -1;
 
         // switch previous and next nodes
-        // index -> created -> next
         link(index, created, index.next);
 
         if (index.destination == null) {
             index.destination = created;
+        }
+
+        if (connectable) {
+            for (Node out : index.outgoing) {
+                index.disconnect(out);
+                created.connect(out);
+            }
+            index.connect(created);
         }
 
         // insert to node list
@@ -2330,7 +2369,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 if (conditionalTail) {
                     // transfer condition operands to the created node
                     // [non-condition] [condition]
-                    Node created = createNodeAfter(base);
+                    Node created = createNodeAfter(base, false);
 
                     for (int i = 0; i < size; i++) {
                         OperandCondition condition = (OperandCondition) base.stack.pollLast();
@@ -2352,7 +2391,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 } else if (conditionalHead) {
                     // transfer non-condition operands to the created node
                     // [condition] [non-condition]
-                    Node created = createNodeAfter(base);
+                    Node created = createNodeAfter(base, false);
 
                     // transfer operand
                     for (int i = 0; i < start; i++) {
