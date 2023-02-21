@@ -371,6 +371,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // Analyze node relation
         // ============================================
         try (Printable diff = debugger.diff(nodes, "Analyze nodes")) {
+            analyzeLocalVariables();
             root = nodes.peekFirst().analyze();
         }
 
@@ -454,6 +455,33 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     private void optimizeShorthandAssign() {
         nodes.forEach(node -> node.children().as(OperandAssign.class).to(OperandAssign::shorten));
+    }
+
+    /**
+     * <p>
+     * Analyze at which node this local variable is declared. Some local variables are used across
+     * multiple nodes, and it is not always possible to uniquely identify the declaration location.
+     * </p>
+     * <p>
+     * Check the lowest common dominator node of all nodes that refer to this local variable, and if
+     * the dominator node is included in the reference node, declare it at the first reference.
+     * Otherwise, declare in the header of the dominator node.
+     * </p>
+     */
+    private void analyzeLocalVariables() {
+        for (OperandLocalVariable local : locals.variables.values()) {
+            // calculate the lowest common dominator node
+            Node common = Node.getLowestCommonDominator(local.referrers);
+
+            if (common == null || local.referrers.contains(common)) {
+                // do nothing
+            } else {
+                // insert variable declaration at the header of common dominator node
+                Node bridge = common.createBackBridge();
+                bridge.stack.add(local);
+                nodes.add(nodes.indexOf(common), bridge);
+            }
+        }
     }
 
     /**
@@ -1590,7 +1618,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         recordLocalVariableAccess(position);
 
         // retrieve local variable name
-        OperandLocalVariable variable = locals.find(position, opcode, current);
+        OperandLocalVariable variable = locals
+                .find(position, opcode, match(FRAME_SAME1, ASTORE) || match(FRAME_FULL, ASTORE) ? null : current);
 
         switch (opcode) {
         case ILOAD:

@@ -20,9 +20,6 @@ import reincarnation.OperandLocalVariable;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/11/06 17:41:45
- */
 public abstract class Structure implements Code<Structure> {
 
     /** The empty statement. */
@@ -37,8 +34,8 @@ public abstract class Structure implements Code<Structure> {
     /** The comment. */
     private String comment;
 
-    /** The local variables used in this structure have unclear declaration locations. */
-    private final List<OperandLocalVariable> unclears = new ArrayList();
+    /** The local variables used in this structure have ambiguous locations. */
+    private final List<OperandLocalVariable> ambiguous = new ArrayList();
 
     /**
      * @param that The node which indicate 'this' variable.
@@ -126,7 +123,7 @@ public abstract class Structure implements Code<Structure> {
      * @param local
      */
     public final void unclearLocalVariable(OperandLocalVariable local) {
-        unclears.add(local);
+        ambiguous.add(local);
     }
 
     /**
@@ -135,8 +132,8 @@ public abstract class Structure implements Code<Structure> {
     @Override
     public final void write(Coder coder) {
         if (comment != null && !comment.isBlank()) coder.writeLineComment(comment);
-        for (OperandLocalVariable unclear : unclears) {
-            unclear.write(coder);
+        for (OperandLocalVariable amb : ambiguous) {
+            amb.write(coder);
         }
         writeCode(coder);
     }

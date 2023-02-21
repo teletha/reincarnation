@@ -781,9 +781,8 @@ public class Node implements Code<Operand> {
             if (!tries.isEmpty()) {
                 TryCatchFinally removed = tries.remove(0);
                 List<Ⅲ<Class, String, Structure>> catches = I.signal(removed.blocks)
-                        .effect(catchOrFinally -> catchOrFinally.variable.set(LocalVariableDeclaration.None))
                         .map(catchOrFinally -> I
-                                .pair(catchOrFinally.exception, catchOrFinally.variable.toString(), process(catchOrFinally.node)))
+                                .pair(catchOrFinally.exception, catchOrFinally.variable.set(LocalVariableDeclaration.None).toString(), process(catchOrFinally.node)))
                         .toList();
                 if (removed.exit != null) {
                     removed.exit.additionalCalls++;
@@ -1180,6 +1179,23 @@ public class Node implements Code<Operand> {
         }
 
         // API definition
+        return node;
+    }
+
+    /**
+     * Create new back bridge node.
+     * 
+     * @return
+     */
+    Node createBackBridge() {
+        Node node = new Node("*" + id);
+
+        for (Node in : incoming) {
+            in.disconnect(this);
+            in.connect(node);
+        }
+        node.connect(this);
+
         return node;
     }
 

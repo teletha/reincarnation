@@ -20,33 +20,37 @@ import java.util.Map.Entry;
 import org.objectweb.asm.Type;
 
 /**
- * Enhanced local variable manager.
+ * Generic variable manager.
  */
-class LocalVariables {
+final class LocalVariables {
 
     /** Flag for static or normal. */
     private int offset;
 
-    /** The local variable manager. */
-    private final Map<Integer, OperandLocalVariable> declared = new HashMap<>();
+    /** The parameter manager. */
+    private final Map<Integer, OperandLocalVariable> params = new HashMap<>();
 
-    private final Map<Integer, OperandLocalVariable> undeclared = new HashMap<>();
+    /** The local variable manager. */
+    final Map<Integer, OperandLocalVariable> variables = new HashMap<>();
 
     /**
+     * Create variable manager.
+     * 
      * @param clazz
      * @param isStatic
      * @param types
+     * @param parameters
      */
     LocalVariables(Class<?> clazz, boolean isStatic, Type[] types, Parameter[] parameters) {
         if (isStatic == false) {
-            declared.put(offset++, new OperandLocalVariable(clazz, "this"));
+            params.put(offset++, new OperandLocalVariable(clazz, "this"));
         }
 
         for (int i = 0; i < types.length; i++) {
             Class<?> type = Util.load(types[i]);
             OperandLocalVariable variable = new OperandLocalVariable(type, parameters[i].getName());
             variable.fix();
-            declared.put(offset, variable);
+            params.put(offset, variable);
 
             // count index because primitive long and double occupy double stacks
             offset += type == long.class || type == double.class ? 2 : 1;
@@ -57,25 +61,27 @@ class LocalVariables {
      * Compute the identified qualified local variable name.
      * 
      * @param order An order by which this variable was declared.
-     * @return An identified local variable name for ECMAScript.
+     * @param opcode A variable type.
+     * @param referrer A referrer node.
+     * @return An identified local variable name.
      */
-    OperandLocalVariable find(int order, int opcode, Node reference) {
-        // check declared variables
-        OperandLocalVariable variable = declared.get(order);
+    OperandLocalVariable find(int order, int opcode, Node referrer) {
+        // check parameters
+        OperandLocalVariable variable = params.get(order);
 
         if (variable != null) {
             return variable;
         }
 
-        // Compute local variable name
-        variable = undeclared.computeIfAbsent(order, key -> new OperandLocalVariable(load(opcode), "local" + key).set(With));
-        variable.references.add(reference);
+        // compute local variable
+        variable = variables.computeIfAbsent(order, id -> new OperandLocalVariable(load(opcode), "local" + id).set(With));
+        variable.referrers.add(referrer);
 
         return variable;
     }
 
     void replace(OperandLocalVariable replaced, OperandLocalVariable replacer) {
-        for (Entry<Integer, OperandLocalVariable> entry : undeclared.entrySet()) {
+        for (Entry<Integer, OperandLocalVariable> entry : variables.entrySet()) {
             if (entry.getValue() == replaced) {
                 entry.setValue(replacer);
                 return;
@@ -84,7 +90,7 @@ class LocalVariables {
     }
 
     boolean isLocal(OperandLocalVariable variable) {
-        for (Entry<Integer, OperandLocalVariable> entry : undeclared.entrySet()) {
+        for (Entry<Integer, OperandLocalVariable> entry : variables.entrySet()) {
             if (entry.getValue() == variable) {
                 return offset < entry.getKey();
             }
