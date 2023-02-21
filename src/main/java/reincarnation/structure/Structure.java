@@ -9,14 +9,11 @@
  */
 package reincarnation.structure;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import kiss.I;
 import kiss.Signal;
 import reincarnation.Node;
-import reincarnation.OperandLocalVariable;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 
@@ -33,9 +30,6 @@ public abstract class Structure implements Code<Structure> {
 
     /** The comment. */
     private String comment;
-
-    /** The local variables used in this structure have ambiguous locations. */
-    private final List<OperandLocalVariable> ambiguous = new ArrayList();
 
     /**
      * @param that The node which indicate 'this' variable.
@@ -118,23 +112,11 @@ public abstract class Structure implements Code<Structure> {
     }
 
     /**
-     * Register the local variable which has unclear declaration location.
-     * 
-     * @param local
-     */
-    public final void unclearLocalVariable(OperandLocalVariable local) {
-        ambiguous.add(local);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public final void write(Coder coder) {
         if (comment != null && !comment.isBlank()) coder.writeLineComment(comment);
-        for (OperandLocalVariable amb : ambiguous) {
-            amb.write(coder);
-        }
         writeCode(coder);
     }
 
