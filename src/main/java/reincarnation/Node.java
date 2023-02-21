@@ -145,6 +145,15 @@ public class Node implements Code<Operand> {
      * 
      * @return
      */
+    final boolean isAssign() {
+        return stack.peekFirst() instanceof OperandAssign;
+    }
+
+    /**
+     * Check node type.
+     * 
+     * @return
+     */
     final boolean isReturn() {
         return stack.peekFirst() instanceof OperandReturn;
     }
@@ -215,6 +224,15 @@ public class Node implements Code<Operand> {
      */
     final Signal<Node> nexts() {
         return I.signal(this).recurse(n -> n.next).takeWhile(n -> n != null);
+    }
+
+    /**
+     * Traverse incoming nodes recursively.
+     * 
+     * @return
+     */
+    final Signal<Node> incomingRecursively() {
+        return I.signal(this).recurseMap(n -> n.flatIterable(x -> x.incoming)).takeWhile(n -> n != null);
     }
 
     /**
@@ -781,8 +799,8 @@ public class Node implements Code<Operand> {
             if (!tries.isEmpty()) {
                 TryCatchFinally removed = tries.remove(0);
                 List<Ⅲ<Class, String, Structure>> catches = I.signal(removed.blocks)
-                        .map(catchOrFinally -> I
-                                .pair(catchOrFinally.exception, catchOrFinally.variable.set(LocalVariableDeclaration.None).toString(), process(catchOrFinally.node)))
+                        .map(catchOrFinally -> I.pair(catchOrFinally.exception, catchOrFinally.variable.set(LocalVariableDeclaration.None)
+                                .toString(), process(catchOrFinally.node)))
                         .toList();
                 if (removed.exit != null) {
                     removed.exit.additionalCalls++;
@@ -941,6 +959,20 @@ public class Node implements Code<Operand> {
         } else {
             // setup update expression node
             Node update = backedges.get(0);
+
+            // search initializer
+            // Node initializer = new Node(id + "-for-init");
+            // I.signal(getPureIncoming())
+            // .flatMap(n -> n.incomingRecursively())
+            // .skip(Node::isEmpty)
+            // .takeWhile(Node::isAssign)
+            // .first()
+            // .to(n -> {
+            // while (n.isNotEmpty()) {
+            // Operand removed = n.remove(0);
+            // initializer.addOperand(new OperandExpression(removed));
+            // }
+            // });
 
             return new For(this, null, this, update, nodes[0], nodes[1]);
         }
