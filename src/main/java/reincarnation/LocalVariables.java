@@ -9,8 +9,8 @@
  */
 package reincarnation;
 
-import static reincarnation.LocalVariableDeclaration.With;
-import static reincarnation.Util.load;
+import static reincarnation.LocalVariableDeclaration.*;
+import static reincarnation.Util.*;
 
 import java.lang.reflect.Parameter;
 import java.util.HashMap;
@@ -19,11 +19,8 @@ import java.util.Map.Entry;
 
 import org.objectweb.asm.Type;
 
-import kiss.I;
-import reincarnation.structure.Structure;
-
 /**
- * Manage local variables.
+ * Enhanced local variable manager.
  */
 class LocalVariables {
 
@@ -57,7 +54,7 @@ class LocalVariables {
     }
 
     /**
-     * Compute the identified qualified local variable name for ECMAScript.
+     * Compute the identified qualified local variable name.
      * 
      * @param order An order by which this variable was declared.
      * @return An identified local variable name for ECMAScript.
@@ -93,21 +90,5 @@ class LocalVariables {
             }
         }
         return false;
-    }
-
-    private boolean analyzed = false;
-
-    /**
-     * Analyze all local variables except parameters and "this".
-     */
-    synchronized void analyze(Structure root) {
-        I.signal(undeclared.values()).to(v -> {
-            if (analyzed) {
-                v.reset();
-            } else {
-                v.analyze(root);
-            }
-        });
-        analyzed = true;
     }
 }

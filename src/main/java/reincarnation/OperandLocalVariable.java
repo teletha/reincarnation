@@ -29,9 +29,6 @@ public class OperandLocalVariable extends Operand {
     /** Holds all nodes that refer to this local variable. */
     final Set<Node> references = new HashSet();
 
-    /** This variable is declared at exception catcher or not. */
-    boolean catcher;
-
     /**
      * Create local variable with index.
      */
@@ -86,7 +83,7 @@ public class OperandLocalVariable extends Operand {
         // calculate the lowest common dominator node
         Node common = Node.getLowestCommonDominator(references);
 
-        if (common == null || references.contains(common) || catcher) {
+        if (common == null || references.contains(common)) {
             // do nothing
         } else {
             // insert variable declaration at the header of common dominator node

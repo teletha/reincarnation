@@ -268,8 +268,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     @Override
     public void write(Coder coder) {
-        locals.analyze(root);
-
         root.write(coder);
     }
 
@@ -1620,10 +1618,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         case ASTORE:
             if (match(FRAME_SAME1, ASTORE) || match(FRAME_FULL, ASTORE)) {
                 tries.assignExceptionVariable(current, variable);
-            }
-
-            if (tries.isCatcher(current)) {
-                variable.catcher = true;
             }
 
         case ISTORE:

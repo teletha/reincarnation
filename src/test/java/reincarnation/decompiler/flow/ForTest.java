@@ -14,9 +14,6 @@ import org.junit.jupiter.api.Test;
 import reincarnation.CodeVerifier;
 import reincarnation.TestCode;
 
-/**
- * @version 2018/10/26 16:10:31
- */
 class ForTest extends CodeVerifier {
 
     @Test
@@ -29,6 +26,20 @@ class ForTest extends CodeVerifier {
                     value++;
                 }
 
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void multipleInitializer() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int value) {
+                for (int i = 0, j = 10; i < j; i++) {
+                    value++;
+                }
                 return value;
             }
         });
