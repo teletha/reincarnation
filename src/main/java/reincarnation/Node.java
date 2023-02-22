@@ -227,6 +227,36 @@ public class Node implements Code<Operand> {
     }
 
     /**
+     * Traverse the unique outgoing node.
+     * 
+     * @return
+     */
+    final Signal<Node> uniqueOutgoing() {
+        if (outgoing.size() == 1) {
+            Node out = outgoing.get(0);
+            if (out.incoming.size() == 1) {
+                return I.signal(out);
+            }
+        }
+        return I.signal();
+    }
+
+    /**
+     * Traverse the unique incoming node.
+     * 
+     * @return
+     */
+    final Signal<Node> uniqueIncoming() {
+        if (incoming.size() == 1) {
+            Node in = incoming.get(0);
+            if (in.outgoing.size() == 1) {
+                return I.signal(in);
+            }
+        }
+        return I.signal();
+    }
+
+    /**
      * Traverse incoming nodes recursively.
      * 
      * @return
@@ -426,6 +456,31 @@ public class Node implements Code<Operand> {
 
         // API definition
         return operand;
+    }
+
+    /**
+     * Swaps the given operand with another operand.
+     * 
+     * @param target
+     * @param replacer
+     */
+    final void swap(Operand target, Operand replacer) {
+        if (target != null && replacer != null) {
+            int index = stack.indexOf(target);
+            if (index != -1) {
+                stack.set(index, replacer);
+            }
+        }
+    }
+
+    /**
+     * Clear all operands from this node.
+     * 
+     * @return
+     */
+    final Node clear() {
+        stack.clear();
+        return this;
     }
 
     /**

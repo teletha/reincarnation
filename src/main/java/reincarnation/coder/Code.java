@@ -64,6 +64,33 @@ public interface Code<C extends Code> {
     }
 
     /**
+     * Find all children {@link Code} fragments.
+     * 
+     * @return
+     */
+    default <O extends C> Signal<O> children(Class<O> type) {
+        return children().as(type);
+    }
+
+    /**
+     * Find all children {@link Code} fragments.
+     * 
+     * @return
+     */
+    default <O extends C, P extends C> Signal<P> children(Class<O> type1, Class<P> type2) {
+        return children(type1).flatMap(C::children).as(type2);
+    }
+
+    /**
+     * Find all children {@link Code} fragments.
+     * 
+     * @return
+     */
+    default <O extends C, P extends C, Q extends C> Signal<Q> children(Class<O> type1, Class<P> type2, Class<Q> type3) {
+        return children(type1, type2).flatMap(C::children).as(type3);
+    }
+
+    /**
      * Collect all descendent {@link Code} fragments.
      * 
      * @return

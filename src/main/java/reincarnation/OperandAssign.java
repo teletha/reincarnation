@@ -22,10 +22,10 @@ import reincarnation.operator.AssignOperator;
 public class OperandAssign extends Operand {
 
     /** The left value. */
-    private Operand left;
+    private final Operand left;
 
     /** The right value. */
-    Operand right;
+    private Operand right;
 
     /** The operator. */
     private AssignOperator operator;
@@ -46,13 +46,23 @@ public class OperandAssign extends Operand {
     }
 
     /**
-     * Test whether this operand assigns to the specified node or not.
+     * Test whether this operand assigns to the specified operand or not.
      * 
-     * @param node
+     * @param operand
      * @return
      */
-    final boolean isAssignedTo(Operand node) {
-        return left.equals(node) && operator == AssignOperator.ASSIGN;
+    final boolean isAssignedTo(Operand operand) {
+        return left.equals(operand) && operator == AssignOperator.ASSIGN;
+    }
+
+    /**
+     * Select the assigned value to this operand.
+     * 
+     * @param operand
+     * @return
+     */
+    final Signal<Operand> assignedTo(Operand operand) {
+        return isAssignedTo(operand) ? I.signal(right) : I.signal();
     }
 
     /**

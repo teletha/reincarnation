@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -34,6 +34,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
 import kiss.I;
+import kiss.Signal;
 import reincarnation.Debugger.Printable;
 import reincarnation.Node.Switch;
 import reincarnation.coder.Code;
@@ -267,6 +268,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      * {@inheritDoc}
      */
     @Override
+    public Signal<Node> children() {
+        return I.signal(nodes);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void write(Coder coder) {
         root.write(coder);
     }
@@ -423,30 +432,21 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
     /**
      * Merge into one node if the specified nodes mean the immediate return.
-     * 
-     * @param node
      */
     private void optimizeImmediateReturn() {
         // copy all nodes to avoid concurrent modification exception
         List<Node> copied = new ArrayList(nodes);
 
         for (Node node : copied) {
-            for (Node out : node.outgoing) {
-                // next node must have the return operand only
-                if (out.stack.size() == 1 && out.incoming.size() == 1) {
-                    Operand operand = out.stack.peek();
-                    if (operand instanceof OperandReturn returnOp && returnOp.value.v instanceof OperandLocalVariable localOp) {
-                        operand = node.stack.peekFirst();
-                        if (operand instanceof OperandAssign assignOp && assignOp.isAssignedTo(localOp)) {
-                            returnOp.value.set(assignOp.right);
-                            node.stack.clear();
-                            node.stack.add(returnOp);
+            node.uniqueOutgoing().to(out -> {
+                out.children(OperandReturn.class, OperandLocalVariable.class).to(local -> {
+                    node.children(OperandAssign.class).flatMap(o -> o.assignedTo(local)).to(value -> {
+                        node.clear().addOperand(new OperandReturn(value));
 
-                            dispose(out, true, false);
-                        }
-                    }
-                }
-            }
+                        dispose(out, true, false);
+                    });
+                });
+            });
         }
     }
 
@@ -454,7 +454,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      * Shorthand the binary assign from {a = a + 1} to {a += 1}.
      */
     private void optimizeShorthandAssign() {
-        nodes.forEach(node -> node.children().as(OperandAssign.class).to(OperandAssign::shorten));
+        children().flatMap(node -> node.children(OperandAssign.class)).to(OperandAssign::shorten);
     }
 
     /**

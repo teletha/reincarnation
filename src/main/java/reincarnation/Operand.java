@@ -18,9 +18,6 @@ import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.java.JavaCoder;
 
-/**
- * @version 2018/10/22 19:00:10
- */
 public abstract class Operand implements Code<Operand> {
 
     public static final Operand Null = new OperandExpression(null).fix(Object.class);

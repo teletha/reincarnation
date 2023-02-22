@@ -20,7 +20,7 @@ public class OperandReturn extends Operand {
     public static final OperandReturn Empty = new OperandReturn(null);
 
     /** The statement. */
-    final Variable<Operand> value;
+    private final Variable<Operand> value;
 
     /**
      * Build return expression.
