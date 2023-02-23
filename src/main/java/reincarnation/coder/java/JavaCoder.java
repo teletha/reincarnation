@@ -31,6 +31,7 @@ import reincarnation.coder.Coder;
 import reincarnation.coder.CodingOption;
 import reincarnation.coder.DelegatableCoder;
 import reincarnation.coder.Join;
+import reincarnation.coder.VariableNaming;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
@@ -43,6 +44,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
     /** The current type. (maybe null in debug context) */
     private final Variable<Class> current = Variable.empty();
+
+    /** The variable holder. */
+    private final VariableNaming vars = new VariableNaming();
 
     /** The import manager. */
     final Imports imports = new Imports();
@@ -206,6 +210,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeStaticInitializer(Code code) {
+        vars.start();
+
         if (current.is(Class::isInterface)) {
             code.write(new InterfaceCoder(this));
         } else {
@@ -214,6 +220,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             indent(code::write);
             line("}");
         }
+
+        vars.end();
     }
 
     /**
@@ -221,10 +229,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeConstructor(Constructor c, Code code) {
+        vars.start();
+
         line();
         line(modifier(c), simpleName(c.getDeclaringClass()), parameter(c.getParameters()), space, "{");
         indent(code::write);
         line("}");
+
+        vars.end();
     }
 
     /**
@@ -237,11 +249,15 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             return;
         }
 
+        vars.start();
+
         line();
         line(modifier(method), name(method.getReturnType()), space, method
                 .getName(), parameter(method.getParameters()), thrower(method.getExceptionTypes()), space, "{");
         indent(code::write);
         line("}");
+
+        vars.end();
     }
 
     /**
@@ -252,6 +268,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     private Join parameter(Parameter[] parameters) {
         return Join.of(parameters).prefix("(").suffix(")").ignoreEmpty(false).separator("," + space).converter(p -> {
+            vars.declare(p.getName());
+
             StringBuilder builder = new StringBuilder();
             if (Modifier.isFinal(p.getModifiers())) {
                 builder.append("final ");
@@ -436,17 +454,27 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeLocalVariable(Class type, String name, LocalVariableDeclaration declaration) {
+        String prefix;
+        if (vars.isDeclared(name)) {
+            prefix = "";
+        } else {
+            prefix = name(type).concat(space);
+            vars.declare(name);
+        }
+
+        name = vars.name(name);
+
         switch (declaration) {
         case With:
-            write(name(type), space, name);
+            write(prefix, name);
             break;
 
         case Only:
-            line(name(type), space, name, ";");
+            line(prefix, name, ";");
             break;
 
         default:
-            write(name);
+            write(prefix, name);
             break;
         }
     }
@@ -665,7 +693,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     public void writeIf(Code condition, Code then, Code elze, Code follow) {
         line("if", space, "(", condition, ")", space, "{");
         indent(coder -> {
+            vars.start();
             write(then);
+            vars.end();
         });
 
         if (elze.isEmpty()) {
@@ -673,7 +703,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         } else {
             line("}", space, "else", space, "{");
             indent(coder -> {
+                vars.start();
                 write(elze);
+                vars.end();
             });
             line("}");
         }
@@ -685,9 +717,13 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeFor(Optional<String> label, Code initialize, Code condition, Code updater, Runnable inner, Code follow) {
+        vars.start();
+
         line(label(label), "for", space, "(", initialize, ";", space, expression(condition), ";", space, expressions(updater), ")", space, "{");
         indent(inner);
         line("}");
+
+        vars.end();
         write(follow);
     }
 
@@ -696,9 +732,11 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeWhile(Optional<String> label, Code condition, Runnable inner, Code follow) {
+        vars.start();
         line(label(label), "while", space, "(", expression(condition), ")", space, "{");
         indent(inner);
         line("}");
+        vars.end();
         write(follow);
     }
 
@@ -707,9 +745,11 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeDoWhile(Optional<String> label, Code condition, Runnable inner, Code follow) {
+        vars.start();
         line(label(label), "do", space, "{");
         indent(inner);
         line("}", space, "while", space, "(", expression(condition), ");");
+        vars.end();
         write(follow);
     }
 
@@ -718,9 +758,11 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeInfinitLoop(Optional<String> label, Runnable inner, Code follow) {
+        vars.start();
         line(label(label), "for", space, "(;;)", space, "{");
         indent(inner);
         line("}");
+        vars.end();
         write(follow);
     }
 
@@ -730,14 +772,19 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code follow) {
         line("try", space, "{");
+        vars.start();
         indent(tryBlock::write);
+        vars.end();
         for (Ⅲ<Class, String, Code> catchBlock : catchBlocks) {
+            vars.start();
+            vars.declare(catchBlock.ⅱ);
             if (catchBlock.ⅰ != null) {
-                line("}", space, "catch(", name(catchBlock.ⅰ), space, catchBlock.ⅱ, ")", space, "{");
+                line("}", space, "catch(", name(catchBlock.ⅰ), space, vars.name(catchBlock.ⅱ), ")", space, "{");
             } else {
                 line("}", space, "finally", space, "{");
             }
             indent(catchBlock.ⅲ::write);
+            vars.end();
         }
         line("}");
         write(follow);
