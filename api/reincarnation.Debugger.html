@@ -7,10 +7,10 @@
 		<script src="mimic.js" type="module"></script>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="W">
-		<header class="g">
-			<h1 class="l" date="Footer" ver="0.6"><code>Reincarnation</code></h1>
-			<nav class="J"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+	<body class="e">
+		<header class="Q">
+			<h1 class="S" date="Footer" ver="0.6"><code>Reincarnation</code></h1>
+			<nav class="k"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
 					</svg><code>API</code></a><a href="https://github.com/teletha/reincarnation/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#user"/>
@@ -19,7 +19,7 @@
 					</svg>Activity</a><a href="https://github.com/teletha/reincarnation" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#github"/>
 					</svg>Repository</a></nav>
-			<div class="d" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+			<div class="H" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#sun"/>
 					</svg>
 				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
@@ -27,147 +27,109 @@
 					</svg>
 				</a></div>
 		</header>
-		<main class="i">
-			<nav class="S">
+		<main class="O">
+			<nav class="T">
 				<div></div>
 			</nav>
-			<article class="R" id="Article">
-				<section class="j"><code class="b">reincarnation</code>
-					<h2 class="Class N"><code class="h">Debugger</code></h2>
-					<div class="U">
-						<ul class="C E">
-							<li><code>org.objectweb.asm.AnnotationVisitor</code></li>
-						</ul>
-					</div>
+			<article class="j" id="Article">
+				<section class="K"><code class="d">reincarnation</code>
+					<h2 class="Class Z"><code class="m">Debugger</code></h2>
+					<div class="g"></div>
 				</section>
-				<section class="j" id="visit(java.lang.String,java.lang.Object)">
-					<h2 class="X"><i class="OVERRIDE PUBLIC"></i><code class="h">visit</code><code class="P">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">methodName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">type</code>)</code><i class="M"><code>void</code></i></h2>
-					<table class="O">
-						<tr class="T">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>methodName</code></td>
+				<section class="K" id="current()">
+					<h2 class="R"><i class="STATIC PUBLIC"></i><code class="m">current</code><code class="i">()</code><i class="U"><code><a href="api/reincarnation.Debugger.html">Debugger</a></code></i></h2>
+					<table class="f">
+						<tr class="W">
+							<td><code><a href="api/reincarnation.Debugger.html">Debugger</a></code></td>
 							<td></td>
 						</tr>
-						<tr class="T">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code>type</code></td>
+					</table><span class="B"><p>Retrieve the current debbuger.</p>
+					</span></section>
+				<section class="K" id="replaceOutput()">
+					<h2 class="R"><i class="PUBLIC"></i><code class="m">replaceOutput</code><code class="i">()</code><i class="U"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code></i></h2>
+					<table class="f">
+						<tr class="W">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code></td>
 							<td></td>
 						</tr>
-					</table>
-				</section>
-				<section class="j" id="visitEnd()">
-					<h2 class="X"><i class="OVERRIDE PUBLIC"></i><code class="h">visitEnd</code><code class="P">()</code><i class="M"><code>void</code></i></h2>
-				</section>
-				<section class="j" id="enable()">
-					<h2 class="X"><i class="STATIC PUBLIC"></i><code class="h">enable</code><code class="P">()</code><i class="M"><code>void</code></i></h2><span class="B"><p>Register current processing target.</p>
+					</table><span class="B"><p>Replace system IO.</p>
 					</span></section>
-				<section class="j" id="enable(java.lang.String,java.lang.String)">
-					<h2 class="X"><i class="STATIC PUBLIC"></i><code class="h">enable</code><code class="P">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">className</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">methodName</code>)</code><i class="M"><code>void</code></i></h2>
-					<table class="O">
-						<tr class="T">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>className</code></td>
-							<td><span><p>A class name regex.</p>
-								</span></td>
-						</tr>
-						<tr class="T">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>methodName</code></td>
-							<td><span><p>A method name regex.</p>
-								</span></td>
-						</tr>
-					</table><span class="B"><p>Register debug target.</p>
-					</span></section>
-				<section class="j" id="isEnable()">
-					<h2 class="X"><i class="STATIC PUBLIC"></i><code class="h">isEnable</code><code class="P">()</code><i class="M"><code>boolean</code></i></h2>
-					<table class="O">
-						<tr class="m">
+				<section class="K" id="isEnable()">
+					<h2 class="R"><i class="PUBLIC"></i><code class="m">isEnable</code><code class="i">()</code><i class="U"><code>boolean</code></i></h2>
+					<table class="f">
+						<tr class="W">
 							<td><code>boolean</code></td>
 							<td></td>
 						</tr>
-					</table>
-				</section>
-				<section class="j" id="info(java.lang.Object...)">
-					<h2 class="X"><i class="STATIC PUBLIC"></i><code class="h">info</code><code class="P">(<code array="var"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">values</code>)</code><i class="M"><code>void</code></i></h2>
-					<table class="O">
-						<tr class="T">
-							<td><code array="var"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code>values</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>
- Print debug message.
- </p>
+					</table><span class="B"><p>Check whether the current context enable debugger or not.</p>
 					</span></section>
-				<section class="j" id="print(java.lang.Object...)">
-					<h2 class="X"><i class="STATIC PUBLIC"></i><code class="h">print</code><code class="P">(<code array="var"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">values</code>)</code><i class="M"><code>void</code></i></h2>
-					<table class="O">
-						<tr class="T">
-							<td><code array="var"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code>values</code></td>
+				<section class="K" id="isEnable(java.lang.reflect.Executable)">
+					<h2 class="R"><i class="PUBLIC"></i><code class="m">isEnable</code><code class="i">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Executable.html">Executable</a></code> <code class="parameterName">executable</code>)</code><i class="U"><code>boolean</code></i></h2>
+					<table class="f">
+						<tr class="P">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Executable.html">Executable</a></code> <code>executable</code></td>
 							<td></td>
 						</tr>
-					</table><span class="B"><p>
- Print debug message.
- </p>
+						<tr class="W">
+							<td><code>boolean</code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Check whether the specified context enable debugger or not.</p>
 					</span></section>
-				<section class="j" id="print(java.util.LinkedList,java.lang.Object...)">
-					<h2 class="X"><i class="STATIC PUBLIC"></i><code class="h">print</code><code class="P">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/LinkedList.html">LinkedList</a><code class="parameters"><code><a href="api/reincarnation.Node.html">Node</a></code></code></code> <code class="parameterName">nodes</code>, <code array="var"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">messages</code>)</code><i class="M"><code>void</code></i></h2>
-					<table class="O">
-						<tr class="T">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/LinkedList.html">LinkedList</a><code class="parameters"><code><a href="api/reincarnation.Node.html">Node</a></code></code></code> <code>nodes</code></td>
-							<td></td>
-						</tr>
-						<tr class="T">
-							<td><code array="var"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code>messages</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Dump all node tree.</p>
-					</span></section>
-				<section class="j" id="print(java.lang.Object)">
-					<h2 class="X"><i class="STATIC PUBLIC"></i><code class="h">print</code><code class="P">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">message</code>)</code><i class="M"><code>void</code></i></h2>
-					<table class="O">
-						<tr class="T">
+				<section class="K" id="print(java.lang.Object)">
+					<h2 class="R"><i class="PUBLIC"></i><code class="m">print</code><code class="i">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">message</code>)</code><i class="U"><code>void</code></i></h2>
+					<table class="f">
+						<tr class="P">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code>message</code></td>
 							<td></td>
 						</tr>
 					</table>
 				</section>
-				<section class="j" id="print(reincarnation.Node)">
-					<h2 class="X"><i class="STATIC PUBLIC"></i><code class="h">print</code><code class="P">(<code><a href="api/reincarnation.Node.html">Node</a></code> <code class="parameterName">node</code>)</code><i class="M"><code>void</code></i></h2>
-					<table class="O">
-						<tr class="T">
-							<td><code><a href="api/reincarnation.Node.html">Node</a></code> <code>node</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>
- Dump node tree.
- </p>
-					</span></section>
-				<section class="j" id="print(java.util.List)">
-					<h2 class="X"><i class="STATIC PUBLIC"></i><code class="h">print</code><code class="P">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.Node.html">Node</a></code></code></code> <code class="parameterName">nodes</code>)</code><i class="M"><code>void</code></i></h2>
-					<table class="O">
-						<tr class="T">
+				<section class="K" id="print(java.util.List)">
+					<h2 class="R"><i class="PUBLIC"></i><code class="m">print</code><code class="i">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.Node.html">Node</a></code></code></code> <code class="parameterName">nodes</code>)</code><i class="U"><code>void</code></i></h2>
+					<table class="f">
+						<tr class="P">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.Node.html">Node</a></code></code></code> <code>nodes</code></td>
 							<td></td>
 						</tr>
-					</table><span class="B"><p>
- Dump node tree.
- </p>
+					</table><span class="B"><p>Dump node tree.</p>
+					</span></section>
+				<section class="K" id="printMethod()">
+					<h2 class="R"><i class="PUBLIC"></i><code class="m">printMethod</code><code class="i">()</code><i class="U"><code>void</code></i></h2><span class="B"><p>Print the current processing method info.</p>
+					</span></section>
+				<section class="K" id="diff(java.util.List,java.lang.String)">
+					<h2 class="R"><i class="PUBLIC"></i><code class="m">diff</code><code class="i">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.Node.html">Node</a></code></code></code> <code class="parameterName">nodes</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">label</code>)</code><i class="U"><code><a href="api/reincarnation.Debugger.Printable.html">Printable</a></code></i></h2>
+					<table class="f">
+						<tr class="P">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.Node.html">Node</a></code></code></code> <code>nodes</code></td>
+							<td></td>
+						</tr>
+						<tr class="P">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>label</code></td>
+							<td></td>
+						</tr>
+						<tr class="W">
+							<td><code><a href="api/reincarnation.Debugger.Printable.html">Printable</a></code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Dump node tree if it was chabged.</p>
 					</span></section>
 			</article>
-			<aside class="c" id="SubNavi">
-				<div class="e">
-					<h5 class="I">Static Methods</h5>
+			<aside class="Y" id="SubNavi">
+				<div class="c">
+					<h5 class="V">Static Methods</h5>
 					<ul>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#enable()">enable</a></code><code class="P">()</code><i class="f"><code>void</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#enable(java.lang.String,java.lang.String)">enable</a></code><code class="P">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">className</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">methodName</code>)</code><i class="f"><code>void</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#isEnable()">isEnable</a></code><code class="P">()</code><i class="f"><code>boolean</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#info(java.lang.Object...)">info</a></code><code class="P">(<code array="var"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">values</code>)</code><i class="f"><code>void</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#print(java.lang.Object...)">print</a></code><code class="P">(<code array="var"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">values</code>)</code><i class="f"><code>void</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#print(java.util.LinkedList,java.lang.Object...)">print</a></code><code class="P">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/LinkedList.html">LinkedList</a><code class="parameters"><code><a href="api/reincarnation.Node.html">Node</a></code></code></code> <code class="parameterName">nodes</code>, <code array="var"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">messages</code>)</code><i class="f"><code>void</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#print(java.lang.Object)">print</a></code><code class="P">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">message</code>)</code><i class="f"><code>void</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#print(reincarnation.Node)">print</a></code><code class="P">(<code><a href="api/reincarnation.Node.html">Node</a></code> <code class="parameterName">node</code>)</code><i class="f"><code>void</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#print(java.util.List)">print</a></code><code class="P">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.Node.html">Node</a></code></code></code> <code class="parameterName">nodes</code>)</code><i class="f"><code>void</code></i></li>
+						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#current()">current</a></code><code class="i">()</code><i class="h"><code><a href="api/reincarnation.Debugger.html">Debugger</a></code></i></li>
 					</ul>
-					<h5 class="I">Methods</h5>
+					<h5 class="V">Methods</h5>
 					<ul>
-						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#visit(java.lang.String,java.lang.Object)">visit</a></code><code class="P">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">methodName</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">type</code>)</code><i class="f"><code>void</code></i></li>
-						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#visitEnd()">visitEnd</a></code><code class="P">()</code><i class="f"><code>void</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#replaceOutput()">replaceOutput</a></code><code class="i">()</code><i class="h"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#isEnable()">isEnable</a></code><code class="i">()</code><i class="h"><code>boolean</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#isEnable(java.lang.reflect.Executable)">isEnable</a></code><code class="i">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Executable.html">Executable</a></code> <code class="parameterName">executable</code>)</code><i class="h"><code>boolean</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#print(java.lang.Object)">print</a></code><code class="i">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code> <code class="parameterName">message</code>)</code><i class="h"><code>void</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#print(java.util.List)">print</a></code><code class="i">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.Node.html">Node</a></code></code></code> <code class="parameterName">nodes</code>)</code><i class="h"><code>void</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#printMethod()">printMethod</a></code><code class="i">()</code><i class="h"><code>void</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.Debugger.html#diff(java.util.List,java.lang.String)">diff</a></code><code class="i">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.Node.html">Node</a></code></code></code> <code class="parameterName">nodes</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">label</code>)</code><i class="h"><code><a href="api/reincarnation.Debugger.Printable.html">Printable</a></code></i></li>
 					</ul>
 				</div>
 			</aside>

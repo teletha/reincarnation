@@ -6,7 +6,8 @@ const root = {
 		"reincarnation.coder",
 		"reincarnation.coder.java",
 		"reincarnation.operator",
-		"reincarnation.structure"
+		"reincarnation.structure",
+		"reincarnation.util"
 	],
 	"types": [
 		{
@@ -173,6 +174,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "MultiMap",
+			"packageName": "reincarnation.util",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Node",
 			"packageName": "reincarnation",
 			"type": "Class"
@@ -302,6 +310,20 @@ const root = {
 			"name": "Util",
 			"packageName": "reincarnation",
 			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "VariableNaming",
+			"packageName": "reincarnation.coder",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "VariableNaming.Strategy",
+			"packageName": "reincarnation.coder",
+			"type": "Functional"
 		},
 		{
 			"modifiers": {
