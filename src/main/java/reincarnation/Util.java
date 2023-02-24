@@ -61,6 +61,9 @@ public class Util {
         case ISUB:
         case IUSHR:
         case IXOR:
+        case L2I:
+        case F2I:
+        case D2I:
             return int.class;
 
         case LADD:
@@ -80,6 +83,9 @@ public class Util {
         case LSUB:
         case LUSHR:
         case LXOR:
+        case I2L:
+        case F2L:
+        case D2L:
             return long.class;
 
         case FADD:
@@ -94,6 +100,9 @@ public class Util {
         case FRETURN:
         case FSTORE:
         case FSUB:
+        case I2F:
+        case L2F:
+        case D2F:
             return float.class;
 
         case DADD:
@@ -107,8 +116,12 @@ public class Util {
         case DRETURN:
         case DSTORE:
         case DSUB:
+        case I2D:
+        case L2D:
+        case F2D:
             return double.class;
 
+        case ALOAD:
         case ASTORE:
             return Object.class;
 
