@@ -128,6 +128,8 @@ public class OperandUtil {
 
         case ALOAD:
         case ASTORE:
+        case AALOAD:
+        case AASTORE:
             return Object.class;
 
         default:
