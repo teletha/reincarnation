@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import kiss.Ⅱ;
 import reincarnation.coder.Coder;
 
 public class OperandLocalVariable extends Operand {
@@ -26,7 +27,7 @@ public class OperandLocalVariable extends Operand {
     private boolean firstAccess = true;
 
     /** Holds all nodes that refer to this variable. */
-    final Set<Node> referrers = new HashSet();
+    final Set<Ⅱ<Node, Class>> referrers = new HashSet();
 
     /**
      * Create local variable with index.

@@ -12,6 +12,7 @@ package reincarnation.decompiler.method;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class LocalVariableTest extends CodeVerifier {
@@ -63,6 +64,7 @@ class LocalVariableTest extends CodeVerifier {
     }
 
     @Test
+    @Debuggable(fernflower = true)
     void parallelWithSameNameAndDifferenceType() {
         verify(new TestCode.IntParam() {
 
@@ -78,6 +80,34 @@ class LocalVariableTest extends CodeVerifier {
 
                     value = value + 1;
                     value = (int) (x * value);
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    @Debuggable(fernflower = true)
+    void parallelWithSameNameAndDifferenceTypeAndSameType() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                if (value < 1) {
+                    int x = value;
+
+                    value = value - 1;
+                    value = x * value;
+                } else if (value == 0) {
+                    long x = value;
+
+                    value = value + 1;
+                    value = (int) (x * value);
+                } else {
+                    int x = value;
+
+                    value = value + 100;
+                    value = x * value;
                 }
                 return value;
             }

@@ -19,6 +19,8 @@ import java.util.Map.Entry;
 
 import org.objectweb.asm.Type;
 
+import kiss.I;
+
 /**
  * Generic variable manager.
  */
@@ -74,8 +76,10 @@ final class LocalVariables {
         }
 
         // compute local variable
-        variable = variables.computeIfAbsent(order, id -> new OperandLocalVariable(load(opcode), "local" + id).set(With));
-        variable.referrers.add(referrer);
+        Class type = load(opcode);
+
+        variable = variables.computeIfAbsent(order, id -> new OperandLocalVariable(type, "local" + id).set(With));
+        variable.referrers.add(I.pair(referrer, type));
 
         return variable;
     }

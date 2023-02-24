@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.load;
+import static reincarnation.Util.*;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -35,6 +35,7 @@ import org.objectweb.asm.Type;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.Ⅱ;
 import reincarnation.Debugger.Printable;
 import reincarnation.Node.Switch;
 import reincarnation.coder.Code;
@@ -471,9 +472,16 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     private void analyzeLocalVariables() {
         for (OperandLocalVariable local : locals.variables.values()) {
             // calculate the lowest common dominator node
-            Node common = Node.getLowestCommonDominator(local.referrers);
+            List<Node> nodes = I.signal(local.referrers).map(Ⅱ::ⅰ).toList();
+            Set<Class> types = I.signal(local.referrers).map(Ⅱ::ⅱ).toSet();
 
-            if (common == null || local.referrers.contains(common)) {
+            if (types.size() != 1) {
+                return;
+            }
+
+            Node common = Node.getLowestCommonDominator(nodes);
+
+            if (common == null || nodes.contains(common)) {
                 // do nothing
             } else {
                 // insert variable declaration at the header of common dominator node
