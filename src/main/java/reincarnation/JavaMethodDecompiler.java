@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -476,7 +476,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             // calculate the lowest common dominator node
             List<Node> nodes = I.signal(local.referrers).map(Ⅱ::ⅰ).toList();
             Map<Class, List<Class>> types = I.signal(local.referrers).map(Ⅱ::ⅱ).toGroup(Function.identity());
-            System.out.println(types);
+
             if (types.values().stream().noneMatch(x -> x.size() != 1)) {
                 return;
             }
@@ -1626,6 +1626,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         record(opcode);
         recordLocalVariableAccess(position);
 
+        // Array#length for enhanced for-loop produces special bytecode
+        if (match(ALOAD, DUP, ASTORE)) {
+            locals.register(position, (OperandLocalVariable) current.remove(0));
+            return;
+        }
+
         // retrieve local variable name
         OperandLocalVariable variable = locals
                 .find(position, opcode, match(FRAME_SAME1, ASTORE) || match(FRAME_FULL, ASTORE) ? null : current);
@@ -1699,6 +1705,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
             // for other
             if (current.peek(0) != null) {
+                System.out.println(current.stack);
                 // retrieve and remove it
                 Operand operand = current.remove(0, false);
 
@@ -1720,13 +1727,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                     if (match(ARRAYLENGTH, DUP, ISTORE, ANEWARRAY, DUP, ASTORE)) {
                         current.addOperand(enumValues[1]);
                         current.addOperand(enumValues[0]);
-                    }
-
-                    // Array#length for enhanced for-loop produces special bytecode
-                    if (match(ALOAD, DUP, ASTORE)) {
-                        locals.replace(variable, (OperandLocalVariable) operand);
-                        current.addOperand(operand);
-                        return;
                     }
 
                     if (locals.isLocal(variable) && match(DUP, STORE)) {

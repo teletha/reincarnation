@@ -18,8 +18,11 @@ import reincarnation.coder.Coder;
 
 public class OperandLocalVariable extends Operand {
 
+    /** The variable index. */
+    final int index;
+
     /** The variable name. */
-    private final String name;
+    final String name;
 
     /** Holds all nodes that refer to this variable. */
     final Set<Ⅱ<Node, Class>> referrers = new HashSet();
@@ -27,8 +30,9 @@ public class OperandLocalVariable extends Operand {
     /**
      * Create local variable with index.
      */
-    OperandLocalVariable(Class type, String name) {
+    OperandLocalVariable(Class type, int index, String name) {
         this.name = Objects.requireNonNull(name);
+        this.index = index;
         this.type.set(type);
     }
 
@@ -42,6 +46,22 @@ public class OperandLocalVariable extends Operand {
         } else {
             coder.writeLocalVariable(type.v, name);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof OperandLocalVariable op ? name.equals(op.name) : false;
     }
 
     /**

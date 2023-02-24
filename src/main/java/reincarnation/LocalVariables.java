@@ -9,7 +9,7 @@
  */
 package reincarnation;
 
-import static reincarnation.Util.*;
+import static reincarnation.Util.load;
 
 import java.lang.reflect.Parameter;
 import java.util.ArrayDeque;
@@ -17,7 +17,6 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.objectweb.asm.Type;
 
@@ -27,6 +26,9 @@ import kiss.I;
  * Generic variable manager.
  */
 final class LocalVariables {
+
+    /** The special binding. */
+    private final Map<Integer, Integer> binder = new HashMap();
 
     /** Flag for static or normal. */
     private int offset;
@@ -47,12 +49,12 @@ final class LocalVariables {
      */
     LocalVariables(Class<?> clazz, boolean isStatic, Type[] types, Parameter[] parameters) {
         if (isStatic == false) {
-            params.put(offset++, new OperandLocalVariable(clazz, "this"));
+            params.put(offset++, new OperandLocalVariable(clazz, 0, "this"));
         }
 
         for (int i = 0; i < types.length; i++) {
             Class<?> type = Util.load(types[i]);
-            OperandLocalVariable variable = new OperandLocalVariable(type, parameters[i].getName());
+            OperandLocalVariable variable = new OperandLocalVariable(type, offset, parameters[i].getName());
             variable.fix();
             params.put(offset, variable);
 
@@ -70,38 +72,35 @@ final class LocalVariables {
      * @return An identified local variable name.
      */
     OperandLocalVariable find(int order, int opcode, Node referrer) {
-        Integer index = Integer.valueOf(order);
-
         // check parameters
-        OperandLocalVariable variable = params.get(index);
+        OperandLocalVariable variable = params.get(order);
 
         if (variable != null) {
             return variable;
         }
 
+        Integer binding = binder.get(order);
+        if (binding != null) {
+            order = binding.intValue();
+        }
+
         // compute local variable
-        variable = variables.computeIfAbsent(index, id -> new OperandLocalVariable(load(opcode), "local" + id));
+        variable = variables.computeIfAbsent(order, id -> new OperandLocalVariable(load(opcode), id, "local" + id));
         variable.referrers.add(I.pair(referrer, load(opcode)));
 
         return variable;
     }
 
-    void replace(OperandLocalVariable replaced, OperandLocalVariable replacer) {
-        for (Entry<Integer, OperandLocalVariable> entry : variables.entrySet()) {
-            if (entry.getValue() == replaced) {
-                entry.setValue(replacer);
-                return;
-            }
-        }
+    /**
+     * @param order
+     * @param variable
+     */
+    void register(int order, OperandLocalVariable variable) {
+        binder.put(order, variable.index);
     }
 
     boolean isLocal(OperandLocalVariable variable) {
-        for (Entry<Integer, OperandLocalVariable> entry : variables.entrySet()) {
-            if (entry.getValue() == variable) {
-                return offset < entry.getKey();
-            }
-        }
-        return false;
+        return offset < variable.index;
     }
 
     /** The depth based variable manager. */
