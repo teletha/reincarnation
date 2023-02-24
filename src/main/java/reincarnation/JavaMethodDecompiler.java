@@ -12,7 +12,7 @@ package reincarnation;
 import static org.objectweb.asm.Opcodes.*;
 import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.Util.load;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -261,7 +261,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         super(ASM9);
 
         this.source = source;
-        this.returnType = Util.load(returns);
+        this.returnType = OperandUtil.load(returns);
         this.locals = locals;
 
         debugger.startMethod(descriptor);
@@ -1426,7 +1426,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         if (constant instanceof String) {
             current.stack.add(new OperandString((String) constant));
         } else if (constant instanceof Type) {
-            current.addOperand(new OperandClass(Util.load((Type) constant)));
+            current.addOperand(new OperandClass(OperandUtil.load((Type) constant)));
         } else {
             current.addOperand(constant);
         }

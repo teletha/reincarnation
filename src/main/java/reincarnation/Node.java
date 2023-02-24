@@ -506,7 +506,7 @@ public class Node implements Code<Operand> {
     final Node join(BinaryOperator operator, int opecode) {
         Operand right = remove(0);
         Operand left = remove(0);
-        addOperand(new OperandBinary(left, operator, right).fix(Util.load(opecode)));
+        addOperand(new OperandBinary(left, operator, right).fix(OperandUtil.load(opecode)));
 
         // API definition
         return this;

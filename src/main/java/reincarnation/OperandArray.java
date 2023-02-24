@@ -156,7 +156,7 @@ class OperandArray extends Operand {
 
             // fill by default value
             for (int i = 0; i < requiredSize; i++) {
-                initializer.add(i, Util.defaultValueFor(type));
+                initializer.add(i, OperandUtil.defaultValueFor(type));
             }
 
             // assign by specified value

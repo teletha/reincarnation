@@ -9,7 +9,7 @@
  */
 package reincarnation;
 
-import static reincarnation.Util.load;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Parameter;
 import java.util.ArrayDeque;
@@ -53,7 +53,7 @@ final class LocalVariables {
         }
 
         for (int i = 0; i < types.length; i++) {
-            Class<?> type = Util.load(types[i]);
+            Class<?> type = OperandUtil.load(types[i]);
             OperandLocalVariable variable = new OperandLocalVariable(type, offset, parameters[i].getName());
             variable.fix();
             params.put(offset, variable);

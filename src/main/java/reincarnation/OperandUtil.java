@@ -17,10 +17,7 @@ import java.lang.reflect.Array;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-/**
- * @version 2018/10/22 19:06:27
- */
-public class Util {
+public class OperandUtil {
 
     /**
      * Load {@link Class} by internal name.
@@ -64,6 +61,8 @@ public class Util {
         case L2I:
         case F2I:
         case D2I:
+        case IALOAD:
+        case IASTORE:
             return int.class;
 
         case LADD:
@@ -86,6 +85,8 @@ public class Util {
         case I2L:
         case F2L:
         case D2L:
+        case LALOAD:
+        case LASTORE:
             return long.class;
 
         case FADD:
@@ -103,6 +104,8 @@ public class Util {
         case I2F:
         case L2F:
         case D2F:
+        case FALOAD:
+        case FASTORE:
             return float.class;
 
         case DADD:
@@ -119,6 +122,8 @@ public class Util {
         case I2D:
         case L2D:
         case F2D:
+        case DALOAD:
+        case DASTORE:
             return double.class;
 
         case ALOAD:
