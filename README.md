@@ -43,7 +43,7 @@ Add it into in the dependencies element like so:
 <dependency>
     <groupId>com.github.teletha</groupId>
     <artifactId>Reincarnation</artifactId>
-    <version>0.6</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 #### [Gradle](https://gradle.org/)
@@ -56,7 +56,7 @@ repositories {
 Add it into the dependencies section like so:
 ```gradle
 dependencies {
-    implementation 'com.github.teletha:Reincarnation:0.6'
+    implementation 'com.github.teletha:Reincarnation:1.0.0'
 }
 ```
 #### [SBT](https://www.scala-sbt.org/)
@@ -66,7 +66,7 @@ resolvers += "jitpack" at "https://jitpack.io"
 ```
 Add it into the libraryDependencies section like so:
 ```scala
-libraryDependencies += "com.github.teletha" % "Reincarnation" % "0.6"
+libraryDependencies += "com.github.teletha" % "Reincarnation" % "1.0.0"
 ```
 #### [Leiningen](https://leiningen.org/)
 Add JitPack repository at the end of repositories in your project.clj:
@@ -75,12 +75,12 @@ Add JitPack repository at the end of repositories in your project.clj:
 ```
 Add it into the dependencies section like so:
 ```clj
-:dependencies [[com.github.teletha/Reincarnation "0.6"]]
+:dependencies [[com.github.teletha/Reincarnation "1.0.0"]]
 ```
 #### [Bee](https://teletha.github.io/bee)
 Add it into your project definition class like so:
 ```java
-require("com.github.teletha", "Reincarnation", "0.6");
+require("com.github.teletha", "Reincarnation", "1.0.0");
 ```
 <p align="right"><a href="#top">back to top</a></p>
 
@@ -109,10 +109,8 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 ## Dependency
 Reincarnation depends on the following products on runtime.
 * [asm-9.4](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.4)
-* [cfr-0.152](https://mvnrepository.com/artifact/org.benf/cfr/0.152)
-* [javaparser-core-3.24.10](https://mvnrepository.com/artifact/com.github.javaparser/javaparser-core/3.24.10)
-* [psychopath-1.6.0](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.6.0)
-* [sinobu-3.0.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.0.0)
+* [psychopath-1.7.1](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.7.1)
+* [sinobu-3.1.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.1.0)
 <p align="right"><a href="#top">back to top</a></p>
 
 

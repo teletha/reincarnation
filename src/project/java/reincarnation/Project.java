@@ -12,7 +12,7 @@ package reincarnation;
 public class Project extends bee.api.Project {
 
     {
-        product("com.github.teletha", "Reincarnation", "0.6");
+        product("com.github.teletha", "Reincarnation", ref("version.txt"));
 
         require("org.ow2.asm", "asm");
         require("com.github.teletha", "sinobu");
