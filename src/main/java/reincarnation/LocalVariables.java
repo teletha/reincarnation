@@ -12,7 +12,10 @@ package reincarnation;
 import static reincarnation.Util.*;
 
 import java.lang.reflect.Parameter;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -67,16 +70,18 @@ final class LocalVariables {
      * @return An identified local variable name.
      */
     OperandLocalVariable find(int order, int opcode, Node referrer) {
+        Integer index = Integer.valueOf(order);
+
         // check parameters
-        OperandLocalVariable variable = params.get(order);
+        OperandLocalVariable variable = params.get(index);
 
         if (variable != null) {
             return variable;
         }
 
         // compute local variable
-        variable = variables.computeIfAbsent(order, id -> new OperandLocalVariable(load(opcode), "local" + id));
-        variable.referrers.add(I.pair(referrer, variable.type.v));
+        variable = variables.computeIfAbsent(index, id -> new OperandLocalVariable(load(opcode), "local" + id));
+        variable.referrers.add(I.pair(referrer, load(opcode)));
 
         return variable;
     }
@@ -94,6 +99,43 @@ final class LocalVariables {
         for (Entry<Integer, OperandLocalVariable> entry : variables.entrySet()) {
             if (entry.getValue() == variable) {
                 return offset < entry.getKey();
+            }
+        }
+        return false;
+    }
+
+    /** The depth based variable manager. */
+    private final Deque<Map<Integer, OperandLocalVariable>> manager = new ArrayDeque();
+
+    /**
+     * Start the new context.
+     */
+    void start() {
+        manager.addLast(new HashMap());
+    }
+
+    /**
+     * End the current context.
+     */
+    void end() {
+        manager.pollLast();
+    }
+
+    /**
+     * Declare the new variable.
+     */
+    void declare(int index, Class type) {
+        if (!manager.isEmpty()) {
+            manager.peekLast().put(index, isDeclared(index) ? name + "X" : name);
+        }
+    }
+
+    boolean isDeclared(int index) {
+        Iterator<Map<Integer, OperandLocalVariable>> iterator = manager.descendingIterator();
+        while (iterator.hasNext()) {
+            Map<Integer, OperandLocalVariable> context = iterator.next();
+            if (context.containsKey(index)) {
+                return true;
             }
         }
         return false;

@@ -23,8 +23,10 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
@@ -473,9 +475,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         for (OperandLocalVariable local : locals.variables.values()) {
             // calculate the lowest common dominator node
             List<Node> nodes = I.signal(local.referrers).map(Ⅱ::ⅰ).toList();
-            Set<Class> types = I.signal(local.referrers).map(Ⅱ::ⅱ).toSet();
-
-            if (types.size() != 1) {
+            Map<Class, List<Class>> types = I.signal(local.referrers).map(Ⅱ::ⅱ).toGroup(Function.identity());
+            System.out.println(types);
+            if (types.values().stream().noneMatch(x -> x.size() != 1)) {
                 return;
             }
 
