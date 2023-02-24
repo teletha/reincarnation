@@ -17,12 +17,20 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
+import java.util.jar.Manifest;
 
+import org.jetbrains.java.decompiler.main.Fernflower;
+import org.jetbrains.java.decompiler.main.extern.IBytecodeProvider;
+import org.jetbrains.java.decompiler.main.extern.IFernflowerLogger;
+import org.jetbrains.java.decompiler.main.extern.IFernflowerPreferences;
+import org.jetbrains.java.decompiler.main.extern.IResultSaver;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
@@ -32,6 +40,7 @@ import bee.api.Command;
 import bee.util.JavaCompiler;
 import kiss.I;
 import kiss.WiseSupplier;
+import psychopath.Location;
 import psychopath.Locator;
 import reincarnation.TestCode.Param;
 import reincarnation.coder.java.JavaCoder;
@@ -77,20 +86,19 @@ public class CodeVerifier {
     private final Debugger debugger = Debugger.current();
 
     /** The debug mode. */
-    private boolean debuggable;
+    private Debuggable debuggable;
 
     @BeforeEach
     void enableDebugMode(TestInfo info) {
-        Method method = info.getTestMethod().get();
-        Class clazz = info.getTestClass().get();
-        if (method.isAnnotationPresent(Debuggable.class) || clazz.isAnnotationPresent(Debuggable.class)) {
-            debuggable = true;
+        debuggable = info.getTestMethod().get().getAnnotation(Debuggable.class);
+        if (debuggable == null) {
+            info.getTestClass().get().getAnnotation(Debuggable.class);
         }
     }
 
     @AfterEach
     void disableDebugMode(TestInfo info) {
-        debuggable = false;
+        debuggable = null;
     }
 
     /**
@@ -130,7 +138,7 @@ public class CodeVerifier {
             // ====================================================
             // decompile code
             // ====================================================
-            decompiled = decompile(target, debuggable);
+            decompiled = decompile(target, debuggable != null);
 
             // ====================================================
             // recompile java code
@@ -176,6 +184,11 @@ public class CodeVerifier {
                     debugLog.append(line).append("\r\n");
                 }
                 debugLog.append("\r\n");
+
+                // compare by another decompiler
+                if (debuggable != null && debuggable.fernflower()) {
+                    debugLog.append("Decompiled by FernFlower\r\n").append(decompileByFernFlower(target)).append("\r\n");
+                }
 
                 System.out.println(debugLog);
             }
@@ -505,5 +518,95 @@ public class CodeVerifier {
         @Override
         public void endCommand(String name, Command command) {
         }
+    }
+
+    /**
+     * Decompile by fernflower.
+     * 
+     * @param target
+     * @return
+     */
+    private static String decompileByFernFlower(Class target) {
+        Map<String, Object> options = new HashMap();
+        options.put(IFernflowerPreferences.REMOVE_SYNTHETIC, "1");
+        options.put(IFernflowerPreferences.INDENT_STRING, "\t");
+        options.put(IFernflowerPreferences.LOG_LEVEL, "WARN");
+
+        IBytecodeProvider provider = (externalPath, internalPath) -> {
+            return Locator.file(externalPath).bytes();
+        };
+
+        String[] decompiled = new String[1];
+
+        IResultSaver saver = new IResultSaver() {
+
+            @Override
+            public void saveFolder(String path) {
+            }
+
+            @Override
+            public void saveDirEntry(String path, String archiveName, String entryName) {
+            }
+
+            @Override
+            public void saveClassFile(String path, String qualifiedName, String entryName, String content, int[] mapping) {
+                decompiled[0] = content;
+            }
+
+            @Override
+            public void saveClassEntry(String path, String archiveName, String qualifiedName, String entryName, String content) {
+            }
+
+            @Override
+            public void createArchive(String path, String archiveName, Manifest manifest) {
+            }
+
+            @Override
+            public void copyFile(String source, String path, String entryName) {
+            }
+
+            @Override
+            public void copyEntry(String source, String path, String archiveName, String entry) {
+            }
+
+            @Override
+            public void closeArchive(String path, String archiveName) {
+            }
+        };
+
+        IFernflowerLogger logger = new IFernflowerLogger() {
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void writeMessage(String message, Severity severity) {
+            }
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void writeMessage(String message, Severity severity, Throwable t) {
+            }
+        };
+
+        List<Class> classes = new ArrayList();
+        classes.add(target);
+
+        Class parent = target.getEnclosingClass();
+        while (parent != null) {
+            classes.add(parent);
+            parent = parent.getEnclosingClass();
+        }
+
+        Fernflower fernflower = new Fernflower(provider, saver, options, logger);
+        for (Class clazz : classes) {
+            Location root = Locator.locate(clazz);
+            fernflower.addSource(root.asDirectory().file(clazz.getName().replace('.', '/').concat(".class")).asJavaFile());
+        }
+        fernflower.decompileContext();
+
+        return decompiled[0];
     }
 }

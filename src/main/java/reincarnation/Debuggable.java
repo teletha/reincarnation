@@ -17,4 +17,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Debuggable {
+    boolean fernflower() default false;
 }
