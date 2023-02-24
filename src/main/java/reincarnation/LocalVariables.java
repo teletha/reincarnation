@@ -9,7 +9,6 @@
  */
 package reincarnation;
 
-import static reincarnation.LocalVariableDeclaration.*;
 import static reincarnation.Util.*;
 
 import java.lang.reflect.Parameter;
@@ -76,10 +75,8 @@ final class LocalVariables {
         }
 
         // compute local variable
-        Class type = load(opcode);
-
-        variable = variables.computeIfAbsent(order, id -> new OperandLocalVariable(type, "local" + id).set(With));
-        variable.referrers.add(I.pair(referrer, type));
+        variable = variables.computeIfAbsent(order, id -> new OperandLocalVariable(load(opcode), "local" + id));
+        variable.referrers.add(I.pair(referrer, variable.type.v));
 
         return variable;
     }

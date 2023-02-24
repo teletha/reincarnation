@@ -21,11 +21,6 @@ public class OperandLocalVariable extends Operand {
     /** The variable name. */
     private final String name;
 
-    /** The declration type. */
-    private LocalVariableDeclaration declaration = LocalVariableDeclaration.None;
-
-    private boolean firstAccess = true;
-
     /** Holds all nodes that refer to this variable. */
     final Set<Ⅱ<Node, Class>> referrers = new HashSet();
 
@@ -38,19 +33,6 @@ public class OperandLocalVariable extends Operand {
     }
 
     /**
-     * Set declaration type.
-     * 
-     * @param declaration
-     * @return Chainable API.
-     */
-    final OperandLocalVariable set(LocalVariableDeclaration declaration) {
-        if (declaration != null) {
-            this.declaration = declaration;
-        }
-        return this;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -58,19 +40,8 @@ public class OperandLocalVariable extends Operand {
         if (name.equals("this")) {
             coder.writeThis();
         } else {
-            coder.writeLocalVariable(type.v, name, firstAccess ? declaration : LocalVariableDeclaration.None);
-
-            if (!Debugger.whileDebug) {
-                firstAccess = false;
-            }
+            coder.writeLocalVariable(type.v, name);
         }
-    }
-
-    /**
-     * Reset access flag.
-     */
-    void reset() {
-        firstAccess = true;
     }
 
     /**

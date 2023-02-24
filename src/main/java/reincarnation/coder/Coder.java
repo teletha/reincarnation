@@ -24,7 +24,6 @@ import kiss.I;
 import kiss.Variable;
 import kiss.Ⅲ;
 import kiss.model.Model;
-import reincarnation.LocalVariableDeclaration;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
@@ -374,9 +373,8 @@ public abstract class Coder<O extends CodingOption> {
      * 
      * @param type A infered type of local variabel.
      * @param name A local variable name.
-     * @param declaration Declaration type.
      */
-    public abstract void writeLocalVariable(Class type, String name, LocalVariableDeclaration declaration);
+    public abstract void writeLocalVariable(Class type, String name);
 
     /**
      * Access to field.

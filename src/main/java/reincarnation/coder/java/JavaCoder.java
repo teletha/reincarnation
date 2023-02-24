@@ -23,7 +23,6 @@ import java.util.Set;
 
 import kiss.Variable;
 import kiss.Ⅲ;
-import reincarnation.LocalVariableDeclaration;
 import reincarnation.Operand;
 import reincarnation.Reincarnation;
 import reincarnation.coder.Code;
@@ -453,7 +452,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeLocalVariable(Class type, String name, LocalVariableDeclaration declaration) {
+    public void writeLocalVariable(Class type, String name) {
         String prefix;
         if (vars.isDeclared(name)) {
             prefix = "";
@@ -462,21 +461,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             vars.declare(name);
         }
 
-        name = vars.name(name);
-
-        switch (declaration) {
-        case With:
-            write(prefix, name);
-            break;
-
-        case Only:
-            line(prefix, name, ";");
-            break;
-
-        default:
-            write(prefix, name);
-            break;
-        }
+        write(prefix, vars.name(name));
     }
 
     /**
