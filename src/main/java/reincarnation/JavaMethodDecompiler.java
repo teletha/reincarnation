@@ -23,10 +23,8 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Function;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
@@ -37,7 +35,6 @@ import org.objectweb.asm.Type;
 
 import kiss.I;
 import kiss.Signal;
-import kiss.Ⅱ;
 import reincarnation.Debugger.Printable;
 import reincarnation.Node.Switch;
 import reincarnation.coder.Code;
@@ -380,10 +377,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         }
 
         // ============================================
+        // Analyze variable declaration
+        // ============================================
+        try (Printable diff = debugger.diff(nodes, "Analyze variable declaration")) {
+            // insert variable declaration at the header of common dominator node
+            locals.analyzeVariableDeclarationNode(this::createNodeBefore);
+        }
+
+        // ============================================
         // Analyze node relation
         // ============================================
         try (Printable diff = debugger.diff(nodes, "Analyze nodes")) {
-            analyzeLocalVariables();
             root = nodes.peekFirst().analyze();
         }
 
@@ -458,39 +462,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      */
     private void optimizeShorthandAssign() {
         children().flatMap(node -> node.children(OperandAssign.class)).to(OperandAssign::shorten);
-    }
-
-    /**
-     * <p>
-     * Analyze at which node this local variable is declared. Some local variables are used across
-     * multiple nodes, and it is not always possible to uniquely identify the declaration location.
-     * </p>
-     * <p>
-     * Check the lowest common dominator node of all nodes that refer to this local variable, and if
-     * the dominator node is included in the reference node, declare it at the first reference.
-     * Otherwise, declare in the header of the dominator node.
-     * </p>
-     */
-    private void analyzeLocalVariables() {
-        for (OperandLocalVariable local : locals.variables.values()) {
-            // calculate the lowest common dominator node
-            List<Node> nodes = I.signal(local.referrers).map(Ⅱ::ⅰ).toList();
-            Map<Class, List<Class>> types = I.signal(local.referrers).map(Ⅱ::ⅱ).toGroup(Function.identity());
-
-            if (types.values().stream().noneMatch(x -> x.size() != 1)) {
-                return;
-            }
-
-            Node common = Node.getLowestCommonDominator(nodes);
-
-            if (common == null || nodes.contains(common)) {
-                // do nothing
-            } else {
-                // insert variable declaration at the header of common dominator node
-                Node bridge = createNodeBefore(common, true);
-                bridge.stack.add(local);
-            }
-        }
     }
 
     /**
@@ -1705,7 +1676,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
             // for other
             if (current.peek(0) != null) {
-                System.out.println(current.stack);
                 // retrieve and remove it
                 Operand operand = current.remove(0, false);
 
@@ -1857,6 +1827,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         // API definition
         return created;
+    }
+
+    /**
+     * Create new node with your operands before the specified node.
+     * 
+     * @param index
+     * @param operand
+     * @return
+     */
+    private final Node createNodeBefore(Node index, Operand operand) {
+        return createNodeBefore(index, true).addOperand(operand);
     }
 
     /**

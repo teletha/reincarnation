@@ -12,13 +12,11 @@ package reincarnation.decompiler.array;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 public class IntArrayTest extends CodeVerifier {
 
     @Test
-    @Debuggable
     public void base() {
         verify(new TestCode.IntArray() {
 

@@ -9,11 +9,8 @@
  */
 package reincarnation;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
-import kiss.Ⅱ;
 import reincarnation.coder.Coder;
 
 public class OperandLocalVariable extends Operand {
@@ -23,9 +20,6 @@ public class OperandLocalVariable extends Operand {
 
     /** The variable name. */
     final String name;
-
-    /** Holds all nodes that refer to this variable. */
-    final Set<Ⅱ<Node, Class>> referrers = new HashSet();
 
     /**
      * Create local variable with index.
@@ -53,7 +47,7 @@ public class OperandLocalVariable extends Operand {
      */
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return index;
     }
 
     /**
@@ -61,7 +55,7 @@ public class OperandLocalVariable extends Operand {
      */
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof OperandLocalVariable op ? name.equals(op.name) : false;
+        return obj instanceof OperandLocalVariable op ? index == op.index : false;
     }
 
     /**

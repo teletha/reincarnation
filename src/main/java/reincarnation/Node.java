@@ -288,7 +288,7 @@ public class Node implements Code<Operand> {
      * 
      * @param operand A new operand to add.
      */
-    final void addOperand(Object operand) {
+    final Node addOperand(Object operand) {
         if (operand instanceof Operand) {
             stack.add((Operand) operand);
         } else if (operand instanceof Number) {
@@ -296,6 +296,7 @@ public class Node implements Code<Operand> {
         } else {
             stack.add(new OperandExpression(operand));
         }
+        return this;
     }
 
     /**
@@ -303,8 +304,10 @@ public class Node implements Code<Operand> {
      * 
      * @param operand A new operand to add.
      */
-    final void addOperand(Object operand, Class<?> type) {
+    final Node addOperand(Object operand, Class<?> type) {
         stack.add(new OperandExpression(operand, type));
+
+        return this;
     }
 
     /**
@@ -314,8 +317,10 @@ public class Node implements Code<Operand> {
      * 
      * @param operand A new operand to add.
      */
-    final void addOperand(Object operand, InferredType type) {
+    final Node addOperand(Object operand, InferredType type) {
         stack.add(new OperandExpression(operand, type));
+
+        return this;
     }
 
     /**

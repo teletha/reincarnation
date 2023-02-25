@@ -1,29 +1,28 @@
 /*
- * Copyright (C) 2023 The REINCARNATION Development Team
+ * Copyright (C) 2023 Nameless Production Committee
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *          https://opensource.org/licenses/MIT
+ *          http://opensource.org/licenses/mit-license.php
  */
 package reincarnation;
 
 import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Parameter;
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 import org.objectweb.asm.Type;
 
-import kiss.I;
+import reincarnation.util.MultiMap;
 
 /**
- * Generic variable manager.
+ * Local variable manager.
  */
 final class LocalVariables {
 
@@ -31,13 +30,19 @@ final class LocalVariables {
     private final Map<Integer, Integer> binder = new HashMap();
 
     /** Flag for static or normal. */
-    private int offset;
+    private final int offset;
 
-    /** The parameter manager. */
-    private final Map<Integer, OperandLocalVariable> params = new HashMap<>();
+    /** The declared local variable (argument) manager. */
+    private final Map<Integer, OperandLocalVariable> params = new HashMap();
 
-    /** The local variable manager. */
-    final Map<Integer, OperandLocalVariable> variables = new HashMap<>();
+    /** The undeclared local variable manager. */
+    private final Map<Integer, OperandLocalVariable> variables = new HashMap();
+
+    /** Holds all types that each variables use. */
+    private final MultiMap<OperandLocalVariable, Class> types = new MultiMap(false);
+
+    /** Holds all nodes that each variables is referred. */
+    private final MultiMap<OperandLocalVariable, Node> referrers = new MultiMap(false);
 
     /**
      * Create variable manager.
@@ -47,7 +52,9 @@ final class LocalVariables {
      * @param types
      * @param parameters
      */
-    LocalVariables(Class<?> clazz, boolean isStatic, Type[] types, Parameter[] parameters) {
+    LocalVariables(Class clazz, boolean isStatic, Type[] types, Parameter[] parameters) {
+        int offset = 0;
+
         if (isStatic == false) {
             params.put(offset++, new OperandLocalVariable(clazz, 0, "this"));
         }
@@ -61,6 +68,8 @@ final class LocalVariables {
             // count index because primitive long and double occupy double stacks
             offset += type == long.class || type == double.class ? 2 : 1;
         }
+
+        this.offset = offset;
     }
 
     /**
@@ -84,9 +93,12 @@ final class LocalVariables {
             order = binding.intValue();
         }
 
-        // compute local variable
-        variable = variables.computeIfAbsent(order, id -> new OperandLocalVariable(load(opcode), id, "local" + id));
-        variable.referrers.add(I.pair(referrer, load(opcode)));
+        Class type = load(opcode);
+        int id = order;
+
+        variable = variables.computeIfAbsent(id * 10000 + type.hashCode(), key -> new OperandLocalVariable(type, id, "local" + id));
+        referrers.put(variable, referrer);
+        types.put(variable, type);
 
         return variable;
     }
@@ -103,40 +115,27 @@ final class LocalVariables {
         return offset < variable.index;
     }
 
-    /** The depth based variable manager. */
-    private final Deque<Map<Integer, OperandLocalVariable>> manager = new ArrayDeque();
-
     /**
-     * Start the new context.
+     * <p>
+     * Analyze at which node this local variable is declared. Some local variables are used across
+     * multiple nodes, and it is not always possible to uniquely identify the declaration location.
+     * </p>
+     * <p>
+     * Check the lowest common dominator node of all nodes that refer to this local variable, and if
+     * the dominator node is included in the reference node, declare it at the first reference.
+     * Otherwise, declare in the header of the dominator node.
+     * </p>
      */
-    void start() {
-        manager.addLast(new HashMap());
-    }
+    void analyzeVariableDeclarationNode(BiConsumer<Node, OperandLocalVariable> createDeclarationNode) {
+        for (OperandLocalVariable local : variables.values()) {
+            List<Node> refs = referrers.get(local);
 
-    /**
-     * End the current context.
-     */
-    void end() {
-        manager.pollLast();
-    }
+            // calculate the lowest common dominator node
+            Node common = Node.getLowestCommonDominator(refs);
 
-    /**
-     * Declare the new variable.
-     */
-    void declare(int index, Class type) {
-        if (!manager.isEmpty()) {
-            manager.peekLast().put(index, isDeclared(index) ? name + "X" : name);
-        }
-    }
-
-    boolean isDeclared(int index) {
-        Iterator<Map<Integer, OperandLocalVariable>> iterator = manager.descendingIterator();
-        while (iterator.hasNext()) {
-            Map<Integer, OperandLocalVariable> context = iterator.next();
-            if (context.containsKey(index)) {
-                return true;
+            if (common != null && !refs.contains(common) && types.get(local).size() <= 1) {
+                createDeclarationNode.accept(common, local);
             }
         }
-        return false;
     }
 }
