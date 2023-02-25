@@ -13,7 +13,6 @@ import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Parameter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
@@ -36,13 +35,15 @@ final class LocalVariables {
     private final Map<Integer, OperandLocalVariable> params = new HashMap();
 
     /** The undeclared local variable manager. */
-    private final Map<Integer, OperandLocalVariable> variables = new HashMap();
+    private final Map<String, OperandLocalVariable> variables = new HashMap();
 
     /** Holds all types that each variables use. */
     private final MultiMap<OperandLocalVariable, Class> types = new MultiMap(false);
 
     /** Holds all nodes that each variables is referred. */
     private final MultiMap<OperandLocalVariable, Node> referrers = new MultiMap(false);
+
+    private final MultiMap<String, Node> users = new MultiMap(false);
 
     /**
      * Create variable manager.
@@ -94,11 +95,13 @@ final class LocalVariables {
         }
 
         Class type = load(opcode);
-        int id = order;
+        int index = order;
+        String id = index + "#" + type.getName();
 
-        variable = variables.computeIfAbsent(id * 10000 + type.hashCode(), key -> new OperandLocalVariable(type, id, "local" + id));
+        variable = variables.computeIfAbsent(id, key -> new OperandLocalVariable(type, index, "local" + index));
         referrers.put(variable, referrer);
         types.put(variable, type);
+        users.put(id, referrer);
 
         return variable;
     }
@@ -127,15 +130,28 @@ final class LocalVariables {
      * </p>
      */
     void analyzeVariableDeclarationNode(BiConsumer<Node, OperandLocalVariable> createDeclarationNode) {
-        for (OperandLocalVariable local : variables.values()) {
-            List<Node> refs = referrers.get(local);
+        users.forEach((id, refs) -> {
+            OperandLocalVariable local = variables.get(id);
 
             // calculate the lowest common dominator node
             Node common = Node.getLowestCommonDominator(refs);
 
-            if (common != null && !refs.contains(common) && types.get(local).size() <= 1) {
+            System.out.println(id + "  " + refs.stream().map(x -> x.id).toList() + "  " + common.id);
+
+            if (common != null && !refs.contains(common)) {
                 createDeclarationNode.accept(common, local);
             }
-        }
+        });
+
+        // for (OperandLocalVariable local : variables.values()) {
+        // List<Node> refs = referrers.get(local);
+        //
+        // // calculate the lowest common dominator node
+        // Node common = Node.getLowestCommonDominator(refs);
+        //
+        // if (common != null && !refs.contains(common) && types.get(local).size() <= 1) {
+        // createDeclarationNode.accept(common, local);
+        // }
+        // }
     }
 }
