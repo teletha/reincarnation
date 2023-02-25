@@ -92,7 +92,7 @@ public class CodeVerifier {
     void enableDebugMode(TestInfo info) {
         debuggable = info.getTestMethod().get().getAnnotation(Debuggable.class);
         if (debuggable == null) {
-            info.getTestClass().get().getAnnotation(Debuggable.class);
+            debuggable = info.getTestClass().get().getAnnotation(Debuggable.class);
         }
     }
 
