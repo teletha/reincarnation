@@ -160,13 +160,6 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "LocalVariableDeclaration",
-			"packageName": "reincarnation",
-			"type": "Enum"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Loopable",
 			"packageName": "reincarnation.structure",
 			"type": "AbstractClass"
@@ -279,6 +272,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "OperandUtil",
+			"packageName": "reincarnation",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Reincarnation",
 			"packageName": "reincarnation",
 			"type": "Class"
@@ -303,13 +303,6 @@ const root = {
 			"name": "UnaryOperator",
 			"packageName": "reincarnation.operator",
 			"type": "Enum"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Util",
-			"packageName": "reincarnation",
-			"type": "Class"
 		},
 		{
 			"modifiers": {
