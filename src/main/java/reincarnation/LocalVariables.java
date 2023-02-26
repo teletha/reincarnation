@@ -12,7 +12,9 @@ package reincarnation;
 import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Parameter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
@@ -153,5 +155,21 @@ final class LocalVariables {
         // createDeclarationNode.accept(common, local);
         // }
         // }
+    }
+
+    private static class Local {
+
+        private final OperandLocalVariable variable;
+
+        private final List<Node> referrer = new ArrayList();
+
+        private Node header;
+
+        /**
+         * @param variable
+         */
+        private Local(OperandLocalVariable variable) {
+            this.variable = variable;
+        }
     }
 }
