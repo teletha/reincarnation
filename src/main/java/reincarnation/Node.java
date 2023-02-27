@@ -271,7 +271,7 @@ public class Node implements Code<Operand> {
      * @return
      */
     final Signal<Node> outgoingRecursively() {
-        return I.signal(this).recurseMap(n -> n.flatIterable(x -> x.outgoing)).takeWhile(n -> n != null);
+        return I.signal(this).recurseMap(n -> n.flatIterable(x -> x.outgoing)).takeWhile(n -> n != null && n.backedges.isEmpty());
     }
 
     /**
@@ -1128,11 +1128,43 @@ public class Node implements Code<Operand> {
              * }
              * </pre>
              */
-            then = one;
-            elze = other;
-            follow = dominators.stream().filter(node -> !outgoing.contains(node)).findFirst().orElse(null);
-            if (follow != null) {
-                follow.currentCalls--;
+            if (one.hasDominator(other)) {
+                /**
+                 * with else <pre>
+                 * if (condition) {
+                 *      one
+                 * }
+                 * </pre>
+                 */
+                then = one;
+                follow = other;
+            } else if (other.hasDominator(one)) {
+                /**
+                 * with else <pre>
+                 * if (!condition) {
+                 *      other
+                 * }
+                 * </pre>
+                 */
+                condition = condition.invert();
+                then = other;
+                follow = one;
+            } else {
+                /**
+                 * with else <pre>
+                 * if (condition) {
+                 *      one
+                 * } else {
+                 *      other
+                 * }
+                 * </pre>
+                 */
+                then = one;
+                elze = other;
+                follow = dominators.stream().filter(node -> !outgoing.contains(node)).findFirst().orElse(null);
+                if (follow != null) {
+                    follow.currentCalls--;
+                }
             }
         }
         return new If(this, condition, then, elze, follow);

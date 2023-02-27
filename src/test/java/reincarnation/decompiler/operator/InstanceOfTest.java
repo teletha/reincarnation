@@ -15,6 +15,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class InstanceOfTest extends CodeVerifier {
@@ -161,6 +162,7 @@ class InstanceOfTest extends CodeVerifier {
     }
 
     @Test
+    @Debuggable(fernflower = true)
     void withoutCast() {
         verify(new TestCode.Text() {
 
