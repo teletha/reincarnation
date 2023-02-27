@@ -9,7 +9,6 @@
  */
 package reincarnation.decompiler.operator;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,14 +89,6 @@ class InstanceOfTest extends CodeVerifier {
         verify(new ValidInterface());
     }
 
-    private static class InivalidInterface implements TestCode.Boolean {
-
-        @Override
-        public boolean run() {
-            return this instanceof Serializable;
-        }
-    }
-
     @Test
     void StringLiteral() {
         verify(new TestCode.Boolean() {
@@ -165,6 +156,24 @@ class InstanceOfTest extends CodeVerifier {
             public boolean run() {
                 List value = null;
                 return value instanceof List;
+            }
+        });
+    }
+
+    @Test
+    void withoutCast() {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                String buffer = "";
+                List list = List.of("1", "2", "3");
+                for (java.lang.Object value : list) {
+                    if (value instanceof String) {
+                        buffer += (String) value;
+                    }
+                }
+                return buffer;
             }
         });
     }

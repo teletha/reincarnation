@@ -13,9 +13,6 @@ import kiss.I;
 import kiss.Signal;
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/10/23 15:03:32
- */
 public class OperandInstanceOf extends Operand {
 
     /** The value. */
@@ -33,6 +30,14 @@ public class OperandInstanceOf extends Operand {
     public OperandInstanceOf(Operand value, Class type) {
         this.value = value;
         this.type = type;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    InferredType infer() {
+        return InferredType.Boolean;
     }
 
     /**

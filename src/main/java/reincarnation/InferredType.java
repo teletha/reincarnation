@@ -9,10 +9,10 @@
  */
 package reincarnation;
 
-/**
- * @version 2018/10/05 19:36:04
- */
 class InferredType {
+
+    /** The reusable type. */
+    static final InferredType Boolean = new InferredType(boolean.class);
 
     /** The actual type. */
     private Class type;
