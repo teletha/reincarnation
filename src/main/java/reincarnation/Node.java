@@ -1131,7 +1131,6 @@ public class Node implements Code<Operand> {
             then = one;
             elze = other;
             follow = dominators.stream().filter(node -> !outgoing.contains(node)).findFirst().orElse(null);
-
             if (follow != null) {
                 follow.currentCalls--;
             }

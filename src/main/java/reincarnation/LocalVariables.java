@@ -9,18 +9,14 @@
  */
 package reincarnation;
 
-import static reincarnation.OperandUtil.load;
+import static reincarnation.OperandUtil.*;
 
 import java.lang.reflect.Parameter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
 import org.objectweb.asm.Type;
-
-import reincarnation.util.MultiMap;
 
 /**
  * Local variable manager.
@@ -38,14 +34,6 @@ final class LocalVariables {
 
     /** The undeclared local variable manager. */
     private final Map<String, OperandLocalVariable> variables = new HashMap();
-
-    /** Holds all types that each variables use. */
-    private final MultiMap<OperandLocalVariable, Class> types = new MultiMap(false);
-
-    /** Holds all nodes that each variables is referred. */
-    private final MultiMap<OperandLocalVariable, Node> referrers = new MultiMap(false);
-
-    private final MultiMap<String, Node> users = new MultiMap(false);
 
     /**
      * Create variable manager.
@@ -101,9 +89,7 @@ final class LocalVariables {
         String id = index + "#" + type.getName();
 
         variable = variables.computeIfAbsent(id, key -> new OperandLocalVariable(type, index, "local" + index));
-        referrers.put(variable, referrer);
-        types.put(variable, type);
-        users.put(id, referrer);
+        variable.registerReferrer(referrer);
 
         return variable;
     }
@@ -132,44 +118,33 @@ final class LocalVariables {
      * </p>
      */
     void analyzeVariableDeclarationNode(BiConsumer<Node, OperandLocalVariable> createDeclarationNode) {
-        users.forEach((id, refs) -> {
-            OperandLocalVariable local = variables.get(id);
+        root: for (OperandLocalVariable variable : variables.values()) {
+            // Determine if you need to add a node for variable declarations. For example, if the
+            // same variable is referenced by multiple child nodes, you must consider whether you
+            // should declare the variable at each child node or create a common parent node and
+            // declare the variable there. In addition, common variable declarations cannot be used
+            // even when the same variable is used in multiple types.
 
-            // calculate the lowest common dominator node
-            Node common = Node.getLowestCommonDominator(refs);
+            // Calculate the lowest common dominator node.
+            Node header = Node.getLowestCommonDominator(variable.referrers);
 
-            System.out.println(id + "  " + refs.stream().map(x -> x.id).toList() + "  " + common.id);
+            // If the header node is not one of the referent nodes, a common variable declaration
+            // must be used.
+            if (header != null && !variable.referrers.contains(header)) {
+                // If multiple types use the same variable, a common variable declaration cannot be
+                // used if one header node is the dominator of the other header node.
+                for (OperandLocalVariable other : variables.values()) {
+                    if (other.index == variable.index && !other.type.equals(variable.type)) {
+                        Node otherHeader = Node.getLowestCommonDominator(other.referrers);
+                        if (header.hasDominator(otherHeader) || otherHeader.hasDominator(header)) {
+                            continue root;
+                        }
+                    }
+                }
 
-            if (common != null && !refs.contains(common)) {
-                createDeclarationNode.accept(common, local);
+                // Create additional nodes for declarations to use common variable declarations.
+                createDeclarationNode.accept(header, variable);
             }
-        });
-
-        // for (OperandLocalVariable local : variables.values()) {
-        // List<Node> refs = referrers.get(local);
-        //
-        // // calculate the lowest common dominator node
-        // Node common = Node.getLowestCommonDominator(refs);
-        //
-        // if (common != null && !refs.contains(common) && types.get(local).size() <= 1) {
-        // createDeclarationNode.accept(common, local);
-        // }
-        // }
-    }
-
-    private static class Local {
-
-        private final OperandLocalVariable variable;
-
-        private final List<Node> referrer = new ArrayList();
-
-        private Node header;
-
-        /**
-         * @param variable
-         */
-        private Local(OperandLocalVariable variable) {
-            this.variable = variable;
         }
     }
 }

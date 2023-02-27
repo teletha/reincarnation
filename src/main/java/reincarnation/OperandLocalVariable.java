@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import reincarnation.coder.Coder;
@@ -21,6 +23,9 @@ public class OperandLocalVariable extends Operand {
     /** The variable name. */
     final String name;
 
+    /** The referrer node manager. */
+    final List<Node> referrers = new ArrayList();
+
     /**
      * Create local variable with index.
      */
@@ -28,6 +33,17 @@ public class OperandLocalVariable extends Operand {
         this.name = Objects.requireNonNull(name);
         this.index = index;
         this.type.set(type);
+    }
+
+    /**
+     * Register as referrer node.
+     * 
+     * @param node
+     */
+    final void registerReferrer(Node node) {
+        if (!referrers.contains(node)) {
+            referrers.add(node);
+        }
     }
 
     /**

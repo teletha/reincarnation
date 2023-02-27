@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.load;
+import static reincarnation.OperandUtil.*;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -351,6 +351,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             }
         }
 
+        // ============================================
+        // Analyze variable declaration
+        // ============================================
+        try (Printable diff = debugger.diff(nodes, "Analyze variable declaration")) {
+            // insert variable declaration at the header of common dominator node
+            locals.analyzeVariableDeclarationNode(this::createNodeBefore);
+        }
+
         // Build dominator tree
         for (Node node : nodes) {
             Node dominator = node.getDominator();
@@ -377,19 +385,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         }
 
         // ============================================
-        // Analyze variable declaration
-        // ============================================
-        try (Printable diff = debugger.diff(nodes, "Analyze variable declaration")) {
-            // insert variable declaration at the header of common dominator node
-            locals.analyzeVariableDeclarationNode(this::createNodeBefore);
-        }
-
-        // ============================================
         // Analyze node relation
         // ============================================
         try (Printable diff = debugger.diff(nodes, "Analyze nodes")) {
             root = nodes.peekFirst().analyze();
         }
+
+        debugger.print(nodes);
 
         // ============================================
         // Build code structure
@@ -1824,6 +1826,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         // insert to node list
         nodes.add(nodes.indexOf(index), created);
+
+        index.dominator = null;
 
         // API definition
         return created;

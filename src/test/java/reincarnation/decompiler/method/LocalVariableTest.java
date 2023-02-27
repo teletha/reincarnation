@@ -12,10 +12,8 @@ package reincarnation.decompiler.method;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
-@Debuggable(fernflower = true)
 class LocalVariableTest extends CodeVerifier {
 
     @Test
