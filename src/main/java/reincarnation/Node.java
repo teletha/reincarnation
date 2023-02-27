@@ -1119,18 +1119,9 @@ public class Node implements Code<Operand> {
                 follow = other;
             }
         } else {
-            /**
-             * with else <pre>
-             * if (condition) {
-             *      one
-             * } else {
-             *      other
-             * }
-             * </pre>
-             */
             if (one.hasDominator(other)) {
                 /**
-                 * with else <pre>
+                 * no else <pre>
                  * if (condition) {
                  *      one
                  * }
@@ -1140,7 +1131,7 @@ public class Node implements Code<Operand> {
                 follow = other;
             } else if (other.hasDominator(one)) {
                 /**
-                 * with else <pre>
+                 * no else <pre>
                  * if (!condition) {
                  *      other
                  * }

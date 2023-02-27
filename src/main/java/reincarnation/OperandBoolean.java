@@ -50,4 +50,20 @@ class OperandBoolean extends Operand {
     protected void writeCode(Coder coder) {
         coder.writeBoolean(value);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isTrue() {
+        return value == true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isFalse() {
+        return value == false;
+    }
 }

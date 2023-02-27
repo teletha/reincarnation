@@ -21,8 +21,6 @@ import reincarnation.operator.BinaryOperator;
  * LabelInstruction when you restore the logical expression. Do not use other information because it
  * change depending on the content of the description of the logical expression.
  * </p>
- * 
- * @version 2018/11/06 10:31:57
  */
 class OperandCondition extends Operand {
 
@@ -224,12 +222,28 @@ class OperandCondition extends Operand {
             throw new Error();
         }
 
-        if (group) {
-            coder.writeEnclose(() -> {
-                coder.writeBinaryOperation(left, operator, right);
-            });
+        if (leftType == boolean.class) {
+            if (operator == BinaryOperator.EQUAL) {
+                if (right.isTrue()) {
+                    coder.writeTrueOperation(left);
+                } else if (right.isFalse()) {
+                    coder.writeFalseOperation(left);
+                }
+            } else if (operator == BinaryOperator.NOT_EQUALS) {
+                if (right.isTrue()) {
+                    coder.writeFalseOperation(left);
+                } else if (right.isFalse()) {
+                    coder.writeTrueOperation(left);
+                }
+            }
         } else {
-            coder.writeBinaryOperation(left, operator, right);
+            if (group) {
+                coder.writeEnclose(() -> {
+                    coder.writeBinaryOperation(left, operator, right);
+                });
+            } else {
+                coder.writeBinaryOperation(left, operator, right);
+            }
         }
     }
 
