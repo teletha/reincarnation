@@ -359,16 +359,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             locals.analyzeVariableDeclarationNode(this::createNodeBefore);
         }
 
+        // ============================================
         // Build dominator tree
+        // ============================================
         for (Node node : nodes) {
             Node dominator = node.getDominator();
-
-            if (dominator != null) {
-                dominator.dominators.addIfAbsent(node);
-            }
+            if (dominator != null) dominator.dominators.addIfAbsent(node);
         }
 
+        // ============================================
         // Resolve all try-catch-finally blocks.
+        // ============================================
         tries.process();
 
         // ============================================
@@ -390,8 +391,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         try (Printable diff = debugger.diff(nodes, "Analyze nodes")) {
             root = nodes.peekFirst().analyze();
         }
-
-        debugger.print(nodes);
 
         // ============================================
         // Build code structure
@@ -1827,6 +1826,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // insert to node list
         nodes.add(nodes.indexOf(index), created);
 
+        // reset dominator
         index.dominator = null;
 
         // API definition
@@ -1874,6 +1874,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         // insert to node list
         nodes.add(nodes.indexOf(index) + 1, created);
+
+        // reset dominator
+        index.dominator = null;
 
         // API definition
         return created;
