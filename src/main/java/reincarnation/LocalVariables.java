@@ -24,7 +24,7 @@ import org.objectweb.asm.Type;
 final class LocalVariables {
 
     /** The special binding. */
-    private final Map<Integer, Integer> binder = new HashMap();
+    private final Map<Integer, Integer> bindings = new HashMap();
 
     /** Flag for static or normal. */
     private final int offset;
@@ -79,16 +79,15 @@ final class LocalVariables {
             return variable;
         }
 
-        Integer binding = binder.get(order);
+        Integer binding = bindings.get(order);
         if (binding != null) {
             order = binding.intValue();
         }
 
-        Class type = load(opcode);
         int index = order;
-        String id = index + "#" + type.getName();
+        Class type = load(opcode);
 
-        variable = variables.computeIfAbsent(id, key -> new OperandLocalVariable(type, index, "local" + index));
+        variable = variables.computeIfAbsent(index + "#" + type.getName(), key -> new OperandLocalVariable(type, index, "local" + index));
         variable.registerReferrer(referrer);
 
         return variable;
@@ -99,7 +98,7 @@ final class LocalVariables {
      * @param variable
      */
     void register(int order, OperandLocalVariable variable) {
-        binder.put(order, variable.index);
+        bindings.put(order, variable.index);
     }
 
     boolean isLocal(OperandLocalVariable variable) {

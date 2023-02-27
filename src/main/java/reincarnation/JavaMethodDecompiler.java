@@ -1868,15 +1868,15 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             for (Node out : index.outgoing) {
                 index.disconnect(out);
                 created.connect(out);
+
+                // reset dominator
+                out.dominator = null;
             }
             index.connect(created);
         }
 
         // insert to node list
         nodes.add(nodes.indexOf(index) + 1, created);
-
-        // reset dominator
-        index.dominator = null;
 
         // API definition
         return created;
@@ -2493,19 +2493,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 }
                 blocks.add(0, new TryCatchFinally(start, end, catcher, exception));
             }
-        }
-
-        /**
-         * @param node
-         * @return
-         */
-        private boolean isCatcher(Node node) {
-            for (TryCatchFinally block : blocks) {
-                if (block.catcher == node) {
-                    return true;
-                }
-            }
-            return false;
         }
 
         /**
