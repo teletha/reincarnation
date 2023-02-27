@@ -16,10 +16,13 @@ import reincarnation.coder.Coder;
 public class OperandInstanceOf extends Operand {
 
     /** The value. */
-    private final Operand value;
+    final Operand value;
 
     /** The type to check. */
-    private final Class type;
+    final Class type;
+
+    /** The casted variable. */
+    private Operand cast;
 
     /**
      * Build instanceof expression.
@@ -30,6 +33,18 @@ public class OperandInstanceOf extends Operand {
     public OperandInstanceOf(Operand value, Class type) {
         this.value = value;
         this.type = type;
+    }
+
+    /**
+     * Set the variable for cast.
+     * 
+     * @param op
+     * @return
+     */
+    public OperandInstanceOf withCast(Operand op) {
+        this.cast = op;
+
+        return this;
     }
 
     /**
@@ -53,6 +68,6 @@ public class OperandInstanceOf extends Operand {
      */
     @Override
     protected void writeCode(Coder coder) {
-        coder.writeInstanceof(value, type);
+        coder.writeInstanceof(value, type, cast);
     }
 }

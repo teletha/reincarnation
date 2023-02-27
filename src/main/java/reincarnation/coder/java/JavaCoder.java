@@ -460,8 +460,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeInstanceof(Code code, Class type) {
-        write(code, space, "instanceof", space, name(type));
+    public void writeInstanceof(Code code, Class type, Code cast) {
+        if (cast == null) {
+            write(code, space, "instanceof", space, name(type));
+        } else {
+            write(code, space, "instanceof", space, cast);
+        }
     }
 
     /**

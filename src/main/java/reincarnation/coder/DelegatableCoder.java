@@ -272,8 +272,8 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeInstanceof(Code code, Class type) {
-        coder.writeInstanceof(code, type);
+    public void writeInstanceof(Code code, Class type, Code cast) {
+        coder.writeInstanceof(code, type, cast);
     }
 
     /**

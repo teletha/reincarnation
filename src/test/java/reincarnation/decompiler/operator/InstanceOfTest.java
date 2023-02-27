@@ -179,4 +179,23 @@ class InstanceOfTest extends CodeVerifier {
             }
         });
     }
+
+    @Test
+    @Debuggable
+    void withCast() {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                String buffer = "";
+                List list = List.of("1", "2", "3");
+                for (java.lang.Object value : list) {
+                    if (value instanceof String text) {
+                        buffer += text;
+                    }
+                }
+                return buffer;
+            }
+        });
+    }
 }

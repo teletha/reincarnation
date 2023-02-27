@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.*;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -1339,6 +1339,19 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
 
         // !=
         case IF_ACMPNE:
+            // instanceof with cast produces special bytecode, so we must handle it by special way.
+            if (match(ALOAD, CHECKCAST, DUP, ASTORE, ALOAD, LABEL, CHECKCAST, IF_ACMPNE)) {
+                debugger.print(nodes);
+                OperandLocalVariable target = current.remove(0).as(OperandLocalVariable.class).exact();
+                Operand assign = current.remove(0);
+                OperandLocalVariable casted = current.remove(0).as(OperandLocalVariable.class).exact();
+                current.peek(0).children(OperandInstanceOf.class).to(o -> {
+                    casted.type.set(o.type);
+                    o.withCast(casted);
+                });
+                return;
+            }
+            // fall-through
         case IF_ICMPNE:
             current.condition(current.remove(1), NE, current.remove(0), node);
             break;

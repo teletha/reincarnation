@@ -379,8 +379,9 @@ public abstract class Coder<O extends CodingOption> {
      * 
      * @param code A value to be checked.
      * @param type A type to check.
+     * @param cast TODO
      */
-    public abstract void writeInstanceof(Code code, Class type);
+    public abstract void writeInstanceof(Code code, Class type, Code cast);
 
     /**
      * Access the local variable.
