@@ -11,9 +11,6 @@ package reincarnation;
 
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/10/13 17:48:04
- */
 class OperandBoolean extends Operand {
 
     /** The reusable boolean. */
@@ -30,7 +27,7 @@ class OperandBoolean extends Operand {
      * 
      * @param value
      */
-    OperandBoolean(boolean value) {
+    private OperandBoolean(boolean value) {
         this.value = value;
         type.set(boolean.class);
     }
@@ -40,7 +37,15 @@ class OperandBoolean extends Operand {
      */
     @Override
     InferredType infer() {
-        return new InferredType(boolean.class);
+        return InferredType.Boolean;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    Operand invert() {
+        return this == True ? False : True;
     }
 
     /**

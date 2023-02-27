@@ -234,7 +234,7 @@ public class OperandUtil {
             return new OperandNumber((short) 0);
         }
         if (type == boolean.class) {
-            return new OperandBoolean(false);
+            return OperandBoolean.False;
         }
         return Operand.Null;
     }

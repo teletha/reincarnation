@@ -248,6 +248,22 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
+    public void writePositiveOperation(Code code) {
+        coder.writePositiveOperation(code);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeNegativeOperation(Code code) {
+        coder.writeNegativeOperation(code);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeUnaryOperation(Code code, UnaryOperator operator) {
         coder.writeUnaryOperation(code, operator);
     }

@@ -14,9 +14,6 @@ import org.junit.jupiter.api.Test;
 import reincarnation.CodeVerifier;
 import reincarnation.TestCode;
 
-/**
- * @version 2018/10/28 9:15:52
- */
 public class IfTest extends CodeVerifier {
 
     @Test

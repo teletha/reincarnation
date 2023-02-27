@@ -353,6 +353,20 @@ public abstract class Coder<O extends CodingOption> {
     public abstract void writeBinaryOperation(Code left, BinaryOperator operator, Code right);
 
     /**
+     * Shorthand for "condition == true" binary operation expression.
+     * 
+     * @param code A conditional code.
+     */
+    public abstract void writePositiveOperation(Code code);
+
+    /**
+     * Shorthand for "condition == false" binary operation expression.
+     * 
+     * @param code A conditional code.
+     */
+    public abstract void writeNegativeOperation(Code code);
+
+    /**
      * Unary operation expression.
      * 
      * @param code A inner code.

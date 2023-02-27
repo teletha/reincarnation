@@ -222,29 +222,40 @@ class OperandCondition extends Operand {
             throw new Error();
         }
 
+        Runnable writer = null;
+
         if (leftType == boolean.class) {
-            if (operator == BinaryOperator.EQUAL) {
-                if (right.isTrue()) {
-                    coder.writeTrueOperation(left);
-                } else if (right.isFalse()) {
-                    coder.writeFalseOperation(left);
-                }
-            } else if (operator == BinaryOperator.NOT_EQUALS) {
-                if (right.isTrue()) {
-                    coder.writeFalseOperation(left);
-                } else if (right.isFalse()) {
-                    coder.writeTrueOperation(left);
-                }
-            }
+            writer = write(coder, left, operator, right);
+        } else if (rightType == boolean.class) {
+            writer = write(coder, right, operator, left);
+        }
+
+        if (writer == null) {
+            writer = () -> coder.writeBinaryOperation(left, operator, right);
+        }
+
+        if (group) {
+            coder.writeEnclose(writer);
         } else {
-            if (group) {
-                coder.writeEnclose(() -> {
-                    coder.writeBinaryOperation(left, operator, right);
-                });
-            } else {
-                coder.writeBinaryOperation(left, operator, right);
+            writer.run();
+        }
+    }
+
+    private Runnable write(Coder coder, Operand condition, BinaryOperator operator, Operand expectedValue) {
+        if (operator == BinaryOperator.EQUAL) {
+            if (expectedValue.isTrue()) {
+                return () -> coder.writePositiveOperation(condition);
+            } else if (expectedValue.isFalse()) {
+                return () -> coder.writeNegativeOperation(condition);
+            }
+        } else if (operator == BinaryOperator.NOT_EQUALS) {
+            if (expectedValue.isTrue()) {
+                return () -> coder.writeNegativeOperation(condition);
+            } else if (expectedValue.isFalse()) {
+                return () -> coder.writePositiveOperation(condition);
             }
         }
+        return null;
     }
 
     /**

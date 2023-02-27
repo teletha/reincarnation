@@ -13,9 +13,6 @@ import kiss.I;
 import kiss.Signal;
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/10/13 23:42:59
- */
 class OperandExpression extends Operand {
 
     /** The actual string expression of this operand. */
@@ -60,8 +57,8 @@ class OperandExpression extends Operand {
     @Override
     Operand invert() {
         if (expression != null) {
-            if (expression instanceof Operand) {
-                ((Operand) expression).invert();
+            if (expression instanceof Operand operand) {
+                operand.invert();
             } else {
                 String value = expression.toString();
 
@@ -82,8 +79,8 @@ class OperandExpression extends Operand {
      */
     @Override
     public Signal<Operand> children() {
-        if (expression instanceof Operand) {
-            return I.signal((Operand) expression);
+        if (expression instanceof Operand operand) {
+            return I.signal(operand);
         } else {
             return I.signal();
         }
@@ -104,8 +101,8 @@ class OperandExpression extends Operand {
     protected void writeCode(Coder coder) {
         if (expression == null) {
             coder.writeNull();
-        } else if (expression instanceof reincarnation.coder.Code) {
-            ((reincarnation.coder.Code) expression).write(coder);
+        } else if (expression instanceof reincarnation.coder.Code code) {
+            code.write(coder);
         } else {
             // If this exception will be thrown, it is bug of this program. So we must rethrow the
             // wrapped error in here.

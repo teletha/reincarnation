@@ -427,6 +427,22 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
+    public void writePositiveOperation(Code code) {
+        write(code);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeNegativeOperation(Code code) {
+        write("!", code);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeUnaryOperation(Code code, UnaryOperator operator) {
         switch (operator) {
         case POST_DECREMENT:
