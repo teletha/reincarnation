@@ -11,9 +11,6 @@ package reincarnation;
 
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/10/14 9:56:07
- */
 class OperandCast extends Operand {
 
     /** The actual value. */

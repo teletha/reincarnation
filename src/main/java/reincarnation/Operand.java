@@ -20,13 +20,14 @@ import reincarnation.coder.java.JavaCoder;
 
 public abstract class Operand implements Code<Operand> {
 
+    /** The reusable operand for null literal. */
     public static final Operand Null = new OperandExpression(null).fix(Object.class);
 
     /** The infered type. */
     protected Variable<Class> type = Variable.of(Object.class);
 
     /** The flag for operand duplication. */
-    boolean duplicated = false;
+    protected boolean duplicated = false;
 
     /** The comment. */
     private String comment;

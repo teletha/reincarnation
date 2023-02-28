@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.load;
+import static reincarnation.OperandUtil.*;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -1341,9 +1341,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         case IF_ACMPNE:
             // instanceof with cast produces special bytecode, so we must handle it by special way.
             if (match(ALOAD, CHECKCAST, DUP, ASTORE, ALOAD, LABEL, CHECKCAST, IF_ACMPNE)) {
-                debugger.print(nodes);
-                OperandLocalVariable target = current.remove(0).as(OperandLocalVariable.class).exact();
-                Operand assign = current.remove(0);
+                current.remove(0);
+                current.remove(0);
                 OperandLocalVariable casted = current.remove(0).as(OperandLocalVariable.class).exact();
                 current.peek(0).children(OperandInstanceOf.class).to(o -> {
                     casted.type.set(o.type);
@@ -1569,6 +1568,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // recode current instruction
         record(opcode);
 
+        Class clazz = load(type);
+
         switch (opcode) {
         case NEW:
             if (assertNew) {
@@ -1593,11 +1594,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             break;
 
         case CHECKCAST:
-
+            current.peek(0).fix(clazz);
+            current.addOperand(new OperandCast(current.remove(0), clazz));
             break;
 
         case INSTANCEOF:
-            current.addOperand(new OperandInstanceOf(current.remove(0), load(type)));
+            current.addOperand(new OperandInstanceOf(current.remove(0), clazz));
             break;
         }
     }
