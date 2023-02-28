@@ -169,6 +169,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     /** The extra opcode for byte code parsing. */
     private static final int LABEL = 300;
 
+    /** The extra opcode for byte code parsing. */
+    private static final int OptionalLABEL = 301;
+
     /** The current processing source. */
     private final Reincarnation source;
 
@@ -1340,7 +1343,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // !=
         case IF_ACMPNE:
             // instanceof with cast produces special bytecode, so we must handle it by special way.
-            if (match(ALOAD, CHECKCAST, DUP, ASTORE, ALOAD, LABEL, CHECKCAST, IF_ACMPNE)) {
+            if (match(ALOAD, CHECKCAST, DUP, ASTORE, ALOAD, OptionalLABEL, CHECKCAST, IF_ACMPNE)) {
                 current.remove(0);
                 current.remove(0);
                 OperandLocalVariable casted = current.remove(0).as(OperandLocalVariable.class).exact();
@@ -2021,8 +2024,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      * @return A result.
      */
     private final boolean match(int... opcodes) {
-        root: for (int i = 0; i < opcodes.length; i++) {
-            int record = records[(recordIndex + i + records.length - opcodes.length) % records.length];
+        root: for (int i = 0, j = 0; i < opcodes.length; i++, j++) {
+            int record = records[(recordIndex + j + records.length - opcodes.length) % records.length];
 
             switch (opcodes[i]) {
             case ADD:
@@ -2227,6 +2230,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 default:
                     return false;
                 }
+
+            case OptionalLABEL:
+                if (record != LABEL) {
+                    j--;
+                }
+                continue root;
 
             default:
                 if (record != opcodes[i]) {
