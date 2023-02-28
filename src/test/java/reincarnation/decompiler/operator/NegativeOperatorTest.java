@@ -17,7 +17,7 @@ import reincarnation.CodeVerifier;
 /**
  * @version 2018/10/23 15:15:59
  */
-class NegateOperatorTest extends CodeVerifier {
+class NegativeOperatorTest extends CodeVerifier {
 
     @Test
     void shiftInside() {
