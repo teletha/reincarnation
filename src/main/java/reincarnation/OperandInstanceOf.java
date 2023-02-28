@@ -12,6 +12,7 @@ package reincarnation;
 import kiss.I;
 import kiss.Signal;
 import reincarnation.coder.Coder;
+import reincarnation.operator.BinaryOperator;
 
 public class OperandInstanceOf extends Operand {
 
@@ -53,6 +54,14 @@ public class OperandInstanceOf extends Operand {
     @Override
     InferredType infer() {
         return InferredType.Boolean;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    Operand invert() {
+        return new OperandBinary(this, BinaryOperator.EQUAL, OperandBoolean.False);
     }
 
     /**

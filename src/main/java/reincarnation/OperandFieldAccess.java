@@ -95,6 +95,14 @@ public class OperandFieldAccess extends Operand {
      * {@inheritDoc}
      */
     @Override
+    protected boolean isNegatable() {
+        return type.is(boolean.class) || type.is(Boolean.class);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Signal<Operand> children() {
         return I.signal(context);
     }

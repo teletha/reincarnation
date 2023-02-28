@@ -50,6 +50,14 @@ public class OperandLocalVariable extends Operand {
      * {@inheritDoc}
      */
     @Override
+    protected boolean isNegatable() {
+        return type.is(boolean.class) || type.is(Boolean.class);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void writeCode(Coder coder) {
         if (name.equals("this")) {
             coder.writeThis();

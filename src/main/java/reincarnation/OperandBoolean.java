@@ -29,7 +29,7 @@ class OperandBoolean extends Operand {
      */
     private OperandBoolean(boolean value) {
         this.value = value;
-        type.set(boolean.class);
+        fix(boolean.class);
     }
 
     /**

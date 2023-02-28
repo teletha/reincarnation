@@ -109,6 +109,15 @@ public abstract class Operand implements Code<Operand> {
     }
 
     /**
+     * Check whether this operand is negatable or not.
+     * 
+     * @return
+     */
+    protected boolean isNegatable() {
+        return false;
+    }
+
+    /**
      * Enclose myself.
      * 
      * @return Chainable API.

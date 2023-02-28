@@ -21,7 +21,7 @@ import reincarnation.TestCode;
 class InstanceOfTest extends CodeVerifier {
 
     @Test
-    void InstanceOf() {
+    void base() {
         verify(new Base());
     }
 
@@ -30,6 +30,19 @@ class InstanceOfTest extends CodeVerifier {
         @Override
         public boolean run() {
             return this instanceof Base;
+        }
+    }
+
+    @Test
+    void negate() {
+        verify(new Negate());
+    }
+
+    private static class Negate implements TestCode.Boolean {
+
+        @Override
+        public boolean run() {
+            return !(this instanceof Negate);
         }
     }
 
@@ -181,7 +194,6 @@ class InstanceOfTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable
     void withCast() {
         verify(new TestCode.Text() {
 

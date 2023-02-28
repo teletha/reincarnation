@@ -91,6 +91,14 @@ class OperandMethodCall extends Operand {
      * {@inheritDoc}
      */
     @Override
+    protected boolean isNegatable() {
+        return type.is(boolean.class) || type.is(Boolean.class);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void writeCode(Coder coder) {
         if (!method.isSynthetic()) {
             coder.writeMethodCall(method, owner, params, mode);

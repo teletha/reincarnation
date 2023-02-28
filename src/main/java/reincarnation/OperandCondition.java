@@ -246,11 +246,19 @@ class OperandCondition extends Operand {
             if (expectedValue.isTrue()) {
                 return () -> coder.writePositiveOperation(condition);
             } else if (expectedValue.isFalse()) {
-                return () -> coder.writeNegativeOperation(condition);
+                if (condition.isNegatable()) {
+                    return () -> coder.writeNegativeOperation(condition);
+                } else {
+                    return () -> coder.writePositiveOperation(condition.invert());
+                }
             }
         } else if (operator == BinaryOperator.NOT_EQUALS) {
             if (expectedValue.isTrue()) {
-                return () -> coder.writeNegativeOperation(condition);
+                if (condition.isNegatable()) {
+                    return () -> coder.writeNegativeOperation(condition);
+                } else {
+                    return () -> coder.writePositiveOperation(condition.invert());
+                }
             } else if (expectedValue.isFalse()) {
                 return () -> coder.writePositiveOperation(condition);
             }
