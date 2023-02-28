@@ -1605,6 +1605,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             break;
 
         case INSTANCEOF:
+            // In the ECJ compiler, the instanceof operator with pattern matching generates code
+            // that assigns the target variable to a temporary variable. So we optimize the code to
+            // remove that variable and use the original variable.
+            if (match(ASTORE, LABEL, ALOAD, ASTORE, LABEL, ALOAD, INSTANCEOF)) {
+                Operand extra = current.remove(0);
+                current.remove(0).as(OperandAssign.class).exact().assignedTo(extra).to(current::addOperand);
+            }
+
             current.addOperand(new OperandInstanceOf(current.remove(0), clazz));
             break;
         }
