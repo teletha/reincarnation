@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.*;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -2024,7 +2024,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
      * @return A result.
      */
     private final boolean match(int... opcodes) {
-        root: for (int i = 0, j = 0; i < opcodes.length; i++, j++) {
+        root: for (int i = opcodes.length - 1, j = opcodes.length - 1; 0 <= i; i--, j--) {
             int record = records[(recordIndex + j + records.length - opcodes.length) % records.length];
 
             switch (opcodes[i]) {
@@ -2232,9 +2232,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
                 }
 
             case OptionalLABEL:
-                if (record != LABEL) {
-                    j--;
-                }
+                if (record != LABEL) j++;
                 continue root;
 
             default:

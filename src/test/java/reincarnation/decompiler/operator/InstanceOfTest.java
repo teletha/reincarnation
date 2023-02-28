@@ -175,7 +175,6 @@ class InstanceOfTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable(fernflower = true)
     void withoutCast() {
         verify(new TestCode.Text() {
 
@@ -194,7 +193,7 @@ class InstanceOfTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable(fernflower = true)
+    @Debuggable
     void withCast() {
         verify(new TestCode.Text() {
 
