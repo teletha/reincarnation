@@ -13,9 +13,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import kiss.I;
 import kiss.Variable;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -23,10 +25,18 @@ import reincarnation.coder.CodingOption;
 import reincarnation.coder.DelegatableCoder;
 import reincarnation.operator.AccessMode;
 
-/**
- * @version 2018/10/26 21:09:33
- */
 class OperandMethodCall extends Operand {
+
+    /** The special method. */
+    private static final Method StringBuilderToString;
+
+    static {
+        try {
+            StringBuilderToString = StringBuilder.class.getDeclaredMethod("toString");
+        } catch (Exception e) {
+            throw I.quiet(e);
+        }
+    }
 
     /** The call mode. */
     private final AccessMode mode;
@@ -101,11 +111,69 @@ class OperandMethodCall extends Operand {
     @Override
     protected void writeCode(Coder coder) {
         if (!method.isSynthetic()) {
+            if (method.equals(StringBuilderToString)) {
+                Iterator<Code> concat = detectStringConcantenation(owner, new LinkedList());
+
+                if (concat != null) {
+                    coder.writeStringConcatenation(concat);
+                    return;
+                }
+            }
             coder.writeMethodCall(method, owner, params, mode);
         } else {
             Code code = Reincarnation.exhume(method.getDeclaringClass()).methods.get(method);
             code.write(new SyntheticMethodInliner(coder));
         }
+    }
+
+    /**
+     * Detect the pattern of string concantenation.
+     * 
+     * @param operand The current operand.
+     * @param values A list of concantenatable values.
+     * @return
+     */
+    private Iterator<Code> detectStringConcantenation(Operand operand, LinkedList<Code> values) {
+        if (operand instanceof OperandMethodCall method) {
+            if (isBuilder(method.method)) {
+                values.addAll(method.params);
+                return detectStringConcantenation(method.owner, values);
+            } else {
+                return null;
+            }
+        } else if (operand instanceof OperandConstructorCall constructor) {
+            constructor.children().to(param -> {
+                if (param instanceof OperandMethodCall method && isFactory(method.method)) {
+                    values.addAll(method.params);
+                } else {
+                    values.add(param);
+                }
+            });
+            return values.descendingIterator();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Check whether the specified method is builder or not.
+     * 
+     * @param method
+     * @return
+     */
+    private boolean isBuilder(Method method) {
+        Class<?> clazz = method.getDeclaringClass();
+        return (clazz == StringBuilder.class || clazz == StringBuffer.class) && method.getName().equals("append");
+    }
+
+    /**
+     * Check whether the specified method is factory or not.
+     * 
+     * @param method
+     * @return
+     */
+    private boolean isFactory(Method method) {
+        return method.getDeclaringClass() == String.class && method.getName().equals("valueOf");
     }
 
     /**

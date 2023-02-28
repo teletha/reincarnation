@@ -17,6 +17,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -371,6 +372,20 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeString(String code) {
         write("\"", code, "\"");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeStringConcatenation(Iterator<Code> codes) {
+        if (codes.hasNext()) {
+            write(codes.next());
+
+            while (codes.hasNext()) {
+                write(space, "+", space, codes.next());
+            }
+        }
     }
 
     /**

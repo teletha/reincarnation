@@ -14,6 +14,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -298,6 +299,13 @@ public abstract class Coder<O extends CodingOption> {
      * @param code A string literal.
      */
     public abstract void writeString(String code);
+
+    /**
+     * String concatenation.
+     * 
+     * @param code A list of values.
+     */
+    public abstract void writeStringConcatenation(Iterator<Code> code);
 
     /**
      * Class literal.

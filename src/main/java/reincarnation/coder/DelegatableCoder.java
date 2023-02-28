@@ -12,6 +12,7 @@ package reincarnation.coder;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -194,6 +195,14 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
     @Override
     public void writeString(String code) {
         coder.writeString(code);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeStringConcatenation(Iterator<Code> code) {
+        coder.writeStringConcatenation(code);
     }
 
     /**

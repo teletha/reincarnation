@@ -13,11 +13,9 @@ import java.lang.reflect.Constructor;
 import java.util.List;
 
 import kiss.I;
+import kiss.Signal;
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/10/10 10:00:19
- */
 class OperandConstructorCall extends Operand {
 
     /** The call kind. (this, super or others) */
@@ -49,6 +47,14 @@ class OperandConstructorCall extends Operand {
         } catch (Exception e) {
             throw I.quiet(e);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Signal<Operand> children() {
+        return I.signal(params);
     }
 
     /**
