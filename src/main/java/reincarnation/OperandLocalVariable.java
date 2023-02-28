@@ -26,6 +26,9 @@ public class OperandLocalVariable extends Operand {
     /** The referrer node manager. */
     final List<Node> referrers = new ArrayList();
 
+    /** The detected original name. */
+    String original;
+
     /**
      * Create local variable with index.
      */
@@ -62,7 +65,7 @@ public class OperandLocalVariable extends Operand {
         if (name.equals("this")) {
             coder.writeThis();
         } else {
-            coder.writeLocalVariable(type.v, name);
+            coder.writeLocalVariable(type.v, original == null ? name : original);
         }
     }
 
@@ -88,6 +91,6 @@ public class OperandLocalVariable extends Operand {
     @Override
     public String toString() {
         // don't call #write, it will throw error in debug mode.
-        return name;
+        return original == null ? name : original;
     }
 }

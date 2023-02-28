@@ -9,11 +9,12 @@
  */
 package reincarnation;
 
-import static reincarnation.OperandUtil.*;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Parameter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.function.BiConsumer;
 
 import org.objectweb.asm.Type;
@@ -87,22 +88,49 @@ final class LocalVariables {
         int index = order;
         Class type = load(opcode);
 
-        variable = variables.computeIfAbsent(index + "#" + type.getName(), key -> new OperandLocalVariable(type, index, "local" + index));
+        variable = variables.computeIfAbsent(id(index, type), key -> new OperandLocalVariable(type, index, "local" + index));
         variable.registerReferrer(referrer);
 
         return variable;
     }
 
     /**
-     * @param order
+     * Compute the identifier of the specified variable.
+     * 
+     * @param index
+     * @param type
+     * @return
+     */
+    private String id(int index, Class type) {
+        return index + "#" + type.getName();
+    }
+
+    /**
+     * @param index
      * @param variable
      */
-    void register(int order, OperandLocalVariable variable) {
-        bindings.put(order, variable.index);
+    void register(int index, OperandLocalVariable variable) {
+        bindings.put(index, variable.index);
     }
 
     boolean isLocal(OperandLocalVariable variable) {
         return offset < variable.index;
+    }
+
+    /**
+     * Register the name of variable at the specified index.
+     * 
+     * @param index
+     * @param name
+     */
+    void registerName(int index, String name) {
+        for (Entry<String, OperandLocalVariable> entry : variables.entrySet()) {
+            String id = entry.getKey();
+            if (id.startsWith(index + "#")) {
+                OperandLocalVariable variable = entry.getValue();
+                variable.original = name;
+            }
+        }
     }
 
     /**
