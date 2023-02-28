@@ -1340,7 +1340,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // !=
         case IF_ACMPNE:
             // instanceof with cast produces special bytecode, so we must handle it by special way.
-            if (match(ALOAD, CHECKCAST, DUP, ASTORE, ALOAD, CHECKCAST, IF_ACMPNE)) {
+            if (match(ALOAD, CHECKCAST, DUP, ASTORE, ALOAD, LABEL, CHECKCAST, IF_ACMPNE)) {
                 current.remove(0);
                 current.remove(0);
                 OperandLocalVariable casted = current.remove(0).as(OperandLocalVariable.class).exact();

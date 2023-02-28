@@ -194,6 +194,7 @@ class InstanceOfTest extends CodeVerifier {
     }
 
     @Test
+    @Debuggable(fernflower = true)
     void withCast() {
         verify(new TestCode.Text() {
 
