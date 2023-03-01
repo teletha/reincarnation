@@ -26,9 +26,6 @@ import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
 
-/**
- * @version 2018/10/23 14:52:36
- */
 public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> {
 
     /** The delegator. */
@@ -435,6 +432,14 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
     @Override
     public void writeFor(Optional<String> label, Code initialize, Code condition, Code updater, Runnable inner, Code follow) {
         coder.writeFor(label, initialize, condition, updater, inner, follow);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeIterableFor(Optional<String> label, Code variable, Code iterable, Runnable inner, Code follow) {
+        coder.writeIterableFor(label, variable, iterable, inner, follow);
     }
 
     /**

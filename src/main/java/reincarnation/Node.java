@@ -25,6 +25,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import kiss.I;
 import kiss.Signal;
 import kiss.Variable;
+import kiss.Ⅱ;
 import kiss.Ⅲ;
 import reincarnation.JavaMethodDecompiler.TryCatchFinally;
 import reincarnation.coder.Code;
@@ -981,8 +982,34 @@ public class Node implements Code<Operand> {
         if (nodes == null) {
             return writeInfiniteLoop(new BackedgeGroup(this));
         } else {
-            return new While(this, this, nodes[0], nodes[1]);
+            return new While(this, this, nodes[0], nodes[1], isEnhancedForLoop(this, nodes[0]));
         }
+    }
+
+    private Variable<Ⅱ<Operand, OperandLocalVariable>> isEnhancedForLoop(Node base, Node entrance) {
+        return I.signal(base.getPureIncoming())
+                //
+                .flatMap(in -> in.children(OperandAssign.class))
+                .flatMap(iterator -> iterator.children(OperandMethodCall.class)
+                        .take(m -> m.checkMethod(Iterable.class, "iterator"))
+                        .map(m -> m.owner)
+                        .combine(iterator.children(OperandLocalVariable.class)))
+
+                //
+                .takeIf(x -> base.children(OperandCondition.class, OperandMethodCall.class)
+                        .take(m -> m.checkCaller(x.ⅱ) && m.checkMethod(Iterator.class, "hasNext")))
+
+                //
+                .takeIf(x -> entrance.children(OperandAssign.class, OperandMethodCall.class)
+                        .take(m -> m.checkCaller(x.ⅱ) && m.checkMethod(Iterator.class, "next")))
+
+                //
+                .combine(entrance.children(OperandAssign.class, OperandLocalVariable.class), (a, b) -> I.pair(a.ⅰ, b))
+                .effect(() -> {
+                    entrance.clear();
+                    base.getPureIncoming().forEach(Node::clear);
+                })
+                .to();
     }
 
     /**
@@ -1034,7 +1061,8 @@ public class Node implements Code<Operand> {
             // }
             // });
 
-            return new For(this, null, this, update, nodes[0], nodes[1]);
+            System.out.println(this.id + "   " + update.id + "  " + nodes[0].id);
+            return new For(this, null, this, update, nodes[0], nodes[1], isEnhancedForLoop(this, nodes[0]));
         }
     }
 

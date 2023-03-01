@@ -48,12 +48,12 @@ final class LocalVariables {
         int offset = 0;
 
         if (isStatic == false) {
-            params.put(offset++, new OperandLocalVariable(clazz, 0, "this"));
+            params.put(offset++, new OperandLocalVariable(clazz, 0, "this", false));
         }
 
         for (int i = 0; i < types.length; i++) {
             Class<?> type = OperandUtil.load(types[i]);
-            OperandLocalVariable variable = new OperandLocalVariable(type, offset, parameters[i].getName());
+            OperandLocalVariable variable = new OperandLocalVariable(type, offset, parameters[i].getName(), false);
             variable.fix();
             params.put(offset, variable);
 
@@ -88,7 +88,7 @@ final class LocalVariables {
         int index = order;
         Class type = load(opcode);
 
-        variable = variables.computeIfAbsent(id(index, type), key -> new OperandLocalVariable(type, index, "local" + index));
+        variable = variables.computeIfAbsent(id(index, type), key -> new OperandLocalVariable(type, index, "local" + index, true));
         variable.registerReferrer(referrer);
 
         return variable;
@@ -123,7 +123,7 @@ final class LocalVariables {
      * @param index
      * @param name
      */
-    void registerName(int index, String name) {
+    void registerName(int index, String name, String signature) {
         for (Entry<String, OperandLocalVariable> entry : variables.entrySet()) {
             String id = entry.getKey();
             if (id.startsWith(index + "#")) {

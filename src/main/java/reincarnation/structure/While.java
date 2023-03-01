@@ -11,13 +11,14 @@ package reincarnation.structure;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.Variable;
+import kiss.Ⅱ;
 import reincarnation.Node;
+import reincarnation.Operand;
+import reincarnation.OperandLocalVariable;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/10/27 21:55:57
- */
 public class While extends Loopable {
 
     /** The code. */
@@ -29,18 +30,22 @@ public class While extends Loopable {
     /** The following. */
     private final Structure follow;
 
+    /** The special for loop. */
+    private final Variable<Ⅱ<Operand, OperandLocalVariable>> enhanced;
+
     /**
      * While statement.
      * 
      * @param that The node which indicate 'this' variable.
      * @param inner
      */
-    public While(Node that, Node condition, Node inner, Node follow) {
+    public While(Node that, Node condition, Node inner, Node follow, Variable<Ⅱ<Operand, OperandLocalVariable>> variable) {
         super(that, condition, follow, inner, condition);
 
         this.condition = condition;
         this.inner = that.process(inner);
         this.follow = that.process(follow);
+        this.enhanced = variable;
     }
 
     /**
@@ -64,10 +69,18 @@ public class While extends Loopable {
      */
     @Override
     public void writeCode(Coder coder) {
-        coder.writeWhile(label(), condition, () -> {
-            if (inner != null) {
-                inner.write(coder);
-            }
-        }, follow);
+        enhanced.to(x -> {
+            coder.writeIterableFor(label(), x.ⅱ, x.ⅰ, () -> {
+                if (inner != null) {
+                    inner.write(coder);
+                }
+            }, follow);
+        }, () -> {
+            coder.writeWhile(label(), condition, () -> {
+                if (inner != null) {
+                    inner.write(coder);
+                }
+            }, follow);
+        });
     }
 }

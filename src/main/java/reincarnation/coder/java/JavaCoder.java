@@ -751,6 +751,21 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
+    public void writeIterableFor(Optional<String> label, Code variable, Code iterable, Runnable inner, Code follow) {
+        vars.start();
+
+        line(label(label), "for", space, "(", variable, space, ":", space, iterable, ")", space, "{");
+        indent(inner);
+        line("}");
+
+        vars.end();
+        write(follow);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeWhile(Optional<String> label, Code condition, Runnable inner, Code follow) {
         vars.start();
         line(label(label), "while", space, "(", expression(condition), ")", space, "{");
@@ -847,7 +862,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @return
      */
     private String name(Class type) {
-        return imports.name(type);
+        return type == null ? "var" : imports.name(type);
     }
 
     /**

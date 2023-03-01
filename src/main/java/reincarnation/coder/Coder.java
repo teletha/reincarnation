@@ -550,6 +550,17 @@ public abstract class Coder<O extends CodingOption> {
     public abstract void writeFor(Optional<String> label, Code initialize, Code condition, Code updater, Runnable inner, Code follow);
 
     /**
+     * Enhanced for statement.
+     * 
+     * @param label A block label.
+     * @param variable A variable part.
+     * @param iterable A iterable part.
+     * @param inner A inner contents.
+     * @param follow A following part.
+     */
+    public abstract void writeIterableFor(Optional<String> label, Code variable, Code iterable, Runnable inner, Code follow);
+
+    /**
      * While statement.
      * 
      * @param label A block label.

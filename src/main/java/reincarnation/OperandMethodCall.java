@@ -12,12 +12,15 @@ package reincarnation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import kiss.I;
+import kiss.Signal;
 import kiss.Variable;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -42,13 +45,13 @@ class OperandMethodCall extends Operand {
     private final AccessMode mode;
 
     /** The method. */
-    private final Method method;
+    final Method method;
 
     /** The context. */
-    private final Operand owner;
+    final Operand owner;
 
     /** The method parameters. */
-    private final List<Operand> params;
+    final List<Operand> params;
 
     /**
      * @param ownerType
@@ -65,6 +68,11 @@ class OperandMethodCall extends Operand {
         for (int i = 0; i < parameterTypes.length; i++) {
             parameters.get(i).fix(parameterTypes[i]);
         }
+
+        for (Type type2 : this.method.getGenericParameterTypes()) {
+        }
+
+        System.out.println(infer());
     }
 
     /**
@@ -95,6 +103,56 @@ class OperandMethodCall extends Operand {
         }
 
         return method;
+    }
+
+    /**
+     * Check method caller.
+     * 
+     * @param caller
+     * @return
+     */
+    boolean checkCaller(Operand caller) {
+        return owner.equals(caller);
+    }
+
+    /**
+     * Check method caller.
+     * 
+     * @param caller
+     * @return
+     */
+    boolean checkCaller(Signal<Operand> caller) {
+        return caller.to().is(owner);
+    }
+
+    /**
+     * Check method signature.
+     * 
+     * @param owner
+     * @param name
+     * @param params
+     * @return
+     */
+    boolean checkMethod(Class owner, String name, Class... params) {
+        if (!owner.isAssignableFrom(method.getDeclaringClass())) {
+            return false;
+        }
+
+        if (!name.equals(method.getName())) {
+            return false;
+        }
+
+        Parameter[] parameters = method.getParameters();
+        if (parameters.length != params.length) {
+            return false;
+        }
+
+        for (int i = 0; i < params.length; i++) {
+            if (parameters[i].getType() != params[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

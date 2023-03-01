@@ -404,6 +404,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
         // Reset debugger state
         // ============================================
         debugger.finishMethod();
+
+        debugger.print(nodes);
     }
 
     /**
@@ -1436,7 +1438,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
         // If no debugging options are specified, this information is not added. So only the name
         // will be used if available.
-        locals.registerName(index, name);
+        locals.registerName(index, name, signature);
     }
 
     /**
