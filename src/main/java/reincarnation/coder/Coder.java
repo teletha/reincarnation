@@ -31,9 +31,6 @@ import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
 
-/**
- * @version 2018/10/13 11:03:28
- */
 public abstract class Coder<O extends CodingOption> {
 
     /** The end of line. */
@@ -105,12 +102,12 @@ public abstract class Coder<O extends CodingOption> {
      * 
      * @return
      */
-    protected final Naming strategy(Object original) {
+    protected final Naming naming(Object original) {
         Naming base = Naming.Incremental;
 
-        for (Object o : new Object[] {options.strategy, original, Naming.Incremental}) {
-            if (o instanceof Naming strategy) {
-                base = base.then(strategy);
+        for (Object o : new Object[] {options.variableNaming, original, Naming.Incremental}) {
+            if (o instanceof Naming naming) {
+                base = base.then(naming);
             }
         }
 

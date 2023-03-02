@@ -234,7 +234,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         vars.start();
 
         line();
-        line(modifier(c), simpleName(c.getDeclaringClass()), parameter(c.getParameters(), strategy(code)), space, "{");
+        line(modifier(c), simpleName(c.getDeclaringClass()), parameter(c.getParameters(), naming(code)), space, "{");
         indent(code::write);
         line("}");
 
@@ -255,7 +255,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         line();
         line(modifier(method), name(method.getReturnType()), space, method
-                .getName(), parameter(method.getParameters(), strategy(code)), thrower(method.getExceptionTypes()), space, "{");
+                .getName(), parameter(method.getParameters(), naming(code)), thrower(method.getExceptionTypes()), space, "{");
         indent(code::write);
         line("}");
 

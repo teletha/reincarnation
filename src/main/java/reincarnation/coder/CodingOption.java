@@ -15,5 +15,5 @@ public class CodingOption {
     public String indentChar = "    ";
 
     /** The namign strategy for variable. */
-    public Naming strategy;
+    public Naming variableNaming;
 }
