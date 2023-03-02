@@ -25,6 +25,7 @@ import java.util.Set;
 import kiss.Variable;
 import kiss.Ⅲ;
 import reincarnation.Operand;
+import reincarnation.OperandUtil;
 import reincarnation.Reincarnation;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -587,7 +588,11 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             if (mode == AccessMode.SUPER) {
                 write("super.", method.getName(), buildParameter(method, params));
             } else {
-                write(context, ".", method.getName(), buildParameter(method, params));
+                if (OperandUtil.isWrapper(method)) {
+                    write(params.get(0));
+                } else {
+                    write(context, ".", method.getName(), buildParameter(method, params));
+                }
             }
         }
     }
