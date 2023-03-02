@@ -174,6 +174,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Naming",
+			"packageName": "reincarnation.coder",
+			"type": "Functional"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Node",
 			"packageName": "reincarnation",
 			"type": "Class"
@@ -310,13 +317,6 @@ const root = {
 			"name": "VariableNaming",
 			"packageName": "reincarnation.coder",
 			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "VariableNaming.Strategy",
-			"packageName": "reincarnation.coder",
-			"type": "Functional"
 		},
 		{
 			"modifiers": {
