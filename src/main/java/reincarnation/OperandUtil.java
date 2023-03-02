@@ -13,11 +13,12 @@ import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.Type.*;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Method;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-public class OperandUtil {
+class OperandUtil {
 
     /**
      * Load {@link Class} by internal name.
@@ -237,5 +238,25 @@ public class OperandUtil {
             return OperandBoolean.False;
         }
         return Operand.Null;
+    }
+
+    /**
+     * Check whether the specified method is unwrapper for primitive or not.
+     * 
+     * @param method
+     * @return
+     */
+    static boolean isUnwrapper(Method method) {
+        Class type = method.getDeclaringClass();
+        String name = method.getName();
+
+        return (type == Integer.class && name.equals("intValue")) // for int
+                || (type == Long.class && name.equals("longValue")) // for long
+                || (type == Float.class && name.equals("floatValue")) // for float
+                || (type == Double.class && name.equals("doubleValue")) // for double
+                || (type == Boolean.class && name.equals("booleanValue")) // for boolean
+                || (type == Byte.class && name.equals("byteValue")) // for byte
+                || (type == Short.class && name.equals("shortValue")) // for short
+                || (type == Character.class && name.equals("intValue")); // for char
     }
 }

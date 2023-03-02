@@ -13,7 +13,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -68,11 +67,6 @@ class OperandMethodCall extends Operand {
         for (int i = 0; i < parameterTypes.length; i++) {
             parameters.get(i).fix(parameterTypes[i]);
         }
-
-        for (Type type2 : this.method.getGenericParameterTypes()) {
-        }
-
-        System.out.println(infer());
     }
 
     /**

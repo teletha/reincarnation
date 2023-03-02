@@ -26,20 +26,20 @@ public class OperandLocalVariable extends Operand {
     /** The referrer node manager. */
     final List<Node> referrers = new ArrayList();
 
-    /** The variable type. */
-    final boolean local;
-
     /** The detected original name. */
     String original;
+
+    /** The type info. */
+    boolean needInfer;
 
     /**
      * Create local variable with index.
      */
-    OperandLocalVariable(Class type, int index, String name, boolean isLocal) {
+    OperandLocalVariable(Class type, int index, String name) {
         this.name = Objects.requireNonNull(name);
         this.index = index;
         this.type.set(type);
-        this.local = isLocal;
+        this.needInfer = false;
     }
 
     /**
@@ -69,7 +69,7 @@ public class OperandLocalVariable extends Operand {
         if (name.equals("this")) {
             coder.writeThis();
         } else {
-            coder.writeLocalVariable(local ? null : type.v, original == null ? name : original);
+            coder.writeLocalVariable(type.v, original == null ? name : original);
         }
     }
 

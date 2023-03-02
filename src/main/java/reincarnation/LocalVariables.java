@@ -9,7 +9,7 @@
  */
 package reincarnation;
 
-import static reincarnation.OperandUtil.load;
+import static reincarnation.OperandUtil.*;
 
 import java.lang.reflect.Parameter;
 import java.util.HashMap;
@@ -48,12 +48,12 @@ final class LocalVariables {
         int offset = 0;
 
         if (isStatic == false) {
-            params.put(offset++, new OperandLocalVariable(clazz, 0, "this", false));
+            params.put(offset++, new OperandLocalVariable(clazz, 0, "this"));
         }
 
         for (int i = 0; i < types.length; i++) {
             Class<?> type = OperandUtil.load(types[i]);
-            OperandLocalVariable variable = new OperandLocalVariable(type, offset, parameters[i].getName(), false);
+            OperandLocalVariable variable = new OperandLocalVariable(type, offset, parameters[i].getName());
             variable.fix();
             params.put(offset, variable);
 
@@ -88,7 +88,7 @@ final class LocalVariables {
         int index = order;
         Class type = load(opcode);
 
-        variable = variables.computeIfAbsent(id(index, type), key -> new OperandLocalVariable(type, index, "local" + index, true));
+        variable = variables.computeIfAbsent(id(index, type), key -> new OperandLocalVariable(type, index, "local" + index));
         variable.registerReferrer(referrer);
 
         return variable;

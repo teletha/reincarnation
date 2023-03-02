@@ -1001,6 +1001,7 @@ public class Node implements Code<Operand> {
 
                 //
                 .takeIf(x -> entrance.children(OperandAssign.class, OperandMethodCall.class)
+                        .flatMap(this::throughUnwrapper)
                         .take(m -> m.checkCaller(x.ⅱ) && m.checkMethod(Iterator.class, "next")))
 
                 //
@@ -1010,6 +1011,14 @@ public class Node implements Code<Operand> {
                     base.getPureIncoming().forEach(Node::clear);
                 })
                 .to();
+    }
+
+    private Signal<OperandMethodCall> throughUnwrapper(OperandMethodCall call) {
+        if (OperandUtil.isUnwrapper(call.method)) {
+            return call.owner.children(OperandMethodCall.class);
+        } else {
+            return I.signal(call);
+        }
     }
 
     /**
@@ -1061,7 +1070,6 @@ public class Node implements Code<Operand> {
             // }
             // });
 
-            System.out.println(this.id + "   " + update.id + "  " + nodes[0].id);
             return new For(this, null, this, update, nodes[0], nodes[1], isEnhancedForLoop(this, nodes[0]));
         }
     }

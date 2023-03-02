@@ -492,7 +492,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         if (vars.isDeclared(name)) {
             prefix = "";
         } else {
-            prefix = name(type).concat(space);
+            boolean needInfer = type.getTypeParameters().length != 0;
+            prefix = (needInfer ? "var" : name(type)).concat(space);
             vars.declare(name);
         }
 
@@ -862,7 +863,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @return
      */
     private String name(Class type) {
-        return type == null ? "var" : imports.name(type);
+        return imports.name(type);
     }
 
     /**

@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import kiss.I;
+import kiss.Signal;
 import reincarnation.coder.Coder;
 
 class OperandCast extends Operand {
@@ -36,5 +38,13 @@ class OperandCast extends Operand {
     @Override
     protected void writeCode(Coder coder) {
         coder.writeCast(type, value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Signal<Operand> children() {
+        return I.signal(value);
     }
 }
