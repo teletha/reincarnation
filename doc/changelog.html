@@ -7,10 +7,10 @@
 		<script src="mimic.js" type="module"></script>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="b">
-		<header class="P">
-			<h1 class="O" date="2023-02-23" ver="1.0.0"><code>Reincarnation</code></h1>
-			<nav class="m"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+	<body class="f">
+		<header class="S">
+			<h1 class="N" date="2023-02-23" ver="1.1.0"><code>Reincarnation</code></h1>
+			<nav class="a"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
 					</svg><code>API</code></a><a href="https://github.com/teletha/reincarnation/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#user"/>
@@ -19,7 +19,7 @@
 					</svg>Activity</a><a href="https://github.com/teletha/reincarnation" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#github"/>
 					</svg>Repository</a></nav>
-			<div class="I" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+			<div class="c" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#sun"/>
 					</svg>
 				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
@@ -27,29 +27,132 @@
 					</svg>
 				</a></div>
 		</header>
-		<main class="g">
-			<nav class="T">
+		<main class="h">
+			<nav class="O">
 				<div></div>
 			</nav>
-			<article class="S" id="Article">
-				<section class="W B" id="1.0.0(2023-02-23)">
-					<header class="B d">
-						<h2>1.0.0 (2023-02-23)</h2>
-						<div class="e"><a class="perp L"><svg class="A svg" viewBox="0 0 24 24">
+			<article class="e" id="Article">
+				<section class="H B" id="1.1.0(2023-03-02)">
+					<header class="B L">
+						<h2>1.1.0 (2023-03-02)</h2>
+						<div class="Q"><a class="perp X"><svg class="A svg" viewBox="0 0 24 24">
 									<use href="main.svg#copy"/>
 								</svg>
-							</a><a class="tweet L"><svg class="A svg" viewBox="0 0 24 24">
+							</a><a class="tweet X"><svg class="A svg" viewBox="0 0 24 24">
 									<use href="main.svg#twitter"/>
 								</svg>
 							</a></div>
 					</header>
-					<section class="B c" id="Features">
-						<header class="B l">
+					<section class="B K" id="Features">
+						<header class="B R">
 							<h3>Features</h3>
-							<div class="e"><a class="perp L"><svg class="A svg" viewBox="0 0 24 24">
+							<div class="Q"><a class="perp X"><svg class="A svg" viewBox="0 0 24 24">
 										<use href="main.svg#copy"/>
 									</svg>
-								</a><a class="tweet L"><svg class="A svg" viewBox="0 0 24 24">
+								</a><a class="tweet X"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+
+							<li>(Java) Hide wrapper method call. (<a href="https://github.com/teletha/reincarnation/commit/0ece9ec685b12c1d9027fd6c1b1b140b136e7f39">0ece9ec</a>)</li>
+
+							<li>Drop Reincarnation#rebirth(Class). (<a href="https://github.com/teletha/reincarnation/commit/fa15a221fefdf5d3b1a06c4d443530cb31ba3ece">fa15a22</a>)</li>
+
+							<li>Enable fernflower on debug mode. (<a href="https://github.com/teletha/reincarnation/commit/f3122d5e3d441dcecf8efd5cd4981000732469e2">f3122d5</a>)</li>
+
+							<li>Operand matching engine supports optional value. (<a href="https://github.com/teletha/reincarnation/commit/3448d45c665c981343ca98886dcd8e0d60e94f0a">3448d45</a>)</li>
+
+							<li>OperandUtil#load supports array related operands. (<a href="https://github.com/teletha/reincarnation/commit/c9cf309dfe398c667adddfdd91ddf6a3630ec6f2">c9cf309</a>)</li>
+
+							<li>OperandUtil#load supports object array related operands. (<a href="https://github.com/teletha/reincarnation/commit/05d5f9c56c1b33be1706a41a03f26bf6d71f00df">05d5f9c</a>)</li>
+
+							<li>Optimize boolean condition. (<a href="https://github.com/teletha/reincarnation/commit/a3462678d9409b5095fb1dac0ed5271496760b9a">a346267</a>)</li>
+
+							<li>Optimize empty if or else block. (<a href="https://github.com/teletha/reincarnation/commit/7d4e1e30c5c8a04e5ddaa9d78fbd2824144a4b67">7d4e1e3</a>)</li>
+
+							<li>Optimize instanceof with pattern matching. (<a href="https://github.com/teletha/reincarnation/commit/fc6366cce254a8bb101a8ed320103d6cfa78bcb3">fc6366c</a>)</li>
+
+							<li>Provide Naming strategy. (<a href="https://github.com/teletha/reincarnation/commit/d8cb5fe7e7adf3973fbceccb893933cfa96af4bc">d8cb5fe</a>)</li>
+
+							<li>Remove InferredType. (<a href="https://github.com/teletha/reincarnation/commit/a856c555fd66e0053ca3ea136f1fcd615ddc6384">a856c55</a>)</li>
+
+							<li>Support duplicated variable usage. (<a href="https://github.com/teletha/reincarnation/commit/da7862e72a9dc5fe4e33b80aef2d13f0a3d379c9">da7862e</a>)</li>
+
+							<li>Support enhanced for loop. (<a href="https://github.com/teletha/reincarnation/commit/10f1614740573ebcc609a3ba34211a71f7f82ed0">10f1614</a>)</li>
+
+							<li>Support enhanced for-loop for primitive wrapper classes. (<a href="https://github.com/teletha/reincarnation/commit/7defc416589d720c62d6437335a00d16effc5785">7defc41</a>)</li>
+
+							<li>Support enhanced for-loop with break. (<a href="https://github.com/teletha/reincarnation/commit/1e77f61a4ba8ecadf21d5701da8d8c0ec703a512">1e77f61</a>)</li>
+
+							<li>Support negation of instanceof. (<a href="https://github.com/teletha/reincarnation/commit/982292d987ea6591ce957b3245a8f8f50376e47b">982292d</a>)</li>
+
+							<li>Support original variable name if available. (<a href="https://github.com/teletha/reincarnation/commit/7d5dba685c63b4f7f8558107ed33ebc2fb27bfe3">7d5dba6</a>)</li>
+
+							<li>Support pattern matching for instanceof. (<a href="https://github.com/teletha/reincarnation/commit/10f7218afe4edc67e6b0368c19d57b95956b846a">10f7218</a>)</li>
+
+							<li>Support reusable variable declaration. (<a href="https://github.com/teletha/reincarnation/commit/162424885b955e919c86171382190f5c2c13820d">1624248</a>)</li>
+
+							<li>Support string concatenation. (<a href="https://github.com/teletha/reincarnation/commit/58bd29dbdfaef7dc3f171b2dd7ddc099442ecfe9">58bd29d</a>)</li>
+</ul>
+					</section>
+					<section class="B K" id="BugFixes">
+						<header class="B R">
+							<h3>Bug Fixes</h3>
+							<div class="Q"><a class="perp X"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</a><a class="tweet X"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+
+							<li>Enable debuggable on class. (<a href="https://github.com/teletha/reincarnation/commit/e252e175332f4145a2c7b36cdd43508758b1b64b">e252e17</a>)</li>
+
+							<li>OperandInstanceOf must infer its type as boolean. (<a href="https://github.com/teletha/reincarnation/commit/d27f813393ac10ad7ec4e7304f8bce0964b1f100">d27f813</a>)</li>
+
+							<li>OperandLocalVariable must be stateless. (<a href="https://github.com/teletha/reincarnation/commit/84180f417172e2562f1a03945b2452489d35a098">84180f4</a>)</li>
+
+							<li>Support ALOAD oprand in Util#load. (<a href="https://github.com/teletha/reincarnation/commit/4d5741c05ee86318395f76a52e6393c057df010a">4d5741c</a>)</li>
+</ul>
+					</section>
+					<section class="B K" id="Asserts">
+						<header class="B R">
+							<h3>Assets</h3>
+							<div class="Q"><a class="perp X"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</a><a class="tweet X"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+							<li><a href="https://github.com/teletha/reincarnation/archive/refs/tags/v1.1.0.zip">Source code</a> (zip)</li>
+						</ul>
+					</section>
+				</section>
+				<section class="H B" id="1.0.0(2023-02-23)">
+					<header class="B L">
+						<h2>1.0.0 (2023-02-23)</h2>
+						<div class="Q"><a class="perp X"><svg class="A svg" viewBox="0 0 24 24">
+									<use href="main.svg#copy"/>
+								</svg>
+							</a><a class="tweet X"><svg class="A svg" viewBox="0 0 24 24">
+									<use href="main.svg#twitter"/>
+								</svg>
+							</a></div>
+					</header>
+					<section class="B K" id="Features">
+						<header class="B R">
+							<h3>Features</h3>
+							<div class="Q"><a class="perp X"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</a><a class="tweet X"><svg class="A svg" viewBox="0 0 24 24">
 										<use href="main.svg#twitter"/>
 									</svg>
 								</a></div>
@@ -71,13 +174,13 @@
 							<li>Provide Decompiler API. (<a href="https://github.com/teletha/reincarnation/commit/74fb411a7912e313a0c58ae210001801866b05a0">74fb411</a>)</li>
 </ul>
 					</section>
-					<section class="B c" id="BugFixes">
-						<header class="B l">
+					<section class="B K" id="BugFixes">
+						<header class="B R">
 							<h3>Bug Fixes</h3>
-							<div class="e"><a class="perp L"><svg class="A svg" viewBox="0 0 24 24">
+							<div class="Q"><a class="perp X"><svg class="A svg" viewBox="0 0 24 24">
 										<use href="main.svg#copy"/>
 									</svg>
-								</a><a class="tweet L"><svg class="A svg" viewBox="0 0 24 24">
+								</a><a class="tweet X"><svg class="A svg" viewBox="0 0 24 24">
 										<use href="main.svg#twitter"/>
 									</svg>
 								</a></div>
@@ -97,13 +200,13 @@
 							<li>update viewtify (<a href="https://github.com/teletha/reincarnation/commit/104369346dae6f0bf6f5637c2c30387f2e11484e">1043693</a>)</li>
 </ul>
 					</section>
-					<section class="B c" id="Asserts">
-						<header class="B l">
+					<section class="B K" id="Asserts">
+						<header class="B R">
 							<h3>Assets</h3>
-							<div class="e"><a class="perp L"><svg class="A svg" viewBox="0 0 24 24">
+							<div class="Q"><a class="perp X"><svg class="A svg" viewBox="0 0 24 24">
 										<use href="main.svg#copy"/>
 									</svg>
-								</a><a class="tweet L"><svg class="A svg" viewBox="0 0 24 24">
+								</a><a class="tweet X"><svg class="A svg" viewBox="0 0 24 24">
 										<use href="main.svg#twitter"/>
 									</svg>
 								</a></div>
@@ -114,9 +217,10 @@
 					</section>
 				</section>
 			</article>
-			<aside class="N" id="SubNavi">
-				<div class="V">
+			<aside class="P" id="SubNavi">
+				<div class="Z">
 					<ul>
+						<li><a href="doc/changelog.html#1.1.0(2023-03-02)">1.1.0 (2023-03-02)</a></li>
 						<li><a href="doc/changelog.html#1.0.0(2023-02-23)">1.0.0 (2023-02-23)</a></li>
 					</ul>
 				</div>
