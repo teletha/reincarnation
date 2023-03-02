@@ -1274,7 +1274,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             } else {
                 // others
                 Operand left = current.remove(0);
-                current.condition(left, EQ, new OperandNumber(0).fix(left.infer().type()), node);
+                current.condition(left, EQ, new OperandNumber(0).fix(left.type.v), node);
             }
             break;
         case IFNE: // != 0
@@ -1284,7 +1284,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
             } else {
                 // others
                 Operand left = current.remove(0);
-                current.condition(left, NE, new OperandNumber(0).fix(left.infer().type()), node);
+                current.condition(left, NE, new OperandNumber(0).fix(left.type.v), node);
             }
             break;
 

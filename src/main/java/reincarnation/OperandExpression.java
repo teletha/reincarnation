@@ -18,9 +18,6 @@ class OperandExpression extends Operand {
     /** The actual string expression of this operand. */
     private Object expression;
 
-    /** The inferred type. */
-    private final InferredType type;
-
     /**
      * 
      */
@@ -32,23 +29,8 @@ class OperandExpression extends Operand {
      * 
      */
     OperandExpression(Object expression, Class type) {
-        this(expression, new InferredType(type));
-    }
-
-    /**
-     * 
-     */
-    OperandExpression(Object expression, InferredType type) {
         this.expression = expression;
-        this.type = type;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    InferredType infer() {
-        return type;
+        this.type.set(type);
     }
 
     /**

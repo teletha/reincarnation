@@ -9,7 +9,6 @@
  */
 package reincarnation;
 
-import java.beans.Expression;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -312,31 +311,12 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * <p>
-     * Helper method to add new operand to the top of operands stack.
-     * </p>
-     * 
-     * @param operand A new operand to add.
-     */
-    final Node addOperand(Object operand, InferredType type) {
-        stack.add(new OperandExpression(operand, type));
-
-        return this;
-    }
-
-    /**
      * @param operands
      */
     final void addExpression(Object... operands) {
         for (Object operand : operands) {
             addOperand(operand);
         }
-    }
-
-    /**
-     */
-    final void addExpression(Expression operand, InferredType type) {
-        stack.add(new OperandExpression(operand, type));
     }
 
     /**

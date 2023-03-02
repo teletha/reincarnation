@@ -36,14 +36,6 @@ class OperandBoolean extends Operand {
      * {@inheritDoc}
      */
     @Override
-    InferredType infer() {
-        return InferredType.Boolean;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     Operand invert() {
         return this == True ? False : True;
     }

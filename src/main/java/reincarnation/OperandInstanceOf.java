@@ -34,6 +34,7 @@ public class OperandInstanceOf extends Operand {
     public OperandInstanceOf(Operand value, Class type) {
         this.value = value;
         this.type = type;
+        fix(boolean.class);
     }
 
     /**
@@ -46,14 +47,6 @@ public class OperandInstanceOf extends Operand {
         this.cast = op;
 
         return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    InferredType infer() {
-        return InferredType.Boolean;
     }
 
     /**

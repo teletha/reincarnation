@@ -182,21 +182,10 @@ public abstract class Operand implements Code<Operand> {
     }
 
     /**
-     * <p>
-     * Infer the type of this {@link Operand}.
-     * </p>
-     * 
-     * @return
-     */
-    InferredType infer() {
-        return new InferredType(type.v);
-    }
-
-    /**
      * @return
      */
     boolean isLarge() {
-        return infer().type() == long.class || infer().type() == double.class;
+        return type.is(long.class) || type.is(double.class);
     }
 
     /**

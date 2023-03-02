@@ -41,7 +41,7 @@ public class OperandBinary extends Operand {
         this.left = Objects.requireNonNull(left);
         this.right = Objects.requireNonNull(right);
         this.operator = Objects.requireNonNull(operator);
-        type.set(left.infer().type());
+        type.set(left.type);
     }
 
     /**

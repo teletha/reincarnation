@@ -24,14 +24,6 @@ class OperandNumber extends Operand {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    InferredType infer() {
-        return new InferredType(value.getClass());
-    }
-
-    /**
      * Check whether this value is positive or not.
      * 
      * @return

@@ -11,9 +11,6 @@ package reincarnation;
 
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/10/14 9:49:12
- */
 class OperandAmbiguousZeroOneTernary extends Operand {
 
     /** The condition. */
@@ -24,14 +21,6 @@ class OperandAmbiguousZeroOneTernary extends Operand {
      */
     OperandAmbiguousZeroOneTernary(Operand condition) {
         this.condition = (OperandCondition) condition.disclose();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    InferredType infer() {
-        return new InferredType(int.class);
     }
 
     /**
