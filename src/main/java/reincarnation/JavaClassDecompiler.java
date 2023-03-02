@@ -10,7 +10,7 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.OperandUtil.*;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -78,6 +78,8 @@ class JavaClassDecompiler extends ClassVisitor {
         Type[] parameterTypes = type.getArgumentTypes();
         boolean isStatic = (access & ACC_STATIC) != 0;
         JavaMethodDecompiler decompiler;
+
+        Signature sig = Signature.parse(signature);
 
         try {
             if (name.equals("<init>")) {

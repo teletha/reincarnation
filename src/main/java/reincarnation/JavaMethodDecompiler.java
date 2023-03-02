@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.*;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -29,6 +29,7 @@ import java.util.Set;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
 import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
@@ -1244,6 +1245,67 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
 
             current.addOperand(new OperandArray(current.remove(0), type));
             break;
+        }
+    }
+
+    /**
+     * {@inheritDoc} bootstrapMethodHandle
+     */
+    @Override
+    public void visitInvokeDynamicInsn(String name, String description, Handle bootstrapMethodHandle, Object... bootstrapMethodArguments) {
+        // recode current instruction
+        record(INVOKEDYNAMIC);
+
+        Handle handle = (Handle) bootstrapMethodArguments[1];
+        Type functionalInterfaceType = (Type) bootstrapMethodArguments[0];
+        Type lambdaType = Type.getMethodType(handle.getDesc());
+        Type callerType = Type.getMethodType(description);
+        int parameterDiff = lambdaType.getArgumentTypes().length - functionalInterfaceType.getArgumentTypes().length;
+        boolean useContext = callerType.getArgumentTypes().length - Math.max(parameterDiff, 0) == 1;
+
+        // detect functional interface
+        Class interfaceClass = load(callerType.getReturnType());
+
+        // detect lambda method
+        try {
+            Class lambdaClass = load(handle.getOwner());
+            Class lambdaReturnType = load(Type.getReturnType(handle.getDesc()));
+            Class[] lambdaParameterTypes = load(Type.getArgumentTypes(handle.getDesc()));
+            Method lambdaMethod = lambdaClass.getDeclaredMethod(handle.getName(), lambdaParameterTypes);
+
+            // build parameter from local environment
+            List<Operand> params = new ArrayList();
+
+            for (int i = parameterDiff - 1; 0 <= i; i--) {
+                params.add(current.remove(i));
+            }
+
+            System.out.println(interfaceClass + "   " + lambdaMethod + "    " + params);
+
+            switch (handle.getTag()) {
+            case H_INVOKESTATIC:
+                current.addOperand(new OperandLambda(interfaceClass, lambdaMethod, source));
+                break;
+
+            case H_INVOKESPECIAL:
+            case H_INVOKEVIRTUAL:
+            case H_INVOKEINTERFACE:
+                if (useContext) {
+                }
+                break;
+
+            case H_NEWINVOKESPECIAL:
+                break;
+
+            default:
+                // If this exception will be thrown, it is bug of this program. So we must rethrow
+                // the
+                // wrapped error in here.
+                throw new Error();
+            }
+            // current.addOperand(code.toString());
+        } catch (Exception e) {
+            throw I.quiet(e);
         }
     }
 

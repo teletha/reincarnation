@@ -151,6 +151,30 @@ public abstract class Coder<O extends CodingOption> {
     }
 
     /**
+     * Write code with line without head indent.
+     * 
+     * @param codes
+     */
+    protected final void lineNI(Object... codes) {
+        if (codes.length != 0) {
+            write(codes);
+        }
+        write(EoL);
+    }
+
+    /**
+     * Write code with line without tail break.
+     * 
+     * @param codes
+     */
+    protected final void lineNB(Object... codes) {
+        if (codes.length != 0) {
+            write(options.indentChar.repeat(indentSize));
+            write(codes);
+        }
+    }
+
+    /**
      * Write indent.
      * 
      * @param inner
@@ -250,6 +274,13 @@ public abstract class Coder<O extends CodingOption> {
      * @param method
      */
     public abstract void writeMethod(Method method, Code code);
+
+    /**
+     * Lambda.
+     * 
+     * @param method
+     */
+    public abstract void writeLambda(Method method, Code code);
 
     /**
      * Statement.

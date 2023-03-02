@@ -32,8 +32,8 @@ import reincarnation.coder.Coder;
 import reincarnation.coder.CodingOption;
 import reincarnation.coder.DelegatableCoder;
 import reincarnation.coder.Join;
-import reincarnation.coder.VariableNaming;
 import reincarnation.coder.Naming;
+import reincarnation.coder.VariableNaming;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
@@ -258,6 +258,20 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                 .getName(), parameter(method.getParameters(), naming(code)), thrower(method.getExceptionTypes()), space, "{");
         indent(code::write);
         line("}");
+
+        vars.end();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeLambda(Method method, Code code) {
+        vars.start();
+
+        lineNI(parameter(method.getParameters(), naming(code)), space, "->", space, "{");
+        indent(code::write);
+        lineNB("}");
 
         vars.end();
     }

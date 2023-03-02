@@ -126,6 +126,14 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
+    public void writeLambda(Method method, Code code) {
+        coder.writeLambda(method, code);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeStatement(Code code) {
         coder.writeStatement(code);
     }
