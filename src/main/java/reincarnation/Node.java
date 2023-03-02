@@ -982,42 +982,7 @@ public class Node implements Code<Operand> {
         if (nodes == null) {
             return writeInfiniteLoop(new BackedgeGroup(this));
         } else {
-            return new While(this, this, nodes[0], nodes[1], isEnhancedForLoop(this, nodes[0]));
-        }
-    }
-
-    private Variable<Ⅱ<Operand, OperandLocalVariable>> isEnhancedForLoop(Node base, Node entrance) {
-        return I.signal(base.getPureIncoming())
-                //
-                .flatMap(in -> in.children(OperandAssign.class))
-                .flatMap(iterator -> iterator.children(OperandMethodCall.class)
-                        .take(m -> m.checkMethod(Iterable.class, "iterator"))
-                        .map(m -> m.owner)
-                        .combine(iterator.children(OperandLocalVariable.class)))
-
-                //
-                .takeIf(x -> base.children(OperandCondition.class, OperandMethodCall.class)
-                        .take(m -> m.checkCaller(x.ⅱ) && m.checkMethod(Iterator.class, "hasNext")))
-
-                //
-                .takeIf(x -> entrance.children(OperandAssign.class, OperandMethodCall.class)
-                        .flatMap(this::throughUnwrapper)
-                        .take(m -> m.checkCaller(x.ⅱ) && m.checkMethod(Iterator.class, "next")))
-
-                //
-                .combine(entrance.children(OperandAssign.class, OperandLocalVariable.class), (a, b) -> I.pair(a.ⅰ, b))
-                .effect(() -> {
-                    entrance.clear();
-                    base.getPureIncoming().forEach(Node::clear);
-                })
-                .to();
-    }
-
-    private Signal<OperandMethodCall> throughUnwrapper(OperandMethodCall call) {
-        if (OperandUtil.isUnwrapper(call.method)) {
-            return call.owner.children(OperandMethodCall.class);
-        } else {
-            return I.signal(call);
+            return new While(this, this, nodes[0], nodes[1], detectEnhancedForLoop(this, nodes[0]));
         }
     }
 
@@ -1070,7 +1035,7 @@ public class Node implements Code<Operand> {
             // }
             // });
 
-            return new For(this, null, this, update, nodes[0], nodes[1], isEnhancedForLoop(this, nodes[0]));
+            return new For(this, null, this, update, nodes[0], nodes[1], detectEnhancedForLoop(this, nodes[0]));
         }
     }
 
@@ -1330,6 +1295,58 @@ public class Node implements Code<Operand> {
 
         // API definition
         return node;
+    }
+
+    /**
+     * Detects code groups that are recognizable as enhanced for loop.
+     * 
+     * @param current
+     * @param entrance
+     * @return
+     */
+    private Variable<Ⅱ<Operand, OperandLocalVariable>> detectEnhancedForLoop(Node current, Node entrance) {
+        return I.signal(current.getPureIncoming())
+                // Check whether the only incoming node to the current is generating iterators.
+                .flatMap(in -> in.children(OperandAssign.class))
+                .flatMap(iterator -> iterator.children(OperandMethodCall.class)
+                        .take(m -> m.checkMethod(Iterable.class, "iterator"))
+                        .map(m -> m.owner)
+                        .combine(iterator.children(OperandLocalVariable.class)))
+
+                // Check whether the current node calls the iterator's hasNext method.
+                .takeIf(x -> current.children(OperandCondition.class, OperandMethodCall.class)
+                        .take(m -> m.checkCaller(x.ⅱ) && m.checkMethod(Iterator.class, "hasNext")))
+
+                // Check whether the entrance node calls the iterator's next method.
+                .takeIf(x -> entrance.children(OperandAssign.class, OperandMethodCall.class)
+                        .flatMap(this::throughUnwrapper)
+                        .take(m -> m.checkCaller(x.ⅱ) && m.checkMethod(Iterator.class, "next")))
+
+                // Summarize only information that will be used later.
+                .combine(entrance.children(OperandAssign.class, OperandLocalVariable.class), (a, b) -> I.pair(a.ⅰ, b))
+
+                // The contents of the entrance and incoming nodes should be deleted as they are no
+                // longer needed.
+                .effect(() -> {
+                    entrance.clear();
+                    current.getPureIncoming().forEach(Node::clear);
+                })
+                .to();
+    }
+
+    /**
+     * If the specified method call is a primitive wrapper method, it is ignored and its internal
+     * method calls are searched further.
+     * 
+     * @param call
+     * @return
+     */
+    private Signal<OperandMethodCall> throughUnwrapper(OperandMethodCall call) {
+        if (OperandUtil.isUnwrapper(call.method)) {
+            return call.owner.children(OperandMethodCall.class);
+        } else {
+            return I.signal(call);
+        }
     }
 
     /**

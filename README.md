@@ -8,7 +8,33 @@
 
 
 ## Summary
+Reincarnation aims to be a decompiler for all modern Java grammars.
 
+#### Supported
+- basic grammar (keyword, operator, variable declaration, cast, type definition, field and method definition)
+- control syntax (if, switch, while, do-while, for, break, continue, try-catch-finally)
+- auto boxing and unboxing
+- assert
+- varargs
+- enhanced for-loop
+- multi catches
+- var
+- string literal
+- instanceof with pattern matching
+
+#### Unsupported
+- annotation
+- generics
+- lambda
+- method reference
+- record
+- record with pattern matching
+- enum
+- sealed class
+- switch with string
+- switch with pattern matching
+- try-with-resources
+- text block
 <p align="right"><a href="#top">back to top</a></p>
 
 
@@ -110,7 +136,7 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 Reincarnation depends on the following products on runtime.
 * [asm-9.4](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.4)
 * [psychopath-1.7.1](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.7.1)
-* [sinobu-3.1.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.1.0)
+* [sinobu-3.2.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.2.0)
 <p align="right"><a href="#top">back to top</a></p>
 
 

@@ -82,9 +82,8 @@ public class For extends Loopable {
     public void writeCode(Coder coder) {
         enhanced.to(x -> {
             coder.writeIterableFor(label(), x.ⅱ, x.ⅰ, () -> {
-                if (updater != null) {
-                    updater.write(coder);
-                }
+                if (inner != null) inner.write(coder);
+                if (updater != null) updater.write(coder);
             }, follow);
         }, () -> {
             coder.writeFor(label(), initializer, condition, updater, () -> {

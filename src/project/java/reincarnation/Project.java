@@ -28,6 +28,36 @@ public class Project extends bee.api.Project {
         require("org.jetbrains", "annotations").atTest();
 
         versionControlSystem("https://github.com/teletha/reincarnation");
+
+        describe("""
+                Reincarnation aims to be a decompiler for all modern Java grammars.
+
+                #### Supported
+                - basic grammar (keyword, operator, variable declaration, cast, type definition, field and method definition)
+                - control syntax (if, switch, while, do-while, for, break, continue, try-catch-finally)
+                - auto boxing and unboxing
+                - assert
+                - varargs
+                - enhanced for-loop
+                - multi catches
+                - var
+                - string literal
+                - instanceof with pattern matching
+
+                #### Unsupported
+                - annotation
+                - generics
+                - lambda
+                - method reference
+                - record
+                - record with pattern matching
+                - enum
+                - sealed class
+                - switch with string
+                - switch with pattern matching
+                - try-with-resources
+                - text block
+                """);
     }
 
     public static class Compile extends bee.task.Compile {
