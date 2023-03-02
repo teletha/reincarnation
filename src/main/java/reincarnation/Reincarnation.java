@@ -133,18 +133,6 @@ public final class Reincarnation {
      * @param clazz A target class to decompile.
      * @return A decompiled Java source code.
      */
-    public static final String rebirth(Class clazz) {
-        JavaCoder coder = new JavaCoder();
-        exhume(clazz).rebirth(coder);
-        return coder.toString();
-    }
-
-    /**
-     * Decompile the specified class as Java code.
-     * 
-     * @param clazz A target class to decompile.
-     * @return A decompiled Java source code.
-     */
     public static final String rebirth(Class clazz, JavaCodingOption options) {
         JavaCoder coder = new JavaCoder();
         coder.config(options);
