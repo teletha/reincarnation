@@ -11,12 +11,10 @@ package reincarnation.decompiler.method;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
+import reincarnation.TestCode;
 
-/**
- * @version 2018/10/23 15:31:37
- */
 class MethodTest extends CodeVerifier {
 
     @Test
@@ -181,6 +179,7 @@ class MethodTest extends CodeVerifier {
     }
 
     @Test
+    @Debuggable(fernflower = true)
     void VariableParamWithBase() {
         verify(new VariableParamWithBase());
     }

@@ -33,6 +33,7 @@ import reincarnation.coder.CodingOption;
 import reincarnation.coder.DelegatableCoder;
 import reincarnation.coder.Join;
 import reincarnation.coder.VariableNaming;
+import reincarnation.coder.Naming;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
@@ -233,7 +234,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         vars.start();
 
         line();
-        line(modifier(c), simpleName(c.getDeclaringClass()), parameter(c.getParameters()), space, "{");
+        line(modifier(c), simpleName(c.getDeclaringClass()), parameter(c.getParameters(), strategy(code)), space, "{");
         indent(code::write);
         line("}");
 
@@ -254,7 +255,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         line();
         line(modifier(method), name(method.getReturnType()), space, method
-                .getName(), parameter(method.getParameters()), thrower(method.getExceptionTypes()), space, "{");
+                .getName(), parameter(method.getParameters(), strategy(code)), thrower(method.getExceptionTypes()), space, "{");
         indent(code::write);
         line("}");
 
@@ -267,9 +268,10 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param parameters
      * @return
      */
-    private Join parameter(Parameter[] parameters) {
+    private Join parameter(Parameter[] parameters, Naming strategy) {
         return Join.of(parameters).prefix("(").suffix(")").ignoreEmpty(false).separator("," + space).converter(p -> {
-            vars.declare(p.getName());
+            String name = strategy.name(p.getName());
+            vars.declare(name);
 
             StringBuilder builder = new StringBuilder();
             if (Modifier.isFinal(p.getModifiers())) {
@@ -281,7 +283,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             } else {
                 builder.append(name(p.getType())).append(" ");
             }
-            builder.append(p.getName());
+            builder.append(name);
 
             return builder.toString();
         });

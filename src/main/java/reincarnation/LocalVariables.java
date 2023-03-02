@@ -19,10 +19,12 @@ import java.util.function.BiConsumer;
 
 import org.objectweb.asm.Type;
 
+import reincarnation.coder.Naming;
+
 /**
  * Local variable manager.
  */
-final class LocalVariables {
+final class LocalVariables implements Naming {
 
     /** The special binding. */
     private final Map<Integer, Integer> bindings = new HashMap();
@@ -124,11 +126,16 @@ final class LocalVariables {
      * @param name
      */
     void registerName(int index, String name, String signature) {
-        for (Entry<String, OperandLocalVariable> entry : variables.entrySet()) {
-            String id = entry.getKey();
-            if (id.startsWith(index + "#")) {
-                OperandLocalVariable variable = entry.getValue();
-                variable.original = name;
+        OperandLocalVariable param = params.get(index);
+        if (param != null) {
+            param.original = name;
+        } else {
+            for (Entry<String, OperandLocalVariable> entry : variables.entrySet()) {
+                String id = entry.getKey();
+                if (id.startsWith(index + "#")) {
+                    OperandLocalVariable variable = entry.getValue();
+                    variable.original = name;
+                }
             }
         }
     }
@@ -173,5 +180,24 @@ final class LocalVariables {
                 createDeclarationNode.accept(header, variable);
             }
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String name(String name) {
+        for (OperandLocalVariable param : params.values()) {
+            if (param.name.equals(name)) {
+                return param.toString();
+            }
+        }
+
+        for (OperandLocalVariable variable : variables.values()) {
+            if (variable.name.equals(name)) {
+                return variable.toString();
+            }
+        }
+        return name;
     }
 }

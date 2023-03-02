@@ -19,27 +19,6 @@ import java.util.Map;
  */
 public class VariableNaming {
 
-    /**
-     * All variable names are incremental suffix number.
-     */
-    public static final Strategy Incremental = name -> {
-        return name;
-    };
-
-    /**
-     * Reuse the original name as far as possible.
-     */
-    public static final Strategy Original = name -> {
-        return name;
-    };
-
-    /**
-     * All variable names are obfuscated and minimized.
-     */
-    public static final Strategy Obfuscate = name -> {
-        return name;
-    };
-
     private final ArrayDeque<Map<String, String>> manager = new ArrayDeque();
 
     public void start() {
@@ -77,12 +56,5 @@ public class VariableNaming {
             }
         }
         return name;
-    }
-
-    /**
-     * Naming strategy.
-     */
-    public interface Strategy {
-        String name(String name);
     }
 }

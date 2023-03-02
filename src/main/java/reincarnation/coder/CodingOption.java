@@ -9,11 +9,11 @@
  */
 package reincarnation.coder;
 
-/**
- * @version 2018/10/19 13:19:52
- */
 public class CodingOption {
 
     /** The indent character. */
     public String indentChar = "    ";
+
+    /** The namign strategy for variable. */
+    public Naming strategy;
 }

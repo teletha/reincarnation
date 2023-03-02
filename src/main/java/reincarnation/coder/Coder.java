@@ -101,6 +101,23 @@ public abstract class Coder<O extends CodingOption> {
     }
 
     /**
+     * Create the cascading strategy.
+     * 
+     * @return
+     */
+    protected final Naming strategy(Object original) {
+        Naming base = Naming.Incremental;
+
+        for (Object o : new Object[] {options.strategy, original, Naming.Incremental}) {
+            if (o instanceof Naming strategy) {
+                base = base.then(strategy);
+            }
+        }
+
+        return base;
+    }
+
+    /**
      * Write code.
      * 
      * @param codes

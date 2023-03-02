@@ -39,6 +39,7 @@ import reincarnation.Debugger.Printable;
 import reincarnation.Node.Switch;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
+import reincarnation.coder.Naming;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
@@ -46,7 +47,7 @@ import reincarnation.operator.UnaryOperator;
 import reincarnation.structure.Structure;
 import reincarnation.util.MultiMap;
 
-class JavaMethodDecompiler extends MethodVisitor implements Code {
+class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
 
     /** The description of {@link Debugger}. */
     private static final String DEBUGGER = Type.getType(Debuggable.class).getDescriptor();
@@ -281,6 +282,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code {
     @Override
     public void write(Coder coder) {
         root.write(coder);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String name(String name) {
+        return locals.name(name);
     }
 
     /**
