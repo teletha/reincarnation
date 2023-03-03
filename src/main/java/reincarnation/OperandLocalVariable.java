@@ -9,6 +9,7 @@
  */
 package reincarnation;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -35,7 +36,7 @@ public class OperandLocalVariable extends Operand {
     /**
      * Create local variable with index.
      */
-    OperandLocalVariable(Class type, int index, String name) {
+    OperandLocalVariable(Type type, int index, String name) {
         this.name = Objects.requireNonNull(name);
         this.index = index;
         this.type.set(type);

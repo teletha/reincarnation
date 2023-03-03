@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import java.lang.reflect.Type;
+
 import kiss.I;
 import kiss.Signal;
 import reincarnation.coder.Coder;
@@ -171,8 +173,8 @@ class OperandCondition extends Operand {
     @Override
     protected void writeCode(Coder coder) {
         // convert int to char if needed
-        Class leftType = left.type.v;
-        Class rightType = right.type.v;
+        Type leftType = left.type.v;
+        Type rightType = right.type.v;
 
         if (leftType == char.class && rightType != char.class) {
             right = right.fix(char.class);

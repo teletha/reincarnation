@@ -12,6 +12,7 @@ package reincarnation.coder;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -294,7 +295,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeLocalVariable(Class type, String name) {
+    public void writeLocalVariable(Type type, String name) {
         coder.writeLocalVariable(type, name);
     }
 

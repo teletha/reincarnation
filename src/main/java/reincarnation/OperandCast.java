@@ -30,6 +30,8 @@ class OperandCast extends Operand {
     OperandCast(Operand value, Class type) {
         this.value = value;
         this.type = type;
+
+        encolose();
     }
 
     /**
@@ -37,7 +39,11 @@ class OperandCast extends Operand {
      */
     @Override
     protected void writeCode(Coder coder) {
-        coder.writeCast(type, value);
+        if (Inference.instanceOf(value.type.v, type)) {
+            value.writeCode(coder);
+        } else {
+            coder.writeCast(type, value);
+        }
     }
 
     /**

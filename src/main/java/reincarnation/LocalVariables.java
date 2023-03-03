@@ -11,13 +11,13 @@ package reincarnation;
 
 import static reincarnation.OperandUtil.*;
 
+import java.lang.reflect.Executable;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.BiConsumer;
-
-import org.objectweb.asm.Type;
 
 import reincarnation.coder.Naming;
 
@@ -43,24 +43,27 @@ final class LocalVariables implements Naming {
      * 
      * @param clazz
      * @param isStatic
-     * @param types
-     * @param parameters
+     * @param exe
      */
-    LocalVariables(Class clazz, boolean isStatic, Type[] types, Parameter[] parameters) {
+    LocalVariables(Class clazz, boolean isStatic, Executable exe) {
         int offset = 0;
 
         if (isStatic == false) {
             params.put(offset++, new OperandLocalVariable(clazz, 0, "this"));
         }
 
-        for (int i = 0; i < types.length; i++) {
-            Class<?> type = OperandUtil.load(types[i]);
-            OperandLocalVariable variable = new OperandLocalVariable(type, offset, parameters[i].getName());
-            variable.fix();
-            params.put(offset, variable);
+        if (exe != null) {
+            Type[] types = exe.getGenericParameterTypes();
+            Parameter[] parameters = exe.getParameters();
 
-            // count index because primitive long and double occupy double stacks
-            offset += type == long.class || type == double.class ? 2 : 1;
+            for (int i = 0; i < types.length; i++) {
+                OperandLocalVariable variable = new OperandLocalVariable(types[i], offset, parameters[i].getName());
+                variable.fix();
+                params.put(offset, variable);
+
+                // count index because primitive long and double occupy double stacks
+                offset += types[i] == long.class || types[i] == double.class ? 2 : 1;
+            }
         }
 
         this.offset = offset;

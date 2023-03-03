@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -442,7 +443,7 @@ public abstract class Coder<O extends CodingOption> {
      * @param type A infered type of local variabel.
      * @param name A local variable name.
      */
-    public abstract void writeLocalVariable(Class type, String name);
+    public abstract void writeLocalVariable(Type type, String name);
 
     /**
      * Access to field.

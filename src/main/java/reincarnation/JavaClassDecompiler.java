@@ -10,11 +10,10 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.OperandUtil.load;
+import static reincarnation.OperandUtil.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.Objects;
 
 import org.objectweb.asm.ClassVisitor;
@@ -79,25 +78,23 @@ class JavaClassDecompiler extends ClassVisitor {
         boolean isStatic = (access & ACC_STATIC) != 0;
         JavaMethodDecompiler decompiler;
 
-        Signature sig = Signature.parse(signature);
-
         try {
             if (name.equals("<init>")) {
                 // initializer or constructor
                 Constructor constructor = source.clazz.getDeclaredConstructor(load(parameterTypes));
-                LocalVariables locals = new LocalVariables(source.clazz, isStatic, parameterTypes, constructor.getParameters());
+                LocalVariables locals = new LocalVariables(source.clazz, isStatic, constructor);
                 decompiler = new JavaMethodDecompiler(source, locals, returnType, constructor);
 
                 source.constructors.put(constructor, decompiler);
             } else if (name.equals("<clinit>")) {
-                LocalVariables locals = new LocalVariables(source.clazz, isStatic, parameterTypes, new Parameter[0]);
+                LocalVariables locals = new LocalVariables(source.clazz, isStatic, null);
                 decompiler = new JavaMethodDecompiler(source, locals, returnType, null);
 
                 // static initializer
                 source.staticInitializer.add(decompiler);
             } else {
                 Method method = source.clazz.getDeclaredMethod(name, load(parameterTypes));
-                LocalVariables locals = new LocalVariables(source.clazz, isStatic, parameterTypes, method.getParameters());
+                LocalVariables locals = new LocalVariables(source.clazz, isStatic, method);
                 decompiler = new JavaMethodDecompiler(source, locals, returnType, method);
 
                 source.methods.put(method, decompiler);

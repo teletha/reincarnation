@@ -12,17 +12,25 @@ package reincarnation.coder.java;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
+import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.StringJoiner;
 
+import kiss.I;
 import kiss.Variable;
+import kiss.Ⅱ;
 import kiss.Ⅲ;
 import reincarnation.Operand;
 import reincarnation.OperandUtil;
@@ -230,11 +238,11 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeConstructor(Constructor c, Code code) {
+    public void writeConstructor(Constructor constructor, Code code) {
         vars.start();
 
         line();
-        line(modifier(c), simpleName(c.getDeclaringClass()), parameter(c.getParameters(), naming(code)), space, "{");
+        line(modifier(constructor), simpleName(constructor.getDeclaringClass()), parameter(constructor, naming(code)), space, "{");
         indent(code::write);
         line("}");
 
@@ -255,7 +263,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         line();
         line(modifier(method), name(method.getReturnType()), space, method
-                .getName(), parameter(method.getParameters(), naming(code)), thrower(method.getExceptionTypes()), space, "{");
+                .getName(), parameter(method, naming(code)), thrower(method.getExceptionTypes()), space, "{");
         indent(code::write);
         line("}");
 
@@ -269,7 +277,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     public void writeLambda(Method method, Code code) {
         vars.start();
 
-        lineNI(parameter(method.getParameters(), naming(code)), space, "->", space, "{");
+        lineNI(parameter(method, naming(code)), space, "->", space, "{");
         indent(code::write);
         lineNB("}");
 
@@ -282,20 +290,24 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param parameters
      * @return
      */
-    private Join parameter(Parameter[] parameters, Naming strategy) {
-        return Join.of(parameters).prefix("(").suffix(")").ignoreEmpty(false).separator("," + space).converter(p -> {
-            String name = strategy.name(p.getName());
+    private Join parameter(Executable executable, Naming strategy) {
+        List<Ⅱ<Parameter, Type>> params = I.signal(executable.getParameters())
+                .combine(I.signal(executable.getGenericParameterTypes()))
+                .toList();
+
+        return Join.of(params).prefix("(").suffix(")").ignoreEmpty(false).separator("," + space).converter(p -> {
+            String name = strategy.name(p.ⅰ.getName());
             vars.declare(name);
 
             StringBuilder builder = new StringBuilder();
-            if (Modifier.isFinal(p.getModifiers())) {
+            if (Modifier.isFinal(p.ⅰ.getModifiers())) {
                 builder.append("final ");
             }
 
-            if (p.isVarArgs()) {
-                builder.append(name(p.getType().getComponentType())).append("... ");
+            if (p.ⅰ.isVarArgs()) {
+                builder.append(name(p.ⅰ.getType().getComponentType())).append("... ");
             } else {
-                builder.append(name(p.getType())).append(" ");
+                builder.append(name(p.ⅱ)).append(" ");
             }
             builder.append(name);
 
@@ -504,12 +516,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeLocalVariable(Class type, String name) {
+    public void writeLocalVariable(Type type, String name) {
         String prefix;
         if (vars.isDeclared(name)) {
             prefix = "";
         } else {
-            boolean needInfer = type.getTypeParameters().length != 0;
+            boolean needInfer = (type instanceof Class clazz && clazz.getTypeParameters().length != 0) || type instanceof ParameterizedType;
             prefix = (needInfer ? "var" : name(type)).concat(space);
             vars.declare(name);
         }
@@ -878,13 +890,61 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     }
 
     /**
-     * Qualified name.
+     * Qualify the specified name of type..
      * 
      * @param type
      * @return
      */
-    private String name(Class type) {
-        return imports.name(type);
+    private String name(Type type) {
+        StringBuilder builder = new StringBuilder();
+        qualify(type, builder);
+        return builder.toString();
+    }
+
+    /**
+     * Qualify the specified name of type..
+     * 
+     * @param type
+     */
+    private void qualify(Type type, StringBuilder builder) {
+        if (type instanceof Class clazz) {
+            builder.append(imports.name(clazz));
+        } else if (type instanceof TypeVariable variable) {
+            builder.append(variable);
+        } else if (type instanceof ParameterizedType parameterized) {
+            qualify(parameterized.getRawType(), builder);
+
+            StringJoiner join = new StringJoiner("," + space, "<", ">");
+            for (Type param : parameterized.getActualTypeArguments()) {
+                join.add(name(param));
+            }
+            builder.append(join);
+        } else if (type instanceof WildcardType wild) {
+            Type[] lowers = wild.getLowerBounds();
+            if (lowers.length != 0) {
+                StringJoiner join = new StringJoiner(space + "&" + space, "? super ", "");
+                for (Type lower : lowers) {
+                    join.add(name(lower));
+                }
+                builder.append(join);
+                return;
+            }
+
+            Type[] uppers = wild.getUpperBounds();
+            if (uppers.length != 0) {
+                StringJoiner join = new StringJoiner(space + "&" + space, "? extends ", "");
+                for (Type upper : uppers) {
+                    join.add(name(upper));
+                }
+                builder.append(join);
+                return;
+            }
+            throw new Error();
+        } else if (type instanceof GenericArrayType array) {
+            throw new Error("Generic array");
+        } else {
+            throw new Error();
+        }
     }
 
     /**

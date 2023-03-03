@@ -12,7 +12,6 @@ package reincarnation.decompiler.method;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class MethodTest extends CodeVerifier {
@@ -179,7 +178,6 @@ class MethodTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable(fernflower = true)
     void VariableParamWithBase() {
         verify(new VariableParamWithBase());
     }

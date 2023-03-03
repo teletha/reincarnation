@@ -11,6 +11,7 @@ package reincarnation;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.util.Objects;
 
 import kiss.I;
@@ -18,9 +19,6 @@ import kiss.Signal;
 import reincarnation.coder.Coder;
 import reincarnation.operator.AccessMode;
 
-/**
- * @version 2018/10/13 23:34:58
- */
 public class OperandFieldAccess extends Operand {
 
     /** The field. */
@@ -42,7 +40,7 @@ public class OperandFieldAccess extends Operand {
         this.field = find(ownerType, name);
         this.context = Objects.requireNonNull(context);
 
-        Class contextType = context.type.v;
+        Type contextType = context.type.v;
 
         if (contextType == ownerType) {
             this.mode = AccessMode.THIS;

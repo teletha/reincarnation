@@ -30,7 +30,7 @@ class OperandArrayAccess extends Operand {
         this.array = array;
         this.index = index;
 
-        fix(array.type.v.getComponentType());
+        fix(array.type.v instanceof Class clazz ? clazz.getComponentType() : Object.class);
     }
 
     /**

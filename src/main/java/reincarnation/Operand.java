@@ -9,6 +9,7 @@
  */
 package reincarnation;
 
+import java.lang.reflect.Type;
 import java.util.Optional;
 
 import kiss.I;
@@ -24,7 +25,7 @@ public abstract class Operand implements Code<Operand> {
     public static final Operand Null = new OperandExpression(null).fix(Object.class);
 
     /** The infered type. */
-    protected Variable<Class> type = Variable.of(Object.class);
+    protected Variable<Type> type = Variable.of(Object.class);
 
     /** The flag for operand duplication. */
     protected boolean duplicated = false;
@@ -44,7 +45,8 @@ public abstract class Operand implements Code<Operand> {
      * @return
      */
     protected String info() {
-        return getClass().getSimpleName().substring("Operand".length()) + type.map(v -> v == Object.class ? "" : "#" + v.getSimpleName());
+        return getClass().getSimpleName().substring("Operand".length()) + type
+                .map(v -> v == Object.class ? "" : v instanceof Class c ? "#" + c.getSimpleName() : "#" + v.getTypeName());
     }
 
     /**
@@ -62,7 +64,7 @@ public abstract class Operand implements Code<Operand> {
      * @param type A type to fix.
      * @return Chainable API.
      */
-    protected final Operand fix(Class type) {
+    protected final Operand fix(Type type) {
         this.type.set(type);
         this.type.fix();
 
