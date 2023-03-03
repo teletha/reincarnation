@@ -42,6 +42,7 @@ public class Project extends bee.api.Project {
                 - multi catches
                 - var
                 - string literal
+                - local class
                 - instanceof with pattern matching
 
                 #### Unsupported
