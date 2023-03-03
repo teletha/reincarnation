@@ -9,6 +9,8 @@
  */
 package reincarnation.decompiler.grammar;
 
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -87,7 +89,45 @@ class GenericsTest extends CodeVerifier {
                 class Main<A> {
                 }
 
-                assert Main.class.getTypeParameters()[0].getName().equals("A");
+                TypeVariable[] params = Main.class.getTypeParameters();
+                assert params.length == 1;
+                assert params[0].getName() == "A";
+            }
+        });
+    }
+
+    @Test
+    void variablesAtClass() {
+        verify(new TestCode.Run() {
+
+            @Override
+            public void run() {
+                class Main<A, B> {
+                }
+
+                TypeVariable[] params = Main.class.getTypeParameters();
+                assert params.length == 2;
+                assert params[0].getName() == "A";
+                assert params[1].getName() == "B";
+            }
+        });
+    }
+
+    @Test
+    void boundedVariableAtClass() {
+        verify(new TestCode.Run() {
+
+            @Override
+            public void run() {
+                class Main<A extends CharSequence> {
+                }
+
+                TypeVariable<Class<Main>>[] types = Main.class.getTypeParameters();
+                assert types.length == 1;
+
+                Type[] bounds = types[0].getBounds();
+                assert bounds.length == 1;
+                assert bounds[0] == CharSequence.class;
             }
         });
     }

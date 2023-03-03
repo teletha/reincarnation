@@ -184,6 +184,11 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         String extend = "";
         Join<Class> implement;
         Join accessor = modifier(type);
+        Join<TypeVariable> variable = Join.of(type.getTypeParameters())
+                .prefix("<")
+                .separator("," + space)
+                .suffix(">")
+                .converter(this::name);
 
         if (type.isInterface()) {
             kind = "interface";
@@ -199,7 +204,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         }
 
         line();
-        line(accessor, kind, space, simpleName(type), extend, implement, space, "{");
+        line(accessor, kind, space, simpleName(type), variable, extend, implement, space, "{");
         indent(inner::run);
         line("}");
     }
@@ -940,6 +945,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             builder.append(imports.name(clazz));
         } else if (type instanceof TypeVariable variable) {
             builder.append(variable);
+
+            StringJoiner join = new StringJoiner("," + space, space + "extends" + space, "");
+            for (Type bound : variable.getBounds()) {
+                join.add(name(bound));
+            }
+            builder.append(join);
         } else if (type instanceof ParameterizedType parameterized) {
             qualify(parameterized.getRawType(), builder);
 
