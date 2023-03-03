@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.*;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -1484,7 +1484,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
         if (constant instanceof String) {
             current.stack.add(new OperandString((String) constant));
         } else if (constant instanceof Type) {
-            current.addOperand(new OperandClass(OperandUtil.load((Type) constant)));
+            Class clazz = OperandUtil.load((Type) constant);
+            source.require(clazz);
+            current.addOperand(new OperandClass(clazz));
         } else {
             current.addOperand(constant);
         }

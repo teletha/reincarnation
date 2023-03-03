@@ -46,6 +46,7 @@ import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
+import reincarnation.util.MultiMap;
 
 /**
  * @version 2018/10/21 21:36:48
@@ -58,7 +59,13 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     /** The variable holder. */
     private final VariableNaming vars = new VariableNaming();
 
-    /** The import manager. */
+    /** The placeholder of local classes. */
+    private final MultiMap<Executable, Class> placeholders = new MultiMap(false);
+
+    /**
+     * The local place private final Map<Executable, Class> placeForLocal = new HashMap(); /** The
+     * import manager.
+     */
     final Imports imports = new Imports();
 
     /**
@@ -80,6 +87,15 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void write(Reincarnation reincarnation) {
+        // search placeholder method or constructor for local classes
+        reincarnation.locals.forEach(e -> {
+            Constructor con = e.getEnclosingConstructor();
+            if (con != null) placeholders.put(con, e);
+
+            Method method = e.getEnclosingMethod();
+            if (method != null) placeholders.put(method, e);
+        });
+
         imports.setBase(reincarnation.clazz);
 
         writePackage(reincarnation.clazz.getPackage());
@@ -264,6 +280,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         line();
         line(modifier(method), name(method.getReturnType()), space, method
                 .getName(), parameter(method, naming(code)), thrower(method.getExceptionTypes()), space, "{");
+        placeholders.get(method).forEach(this::writeLocalClass);
         indent(code::write);
         line("}");
 
@@ -282,6 +299,18 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         lineNB("}");
 
         vars.end();
+    }
+
+    /**
+     * Write local class.
+     * 
+     * @param clazz
+     */
+    private void writeLocalClass(Class clazz) {
+        indent(() -> {
+            writeOne(Reincarnation.exhume(clazz));
+        });
+        line();
     }
 
     /**
@@ -1052,7 +1081,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @return A simple class name.
      */
     public static final String computeSimpleName(Class clazz) {
-        if (clazz.isAnonymousClass() || clazz.isLocalClass()) {
+        if (clazz.isLocalClass()) {
+            return clazz.getSimpleName();
+        } else if (clazz.isAnonymousClass()) {
             String name = clazz.getName();
             return name.substring(name.lastIndexOf(".") + 1);
         } else {

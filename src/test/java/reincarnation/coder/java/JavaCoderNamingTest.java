@@ -11,9 +11,6 @@ package reincarnation.coder.java;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * @version 2018/10/19 14:21:51
- */
 class JavaCoderNamingTest {
 
     Object anonymous = new Object() {
@@ -29,7 +26,7 @@ class JavaCoderNamingTest {
 
         assert JavaCoder.computeSimpleName(String.class).equals("String");
         assert JavaCoder.computeSimpleName(anonymous.getClass()).equals("JavaCoderNamingTest$1");
-        assert JavaCoder.computeSimpleName(Local.class).equals("JavaCoderNamingTest$1Local");
+        assert JavaCoder.computeSimpleName(Local.class).equals("Local");
         assert JavaCoder.computeSimpleName(Member.class).equals("Member");
     }
 

@@ -61,6 +61,9 @@ public final class Reincarnation {
     /** The dependency member classes. */
     public final Set<Class> anonymous = new HashSet();
 
+    /** The dependency member classes. */
+    public final Set<Class> locals = new HashSet();
+
     /**
      * Hide constcutor.
      */
@@ -99,7 +102,9 @@ public final class Reincarnation {
                 return;
             }
 
-            if (dependency.getName().startsWith(clazz.getName().concat("$"))) {
+            if (dependency.isLocalClass()) {
+                locals.add(dependency);
+            } else if (dependency.getName().startsWith(clazz.getName().concat("$"))) {
                 anonymous.add(dependency);
             } else {
                 classes.add(dependency);

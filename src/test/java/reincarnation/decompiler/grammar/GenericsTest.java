@@ -77,4 +77,18 @@ class GenericsTest extends CodeVerifier {
             }
         });
     }
+
+    @Test
+    void variableAtClass() {
+        verify(new TestCode.Run() {
+
+            @Override
+            public void run() {
+                class Main<A> {
+                }
+
+                assert Main.class.getTypeParameters()[0].getName().equals("A");
+            }
+        });
+    }
 }

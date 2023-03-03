@@ -244,7 +244,11 @@ class Imports {
             return clazz.getName();
         }
 
-        if (clazz.isAnonymousClass() || clazz.isLocalClass()) {
+        if (clazz.isLocalClass()) {
+            return clazz.getSimpleName();
+        }
+
+        if (clazz.isAnonymousClass()) {
             return clazz.getName().substring(clazz.getPackageName().length() + 1);
         }
 
