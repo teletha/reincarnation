@@ -48,9 +48,6 @@ import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
 import reincarnation.util.MultiMap;
 
-/**
- * @version 2018/10/21 21:36:48
- */
 public class JavaCoder extends Coder<JavaCodingOption> {
 
     /** The current type. (maybe null in debug context) */
@@ -62,11 +59,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     /** The placeholder of local classes. */
     private final MultiMap<Executable, Class> placeholders = new MultiMap(false);
 
-    /**
-     * The local place private final Map<Executable, Class> placeForLocal = new HashMap(); /** The
-     * import manager.
-     */
-    final Imports imports = new Imports();
+    /** The import manager. */
+    private final Imports imports = new Imports();
 
     /**
      * {@inheritDoc}
@@ -140,14 +134,11 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     }
 
     /**
-     * {@inheritDoc}
+     * Write import part.
+     * 
+     * @param classes
      */
-    @Override
-    public void writePackage(Package info) {
-        line("package", space, info.getName(), ";");
-    }
-
-    public void writeImport(Set<Class> classes) {
+    private void writeImport(Set<Class> classes) {
         if (!classes.isEmpty()) {
             imports.add(classes);
 
@@ -156,6 +147,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                 line("import", space, clazz.getCanonicalName(), ";");
             }
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writePackage(Package info) {
+        line("package", space, info.getName(), ";");
     }
 
     /**
