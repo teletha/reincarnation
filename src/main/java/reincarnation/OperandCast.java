@@ -30,6 +30,7 @@ class OperandCast extends Operand {
     OperandCast(Operand value, Class type) {
         this.value = value;
         this.type = type;
+        fix(type);
 
         encolose();
     }

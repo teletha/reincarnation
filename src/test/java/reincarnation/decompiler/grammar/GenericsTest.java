@@ -9,9 +9,12 @@
  */
 package reincarnation.decompiler.grammar;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
@@ -81,7 +84,7 @@ class GenericsTest extends CodeVerifier {
     }
 
     @Test
-    void variableAtClass() {
+    void classVariable() {
         verify(new TestCode.Run() {
 
             @Override
@@ -91,13 +94,13 @@ class GenericsTest extends CodeVerifier {
 
                 TypeVariable[] params = Main.class.getTypeParameters();
                 assert params.length == 1;
-                assert params[0].getName() == "A";
+                assert params[0].getName().equals("A");
             }
         });
     }
 
     @Test
-    void variablesAtClass() {
+    void classVariables() {
         verify(new TestCode.Run() {
 
             @Override
@@ -107,14 +110,14 @@ class GenericsTest extends CodeVerifier {
 
                 TypeVariable[] params = Main.class.getTypeParameters();
                 assert params.length == 2;
-                assert params[0].getName() == "A";
-                assert params[1].getName() == "B";
+                assert params[0].getName().equals("A");
+                assert params[1].getName().equals("B");
             }
         });
     }
 
     @Test
-    void boundedVariableAtClass() {
+    void classBoundedVariable() {
         verify(new TestCode.Run() {
 
             @Override
@@ -122,12 +125,36 @@ class GenericsTest extends CodeVerifier {
                 class Main<A extends CharSequence> {
                 }
 
-                TypeVariable<Class<Main>>[] types = Main.class.getTypeParameters();
+                TypeVariable[] types = Main.class.getTypeParameters();
                 assert types.length == 1;
 
                 Type[] bounds = types[0].getBounds();
                 assert bounds.length == 1;
                 assert bounds[0] == CharSequence.class;
+            }
+        });
+    }
+
+    @Test
+    void classParameterized() {
+        verify(new TestCode.Run() {
+
+            @Override
+            public void run() {
+                class Main<A extends Map<String, Date>> {
+                }
+
+                TypeVariable[] types = Main.class.getTypeParameters();
+                assert types.length == 1;
+
+                Type[] bounds = types[0].getBounds();
+                assert bounds.length == 1;
+                assert bounds[0] instanceof ParameterizedType;
+
+                ParameterizedType parameterized = (ParameterizedType) bounds[0];
+                Type[] params = parameterized.getActualTypeArguments();
+                assert params[0] == String.class;
+                assert params[1] == Date.class;
             }
         });
     }

@@ -394,7 +394,12 @@ public class CodeVerifier {
                     try {
                         return method.invoke(instantiator.get());
                     } catch (InvocationTargetException e) {
-                        return e.getCause();
+                        Throwable cause = e.getCause();
+                        if (cause instanceof AssertionError) {
+                            throw I.quiet(cause);
+                        } else {
+                            return cause;
+                        }
                     } catch (Throwable e) {
                         return e;
                     }
@@ -406,7 +411,12 @@ public class CodeVerifier {
                     try {
                         return method.invoke(instantiator.get(), param);
                     } catch (InvocationTargetException e) {
-                        return e.getCause();
+                        Throwable cause = e.getCause();
+                        if (cause instanceof AssertionError) {
+                            throw I.quiet(cause);
+                        } else {
+                            return cause;
+                        }
                     } catch (Throwable e) {
                         return e;
                     }

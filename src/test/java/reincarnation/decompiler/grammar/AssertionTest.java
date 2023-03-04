@@ -14,9 +14,6 @@ import org.junit.jupiter.api.Test;
 import reincarnation.CodeVerifier;
 import reincarnation.TestCode;
 
-/**
- * @version 2018/10/10 11:20:51
- */
 class AssertionTest extends CodeVerifier {
 
     @Test
@@ -36,7 +33,7 @@ class AssertionTest extends CodeVerifier {
 
             @Override
             public void run(int value) {
-                assert value != 10 || value != 20;
+                assert value != 10 || value < 3;
             }
         });
     }
