@@ -69,20 +69,6 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     final Imports imports = new Imports();
 
     /**
-     * 
-     */
-    public JavaCoder() {
-        super();
-    }
-
-    /**
-     * @param appendable
-     */
-    public JavaCoder(Appendable appendable) {
-        super(appendable);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -161,10 +147,6 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         line("package", space, info.getName(), ";");
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void writeImport(Set<Class> classes) {
         if (!classes.isEmpty()) {
             imports.add(classes);

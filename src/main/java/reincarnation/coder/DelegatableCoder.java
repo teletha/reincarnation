@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 import kiss.Variable;
 import kiss.Ⅲ;
@@ -38,9 +37,8 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * @param coder A delegator.
      */
     protected DelegatableCoder(Coder<O> coder) {
-        super(coder.appendable);
+        super(coder);
         this.coder = Objects.requireNonNull(coder);
-        this.indentSize = coder.indentSize;
     }
 
     /**
@@ -57,14 +55,6 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
     @Override
     public void writePackage(Package info) {
         coder.writePackage(info);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void writeImport(Set<Class> classes) {
-        coder.writeImport(classes);
     }
 
     /**

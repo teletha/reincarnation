@@ -9,7 +9,6 @@
  */
 package reincarnation.coder;
 
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -19,7 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Consumer;
 
 import kiss.I;
@@ -38,32 +36,32 @@ public abstract class Coder<O extends CodingOption> {
     protected static final String EoL = "\r\n";
 
     /** The token separator. */
-    protected String space = " ";
+    protected final String space = " ";
 
     /** The actual writer. */
-    protected Appendable appendable;
+    private final StringBuilder appendable;
 
     /** The current indent size. */
-    protected int indentSize = 0;
+    private int indentSize = 0;
 
     /** The coding options. */
-    protected O options;
+    protected O options = I.make((Class<O>) Model.collectParameters(getClass(), Coder.class)[0]);
 
     /**
      * Create {@link Coder}.
      */
     protected Coder() {
-        this(new StringBuilder());
+        this.appendable = new StringBuilder();
     }
 
     /**
-     * Create {@link Coder}.
+     * For delegation.
      * 
-     * @param appendable
+     * @param original
      */
-    protected Coder(Appendable appendable) {
-        this.appendable = appendable;
-        this.options = I.make((Class<O>) Model.collectParameters(getClass(), Coder.class)[0]);
+    protected Coder(Coder original) {
+        this.appendable = original.appendable;
+        this.indentSize = original.indentSize;
     }
 
     /**
@@ -121,20 +119,16 @@ public abstract class Coder<O extends CodingOption> {
      * @param codes
      */
     protected final void write(Object... codes) {
-        try {
-            for (Object code : codes) {
-                if (code != null) {
-                    if (code instanceof Code) {
-                        ((Code) code).write(this);
-                    } else if (code instanceof Optional) {
-                        ((Optional) code).ifPresent(this::write);
-                    } else {
-                        appendable.append(String.valueOf(code));
-                    }
+        for (Object code : codes) {
+            if (code != null) {
+                if (code instanceof Code) {
+                    ((Code) code).write(this);
+                } else if (code instanceof Optional) {
+                    ((Optional) code).ifPresent(this::write);
+                } else {
+                    appendable.append(String.valueOf(code));
                 }
             }
-        } catch (IOException e) {
-            throw I.quiet(e);
         }
     }
 
@@ -218,13 +212,6 @@ public abstract class Coder<O extends CodingOption> {
      * @param info
      */
     public abstract void writePackage(Package info);
-
-    /**
-     * Import declaration.
-     * 
-     * @param classes
-     */
-    public abstract void writeImport(Set<Class> classes);
 
     /**
      * Type declaration.

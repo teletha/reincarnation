@@ -497,7 +497,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
 
         // Field type
         Class type = load(Type.getType(desc));
-        source.require(type);
 
         switch (opcode) {
         case PUTFIELD:

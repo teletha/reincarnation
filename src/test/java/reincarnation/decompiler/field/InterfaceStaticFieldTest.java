@@ -11,12 +11,9 @@ package reincarnation.decompiler.field;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.TestCode;
 
-/**
- * @version 2018/10/23 15:49:59
- */
 class InterfaceStaticFieldTest extends CodeVerifier {
 
     @Test
