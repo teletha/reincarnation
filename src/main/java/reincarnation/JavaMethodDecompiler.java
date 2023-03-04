@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.*;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -578,6 +578,35 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
             break;
 
         case GETSTATIC:
+            // Primitive class literals are converted to special field accesses. So it is restored
+            // to its original code.
+            if (name.equals("TYPE")) {
+                if (owner == Boolean.class) {
+                    current.addOperand(new OperandClass(boolean.class));
+                    break;
+                } else if (owner == Integer.class) {
+                    current.addOperand(new OperandClass(int.class));
+                    break;
+                } else if (owner == Long.class) {
+                    current.addOperand(new OperandClass(long.class));
+                    break;
+                } else if (owner == Float.class) {
+                    current.addOperand(new OperandClass(float.class));
+                    break;
+                } else if (owner == Double.class) {
+                    current.addOperand(new OperandClass(double.class));
+                    break;
+                } else if (owner == Character.class) {
+                    current.addOperand(new OperandClass(char.class));
+                    break;
+                } else if (owner == Short.class) {
+                    current.addOperand(new OperandClass(short.class));
+                    break;
+                } else if (owner == Byte.class) {
+                    current.addOperand(new OperandClass(byte.class));
+                    break;
+                }
+            }
             current.addOperand(accessClassField(owner, name), type);
             break;
         }

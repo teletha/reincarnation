@@ -9,8 +9,14 @@
  */
 package reincarnation.coder.java;
 
+import java.awt.List;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+
 import org.junit.jupiter.api.Test;
 
+import psychopath.Directory;
 import reincarnation.coder.java.imports.AncestorMemberIsInteger;
 import reincarnation.coder.java.imports.InterfaceMemberIsInteger;
 import reincarnation.coder.java.imports.ParentIsInteger;
@@ -18,14 +24,74 @@ import reincarnation.coder.java.imports.ParentMemberIsInteger;
 import reincarnation.coder.java.imports.external.ClassHasIntegerMember;
 import reincarnation.coder.java.imports.external.InterfaceHasIntegerMember;
 
-/**
- * @version 2018/10/20 20:29:19
- */
 class ImportsTest {
 
     private static final Class coreInteger = java.lang.Integer.class;
 
     private static final Class externalInteger = reincarnation.coder.java.imports.external.Integer.class;
+
+    @Test
+    void name() {
+        Imports imports = new Imports();
+        assert imports.name(ArrayList.class).equals("ArrayList");
+        assert imports.name(List.class).equals("List");
+    }
+
+    @Test
+    void nameSame() {
+        Imports imports = new Imports();
+        assert imports.name(Date.class).equals("Date");
+        assert imports.name(java.sql.Date.class).equals("java.sql.Date");
+    }
+
+    @Test
+    void namePrimitive() {
+        Imports imports = new Imports();
+        assert imports.name(int.class).equals("int");
+        assert imports.name(float.class).equals("float");
+    }
+
+    @Test
+    void nameCore() {
+        Imports imports = new Imports();
+        assert imports.name(String.class).equals("String");
+        assert imports.name(Error.class).equals("Error");
+    }
+
+    @Test
+    void nameArray() {
+        Imports imports = new Imports();
+        assert imports.name(File[].class).equals("File[]");
+        assert imports.name(Directory[].class).equals("Directory[]");
+    }
+
+    @Test
+    void nameSameArray() {
+        Imports imports = new Imports();
+        assert imports.name(File[].class).equals("File[]");
+        assert imports.name(psychopath.File[].class).equals("psychopath.File[]");
+    }
+
+    @Test
+    void namePrimitiveArray() {
+        Imports imports = new Imports();
+        assert imports.name(int[].class).equals("int[]");
+        assert imports.name(double[].class).equals("double[]");
+    }
+
+    @Test
+    void nameMultiDimensionArray() {
+        Imports imports = new Imports();
+        assert imports.name(File[][].class).equals("File[][]");
+        assert imports.name(File[][][][].class).equals("File[][][][]");
+    }
+
+    @Test
+    void nameMultiDimensionSameArray() {
+        Imports imports = new Imports();
+        assert imports.name(File[][].class).equals("File[][]");
+        assert imports.name(psychopath.File[][].class).equals("psychopath.File[][]");
+    }
 
     @Test
     void diffName() {

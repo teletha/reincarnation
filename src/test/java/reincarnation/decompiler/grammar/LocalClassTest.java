@@ -12,7 +12,6 @@ package reincarnation.decompiler.grammar;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class LocalClassTest extends CodeVerifier {
@@ -48,7 +47,6 @@ class LocalClassTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable
     void outerReference() {
         verify(new TestCode.Text() {
 

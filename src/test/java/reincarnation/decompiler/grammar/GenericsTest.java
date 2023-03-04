@@ -21,7 +21,6 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 @SuppressWarnings("serial")
@@ -273,7 +272,6 @@ class GenericsTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable
     void implementsParameterized() {
         verify(new TestCode.Run() {
 

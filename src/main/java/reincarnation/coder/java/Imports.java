@@ -14,9 +14,6 @@ import java.util.Set;
 
 import kiss.model.Model;
 
-/**
- * @version 2018/10/19 14:24:55
- */
 class Imports {
 
     /** The core packege classes. */
@@ -176,6 +173,10 @@ class Imports {
             }
         }
 
+        for (Class inner : Classes.inner(root)) {
+            addImplicitly(inner);
+        }
+
         for (Class core : cores) {
             addImplicitly(core);
         }
@@ -195,7 +196,11 @@ class Imports {
      * @param clazz A class to import.
      */
     void add(Class clazz) {
-        if (clazz.getPackage().getName().equals("java.lang")) {
+        while (clazz.isArray()) {
+            clazz = clazz.getComponentType();
+        }
+
+        if (clazz.isPrimitive()) {
             return;
         }
 
@@ -240,23 +245,44 @@ class Imports {
      * @return A class name.
      */
     String name(Class clazz) {
-        if (clazz.isPrimitive()) {
-            return clazz.getName();
+        int depth = 0;
+        Class raw = clazz;
+        while (raw.isArray()) {
+            depth++;
+            raw = raw.getComponentType();
         }
 
-        if (clazz.isLocalClass()) {
-            return clazz.getSimpleName();
+        if (raw.isPrimitive()) {
+            return raw.getSimpleName().concat("[]".repeat(depth));
         }
 
-        if (clazz.isAnonymousClass()) {
+        if (raw.isLocalClass()) {
+            return raw.getSimpleName().concat("[]".repeat(depth));
+        }
+
+        if (raw.isAnonymousClass()) {
             return clazz.getName().substring(clazz.getPackageName().length() + 1);
         }
 
-        if (imported.contains(clazz) || importedImplicitly.contains(clazz)) {
-            return clazz.getSimpleName();
-        }
+        if (imported.contains(raw)) {
+            return raw.getSimpleName().concat("[]".repeat(depth));
+        } else if (importedImplicitly.contains(raw)) {
+            if (!Classes.isMember(root, raw)) {
+                imported.add(raw);
+                importedName.add(raw.getSimpleName());
+            }
+            return raw.getSimpleName().concat("[]".repeat(depth));
+        } else {
+            String name = raw.getSimpleName();
+            if (importedName.contains(name) || importedNameImplicitly.contains(name)) {
+                return clazz.getCanonicalName();
+            }
 
-        return clazz.getCanonicalName();
+            imported.add(raw);
+            importedName.add(name);
+
+            return raw.getSimpleName().concat("[]".repeat(depth));
+        }
     }
 
     /**

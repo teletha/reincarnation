@@ -9,7 +9,9 @@
  */
 package reincarnation.coder.java;
 
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 /**
  * @version 2018/10/20 9:36:18
@@ -52,6 +54,20 @@ class Classes {
             list.addFirst(clazz);
         }
         return list;
+    }
+
+    static Set<Class> inner(Class clazz) {
+        Set<Class> set = new HashSet();
+        inner(clazz, set);
+        return set;
+    }
+
+    private static void inner(Class clazz, Set<Class> set) {
+        set.add(clazz);
+
+        for (Class declared : clazz.getDeclaredClasses()) {
+            inner(declared, set);
+        }
     }
 
     /**

@@ -11,8 +11,8 @@ package reincarnation.decompiler.primitives;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.TestCode;
 
 /**
  * @version 2018/10/10 9:05:14
@@ -103,6 +103,29 @@ public class CharTest extends CodeVerifier {
             @Override
             public char run(char value) {
                 return (char) (value + 1);
+            }
+        });
+    }
+
+    @Test
+    void classEquality() {
+        verify(new TestCode.Boolean() {
+
+            @Override
+            public boolean run() {
+                return char.class == char.class;
+            }
+        });
+    }
+
+    @Test
+    void arrayClassEquality() {
+        verify(new TestCode.Boolean() {
+
+            @Override
+            public boolean run() {
+                char[] array = {};
+                return char[].class == array.getClass();
             }
         });
     }

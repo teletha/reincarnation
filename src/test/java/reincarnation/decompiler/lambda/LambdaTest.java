@@ -26,10 +26,8 @@ import java.util.function.ToIntFunction;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
-@Debuggable
 class LambdaTest extends CodeVerifier {
 
     @Test

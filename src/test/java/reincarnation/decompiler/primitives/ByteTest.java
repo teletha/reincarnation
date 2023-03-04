@@ -11,8 +11,8 @@ package reincarnation.decompiler.primitives;
 
 import org.junit.jupiter.api.Test;
 
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.TestCode;
 
 /**
  * @version 2018/10/10 8:46:48
@@ -92,6 +92,29 @@ public class ByteTest extends CodeVerifier {
             @Override
             public byte run(byte value) {
                 return java.lang.Byte.MIN_VALUE;
+            }
+        });
+    }
+
+    @Test
+    void classEquality() {
+        verify(new TestCode.Boolean() {
+
+            @Override
+            public boolean run() {
+                return byte.class == byte.class;
+            }
+        });
+    }
+
+    @Test
+    void arrayClassEquality() {
+        verify(new TestCode.Boolean() {
+
+            @Override
+            public boolean run() {
+                byte[] array = {};
+                return byte[].class == array.getClass();
             }
         });
     }
