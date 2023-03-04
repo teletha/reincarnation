@@ -395,7 +395,7 @@ public class CodeVerifier {
                         return method.invoke(instantiator.get());
                     } catch (InvocationTargetException e) {
                         Throwable cause = e.getCause();
-                        if (cause instanceof AssertionError) {
+                        if (needRethrow(clazz, cause)) {
                             throw I.quiet(cause);
                         } else {
                             return cause;
@@ -412,7 +412,7 @@ public class CodeVerifier {
                         return method.invoke(instantiator.get(), param);
                     } catch (InvocationTargetException e) {
                         Throwable cause = e.getCause();
-                        if (cause instanceof AssertionError) {
+                        if (needRethrow(clazz, cause)) {
                             throw I.quiet(cause);
                         } else {
                             return cause;
@@ -428,6 +428,10 @@ public class CodeVerifier {
                 // the wrapped error in here.
                 throw new Error(getClass().getSimpleName() + " don't support for multiple parameters.");
             }
+        }
+
+        private boolean needRethrow(Class clazz, Throwable error) {
+            return error instanceof AssertionError && !clazz.getEnclosingClass().getSimpleName().equals("AssertionTest");
         }
 
         /**
