@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * @version 2018/10/26 9:41:07
@@ -33,6 +34,9 @@ public final class Join<T> implements Code {
 
     /** The literalizer. */
     private BiFunction<Integer, T, ?> converter = (i, v) -> v;
+
+    /** The filter. */
+    private Predicate<T> take;
 
     /** The flag. */
     private boolean ignoreEmpty = true;
@@ -76,6 +80,17 @@ public final class Join<T> implements Code {
         if (suffix != null) {
             this.suffix = suffix;
         }
+        return this;
+    }
+
+    /**
+     * Set filter.
+     * 
+     * @param condition
+     * @return
+     */
+    public Join<T> take(Predicate<T> condition) {
+        this.take = condition;
         return this;
     }
 
@@ -161,6 +176,8 @@ public final class Join<T> implements Code {
      */
     @Override
     public void write(Coder coder) {
+        List<T> values = take == null ? this.values : this.values.stream().filter(take).toList();
+
         if (!ignoreEmpty || values.isEmpty() == false) {
             int index = 0;
             coder.write(prefix);
@@ -173,6 +190,29 @@ public final class Join<T> implements Code {
                 }
             }
             coder.write(suffix);
+        }
+    }
+
+    /**
+     * Write to {@link StringBuilder}.
+     * 
+     * @param builder
+     */
+    public void write(StringBuilder builder) {
+        List<T> values = take == null ? this.values : this.values.stream().filter(take).toList();
+
+        if (!ignoreEmpty || values.isEmpty() == false) {
+            int index = 0;
+            builder.append(prefix);
+            Iterator<T> iterator = values.iterator();
+            if (iterator.hasNext()) {
+                builder.append(converter.apply(index++, iterator.next()));
+
+                while (iterator.hasNext()) {
+                    builder.append(separator).append(converter.apply(index++, iterator.next()));
+                }
+            }
+            builder.append(suffix);
         }
     }
 

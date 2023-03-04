@@ -497,6 +497,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
 
         // Field type
         Class type = load(Type.getType(desc));
+        source.require(type);
 
         switch (opcode) {
         case PUTFIELD:
@@ -1688,6 +1689,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
                 current.remove(0).as(OperandAssign.class).exact().assignedTo(extra).to(current::addOperand);
             }
 
+            source.require(clazz);
             current.addOperand(new OperandInstanceOf(current.remove(0), clazz));
             break;
         }

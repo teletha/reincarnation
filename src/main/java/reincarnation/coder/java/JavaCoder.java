@@ -94,6 +94,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
             Method method = e.getEnclosingMethod();
             if (method != null) placeholders.put(method, e);
+
+            // merge dependency classes
+            imports.add(Reincarnation.exhume(e).classes);
         });
 
         imports.setBase(reincarnation.clazz);
@@ -182,7 +185,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         String kind;
         String extend = "";
-        Join<Class> implement;
+        Join<Type> implement;
         Join accessor = modifier(type);
         Join<TypeVariable> variable = Join.of(type.getTypeParameters())
                 .prefix("<")
@@ -192,15 +195,15 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         if (type.isInterface()) {
             kind = "interface";
-            implement = Join.of(type.getInterfaces()).prefix(" extends ").converter(this::name);
+            implement = Join.of(type.getGenericInterfaces()).prefix(" extends ").converter(this::name);
             accessor.remove("static", "abstract");
         } else if (type.isEnum()) {
             kind = "enum";
-            implement = Join.of(type.getInterfaces()).prefix(" implements ").converter(this::name);
+            implement = Join.of(type.getGenericInterfaces()).prefix(" implements ").converter(this::name);
         } else {
             kind = "class";
-            extend = type.getSuperclass() == Object.class ? "" : " extends " + name(type.getSuperclass());
-            implement = Join.of(type.getInterfaces()).prefix(" implements ").converter(this::name);
+            extend = type.getSuperclass() == Object.class ? "" : " extends " + name(type.getGenericSuperclass());
+            implement = Join.of(type.getGenericInterfaces()).prefix(" implements ").converter(this::name);
         }
 
         line();
@@ -628,7 +631,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeSuperConstructorCall(Constructor constructor, List<? extends Code> params) {
-        write("super", buildParameter(constructor, params));
+        if (!params.isEmpty()) {
+            write("super", buildParameter(constructor, params));
+        }
     }
 
     /**
@@ -958,11 +963,13 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         } else if (type instanceof TypeVariable variable) {
             builder.append(variable);
 
-            StringJoiner join = new StringJoiner("," + space, space + "extends" + space, "");
-            for (Type bound : variable.getBounds()) {
-                join.add(name(bound));
-            }
-            builder.append(join);
+            Join.of(variable.getBounds())
+                    .prefix(" extends ")
+                    .separator("," + space)
+                    .converter(x -> name(x))
+                    .take(x -> x != Object.class)
+                    .ignoreEmpty(true)
+                    .write(builder);
         } else if (type instanceof ParameterizedType parameterized) {
             qualify(parameterized.getRawType(), builder);
 

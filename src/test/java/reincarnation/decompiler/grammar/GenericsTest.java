@@ -12,15 +12,19 @@ package reincarnation.decompiler.grammar;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
+@SuppressWarnings("serial")
 class GenericsTest extends CodeVerifier {
 
     @Test
@@ -155,6 +159,137 @@ class GenericsTest extends CodeVerifier {
                 Type[] params = parameterized.getActualTypeArguments();
                 assert params[0] == String.class;
                 assert params[1] == Date.class;
+            }
+        });
+    }
+
+    @Test
+    void extendsVariable() {
+        verify(new TestCode.Run() {
+
+            @Override
+            public void run() {
+                class Main<A> extends ArrayList<A> {
+                }
+
+                Type parent = Main.class.getGenericSuperclass();
+                assert parent instanceof ParameterizedType;
+
+                ParameterizedType parameterized = (ParameterizedType) parent;
+                Type[] params = parameterized.getActualTypeArguments();
+                assert params.length == 1;
+                assert params[0] instanceof TypeVariable;
+                assert params[0].getTypeName().equals("A");
+            }
+        });
+    }
+
+    @Test
+    void extendsVariables() {
+        verify(new TestCode.Run() {
+
+            @Override
+            public void run() {
+                class Main<A, B> extends HashMap<A, B> {
+                }
+
+                Type parent = Main.class.getGenericSuperclass();
+                assert parent instanceof ParameterizedType;
+
+                ParameterizedType parameterized = (ParameterizedType) parent;
+                Type[] params = parameterized.getActualTypeArguments();
+                assert params.length == 2;
+                assert params[0] instanceof TypeVariable;
+                assert params[0].getTypeName().equals("A");
+                assert params[1] instanceof TypeVariable;
+                assert params[1].getTypeName().equals("B");
+            }
+        });
+    }
+
+    @Test
+    void extendsParameterized() {
+        verify(new TestCode.Run() {
+
+            @Override
+            public void run() {
+                class Main extends HashMap<Integer, String> {
+                }
+
+                Type parent = Main.class.getGenericSuperclass();
+                assert parent instanceof ParameterizedType;
+
+                ParameterizedType parameterized = (ParameterizedType) parent;
+                Type[] params = parameterized.getActualTypeArguments();
+                assert params.length == 2;
+                assert params[0] == Integer.class;
+                assert params[1] == String.class;
+            }
+        });
+    }
+
+    @Test
+    void implementsVariable() {
+        verify(new TestCode.Run() {
+
+            @Override
+            public void run() {
+                abstract class Main<A> implements List<A> {
+                }
+
+                Type parent = Main.class.getGenericInterfaces()[0];
+                assert parent instanceof ParameterizedType;
+
+                ParameterizedType parameterized = (ParameterizedType) parent;
+                Type[] params = parameterized.getActualTypeArguments();
+                assert params.length == 1;
+                assert params[0] instanceof TypeVariable;
+                assert params[0].getTypeName().equals("A");
+            }
+        });
+    }
+
+    @Test
+    void implementsVariables() {
+        verify(new TestCode.Run() {
+
+            @Override
+            public void run() {
+                abstract class Main<A, B> implements Map<A, B> {
+                }
+
+                Type parent = Main.class.getGenericInterfaces()[0];
+                assert parent instanceof ParameterizedType;
+
+                ParameterizedType parameterized = (ParameterizedType) parent;
+                Type[] params = parameterized.getActualTypeArguments();
+                assert params.length == 2;
+                assert params[0] instanceof TypeVariable;
+                assert params[0].getTypeName().equals("A");
+                assert params[1] instanceof TypeVariable;
+                assert params[1].getTypeName().equals("B");
+            }
+        });
+    }
+
+    @Test
+    @Debuggable
+    void implementsParameterized() {
+        verify(new TestCode.Run() {
+
+            @Override
+            public void run() {
+                abstract class Main implements Map<Integer, String> {
+                }
+
+                Type parent = Main.class.getGenericInterfaces()[0];
+                assert parent instanceof ParameterizedType;
+
+                ParameterizedType parameterized = (ParameterizedType) parent;
+                Type[] params = parameterized.getActualTypeArguments();
+                assert params.length == 2;
+                assert params[0] == Integer.class;
+                assert params[1] == String.class;
             }
         });
     }

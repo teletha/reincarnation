@@ -12,7 +12,6 @@ package reincarnation.decompiler.grammar;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class AssertionTest extends CodeVerifier {
@@ -74,7 +73,6 @@ class AssertionTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable
     void multiMessage() {
         verify(new TestCode.RunInt() {
 

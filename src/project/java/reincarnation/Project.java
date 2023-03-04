@@ -36,14 +36,14 @@ public class Project extends bee.api.Project {
                 - basic grammar (keyword, operator, variable declaration, cast, type definition, field and method definition)
                 - control syntax (if, switch, while, do-while, for, break, continue, try-catch-finally)
                 - auto boxing and unboxing
-                - assert
+                - assertion (with message)
                 - varargs
                 - enhanced for-loop
                 - multi catches
                 - var
                 - string literal
                 - local class
-                - instanceof with pattern matching
+                - instanceof (with pattern matching)
 
                 #### Unsupported
                 - annotation
