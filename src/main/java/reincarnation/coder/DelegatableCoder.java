@@ -407,6 +407,14 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
+    public void writeAssert(Code code, Variable<Code> message) {
+        coder.writeAssert(code, message);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeThrow(Code code) {
         coder.writeThrow(code);
     }

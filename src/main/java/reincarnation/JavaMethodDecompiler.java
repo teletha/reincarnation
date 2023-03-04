@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.load;
+import static reincarnation.OperandUtil.*;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -246,9 +246,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
 
     /** The flag whether the next jump instruction is used for assert statement or not. */
     private boolean assertJump = false;
-
-    /** The flag whether the next new instruction is used for assert statement or not. */
-    private boolean assertNew = false;
 
     /** The default debugger. */
     private final Debugger debugger = Debugger.current();
@@ -488,7 +485,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
         // If this field access instruction is used for assertion, we should skip it to erase
         // compiler generated extra code.
         if (opcode == GETSTATIC && name.equals("$assertionsDisabled")) {
-            assertJump = assertNew = true;
+            assertJump = true;
             return;
         }
 
@@ -1127,6 +1124,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
 
         // throw
         case ATHROW:
+            if (match(INVOKESPECIAL, ATHROW)) {
+                Operand o = current.peek(0);
+                if (o instanceof OperandConstructorCall con && con.type.is(AssertionError.class)) {
+                    debugger.print(nodes);
+                    current.remove(0); // remove new AssertionError()
+                    merge(current);
+                    current.addOperand(new OperandAssert(current.remove(0), con.children().to()));
+                    break;
+                }
+            }
+
             current.addOperand(new OperandThrow(current.remove(0)));
             current.destination = Termination;
             break;
@@ -1173,6 +1181,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
             current.addOperand(new OperandCast(current.remove(0).fix(double.class), long.class));
             break;
         }
+
     }
 
     /**
@@ -1651,13 +1660,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
 
         switch (opcode) {
         case NEW:
-            if (assertNew) {
-                assertNew = false;
-                current = createNodeAfter(current, false);
-                current.previous.connect(current);
-
-                merge(current.previous);
-            }
             countInitialization++;
 
             current.addOperand(new OperandType(load(type)));

@@ -754,6 +754,18 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
+    public void writeAssert(Code code, Variable<Code> message) {
+        if (message.isAbsent()) {
+            write("assert", space, code);
+        } else {
+            write("assert", space, code, space, ":", space, message.v);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeThrow(Code code) {
         write("throw", space, code);
     }

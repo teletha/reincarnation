@@ -552,6 +552,14 @@ public abstract class Coder<O extends CodingOption> {
     public abstract void writeLineComment(Object comment);
 
     /**
+     * Assert statement.
+     * 
+     * @param code A value to be assertion.
+     * @param message A message.
+     */
+    public abstract void writeAssert(Code code, Variable<Code> message);
+
+    /**
      * Throw statement.
      * 
      * @param code A value to be thrown.

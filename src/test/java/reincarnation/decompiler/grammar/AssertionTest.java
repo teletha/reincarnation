@@ -12,6 +12,7 @@ package reincarnation.decompiler.grammar;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class AssertionTest extends CodeVerifier {
@@ -34,6 +35,53 @@ class AssertionTest extends CodeVerifier {
             @Override
             public void run(int value) {
                 assert value != 10 || value < 3;
+            }
+        });
+    }
+
+    @Test
+    void messageText() {
+        verify(new TestCode.RunInt() {
+
+            @Override
+            public void run(int value) {
+                assert value != 10 : "fail";
+            }
+        });
+    }
+
+    @Test
+    void messageExpression() {
+        verify(new TestCode.RunInt() {
+
+            @Override
+            public void run(int value) {
+                assert value != 10 || value < 3 : "fail on " + value;
+            }
+        });
+    }
+
+    @Test
+    void multi() {
+        verify(new TestCode.RunInt() {
+
+            @Override
+            public void run(int value) {
+                assert value != 0;
+                assert value != 10;
+            }
+        });
+    }
+
+    @Test
+    @Debuggable
+    void multiMessage() {
+        verify(new TestCode.RunInt() {
+
+            @Override
+            public void run(int value) {
+                assert value != 0 : "fail on " + value;
+                assert value != 10 : "fail on " + value;
             }
         });
     }
