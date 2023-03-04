@@ -92,10 +92,10 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         if (options.writeMemberFromTopLevel && Classes.isMemberLike(reincarnation.clazz)) {
             Hierarchy hierarchy = Hierarchy.calculate(reincarnation);
 
-            writeImport(hierarchy.classes);
+            writeLazy(() -> writeImport(hierarchy.classes));
             writeHierarchy(hierarchy);
         } else {
-            writeImport(reincarnation.classes);
+            writeLazy(() -> writeImport(reincarnation.classes));
             writeOne(reincarnation);
         }
     }

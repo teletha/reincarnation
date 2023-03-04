@@ -13,7 +13,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -39,10 +41,13 @@ public abstract class Coder<O extends CodingOption> {
     protected final String space = " ";
 
     /** The actual writer. */
-    private final StringBuilder appendable;
+    private StringBuilder builder;
 
     /** The current indent size. */
     private int indentSize = 0;
+
+    /** The lazy writers. */
+    private final Deque<Ⅲ<Integer, Integer, Runnable>> lazy = new ArrayDeque();
 
     /** The coding options. */
     protected O options = I.make((Class<O>) Model.collectParameters(getClass(), Coder.class)[0]);
@@ -51,7 +56,7 @@ public abstract class Coder<O extends CodingOption> {
      * Create {@link Coder}.
      */
     protected Coder() {
-        this.appendable = new StringBuilder();
+        this.builder = new StringBuilder();
     }
 
     /**
@@ -60,7 +65,7 @@ public abstract class Coder<O extends CodingOption> {
      * @param original
      */
     protected Coder(Coder original) {
-        this.appendable = original.appendable;
+        this.builder = original.builder;
         this.indentSize = original.indentSize;
     }
 
@@ -126,7 +131,7 @@ public abstract class Coder<O extends CodingOption> {
                 } else if (code instanceof Optional) {
                     ((Optional) code).ifPresent(this::write);
                 } else {
-                    appendable.append(String.valueOf(code));
+                    builder.append(String.valueOf(code));
                 }
             }
         }
@@ -192,11 +197,31 @@ public abstract class Coder<O extends CodingOption> {
     }
 
     /**
+     * Perform lazy code writing.
+     * 
+     * @param writer
+     */
+    protected final void writeLazy(Runnable writer) {
+        lazy.addLast(I.pair(builder.length(), indentSize, writer));
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public String toString() {
-        return appendable.toString();
+        StringBuilder writer = builder;
+
+        Iterator<Ⅲ<Integer, Integer, Runnable>> iterator = lazy.descendingIterator();
+        while (iterator.hasNext()) {
+            Ⅲ<Integer, Integer, Runnable> x = iterator.next();
+            builder = new StringBuilder();
+            indentSize = x.ⅱ;
+
+            x.ⅲ.run();
+            writer.insert(x.ⅰ, builder);
+        }
+        return writer.toString();
     }
 
     /**
