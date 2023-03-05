@@ -26,6 +26,7 @@ import java.util.function.ToIntFunction;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class LambdaTest extends CodeVerifier {
@@ -76,6 +77,7 @@ class LambdaTest extends CodeVerifier {
     }
 
     @Test
+    @Debuggable
     void inlineWithObject() {
         verify(new TestCode.Text() {
 

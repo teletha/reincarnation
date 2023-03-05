@@ -133,10 +133,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * Write import part.
      */
     private void writeImport() {
-        line();
-        for (Class clazz : imports.imported) {
-            line("import ", clazz.getCanonicalName(), ";");
-        }
+        imports.export().values().forEach(classes -> {
+            line();
+            for (Class clazz : classes) {
+                line("import ", clazz.getCanonicalName(), ";");
+            }
+        });
     }
 
     /**

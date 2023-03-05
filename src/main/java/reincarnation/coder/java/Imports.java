@@ -9,15 +9,23 @@
  */
 package reincarnation.coder.java;
 
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
+import kiss.I;
 import kiss.model.Model;
 
 class Imports {
 
+    /** The core package. */
+    private static final Package Core = Object.class.getPackage();
+
     /** The imported class. */
-    final Set<Class> imported = new HashSet();
+    private final Set<Class> imported = new TreeSet<>(Comparator.comparing(Class::getName));
 
     /** The imported simple class name. */
     private final Set<String> importedName = new HashSet();
@@ -103,5 +111,22 @@ class Imports {
 
             return raw.getSimpleName().concat("[]".repeat(depth));
         }
+    }
+
+    /**
+     * Export classes.
+     * 
+     * @return
+     */
+    Map<String, List<Class>> export() {
+        return I.signal(imported).skip(x -> x.getPackage() == Core).toGroup(x -> {
+            String name = x.getPackage().getName();
+            int index = name.indexOf(".");
+            if (index == -1) {
+                return name;
+            } else {
+                return name.substring(0, index);
+            }
+        });
     }
 }
