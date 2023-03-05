@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.StringJoiner;
 
 import kiss.I;
@@ -83,10 +82,10 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         if (options.writeMemberFromTopLevel && Classes.isMemberLike(reincarnation.clazz)) {
             Hierarchy hierarchy = Hierarchy.calculate(reincarnation);
 
-            writeLazy(() -> writeImport(hierarchy.classes));
+            writeLazy(this::writeImport);
             writeHierarchy(hierarchy);
         } else {
-            writeLazy(() -> writeImport(reincarnation.classes));
+            writeLazy(this::writeImport);
             writeOne(reincarnation);
         }
     }
@@ -132,16 +131,11 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
     /**
      * Write import part.
-     * 
-     * @param classes
      */
-    private void writeImport(Set<Class> classes) {
-        if (!classes.isEmpty()) {
-
-            line();
-            for (Class clazz : imports.imported) {
-                line("import", space, clazz.getCanonicalName(), ";");
-            }
+    private void writeImport() {
+        line();
+        for (Class clazz : imports.imported) {
+            line("import ", clazz.getCanonicalName(), ";");
         }
     }
 

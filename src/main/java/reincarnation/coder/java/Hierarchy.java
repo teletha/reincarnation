@@ -17,9 +17,6 @@ import java.util.Set;
 
 import reincarnation.Reincarnation;
 
-/**
- * @version 2018/10/21 16:45:39
- */
 class Hierarchy {
 
     final Class clazz;
@@ -28,11 +25,6 @@ class Hierarchy {
 
     boolean skelton = false;
 
-    final Set<Class> classes = new HashSet();
-
-    /**
-     * @param clazz
-     */
     Hierarchy(Class clazz) {
         this.clazz = clazz;
     }
@@ -49,27 +41,9 @@ class Hierarchy {
         return child;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return dump(1);
-    }
-
-    private String dump(int indent) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(clazz.getName());
-        for (Hierarchy hierarchy : children) {
-            builder.append("\r\n").append("\t".repeat(indent)).append(hierarchy.dump(indent + 1));
-        }
-        return builder.toString();
-    }
-
     static Hierarchy calculate(Reincarnation reincarnation) {
         Class root = Classes.enclosingRoot(reincarnation.clazz);
         Hierarchy hierarchy = new Hierarchy(root);
-        hierarchy.classes.addAll(reincarnation.classes);
         hierarchy.skelton = true;
 
         Set<Class> resolved = new HashSet();
@@ -93,7 +67,6 @@ class Hierarchy {
                     Reincarnation r = Reincarnation.exhume(clazz);
                     queue.addAll(r.classes);
                     queue.addAll(r.anonymous);
-                    hierarchy.classes.addAll(r.classes);
                 }
             }
         }
