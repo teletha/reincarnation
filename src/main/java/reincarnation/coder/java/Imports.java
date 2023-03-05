@@ -142,16 +142,8 @@ class Imports {
     /** The Implicitly imported class. */
     private final Set<String> importedNameImplicitly = new HashSet();
 
-    Set<Class> hierarchy = new HashSet();
-
-    /** The base class. */
-    private Class base;
-
     /** The root class. */
     private Class root;
-
-    /** The base package. */
-    private Package basePackage;
 
     /**
      * Set base class.
@@ -159,26 +151,16 @@ class Imports {
      * @param base
      */
     void setBase(Class base) {
-        this.base = base;
-        this.basePackage = base.getPackage();
         this.root = Classes.enclosingRoot(base);
-
-        addImplicitly(base);
-
-        hierarchy = Model.collectTypes(base);
-
-        for (Class hierarchy : hierarchy) {
-            for (Class member : hierarchy.getDeclaredClasses()) {
-                addImplicitly(member);
-            }
-        }
 
         for (Class inner : Classes.inner(root)) {
             addImplicitly(inner);
         }
 
-        for (Class core : cores) {
-            addImplicitly(core);
+        for (Class clazz : Model.collectTypes(base)) {
+            for (Class member : clazz.getDeclaredClasses()) {
+                addImplicitly(member);
+            }
         }
     }
 
@@ -188,54 +170,6 @@ class Imports {
         if (importedNameImplicitly.add(simple)) {
             importedImplicitly.add(clazz);
         }
-    }
-
-    /**
-     * Try to import class.
-     * 
-     * @param clazz A class to import.
-     */
-    void add(Class clazz) {
-        while (clazz.isArray()) {
-            clazz = clazz.getComponentType();
-        }
-
-        if (clazz.isPrimitive()) {
-            return;
-        }
-
-        if (clazz.isAnonymousClass()) {
-            return;
-        }
-
-        String simple = clazz.getSimpleName();
-
-        if (importedName.add(simple)) {
-            if (!Classes.isMember(root, clazz)) {
-                imported.add(clazz);
-            }
-        }
-    }
-
-    /**
-     * Try to import class.
-     * 
-     * @param classes Classes to import.
-     */
-    void add(Set<Class> classes) {
-        for (Class clazz : classes) {
-            add(clazz);
-        }
-    }
-
-    /**
-     * Check whether the specified class is imported or not.
-     * 
-     * @param clazz
-     * @return
-     */
-    boolean contains(Class clazz) {
-        return imported.contains(clazz);
     }
 
     /**
@@ -283,17 +217,5 @@ class Imports {
 
             return raw.getSimpleName().concat("[]".repeat(depth));
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Imported \t").append(imported).append("\r\n");
-        builder.append("Names    \t").append(importedName).append("\r\n");
-
-        return builder.toString();
     }
 }

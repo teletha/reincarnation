@@ -29,6 +29,15 @@ class Classes {
     }
 
     /**
+     * Check member type.
+     * 
+     * @return
+     */
+    static boolean isMember(Class encloser, Class target) {
+        return enclosings(target).contains(encloser);
+    }
+
+    /**
      * Calculate root of enclosing class.
      * 
      * @param clazz A target class.
@@ -68,14 +77,5 @@ class Classes {
         for (Class declared : clazz.getDeclaredClasses()) {
             inner(declared, set);
         }
-    }
-
-    /**
-     * Check member type.
-     * 
-     * @return
-     */
-    static boolean isMember(Class encloser, Class target) {
-        return enclosings(target).contains(encloser);
     }
 }

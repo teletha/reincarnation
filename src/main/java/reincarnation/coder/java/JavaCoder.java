@@ -74,9 +74,6 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
             Method method = e.getEnclosingMethod();
             if (method != null) placeholders.put(method, e);
-
-            // merge dependency classes
-            imports.add(Reincarnation.exhume(e).classes);
         });
 
         imports.setBase(reincarnation.clazz);
@@ -140,7 +137,6 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     private void writeImport(Set<Class> classes) {
         if (!classes.isEmpty()) {
-            imports.add(classes);
 
             line();
             for (Class clazz : imports.imported) {

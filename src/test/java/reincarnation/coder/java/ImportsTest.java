@@ -26,10 +26,6 @@ import reincarnation.coder.java.imports.external.InterfaceHasIntegerMember;
 
 class ImportsTest {
 
-    private static final Class coreInteger = java.lang.Integer.class;
-
-    private static final Class externalInteger = reincarnation.coder.java.imports.external.Integer.class;
-
     @Test
     void name() {
         Imports imports = new Imports();
@@ -94,50 +90,20 @@ class ImportsTest {
     }
 
     @Test
-    void diffName() {
-        Imports imports = new Imports();
-        imports.add(Member1.class);
-        imports.add(Member2.class);
-
-        assert imports.name(Member1.class).equals(Member1.class.getSimpleName());
-        assert imports.name(Member2.class).equals(Member2.class.getSimpleName());
-    }
-
-    @Test
-    void sameName() {
-        Imports imports = new Imports();
-        imports.add(Member1.SameName.class);
-        imports.add(Member2.SameName.class);
-
-        assert imports.name(Member1.SameName.class).equals(Member1.SameName.class.getSimpleName());
-        assert imports.name(Member2.SameName.class).equals(Member2.SameName.class.getCanonicalName());
-    }
-
-    private static class Member1 {
-        private static class SameName {
-        }
-    }
-
-    private static class Member2 {
-        private static class SameName {
-        }
-    }
-
-    @Test
     void coreClass() {
         Imports imports = new Imports();
         imports.setBase(ImportsTest.class);
 
-        assert imports.name(coreInteger).equals("Integer");
+        assert imports.name(java.lang.Integer.class).equals("Integer");
     }
 
     @Test
     void coreClassName() {
         Imports imports = new Imports();
-        imports.setBase(externalInteger);
+        imports.setBase(reincarnation.coder.java.imports.external.Integer.class);
 
-        assert imports.name(externalInteger).equals("Integer");
-        assert imports.name(coreInteger).equals("java.lang.Integer");
+        assert imports.name(reincarnation.coder.java.imports.external.Integer.class).equals("Integer");
+        assert imports.name(java.lang.Integer.class).equals("java.lang.Integer");
     }
 
     @Test
@@ -145,8 +111,15 @@ class ImportsTest {
         Imports imports = new Imports();
         imports.setBase(ParentIsInteger.class);
 
-        assert imports.name(externalInteger).equals(externalInteger.getCanonicalName());
-        assert imports.name(coreInteger).equals("Integer");
+        assert imports.name(reincarnation.coder.java.imports.external.Integer.class).equals("Integer");
+        assert imports.name(java.lang.Integer.class).equals("java.lang.Integer");
+
+        imports = new Imports();
+        imports.setBase(ParentIsInteger.class);
+
+        assert imports.name(java.lang.Integer.class).equals("Integer");
+        assert imports.name(reincarnation.coder.java.imports.external.Integer.class)
+                .equals("reincarnation.coder.java.imports.external.Integer");
     }
 
     @Test
@@ -155,7 +128,7 @@ class ImportsTest {
         imports.setBase(ClassHasIntegerMember.class);
 
         assert imports.name(ClassHasIntegerMember.Integer.class).equals("Integer");
-        assert imports.name(coreInteger).equals("java.lang.Integer");
+        assert imports.name(java.lang.Integer.class).equals("java.lang.Integer");
     }
 
     @Test
@@ -164,7 +137,7 @@ class ImportsTest {
         imports.setBase(ParentMemberIsInteger.class);
 
         assert imports.name(ClassHasIntegerMember.Integer.class).equals("Integer");
-        assert imports.name(coreInteger).equals("java.lang.Integer");
+        assert imports.name(java.lang.Integer.class).equals("java.lang.Integer");
     }
 
     @Test
@@ -173,7 +146,7 @@ class ImportsTest {
         imports.setBase(AncestorMemberIsInteger.class);
 
         assert imports.name(ClassHasIntegerMember.Integer.class).equals("Integer");
-        assert imports.name(coreInteger).equals("java.lang.Integer");
+        assert imports.name(java.lang.Integer.class).equals("java.lang.Integer");
     }
 
     @Test
@@ -182,6 +155,6 @@ class ImportsTest {
         imports.setBase(InterfaceMemberIsInteger.class);
 
         assert imports.name(InterfaceHasIntegerMember.Integer.class).equals("Integer");
-        assert imports.name(coreInteger).equals("java.lang.Integer");
+        assert imports.name(java.lang.Integer.class).equals("java.lang.Integer");
     }
 }
