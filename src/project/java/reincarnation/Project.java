@@ -23,6 +23,7 @@ public class Project extends bee.api.Project {
         require("com.github.teletha", "antibug").atTest();
         require("com.github.teletha", "viewtify").atTest();
         require("com.github.javaparser", "javaparser-core").atTest();
+        require("org.codehaus.janino", "janino");
 
         // for jetbrains fernflower
         require("org.jetbrains", "annotations").atTest();
