@@ -80,37 +80,36 @@ class Imports {
             raw = raw.getComponentType();
         }
 
+        String fqcn = raw.getName();
+        System.out.println(fqcn + "     @ " + raw.getCanonicalName() + "  @    " + raw.getSimpleName());
+
+        String name;
+
         if (raw.isPrimitive()) {
-            return raw.getSimpleName().concat("[]".repeat(depth));
-        }
-
-        if (raw.isLocalClass()) {
-            return raw.getSimpleName().concat("[]".repeat(depth));
-        }
-
-        if (raw.isAnonymousClass()) {
-            return clazz.getName().substring(clazz.getPackageName().length() + 1);
-        }
-
-        if (imported.contains(raw)) {
-            return raw.getSimpleName().concat("[]".repeat(depth));
+            name = raw.getSimpleName();
+        } else if (raw.isLocalClass()) {
+            name = raw.getSimpleName();
+        } else if (raw.isAnonymousClass()) {
+            name = clazz.getName().substring(clazz.getPackageName().length() + 1);
+        } else if (imported.contains(raw)) {
+            name = raw.getSimpleName();
         } else if (importedImplicitly.contains(raw)) {
+            name = raw.getSimpleName();
             if (!Classes.isMember(root, raw)) {
                 imported.add(raw);
-                importedName.add(raw.getSimpleName());
+                importedName.add(name);
             }
-            return raw.getSimpleName().concat("[]".repeat(depth));
         } else {
-            String name = raw.getSimpleName();
+            name = raw.getSimpleName();
             if (importedName.contains(name) || importedNameImplicitly.contains(name)) {
-                return clazz.getCanonicalName();
+                name = raw.getCanonicalName();
+            } else {
+                imported.add(raw);
+                importedName.add(name);
             }
-
-            imported.add(raw);
-            importedName.add(name);
-
-            return raw.getSimpleName().concat("[]".repeat(depth));
         }
+
+        return name.concat("[]".repeat(depth));
     }
 
     /**
