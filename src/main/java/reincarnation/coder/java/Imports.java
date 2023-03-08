@@ -80,9 +80,6 @@ class Imports {
             raw = raw.getComponentType();
         }
 
-        String fqcn = raw.getName();
-        System.out.println(fqcn + "     @ " + raw.getCanonicalName() + "  @    " + raw.getSimpleName());
-
         String name;
 
         if (raw.isPrimitive()) {
