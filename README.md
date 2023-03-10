@@ -10,18 +10,101 @@
 ## Summary
 Reincarnation aims to be a decompiler for all modern Java grammars.
 
-#### Supported
-- basic grammar (keyword, operator, variable declaration, cast, type definition, field and method definition)
-- control syntax (if, switch, while, do-while, for, break, continue, try-catch-finally)
-- auto boxing and unboxing
-- assert
-- varargs
-- enhanced for-loop
-- multi catches
-- var
-- string literal
-- local class
-- instanceof with pattern matching
+#### Java 1.4 language features
+- [x] package declaration, import declaration
+- [x] class declaration
+- [x] interface declaration
+- [x] Inheritance (extends and implements)
+- [x] Static member type declaration
+- [x] Inner (non-static member, local, anonymous) class declaration
+- [x] Class initializer, instance initializer
+- [x] Field declaration, method declaration
+- [x] Local variable declaration
+- [x] Class variable initializer, instance variable initializer
+- [x] Statment
+    - [x] if-else
+    - [x] for
+    - [x] while
+    - [x] do-while
+    - [x] try-catch-finally
+    - [x] throw
+    - [x] return
+    - [x] break
+    - [x] continu
+    - [ ] switch
+    - [ ] synchronized
+    - [x] assert
+- [x] Primitive types (boolean, char, byte, short, int, long, float, double)
+- [x] Assignment operator =
+- [x] Compound assignment operators +=, -=, *=, /=, &=, |=, ^=, %=, <<=, >>=, >>>=
+- [x] Conditional operators ?-:, &&, ||
+- [x] Boolean logical operators &, ^, |
+- [x] Integer bitwise operators &, ^, |
+- [x] Numeric operators *, /, %, +, -, <<, >>, >>>
+- [x] String concatenation operator +
+- [x] Operators ++ and --
+- [x] Type comparison operator instanceof
+- [x] Unary operators +, -, ~, !
+- [x] Parenthesized expression
+- [x] Field access (like System.out)
+- [x] Superclass member access (super.meth(), super.field)
+- [x] this (reference to current instance)
+- [x] Alternate constructor invocation (this(a, b, c);)
+- [x] Superclass constructor invocation (super(a, b, c);)
+- [x] Method invocation (System.out.println("Hello"))
+- [x] Class instance creation (new Foo())
+- [x] Primitive array creation (new int[10][5][])
+- [x] Class or interface array creation (new Foo[10][5][])
+- [x] Array access (args[0])
+- [x] Local variable access
+- [x] Integer literal (decimal, hex and octal)
+- [x] Floating-point literal (decimal)
+- [x] Boolean, character, string literal
+- [x] null literal
+- [x] Numeric conversions: Unary, binary, widening, narrowing
+- [x] Reference conversions: Widening, Narrowing
+- [x] Assignment conversion
+- [x] String conversion (for string concatenation)
+- [x] Cast
+- [x] Constant expression
+- [x] throws clause
+- [x] Array initializer (String[] a = { "x", "y", "z" })
+- [x] Primitive class literals (int.class)
+- [x] Non-primitive class literals (String.class)
+- [x] Local variable information
+- [x] Modifiers (public, protected, package-private, private, final)
+
+#### Java 5 language features
+- [x] Declaration of parameterized types
+- [x] Type arguments (e.g. List<String>)
+- [x] Enhanced for statement
+- [x] Autoboxing and unboxing
+- [ ] enum declaration
+- [ ] enum switch statement
+- [ ] Annotation type declaration (including method default values)
+- [ ] Variable arity methods (a.k.a. "varargs")
+- [ ] Static imports (single and on-demand; fields, types and methods)
+- [ ] Annotations
+- [x] Covariant return types
+- [ ] Hexadecimal floating point literals
+
+### Java 7 language features
+- [ ] Binary integer literal (JLS7 3.10.1)
+- [ ] Underscores in numeric literals (JLS7 3.10.1)
+- [ ] String switch statement (JLS7 14.11)
+- [ ] try-with-resources statement (JLS7 14.20.3)
+- [ ] catching and rethrowing multiple exception types
+- [ ] Type interference for generic instance creation (a.k.a. the "diamond operator") (JLS11 15.9.1)
+
+### Java 8 language features
+- [ ] Lambda expressions
+- [ ] Method references
+- [ ] Default methods
+- [ ] Static interface methods
+
+### Java 9 language features
+- [ ] Private interface method
+- [ ] Enhanced try-with-resources statement, allowing VariableAccesses as resources (JLS9 14.20.3)
 
 #### Unsupported
 - annotation
@@ -136,6 +219,8 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 ## Dependency
 Reincarnation depends on the following products on runtime.
 * [asm-9.4](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.4)
+* [commons-compiler-3.1.9](https://mvnrepository.com/artifact/org.codehaus.janino/commons-compiler/3.1.9)
+* [janino-3.1.9](https://mvnrepository.com/artifact/org.codehaus.janino/janino/3.1.9)
 * [psychopath-1.7.1](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.7.1)
 * [sinobu-3.2.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.2.0)
 <p align="right"><a href="#top">back to top</a></p>
