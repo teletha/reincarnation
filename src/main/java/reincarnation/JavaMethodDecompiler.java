@@ -1295,11 +1295,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
         record(INVOKEDYNAMIC);
 
         Handle handle = (Handle) bootstrapMethodArguments[1];
-        Type functionalInterfaceType = (Type) bootstrapMethodArguments[0];
-        Type lambdaType = Type.getMethodType(handle.getDesc());
+        // Type functionalInterfaceType = (Type) bootstrapMethodArguments[0];
+        // Type lambdaType = Type.getMethodType(handle.getDesc());
         Type callerType = Type.getMethodType(description);
-        int parameterDiff = lambdaType.getArgumentTypes().length - functionalInterfaceType.getArgumentTypes().length;
-        boolean useContext = callerType.getArgumentTypes().length - Math.max(parameterDiff, 0) == 1;
+        int parameterDiff = callerType.getArgumentTypes().length;
 
         // detect functional interface
         Class interfaceClass = load(callerType.getReturnType());
@@ -1307,7 +1306,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
         // detect lambda method
         try {
             Class lambdaClass = load(handle.getOwner());
-            Class lambdaReturnType = load(Type.getReturnType(handle.getDesc()));
+            // Class lambdaReturnType = load(Type.getReturnType(handle.getDesc()));
             Class[] lambdaParameterTypes = load(Type.getArgumentTypes(handle.getDesc()));
             Method lambdaMethod = lambdaClass.getDeclaredMethod(handle.getName(), lambdaParameterTypes);
 
@@ -1326,8 +1325,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
             case H_INVOKESPECIAL:
             case H_INVOKEVIRTUAL:
             case H_INVOKEINTERFACE:
-                if (useContext) {
-                }
                 break;
 
             case H_NEWINVOKESPECIAL:

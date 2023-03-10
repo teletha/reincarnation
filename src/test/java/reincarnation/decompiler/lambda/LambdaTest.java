@@ -23,7 +23,6 @@ import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
@@ -197,24 +196,23 @@ class LambdaTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void useLocalVariableWithArgNest() {
-        verify(new TestCode.Text() {
+        verify(new TestCode.Int() {
 
             @Override
-            public String run() {
-                String local = "Hello ";
-                String deep = "!!";
+            public int run() {
+                int local = 10;
+                int deep = 20;
 
-                return lambda1(x -> local + x + lambda2(y -> y + deep));
+                return lambda1(x -> local - x * lambda2(y -> y + deep));
             }
 
-            private String lambda1(Function<String, String> function) {
-                return function.apply("test");
+            private int lambda1(IntUnaryOperator function) {
+                return function.applyAsInt(3);
             }
 
-            private String lambda2(Function<String, String> function) {
-                return function.apply("test");
+            private int lambda2(IntUnaryOperator function) {
+                return function.applyAsInt(-5);
             }
         });
     }
