@@ -10,11 +10,20 @@
 ## Summary
 Reincarnation aims to be a decompiler for all modern Java grammars.
 
-#### Java 1.4 language features
-- [x] package declaration, import declaration
-- [x] class declaration
-- [x] interface declaration
-- [x] Inheritance (extends and implements)
+#### Java Language Features
+- [x] Declarations
+    - [x] package
+    - [x] import
+    - [ ] static import
+    - [x] class
+    - [x] interface
+    - [ ] annotation
+    - [ ] enum
+    - [ ] record
+- [x] Inheritance
+    - [x] extends
+    - [x] implements
+    - [ ] sealed and permits
 - [x] Static member type declaration
 - [x] Inner (non-static member, local, anonymous) class declaration
 - [x] Class initializer, instance initializer
@@ -24,28 +33,57 @@ Reincarnation aims to be a decompiler for all modern Java grammars.
 - [x] Statment
     - [x] if-else
     - [x] for
+    - [x] enhanced for by iterator
+    - [ ] enhanced for by array
     - [x] while
     - [x] do-while
-    - [x] try-catch-finally
+    - [x] try-catch-finally (including multiple catches)
+    - [ ] try-with-resources
     - [x] throw
     - [x] return
     - [x] break
-    - [x] continu
+    - [x] continue
     - [ ] switch
+    - [ ] switch by enum
+    - [ ] switch by String
+    - [ ] switch with pattern matching
     - [ ] synchronized
     - [x] assert
 - [x] Primitive types (boolean, char, byte, short, int, long, float, double)
-- [x] Assignment operator =
-- [x] Compound assignment operators +=, -=, *=, /=, &=, |=, ^=, %=, <<=, >>=, >>>=
-- [x] Conditional operators ?-:, &&, ||
-- [x] Boolean logical operators &, ^, |
-- [x] Integer bitwise operators &, ^, |
-- [x] Numeric operators *, /, %, +, -, <<, >>, >>>
+- [x] Assignment operators
+    - [x] =
+    - [x] +=
+    - [x] -=
+    - [x] *=
+    - [x] /=
+    - [x] &=
+    - [x] |=
+    - [x] ^=
+    - [x] <<=
+    - [x] >>=
+    - [x] >>>=
+- [x] Conditional operators
+    - [x] ? ... : ...
+    - [x] &&
+    - [x] ||
+- [x] Logical operators and Integer bitwise operators
+    - [x] &
+    - [x] ^
+    - [x] |
+    - [x] !
+    - [x] ~
+- [x] Numeric operators
+    - [x] +
+    - [x] -
+    - [x] *
+    - [x] /
+    - [x] %
+    - [x] <<
+    - [x] >>
+    - [x] >>>
+    - [x] ++
+    - [x] --
 - [x] String concatenation operator +
-- [x] Operators ++ and --
-- [x] Type comparison operator instanceof
-- [x] Unary operators +, -, ~, !
-- [x] Parenthesized expression
 - [x] Field access (like System.out)
 - [x] Superclass member access (super.meth(), super.field)
 - [x] this (reference to current instance)
@@ -57,68 +95,52 @@ Reincarnation aims to be a decompiler for all modern Java grammars.
 - [x] Class or interface array creation (new Foo[10][5][])
 - [x] Array access (args[0])
 - [x] Local variable access
-- [x] Integer literal (decimal, hex and octal)
-- [x] Floating-point literal (decimal)
-- [x] Boolean, character, string literal
-- [x] null literal
-- [x] Numeric conversions: Unary, binary, widening, narrowing
-- [x] Reference conversions: Widening, Narrowing
-- [x] Assignment conversion
-- [x] String conversion (for string concatenation)
+- [x] Local variable type inference (a.k.a. "var")
+- [x] Literal
+    - [x] integer
+    - [x] floating-point
+    - [x] boolean
+    - [x] character
+    - [x] string
+    - [x] null
+    - [x] class (e.g. int.class, String.class)
 - [x] Cast
-- [x] Constant expression
-- [x] throws clause
+    - [x] instanceof
+    - [x] instanceof with pattern matching
+    - [x] wideining
+    - [x] narrowing
+    - [x] auto-boxing and unboxing
 - [x] Array initializer (String[] a = { "x", "y", "z" })
-- [x] Primitive class literals (int.class)
-- [x] Non-primitive class literals (String.class)
 - [x] Local variable information
-- [x] Modifiers (public, protected, package-private, private, final)
-
-#### Java 5 language features
-- [x] Declaration of parameterized types
-- [x] Type arguments (e.g. List<String>)
-- [x] Enhanced for statement
-- [x] Autoboxing and unboxing
-- [ ] enum declaration
-- [ ] enum switch statement
-- [ ] Annotation type declaration (including method default values)
+- [x] Modifiers
+    - [x] public
+    - [x] protected
+    - [x] private
+    - [x] final
+    - [x] synchronized
+    - [x] abstract
+    - [x] native
+    - [x] static
+- [x] Generics
+    - [x] Parameterized types (e.g. Foo<X>)
+    - [x] Type arguments (e.g. List<String>)
+    - [x]
+- [ ] Annotation
+    - [ ] Type
+    - [ ] Constructor
+    - [ ] Method
+    - [ ] Field
+    - [ ] Parameter
+    - [ ]
 - [ ] Variable arity methods (a.k.a. "varargs")
-- [ ] Static imports (single and on-demand; fields, types and methods)
-- [ ] Annotations
-- [x] Covariant return types
-- [ ] Hexadecimal floating point literals
-
-### Java 7 language features
-- [ ] Binary integer literal (JLS7 3.10.1)
-- [ ] Underscores in numeric literals (JLS7 3.10.1)
-- [ ] String switch statement (JLS7 14.11)
-- [ ] try-with-resources statement (JLS7 14.20.3)
-- [ ] catching and rethrowing multiple exception types
 - [ ] Type interference for generic instance creation (a.k.a. the "diamond operator") (JLS11 15.9.1)
-
-### Java 8 language features
 - [ ] Lambda expressions
+- [ ] Constructor references
 - [ ] Method references
 - [ ] Default methods
 - [ ] Static interface methods
-
-### Java 9 language features
-- [ ] Private interface method
-- [ ] Enhanced try-with-resources statement, allowing VariableAccesses as resources (JLS9 14.20.3)
-
-#### Unsupported
-- annotation
-- generics
-- lambda
-- method reference
-- record
-- record with pattern matching
-- enum
-- sealed class
-- switch with string
-- switch with pattern matching
-- try-with-resources
-- text block
+- [ ] Private interface methods
+- [ ] Text block
 <p align="right"><a href="#top">back to top</a></p>
 
 
