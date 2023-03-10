@@ -10,6 +10,7 @@
 package reincarnation;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -19,10 +20,14 @@ class OperandLambda extends Operand {
     /** The lambda body. */
     private final Method lambda;
 
+    /** The context parameters. */
+    private final List<Operand> context;
+
     private final Reincarnation source;
 
-    OperandLambda(Class interfaceClass, Method lambda, Reincarnation source) {
+    OperandLambda(Class interfaceClass, Method lambda, List<Operand> context, Reincarnation source) {
         this.lambda = lambda;
+        this.context = context;
         this.source = source;
     }
 
@@ -34,7 +39,7 @@ class OperandLambda extends Operand {
         Code code = source.methods.get(lambda);
         if (code == null) {
         } else {
-            coder.writeLambda(lambda, code);
+            coder.writeLambda(lambda, context, code);
         }
     }
 }

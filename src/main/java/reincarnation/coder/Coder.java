@@ -98,7 +98,7 @@ public abstract class Coder<O extends CodingOption> {
      * @return A joinable code.
      */
     protected final <T> Join<T> join(String prefix, Collection<T> values, String separator, String suffix) {
-        return new Join().prefix(prefix).add(values).separator(separator).suffix(suffix).ignoreEmpty(false);
+        return new Join().prefix(prefix).add(values).separator(separator).suffix(suffix);
     }
 
     /**
@@ -292,8 +292,9 @@ public abstract class Coder<O extends CodingOption> {
      * Lambda.
      * 
      * @param method
+     * @param contexts
      */
-    public abstract void writeLambda(Method method, Code code);
+    public abstract void writeLambda(Method method, List<Code> contexts, Code code);
 
     /**
      * Statement.

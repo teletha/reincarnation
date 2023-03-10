@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.StringJoiner;
 
 import kiss.I;
 import kiss.Variable;
@@ -161,6 +160,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         Join<Type> implement;
         Join accessor = modifier(type);
         Join<TypeVariable> variable = Join.of(type.getTypeParameters())
+                .ignoreEmpty()
                 .prefix("<")
                 .separator("," + space)
                 .suffix(">")
@@ -168,15 +168,15 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         if (type.isInterface()) {
             kind = "interface";
-            implement = Join.of(type.getGenericInterfaces()).prefix(" extends ").converter(this::name);
+            implement = Join.of(type.getGenericInterfaces()).ignoreEmpty().prefix(" extends ").converter(this::name);
             accessor.remove("static", "abstract");
         } else if (type.isEnum()) {
             kind = "enum";
-            implement = Join.of(type.getGenericInterfaces()).prefix(" implements ").converter(this::name);
+            implement = Join.of(type.getGenericInterfaces()).ignoreEmpty().prefix(" implements ").converter(this::name);
         } else {
             kind = "class";
             extend = type.getSuperclass() == Object.class ? "" : " extends " + name(type.getGenericSuperclass());
-            implement = Join.of(type.getGenericInterfaces()).prefix(" implements ").converter(this::name);
+            implement = Join.of(type.getGenericInterfaces()).ignoreEmpty().prefix(" implements ").converter(this::name);
         }
 
         line();
@@ -272,10 +272,26 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeLambda(Method method, Code code) {
+    public void writeLambda(Method method, List<Code> contexts, Code code) {
         vars.start();
 
-        lineNI(parameter(method, naming(code)), space, "->", space, "{");
+        Naming naming = naming(code);
+        Join<Parameter> param = Join.of(method.getParameters())
+                .ignoreSingle()
+                .prefix("(")
+                .separator("," + space)
+                .suffix(")")
+                .take((index, item) -> contexts.size() <= index)
+                .converter(p -> {
+                    String name = naming.name(p.getName());
+                    vars.declare(name);
+                    return name;
+                });
+
+        for (int i = 0; i < contexts.size(); i++) {
+            vars.declare("arg" + i, contexts.get(i).toString(), true);
+        }
+        lineNI(param, space, "->", space, "{");
         indent(code::write);
         lineNB("}");
 
@@ -305,7 +321,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                 .combine(I.signal(executable.getGenericParameterTypes()))
                 .toList();
 
-        return Join.of(params).prefix("(").suffix(")").ignoreEmpty(false).separator("," + space).converter(p -> {
+        return Join.of(params).prefix("(").suffix(")").separator("," + space).converter(p -> {
             String name = strategy.name(p.ⅰ.getName());
             vars.declare(name);
 
@@ -332,7 +348,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @return
      */
     private Join thrower(Class[] exceptions) {
-        return Join.of(exceptions).prefix(space + "throws" + space).ignoreEmpty(true).separator("," + space).converter(type -> {
+        return Join.of(exceptions).ignoreEmpty().prefix(space + "throws" + space).separator("," + space).converter(type -> {
             return name(type);
         });
     }
@@ -535,8 +551,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             prefix = (needInfer ? "var" : name(type)).concat(space);
             vars.declare(name);
         }
-
-        write(prefix, vars.name(name));
+        write(prefix, vars.use(name));
     }
 
     /**
@@ -645,7 +660,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @return
      */
     private Join buildParameter(Executable executable, List<? extends Code> params) {
-        Join concat = new Join().ignoreEmpty(false).prefix("(").suffix(")").separator("," + space);
+        Join concat = new Join().prefix("(").suffix(")").separator("," + space);
         Parameter[] parameters = executable.getParameters();
 
         for (int i = 0; i < params.size(); i++) {
@@ -872,7 +887,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             vars.start();
             vars.declare(catchBlock.ⅱ);
             if (catchBlock.ⅰ != null) {
-                line("}", space, "catch(", name(catchBlock.ⅰ), space, vars.name(catchBlock.ⅱ), ")", space, "{");
+                line("}", space, "catch(", name(catchBlock.ⅰ), space, vars.use(catchBlock.ⅱ), ")", space, "{");
             } else {
                 line("}", space, "finally", space, "{");
             }
@@ -937,41 +952,45 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             builder.append(variable);
 
             Join.of(variable.getBounds())
+                    .ignoreEmpty()
                     .prefix(" extends ")
                     .separator("," + space)
                     .converter(x -> name(x))
                     .take(x -> x != Object.class)
-                    .ignoreEmpty(true)
+                    .ignoreEmpty()
                     .write(builder);
         } else if (type instanceof ParameterizedType parameterized) {
             qualify(parameterized.getRawType(), builder);
 
-            StringJoiner join = new StringJoiner("," + space, "<", ">");
-            for (Type param : parameterized.getActualTypeArguments()) {
-                join.add(name(param));
-            }
-            builder.append(join);
+            Join.of(parameterized.getActualTypeArguments())
+                    .ignoreEmpty()
+                    .prefix("<")
+                    .separator("," + space)
+                    .suffix(">")
+                    .converter(this::name)
+                    .write(builder);
         } else if (type instanceof WildcardType wild) {
-            Type[] lowers = wild.getLowerBounds();
-            if (lowers.length != 0) {
-                StringJoiner join = new StringJoiner(space + "&" + space, "? super ", "");
-                for (Type lower : lowers) {
-                    join.add(name(lower));
-                }
-                builder.append(join);
-                return;
-            }
+            // lower bounds
+            Join.of(wild.getLowerBounds())
+                    .ignoreEmpty()
+                    .prefix("? super ")
+                    .separator(space + "&" + space)
+                    .converter(this::name)
+                    .write(builder, () -> {
 
-            Type[] uppers = wild.getUpperBounds();
-            if (uppers.length != 0) {
-                StringJoiner join = new StringJoiner(space + "&" + space, "? extends ", "");
-                for (Type upper : uppers) {
-                    join.add(name(upper));
-                }
-                builder.append(join);
-                return;
-            }
-            throw new Error();
+                        // upper bounds
+                        Join.of(wild.getUpperBounds())
+                                .ignoreEmpty()
+                                .prefix("? extends ")
+                                .separator(space + "&" + space)
+                                .converter(this::name)
+                                .take(x -> x != Object.class)
+                                .write(builder, () -> {
+
+                                    // simple wildcard
+                                    builder.append("?");
+                                });
+                    });
         } else if (type instanceof GenericArrayType array) {
             throw new Error("Generic array");
         } else {
@@ -1026,7 +1045,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @return
      */
     private Join modifier(int modifier, Object type) {
-        Join joiner = new Join().separator(" ").suffix(" ");
+        Join joiner = new Join().ignoreEmpty().separator(" ").suffix(" ");
 
         if (Modifier.isPublic(modifier)) {
             joiner.add("public");

@@ -41,8 +41,17 @@ public class VariableNaming {
      * @param name A variable name.
      */
     public void declare(String name) {
+        declare(name, name, false);
+    }
+
+    /**
+     * Declare the variable name.
+     * 
+     * @param name A variable name.
+     */
+    public void declare(String name, String renamed, boolean acceptDuplication) {
         if (!manager.isEmpty()) {
-            manager.peekLast().put(name, isDeclared(name) ? name + "X" : name);
+            manager.peekLast().put(name, !acceptDuplication && isDeclared(renamed) ? renamed + "X" : renamed);
         }
     }
 
@@ -69,7 +78,7 @@ public class VariableNaming {
      * @param name
      * @return
      */
-    public String name(String name) {
+    public String use(String name) {
         Iterator<Map<String, String>> iterator = manager.descendingIterator();
         while (iterator.hasNext()) {
             Map<String, String> set = iterator.next();

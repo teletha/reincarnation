@@ -1320,7 +1320,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
 
             switch (handle.getTag()) {
             case H_INVOKESTATIC:
-                current.addOperand(new OperandLambda(interfaceClass, lambdaMethod, source));
+                current.addOperand(new OperandLambda(interfaceClass, lambdaMethod, params, source));
                 break;
 
             case H_INVOKESPECIAL:
@@ -1335,8 +1335,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
 
             default:
                 // If this exception will be thrown, it is bug of this program. So we must rethrow
-                // the
-                // wrapped error in here.
+                // the wrapped error in here.
                 throw new Error();
             }
             // current.addOperand(code.toString());

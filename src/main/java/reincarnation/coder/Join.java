@@ -15,8 +15,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
+
+import kiss.I;
+import kiss.Ⅱ;
 
 /**
  * @version 2018/10/26 9:41:07
@@ -36,10 +40,13 @@ public final class Join<T> implements Code {
     private BiFunction<Integer, T, ?> converter = (i, v) -> v;
 
     /** The filter. */
-    private Predicate<T> take;
+    private BiPredicate<Long, T> take;
 
     /** The flag. */
-    private boolean ignoreEmpty = true;
+    private boolean ignoreEmpty;
+
+    /** The flag. */
+    private boolean ignoreSingle;
 
     /** The value manager. */
     private final List<T> values = new ArrayList();
@@ -90,6 +97,17 @@ public final class Join<T> implements Code {
      * @return
      */
     public Join<T> take(Predicate<T> condition) {
+        this.take = (index, item) -> condition.test(item);
+        return this;
+    }
+
+    /**
+     * Set filter.
+     * 
+     * @param condition
+     * @return
+     */
+    public Join<T> take(BiPredicate<Long, T> condition) {
         this.take = condition;
         return this;
     }
@@ -118,12 +136,22 @@ public final class Join<T> implements Code {
     }
 
     /**
-     * Set suffix.
+     * Ignore prefix and suffix if container is empty.
      * 
      * @return Chainable API.
      */
-    public Join<T> ignoreEmpty(boolean ignore) {
-        this.ignoreEmpty = ignore;
+    public Join<T> ignoreEmpty() {
+        this.ignoreEmpty = true;
+        return this;
+    }
+
+    /**
+     * Ignore prefix and suffix if container has single item.
+     * 
+     * @return Chainable API.
+     */
+    public Join<T> ignoreSingle() {
+        this.ignoreSingle = true;
         return this;
     }
 
@@ -176,11 +204,16 @@ public final class Join<T> implements Code {
      */
     @Override
     public void write(Coder coder) {
-        List<T> values = take == null ? this.values : this.values.stream().filter(take).toList();
+        write(coder, I.NoOP);
+    }
 
-        if (!ignoreEmpty || values.isEmpty() == false) {
+    public void write(Coder coder, Runnable empty) {
+        List<T> values = take == null ? this.values : I.signal(this.values).index(0).take(x -> take.test(x.ⅱ, x.ⅰ)).map(Ⅱ::ⅰ).toList();
+        int size = values.size();
+
+        if (!ignoreEmpty || size != 0) {
+            if (!ignoreSingle || size != 1) coder.write(prefix);
             int index = 0;
-            coder.write(prefix);
             Iterator<T> iterator = values.iterator();
             if (iterator.hasNext()) {
                 coder.write(converter.apply(index++, iterator.next()));
@@ -189,7 +222,9 @@ public final class Join<T> implements Code {
                     coder.write(separator, converter.apply(index++, iterator.next()));
                 }
             }
-            coder.write(suffix);
+            if (!ignoreSingle || size != 1) coder.write(suffix);
+        } else if (empty != null) {
+            empty.run();
         }
     }
 
@@ -199,11 +234,21 @@ public final class Join<T> implements Code {
      * @param builder
      */
     public void write(StringBuilder builder) {
-        List<T> values = take == null ? this.values : this.values.stream().filter(take).toList();
+        write(builder, I.NoOP);
+    }
 
-        if (!ignoreEmpty || values.isEmpty() == false) {
+    /**
+     * Write to {@link StringBuilder}.
+     * 
+     * @param builder
+     */
+    public void write(StringBuilder builder, Runnable empty) {
+        List<T> values = take == null ? this.values : I.signal(this.values).index(0).take(x -> take.test(x.ⅱ, x.ⅰ)).map(Ⅱ::ⅰ).toList();
+        int size = values.size();
+
+        if (!ignoreEmpty || size != 0) {
+            if (!ignoreSingle || size != 1) builder.append(prefix);
             int index = 0;
-            builder.append(prefix);
             Iterator<T> iterator = values.iterator();
             if (iterator.hasNext()) {
                 builder.append(converter.apply(index++, iterator.next()));
@@ -212,7 +257,9 @@ public final class Join<T> implements Code {
                     builder.append(separator).append(converter.apply(index++, iterator.next()));
                 }
             }
-            builder.append(suffix);
+            if (!ignoreSingle || size != 1) builder.append(suffix);
+        } else if (empty != null) {
+            empty.run();
         }
     }
 
@@ -243,6 +290,6 @@ public final class Join<T> implements Code {
      * @return A joinable code.
      */
     public static final <T> Join<T> of(String prefix, Collection<T> values, String separator, String suffix) {
-        return new Join().prefix(prefix).add(values).separator(separator).suffix(suffix).ignoreEmpty(false);
+        return new Join().prefix(prefix).add(values).separator(separator).suffix(suffix);
     }
 }
