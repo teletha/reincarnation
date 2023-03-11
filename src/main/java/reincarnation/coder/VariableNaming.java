@@ -49,9 +49,18 @@ public class VariableNaming {
      * 
      * @param name A variable name.
      */
-    public void declare(String name, String renamed, boolean acceptDuplication) {
+    public void declare(String name, String renamed) {
+        declare(name, useChainly(renamed), true);
+    }
+
+    /**
+     * Declare the variable name.
+     * 
+     * @param name A variable name.
+     */
+    private void declare(String name, String renamed, boolean forcibly) {
         if (!manager.isEmpty()) {
-            manager.peekLast().put(name, !acceptDuplication && isDeclared(renamed) ? renamed + "X" : renamed);
+            manager.peekLast().put(name, !forcibly && isDeclared(renamed) ? renamed + "X" : renamed);
         }
     }
 
@@ -88,5 +97,17 @@ public class VariableNaming {
             }
         }
         return name;
+    }
+
+    /**
+     * Resolve the root name.
+     * 
+     * @param name
+     * @return
+     */
+    private String useChainly(String name) {
+        String used = use(name);
+
+        return used.equals(name) ? name : useChainly(used);
     }
 }

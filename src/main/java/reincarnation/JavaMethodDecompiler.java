@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.load;
+import static reincarnation.OperandUtil.*;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -1314,15 +1314,21 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
             List<Operand> params = new ArrayList();
 
             for (int i = parameterDiff - 1; 0 <= i; i--) {
-                params.add(current.remove(i));
+                Operand peeked = current.peek(i);
+                if (peeked instanceof OperandLocalVariable local && local.index == 0) {
+                    // ignore "this" variable
+                    current.remove(i);
+                } else {
+                    params.add(current.remove(i));
+                }
             }
 
             switch (handle.getTag()) {
             case H_INVOKESTATIC:
+            case H_INVOKESPECIAL:
                 current.addOperand(new OperandLambda(interfaceClass, lambdaMethod, params, source));
                 break;
 
-            case H_INVOKESPECIAL:
             case H_INVOKEVIRTUAL:
             case H_INVOKEINTERFACE:
                 break;

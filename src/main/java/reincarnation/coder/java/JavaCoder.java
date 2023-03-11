@@ -289,8 +289,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                 });
 
         for (int i = 0; i < contexts.size(); i++) {
-            vars.declare("arg" + i, contexts.get(i).toString(), true);
+            vars.declare("arg" + i, contexts.get(i).toString());
         }
+
         lineNI(param, space, "->", space, "{");
         indent(code::write);
         lineNB("}");

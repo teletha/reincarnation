@@ -23,9 +23,6 @@ import org.objectweb.asm.Type;
 
 import kiss.I;
 
-/**
- * @version 2018/10/13 17:24:11
- */
 class JavaClassDecompiler extends ClassVisitor {
 
     /** The current processing source. */

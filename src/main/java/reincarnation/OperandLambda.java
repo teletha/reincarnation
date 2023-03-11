@@ -37,6 +37,7 @@ class OperandLambda extends Operand {
     @Override
     protected void writeCode(Coder coder) {
         Code code = source.methods.get(lambda);
+
         if (code == null) {
         } else {
             coder.writeLambda(lambda, context, code);
