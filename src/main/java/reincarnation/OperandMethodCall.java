@@ -10,13 +10,9 @@
 package reincarnation;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -66,42 +62,10 @@ class OperandMethodCall extends Operand {
         this.owner = owner;
         this.params = parameters;
 
-        fix(infer(method, owner.type.v, parameters));
+        fix(Inference.specialize(method, owner.type.v, parameters));
         for (int i = 0; i < parameterTypes.length; i++) {
             parameters.get(i).fix(parameterTypes[i]);
         }
-    }
-
-    /**
-     * Infer the return type of the specified method.
-     * 
-     * @param base
-     * @param method
-     * @return
-     */
-    private Type infer(Method method, Type owner, List<Operand> parameters) {
-        Type definedReturnType = method.getGenericReturnType();
-
-        if (definedReturnType instanceof Class) {
-            return definedReturnType;
-        }
-
-        if (definedReturnType instanceof TypeVariable variable && owner instanceof ParameterizedType parameterized) {
-            GenericDeclaration declaration = variable.getGenericDeclaration();
-            TypeVariable<?>[] declaredParameters = declaration.getTypeParameters();
-
-            for (int i = 0; i < declaredParameters.length; i++) {
-                if (declaredParameters[i].equals(variable)) {
-                    return parameterized.getActualTypeArguments()[i];
-                }
-            }
-        }
-
-        if (definedReturnType instanceof ParameterizedType parameterized) {
-            //
-        }
-
-        return method.getReturnType();
     }
 
     /**

@@ -30,6 +30,7 @@ import kiss.I;
 import kiss.Variable;
 import kiss.Ⅱ;
 import kiss.Ⅲ;
+import reincarnation.Inference.SpecializedType;
 import reincarnation.Operand;
 import reincarnation.OperandUtil;
 import reincarnation.Reincarnation;
@@ -994,6 +995,16 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                     });
         } else if (type instanceof GenericArrayType array) {
             throw new Error("Generic array");
+        } else if (type instanceof SpecializedType specialized) {
+            qualify(specialized.getRawType(), builder);
+
+            Join.of(specialized.getActualTypeArguments())
+                    .ignoreEmpty()
+                    .prefix("<")
+                    .separator("," + space)
+                    .suffix(">")
+                    .converter(this::name)
+                    .write(builder);
         } else {
             throw new Error();
         }

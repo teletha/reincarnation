@@ -29,6 +29,8 @@ class OperandLambda extends Operand {
         this.lambda = lambda;
         this.context = context;
         this.source = source;
+
+        fix(Inference.specialize(interfaceClass, lambda.getGenericReturnType(), lambda.getGenericParameterTypes()));
     }
 
     /**

@@ -1314,12 +1314,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
             List<Operand> params = new ArrayList();
 
             for (int i = parameterDiff - 1; 0 <= i; i--) {
-                Operand peeked = current.peek(i);
-                if (peeked instanceof OperandLocalVariable local && local.index == 0) {
+                Operand removed = current.remove(i);
+                if (removed instanceof OperandLocalVariable local && local.index == 0) {
                     // ignore "this" variable
-                    current.remove(i);
                 } else {
-                    params.add(current.remove(i));
+                    params.add(removed);
                 }
             }
 
@@ -1330,6 +1329,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
                 break;
 
             case H_INVOKEVIRTUAL:
+                System.out.println(lambdaMethod);
+                current.addOperand(new OperandLambda(interfaceClass, lambdaMethod, params, source));
+                break;
+
             case H_INVOKEINTERFACE:
                 break;
 
