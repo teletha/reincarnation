@@ -357,6 +357,22 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
+    public void writeMethodReference(Method method, Code context) {
+        coder.writeMethodReference(method, context);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeStaticMethodReference(Method method) {
+        coder.writeStaticMethodReference(method);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeCreateArray(Class type, List<Code> dimensions) {
         coder.writeCreateArray(type, dimensions);
     }

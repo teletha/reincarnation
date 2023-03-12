@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.*;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -1295,10 +1295,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
         record(INVOKEDYNAMIC);
 
         Handle handle = (Handle) bootstrapMethodArguments[1];
-        // Type functionalInterfaceType = (Type) bootstrapMethodArguments[0];
-        // Type lambdaType = Type.getMethodType(handle.getDesc());
+        Type functionalInterfaceType = (Type) bootstrapMethodArguments[2];
+        Type lambdaType = Type.getMethodType(handle.getDesc());
         Type callerType = Type.getMethodType(description);
-        int parameterDiff = callerType.getArgumentTypes().length;
 
         // detect functional interface
         Class interfaceClass = load(callerType.getReturnType());
@@ -1310,41 +1309,54 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
             Class[] lambdaParameterTypes = load(Type.getArgumentTypes(handle.getDesc()));
             Method lambdaMethod = lambdaClass.getDeclaredMethod(handle.getName(), lambdaParameterTypes);
 
-            // build parameter from local environment
-            List<Operand> params = new ArrayList();
+            if (lambdaMethod.isSynthetic()) {
+                // ==================================
+                // Lambda
+                // ==================================
+                // build parameter from local environment
+                int consumableStackSize = callerType.getArgumentTypes().length;
+                List<Operand> params = new ArrayList();
 
-            for (int i = parameterDiff - 1; 0 <= i; i--) {
-                Operand removed = current.remove(i);
-                if (removed instanceof OperandLocalVariable local && local.index == 0) {
-                    // ignore "this" variable
-                } else {
-                    params.add(removed);
+                for (int i = consumableStackSize - 1; 0 <= i; i--) {
+                    Operand removed = current.remove(i);
+                    if (removed instanceof OperandLocalVariable local && local.index == 0) {
+                        // ignore "this" variable
+                    } else {
+                        params.add(removed);
+                    }
+                }
+
+                current.addOperand(new OperandLambda(interfaceClass, lambdaMethod, params, source));
+            } else {
+                // ==================================
+                // Method Reference
+                // ==================================
+                source.require(lambdaClass);
+
+                boolean needInstance = callerType.getArgumentTypes().length != 0;
+
+                switch (handle.getTag()) {
+                case H_INVOKESTATIC:
+                case H_INVOKEVIRTUAL:
+                case H_INVOKEINTERFACE:
+                    SpecializedType specialized = new SpecializedType(interfaceClass)
+                            .specializeByReturnAndParamTypes(functionalInterfaceType)
+                            .specializeBySAM(lambdaMethod);
+
+                    current.addOperand(new OperandMethodReference(lambdaMethod, needInstance ? current.remove(0) : null).fix(specialized));
+                    break;
+
+                case H_INVOKESPECIAL:
+                case H_NEWINVOKESPECIAL:
+                    break;
+
+                default:
+                    // If this exception will be thrown, it is bug of this program. So we must
+                    // rethrow
+                    // the wrapped error in here.
+                    throw new Error();
                 }
             }
-
-            switch (handle.getTag()) {
-            case H_INVOKESTATIC:
-            case H_INVOKESPECIAL:
-                current.addOperand(new OperandLambda(interfaceClass, lambdaMethod, params, source));
-                break;
-
-            case H_INVOKEVIRTUAL:
-                System.out.println(lambdaMethod);
-                current.addOperand(new OperandLambda(interfaceClass, lambdaMethod, params, source));
-                break;
-
-            case H_INVOKEINTERFACE:
-                break;
-
-            case H_NEWINVOKESPECIAL:
-                break;
-
-            default:
-                // If this exception will be thrown, it is bug of this program. So we must rethrow
-                // the wrapped error in here.
-                throw new Error();
-            }
-            // current.addOperand(code.toString());
         } catch (Exception e) {
             throw I.quiet(e);
         }

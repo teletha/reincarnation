@@ -11,16 +11,12 @@ package reincarnation;
 
 import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-
-import kiss.I;
 
 public class Inference {
 
@@ -117,87 +113,5 @@ public class Inference {
         }
 
         return method.getReturnType();
-    }
-
-    /**
-     * Specialized the given interface type.
-     * 
-     * @param sam
-     * @param returnType
-     * @param parameterType
-     * @return
-     */
-    public static SpecializedType specialize(Class sam, Type returnType, Type[] parameterType) {
-        if (!sam.isInterface()) {
-            throw new Error();
-        }
-
-        Method method = findSAM(sam);
-        return new SpecializedType(sam).assign(method.getGenericReturnType(), returnType);
-    }
-
-    private static Method findSAM(Class sam) {
-        return I.signal(sam.getMethods()).skip(m -> m.isDefault() || Modifier.isStatic(m.getModifiers())).first().to().exact();
-    }
-
-    /**
-     * 
-     */
-    public static class SpecializedType implements Type {
-
-        /** The raw type. */
-        private final Class raw;
-
-        /** The original types. */
-        private final Type[] original;
-
-        /** The specialized types. */
-        private final Type[] specialized;
-
-        /**
-         * @param original
-         */
-        private SpecializedType(Class type) {
-            this.raw = Objects.requireNonNull(type);
-            this.original = Objects.requireNonNull(type.getTypeParameters());
-            this.specialized = new Type[original.length];
-
-            for (int i = 0; i < original.length; i++) {
-                if (original[i] == Class.class) {
-                    specialized[i] = original[i];
-                }
-            }
-        }
-
-        /**
-         * Check state.
-         * 
-         * @return
-         */
-        private boolean isCompleted() {
-            for (Type type : specialized) {
-                if (type == null) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        private SpecializedType assign(Type original, Type specialized) {
-            for (int i = 0; i < this.original.length; i++) {
-                if (this.original[i].equals(original)) {
-                    this.specialized[i] = specialized;
-                }
-            }
-            return this;
-        }
-
-        public Type[] getActualTypeArguments() {
-            return specialized;
-        }
-
-        public Type getRawType() {
-            return raw;
-        }
     }
 }

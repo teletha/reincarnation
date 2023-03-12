@@ -30,10 +30,10 @@ import kiss.I;
 import kiss.Variable;
 import kiss.Ⅱ;
 import kiss.Ⅲ;
-import reincarnation.Inference.SpecializedType;
 import reincarnation.Operand;
 import reincarnation.OperandUtil;
 import reincarnation.Reincarnation;
+import reincarnation.SpecializedType;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.CodingOption;
@@ -202,7 +202,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         if (current.is(Class::isInterface)) {
             // ignore, write fields in static initializer
         } else {
-            line(modifier(field), name(field.getType()), space, field.getName(), ";");
+            line(modifier(field, false), name(field.getType()), space, field.getName(), ";");
         }
     }
 
@@ -240,7 +240,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         vars.start();
 
         line();
-        line(modifier(constructor), simpleName(constructor.getDeclaringClass()), parameter(constructor, naming(code)), space, "{");
+        line(modifier(constructor, false), simpleName(constructor.getDeclaringClass()), parameter(constructor, naming(code)), space, "{");
         indent(code::write);
         line("}");
 
@@ -260,7 +260,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         vars.start();
 
         line();
-        line(modifier(method), name(method.getReturnType()), space, method
+        line(modifier(method, method.isDefault()), name(method.getReturnType()), space, method
                 .getName(), parameter(method, naming(code)), thrower(method.getExceptionTypes()), space, "{");
         placeholders.get(method).forEach(this::writeLocalClass);
         indent(code::write);
@@ -702,7 +702,22 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         public void write(Coder coder) {
             coder.writeCast(type, code);
         }
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeMethodReference(Method method, Code context) {
+        write(context, "::", method.getName());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeStaticMethodReference(Method method) {
+        write(name(method.getDeclaringClass()), "::", method.getName());
     }
 
     /**
@@ -1006,7 +1021,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                     .converter(this::name)
                     .write(builder);
         } else {
-            throw new Error();
+            throw new Error(String.valueOf(type));
         }
     }
 
@@ -1027,7 +1042,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @return
      */
     private Join modifier(Class member) {
-        return modifier(member.getModifiers(), member);
+        return modifier(member.getModifiers(), member, false);
     }
 
     /**
@@ -1037,7 +1052,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @return
      */
     private Join modifier(Parameter member) {
-        return modifier(member.getModifiers(), member);
+        return modifier(member.getModifiers(), member, false);
     }
 
     /**
@@ -1046,8 +1061,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param modifier
      * @return
      */
-    private Join modifier(Member member) {
-        return modifier(member.getModifiers(), member);
+    private Join modifier(Member member, boolean isDefault) {
+        return modifier(member.getModifiers(), member, isDefault);
     }
 
     /**
@@ -1056,7 +1071,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param modifier
      * @return
      */
-    private Join modifier(int modifier, Object type) {
+    private Join modifier(int modifier, Object type, boolean isDefault) {
         Join joiner = new Join().ignoreEmpty().separator(" ").suffix(" ");
 
         if (Modifier.isPublic(modifier)) {
@@ -1069,6 +1084,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         if (Modifier.isStatic(modifier)) {
             joiner.add("static");
+        } else if (isDefault) {
+            joiner.add("default");
         }
 
         if (Modifier.isAbstract(modifier)) {

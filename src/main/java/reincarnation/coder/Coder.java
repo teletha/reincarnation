@@ -524,6 +524,21 @@ public abstract class Coder<O extends CodingOption> {
     public abstract void writeMethodCall(Method method, Code context, List<? extends Code> params, AccessMode mode);
 
     /**
+     * Method reference.
+     * 
+     * @param method A method info.
+     * @param context A invocation context.
+     */
+    public abstract void writeMethodReference(Method method, Code context);
+
+    /**
+     * Method reference.
+     * 
+     * @param method A method info.
+     */
+    public abstract void writeStaticMethodReference(Method method);
+
+    /**
      * Create array expression.
      * 
      * @param type A type of array.

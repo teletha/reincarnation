@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 import java.util.function.IntFunction;
 import java.util.function.LongSupplier;
 import java.util.function.Supplier;
@@ -200,6 +201,24 @@ class MethodReferenceTest extends CodeVerifier {
 
                 BiFunction<HashMap<String, String>, String, String> function = HashMap::get;
                 assert function.apply(map, "1").equals("one");
+
+                BiPredicate<HashMap<String, ?>, String> x = HashMap::containsKey;
+                assert x.test(map, "1") == true;
+            }
+        });
+    }
+
+    @Test
+    void functionAsBiFunctionWithComplicatedType() {
+        verify(new TestCode.Run() {
+
+            @Override
+            public void run() {
+                Map<String, List<? extends Number>> map = new HashMap();
+                map.put("1", List.of(1, 1, 1));
+
+                BiFunction<Map<String, List<? extends Number>>, String, List<? extends Number>> function = Map::get;
+                assert function.apply(map, "1").equals(List.of(1, 1, 1));
             }
         });
     }

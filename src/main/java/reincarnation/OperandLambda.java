@@ -30,7 +30,7 @@ class OperandLambda extends Operand {
         this.context = context;
         this.source = source;
 
-        fix(Inference.specialize(interfaceClass, lambda.getGenericReturnType(), lambda.getGenericParameterTypes()));
+        fix(new SpecializedType(interfaceClass).specializeByReturnAndParameterTypes(lambda));
     }
 
     /**

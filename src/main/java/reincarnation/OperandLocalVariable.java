@@ -30,9 +30,6 @@ public class OperandLocalVariable extends Operand {
     /** The detected original name. */
     String original;
 
-    /** The type info. */
-    boolean needInfer;
-
     /**
      * Create local variable with index.
      */
@@ -40,7 +37,6 @@ public class OperandLocalVariable extends Operand {
         this.name = Objects.requireNonNull(name);
         this.index = index;
         this.type.set(type);
-        this.needInfer = false;
     }
 
     /**
