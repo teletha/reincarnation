@@ -184,7 +184,7 @@ class MethodReferenceTest extends CodeVerifier {
                 Map<String, String> map = new HashMap();
                 map.put("1", "one");
 
-                BiFunction<Map<String, String>, String, String> function = Map::get;
+                BiFunction<Map<?, String>, String, String> function = Map::get;
                 assert function.apply(map, "1").equals("one");
             }
         });
@@ -199,10 +199,10 @@ class MethodReferenceTest extends CodeVerifier {
                 HashMap<String, String> map = new HashMap();
                 map.put("1", "one");
 
-                BiFunction<HashMap<String, String>, String, String> function = HashMap::get;
+                BiFunction<Map<?, String>, String, String> function = Map::get;
                 assert function.apply(map, "1").equals("one");
 
-                BiPredicate<HashMap<String, ?>, String> x = HashMap::containsKey;
+                BiPredicate<HashMap, String> x = HashMap::containsKey;
                 assert x.test(map, "1") == true;
             }
         });
@@ -217,7 +217,7 @@ class MethodReferenceTest extends CodeVerifier {
                 Map<String, List<? extends Number>> map = new HashMap();
                 map.put("1", List.of(1, 1, 1));
 
-                BiFunction<Map<String, List<? extends Number>>, String, List<? extends Number>> function = Map::get;
+                BiFunction<Map<?, List<? extends Number>>, String, List<? extends Number>> function = Map::get;
                 assert function.apply(map, "1").equals(List.of(1, 1, 1));
             }
         });

@@ -114,8 +114,7 @@ public final class SpecializedType implements Type {
      * @return Chainable API.
      */
     SpecializedType specializeByReturnAndParameterTypes(Method specialized) {
-        return specializeByReturnType(specialized.getGenericReturnType())
-                .specializeByParamTypes(specialized.getGenericParameterTypes());
+        return specializeByReturnType(specialized.getGenericReturnType()).specializeByParamTypes(specialized.getGenericParameterTypes());
     }
 
     /**
@@ -166,7 +165,7 @@ public final class SpecializedType implements Type {
      */
     SpecializedType specializeBySAM(Method specialized) {
         System.out.println(specialized.getGenericReturnType() + "   " + Arrays.toString(specialized.getParameterTypes()));
-        System.out.println(specialized + "   " + raw + "   " + sam);
+        System.out.println(specialized + "   " + raw + "   " + Arrays.toString(this.specialized));
         return this;
     }
 
