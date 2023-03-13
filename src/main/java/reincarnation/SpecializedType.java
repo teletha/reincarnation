@@ -13,17 +13,32 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import java.util.Arrays;
+import java.lang.reflect.WildcardType;
+import java.util.List;
+import java.util.Objects;
 
 import kiss.I;
 
 public final class SpecializedType implements Type {
 
+    /** The reusable type for <?>. */
+    private static final WildcardType WILD = new WildcardType() {
+
+        private static final Type[] O = {Object.class};
+
+        @Override
+        public Type[] getUpperBounds() {
+            return O;
+        }
+
+        @Override
+        public Type[] getLowerBounds() {
+            return O;
+        }
+    };
+
     /** The raw type. */
     private final Class raw;
-
-    /** The SAM of the raw type. */
-    private final Method sam;
 
     /** The original types. */
     private final Type[] original;
@@ -31,19 +46,17 @@ public final class SpecializedType implements Type {
     /** The specialized types. */
     private final Type[] specialized;
 
+    /** The SAM of the raw type. */
+    private Method sam;
+
     /**
      * Create {@link SpecializedType}.
      * 
-     * @param samInterface A interface which has a single abstract method.
+     * @param raw A base type.
      */
-    public SpecializedType(Class samInterface) {
-        if (samInterface == null || !samInterface.isInterface()) {
-            throw new Error(samInterface + " is not SAM interface.");
-        }
-
-        this.raw = samInterface;
-        this.sam = I.signal(samInterface.getMethods()).skip(m -> m.isDefault() || Modifier.isStatic(m.getModifiers())).first().to().exact();
-        this.original = samInterface.getTypeParameters();
+    public SpecializedType(Class raw) {
+        this.raw = Objects.requireNonNull(raw);
+        this.original = raw.getTypeParameters();
         this.specialized = new Type[original.length];
 
         for (int i = 0; i < original.length; i++) {
@@ -51,6 +64,36 @@ public final class SpecializedType implements Type {
                 specialized[i] = original[i];
             }
         }
+    }
+
+    /**
+     * Find the single abstract method.
+     * 
+     * @return
+     */
+    private synchronized Method sam() {
+        if (sam == null) {
+            List<Method> methods = I.signal(raw.getMethods()).skip(m -> m.isDefault() || Modifier.isStatic(m.getModifiers())).toList();
+
+            if (methods.size() != 1 && !raw.isInterface()) {
+                throw new Error(raw + " is not SAM interface.");
+            }
+            sam = methods.get(0);
+        }
+        return sam;
+    }
+
+    /**
+     * Set the single abstract method.
+     * 
+     * @param method
+     * @return
+     */
+    private synchronized SpecializedType sam(Method method) {
+        if (method != null) {
+            sam = method;
+        }
+        return this;
     }
 
     /**
@@ -98,6 +141,35 @@ public final class SpecializedType implements Type {
     }
 
     /**
+     * Find the specialized type corresponding to the given original type.
+     * 
+     * @param originalType
+     * @return
+     */
+    private Type findSpecialized(Type originalType) {
+        for (int i = 0; i < this.original.length; i++) {
+            if (this.original[i].equals(originalType)) {
+                return specialized[i];
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Find the specialized type corresponding to the given original type.
+     * 
+     * @param originalType
+     * @return
+     */
+    private Type[] findSpecialized(Type[] originalTypes) {
+        Type[] converted = new Type[originalTypes.length];
+        for (int i = 0; i < originalTypes.length; i++) {
+            converted[i] = findSpecialized(originalTypes[i]);
+        }
+        return converted;
+    }
+
+    /**
      * Specialize by the method.
      * 
      * @param specialized
@@ -124,7 +196,7 @@ public final class SpecializedType implements Type {
      * @return Chainable API.
      */
     SpecializedType specializeByReturnType(Type specialized) {
-        return specialize(sam.getGenericReturnType(), specialized);
+        return specialize(sam().getGenericReturnType(), specialized);
     }
 
     /**
@@ -144,7 +216,7 @@ public final class SpecializedType implements Type {
      * @return Chainable API.
      */
     SpecializedType specializeByParamTypes(Type[] specialized) {
-        return specialize(sam.getGenericParameterTypes(), specialized);
+        return specialize(sam().getGenericParameterTypes(), specialized);
     }
 
     /**
@@ -164,8 +236,48 @@ public final class SpecializedType implements Type {
      * @return Chainable API.
      */
     SpecializedType specializeBySAM(Method specialized) {
-        System.out.println(specialized.getGenericReturnType() + "   " + Arrays.toString(specialized.getParameterTypes()));
-        System.out.println(specialized + "   " + raw + "   " + Arrays.toString(this.specialized));
+        int samSize = countParameterAndReturn(sam());
+        int specializedSize = countParameterAndReturn(specialized);
+        if (samSize == specializedSize + 1) {
+            // The first type argument of SAM must be the actual method owner class.
+            Class<?> owner = specialized.getDeclaringClass();
+            if (this.specialized[0] == owner) {
+                // Check to see if the owner class needs to be type inferred.
+                if (owner.getTypeParameters().length != 0) {
+                    this.specialized[0] = new SpecializedType(owner).sam(specialized)
+                            .specializeByReturnType(findSpecialized(sam().getGenericReturnType()))
+                            .specializeByParamTypes(findSpecialized(sam().getGenericParameterTypes()))
+                            .fillBy(WILD);
+                }
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Count parameter and return types.
+     * 
+     * @param method
+     * @return
+     */
+    private int countParameterAndReturn(Method method) {
+        int params = method.getParameterCount();
+        int returns = method.getReturnType() == void.class ? 0 : 1;
+        return params + returns;
+    }
+
+    /**
+     * Fill all empty slot by the given type.
+     * 
+     * @param type
+     * @return
+     */
+    SpecializedType fillBy(Type type) {
+        for (int i = 0; i < specialized.length; i++) {
+            if (specialized[i] == null) {
+                specialized[i] = type;
+            }
+        }
         return this;
     }
 
