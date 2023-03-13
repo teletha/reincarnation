@@ -33,7 +33,7 @@
 			</nav>
 			<article class="i" id="Article">
 				<section class="Q"><code class="d">reincarnation</code>
-					<h2 class="Class S"><code class="c">OperandArrayLength</code></h2>
+					<h2 class="Class S"><code class="c">OperandArray</code></h2>
 					<div class="b">
 						<ul class="C E">
 							<li><code><a href="api/reincarnation.Operand.html">Operand</a></code></li>
@@ -41,17 +41,41 @@
 						<ul class="C F">
 							<li><code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.Operand.html">Operand</a></code></code></code></li>
 						</ul>
-					</div>
-				</section>
-				<section class="Q" id="OperandArrayLength(reincarnation.Operand)">
-					<h2 class="f"><i class="PUBLIC"></i><code class="c">OperandArrayLength</code><code class="W">(<code><a href="api/reincarnation.Operand.html">Operand</a></code> <code class="parameterName">context</code>)</code></h2>
-					<table class="e">
-						<tr class="V">
-							<td><code><a href="api/reincarnation.Operand.html">Operand</a></code> <code>context</code></td>
-							<td></td>
-						</tr>
-					</table>
-				</section>
+					</div><span class="B"><p>
+ The code like the following will generate difference bytecode by compiler.
+ </p>
+ <pre>
+ String[] array = {null, null, &#34;third&#34;};
+ </pre>
+ <p>
+ Eclipse Java Compiler generates the following bytecode.
+ </p>
+ <pre>
+ mv.visitTypeInsn(ANEWARRAY, &#34;java/lang/String&#34;);
+ mv.visitInsn(DUP);
+ mv.visitInsn(ICONST_2);
+ mv.visitLdcInsn(&#34;third&#34;);
+ mv.visitInsn(AASTORE); // Assign third value suddenly
+</pre>
+ <p>
+ JDK Compiler generates the following bytecode.
+ </p>
+ <pre>
+ mv.visitTypeInsn(ANEWARRAY,  &#34;java/lang/String&#34;);
+ mv.visitInsn(DUP);
+ mv.visitInsn(ICONST_0);
+ mv.visitInsn(ACONST_NULL);
+ mv.visitInsn(AASTORE); // Assign first null value
+ mv.visitInsn(DUP);
+ mv.visitInsn(ICONST_1);
+ mv.visitInsn(ACONST_NULL);
+ mv.visitInsn(AASTORE); // Assign second null value
+ mv.visitInsn(DUP);
+ mv.visitInsn(ICONST_2);
+ mv.visitLdcInsn(&#34;third&#34;);
+ mv.visitInsn(AASTORE); // Assign third value
+</pre>
+					</span></section>
 				<section class="Q" id="children()">
 					<h2 class="f"><i class="OVERRIDE PUBLIC"></i><code class="c">children</code><code class="W">()</code><i class="T"><code>kiss.Signal<code class="parameters"><code><a href="api/reincarnation.Operand.html">Operand</a></code></code></code></i></h2>
 					<table class="e">
@@ -73,14 +97,10 @@
 			</article>
 			<aside class="j" id="SubNavi">
 				<div class="U">
-					<h5 class="P">Constructors</h5>
-					<ul>
-						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.OperandArrayLength.html#OperandArrayLength(reincarnation.Operand)">OperandArrayLength</a></code><code class="W">(<code><a href="api/reincarnation.Operand.html">Operand</a></code> <code class="parameterName">context</code>)</code></li>
-					</ul>
 					<h5 class="P">Methods</h5>
 					<ul>
-						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.OperandArrayLength.html#children()">children</a></code><code class="W">()</code><i class="Z"><code>kiss.Signal<code class="parameters"><code><a href="api/reincarnation.Operand.html">Operand</a></code></code></code></i></li>
-						<li><i class="OVERRIDE PROTECTED"></i><code><a href="api/reincarnation.OperandArrayLength.html#writeCode(reincarnation.coder.Coder)">writeCode</a></code><code class="W">(<code><a href="api/reincarnation.coder.Coder.html">Coder</a></code> <code class="parameterName">coder</code>)</code><i class="Z"><code>void</code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.OperandArray.html#children()">children</a></code><code class="W">()</code><i class="Z"><code>kiss.Signal<code class="parameters"><code><a href="api/reincarnation.Operand.html">Operand</a></code></code></code></i></li>
+						<li><i class="OVERRIDE PROTECTED"></i><code><a href="api/reincarnation.OperandArray.html#writeCode(reincarnation.coder.Coder)">writeCode</a></code><code class="W">(<code><a href="api/reincarnation.coder.Coder.html">Coder</a></code> <code class="parameterName">coder</code>)</code><i class="Z"><code>void</code></i></li>
 					</ul>
 				</div>
 			</aside>
