@@ -23,10 +23,8 @@ import java.util.function.ToIntFunction;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
-@Debuggable()
 class MethodReferenceTest extends CodeVerifier {
 
     @Test

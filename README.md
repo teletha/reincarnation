@@ -109,7 +109,7 @@ Reincarnation aims to be a decompiler for all modern Java grammars.
     - [x] instanceof with pattern matching
     - [x] wideining
     - [x] narrowing
-    - [x] auto-boxing and unboxing
+    - [x] auto-boxing and auto-unboxing
 - [x] Array initializer (String[] a = { "x", "y", "z" })
 - [x] Local variable information
 - [x] Modifiers
@@ -122,24 +122,25 @@ Reincarnation aims to be a decompiler for all modern Java grammars.
     - [x] native
     - [x] static
 - [x] Generics
-    - [x] Parameterized types (e.g. Foo<X>)
-    - [x] Type arguments (e.g. List<String>)
-    - [x]
+    - [x] Type variable (e.g. <S, T, R>)
+    - [x] Parameterized type (e.g. Foo<X>)
+    - [x] Wildcard type (e.g. ? extends Closeable)
+    - [ ] Generic array type (e.g. T[])
 - [ ] Annotation
     - [ ] Type
     - [ ] Constructor
     - [ ] Method
     - [ ] Field
     - [ ] Parameter
-    - [ ]
-- [ ] Variable arity methods (a.k.a. "varargs")
+    - [ ] Local variable
+- [ ] Variable arity method (a.k.a. "varargs")
 - [ ] Type interference for generic instance creation (a.k.a. the "diamond operator") (JLS11 15.9.1)
-- [ ] Lambda expressions
-- [ ] Constructor references
-- [ ] Method references
-- [ ] Default methods
-- [ ] Static interface methods
-- [ ] Private interface methods
+- [x] Lambda expression
+- [x] Constructor reference
+- [x] Method reference
+- [x] Default method
+- [ ] Static interface method
+- [ ] Private interface method
 - [ ] Text block
 <p align="right"><a href="#top">back to top</a></p>
 
@@ -241,8 +242,6 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 ## Dependency
 Reincarnation depends on the following products on runtime.
 * [asm-9.4](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.4)
-* [commons-compiler-3.1.9](https://mvnrepository.com/artifact/org.codehaus.janino/commons-compiler/3.1.9)
-* [janino-3.1.9](https://mvnrepository.com/artifact/org.codehaus.janino/janino/3.1.9)
 * [psychopath-1.7.1](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.7.1)
 * [sinobu-3.2.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.2.0)
 <p align="right"><a href="#top">back to top</a></p>

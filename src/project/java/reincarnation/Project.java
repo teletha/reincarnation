@@ -23,7 +23,6 @@ public class Project extends bee.api.Project {
         require("com.github.teletha", "antibug").atTest();
         require("com.github.teletha", "viewtify").atTest();
         require("com.github.javaparser", "javaparser-core").atTest();
-        require("org.codehaus.janino", "janino");
 
         // for jetbrains fernflower
         require("org.jetbrains", "annotations").atTest();
@@ -132,7 +131,7 @@ public class Project extends bee.api.Project {
                     - [x] instanceof with pattern matching
                     - [x] wideining
                     - [x] narrowing
-                    - [x] auto-boxing and unboxing
+                    - [x] auto-boxing and auto-unboxing
                 - [x] Array initializer (String[] a = { "x", "y", "z" })
                 - [x] Local variable information
                 - [x] Modifiers
@@ -145,24 +144,25 @@ public class Project extends bee.api.Project {
                     - [x] native
                     - [x] static
                 - [x] Generics
-                    - [x] Parameterized types (e.g. Foo<X>)
-                    - [x] Type arguments (e.g. List<String>)
-                    - [x]
+                    - [x] Type variable (e.g. <S, T, R>)
+                    - [x] Parameterized type (e.g. Foo<X>)
+                    - [x] Wildcard type (e.g. ? extends Closeable)
+                    - [ ] Generic array type (e.g. T[])
                 - [ ] Annotation
                     - [ ] Type
                     - [ ] Constructor
                     - [ ] Method
                     - [ ] Field
                     - [ ] Parameter
-                    - [ ]
-                - [ ] Variable arity methods (a.k.a. "varargs")
+                    - [ ] Local variable
+                - [ ] Variable arity method (a.k.a. "varargs")
                 - [ ] Type interference for generic instance creation (a.k.a. the "diamond operator") (JLS11 15.9.1)
-                - [ ] Lambda expressions
-                - [ ] Constructor references
-                - [ ] Method references
-                - [ ] Default methods
-                - [ ] Static interface methods
-                - [ ] Private interface methods
+                - [x] Lambda expression
+                - [x] Constructor reference
+                - [x] Method reference
+                - [x] Default method
+                - [ ] Static interface method
+                - [ ] Private interface method
                 - [ ] Text block
                 """);
     }
