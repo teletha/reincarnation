@@ -118,6 +118,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "GeneratedRecordCodes",
+			"packageName": "reincarnation.util",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "If",
 			"packageName": "reincarnation.structure",
 			"type": "Class"
