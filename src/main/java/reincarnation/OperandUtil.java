@@ -15,11 +15,14 @@ import static org.objectweb.asm.Type.*;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import kiss.I;
+import reincarnation.operator.AccessMode;
 
 public class OperandUtil {
 
@@ -241,6 +244,59 @@ public class OperandUtil {
             return OperandBoolean.False;
         }
         return Operand.Null;
+    }
+
+    /**
+     * Convert from java value to the suitable operand.
+     * 
+     * @param value
+     * @return
+     */
+    static Operand convert(Object value) {
+        if (value instanceof Operand op) {
+            return op;
+        } else if (value instanceof String text) {
+            return new OperandString(text);
+        } else if (value instanceof Class clazz) {
+            return new OperandType(clazz);
+        } else if (value instanceof Method method) {
+            return convertMethod(method, new Object[0]);
+        } else if (value.getClass().isArray()) {
+            int length = Array.getLength(value);
+            List<Operand> ops = new ArrayList();
+            for (int i = 0; i < length; i++) {
+                ops.add(convert(Array.get(value, i)));
+            }
+            return new OperandArray(ops, value.getClass().getComponentType());
+        } else {
+            throw new Error();
+        }
+    }
+
+    /**
+     * Convert from java value to the suitable operand.
+     * 
+     * @param values
+     * @return
+     */
+    static Operand[] convert(Object... values) {
+        Operand[] ops = new Operand[values.length];
+        for (int i = 0; i < ops.length; i++) {
+            ops[i] = convert(values[i]);
+        }
+        return ops;
+    }
+
+    /**
+     * Convert method to method call operand.
+     * 
+     * @param method
+     * @param parameters
+     * @return
+     */
+    static OperandMethodCall convertMethod(Method method, Object... parameters) {
+        return new OperandMethodCall(AccessMode.THIS, method.getDeclaringClass(), method.getName(), method
+                .getParameterTypes(), convert(method.getDeclaringClass()), I.list(convert(parameters)));
     }
 
     /**

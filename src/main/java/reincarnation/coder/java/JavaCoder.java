@@ -45,6 +45,7 @@ import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
+import reincarnation.util.GeneratedRecordCodes;
 import reincarnation.util.MultiMap;
 
 public class JavaCoder extends Coder<JavaCodingOption> {
@@ -165,7 +166,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                 ? Join.of(type.getPermittedSubclasses()).ignoreEmpty().prefix(" permits ").separator("," + space).converter(this::name)
                 : null;
         Join accessor = modifier(type);
-        Join<TypeVariable> variable = Join.of(type.getTypeParameters())
+        Join variable = Join.of(type.getTypeParameters())
                 .ignoreEmpty()
                 .prefix("<")
                 .separator("," + space)
@@ -175,6 +176,17 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         if (type.isRecord()) {
             kind = "record";
             implement = Join.of(type.getGenericInterfaces()).ignoreEmpty().prefix(" implements ").converter(this::name);
+            accessor.remove("static", "final");
+
+            boolean vararg = type.getDeclaredConstructors()[0].isVarArgs();
+            int max = type.getRecordComponents().length - 1;
+            variable = Join.of(type.getRecordComponents()).prefix("(").separator("," + space).suffix(")").converter((index, x) -> {
+                String paramType = name(x.getGenericType());
+                if (vararg && index == max) {
+                    paramType = paramType.replaceAll("\\[\\]$", "...");
+                }
+                return paramType + " " + x.getName();
+            });
         } else if (type.isInterface()) {
             kind = "interface";
             implement = Join.of(type.getGenericInterfaces()).ignoreEmpty().prefix(" extends ").converter(this::name);
@@ -207,6 +219,11 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeStaticField(Field field) {
+        // ignore compiler generated code
+        if (GeneratedRecordCodes.isGenerated(field)) {
+            return;
+        }
+
         if (current.is(Class::isInterface)) {
             // ignore, write fields in static initializer
         } else {
@@ -244,7 +261,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeConstructor(Constructor constructor, Code code) {
+    public void writeConstructor(Constructor constructor, Code<Code> code) {
+        // ignore compiler generated code
+        if (GeneratedRecordCodes.isGenerated(constructor, code)) {
+            return;
+        }
+
         vars.start();
 
         line();
@@ -259,9 +281,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeMethod(Method method, Code code) {
-        // ignore compiler generated method
-        if (method.isSynthetic()) {
+    public void writeMethod(Method method, Code<Code> code) {
+        // ignore compiler generated code
+        if (method.isSynthetic() || GeneratedRecordCodes.isGenerated(method, code)) {
             return;
         }
 

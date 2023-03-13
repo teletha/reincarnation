@@ -12,10 +12,8 @@ package reincarnation.decompiler.grammar;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
-@Debuggable
 class SealedClassTest extends CodeVerifier {
 
     static sealed class Clazz permits A, B {

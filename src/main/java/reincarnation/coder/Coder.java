@@ -279,14 +279,14 @@ public abstract class Coder<O extends CodingOption> {
      * 
      * @param constructor
      */
-    public abstract void writeConstructor(Constructor constructor, Code code);
+    public abstract void writeConstructor(Constructor constructor, Code<Code> code);
 
     /**
      * Method declaration.
      * 
      * @param method
      */
-    public abstract void writeMethod(Method method, Code code);
+    public abstract void writeMethod(Method method, Code<Code> code);
 
     /**
      * Lambda.

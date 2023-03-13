@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.*;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -46,9 +46,29 @@ import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
 import reincarnation.structure.Structure;
+import reincarnation.util.GeneratedRecordCodes;
 import reincarnation.util.MultiMap;
 
 class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
+
+    /** The reusable reference to record method. */
+    private static final Method RecordToString;
+
+    /** The reusable reference to record method. */
+    private static final Method RecordEquals;
+
+    /** The reusable reference to record method. */
+    private static final Method RecordHashCode;
+
+    static {
+        try {
+            RecordToString = GeneratedRecordCodes.class.getMethod("recordToString", Object.class);
+            RecordEquals = GeneratedRecordCodes.class.getMethod("recordEquals", Object.class, Object.class);
+            RecordHashCode = GeneratedRecordCodes.class.getMethod("recordHashCode", Object.class);
+        } catch (Exception e) {
+            throw I.quiet(e);
+        }
+    }
 
     /** The description of {@link Debugger}. */
     private static final String DEBUGGER = Type.getType(Debuggable.class).getDescriptor();
@@ -1290,75 +1310,86 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
      * {@inheritDoc} bootstrapMethodHandle
      */
     @Override
-    public void visitInvokeDynamicInsn(String name, String description, Handle bootstrapMethodHandle, Object... bootstrapMethodArguments) {
+    public void visitInvokeDynamicInsn(String name, String description, Handle bootstrap, Object... bootstrapMethodArguments) {
         // recode current instruction
         record(INVOKEDYNAMIC);
 
-        Handle handle = (Handle) bootstrapMethodArguments[1];
-        Type functionalInterfaceType = (Type) bootstrapMethodArguments[2];
-        Type lambdaType = Type.getMethodType(handle.getDesc());
-        Type callerType = Type.getMethodType(description);
+        if (bootstrap.getOwner().equals("java/lang/runtime/ObjectMethods") && bootstrap.getName().equals("bootstrap")) {
+            // Bootstrap methods for state-driven implementations of core methods, including
+            // Object.equals(Object), Object.hashCode(), and Object.toString(). These methods may be
+            // used, for example, by Java compiler implementations to implement the bodies of Object
+            // methods for record classes.
+            switch (name) {
+            case "toString" -> current.addOperand(OperandUtil.convertMethod(RecordToString, current.remove(0)));
+            case "hashCode" -> current.addOperand(OperandUtil.convertMethod(RecordHashCode, current.remove(0)));
+            case "equals" -> current.addOperand(OperandUtil.convertMethod(RecordEquals, current.remove(0), current.remove(0)));
+            default -> throw new IllegalArgumentException("Unexpected value: " + name);
+            }
+        } else {
+            Handle handle = (Handle) bootstrapMethodArguments[1];
+            Type callerType = Type.getMethodType(description);
 
-        // detect functional interface
-        Class interfaceClass = load(callerType.getReturnType());
+            // detect functional interface
+            Class interfaceClass = load(callerType.getReturnType());
 
-        // detect lambda method
-        try {
-            Class lambdaClass = load(handle.getOwner());
-            // Class lambdaReturnType = load(Type.getReturnType(handle.getDesc()));
-            Class[] lambdaParameterTypes = load(Type.getArgumentTypes(handle.getDesc()));
-            Method lambdaMethod = lambdaClass.getDeclaredMethod(handle.getName(), lambdaParameterTypes);
+            // detect lambda method
+            try {
+                Class lambdaClass = load(handle.getOwner());
+                Class[] lambdaParameterTypes = load(Type.getArgumentTypes(handle.getDesc()));
+                Method lambdaMethod = lambdaClass.getDeclaredMethod(handle.getName(), lambdaParameterTypes);
 
-            if (lambdaMethod.isSynthetic()) {
-                // ==================================
-                // Lambda
-                // ==================================
-                // build parameter from local environment
-                int consumableStackSize = callerType.getArgumentTypes().length;
-                List<Operand> params = new ArrayList();
+                if (lambdaMethod.isSynthetic()) {
+                    // ==================================
+                    // Lambda
+                    // ==================================
+                    // build parameter from local environment
+                    int consumableStackSize = callerType.getArgumentTypes().length;
+                    List<Operand> params = new ArrayList();
 
-                for (int i = consumableStackSize - 1; 0 <= i; i--) {
-                    Operand removed = current.remove(i);
-                    if (removed instanceof OperandLocalVariable local && local.index == 0) {
-                        // ignore "this" variable
-                    } else {
-                        params.add(removed);
+                    for (int i = consumableStackSize - 1; 0 <= i; i--) {
+                        Operand removed = current.remove(i);
+                        if (removed instanceof OperandLocalVariable local && local.index == 0) {
+                            // ignore "this" variable
+                        } else {
+                            params.add(removed);
+                        }
+                    }
+
+                    current.addOperand(new OperandLambda(interfaceClass, lambdaMethod, params, source));
+                } else {
+                    // ==================================
+                    // Method Reference
+                    // ==================================
+                    source.require(lambdaClass);
+
+                    boolean needInstance = callerType.getArgumentTypes().length != 0;
+
+                    switch (handle.getTag()) {
+                    case H_INVOKESTATIC:
+                    case H_INVOKEVIRTUAL:
+                    case H_INVOKEINTERFACE:
+                        SpecializedType specialized = new SpecializedType(interfaceClass)
+                                .specializeByReturnAndParamTypes((Type) bootstrapMethodArguments[2])
+                                .specializeBySAM(lambdaMethod);
+
+                        current.addOperand(new OperandMethodReference(lambdaMethod, needInstance ? current.remove(0) : null)
+                                .fix(specialized));
+                        break;
+
+                    case H_INVOKESPECIAL:
+                    case H_NEWINVOKESPECIAL:
+                        break;
+
+                    default:
+                        // If this exception will be thrown, it is bug of this program. So we must
+                        // rethrow
+                        // the wrapped error in here.
+                        throw new Error();
                     }
                 }
-
-                current.addOperand(new OperandLambda(interfaceClass, lambdaMethod, params, source));
-            } else {
-                // ==================================
-                // Method Reference
-                // ==================================
-                source.require(lambdaClass);
-
-                boolean needInstance = callerType.getArgumentTypes().length != 0;
-
-                switch (handle.getTag()) {
-                case H_INVOKESTATIC:
-                case H_INVOKEVIRTUAL:
-                case H_INVOKEINTERFACE:
-                    SpecializedType specialized = new SpecializedType(interfaceClass)
-                            .specializeByReturnAndParamTypes(functionalInterfaceType)
-                            .specializeBySAM(lambdaMethod);
-
-                    current.addOperand(new OperandMethodReference(lambdaMethod, needInstance ? current.remove(0) : null).fix(specialized));
-                    break;
-
-                case H_INVOKESPECIAL:
-                case H_NEWINVOKESPECIAL:
-                    break;
-
-                default:
-                    // If this exception will be thrown, it is bug of this program. So we must
-                    // rethrow
-                    // the wrapped error in here.
-                    throw new Error();
-                }
+            } catch (Exception e) {
+                throw I.quiet(e);
             }
-        } catch (Exception e) {
-            throw I.quiet(e);
         }
     }
 

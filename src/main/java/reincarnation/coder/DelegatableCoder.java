@@ -101,7 +101,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeConstructor(Constructor constructor, Code code) {
+    public void writeConstructor(Constructor constructor, Code<Code> code) {
         coder.writeConstructor(constructor, code);
     }
 
@@ -109,7 +109,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeMethod(Method method, Code code) {
+    public void writeMethod(Method method, Code<Code> code) {
         coder.writeMethod(method, code);
     }
 
