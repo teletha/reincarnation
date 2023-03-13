@@ -549,7 +549,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         if (vars.isDeclared(name)) {
             prefix = "";
         } else {
-            boolean needInfer = (type instanceof Class clazz && clazz.getTypeParameters().length != 0) || type instanceof ParameterizedType;
+            boolean needInfer = (type instanceof Class clazz && clazz.getTypeParameters().length != 0);
             prefix = (needInfer ? "var" : name(type)).concat(space);
             vars.declare(name);
         }
@@ -976,6 +976,16 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                     .take(x -> x != Object.class)
                     .ignoreEmpty()
                     .write(builder);
+        } else if (type instanceof SpecializedType specialized) {
+            qualify(specialized.getRawType(), builder);
+
+            Join.of(specialized.getActualTypeArguments())
+                    .ignoreEmpty()
+                    .prefix("<")
+                    .separator("," + space)
+                    .suffix(">")
+                    .converter(this::name)
+                    .write(builder);
         } else if (type instanceof ParameterizedType parameterized) {
             qualify(parameterized.getRawType(), builder);
 
@@ -1010,16 +1020,6 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                     });
         } else if (type instanceof GenericArrayType array) {
             throw new Error("Generic array");
-        } else if (type instanceof SpecializedType specialized) {
-            qualify(specialized.getRawType(), builder);
-
-            Join.of(specialized.getActualTypeArguments())
-                    .ignoreEmpty()
-                    .prefix("<")
-                    .separator("," + space)
-                    .suffix(">")
-                    .converter(this::name)
-                    .write(builder);
         } else {
             throw new Error(String.valueOf(type));
         }

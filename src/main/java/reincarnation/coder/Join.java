@@ -200,6 +200,17 @@ public final class Join<T> implements Code {
     }
 
     /**
+     * Write out as {@link String}.
+     * 
+     * @return
+     */
+    public String write() {
+        StringBuilder builder = new StringBuilder();
+        write(builder);
+        return builder.toString();
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -207,6 +218,12 @@ public final class Join<T> implements Code {
         write(coder, I.NoOP);
     }
 
+    /**
+     * Write out or process if no item.
+     * 
+     * @param coder
+     * @param empty
+     */
     public void write(Coder coder, Runnable empty) {
         List<T> values = take == null ? this.values : I.signal(this.values).index(0).take(x -> take.test(x.ⅱ, x.ⅰ)).map(Ⅱ::ⅰ).toList();
         int size = values.size();

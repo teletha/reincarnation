@@ -10,8 +10,6 @@
 package reincarnation;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.Arrays;
 
 import reincarnation.coder.Coder;
 
@@ -23,14 +21,12 @@ class OperandMethodReference extends Operand {
     /** The context. */
     private final Operand context;
 
-    OperandMethodReference(Class interfaceClass, Method reference, Operand context, Type type) {
-        this.reference = reference;
-        this.context = context;
-
-        System.out.println(Arrays.toString(reference.getGenericParameterTypes()));
-        fix(type);
-    }
-
+    /**
+     * Create the operand for method reference.
+     * 
+     * @param reference
+     * @param context
+     */
     OperandMethodReference(Method reference, Operand context) {
         this.reference = reference;
         this.context = context;

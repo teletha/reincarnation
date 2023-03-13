@@ -21,6 +21,8 @@ class OperandCast extends Operand {
     /** The type to cast. */
     private final Class type;
 
+    private final boolean needCast;
+
     /**
      * Create cast code.
      * 
@@ -31,8 +33,11 @@ class OperandCast extends Operand {
         this.value = value;
         this.type = type;
         fix(type);
+        this.needCast = !Inference.instanceOf(value.type.v, type);
 
-        encolose();
+        if (needCast) {
+            encolose();
+        }
     }
 
     /**
@@ -40,10 +45,10 @@ class OperandCast extends Operand {
      */
     @Override
     protected void writeCode(Coder coder) {
-        if (Inference.instanceOf(value.type.v, type)) {
-            value.writeCode(coder);
-        } else {
+        if (needCast) {
             coder.writeCast(type, value);
+        } else {
+            value.writeCode(coder);
         }
     }
 

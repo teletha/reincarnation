@@ -11,6 +11,7 @@ package reincarnation;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
@@ -18,22 +19,31 @@ import java.util.List;
 import java.util.Objects;
 
 import kiss.I;
+import reincarnation.coder.Join;
 
-public final class SpecializedType implements Type {
+public final class SpecializedType implements ParameterizedType {
 
     /** The reusable type for <?>. */
     private static final WildcardType WILD = new WildcardType() {
 
-        private static final Type[] O = {Object.class};
+        private static final Type[] Φ = {};
 
         @Override
         public Type[] getUpperBounds() {
-            return O;
+            return Φ;
         }
 
         @Override
         public Type[] getLowerBounds() {
-            return O;
+            return Φ;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String toString() {
+            return "?";
         }
     };
 
@@ -282,22 +292,40 @@ public final class SpecializedType implements Type {
     }
 
     /**
-     * Returns an array of Type objects representing the actual type arguments to this type. Note
-     * that in some cases, the returned array be empty. This can occur if this type represents a
-     * non-parameterized type nested within a parameterized type.
-     * 
-     * @return An array of Type objects representing the actual type arguments to this type.
+     * {@inheritDoc}
      */
+    @Override
+    public Type getOwnerType() {
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Type[] getActualTypeArguments() {
         return specialized;
     }
 
     /**
-     * Returns the Type object representing the class or interface that declared this type.
-     * 
-     * @return Type object representing the class or interface that declared this type
+     * {@inheritDoc}
      */
+    @Override
     public Type getRawType() {
         return raw;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return raw.getSimpleName() + Join.of(specialized)
+                .ignoreEmpty()
+                .prefix("<")
+                .separator(", ")
+                .suffix(">")
+                .converter(Type::getTypeName)
+                .write();
     }
 }
