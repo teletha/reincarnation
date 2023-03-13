@@ -56,7 +56,7 @@ import reincarnation.coder.Coder;
  * 
  * @version 2018/10/05 19:36:39
  */
-class OperandArray extends Operand {
+public class OperandArray extends Operand {
 
     /** The array dimension size. */
     private final int dimension;

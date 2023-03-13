@@ -158,7 +158,7 @@ public class Project extends bee.api.Project {
                     - [ ] Field
                     - [ ] Parameter
                     - [ ] Local variable
-                - [ ] Variable arity method (a.k.a. "varargs")
+                - [x] Variable arity method (a.k.a. "varargs")
                 - [ ] Type interference for generic instance creation (a.k.a. the "diamond operator") (JLS11 15.9.1)
                 - [x] Lambda expression
                 - [x] Constructor reference

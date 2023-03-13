@@ -31,6 +31,7 @@ import kiss.Variable;
 import kiss.Ⅱ;
 import kiss.Ⅲ;
 import reincarnation.Operand;
+import reincarnation.OperandArray;
 import reincarnation.OperandUtil;
 import reincarnation.Reincarnation;
 import reincarnation.coder.Code;
@@ -663,6 +664,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     private Join buildParameter(Executable executable, List<? extends Code> params) {
         Join concat = new Join().prefix("(").suffix(")").separator("," + space);
         Parameter[] parameters = executable.getParameters();
+        if (executable.isVarArgs()) {
+            int index = params.size() - 1;
+            Code code = params.get(index);
+            if (code instanceof OperandArray) {
+                params.remove(index);
+                params.addAll(index, code.children().skip(1).toList());
+            }
+        }
 
         for (int i = 0; i < params.size(); i++) {
             Code param = params.get(i);
