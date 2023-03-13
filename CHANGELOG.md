@@ -1,5 +1,34 @@
 # Changelog
 
+## [1.2.0](https://github.com/teletha/reincarnation/compare/v1.1.0...v1.2.0) (2023-03-13)
+
+
+### Features
+
+* (Java) Import classes are filtered, sorted and grouped. ([1627e9a](https://github.com/teletha/reincarnation/commit/1627e9a6c522aa2f29a522bcceab37ea68fb72c8))
+* Optimize class literal for primitive types. ([35d9530](https://github.com/teletha/reincarnation/commit/35d9530b3fa1ed3e927ab8da20b6b4ecd0ab761e))
+* Provide specialized ParameterizedType. ([5f1da9c](https://github.com/teletha/reincarnation/commit/5f1da9ca8b932aa6f7d51185345d847a8f7db481))
+* Support all modifiers. ([ae17983](https://github.com/teletha/reincarnation/commit/ae1798328ab9e6d58be70f337b1f1465b64ed6bc))
+* Support assert with message. ([375d034](https://github.com/teletha/reincarnation/commit/375d0347b788cd366f6db2ab480fd4a580c34c01))
+* Support generics on type definition. ([5c811dd](https://github.com/teletha/reincarnation/commit/5c811dd1ec2636f014a88f036f1317532dbf72a7))
+* Support generics partially. ([b3f0219](https://github.com/teletha/reincarnation/commit/b3f0219a174c3fd8aaec8249bf41a3c439e7f88b))
+* Support lambda with contextual local variables. ([098d7f5](https://github.com/teletha/reincarnation/commit/098d7f550aa66e9f3069ed0e30bfed8938f85566))
+* Support local class. ([5dcc7e1](https://github.com/teletha/reincarnation/commit/5dcc7e1667e1b53a427a3876999a9fe2aac040c9))
+* Support method reference for array and constructor. ([1a47b33](https://github.com/teletha/reincarnation/commit/1a47b330b6c30295b4fa90234608e856236343cc))
+* Support method reference. ([63aaa91](https://github.com/teletha/reincarnation/commit/63aaa91ac041a217c35ac24d2ebcfe7bf72a81d3))
+* Support nested lambda with contextual variables. ([094c379](https://github.com/teletha/reincarnation/commit/094c379e87f710d4241a8927c3786d2187b7bc74))
+* Support static method and private method on interface. ([9abb142](https://github.com/teletha/reincarnation/commit/9abb142aafe4b570a3fd1aa7ce40a176800aeaca))
+* Support the bounded type variable on type definition. ([e7ec82a](https://github.com/teletha/reincarnation/commit/e7ec82adb9cc273ffe1fcf8f260e770c0ba47163))
+* Support vararg. ([7759450](https://github.com/teletha/reincarnation/commit/775945052831481cf9a1a9cfa9de0df9b1b63bd6))
+
+
+### Bug Fixes
+
+* Capture assertion error if needed. ([ef5f894](https://github.com/teletha/reincarnation/commit/ef5f894bf399d89c0aa51b838fe1f0e92784bd96))
+* Enable assertion on verify tests. ([16ea2cc](https://github.com/teletha/reincarnation/commit/16ea2cc2030865c04ec7b125a6fbe565f81caaf7))
+* Optimize cast code. ([6321803](https://github.com/teletha/reincarnation/commit/6321803022607286ec359533035306c8618c0b5c))
+* remove duplicated code ([55b50ba](https://github.com/teletha/reincarnation/commit/55b50ba28c33f57295e838e2f63fecc9861a29ed))
+
 ## [1.1.0](https://github.com/teletha/reincarnation/compare/v1.0.0...v1.1.0) (2023-03-02)
 
 
