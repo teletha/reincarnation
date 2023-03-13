@@ -45,7 +45,7 @@ public class Project extends bee.api.Project {
                 - [x] Inheritance
                     - [x] extends
                     - [x] implements
-                    - [ ] sealed and permits
+                    - [x] sealed and permits
                 - [x] Modifiers
                     - [x] public
                     - [x] protected

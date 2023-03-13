@@ -23,7 +23,7 @@ Reincarnation aims to be a decompiler for all modern Java grammars.
 - [x] Inheritance
     - [x] extends
     - [x] implements
-    - [ ] sealed and permits
+    - [x] sealed and permits
 - [x] Modifiers
     - [x] public
     - [x] protected
