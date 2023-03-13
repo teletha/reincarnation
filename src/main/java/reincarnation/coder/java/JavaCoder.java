@@ -33,7 +33,6 @@ import kiss.Ⅲ;
 import reincarnation.Operand;
 import reincarnation.OperandUtil;
 import reincarnation.Reincarnation;
-import reincarnation.SpecializedType;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.CodingOption;
@@ -975,16 +974,6 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                     .converter(x -> name(x))
                     .take(x -> x != Object.class)
                     .ignoreEmpty()
-                    .write(builder);
-        } else if (type instanceof SpecializedType specialized) {
-            qualify(specialized.getRawType(), builder);
-
-            Join.of(specialized.getActualTypeArguments())
-                    .ignoreEmpty()
-                    .prefix("<")
-                    .separator("," + space)
-                    .suffix(">")
-                    .converter(this::name)
                     .write(builder);
         } else if (type instanceof ParameterizedType parameterized) {
             qualify(parameterized.getRawType(), builder);
