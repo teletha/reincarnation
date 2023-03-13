@@ -7,10 +7,10 @@
 		<script src="mimic.js" type="module"></script>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="h">
-		<header class="i">
-			<h1 class="m" date="2023-03-02" ver="1.1.0"><code>Reincarnation</code></h1>
-			<nav class="k"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+	<body class="m">
+		<header class="N">
+			<h1 class="k" date="2023-03-02" ver="1.1.0"><code>Reincarnation</code></h1>
+			<nav class="g"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
 					</svg><code>API</code></a><a href="https://github.com/teletha/reincarnation/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#user"/>
@@ -19,7 +19,7 @@
 					</svg>Activity</a><a href="https://github.com/teletha/reincarnation" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#github"/>
 					</svg>Repository</a></nav>
-			<div class="T" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+			<div class="Z" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#sun"/>
 					</svg>
 				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
@@ -27,62 +27,79 @@
 					</svg>
 				</a></div>
 		</header>
-		<main class="Z">
-			<nav class="L">
+		<main class="L">
+			<nav class="f">
 				<div></div>
 			</nav>
-			<article class="O" id="Article">
-				<section class="N"><code class="j">reincarnation</code>
-					<h2 class="Class H"><code class="W">SpecializedType</code></h2>
-					<div class="M">
+			<article class="X" id="Article">
+				<section class="T"><code class="e">reincarnation</code>
+					<h2 class="Class i"><code class="S">SpecializedType</code></h2>
+					<div class="h">
 						<ul class="C F">
+							<li><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/ParameterizedType.html">ParameterizedType</a></code></li>
 							<li><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></li>
 						</ul>
 					</div>
 				</section>
-				<section class="N" id="SpecializedType(java.lang.Class)">
-					<h2 class="f"><i class="PUBLIC"></i><code class="W">SpecializedType</code><code class="P">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">raw</code>)</code></h2>
-					<table class="g">
-						<tr class="J">
+				<section class="T" id="SpecializedType(java.lang.Class)">
+					<h2 class="W"><i class="PUBLIC"></i><code class="S">SpecializedType</code><code class="Y">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">raw</code>)</code></h2>
+					<table class="l">
+						<tr class="b">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>raw</code></td>
 							<td><span><p>A base type.</p>
 								</span></td>
 						</tr>
 					</table><span class="B"><p>Create <code><a href="api/reincarnation.SpecializedType.html">SpecializedType</a></code>.</p>
 					</span></section>
-				<section class="N" id="getActualTypeArguments()">
-					<h2 class="f"><i class="PUBLIC"></i><code class="W">getActualTypeArguments</code><code class="P">()</code><i class="b"><code array="fix"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></i></h2>
-					<table class="g">
-						<tr class="e">
-							<td><code array="fix"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></td>
-							<td><span><p>An array of Type objects representing the actual type arguments to this type.</p>
-								</span></td>
-						</tr>
-					</table><span class="B"><p>Returns an array of Type objects representing the actual type arguments to this type. Note
- that in some cases, the returned array be empty. This can occur if this type represents a
- non-parameterized type nested within a parameterized type.</p>
-					</span></section>
-				<section class="N" id="getRawType()">
-					<h2 class="f"><i class="PUBLIC"></i><code class="W">getRawType</code><code class="P">()</code><i class="b"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></i></h2>
-					<table class="g">
-						<tr class="e">
+				<section class="T" id="getOwnerType()">
+					<h2 class="W"><i class="OVERRIDE PUBLIC"></i><code class="S">getOwnerType</code><code class="Y">()</code><i class="H"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></i></h2>
+					<table class="l">
+						<tr class="U">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></td>
-							<td><span><p>Type object representing the class or interface that declared this type</p>
-								</span></td>
+							<td></td>
 						</tr>
-					</table><span class="B"><p>Returns the Type object representing the class or interface that declared this type.</p>
-					</span></section>
+					</table>
+				</section>
+				<section class="T" id="getActualTypeArguments()">
+					<h2 class="W"><i class="OVERRIDE PUBLIC"></i><code class="S">getActualTypeArguments</code><code class="Y">()</code><i class="H"><code array="fix"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></i></h2>
+					<table class="l">
+						<tr class="U">
+							<td><code array="fix"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="T" id="getRawType()">
+					<h2 class="W"><i class="OVERRIDE PUBLIC"></i><code class="S">getRawType</code><code class="Y">()</code><i class="H"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></i></h2>
+					<table class="l">
+						<tr class="U">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+				<section class="T" id="toString()">
+					<h2 class="W"><i class="OVERRIDE PUBLIC"></i><code class="S">toString</code><code class="Y">()</code><i class="H"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="l">
+						<tr class="U">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
 			</article>
-			<aside class="U" id="SubNavi">
-				<div class="a">
-					<h5 class="c">Constructors</h5>
+			<aside class="I" id="SubNavi">
+				<div class="O">
+					<h5 class="P">Constructors</h5>
 					<ul>
-						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.SpecializedType.html#SpecializedType(java.lang.Class)">SpecializedType</a></code><code class="P">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">raw</code>)</code></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.SpecializedType.html#SpecializedType(java.lang.Class)">SpecializedType</a></code><code class="Y">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">raw</code>)</code></li>
 					</ul>
-					<h5 class="c">Methods</h5>
+					<h5 class="P">Methods</h5>
 					<ul>
-						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.SpecializedType.html#getActualTypeArguments()">getActualTypeArguments</a></code><code class="P">()</code><i class="K"><code array="fix"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.SpecializedType.html#getRawType()">getRawType</a></code><code class="P">()</code><i class="K"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.SpecializedType.html#getOwnerType()">getOwnerType</a></code><code class="Y">()</code><i class="Q"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.SpecializedType.html#getActualTypeArguments()">getActualTypeArguments</a></code><code class="Y">()</code><i class="Q"><code array="fix"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.SpecializedType.html#getRawType()">getRawType</a></code><code class="Y">()</code><i class="Q"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></i></li>
+						<li><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.SpecializedType.html#toString()">toString</a></code><code class="Y">()</code><i class="Q"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
 					</ul>
 				</div>
 			</aside>
