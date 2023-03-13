@@ -139,8 +139,8 @@ Reincarnation aims to be a decompiler for all modern Java grammars.
 - [x] Constructor reference
 - [x] Method reference
 - [x] Default method
-- [ ] Static interface method
-- [ ] Private interface method
+- [x] Static interface method
+- [x] Private interface method
 - [ ] Text block
 <p align="right"><a href="#top">back to top</a></p>
 
