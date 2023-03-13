@@ -156,9 +156,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     public void writeType(Class type, Runnable inner) {
         current.set(type);
 
+        String seal = type.isSealed() ? "sealed "
+                : Classes.isSealedSubclass(type) && !Modifier.isFinal(type.getModifiers()) ? "non-sealed " : "";
         String kind;
         String extend = "";
         Join<Type> implement;
+        Join<Class> permit = type.isSealed()
+                ? Join.of(type.getPermittedSubclasses()).ignoreEmpty().prefix(" permits ").separator("," + space).converter(this::name)
+                : null;
         Join accessor = modifier(type);
         Join<TypeVariable> variable = Join.of(type.getTypeParameters())
                 .ignoreEmpty()
@@ -167,7 +172,10 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                 .suffix(">")
                 .converter(this::name);
 
-        if (type.isInterface()) {
+        if (type.isRecord()) {
+            kind = "record";
+            implement = Join.of(type.getGenericInterfaces()).ignoreEmpty().prefix(" implements ").converter(this::name);
+        } else if (type.isInterface()) {
             kind = "interface";
             implement = Join.of(type.getGenericInterfaces()).ignoreEmpty().prefix(" extends ").converter(this::name);
             accessor.remove("static", "abstract");
@@ -181,7 +189,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         }
 
         line();
-        line(accessor, kind, space, simpleName(type), variable, extend, implement, space, "{");
+        line(accessor, seal, kind, space, simpleName(type), variable, extend, implement, permit, space, "{");
         indent(inner::run);
         line("}");
     }

@@ -13,9 +13,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
-/**
- * @version 2018/10/20 9:36:18
- */
+import kiss.model.Model;
+
 class Classes {
 
     /**
@@ -35,6 +34,21 @@ class Classes {
      */
     static boolean isMember(Class encloser, Class target) {
         return enclosings(target).contains(encloser);
+    }
+
+    /**
+     * Check whether the given class is sealed sub class or not.
+     * 
+     * @param clazz
+     * @return
+     */
+    static boolean isSealedSubclass(Class clazz) {
+        for (Class type : Model.collectTypes(clazz)) {
+            if (type.isSealed()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

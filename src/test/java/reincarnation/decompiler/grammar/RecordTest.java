@@ -14,15 +14,18 @@ import org.junit.jupiter.api.Test;
 import reincarnation.CodeVerifier;
 import reincarnation.TestCode;
 
-class NullTest extends CodeVerifier {
+class RecordTest extends CodeVerifier {
+
+    record A(int age, String name) {
+    }
 
     @Test
-    void Null() {
-        verify(new TestCode.Object() {
+    void base() {
+        verify(new TestCode.Int() {
 
             @Override
-            public Object run() {
-                return null;
+            public int run() {
+                return new A(3, "test").age;
             }
         });
     }
