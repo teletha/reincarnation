@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import reincarnation.CodeVerifier;
 import reincarnation.TestCode;
 
-class StaticMethod extends CodeVerifier {
+class StaticMethodTest extends CodeVerifier {
 
     @Test
     void callStaticMethodFromChildClass() {

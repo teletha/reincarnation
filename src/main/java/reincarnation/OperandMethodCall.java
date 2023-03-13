@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 import kiss.I;
 import kiss.Signal;
 import kiss.Variable;
+import kiss.model.Model;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.CodingOption;
@@ -69,33 +71,32 @@ class OperandMethodCall extends Operand {
     }
 
     /**
-     * Find the suitable {@link Field}.
+     * Find the suitable {@link Method}.
      * 
      * @param owner A method owner.
      * @param name A method name.
      * @return
      */
     private Method find(Class owner, String name, Class[] types) {
-        Class clazz = owner;
-        Method method = null;
-        boolean acceptPrivate = true;
-
-        while (clazz != null) {
+        for (Class type : Model.collectTypes(owner)) {
             try {
-                method = clazz.getDeclaredMethod(name, types);
-
-                if (!acceptPrivate && Modifier.isPrivate(method.getModifiers())) {
-                    clazz = clazz.getSuperclass();
-                } else {
-                    break;
+                Method method = type.getDeclaredMethod(name, types);
+                int mod = method.getModifiers();
+                if (Modifier.isPrivate(mod)) {
+                    if (type != owner) continue;
+                } else if (Modifier.isProtected(mod)) {
+                    if (!type.isAssignableFrom(owner)) continue;
+                } else if (Modifier.isPublic(mod)) {
+                    // accept all
+                } else /* if package private */ {
+                    if (type.getPackage() != owner.getPackage()) continue;
                 }
+                return method;
             } catch (NoSuchMethodException e) {
-                acceptPrivate = false;
-                clazz = clazz.getSuperclass();
+                // ignore
             }
         }
-
-        return method;
+        throw new NoSuchMethodError(owner + "#" + name + Arrays.toString(types));
     }
 
     /**

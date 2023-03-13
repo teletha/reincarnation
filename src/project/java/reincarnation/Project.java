@@ -161,8 +161,8 @@ public class Project extends bee.api.Project {
                 - [x] Constructor reference
                 - [x] Method reference
                 - [x] Default method
-                - [ ] Static interface method
-                - [ ] Private interface method
+                - [x] Static interface method
+                - [x] Private interface method
                 - [ ] Text block
                 """);
     }

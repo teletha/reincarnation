@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -56,13 +56,13 @@ public final class Reincarnation {
     public final Map<Class, Reincarnation> members = new LinkedHashMap();
 
     /** The dependency classes. */
-    public final Set<Class> classes = new HashSet();
+    public final Set<Class> classes = new LinkedHashSet();
 
     /** The dependency member classes. */
-    public final Set<Class> anonymous = new HashSet();
+    public final Set<Class> anonymous = new LinkedHashSet();
 
     /** The dependency member classes. */
-    public final Set<Class> locals = new HashSet();
+    public final Set<Class> locals = new LinkedHashSet();
 
     /**
      * Hide constcutor.
@@ -103,11 +103,26 @@ public final class Reincarnation {
             }
 
             if (dependency.isLocalClass()) {
+                require(dependency.getSuperclass());
+                require(dependency.getInterfaces());
                 locals.add(dependency);
             } else if (dependency.getName().startsWith(clazz.getName().concat("$"))) {
                 anonymous.add(dependency);
             } else {
                 classes.add(dependency);
+            }
+        }
+    }
+
+    /**
+     * Add dependency type of this source.
+     * 
+     * @param dependencies
+     */
+    public void require(Class[] dependencies) {
+        if (dependencies != null) {
+            for (Class dependency : dependencies) {
+                require(dependency);
             }
         }
     }
