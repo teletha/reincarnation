@@ -46,13 +46,25 @@ public class Project extends bee.api.Project {
                     - [x] extends
                     - [x] implements
                     - [ ] sealed and permits
+                - [x] Modifiers
+                    - [x] public
+                    - [x] protected
+                    - [x] private
+                    - [x] static
+                    - [x] final
+                    - [x] synchronized
+                    - [x] abstract
+                    - [x] native
+                    - [x] transient
+                    - [x] volatile
+                    - [x] strictfp
                 - [x] Static member type declaration
                 - [x] Inner (non-static member, local, anonymous) class declaration
                 - [x] Class initializer, instance initializer
                 - [x] Field declaration, method declaration
                 - [x] Local variable declaration
                 - [x] Class variable initializer, instance variable initializer
-                - [x] Statment
+                - [x] Statement
                     - [x] if-else
                     - [x] for
                     - [x] enhanced for by iterator
@@ -134,15 +146,6 @@ public class Project extends bee.api.Project {
                     - [x] auto-boxing and auto-unboxing
                 - [x] Array initializer (String[] a = { "x", "y", "z" })
                 - [x] Local variable information
-                - [x] Modifiers
-                    - [x] public
-                    - [x] protected
-                    - [x] private
-                    - [x] final
-                    - [x] synchronized
-                    - [x] abstract
-                    - [x] native
-                    - [x] static
                 - [x] Generics
                     - [x] Type variable (e.g. <S, T, R>)
                     - [x] Parameterized type (e.g. Foo<X>)

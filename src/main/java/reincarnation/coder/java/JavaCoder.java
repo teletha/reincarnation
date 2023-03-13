@@ -1081,7 +1081,13 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             joiner.add("abstract");
         } else if (Modifier.isFinal(modifier)) {
             joiner.add("final");
-        } else if (Modifier.isNative(modifier)) {
+        }
+
+        if (Modifier.isSynchronized(modifier)) {
+            joiner.add("synchronized");
+        }
+
+        if (Modifier.isNative(modifier)) {
             joiner.add("native");
         }
 
