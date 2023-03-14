@@ -19,7 +19,28 @@ import reincarnation.coder.Code;
 /**
  * Provide the mock API for compiler generated code.
  */
-public class GeneratedRecordCodes {
+public class GeneratedCodes {
+
+    /**
+     * Check whether the given constructor is defined implicitly or not.
+     * 
+     * @param constructor
+     * @return
+     */
+    public static boolean isImplicitConstructor(Constructor constructor, Code<Code> code) {
+        if (constructor.getDeclaringClass().getDeclaredConstructors().length != 1) {
+            return false;
+        }
+
+        if (constructor.getParameterCount() != 0) {
+            return false;
+        }
+
+        if (3 < code.descendent().count().to().exact()) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Check whether the given constructor is generated code or not.
@@ -27,7 +48,7 @@ public class GeneratedRecordCodes {
      * @param constructor
      * @return
      */
-    public static boolean isGenerated(Constructor constructor, Code<Code> code) {
+    public static boolean isRecordConstructor(Constructor constructor, Code<Code> code) {
         if (constructor.getDeclaringClass().isRecord()) {
             long count = code.descendent().count().to().exact();
             if (3 + constructor.getDeclaringClass().getRecordComponents().length * 4 == count) {
@@ -43,7 +64,7 @@ public class GeneratedRecordCodes {
      * @param method
      * @return
      */
-    public static boolean isGenerated(Method method, Code<Code> code) {
+    public static boolean isRecordMethod(Method method, Code<Code> code) {
         if (!method.getDeclaringClass().isRecord()) {
             return false;
         }
@@ -76,7 +97,7 @@ public class GeneratedRecordCodes {
      * @param field
      * @return
      */
-    public static boolean isGenerated(Field field) {
+    public static boolean isRecordField(Field field) {
         Class owner = field.getDeclaringClass();
         String name = field.getName();
 

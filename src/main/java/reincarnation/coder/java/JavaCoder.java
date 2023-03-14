@@ -45,7 +45,8 @@ import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
-import reincarnation.util.GeneratedRecordCodes;
+import reincarnation.util.Classes;
+import reincarnation.util.GeneratedCodes;
 import reincarnation.util.MultiMap;
 
 public class JavaCoder extends Coder<JavaCodingOption> {
@@ -220,7 +221,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeStaticField(Field field) {
         // ignore compiler generated code
-        if (GeneratedRecordCodes.isGenerated(field)) {
+        if (GeneratedCodes.isRecordField(field)) {
             return;
         }
 
@@ -261,16 +262,16 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeConstructor(Constructor constructor, Code<Code> code) {
+    public void writeConstructor(Constructor con, Code<Code> code) {
         // ignore compiler generated code
-        if (GeneratedRecordCodes.isGenerated(constructor, code)) {
+        if (GeneratedCodes.isRecordConstructor(con, code) || GeneratedCodes.isImplicitConstructor(con, code)) {
             return;
         }
 
         vars.start();
 
         line();
-        line(modifier(constructor, false), simpleName(constructor.getDeclaringClass()), parameter(constructor, naming(code)), space, "{");
+        line(modifier(con, false), simpleName(con.getDeclaringClass()), parameter(con, naming(code)), space, "{");
         indent(code::write);
         line("}");
 
@@ -283,7 +284,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeMethod(Method method, Code<Code> code) {
         // ignore compiler generated code
-        if (method.isSynthetic() || GeneratedRecordCodes.isGenerated(method, code)) {
+        if (method.isSynthetic() || GeneratedCodes.isRecordMethod(method, code)) {
             return;
         }
 

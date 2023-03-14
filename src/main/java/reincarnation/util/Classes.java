@@ -7,7 +7,7 @@
  *
  *          https://opensource.org/licenses/MIT
  */
-package reincarnation.coder.java;
+package reincarnation.util;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -15,7 +15,7 @@ import java.util.Set;
 
 import kiss.model.Model;
 
-class Classes {
+public class Classes {
 
     /**
      * Helper to check member-like type.
@@ -23,7 +23,7 @@ class Classes {
      * @param clazz A target to check.
      * @return A result.
      */
-    static boolean isMemberLike(Class clazz) {
+    public static boolean isMemberLike(Class clazz) {
         return clazz.isAnonymousClass() || clazz.isLocalClass() || clazz.isMemberClass();
     }
 
@@ -32,7 +32,7 @@ class Classes {
      * 
      * @return
      */
-    static boolean isMember(Class encloser, Class target) {
+    public static boolean isMember(Class encloser, Class target) {
         return enclosings(target).contains(encloser);
     }
 
@@ -42,7 +42,7 @@ class Classes {
      * @param clazz
      * @return
      */
-    static boolean isSealedSubclass(Class clazz) {
+    public static boolean isSealedSubclass(Class clazz) {
         for (Class type : Model.collectTypes(clazz)) {
             if (type.isSealed()) {
                 return true;
@@ -57,7 +57,7 @@ class Classes {
      * @param clazz A target class.
      * @return A root of enclosing class.
      */
-    static Class enclosingRoot(Class clazz) {
+    public static Class enclosingRoot(Class clazz) {
         LinkedList<Class> list = enclosings(clazz);
 
         return list.isEmpty() ? clazz : list.getFirst();
@@ -69,7 +69,7 @@ class Classes {
      * @param clazz A target class.
      * @return A list of enclosing classes.
      */
-    static LinkedList<Class> enclosings(Class clazz) {
+    public static LinkedList<Class> enclosings(Class clazz) {
         LinkedList<Class> list = new LinkedList();
 
         while (clazz.getEnclosingClass() != null) {
@@ -79,7 +79,7 @@ class Classes {
         return list;
     }
 
-    static Set<Class> inner(Class clazz) {
+    public static Set<Class> inner(Class clazz) {
         Set<Class> set = new HashSet();
         inner(clazz, set);
         return set;

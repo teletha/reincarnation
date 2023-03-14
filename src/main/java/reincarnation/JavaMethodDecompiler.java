@@ -46,7 +46,7 @@ import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
 import reincarnation.structure.Structure;
-import reincarnation.util.GeneratedRecordCodes;
+import reincarnation.util.GeneratedCodes;
 import reincarnation.util.MultiMap;
 
 class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
@@ -62,9 +62,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
 
     static {
         try {
-            RecordToString = GeneratedRecordCodes.class.getMethod("recordToString", Object.class);
-            RecordEquals = GeneratedRecordCodes.class.getMethod("recordEquals", Object.class, Object.class);
-            RecordHashCode = GeneratedRecordCodes.class.getMethod("recordHashCode", Object.class);
+            RecordToString = GeneratedCodes.class.getMethod("recordToString", Object.class);
+            RecordEquals = GeneratedCodes.class.getMethod("recordEquals", Object.class, Object.class);
+            RecordHashCode = GeneratedCodes.class.getMethod("recordHashCode", Object.class);
         } catch (Exception e) {
             throw I.quiet(e);
         }

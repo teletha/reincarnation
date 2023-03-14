@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import reincarnation.Reincarnation;
+import reincarnation.util.Classes;
 
 class Hierarchy {
 
