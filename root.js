@@ -48,6 +48,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Classes",
+			"packageName": "reincarnation.util",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Code",
 			"packageName": "reincarnation.coder",
 			"type": "Functional"
@@ -118,7 +125,7 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "GeneratedRecordCodes",
+			"name": "GeneratedCodes",
 			"packageName": "reincarnation.util",
 			"type": "Class"
 		},

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="O">
+		<header class="m">
+			<h1 class="Z" date="2023-03-13" ver="1.2.0"><code>Reincarnation</code></h1>
+			<nav class="V"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#package"/>
+					</svg><code>API</code></a><a href="https://github.com/teletha/reincarnation/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#user"/>
+					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#activity"/>
+					</svg>Activity</a><a href="https://github.com/teletha/reincarnation" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#github"/>
+					</svg>Repository</a></nav>
+			<div class="e" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#sun"/>
+					</svg>
+				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<main class="W">
+			<nav class="a">
+				<div></div>
+			</nav>
+			<article class="Y" id="Article">
+				<section class="d"><code class="g">reincarnation.util</code>
+					<h2 class="Class j"><code class="X">Classes</code></h2>
+					<div class="R"></div>
+				</section>
+				<section class="d" id="Classes()">
+					<h2 class="i"><i class="PUBLIC"></i><code class="X">Classes</code><code class="N">()</code></h2>
+				</section>
+				<section class="d" id="isMemberLike(java.lang.Class)">
+					<h2 class="i"><i class="PUBLIC STATIC"></i><code class="X">isMemberLike</code><code class="N">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">clazz</code>)</code><i class="J"><code>boolean</code></i></h2>
+					<table class="T">
+						<tr class="b">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>clazz</code></td>
+							<td><span><p>A target to check.</p>
+								</span></td>
+						</tr>
+						<tr class="H">
+							<td><code>boolean</code></td>
+							<td><span><p>A result.</p>
+								</span></td>
+						</tr>
+					</table><span class="B"><p>Helper to check member-like type.</p>
+					</span></section>
+				<section class="d" id="isMember(java.lang.Class,java.lang.Class)">
+					<h2 class="i"><i class="PUBLIC STATIC"></i><code class="X">isMember</code><code class="N">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">encloser</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">target</code>)</code><i class="J"><code>boolean</code></i></h2>
+					<table class="T">
+						<tr class="b">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>encloser</code></td>
+							<td></td>
+						</tr>
+						<tr class="b">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>target</code></td>
+							<td></td>
+						</tr>
+						<tr class="H">
+							<td><code>boolean</code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Check member type.</p>
+					</span></section>
+				<section class="d" id="isSealedSubclass(java.lang.Class)">
+					<h2 class="i"><i class="PUBLIC STATIC"></i><code class="X">isSealedSubclass</code><code class="N">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">clazz</code>)</code><i class="J"><code>boolean</code></i></h2>
+					<table class="T">
+						<tr class="b">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>clazz</code></td>
+							<td></td>
+						</tr>
+						<tr class="H">
+							<td><code>boolean</code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Check whether the given class is sealed sub class or not.</p>
+					</span></section>
+				<section class="d" id="enclosingRoot(java.lang.Class)">
+					<h2 class="i"><i class="PUBLIC STATIC"></i><code class="X">enclosingRoot</code><code class="N">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">clazz</code>)</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></i></h2>
+					<table class="T">
+						<tr class="b">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>clazz</code></td>
+							<td><span><p>A target class.</p>
+								</span></td>
+						</tr>
+						<tr class="H">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></td>
+							<td><span><p>A root of enclosing class.</p>
+								</span></td>
+						</tr>
+					</table><span class="B"><p>Calculate root of enclosing class.</p>
+					</span></section>
+				<section class="d" id="enclosings(java.lang.Class)">
+					<h2 class="i"><i class="PUBLIC STATIC"></i><code class="X">enclosings</code><code class="N">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">clazz</code>)</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/LinkedList.html">LinkedList</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></h2>
+					<table class="T">
+						<tr class="b">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>clazz</code></td>
+							<td><span><p>A target class.</p>
+								</span></td>
+						</tr>
+						<tr class="H">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/LinkedList.html">LinkedList</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></td>
+							<td><span><p>A list of enclosing classes.</p>
+								</span></td>
+						</tr>
+					</table><span class="B"><p>Collect enclosing classes.</p>
+					</span></section>
+				<section class="d" id="inner(java.lang.Class)">
+					<h2 class="i"><i class="PUBLIC STATIC"></i><code class="X">inner</code><code class="N">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">clazz</code>)</code><i class="J"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></h2>
+					<table class="T">
+						<tr class="b">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code>clazz</code></td>
+							<td></td>
+						</tr>
+						<tr class="H">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+			</article>
+			<aside class="I" id="SubNavi">
+				<div class="S">
+					<h5 class="k">Constructors</h5>
+					<ul>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.util.Classes.html#Classes()">Classes</a></code><code class="N">()</code></li>
+					</ul>
+					<h5 class="k">Static Methods</h5>
+					<ul>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.util.Classes.html#isMemberLike(java.lang.Class)">isMemberLike</a></code><code class="N">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">clazz</code>)</code><i class="Q"><code>boolean</code></i></li>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.util.Classes.html#isMember(java.lang.Class,java.lang.Class)">isMember</a></code><code class="N">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">encloser</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">target</code>)</code><i class="Q"><code>boolean</code></i></li>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.util.Classes.html#isSealedSubclass(java.lang.Class)">isSealedSubclass</a></code><code class="N">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">clazz</code>)</code><i class="Q"><code>boolean</code></i></li>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.util.Classes.html#enclosingRoot(java.lang.Class)">enclosingRoot</a></code><code class="N">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">clazz</code>)</code><i class="Q"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></i></li>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.util.Classes.html#enclosings(java.lang.Class)">enclosings</a></code><code class="N">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">clazz</code>)</code><i class="Q"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/LinkedList.html">LinkedList</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></li>
+						<li><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.util.Classes.html#inner(java.lang.Class)">inner</a></code><code class="N">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code> <code class="parameterName">clazz</code>)</code><i class="Q"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></li>
+					</ul>
+				</div>
+			</aside>
+		</main>
+		<script src="root.js"></script>
+		<script src="main.js" type="module"></script>
+	</body>
+</html>
