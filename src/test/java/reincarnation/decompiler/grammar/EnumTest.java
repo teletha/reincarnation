@@ -16,10 +16,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
-@Debuggable
 class EnumTest extends CodeVerifier {
 
     @Test
