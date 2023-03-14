@@ -11,6 +11,7 @@ package reincarnation.decompiler.method;
 
 import org.junit.jupiter.api.Test;
 
+import reincarnation.CodeVerifier;
 import reincarnation.TestCode.BooleanParam;
 import reincarnation.TestCode.ByteParam;
 import reincarnation.TestCode.CharParam;
@@ -20,11 +21,7 @@ import reincarnation.TestCode.IntParam;
 import reincarnation.TestCode.LongParam;
 import reincarnation.TestCode.ShortParam;
 import reincarnation.TestCode.TextParam;
-import reincarnation.CodeVerifier;
 
-/**
- * @version 2018/10/04 12:00:24
- */
 class ParameterTest extends CodeVerifier {
 
     @Test

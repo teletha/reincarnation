@@ -97,7 +97,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             List<Field> statics = new ArrayList();
             List<Field> fields = new ArrayList();
             for (Field field : reincarnation.clazz.getDeclaredFields()) {
-                if (Modifier.isStatic(field.getModifiers())) {
+                if (Classes.isStatic(field)) {
                     statics.add(field);
                 } else {
                     fields.add(field);
@@ -181,13 +181,11 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
             boolean vararg = type.getDeclaredConstructors()[0].isVarArgs();
             int max = type.getRecordComponents().length - 1;
-            variable = Join.of(type.getRecordComponents()).prefix("(").separator("," + space).suffix(")").converter((index, x) -> {
-                String paramType = name(x.getGenericType());
-                if (vararg && index == max) {
-                    paramType = paramType.replaceAll("\\[\\]$", "...");
-                }
-                return paramType + " " + x.getName();
-            });
+            variable = Join.of(type.getRecordComponents())
+                    .prefix("(")
+                    .separator("," + space)
+                    .suffix(")")
+                    .converter((index, x) -> qualify(x.getGenericType(), vararg && index == max) + " " + x.getName());
         } else if (type.isInterface()) {
             kind = "interface";
             implement = Join.of(type.getGenericInterfaces()).ignoreEmpty().prefix(" extends ").converter(this::name);
@@ -210,20 +208,6 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         current.set(prev);
     }
 
-    private void writeEnumConstants(Object[] constants) {
-        Join values = Join.of(constants).ignoreEmpty().separator("," + space).suffix(";").converter(x -> {
-            Enum e = (Enum) x;
-
-            return e.name();
-        });
-
-        writeLazy(() -> {
-
-        });
-
-        line(values);
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -242,11 +226,21 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             return;
         }
 
-        if (current.is(Class::isInterface)) {
-            // ignore, write fields in static initializer
-        } else {
-            line(modifier(field, false), name(field.getType()), space, field.getName(), ";");
+        // ignore, write fields in static initializer
+        if (current.is(Class::isInterface) || current.is(Class::isEnum)) {
+            return;
         }
+
+        writeFieldDefinition(field);
+    }
+
+    /**
+     * Write field definition.
+     * 
+     * @param field
+     */
+    private void writeFieldDefinition(Field field) {
+        line(modifier(field, false), name(field.getType()), space, field.getName(), ";");
     }
 
     /**
@@ -263,10 +257,20 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     public void writeStaticInitializer(Code code) {
         vars.start();
 
-        if (current.is(Class::isEnum)) {
-            code.write(new EnumCoder(this));
-        } else if (current.is(Class::isInterface)) {
+        if (current.is(Class::isInterface)) {
             code.write(new InterfaceCoder(this));
+        } else if (current.is(Class::isEnum)) {
+            EnumCoder coder = new EnumCoder(this);
+            code.write(coder);
+
+            I.signal(current.v.getDeclaredFields()).skip(Field::isSynthetic).skip(Field::isEnumConstant).to(this::writeFieldDefinition);
+
+            if (!coder.codes.isEmpty()) {
+                line();
+                line("static {");
+                indent(() -> coder.codes.forEach(this::writeStatement));
+                line("}");
+            }
         } else {
             line();
             line("static {");
@@ -292,7 +296,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         vars.start();
 
         line();
-        line(modifier(con, false), simpleName(con.getDeclaringClass()), parameter(con, naming(code)), space, "{");
+        line(modifier(con, false), simpleName(con.getDeclaringClass()), buildParameter(con, naming(code)), space, "{");
         indent(code::write);
         line("}");
 
@@ -312,11 +316,17 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         vars.start();
 
         line();
-        line(modifier(method, method.isDefault()), name(method.getReturnType()), space, method
-                .getName(), parameter(method, naming(code)), thrower(method.getExceptionTypes()), space, "{");
-        placeholders.get(method).forEach(this::writeLocalClass);
-        indent(code::write);
-        line("}");
+        lineNB(modifier(method, method.isDefault()), name(method.getReturnType()), " ", method
+                .getName(), buildParameter(method, naming(code)), thrower(method.getExceptionTypes()));
+
+        if (Classes.isAbstract(method)) {
+            lineNI(";");
+        } else {
+            lineNI(space, "{");
+            placeholders.get(method).forEach(this::writeLocalClass);
+            indent(code::write);
+            line("}");
+        }
 
         vars.end();
     }
@@ -370,29 +380,27 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param parameters
      * @return
      */
-    private Join parameter(Executable executable, Naming strategy) {
+    private Join buildParameter(Executable executable, Naming strategy) {
         List<Ⅱ<Parameter, Type>> params = I.signal(executable.getParameters())
                 .combine(I.signal(executable.getGenericParameterTypes()))
                 .toList();
 
-        return Join.of(params).prefix("(").suffix(")").separator("," + space).converter(p -> {
-            String name = strategy.name(p.ⅰ.getName());
-            vars.declare(name);
+        return Join.of(params)
+                .prefix("(")
+                .suffix(")")
+                .separator("," + space)
+                .skip(x -> GeneratedCodes.isEnumParameter(x.ⅰ))
+                .converter(p -> {
+                    String name = strategy.name(p.ⅰ.getName());
+                    vars.declare(name);
 
-            StringBuilder builder = new StringBuilder();
-            if (Modifier.isFinal(p.ⅰ.getModifiers())) {
-                builder.append("final ");
-            }
-
-            if (p.ⅰ.isVarArgs()) {
-                builder.append(name(p.ⅰ.getType().getComponentType())).append("... ");
-            } else {
-                builder.append(name(p.ⅱ)).append(" ");
-            }
-            builder.append(name);
-
-            return builder.toString();
-        });
+                    return new StringBuilder() //
+                            .append(modifier(p.ⅰ))
+                            .append(qualify(p.ⅱ, p.ⅰ.isVarArgs()))
+                            .append(' ')
+                            .append(name)
+                            .toString();
+                });
     }
 
     /**
@@ -615,7 +623,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeAccessField(Field field, Code context, AccessMode mode) {
-        if (Modifier.isStatic(field.getModifiers())) {
+        if (Classes.isStatic(field)) {
             if (current.is(field.getDeclaringClass())) {
                 write(field.getName());
             } else {
@@ -675,7 +683,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeSuperConstructorCall(Constructor constructor, List<? extends Code> params) {
-        if (params.isEmpty()) {
+        if (params.isEmpty() || constructor.getDeclaringClass() == Enum.class) {
             revert();
         } else {
             write("super", buildParameter(constructor, params));
@@ -687,7 +695,11 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeThisConstructorCall(Constructor constructor, List<? extends Code> params) {
-        write("this", buildParameter(constructor, params));
+        if (constructor.getDeclaringClass().isEnum()) {
+            write("this", buildParameter(constructor, params, 2));
+        } else {
+            write("this", buildParameter(constructor, params));
+        }
     }
 
     /**
@@ -718,6 +730,17 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @return
      */
     private Join buildParameter(Executable executable, List<? extends Code> params) {
+        return buildParameter(executable, params, 0);
+    }
+
+    /**
+     * Build parameter expresison.
+     * 
+     * @param executable
+     * @param params
+     * @return
+     */
+    private Join buildParameter(Executable executable, List<? extends Code> params, int start) {
         Join concat = new Join().prefix("(").suffix(")").separator("," + space);
         Parameter[] parameters = executable.getParameters();
         if (executable.isVarArgs()) {
@@ -729,7 +752,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             }
         }
 
-        for (int i = 0; i < params.size(); i++) {
+        for (int i = start; i < params.size(); i++) {
             Code param = params.get(i);
 
             if (param == Operand.Null) {
@@ -1016,8 +1039,25 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @return
      */
     private String name(Type type) {
+        return qualify(type, false);
+    }
+
+    /**
+     * Qualify the specified name of type..
+     * 
+     * @param type
+     * @return
+     */
+    private String qualify(Type type, boolean vararg) {
         StringBuilder builder = new StringBuilder();
         qualify(type, builder);
+
+        if (vararg) {
+            int length = builder.length();
+            if (builder.charAt(length - 2) == '[' && builder.charAt(length - 1) == ']') {
+                builder.delete(length - 2, length).append("...");
+            }
+        }
         return builder.toString();
     }
 
@@ -1304,6 +1344,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         /** The number of initialized constants. */
         private int initialized;
 
+        /** The user defined custom initializer code. */
+        private final List<Code> codes = new ArrayList();
+
         /**
          * @param coder
          */
@@ -1333,13 +1376,13 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         public void writeConstructorCall(Constructor constructor, List<? extends Code> params) {
             if (whileInitializing()) {
                 if (current.is(constructor.getDeclaringClass()) && 2 <= params.size()) {
-                    if (initialized < constants.size()) {
+                    if (initialized <= constants.size()) {
                         // remove implicit parameters
                         params.remove(0);
                         params.remove(0);
+                        Join parameters = Join.of(params).ignoreEmpty().prefix("(").separator("," + space).suffix(")");
 
-                        write(Join.of(params).ignoreEmpty().prefix("(").separator("," + space).suffix(")"));
-                        write(initialized < constants.size() ? "," + space : ";");
+                        write(parameters, initialized < constants.size() ? "," + space : ";");
                     }
                 }
             } else {
@@ -1347,20 +1390,6 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             }
         }
 
-        //
-        // /**
-        // * {@inheritDoc}
-        // */
-        // @Override
-        // public void writeCreateArray(Class type, List<Code> dimensions, List<Code> initialValues)
-        // {
-        // if (whileDefinition) {
-        //
-        // } else {
-        // super.writeCreateArray(type, dimensions, initialValues);
-        // }
-        // }
-        //
         /**
          * {@inheritDoc}
          */
@@ -1371,12 +1400,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                     line(code);
                 }
             } else {
-                super.writeStatement(code);
+                codes.add(code);
             }
         }
 
         private boolean whileInitializing() {
-            return initialized <= constants.size() + 1;
+            return initialized <= constants.size();
         }
     }
 }

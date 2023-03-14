@@ -9,6 +9,8 @@
  */
 package reincarnation.util;
 
+import java.lang.reflect.Member;
+import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -16,6 +18,36 @@ import java.util.Set;
 import kiss.model.Model;
 
 public class Classes {
+
+    /**
+     * Check whether the given member is static or not.
+     * 
+     * @param member A target member to test.
+     * @return A result.
+     */
+    public static boolean isAbstract(Member member) {
+        return member != null && Modifier.isAbstract(member.getModifiers());
+    }
+
+    /**
+     * Check whether the given member is static or not.
+     * 
+     * @param member A target member to test.
+     * @return A result.
+     */
+    public static boolean isStatic(Member member) {
+        return member != null && Modifier.isStatic(member.getModifiers());
+    }
+
+    /**
+     * Check whether the given class is static or not.
+     * 
+     * @param clazz A target class to test.
+     * @return A result.
+     */
+    public static boolean isStatic(Class clazz) {
+        return clazz != null && Modifier.isStatic(clazz.getModifiers());
+    }
 
     /**
      * Helper to check member-like type.

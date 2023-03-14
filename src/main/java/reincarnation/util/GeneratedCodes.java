@@ -12,6 +12,7 @@ package reincarnation.util;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.lang.reflect.RecordComponent;
 
 import reincarnation.coder.Code;
@@ -55,6 +56,16 @@ public class GeneratedCodes {
             }
         }
         return false;
+    }
+
+    /**
+     * Check whether the given parameter is generated code or not.
+     * 
+     * @param parameter
+     * @return
+     */
+    public static boolean isEnumParameter(Parameter parameter) {
+        return parameter.getDeclaringExecutable().getDeclaringClass().isEnum() && parameter.isSynthetic();
     }
 
     /**

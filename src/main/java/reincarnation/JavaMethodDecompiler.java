@@ -46,6 +46,7 @@ import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
 import reincarnation.structure.Structure;
+import reincarnation.util.Classes;
 import reincarnation.util.GeneratedCodes;
 import reincarnation.util.MultiMap;
 
@@ -203,6 +204,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
     /** The local variable manager. */
     private final LocalVariables locals;
 
+    /** The current processing method or constructor. */
+    private final Executable executable;
+
     /** The pool of try-catch-finally blocks. */
     private final TryCatchFinallyManager tries = new TryCatchFinallyManager();
 
@@ -274,16 +278,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
      * @param source
      * @param locals
      * @param returns
-     * @param descriptor
+     * @param executable
      */
-    JavaMethodDecompiler(Reincarnation source, LocalVariables locals, Type returns, Executable descriptor) {
+    JavaMethodDecompiler(Reincarnation source, LocalVariables locals, Type returns, Executable executable) {
         super(ASM9);
 
         this.source = source;
         this.returnType = OperandUtil.load(returns);
         this.locals = locals;
+        this.executable = executable;
 
-        debugger.startMethod(descriptor);
+        debugger.startMethod(executable);
     }
 
     /**
@@ -299,7 +304,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
      */
     @Override
     public void write(Coder coder) {
-        root.write(coder);
+        if (root != null) root.write(coder);
     }
 
     /**
@@ -350,6 +355,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
      */
     @Override
     public void visitEnd() {
+        if (Classes.isAbstract(executable)) {
+            return;
+        }
+
         // Dispose all nodes which contains synchronized block.
         for (Node node : synchronizer) {
             dispose(node, true, false);

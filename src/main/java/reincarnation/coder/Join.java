@@ -96,6 +96,26 @@ public final class Join<T> implements Code {
      * @param condition
      * @return
      */
+    public Join<T> skip(Predicate<T> condition) {
+        return take(condition.negate());
+    }
+
+    /**
+     * Set filter.
+     * 
+     * @param condition
+     * @return
+     */
+    public Join<T> skip(BiPredicate<Long, T> condition) {
+        return take(condition.negate());
+    }
+
+    /**
+     * Set filter.
+     * 
+     * @param condition
+     * @return
+     */
     public Join<T> take(Predicate<T> condition) {
         this.take = (index, item) -> condition.test(item);
         return this;
@@ -278,6 +298,14 @@ public final class Join<T> implements Code {
         } else if (empty != null) {
             empty.run();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return write();
     }
 
     /**
