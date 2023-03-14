@@ -178,16 +178,15 @@ class InstanceOfTest extends CodeVerifier {
     void withoutCast() {
         verify(new TestCode.Text() {
 
+            CharSequence cs = "test";
+
             @Override
             public String run() {
-                String buffer = "";
-                List list = List.of("1", "2", "3");
-                for (java.lang.Object value : list) {
-                    if (value instanceof String) {
-                        buffer += (String) value;
-                    }
+                String result = "";
+                if (cs instanceof String) {
+                    result = (String) cs;
                 }
-                return buffer;
+                return result;
             }
         });
     }
@@ -197,16 +196,15 @@ class InstanceOfTest extends CodeVerifier {
     void withCast() {
         verify(new TestCode.Text() {
 
+            CharSequence cs = "test";
+
             @Override
             public String run() {
-                String buffer = "";
-                List list = List.of("1", "2", "3");
-                for (java.lang.Object value : list) {
-                    if (value instanceof String text) {
-                        buffer += text;
-                    }
+                String result = "";
+                if (cs instanceof String text) {
+                    result = text;
                 }
-                return buffer;
+                return result;
             }
         });
     }
