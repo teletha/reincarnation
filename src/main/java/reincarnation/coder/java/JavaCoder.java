@@ -156,7 +156,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeType(Class type, Runnable inner) {
-        current.set(type);
+        Class prev = current.set(type);
 
         String seal = type.isSealed() ? "sealed "
                 : Classes.isSealedSubclass(type) && !Modifier.isFinal(type.getModifiers()) ? "non-sealed " : "";
@@ -195,6 +195,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         } else if (type.isEnum()) {
             kind = "enum";
             implement = Join.of(type.getGenericInterfaces()).ignoreEmpty().prefix(" implements ").converter(this::name);
+            accessor.remove("static", "final");
         } else {
             kind = "class";
             extend = type.getSuperclass() == Object.class ? "" : " extends " + name(type.getGenericSuperclass());
@@ -203,8 +204,24 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         line();
         line(accessor, seal, kind, space, simpleName(type), variable, extend, implement, permit, space, "{");
-        indent(inner::run);
+        indent(inner);
         line("}");
+
+        current.set(prev);
+    }
+
+    private void writeEnumConstants(Object[] constants) {
+        Join values = Join.of(constants).ignoreEmpty().separator("," + space).suffix(";").converter(x -> {
+            Enum e = (Enum) x;
+
+            return e.name();
+        });
+
+        writeLazy(() -> {
+
+        });
+
+        line(values);
     }
 
     /**
@@ -221,7 +238,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeStaticField(Field field) {
         // ignore compiler generated code
-        if (GeneratedCodes.isRecordField(field)) {
+        if (GeneratedCodes.isRecordField(field) || GeneratedCodes.isEnumField(field)) {
             return;
         }
 
@@ -246,7 +263,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     public void writeStaticInitializer(Code code) {
         vars.start();
 
-        if (current.is(Class::isInterface)) {
+        if (current.is(Class::isEnum)) {
+            code.write(new EnumCoder(this));
+        } else if (current.is(Class::isInterface)) {
             code.write(new InterfaceCoder(this));
         } else {
             line();
@@ -264,7 +283,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeConstructor(Constructor con, Code<Code> code) {
         // ignore compiler generated code
-        if (GeneratedCodes.isRecordConstructor(con, code) || GeneratedCodes.isImplicitConstructor(con, code)) {
+        if (GeneratedCodes.isRecordConstructor(con, code) //
+                || GeneratedCodes.isEnumConstructor(con, code) //
+                || GeneratedCodes.isImplicitConstructor(con, code)) {
             return;
         }
 
@@ -284,7 +305,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeMethod(Method method, Code<Code> code) {
         // ignore compiler generated code
-        if (method.isSynthetic() || GeneratedCodes.isRecordMethod(method, code)) {
+        if (method.isSynthetic() || GeneratedCodes.isRecordMethod(method, code) || GeneratedCodes.isEnumMethod(method, code)) {
             return;
         }
 
@@ -1233,7 +1254,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     }
 
     /**
-     * @version 2018/10/25 20:03:24
+     * Special coder for interface static initializer.
      */
     private class InterfaceCoder extends DelegatableCoder<CodingOption> {
 
@@ -1266,6 +1287,96 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         @Override
         public void writeStatement(Code code) {
             line(code, ";");
+        }
+    }
+
+    /**
+     * Special coder for enum static initializer.
+     */
+    private class EnumCoder extends DelegatableCoder<CodingOption> {
+
+        /** The enum type. */
+        private final Class type;
+
+        /** The defined constants. */
+        private final List<Enum> constants;
+
+        /** The number of initialized constants. */
+        private int initialized;
+
+        /**
+         * @param coder
+         */
+        private EnumCoder(Coder coder) {
+            super(coder);
+
+            this.type = current.exact();
+            this.constants = I.signal(type.getEnumConstants()).as(Enum.class).toList();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeAssignOperation(Code left, AssignOperator operator, Code right) {
+            if (whileInitializing()) {
+                write(left, right);
+            } else {
+                super.writeAssignOperation(left, operator, right);
+            }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeConstructorCall(Constructor constructor, List<? extends Code> params) {
+            if (whileInitializing()) {
+                if (current.is(constructor.getDeclaringClass()) && 2 <= params.size()) {
+                    if (initialized < constants.size()) {
+                        // remove implicit parameters
+                        params.remove(0);
+                        params.remove(0);
+
+                        write(Join.of(params).ignoreEmpty().prefix("(").separator("," + space).suffix(")"));
+                        write(initialized < constants.size() ? "," + space : ";");
+                    }
+                }
+            } else {
+                super.writeConstructorCall(constructor, params);
+            }
+        }
+
+        //
+        // /**
+        // * {@inheritDoc}
+        // */
+        // @Override
+        // public void writeCreateArray(Class type, List<Code> dimensions, List<Code> initialValues)
+        // {
+        // if (whileDefinition) {
+        //
+        // } else {
+        // super.writeCreateArray(type, dimensions, initialValues);
+        // }
+        // }
+        //
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeStatement(Code code) {
+            if (whileInitializing()) {
+                if (initialized++ < constants.size()) {
+                    line(code);
+                }
+            } else {
+                super.writeStatement(code);
+            }
+        }
+
+        private boolean whileInitializing() {
+            return initialized <= constants.size() + 1;
         }
     }
 }

@@ -48,6 +48,69 @@ public class GeneratedCodes {
      * @param constructor
      * @return
      */
+    public static boolean isEnumConstructor(Constructor constructor, Code<Code> code) {
+        if (constructor.getDeclaringClass().isEnum()) {
+            if (code.descendent().count().to().exact() <= 5) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check whether the given method is generated code or not.
+     * 
+     * @param method
+     * @return
+     */
+    public static boolean isEnumMethod(Method method, Code<Code> code) {
+        if (!method.getDeclaringClass().isEnum()) {
+            return false;
+        }
+
+        String name = method.getName();
+        Class[] params = method.getParameterTypes();
+
+        if (name.equals("values") && params.length == 0) {
+            return true;
+        } else if (name.equals("valueOf") && params.length == 1 && params[0] == String.class) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check whether the given field is generated code or not.
+     * 
+     * @param field
+     * @return
+     */
+    public static boolean isEnumField(Field field) {
+        Class owner = field.getDeclaringClass();
+        String name = field.getName();
+
+        if (owner.isEnum()) {
+            if (name.equals("ENUM$VALUES")) {
+                return true;
+            }
+
+            for (Object constant : owner.getEnumConstants()) {
+                Enum e = (Enum) constant;
+                if (e.name().equals(name)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Check whether the given constructor is generated code or not.
+     * 
+     * @param constructor
+     * @return
+     */
     public static boolean isRecordConstructor(Constructor constructor, Code<Code> code) {
         if (constructor.getDeclaringClass().isRecord()) {
             long count = code.descendent().count().to().exact();

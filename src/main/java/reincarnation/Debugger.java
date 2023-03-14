@@ -197,9 +197,11 @@ public class Debugger {
             }
 
             StringJoiner joiner = new StringJoiner(", ", "(", ")");
-            for (Parameter p : m.getParameters()) {
-                Class<?> type = p.getType();
-                if (type != clazz) joiner.add(type.getSimpleName() + " " + p.getName());
+            if (m != null) {
+                for (Parameter p : m.getParameters()) {
+                    Class<?> type = p.getType();
+                    if (type != clazz) joiner.add(type.getSimpleName() + " " + p.getName());
+                }
             }
 
             print(Printable.stain(name + joiner, "21") + " (" + clazz.getSimpleName() + ".java:" + getLine() + ")");
