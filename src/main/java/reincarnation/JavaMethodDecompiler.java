@@ -46,6 +46,7 @@ import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
 import reincarnation.structure.Structure;
+import reincarnation.util.Classes;
 import reincarnation.util.GeneratedCodes;
 import reincarnation.util.MultiMap;
 
@@ -203,6 +204,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
     /** The local variable manager. */
     private final LocalVariables locals;
 
+    /** The current processing method or constructor. */
+    private final Executable executable;
+
     /** The pool of try-catch-finally blocks. */
     private final TryCatchFinallyManager tries = new TryCatchFinallyManager();
 
@@ -274,16 +278,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
      * @param source
      * @param locals
      * @param returns
-     * @param descriptor
+     * @param executable
      */
-    JavaMethodDecompiler(Reincarnation source, LocalVariables locals, Type returns, Executable descriptor) {
+    JavaMethodDecompiler(Reincarnation source, LocalVariables locals, Type returns, Executable executable) {
         super(ASM9);
 
         this.source = source;
         this.returnType = OperandUtil.load(returns);
         this.locals = locals;
+        this.executable = executable;
 
-        debugger.startMethod(descriptor);
+        debugger.startMethod(executable);
     }
 
     /**
@@ -299,7 +304,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
      */
     @Override
     public void write(Coder coder) {
-        root.write(coder);
+        if (root != null) root.write(coder);
     }
 
     /**
@@ -350,6 +355,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
      */
     @Override
     public void visitEnd() {
+        if (Classes.isAbstract(executable)) {
+            return;
+        }
+
         // Dispose all nodes which contains synchronized block.
         for (Node node : synchronizer) {
             dispose(node, true, false);
@@ -915,6 +924,18 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
             }
 
         case POP2:
+            // instanceof with cast produces special bytecode, so we must handle it by special way.
+            if (match(ALOAD, CHECKCAST, DUP, ASTORE, ALOAD, CHECKCAST, POP2)) {
+                current.remove(0);
+                current.remove(0);
+                OperandLocalVariable casted = current.remove(0).as(OperandLocalVariable.class).exact();
+                current.peek(0).children(OperandInstanceOf.class).to(o -> {
+                    casted.type.set(o.type);
+                    o.withCast(casted);
+                });
+                return;
+            }
+
             // One sequence of expressions was finished, so we must write out one remaining
             // operand. (e.g. Method invocation which returns some operands but it is not used ever)
             current.addExpression(current.remove(0));
@@ -1499,18 +1520,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
 
         // !=
         case IF_ACMPNE:
-            // instanceof with cast produces special bytecode, so we must handle it by special way.
-            if (match(ALOAD, CHECKCAST, DUP, ASTORE, ALOAD, OptionalLABEL, CHECKCAST, IF_ACMPNE)) {
-                current.remove(0);
-                current.remove(0);
-                OperandLocalVariable casted = current.remove(0).as(OperandLocalVariable.class).exact();
-                current.peek(0).children(OperandInstanceOf.class).to(o -> {
-                    casted.type.set(o.type);
-                    o.withCast(casted);
-                });
-                return;
-            }
-            // fall-through
         case IF_ICMPNE:
             current.condition(current.remove(1), NE, current.remove(0), node);
             break;
@@ -1760,7 +1769,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
             // In the ECJ compiler, the instanceof operator with pattern matching generates code
             // that assigns the target variable to a temporary variable. So we optimize the code to
             // remove that variable and use the original variable.
-            if (match(ASTORE, LABEL, ALOAD, ASTORE, LABEL, ALOAD, INSTANCEOF)) {
+            if (match(ASTORE, ALOAD, INSTANCEOF)) {
                 Operand extra = current.remove(0);
                 current.remove(0).as(OperandAssign.class).exact().assignedTo(extra).to(current::addOperand);
             }
