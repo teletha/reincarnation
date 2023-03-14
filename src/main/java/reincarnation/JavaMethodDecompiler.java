@@ -203,9 +203,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
     /** The local variable manager. */
     private final LocalVariables locals;
 
-    /** The current processing method or constructor. */
-    private final Executable executable;
-
     /** The pool of try-catch-finally blocks. */
     private final TryCatchFinallyManager tries = new TryCatchFinallyManager();
 
@@ -277,17 +274,16 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
      * @param source
      * @param locals
      * @param returns
-     * @param executable
+     * @param descriptor
      */
-    JavaMethodDecompiler(Reincarnation source, LocalVariables locals, Type returns, Executable executable) {
+    JavaMethodDecompiler(Reincarnation source, LocalVariables locals, Type returns, Executable descriptor) {
         super(ASM9);
 
         this.source = source;
         this.returnType = OperandUtil.load(returns);
         this.locals = locals;
-        this.executable = executable;
 
-        debugger.startMethod(executable);
+        debugger.startMethod(descriptor);
     }
 
     /**
