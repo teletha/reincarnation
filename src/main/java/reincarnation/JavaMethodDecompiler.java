@@ -46,7 +46,6 @@ import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
 import reincarnation.structure.Structure;
-import reincarnation.util.Classes;
 import reincarnation.util.GeneratedCodes;
 import reincarnation.util.MultiMap;
 
@@ -304,7 +303,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
      */
     @Override
     public void write(Coder coder) {
-        if (root != null) root.write(coder);
+        root.write(coder);
     }
 
     /**
@@ -355,10 +354,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
      */
     @Override
     public void visitEnd() {
-        if (Classes.isAbstract(executable)) {
-            return;
-        }
-
         // Dispose all nodes which contains synchronized block.
         for (Node node : synchronizer) {
             dispose(node, true, false);
