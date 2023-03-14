@@ -10,6 +10,7 @@
 package reincarnation.util;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -65,7 +66,21 @@ public class GeneratedCodes {
      * @return
      */
     public static boolean isEnumParameter(Parameter parameter) {
-        return parameter.getDeclaringExecutable().getDeclaringClass().isEnum() && parameter.isSynthetic();
+        Executable exe = parameter.getDeclaringExecutable();
+
+        // Don't use Parameter#isSynthetic.
+        //
+        // The detailed parameter information should not be used, as it cannot be obtained if
+        // debugging information is not provided.
+        if (exe.getDeclaringClass().isEnum() && exe instanceof Constructor) {
+            Parameter[] parameters = exe.getParameters();
+            for (int i = 0; i < 2; i++) {
+                if (parameters[i] == parameter) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

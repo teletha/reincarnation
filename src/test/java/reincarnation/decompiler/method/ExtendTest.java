@@ -15,10 +15,50 @@ import org.junit.jupiter.api.Test;
 import reincarnation.CodeVerifier;
 import reincarnation.TestCode;
 
+@Disabled
 class ExtendTest extends CodeVerifier {
 
     @Test
-    @Disabled
+    void extendClass() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                class Parent {
+                    int value() {
+                        return 10;
+                    }
+                }
+
+                class Child extends Parent {
+                }
+
+                return new Child().value();
+            }
+        });
+    }
+
+    @Test
+    void extendAbstractClass() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                abstract class Parent {
+                    int value() {
+                        return 10;
+                    }
+                }
+
+                class Child extends Parent {
+                }
+
+                return new Child().value();
+            }
+        });
+    }
+
+    @Test
     void abstractClassAndMethod() {
         verify(new TestCode.Int() {
 
