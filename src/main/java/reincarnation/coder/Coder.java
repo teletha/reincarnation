@@ -17,6 +17,7 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -48,6 +49,9 @@ public abstract class Coder<O extends CodingOption> {
 
     /** The lazy writers. */
     private final Deque<Ⅲ<Integer, Integer, Runnable>> lazy = new ArrayDeque();
+
+    /** The snapshot state. */
+    private final LinkedList<Integer> snapshots = new LinkedList();
 
     /** The coding options. */
     protected O options = I.make((Class<O>) Model.collectParameters(getClass(), Coder.class)[0]);
@@ -203,6 +207,39 @@ public abstract class Coder<O extends CodingOption> {
      */
     protected final void writeLazy(Runnable writer) {
         lazy.addLast(I.pair(builder.length(), indentSize, writer));
+    }
+
+    /**
+     * Create a new snapshot point to revert.
+     * 
+     * @param writer
+     */
+    protected final void snapshot(Runnable writer) {
+        // create new snapshot
+        snapshots.addFirst(-builder.length());
+
+        try {
+            writer.run();
+        } finally {
+            int snapshot = snapshots.pollFirst();
+
+            // revert to the latest snapshot
+            if (0 < snapshot) {
+                builder.delete(snapshot, builder.length());
+            }
+        }
+    }
+
+    /**
+     * Revert to the latest snapshot.
+     */
+    protected final void revert() {
+        if (!snapshots.isEmpty()) {
+            int point = snapshots.peekFirst();
+            if (point < 0) {
+                snapshots.set(0, -point);
+            }
+        }
     }
 
     /**

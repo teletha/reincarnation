@@ -390,7 +390,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeStatement(Code<?> code) {
-        line(code, ";", code.comment().map(" // "::concat));
+        snapshot(() -> {
+            line(code, ";", code.comment().map(" //"::concat));
+        });
     }
 
     /**
@@ -651,7 +653,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeSuperConstructorCall(Constructor constructor, List<? extends Code> params) {
-        if (!params.isEmpty()) {
+        if (params.isEmpty()) {
+            revert();
+        } else {
             write("super", buildParameter(constructor, params));
         }
     }
