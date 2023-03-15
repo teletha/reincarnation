@@ -41,6 +41,7 @@ import reincarnation.structure.Loopable;
 import reincarnation.structure.Structure;
 import reincarnation.structure.Try;
 import reincarnation.structure.While;
+import reincarnation.util.Classes;
 
 /**
  * @version 2018/11/05 15:07:53
@@ -1322,7 +1323,7 @@ public class Node implements Code<Operand> {
      * @return
      */
     private Signal<OperandMethodCall> throughUnwrapper(OperandMethodCall call) {
-        if (OperandUtil.isUnwrapper(call.method)) {
+        if (Classes.isUnwrapper(call.method)) {
             return call.owner.children(OperandMethodCall.class);
         } else {
             return I.signal(call);

@@ -31,7 +31,6 @@ import kiss.Variable;
 import kiss.Ⅱ;
 import kiss.Ⅲ;
 import reincarnation.Operand;
-import reincarnation.OperandUtil;
 import reincarnation.Reincarnation;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -719,7 +718,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             if (mode == AccessMode.SUPER) {
                 write("super.", method.getName(), buildParameter(method, params));
             } else {
-                if (OperandUtil.isWrapper(method)) {
+                if (Classes.isWrapper(method)) {
                     write(params.get(0));
                 } else {
                     if (Classes.isStatic(method) && current.is(method.getDeclaringClass())) {
