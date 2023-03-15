@@ -17,7 +17,7 @@ Reincarnation aims to be a decompiler for all modern Java grammars.
     - [ ] static import
     - [x] class
     - [x] interface
-    - [ ] annotation
+    - [x] annotation
     - [x] enum
     - [x] record
 - [x] Inheritance
@@ -129,13 +129,18 @@ Reincarnation aims to be a decompiler for all modern Java grammars.
     - [x] Parameterized type (e.g. Foo<X>)
     - [x] Wildcard type (e.g. ? extends Closeable)
     - [ ] Generic array type (e.g. T[])
-- [ ] Annotation
-    - [ ] Type
-    - [ ] Constructor
-    - [ ] Method
-    - [ ] Field
-    - [ ] Parameter
-    - [ ] Local variable
+- [x] Annotation
+    - [x] On Type
+    - [x] On Constructor
+    - [x] On Method
+    - [x] On Field
+    - [x] On Parameter
+    - [x] On Annotation
+    - [ ] On Local Variable
+    - [ ] On Package
+    - [ ] On Type Parameter
+    - [ ] On Type Use
+    - [ ] Repeatable declaration
 - [x] Variable arity method (a.k.a. "varargs")
 - [ ] Type interference for generic instance creation (a.k.a. the "diamond operator") (JLS11 15.9.1)
 - [x] Lambda expression
