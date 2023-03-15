@@ -15,10 +15,7 @@ import kiss.I;
 import kiss.Signal;
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/10/22 10:38:35
- */
-public class OperandThrow extends Operand {
+class OperandThrow extends Operand {
 
     /** The statement. */
     private final Operand value;
@@ -28,7 +25,7 @@ public class OperandThrow extends Operand {
      * 
      * @param value A thrown value.
      */
-    public OperandThrow(Operand value) {
+    OperandThrow(Operand value) {
         this.value = Objects.requireNonNull(value);
     }
 

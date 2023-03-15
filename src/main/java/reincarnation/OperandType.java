@@ -11,10 +11,7 @@ package reincarnation;
 
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/10/13 23:40:24
- */
-public class OperandType extends Operand {
+class OperandType extends Operand {
 
     /** The actual value. */
     private final Class value;

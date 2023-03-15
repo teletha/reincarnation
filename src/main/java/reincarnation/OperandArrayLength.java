@@ -13,10 +13,7 @@ import kiss.I;
 import kiss.Signal;
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/10/14 0:53:38
- */
-public class OperandArrayLength extends Operand {
+class OperandArrayLength extends Operand {
 
     /** The array context. */
     private final Operand context;
@@ -24,7 +21,7 @@ public class OperandArrayLength extends Operand {
     /**
      * @param context
      */
-    public OperandArrayLength(Operand context) {
+    OperandArrayLength(Operand context) {
         this.context = context;
     }
 
