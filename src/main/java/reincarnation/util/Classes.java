@@ -50,6 +50,26 @@ public class Classes {
     }
 
     /**
+     * Check whether the given member is NOT static or not.
+     * 
+     * @param member A target member to test.
+     * @return A result.
+     */
+    public static boolean isNonStatic(Member member) {
+        return !isStatic(member);
+    }
+
+    /**
+     * Check whether the given class is NOT static or not.
+     * 
+     * @param clazz A target class to test.
+     * @return A result.
+     */
+    public static boolean isNonStatic(Class clazz) {
+        return !isStatic(clazz);
+    }
+
+    /**
      * Helper to check member-like type.
      * 
      * @param clazz A target to check.

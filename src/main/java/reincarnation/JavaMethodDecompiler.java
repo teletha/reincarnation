@@ -1668,12 +1668,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
                     // don't write
                     immediately = false;
                 } else {
-                    if (className.equals("java/lang/Object")) {
-                        // ignore
-                    } else {
-                        String kind = owner == source.clazz ? "this" : "super";
-                        current.addOperand(new OperandConstructorCall(kind, owner, parameters, contexts));
-                    }
+                    String kind = owner == source.clazz ? "this" : "super";
+                    current.addOperand(new OperandConstructorCall(kind, owner, parameters, contexts));
                 }
             }
             break;

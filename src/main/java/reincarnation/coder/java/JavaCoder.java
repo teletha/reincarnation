@@ -258,9 +258,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         vars.start();
 
         if (current.is(Class::isInterface)) {
-            code.write(new InterfaceCoder(this));
+            code.write(new InterfaceStaticInitiailizer(this));
         } else if (current.is(Class::isEnum)) {
-            EnumCoder coder = new EnumCoder(this);
+            EnumStaticInitializer coder = new EnumStaticInitializer(this);
             code.write(coder);
 
             I.signal(current.v.getDeclaredFields()).skip(Field::isSynthetic).skip(Field::isEnumConstant).to(this::writeFieldDefinition);
@@ -297,7 +297,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         line();
         line(modifier(con, false), simpleName(con.getDeclaringClass()), buildParameter(con, naming(code)), space, "{");
-        indent(code::write);
+        indent(() -> {
+            Class owner = con.getDeclaringClass();
+            if (Classes.isMemberLike(owner) && Classes.isNonStatic(owner)) {
+                code.write(new NonStaticLocalConstructor(this));
+            } else {
+                code.write(this);
+            }
+        });
         line("}");
 
         vars.end();
@@ -1296,12 +1303,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     /**
      * Special coder for interface static initializer.
      */
-    private class InterfaceCoder extends DelegatableCoder<CodingOption> {
+    private class InterfaceStaticInitiailizer extends DelegatableCoder<CodingOption> {
 
         /**
          * @param coder
          */
-        private InterfaceCoder(Coder coder) {
+        private InterfaceStaticInitiailizer(Coder coder) {
             super(coder);
         }
 
@@ -1333,7 +1340,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     /**
      * Special coder for enum static initializer.
      */
-    private class EnumCoder extends DelegatableCoder<CodingOption> {
+    private class EnumStaticInitializer extends DelegatableCoder<CodingOption> {
 
         /** The enum type. */
         private final Class type;
@@ -1350,7 +1357,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         /**
          * @param coder
          */
-        private EnumCoder(Coder coder) {
+        private EnumStaticInitializer(Coder coder) {
             super(coder);
 
             this.type = current.exact();
@@ -1406,6 +1413,43 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         private boolean whileInitializing() {
             return initialized <= constants.size();
+        }
+    }
+
+    /**
+     * Special coder for non-static local class constructor.
+     */
+    private class NonStaticLocalConstructor extends DelegatableCoder<CodingOption> {
+
+        /** The number of initialized constants. */
+        private int initialized;
+
+        /** The synthetic code. */
+        private Code assignment;
+
+        /**
+         * @param coder
+         */
+        private NonStaticLocalConstructor(Coder coder) {
+            super(coder);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeStatement(Code code) {
+            if (initialized == 0) {
+                // this.this$0 = this&0
+                assignment = code;
+            } else if (initialized == 1) {
+                // super(this$0)
+                super.writeStatement(code);
+                super.writeStatement(assignment);
+            } else {
+                super.writeStatement(code);
+            }
+            initialized++;
         }
     }
 }

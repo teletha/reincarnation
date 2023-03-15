@@ -45,6 +45,29 @@ public class GeneratedCodes {
     }
 
     /**
+     * Check whether the given parameter is generated code or not.
+     * 
+     * @param parameter
+     * @return
+     */
+    public static boolean isLocalParameter(Parameter parameter) {
+        Executable exe = parameter.getDeclaringExecutable();
+        Class owner = exe.getDeclaringClass();
+
+        // Don't use Parameter#isImplicit.
+        //
+        // The detailed parameter information should not be used, as it cannot be obtained if
+        // debugging information is not provided.
+        if (Classes.isMemberLike(owner) && Classes.isNonStatic(owner) && owner.getEnclosingClass() == parameter.getType()) {
+            Parameter[] parameters = exe.getParameters();
+            if (parameters[0] == parameter) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Check whether the given constructor is generated code or not.
      * 
      * @param constructor
