@@ -216,28 +216,7 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "OperandArrayLength",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "OperandLocalVariable",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "OperandThrow",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "OperandType",
 			"packageName": "reincarnation",
 			"type": "Class"
 		},
