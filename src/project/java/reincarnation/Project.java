@@ -40,7 +40,7 @@ public class Project extends bee.api.Project {
                     - [x] class
                     - [x] interface
                     - [ ] annotation
-                    - [ ] enum
+                    - [x] enum
                     - [x] record
                 - [x] Inheritance
                     - [x] extends

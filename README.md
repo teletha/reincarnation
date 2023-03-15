@@ -18,7 +18,7 @@ Reincarnation aims to be a decompiler for all modern Java grammars.
     - [x] class
     - [x] interface
     - [ ] annotation
-    - [ ] enum
+    - [x] enum
     - [x] record
 - [x] Inheritance
     - [x] extends
