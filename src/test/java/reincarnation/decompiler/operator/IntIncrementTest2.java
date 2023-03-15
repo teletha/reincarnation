@@ -11,11 +11,9 @@ package reincarnation.decompiler.operator;
 
 import org.junit.jupiter.api.Test;
 
-import antibug.powerassert.PowerAssertOff;
 import reincarnation.CodeVerifier;
 import reincarnation.TestCode;
 
-@PowerAssertOff
 class IntIncrementTest2 extends CodeVerifier {
 
     @Test

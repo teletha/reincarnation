@@ -9,6 +9,9 @@
  */
 package reincarnation.coder.java;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
@@ -24,12 +27,15 @@ import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.StringJoiner;
 
 import kiss.I;
 import kiss.Variable;
 import kiss.Ⅱ;
 import kiss.Ⅲ;
+import reincarnation.Debuggable;
 import reincarnation.Operand;
 import reincarnation.Reincarnation;
 import reincarnation.coder.Code;
@@ -183,6 +189,10 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                     .separator("," + space)
                     .suffix(")")
                     .converter((index, x) -> qualify(x.getGenericType(), vararg && index == max) + " " + x.getName());
+        } else if (type.isAnnotation()) {
+            kind = "@interface";
+            implement = null;
+            accessor.remove("static", "abstract");
         } else if (type.isInterface()) {
             kind = "interface";
             implement = Join.of(type.getGenericInterfaces()).ignoreEmpty().prefix(" extends ").converter(this::name);
@@ -199,6 +209,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         }
 
         line();
+        writeAnnotation(type);
         line(accessor, kind, space, simpleName(type), variable, extend, implement, permit, space, "{");
         indent(inner);
         line("}");
@@ -238,6 +249,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param field
      */
     private void writeFieldDefinition(Field field) {
+        writeAnnotation(field);
         line(modifier(field, false), name(field.getType()), space, field.getName(), ";");
     }
 
@@ -294,6 +306,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         vars.start();
 
         line();
+        writeAnnotation(con);
         line(modifier(con, false), simpleName(con.getDeclaringClass()), buildParameter(con, naming(code)), space, "{");
         indent(() -> {
             Class owner = con.getDeclaringClass();
@@ -321,6 +334,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         vars.start();
 
         line();
+        writeAnnotation(method);
         lineNB(modifier(method, method.isDefault()), name(method.getReturnType()), " ", method
                 .getName(), buildParameter(method, naming(code)), thrower(method.getExceptionTypes()));
 
@@ -1004,6 +1018,71 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         }
         line("}");
         write(follow);
+    }
+
+    /**
+     * Write the given annotation out.
+     * 
+     * @param element
+     */
+    private void writeAnnotation(AnnotatedElement element) {
+        I.signal(element.getDeclaredAnnotations())
+                .skip(annotation -> annotation instanceof Debuggable)
+                .to(annotation -> line(writeAnnotationValue(annotation)));
+    }
+
+    /**
+     * Write the given annotation value recursively.
+     * 
+     * @param value
+     * @return
+     */
+    private String writeAnnotationValue(Object value) {
+        if (value instanceof Annotation a) {
+            return "@" + name(a.annotationType()) + Join.of(a.annotationType().getDeclaredMethods())
+                    .ignoreEmpty()
+                    .prefix("(")
+                    .separator("," + space)
+                    .suffix(")")
+                    .skip(m -> Objects.deepEquals(readAnnotationValue(a, m), m.getDefaultValue()))
+                    .converter(m -> m.getName() + space + "=" + space + writeAnnotationValue(readAnnotationValue(a, m)));
+        } else if (value instanceof String) {
+            return "\"" + value + "\"";
+        } else if (value instanceof Character) {
+            return "'" + value + "'";
+        } else if (value instanceof Float) {
+            return value + "F";
+        } else if (value instanceof Long) {
+            return value + "L";
+        } else if (value instanceof Enum e) {
+            return name(e.getDeclaringClass()) + "." + e.name();
+        } else if (value instanceof Class clazz) {
+            return name(clazz) + ".class";
+        } else if (value.getClass().isArray()) {
+            int length = Array.getLength(value);
+            StringJoiner join = new StringJoiner("," + space, "{", "}");
+            for (int i = 0; i < length; i++) {
+                join.add(writeAnnotationValue(Array.get(value, i)));
+            }
+            return join.toString();
+        } else {
+            return String.valueOf(value);
+        }
+    }
+
+    /**
+     * Read the current value of the specified annotation.
+     * 
+     * @param annotation
+     * @param method
+     * @return
+     */
+    private Object readAnnotationValue(Annotation annotation, Method method) {
+        try {
+            return method.invoke(annotation);
+        } catch (Exception e) {
+            throw I.quiet(e);
+        }
     }
 
     /**
