@@ -216,13 +216,6 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "OperandArray",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "OperandArrayLength",
 			"packageName": "reincarnation",
 			"type": "Class"
@@ -230,56 +223,7 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "OperandAssign",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "OperandBinary",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "OperandClass",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "OperandFieldAccess",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "OperandInstanceOf",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "OperandLocalVariable",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "OperandReturn",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "OperandTernary",
 			"packageName": "reincarnation",
 			"type": "Class"
 		},
@@ -294,13 +238,6 @@ const root = {
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "OperandType",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "OperandUnary",
 			"packageName": "reincarnation",
 			"type": "Class"
 		},
