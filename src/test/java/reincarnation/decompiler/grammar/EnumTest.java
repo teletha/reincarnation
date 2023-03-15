@@ -12,7 +12,6 @@ package reincarnation.decompiler.grammar;
 import java.util.function.Function;
 import java.util.function.IntSupplier;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
@@ -262,8 +261,108 @@ class EnumTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
-    void userDefiendConstantSpecificMethod() {
+    void constantSpecificMethod() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                enum Symbol {
+                    A {
+
+                        @Override
+                        protected int value() {
+                            return 10;
+                        }
+                    };
+
+                    protected abstract int value();
+                }
+
+                return Symbol.A.value();
+            }
+        });
+    }
+
+    @Test
+    void constantSpecificStaticMethod() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                enum Symbol {
+                    A {
+                        private static int staticMethod() {
+                            return 5;
+                        }
+
+                        @Override
+                        int value() {
+                            return staticMethod();
+                        }
+                    };
+
+                    abstract int value();
+                }
+
+                return Symbol.A.value();
+            }
+        });
+    }
+
+    @Test
+    void constantSpecificField() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                enum Symbol {
+                    A {
+                        private int value = 10;
+
+                        @Override
+                        protected int value() {
+                            return value;
+                        }
+                    };
+
+                    protected abstract int value();
+                }
+
+                return Symbol.A.value();
+            }
+        });
+    }
+
+    @Test
+    void constantSpecificInitializer() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                enum Symbol {
+                    A {
+                        private int value;
+
+                        {
+                            value = 20;
+                        }
+
+                        @Override
+                        protected int value() {
+                            return value;
+                        }
+                    };
+
+                    protected abstract int value();
+                }
+
+                return Symbol.A.value();
+            }
+        });
+    }
+
+    @Test
+    void overrideUserDefinedMethodInConstant() {
         verify(new TestCode.Int() {
 
             @Override
@@ -272,11 +371,13 @@ class EnumTest extends CodeVerifier {
                     A {
                         @Override
                         protected int value() {
-                            return 10;
+                            return -2;
                         }
                     };
 
-                    protected abstract int value();
+                    protected int value() {
+                        return 0;
+                    }
                 }
 
                 return Symbol.A.value();

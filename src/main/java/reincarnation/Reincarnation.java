@@ -11,6 +11,7 @@ package reincarnation;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -28,6 +29,7 @@ import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.java.JavaCoder;
 import reincarnation.coder.java.JavaCodingOption;
+import reincarnation.util.Classes;
 
 /**
  * {@link Reincarnation} is a unit of decompilation.
@@ -45,6 +47,12 @@ public final class Reincarnation {
 
     /** The initializer manager. */
     public final List<Code> initializer = new ArrayList();
+
+    /** The non-static field manager. */
+    public final List<Field> fields = new ArrayList();
+
+    /** The static field manager. */
+    public final List<Field> staticFields = new ArrayList();
 
     /** The constructor manager. */
     public final Map<Constructor, Code> constructors = new LinkedHashMap();
@@ -69,6 +77,15 @@ public final class Reincarnation {
      */
     private Reincarnation(Class clazz) {
         this.clazz = Objects.requireNonNull(clazz);
+
+        // Separate fields into static and non-static
+        for (Field field : clazz.getDeclaredFields()) {
+            if (Classes.isStatic(field)) {
+                staticFields.add(field);
+            } else {
+                fields.add(field);
+            }
+        }
     }
 
     /**

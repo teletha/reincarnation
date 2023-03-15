@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 import kiss.I;
@@ -45,7 +46,7 @@ public abstract class Coder<O extends CodingOption> {
     private StringBuilder builder;
 
     /** The current indent size. */
-    private int indentSize = 0;
+    private final AtomicInteger indentSize;
 
     /** The lazy writers. */
     private final Deque<Ⅲ<Integer, Integer, Runnable>> lazy = new ArrayDeque();
@@ -61,6 +62,7 @@ public abstract class Coder<O extends CodingOption> {
      */
     protected Coder() {
         this.builder = new StringBuilder();
+        this.indentSize = new AtomicInteger(0);
     }
 
     /**
@@ -148,7 +150,7 @@ public abstract class Coder<O extends CodingOption> {
      */
     protected final void line(Object... codes) {
         if (codes.length != 0) {
-            write(options.indentChar.repeat(indentSize));
+            write(options.indentChar.repeat(indentSize.get()));
             write(codes);
         }
         write(EoL);
@@ -173,7 +175,7 @@ public abstract class Coder<O extends CodingOption> {
      */
     protected final void lineNB(Object... codes) {
         if (codes.length != 0) {
-            write(options.indentChar.repeat(indentSize));
+            write(options.indentChar.repeat(indentSize.get()));
             write(codes);
         }
     }
@@ -184,9 +186,7 @@ public abstract class Coder<O extends CodingOption> {
      * @param inner
      */
     protected final void indent(Runnable inner) {
-        indentSize++;
-        inner.run();
-        indentSize--;
+        indent(coder -> inner.run());
     }
 
     /**
@@ -195,9 +195,9 @@ public abstract class Coder<O extends CodingOption> {
      * @param inner
      */
     protected final void indent(Consumer<Coder> inner) {
-        indentSize++;
+        indentSize.incrementAndGet();
         inner.accept(this);
-        indentSize--;
+        indentSize.decrementAndGet();
     }
 
     /**
@@ -206,7 +206,7 @@ public abstract class Coder<O extends CodingOption> {
      * @param writer
      */
     protected final void writeLazy(Runnable writer) {
-        lazy.addLast(I.pair(builder.length(), indentSize, writer));
+        lazy.addLast(I.pair(builder.length(), indentSize.get(), writer));
     }
 
     /**
@@ -253,7 +253,7 @@ public abstract class Coder<O extends CodingOption> {
         while (iterator.hasNext()) {
             Ⅲ<Integer, Integer, Runnable> x = iterator.next();
             builder = new StringBuilder();
-            indentSize = x.ⅱ;
+            indentSize.set(x.ⅱ);
 
             x.ⅲ.run();
             writer.insert(x.ⅰ, builder);

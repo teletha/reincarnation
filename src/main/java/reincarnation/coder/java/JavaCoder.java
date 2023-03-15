@@ -94,23 +94,24 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
     private void writeOne(Reincarnation reincarnation) {
         writeType(reincarnation.clazz, () -> {
-            List<Field> statics = new ArrayList();
-            List<Field> fields = new ArrayList();
-            for (Field field : reincarnation.clazz.getDeclaredFields()) {
-                if (Classes.isStatic(field)) {
-                    statics.add(field);
+            // Separate anonymous classes into Enum subclasses and non-Enum subclasses
+            List<Class> enums = new ArrayList();
+            List<Class> anons = new ArrayList();
+            for (Class clazz : reincarnation.anonymous) {
+                if (clazz.getSuperclass().isEnum()) {
+                    enums.add(clazz);
                 } else {
-                    fields.add(field);
+                    anons.add(clazz);
                 }
             }
 
-            statics.forEach(this::writeStaticField);
+            reincarnation.staticFields.forEach(this::writeStaticField);
             reincarnation.staticInitializer.forEach(this::writeStaticInitializer);
-            fields.forEach(this::writeField);
+            reincarnation.fields.forEach(this::writeField);
             reincarnation.initializer.forEach(this::writeInitializer);
-            reincarnation.constructors.entrySet().forEach(e -> writeConstructor(e.getKey(), e.getValue()));
-            reincarnation.methods.entrySet().forEach(e -> writeMethod(e.getKey(), e.getValue()));
-            reincarnation.anonymous.forEach(e -> writeOne(Reincarnation.exhume(e)));
+            reincarnation.constructors.forEach(this::writeConstructor);
+            reincarnation.methods.forEach(this::writeMethod);
+            anons.forEach(e -> writeOne(Reincarnation.exhume(e)));
         });
     }
 
@@ -158,8 +159,6 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     public void writeType(Class type, Runnable inner) {
         Class prev = current.set(type);
 
-        String seal = type.isSealed() ? "sealed "
-                : Classes.isSealedSubclass(type) && !Modifier.isFinal(type.getModifiers()) ? "non-sealed " : "";
         String kind;
         String extend = "";
         Join<Type> implement;
@@ -193,7 +192,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         } else if (type.isEnum()) {
             kind = "enum";
             implement = Join.of(type.getGenericInterfaces()).ignoreEmpty().prefix(" implements ").converter(this::name);
-            accessor.remove("static", "final");
+            accessor.remove("static", "final", "abstract", "sealed");
+            permit = null;
         } else {
             kind = "class";
             extend = type.getSuperclass() == Object.class ? "" : " extends " + name(type.getGenericSuperclass());
@@ -201,7 +201,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         }
 
         line();
-        line(accessor, seal, kind, space, simpleName(type), variable, extend, implement, permit, space, "{");
+        line(accessor, kind, space, simpleName(type), variable, extend, implement, permit, space, "{");
         indent(inner);
         line("}");
 
@@ -227,7 +227,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         }
 
         // ignore, write fields in static initializer
-        if (current.is(Class::isInterface) || current.is(Class::isEnum)) {
+        if (current.is(Class::isInterface) || field.getDeclaringClass().isEnum()) {
             return;
         }
 
@@ -723,7 +723,11 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                 if (OperandUtil.isWrapper(method)) {
                     write(params.get(0));
                 } else {
-                    write(context, ".", method.getName(), buildParameter(method, params));
+                    if (Classes.isStatic(method) && current.is(method.getDeclaringClass())) {
+                        write(method.getName(), buildParameter(method, params));
+                    } else {
+                        write(context, ".", method.getName(), buildParameter(method, params));
+                    }
                 }
             }
         }
@@ -1214,6 +1218,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                 joiner.add("volatile");
             }
         }
+
+        if (type instanceof Class clazz) {
+            if (clazz.isSealed()) {
+                joiner.add("sealed");
+            } else if (Classes.isSealedSubclass(clazz) && !Modifier.isFinal(modifier)) {
+                joiner.add("non-sealed");
+            }
+        }
         return joiner;
     }
 
@@ -1382,14 +1394,32 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         @Override
         public void writeConstructorCall(Constructor constructor, List<? extends Code> params) {
             if (whileInitializing()) {
-                if (current.is(constructor.getDeclaringClass()) && 2 <= params.size()) {
+                Class owner = constructor.getDeclaringClass();
+                if (current.v.isAssignableFrom(owner) && 2 <= params.size()) {
                     if (initialized <= constants.size()) {
                         // remove implicit parameters
                         params.remove(0);
                         params.remove(0);
                         Join parameters = Join.of(params).ignoreEmpty().prefix("(").separator("," + space).suffix(")");
 
-                        write(parameters, initialized < constants.size() ? "," + space : ";");
+                        write(parameters);
+                        if (!owner.isEnum()) {
+                            // We assume it is a customized Enum since it uses subclasses for
+                            // constant definitions.
+                            lineNI(space, "{");
+                            indent(() -> {
+                                Class prev = current.set(owner);
+                                Reincarnation exhumed = Reincarnation.exhume(owner);
+
+                                exhumed.staticFields.forEach(this::writeStaticField);
+                                exhumed.fields.forEach(this::writeField);
+                                exhumed.constructors.forEach(new EnumConstantClassConstructor(coder)::writeConstructor);
+                                exhumed.methods.forEach(this::writeMethod);
+                                current.set(prev);
+                            });
+                            lineNB("}");
+                        }
+                        write(initialized < constants.size() ? "," + space : ";");
                     }
                 }
             } else {
@@ -1413,6 +1443,47 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         private boolean whileInitializing() {
             return initialized <= constants.size();
+        }
+
+        /**
+         * Special coder for enum constant class constructor.
+         */
+        private static class EnumConstantClassConstructor extends DelegatableCoder<CodingOption> {
+
+            /** The number of processed statements. */
+            private int statements;
+
+            /**
+             * @param coder
+             */
+            private EnumConstantClassConstructor(Coder coder) {
+                super(coder);
+            }
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void writeConstructor(Constructor con, Code<Code> code) {
+                snapshot(() -> {
+                    line("{");
+                    indent(code::write);
+                    line("}");
+
+                    if (statements <= 1) revert();
+                });
+            }
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void writeStatement(Code code) {
+                // need to skip super call
+                if (0 < statements++) {
+                    super.writeStatement(code);
+                }
+            }
         }
     }
 
