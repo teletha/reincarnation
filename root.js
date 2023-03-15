@@ -139,13 +139,6 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Inference",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "InfiniteLoop",
 			"packageName": "reincarnation.structure",
 			"type": "Class"
@@ -216,21 +209,7 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "OperandLocalVariable",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Reincarnation",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "SpecializedType",
 			"packageName": "reincarnation",
 			"type": "Class"
 		},
