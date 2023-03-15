@@ -413,7 +413,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                     String name = strategy.name(p.ⅰ.getName());
                     vars.declare(name);
 
+                    Join annotations = Join.of(p.ⅰ.getAnnotations())
+                            .ignoreEmpty()
+                            .separator(" ")
+                            .suffix(" ")
+                            .converter(this::writeAnnotationValue);
+
                     return new StringBuilder() //
+                            .append(annotations)
                             .append(modifier(p.ⅰ))
                             .append(qualify(p.ⅱ, p.ⅰ.isVarArgs()))
                             .append(' ')

@@ -13,20 +13,19 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 import kiss.I;
 
 public class Meta {
 
     /**
-     * Find annotation by the given type.
+     * Find {@link Mark} annotation.
      * 
-     * @param <A>
      * @param target
-     * @param type
      */
-    public static <A extends Annotation> A find(Class target, Class<A> type) {
-        return (A) target.getDeclaredAnnotation(type);
+    public static Mark findTypeMark(Class<?> target) {
+        return findType(target, Mark.class);
     }
 
     /**
@@ -34,8 +33,8 @@ public class Meta {
      * 
      * @param target
      */
-    public static Mark findMark(Class target) {
-        return find(target, Mark.class);
+    public static <A extends Annotation> A findType(Class<?> target, Class<A> annotationType) {
+        return target.getDeclaredAnnotation(annotationType);
     }
 
     /**
@@ -58,27 +57,57 @@ public class Meta {
      * 
      * @param target
      */
-    public static Mark findMark(Class target, String memberName) {
+    public static Mark findParameterMark(Class target) {
         try {
-            Method method = target.getDeclaredMethod(memberName);
-            Mark mark = method.getDeclaredAnnotation(Mark.class);
-            if (mark != null) {
-                return mark;
+            for (Method m : target.getDeclaredMethods()) {
+                for (Parameter p : m.getParameters()) {
+                    Mark mark = p.getDeclaredAnnotation(Mark.class);
+                    if (mark != null) {
+                        return mark;
+                    }
+                }
             }
-
             throw new Error("Not found");
         } catch (Exception e) {
-            try {
-                Field field = target.getDeclaredField(memberName);
+            throw I.quiet(e);
+        }
+    }
+
+    /**
+     * Find {@link Mark} annotation.
+     * 
+     * @param target
+     */
+    public static Mark findMethodMark(Class target) {
+        try {
+            for (Method method : target.getDeclaredMethods()) {
+                Mark mark = method.getDeclaredAnnotation(Mark.class);
+                if (mark != null) {
+                    return mark;
+                }
+            }
+            throw new Error("Not found");
+        } catch (Exception e) {
+            throw I.quiet(e);
+        }
+    }
+
+    /**
+     * Find {@link Mark} annotation.
+     * 
+     * @param target
+     */
+    public static Mark findFieldMark(Class target) {
+        try {
+            for (Field field : target.getDeclaredFields()) {
                 Mark mark = field.getDeclaredAnnotation(Mark.class);
                 if (mark != null) {
                     return mark;
                 }
-
-                throw new Error("Not found");
-            } catch (Exception x) {
-                throw I.quiet(x);
             }
+            throw new Error("Not found");
+        } catch (Exception e) {
+            throw I.quiet(e);
         }
     }
 }

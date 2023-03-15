@@ -19,6 +19,7 @@ import reincarnation.CodeVerifier;
 import reincarnation.Debuggable;
 import reincarnation.TestCode;
 import reincarnation.decompiler.grammar.annotation.Mark;
+import reincarnation.decompiler.grammar.annotation.Marks;
 import reincarnation.decompiler.grammar.annotation.Meta;
 import reincarnation.decompiler.grammar.annotation.Symbol;
 
@@ -53,7 +54,7 @@ class AnnotationTest extends CodeVerifier {
                     void test();
                 }
 
-                return Meta.findMark(A.class, "test").intValue();
+                return Meta.findMethodMark(A.class).intValue();
             }
         });
     }
@@ -70,7 +71,7 @@ class AnnotationTest extends CodeVerifier {
                     String test = "ok";
                 }
 
-                return Meta.findMark(A.class, "test").intValue();
+                return Meta.findFieldMark(A.class).intValue();
             }
         });
     }
@@ -93,6 +94,36 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
+    @Mark(intValue = 20)
+    @interface AnnotatedAnnotation {
+    }
+
+    @Test
+    void onAnnotation() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return Meta.findTypeMark(AnnotatedAnnotation.class).intValue();
+            }
+        });
+    }
+
+    @Test
+    void onParameter() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                interface A {
+                    void test(@Mark(intValue = 3) int value);
+                }
+
+                return Meta.findParameterMark(A.class).intValue();
+            }
+        });
+    }
+
     @Test
     void intValue() {
         verify(new TestCode.Int() {
@@ -101,10 +132,10 @@ class AnnotationTest extends CodeVerifier {
             public int run() {
 
                 @Mark(intValue = 10)
-                class A {
+                interface A {
                 }
 
-                return Meta.findMark(A.class).intValue();
+                return Meta.findTypeMark(A.class).intValue();
             }
         });
     }
@@ -117,10 +148,10 @@ class AnnotationTest extends CodeVerifier {
             public long run() {
 
                 @Mark(longValue = 10)
-                class A {
+                interface A {
                 }
 
-                return Meta.findMark(A.class).intValue();
+                return Meta.findTypeMark(A.class).intValue();
             }
         });
     }
@@ -133,10 +164,10 @@ class AnnotationTest extends CodeVerifier {
             public float run() {
 
                 @Mark(floatValue = 10)
-                class A {
+                interface A {
                 }
 
-                return Meta.findMark(A.class).floatValue();
+                return Meta.findTypeMark(A.class).floatValue();
             }
         });
     }
@@ -149,10 +180,10 @@ class AnnotationTest extends CodeVerifier {
             public double run() {
 
                 @Mark(doubleValue = 10)
-                class A {
+                interface A {
                 }
 
-                return Meta.findMark(A.class).doubleValue();
+                return Meta.findTypeMark(A.class).doubleValue();
             }
         });
     }
@@ -165,10 +196,10 @@ class AnnotationTest extends CodeVerifier {
             public short run() {
 
                 @Mark(shortValue = 10)
-                class A {
+                interface A {
                 }
 
-                return Meta.findMark(A.class).shortValue();
+                return Meta.findTypeMark(A.class).shortValue();
             }
         });
     }
@@ -181,10 +212,10 @@ class AnnotationTest extends CodeVerifier {
             public byte run() {
 
                 @Mark(byteValue = 10)
-                class A {
+                interface A {
                 }
 
-                return Meta.findMark(A.class).byteValue();
+                return Meta.findTypeMark(A.class).byteValue();
             }
         });
     }
@@ -197,10 +228,10 @@ class AnnotationTest extends CodeVerifier {
             public char run() {
 
                 @Mark(charValue = 'R')
-                class A {
+                interface A {
                 }
 
-                return Meta.findMark(A.class).charValue();
+                return Meta.findTypeMark(A.class).charValue();
             }
         });
     }
@@ -213,10 +244,10 @@ class AnnotationTest extends CodeVerifier {
             public boolean run() {
 
                 @Mark(booleanValue = true)
-                class A {
+                interface A {
                 }
 
-                return Meta.findMark(A.class).booleanValue();
+                return Meta.findTypeMark(A.class).booleanValue();
             }
         });
     }
@@ -229,10 +260,10 @@ class AnnotationTest extends CodeVerifier {
             public String run() {
 
                 @Mark(stringValue = "test")
-                class A {
+                interface A {
                 }
 
-                return Meta.findMark(A.class).stringValue();
+                return Meta.findTypeMark(A.class).stringValue();
             }
         });
     }
@@ -245,10 +276,10 @@ class AnnotationTest extends CodeVerifier {
             public String run() {
 
                 @Mark(enumValue = Symbol.C)
-                class A {
+                interface A {
                 }
 
-                return Meta.findMark(A.class).enumValue().name();
+                return Meta.findTypeMark(A.class).enumValue().name();
             }
         });
     }
@@ -261,10 +292,10 @@ class AnnotationTest extends CodeVerifier {
             public String run() {
 
                 @Mark(classValue = List.class)
-                class A {
+                interface A {
                 }
 
-                return Meta.findMark(A.class).classValue().getName();
+                return Meta.findTypeMark(A.class).classValue().getName();
             }
         });
     }
@@ -277,10 +308,10 @@ class AnnotationTest extends CodeVerifier {
             public String run() {
 
                 @Mark(annotationValue = @Retention(RetentionPolicy.CLASS))
-                class A {
+                interface A {
                 }
 
-                return Meta.findMark(A.class).annotationValue().value().name();
+                return Meta.findTypeMark(A.class).annotationValue().value().name();
             }
         });
     }
@@ -293,10 +324,10 @@ class AnnotationTest extends CodeVerifier {
             public int run() {
 
                 @Mark(arrayIntValue = {3, 4})
-                class A {
+                interface A {
                 }
 
-                return Meta.findMark(A.class).arrayIntValue()[0];
+                return Meta.findTypeMark(A.class).arrayIntValue()[0];
             }
         });
     }
@@ -309,11 +340,29 @@ class AnnotationTest extends CodeVerifier {
             public long run() {
 
                 @Mark(intValue = 10, longValue = 20)
-                class A {
+                interface A {
                 }
 
-                Mark mark = Meta.findMark(A.class);
+                Mark mark = Meta.findTypeMark(A.class);
                 return mark.intValue() + mark.longValue();
+            }
+        });
+    }
+
+    @Test
+    void repeat() {
+        verify(new TestCode.Long() {
+
+            @Override
+            public long run() {
+
+                @Mark(longValue = 20)
+                @Mark(intValue = 10)
+                interface A {
+                }
+
+                Marks mark = Meta.findType(A.class, Marks.class);
+                return mark.value()[0].longValue() + mark.value()[1].intValue();
             }
         });
     }
