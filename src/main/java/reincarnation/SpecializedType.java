@@ -21,7 +21,7 @@ import java.util.Objects;
 import kiss.I;
 import reincarnation.coder.Join;
 
-public final class SpecializedType implements ParameterizedType {
+final class SpecializedType implements ParameterizedType {
 
     /** The reusable type for <?>. */
     private static final WildcardType WILD = new WildcardType() {
@@ -64,7 +64,7 @@ public final class SpecializedType implements ParameterizedType {
      * 
      * @param raw A base type.
      */
-    public SpecializedType(Class raw) {
+    SpecializedType(Class raw) {
         this.raw = Objects.requireNonNull(raw);
         this.original = raw.getTypeParameters();
         this.specialized = new Type[original.length];

@@ -15,7 +15,6 @@ import kiss.Variable;
 import kiss.Ⅱ;
 import reincarnation.Node;
 import reincarnation.Operand;
-import reincarnation.OperandLocalVariable;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 
@@ -31,7 +30,7 @@ public class While extends Loopable {
     private final Structure follow;
 
     /** The special for loop. */
-    private final Variable<Ⅱ<Operand, OperandLocalVariable>> enhanced;
+    private final Variable<Ⅱ<Operand, Operand>> enhanced;
 
     /**
      * While statement.
@@ -39,7 +38,7 @@ public class While extends Loopable {
      * @param that The node which indicate 'this' variable.
      * @param inner
      */
-    public While(Node that, Node condition, Node inner, Node follow, Variable<Ⅱ<Operand, OperandLocalVariable>> variable) {
+    public While(Node that, Node condition, Node inner, Node follow, Variable<Ⅱ<Operand, Operand>> variable) {
         super(that, condition, follow, inner, condition);
 
         this.condition = condition;

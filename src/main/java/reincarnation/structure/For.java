@@ -15,7 +15,6 @@ import kiss.Variable;
 import kiss.Ⅱ;
 import reincarnation.Node;
 import reincarnation.Operand;
-import reincarnation.OperandLocalVariable;
 import reincarnation.coder.Coder;
 
 public class For extends Loopable {
@@ -36,7 +35,7 @@ public class For extends Loopable {
     private final Structure follow;
 
     /** The special for loop. */
-    private final Variable<Ⅱ<Operand, OperandLocalVariable>> enhanced;
+    private final Variable<Ⅱ<Operand, Operand>> enhanced;
 
     /**
      * For statement.
@@ -48,7 +47,7 @@ public class For extends Loopable {
      * @param inner
      * @param follow
      */
-    public For(Node that, Node initializer, Node condition, Node updater, Node inner, Node follow, Variable<Ⅱ<Operand, OperandLocalVariable>> variable) {
+    public For(Node that, Node initializer, Node condition, Node updater, Node inner, Node follow, Variable<Ⅱ<Operand, Operand>> variable) {
         super(that, that, follow, inner, updater);
 
         this.initializer = initializer;

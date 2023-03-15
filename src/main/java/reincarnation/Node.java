@@ -43,9 +43,6 @@ import reincarnation.structure.Try;
 import reincarnation.structure.While;
 import reincarnation.util.Classes;
 
-/**
- * @version 2018/11/05 15:07:53
- */
 public class Node implements Code<Operand> {
 
     /** The representation of node termination. */
@@ -1285,7 +1282,7 @@ public class Node implements Code<Operand> {
      * @param entrance
      * @return
      */
-    private Variable<Ⅱ<Operand, OperandLocalVariable>> detectEnhancedForLoop(Node current, Node entrance) {
+    private Variable<Ⅱ<Operand, Operand>> detectEnhancedForLoop(Node current, Node entrance) {
         return I.signal(current.getPureIncoming())
                 // Check whether the only incoming node to the current is generating iterators.
                 .flatMap(in -> in.children(OperandAssign.class))
@@ -1304,7 +1301,7 @@ public class Node implements Code<Operand> {
                         .take(m -> m.checkCaller(x.ⅱ) && m.checkMethod(Iterator.class, "next")))
 
                 // Summarize only information that will be used later.
-                .combine(entrance.children(OperandAssign.class, OperandLocalVariable.class), (a, b) -> I.pair(a.ⅰ, b))
+                .combine(entrance.children(OperandAssign.class, OperandLocalVariable.class).as(Operand.class), (a, b) -> I.pair(a.ⅰ, b))
 
                 // The contents of the entrance and incoming nodes should be deleted as they are no
                 // longer needed.

@@ -15,10 +15,9 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
-import java.util.Arrays;
 import java.util.List;
 
-public class Inference {
+class Inference {
 
     /**
      * Test whether the specified type is instance of the required class or not.
@@ -47,41 +46,13 @@ public class Inference {
         return false;
     }
 
-    public static ParameterizedType embody(ParameterizedType parameterized, List<Operand> params) {
-        return new ParameterizedType() {
-
-            @Override
-            public Type getRawType() {
-                return parameterized.getRawType();
-            }
-
-            @Override
-            public Type getOwnerType() {
-                return parameterized.getOwnerType();
-            }
-
-            @Override
-            public Type[] getActualTypeArguments() {
-                return params.stream().map(x -> x.type.v).toArray(Type[]::new);
-            }
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public String toString() {
-                return getRawType() + "(" + Arrays.toString(getActualTypeArguments()) + ")";
-            }
-        };
-    }
-
     /**
      * Specialized the return type of the specified method.
      * 
      * @param method
      * @return
      */
-    public static Type specialize(Method method, Type owner, List<Operand> parameters) {
+    static Type specialize(Method method, Type owner, List<Operand> parameters) {
         Type definedReturnType = method.getGenericReturnType();
 
         if (definedReturnType instanceof Class) {

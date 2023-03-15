@@ -16,7 +16,7 @@ import java.util.Objects;
 
 import reincarnation.coder.Coder;
 
-public class OperandLocalVariable extends Operand {
+class OperandLocalVariable extends Operand {
 
     /** The variable index. */
     final int index;
