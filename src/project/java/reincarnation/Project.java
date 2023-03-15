@@ -46,24 +46,14 @@ public class Project extends bee.api.Project {
                     - [x] extends
                     - [x] implements
                     - [x] sealed and permits
-                - [x] Modifiers
-                    - [x] public
-                    - [x] protected
-                    - [x] private
-                    - [x] static
-                    - [x] final
-                    - [x] synchronized
-                    - [x] abstract
-                    - [x] native
-                    - [x] transient
-                    - [x] volatile
-                    - [x] strictfp
-                - [x] Static member type declaration
-                - [x] Inner (non-static member, local, anonymous) class declaration
+                - [x] Modifiers (public protected private static abstract final synchronized native  transient volatile strictfp)
+                - [x] Inner class declaration
+                    - [x] Member class (static or non-static)
+                    - [x] Local class
+                    - [ ] Anonymous class
                 - [x] Class initializer, instance initializer
-                - [x] Field declaration, method declaration
-                - [x] Local variable declaration
-                - [x] Class variable initializer, instance variable initializer
+                - [x] Constructor, field and method
+                - [x] Local variable
                 - [x] Statement
                     - [x] if-else
                     - [x] for
@@ -84,28 +74,10 @@ public class Project extends bee.api.Project {
                     - [ ] synchronized
                     - [x] assert
                 - [x] Primitive types (boolean, char, byte, short, int, long, float, double)
-                - [x] Assignment operators
-                    - [x] =
-                    - [x] +=
-                    - [x] -=
-                    - [x] *=
-                    - [x] /=
-                    - [x] &=
-                    - [x] |=
-                    - [x] ^=
-                    - [x] <<=
-                    - [x] >>=
-                    - [x] >>>=
-                - [x] Conditional operators
-                    - [x] ? ... : ...
-                    - [x] &&
-                    - [x] ||
-                - [x] Logical operators and Integer bitwise operators
-                    - [x] &
-                    - [x] ^
-                    - [x] |
-                    - [x] !
-                    - [x] ~
+                - [x] Assignment operators (=  *=  /=  %=  +=  -=  <<=  >>=  >>>=  &=  ^=  |=)
+                - [x] Conditional operator (||  &&  ? ... : ...)
+                - [x] Logical operators and Integer bitwise operators (&  ^  !  |  ~)
+                - [x] Equality operators (==  !=)
                 - [x] Numeric operators
                     - [x] +
                     - [x] -
