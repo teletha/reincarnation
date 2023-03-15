@@ -31,7 +31,6 @@ import kiss.Variable;
 import kiss.Ⅱ;
 import kiss.Ⅲ;
 import reincarnation.Operand;
-import reincarnation.OperandArray;
 import reincarnation.OperandUtil;
 import reincarnation.Reincarnation;
 import reincarnation.coder.Code;
@@ -681,7 +680,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeConstructorCall(Constructor constructor, List<? extends Code> params) {
+    public void writeConstructorCall(Constructor constructor, List<Code> params) {
         write("new", space, name(constructor.getDeclaringClass()), buildParameter(constructor, params));
     }
 
@@ -689,7 +688,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeSuperConstructorCall(Constructor constructor, List<? extends Code> params) {
+    public void writeSuperConstructorCall(Constructor constructor, List<Code> params) {
         if (params.isEmpty() || constructor.getDeclaringClass() == Enum.class) {
             revert();
         } else {
@@ -701,7 +700,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeThisConstructorCall(Constructor constructor, List<? extends Code> params) {
+    public void writeThisConstructorCall(Constructor constructor, List<Code> params) {
         if (constructor.getDeclaringClass().isEnum()) {
             write("this", buildParameter(constructor, params, 2));
         } else {
@@ -713,7 +712,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeMethodCall(Method method, Code context, List<? extends Code> params, AccessMode mode) {
+    public void writeMethodCall(Method method, Code context, List<Code> params, AccessMode mode) {
         if (method.isSynthetic()) {
             write(context, ".", method.getName(), buildParameter(method, params));
         } else {
@@ -740,7 +739,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param params
      * @return
      */
-    private Join buildParameter(Executable executable, List<? extends Code> params) {
+    private Join buildParameter(Executable executable, List<Code> params) {
         return buildParameter(executable, params, 0);
     }
 
@@ -751,18 +750,13 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param params
      * @return
      */
-    private Join buildParameter(Executable executable, List<? extends Code> params, int start) {
+    private Join buildParameter(Executable executable, List<Code> params, int start) {
         Join concat = new Join().prefix("(").suffix(")").separator("," + space);
-        Parameter[] parameters = executable.getParameters();
         if (executable.isVarArgs()) {
-            int index = params.size() - 1;
-            Code code = params.get(index);
-            if (code instanceof OperandArray) {
-                params.remove(index);
-                params.addAll(index, code.children().skip(1).toList());
-            }
+            params.remove(params.size() - 1).children().skip(1).to(c -> params.add((Code) c));
         }
 
+        Parameter[] parameters = executable.getParameters();
         for (int i = start; i < params.size(); i++) {
             Code param = params.get(i);
 
@@ -1392,7 +1386,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
          * {@inheritDoc}
          */
         @Override
-        public void writeConstructorCall(Constructor constructor, List<? extends Code> params) {
+        public void writeConstructorCall(Constructor constructor, List<Code> params) {
             if (whileInitializing()) {
                 Class owner = constructor.getDeclaringClass();
                 if (current.v.isAssignableFrom(owner) && 2 <= params.size()) {

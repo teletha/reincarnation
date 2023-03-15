@@ -19,7 +19,7 @@ import reincarnation.operator.AssignOperator;
 /**
  * Binary operation expression.
  */
-public class OperandAssign extends Operand {
+class OperandAssign extends Operand {
 
     /** The left value. */
     private final Operand left;

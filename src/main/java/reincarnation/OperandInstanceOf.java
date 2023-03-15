@@ -14,7 +14,7 @@ import kiss.Signal;
 import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
 
-public class OperandInstanceOf extends Operand {
+class OperandInstanceOf extends Operand {
 
     /** The value. */
     final Operand value;
@@ -31,7 +31,7 @@ public class OperandInstanceOf extends Operand {
      * @param value A value to check.
      * @param type A type to check.
      */
-    public OperandInstanceOf(Operand value, Class type) {
+    OperandInstanceOf(Operand value, Class type) {
         this.value = value;
         this.type = type;
         fix(boolean.class);
@@ -43,7 +43,7 @@ public class OperandInstanceOf extends Operand {
      * @param op
      * @return
      */
-    public OperandInstanceOf withCast(Operand op) {
+    OperandInstanceOf withCast(Operand op) {
         this.cast = op;
 
         return this;

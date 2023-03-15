@@ -11,10 +11,7 @@ package reincarnation;
 
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/11/06 14:17:11
- */
-public class OperandTernary extends OperandCondition {
+class OperandTernary extends OperandCondition {
 
     /** The codition. */
     private Operand condition;

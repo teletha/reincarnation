@@ -268,7 +268,7 @@ class OperandMethodCall extends Operand {
          * {@inheritDoc}
          */
         @Override
-        public void writeMethodCall(Method method, Code context, List<? extends Code> parameters, AccessMode mode) {
+        public void writeMethodCall(Method method, Code context, List<Code> parameters, AccessMode mode) {
             LinkedList<Code> copy = new LinkedList(params);
             Code delegate = context;
 

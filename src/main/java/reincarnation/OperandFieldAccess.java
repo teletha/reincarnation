@@ -19,7 +19,7 @@ import kiss.Signal;
 import reincarnation.coder.Coder;
 import reincarnation.operator.AccessMode;
 
-public class OperandFieldAccess extends Operand {
+class OperandFieldAccess extends Operand {
 
     /** The field. */
     private final Field field;
@@ -36,7 +36,7 @@ public class OperandFieldAccess extends Operand {
      * @param ownerType A field owner.
      * @param name A field name.
      */
-    public OperandFieldAccess(Class ownerType, String name, Operand context) {
+    OperandFieldAccess(Class ownerType, String name, Operand context) {
         this.field = find(ownerType, name);
         this.context = Objects.requireNonNull(context);
 

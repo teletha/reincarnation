@@ -53,10 +53,8 @@ import reincarnation.coder.Coder;
  * mv.visitLdcInsn("third");
  * mv.visitInsn(AASTORE); // Assign third value
  *</pre>
- * 
- * @version 2018/10/05 19:36:39
  */
-public class OperandArray extends Operand {
+class OperandArray extends Operand {
 
     /** The array dimension size. */
     private final int dimension;

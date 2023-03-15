@@ -11,9 +11,6 @@ package reincarnation;
 
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/10/14 10:25:56
- */
 class OperandArrayAccess extends Operand {
 
     /** The array value. */

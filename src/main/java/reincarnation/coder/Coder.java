@@ -532,7 +532,7 @@ public abstract class Coder<O extends CodingOption> {
      * @param constructor A constructor info.
      * @param params A list of parameter objects.
      */
-    public abstract void writeConstructorCall(Constructor constructor, List<? extends Code> params);
+    public abstract void writeConstructorCall(Constructor constructor, List<Code> params);
 
     /**
      * Constructor call expression.
@@ -540,7 +540,7 @@ public abstract class Coder<O extends CodingOption> {
      * @param constructor A constructor info.
      * @param params A list of parameter objects.
      */
-    public abstract void writeSuperConstructorCall(Constructor constructor, List<? extends Code> params);
+    public abstract void writeSuperConstructorCall(Constructor constructor, List<Code> params);
 
     /**
      * Constructor call expression.
@@ -548,7 +548,7 @@ public abstract class Coder<O extends CodingOption> {
      * @param constructor A constructor info.
      * @param params A list of parameter objects.
      */
-    public abstract void writeThisConstructorCall(Constructor constructor, List<? extends Code> params);
+    public abstract void writeThisConstructorCall(Constructor constructor, List<Code> params);
 
     /**
      * Method call expression.
@@ -558,7 +558,7 @@ public abstract class Coder<O extends CodingOption> {
      * @param params A list of parameter objects.
      * @param mode An access mode.
      */
-    public abstract void writeMethodCall(Method method, Code context, List<? extends Code> params, AccessMode mode);
+    public abstract void writeMethodCall(Method method, Code context, List<Code> params, AccessMode mode);
 
     /**
      * Method reference.

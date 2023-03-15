@@ -18,10 +18,8 @@ import reincarnation.operator.UnaryOperator;
 
 /**
  * Binary operation expression.
- * 
- * @version 2018/10/13 18:47:44
  */
-public class OperandUnary extends Operand {
+class OperandUnary extends Operand {
 
     /** The value. */
     public final Operand value;

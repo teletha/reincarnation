@@ -19,7 +19,7 @@ import reincarnation.operator.BinaryOperator;
 /**
  * Binary operation expression.
  */
-public class OperandBinary extends Operand {
+class OperandBinary extends Operand {
 
     /** The left value. */
     final Operand left;
@@ -37,7 +37,7 @@ public class OperandBinary extends Operand {
      * @param operator A operator.
      * @param right A right value.
      */
-    public OperandBinary(Operand left, BinaryOperator operator, Operand right) {
+    OperandBinary(Operand left, BinaryOperator operator, Operand right) {
         this.left = Objects.requireNonNull(left);
         this.right = Objects.requireNonNull(right);
         this.operator = Objects.requireNonNull(operator);

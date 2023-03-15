@@ -14,7 +14,7 @@ import kiss.Signal;
 import kiss.Variable;
 import reincarnation.coder.Coder;
 
-public class OperandReturn extends Operand {
+class OperandReturn extends Operand {
 
     /** The empty return for reuse. */
     public static final OperandReturn Empty = new OperandReturn(null);

@@ -325,7 +325,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeConstructorCall(Constructor constructor, List<? extends Code> params) {
+    public void writeConstructorCall(Constructor constructor, List<Code> params) {
         coder.writeConstructorCall(constructor, params);
     }
 
@@ -333,7 +333,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeSuperConstructorCall(Constructor constructor, List<? extends Code> params) {
+    public void writeSuperConstructorCall(Constructor constructor, List<Code> params) {
         coder.writeSuperConstructorCall(constructor, params);
     }
 
@@ -341,7 +341,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeThisConstructorCall(Constructor constructor, List<? extends Code> params) {
+    public void writeThisConstructorCall(Constructor constructor, List<Code> params) {
         coder.writeThisConstructorCall(constructor, params);
     }
 
@@ -349,7 +349,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeMethodCall(Method method, Code context, List<? extends Code> params, AccessMode mode) {
+    public void writeMethodCall(Method method, Code context, List<Code> params, AccessMode mode) {
         coder.writeMethodCall(method, context, params, mode);
     }
 
