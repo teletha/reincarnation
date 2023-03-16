@@ -24,24 +24,14 @@ Reincarnation aims to be a decompiler for all modern Java grammars.
     - [x] extends
     - [x] implements
     - [x] sealed and permits
-- [x] Modifiers
-    - [x] public
-    - [x] protected
-    - [x] private
-    - [x] static
-    - [x] final
-    - [x] synchronized
-    - [x] abstract
-    - [x] native
-    - [x] transient
-    - [x] volatile
-    - [x] strictfp
-- [x] Static member type declaration
-- [x] Inner (non-static member, local, anonymous) class declaration
+- [x] Modifiers (public protected private static abstract final synchronized native  transient volatile strictfp)
+- [x] Inner class declaration
+    - [x] Member class (static or non-static)
+    - [x] Local class
+    - [ ] Anonymous class
 - [x] Class initializer, instance initializer
-- [x] Field declaration, method declaration
-- [x] Local variable declaration
-- [x] Class variable initializer, instance variable initializer
+- [x] Constructor, field and method
+- [x] Local variable
 - [x] Statement
     - [x] if-else
     - [x] for
@@ -61,51 +51,30 @@ Reincarnation aims to be a decompiler for all modern Java grammars.
     - [ ] switch with pattern matching
     - [ ] synchronized
     - [x] assert
-- [x] Primitive types (boolean, char, byte, short, int, long, float, double)
-- [x] Assignment operators
-    - [x] =
-    - [x] +=
-    - [x] -=
-    - [x] *=
-    - [x] /=
-    - [x] &=
-    - [x] |=
-    - [x] ^=
-    - [x] <<=
-    - [x] >>=
-    - [x] >>>=
-- [x] Conditional operators
-    - [x] ? ... : ...
-    - [x] &&
-    - [x] ||
-- [x] Logical operators and Integer bitwise operators
-    - [x] &
-    - [x] ^
-    - [x] |
-    - [x] !
-    - [x] ~
-- [x] Numeric operators
-    - [x] +
-    - [x] -
-    - [x] *
-    - [x] /
-    - [x] %
-    - [x] <<
-    - [x] >>
-    - [x] >>>
-    - [x] ++
-    - [x] --
-- [x] String concatenation operator +
-- [x] Field access (like System.out)
-- [x] Superclass member access (super.meth(), super.field)
+    - [x] labeled statement
+- [x] Types, Values, and Variables
+    - [x] Primitive Types (boolean, char, byte, short, int, long, float, double)
+    - [x] Reference Types (class, interface, array)
+- [x] Operators
+    - [x] Unary operators ( +  -  ++  --  ~  ! )
+    - [x] Multiplicative operators ( *  /  % )
+    - [x] Additive operators ( +  - )
+    - [x] Shift operators ( <<  >>  >>> )
+    - [x] Relational operators ( <  >  <=  >=  instanceof )
+    - [x] Equality operators ( ==  != )
+    - [x] Logical operators and Integer bitwise operators ( &  ^  !  |  ~ )
+    - [x] Conditional operator ( ||  &&  ? ... : ... )
+    - [x] Assignment operators ( =  *=  /=  %=  +=  -=  <<=  >>=  >>>=  &=  ^=  |= )
+    - [x] String concatenation operator ( + )
+- [x] Superclass member access (e.g. super.meth(), super.field)
 - [x] this (reference to current instance)
-- [x] Alternate constructor invocation (this(a, b, c);)
-- [x] Superclass constructor invocation (super(a, b, c);)
-- [x] Method invocation (System.out.println("Hello"))
-- [x] Class instance creation (new Foo())
-- [x] Primitive array creation (new int[10][5][])
-- [x] Class or interface array creation (new Foo[10][5][])
-- [x] Array access (args[0])
+- [x] Alternate constructor invocation (e.g. this(a, b, c);)
+- [x] Superclass constructor invocation (e.g. super(a, b, c);)
+- [x] Method invocation (e.g. System.out.println("Hello"))
+- [x] Class Instance Creation Expression (e.g. new Foo())
+- [x] Array Creation and Access Expression (e.g. new int[],  new Object[10][5][],  args[1])
+- [x] Array initializer (e.g. String[] array = { "x", "y", "z" })
+- [x] Field Access Expression (e.g. System.out)
 - [x] Local variable access
 - [x] Local variable type inference (a.k.a. "var")
 - [x] Literal
@@ -114,6 +83,8 @@ Reincarnation aims to be a decompiler for all modern Java grammars.
     - [x] boolean
     - [x] character
     - [x] string
+    - [ ] text block
+    - [ ] escape sequence
     - [x] null
     - [x] class (e.g. int.class, String.class)
 - [x] Cast
@@ -122,13 +93,12 @@ Reincarnation aims to be a decompiler for all modern Java grammars.
     - [x] wideining
     - [x] narrowing
     - [x] auto-boxing and auto-unboxing
-- [x] Array initializer (String[] a = { "x", "y", "z" })
-- [x] Local variable information
 - [x] Generics
     - [x] Type variable (e.g. <S, T, R>)
     - [x] Parameterized type (e.g. Foo<X>)
     - [x] Wildcard type (e.g. ? extends Closeable)
     - [ ] Generic array type (e.g. T[])
+    - [x] Intersection type (e.g. X extends List & Serializable)
 - [x] Annotation
     - [x] On Type
     - [x] On Constructor
@@ -144,12 +114,10 @@ Reincarnation aims to be a decompiler for all modern Java grammars.
 - [x] Variable arity method (a.k.a. "varargs")
 - [ ] Type interference for generic instance creation (a.k.a. the "diamond operator") (JLS11 15.9.1)
 - [x] Lambda expression
-- [x] Constructor reference
-- [x] Method reference
+- [x] Method reference (e.g. this::method, String::concat, Type::new, int[]::new)
 - [x] Default method
 - [x] Static interface method
 - [x] Private interface method
-- [ ] Text block
 <p align="right"><a href="#top">back to top</a></p>
 
 
