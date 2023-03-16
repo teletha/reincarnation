@@ -136,7 +136,7 @@ public class Project extends bee.api.Project {
                     - [ ] on Package
                     - [ ] on Type Parameter
                     - [ ] on Type Use
-                    - [ ] Repeatable declaration
+                    - [x] Repeatable declaration
                 - [x] Variable arity method (a.k.a. "varargs")
                 - [ ] Type interference for generic instance creation (a.k.a. the "diamond operator") (JLS11 15.9.1)
                 - [x] Lambda expression

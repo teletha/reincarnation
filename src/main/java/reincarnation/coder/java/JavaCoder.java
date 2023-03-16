@@ -10,6 +10,7 @@
 package reincarnation.coder.java;
 
 import java.lang.annotation.Annotation;
+import java.lang.annotation.Repeatable;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
@@ -1047,9 +1048,32 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param element
      */
     private void writeAnnotation(AnnotatedElement element) {
-        I.signal(element.getDeclaredAnnotations())
-                .skip(annotation -> annotation instanceof Debuggable)
-                .to(annotation -> line(writeAnnotationValue(annotation)));
+        I.signal(element.getDeclaredAnnotations()).skip(annotation -> annotation instanceof Debuggable).to(annotation -> {
+            // Checks for full compliance with the Repeatable annotation specification.
+            Class type = annotation.annotationType();
+            Method[] methods = type.getDeclaredMethods();
+            if (methods.length == 1) {
+                Method m = methods[0];
+                if (m.getName().equals("value")) {
+                    Class returnType = m.getReturnType();
+                    if (returnType.isArray() && returnType.getComponentType().isAnnotationPresent(Repeatable.class)) {
+                        try {
+                            Object value = m.invoke(annotation);
+                            int length = Array.getLength(value);
+                            for (int i = 0; i < length; i++) {
+                                line(writeAnnotationValue(Array.get(value, i)));
+                            }
+                        } catch (Exception e) {
+                            throw I.quiet(e);
+                        }
+                        return;
+                    }
+                }
+            }
+
+            // process for non-repeatable annotation
+            line(writeAnnotationValue(annotation));
+        });
     }
 
     /**
