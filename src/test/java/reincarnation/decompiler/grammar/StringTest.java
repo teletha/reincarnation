@@ -28,6 +28,28 @@ class StringTest extends CodeVerifier {
     }
 
     @Test
+    void escape() {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                return "\b\f\n\r\t\\\'\"";
+            }
+        });
+    }
+
+    @Test
+    void escapeUnicode() {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                return "\u0052";
+            }
+        });
+    }
+
+    @Test
     void concatString() {
         verify(new TestCode.TextParam() {
 
@@ -201,4 +223,5 @@ class StringTest extends CodeVerifier {
             }
         });
     }
+
 }

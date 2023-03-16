@@ -88,7 +88,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
     - [x] character
     - [x] string
         - [x] text block
-        - [ ] escape sequence
+        - [x] escape sequence
     - [x] null
     - [x] class (e.g. int.class, String.class)
 - [x] Cast

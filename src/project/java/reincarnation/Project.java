@@ -110,7 +110,7 @@ public class Project extends bee.api.Project {
                     - [x] character
                     - [x] string
                         - [x] text block
-                        - [ ] escape sequence
+                        - [x] escape sequence
                     - [x] null
                     - [x] class (e.g. int.class, String.class)
                 - [x] Cast

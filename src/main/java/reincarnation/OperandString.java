@@ -35,7 +35,10 @@ class OperandString extends Operand {
             this.expression = text.replaceAll("\\\\", "\\\\\\\\")
                     .replaceAll("\"", "\\\\\"")
                     .replaceAll("\r", "\\\\r")
-                    .replaceAll("\n", "\\\\n");
+                    .replaceAll("\n", "\\\\n")
+                    .replaceAll("\b", "\\\\b")
+                    .replaceAll("\f", "\\\\f")
+                    .replaceAll("\t", "\\\\t");
         }
     }
 
