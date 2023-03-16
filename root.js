@@ -90,13 +90,6 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Debugger",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "DelegatableCoder",
 			"packageName": "reincarnation.coder",
 			"type": "AbstractClass"
