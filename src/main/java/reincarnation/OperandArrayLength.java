@@ -16,13 +16,13 @@ import reincarnation.coder.Coder;
 class OperandArrayLength extends Operand {
 
     /** The array context. */
-    private final Operand context;
+    final Operand owner;
 
     /**
-     * @param context
+     * @param owner
      */
-    OperandArrayLength(Operand context) {
-        this.context = context;
+    OperandArrayLength(Operand owner) {
+        this.owner = owner;
     }
 
     /**
@@ -30,7 +30,7 @@ class OperandArrayLength extends Operand {
      */
     @Override
     public Signal<Operand> children() {
-        return I.signal(context);
+        return I.signal(owner);
     }
 
     /**
@@ -38,6 +38,6 @@ class OperandArrayLength extends Operand {
      */
     @Override
     protected void writeCode(Coder coder) {
-        coder.writeAccessArrayLength(context);
+        coder.writeAccessArrayLength(owner);
     }
 }

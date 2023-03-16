@@ -1283,6 +1283,17 @@ public class Node implements Code<Operand> {
      * @return
      */
     private Variable<Ⅱ<Operand, Operand>> detectEnhancedForLoop(Node current, Node entrance) {
+        return detectEnhancedForIterableLoop(current, entrance).or(detectEnhancedForArrayLoop(current, entrance)).to();
+    }
+
+    /**
+     * Detects code groups that are recognizable as enhanced for loop.
+     * 
+     * @param current
+     * @param entrance
+     * @return
+     */
+    private Signal<Ⅱ<Operand, Operand>> detectEnhancedForIterableLoop(Node current, Node entrance) {
         return I.signal(current.getPureIncoming())
                 // Check whether the only incoming node to the current is generating iterators.
                 .flatMap(in -> in.children(OperandAssign.class))
@@ -1308,8 +1319,43 @@ public class Node implements Code<Operand> {
                 .effect(() -> {
                     entrance.clear();
                     current.getPureIncoming().forEach(Node::clear);
-                })
-                .to();
+                });
+    }
+
+    /**
+     * Detects code groups that are recognizable as enhanced for loop.
+     * 
+     * @param current
+     * @param entrance
+     * @return
+     */
+    private Signal<Ⅱ<Operand, Operand>> detectEnhancedForArrayLoop(Node current, Node entrance) {
+        return I.signal(current.getPureIncoming())
+                // Check whether the only incoming node to the current is array's length
+                .flatMap(in -> in.children(OperandAssign.class))
+                .flatMap(length -> length.children(OperandArrayLength.class)
+                        .map(m -> m.owner)
+                        .combine(length.children(OperandLocalVariable.class)))
+
+                // Check whether the current node compare index to array's length
+                .takeIf(x -> current.children(OperandCondition.class).take(c -> c.right == x.ⅱ))
+
+                // Check whether the entrance node access to the indexed item
+                .takeIf(x -> entrance.children(OperandAssign.class, OperandArrayAccess.class).take(access -> access.array == x.ⅰ))
+
+                // Summarize only information that will be used later.
+                .combine(entrance.children(OperandAssign.class, OperandLocalVariable.class).as(Operand.class), (a, b) -> I.pair(a.ⅰ, b))
+
+                // The contents of the entrance and incoming nodes should be deleted as they
+                // are no longer needed.
+                .effect(() -> {
+                    // remove 'var item = array[index]'
+                    entrance.clear();
+
+                    // remove 'int length = array.length'
+                    // remove 'index++'
+                    current.incoming.forEach(Node::clear);
+                });
     }
 
     /**

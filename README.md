@@ -36,7 +36,7 @@ It also has an internal representation similar to AST, allowing it to transpile 
     - [x] if-else
     - [x] for
     - [x] enhanced for by iterator
-    - [ ] enhanced for by array
+    - [x] enhanced for by array
     - [x] while
     - [x] do-while
     - [x] try-catch-finally (including multiple catches)

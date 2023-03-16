@@ -14,10 +14,10 @@ import reincarnation.coder.Coder;
 class OperandArrayAccess extends Operand {
 
     /** The array value. */
-    private final Operand array;
+    final Operand array;
 
     /** The index value. */
-    private final Operand index;
+    final Operand index;
 
     /**
      * @param array

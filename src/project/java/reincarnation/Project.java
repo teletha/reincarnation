@@ -58,7 +58,7 @@ public class Project extends bee.api.Project {
                     - [x] if-else
                     - [x] for
                     - [x] enhanced for by iterator
-                    - [ ] enhanced for by array
+                    - [x] enhanced for by array
                     - [x] while
                     - [x] do-while
                     - [x] try-catch-finally (including multiple catches)

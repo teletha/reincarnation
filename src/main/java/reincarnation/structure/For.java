@@ -47,7 +47,7 @@ public class For extends Loopable {
      * @param inner
      * @param follow
      */
-    public For(Node that, Node initializer, Node condition, Node updater, Node inner, Node follow, Variable<Ⅱ<Operand, Operand>> variable) {
+    public For(Node that, Node initializer, Node condition, Node updater, Node inner, Node follow, Variable<Ⅱ<Operand, Operand>> enhanced) {
         super(that, that, follow, inner, updater);
 
         this.initializer = initializer;
@@ -55,7 +55,7 @@ public class For extends Loopable {
         this.inner = that.process(inner);
         this.updater = new Fragment(updater);
         this.follow = that.process(follow);
-        this.enhanced = variable;
+        this.enhanced = enhanced;
     }
 
     /**

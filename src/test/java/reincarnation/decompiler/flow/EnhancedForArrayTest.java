@@ -9,14 +9,14 @@
  */
 package reincarnation.decompiler.flow;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
-class EnhancedForTest extends CodeVerifier {
+@Debuggable
+class EnhancedForArrayTest extends CodeVerifier {
 
     @Test
     void normal() {
@@ -24,7 +24,7 @@ class EnhancedForTest extends CodeVerifier {
 
             @Override
             public int run(int value) {
-                List<Integer> list = List.of(1, 2, 3);
+                int[] list = {1, 2, 3};
                 for (int item : list) {
                     value += item;
                 }
@@ -40,7 +40,7 @@ class EnhancedForTest extends CodeVerifier {
             @Override
             public String run() {
                 int value = 0;
-                List<Integer> list = List.of(1, 2, 3);
+                int[] list = {1, 2, 3};
                 for (int item : list) {
                     value += item;
                 }
@@ -57,7 +57,7 @@ class EnhancedForTest extends CodeVerifier {
 
             @Override
             public int run(@Param(from = 8, to = 10) int value) {
-                List<Integer> list = List.of(1, 2, 3);
+                int[] list = {1, 2, 3};
                 for (int item : list) {
                     if (item == 2) {
                         break;
@@ -75,7 +75,7 @@ class EnhancedForTest extends CodeVerifier {
 
             @Override
             public int run(int value) {
-                List<Integer> list = List.of(1, 2, 3);
+                int[] list = {1, 2, 3};
                 for (int item : list)
                     if (item == 2) {
                         break;
@@ -94,7 +94,7 @@ class EnhancedForTest extends CodeVerifier {
 
             @Override
             public int run(int value) {
-                List<Integer> list = List.of(1, 2, 3);
+                int[] list = {1, 2, 3};
                 for (int item : list)
                     if (item % 2 == 0) break;
 
