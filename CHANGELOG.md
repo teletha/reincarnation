@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.3.0](https://github.com/teletha/reincarnation/compare/v1.2.0...v1.3.0) (2023-03-16)
+
+
+### Features
+
+* (Java) Optimize output for the implicit constructor. ([02664f1](https://github.com/teletha/reincarnation/commit/02664f12eb8211f53bc8a6615d002232b45fa40b))
+* Support annotation on annotation and parameter. ([d2c5957](https://github.com/teletha/reincarnation/commit/d2c5957c22ab58c885b8927e146651406ce1f3c3))
+* Support annotation on type, constructor, method and field. ([c0df1ca](https://github.com/teletha/reincarnation/commit/c0df1ca178e4132576bd64dadb06257dd0f44320))
+* Support enhanced for loop by array. ([e70e99c](https://github.com/teletha/reincarnation/commit/e70e99c4104cdb79bed2a758bb05eadb43d6b438))
+* Support enum features completely. ([b046aa1](https://github.com/teletha/reincarnation/commit/b046aa10e27b0ac7980ee9088b922be0fc804ecd))
+* Support enum. ([1db1026](https://github.com/teletha/reincarnation/commit/1db1026c467c8c3b960b2eb7ec0b92d5af8437ec))
+* Support extending class. ([e985499](https://github.com/teletha/reincarnation/commit/e9854996837eb472ffaa8ea620452be1a6addb50))
+* Support GenericArrayType. ([8dae090](https://github.com/teletha/reincarnation/commit/8dae09051ecf9a8d86470d8d0e826316bd43164b))
+* Support record features. ([82ddb15](https://github.com/teletha/reincarnation/commit/82ddb159273fca01574604716e57de99f1c4593a))
+* Support sealed class. ([4b8bf11](https://github.com/teletha/reincarnation/commit/4b8bf11a72d42ac09ffb72c081a6db294a3788bd))
+
+
+### Bug Fixes
+
+* (Java) Optimize super() code writing. ([3e16baf](https://github.com/teletha/reincarnation/commit/3e16baf2252b89363ecf77625bf647ab55ea5bc1))
+* Don't use Parameter#isSynthetic. ([b944714](https://github.com/teletha/reincarnation/commit/b9447141da7a86b03cef119d01842a6c9f465f5b))
+* Hide OperandLocalVariable and Inference. ([a4cf1dd](https://github.com/teletha/reincarnation/commit/a4cf1dd07ec3a1dc0233a262c608b3ccdd3131f0))
+* Hide some operand types. ([de4ebca](https://github.com/teletha/reincarnation/commit/de4ebca488bab366b925c96099898168232ce460))
+* Hide some operand types. ([fa2db31](https://github.com/teletha/reincarnation/commit/fa2db3160db418b15e034c972a76aa67496ba44a))
+* Move OperandUtil#isWrapper and #isUnwrapper to Classes. ([adcf70b](https://github.com/teletha/reincarnation/commit/adcf70bfffdfcd37eb0b1b27874c9e2bb7376b8f))
+* Update ecj compiler. ([ce4a520](https://github.com/teletha/reincarnation/commit/ce4a5205630aa8ebb7b7194204ec27ba2dd81e55))
+
 ## [1.2.0](https://github.com/teletha/reincarnation/compare/v1.1.0...v1.2.0) (2023-03-13)
 
 
