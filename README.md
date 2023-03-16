@@ -8,8 +8,12 @@
 
 
 ## Summary
-Reincarnation is a decompiler that aims to support the latest Java specifications.
-It also has an internal representation similar to AST, allowing it to transpile to a variety of languages.
+Reincarnation is designed as a decompiler intended to support modern Java syntax.
+Eventually, it should be able to understand all of the syntax and grammars listed below.
+However, some information that is completely removed by the compiler and cannot be accessed from the bytecode cannot be restored,
+but we believe that the restored code will not interfere with its operation.
+
+The output method of the analyzed code is not limited to Java, but is designed to be convertible to a variety of languages.
 
 #### Java Language Features
 - [x] Declarations
