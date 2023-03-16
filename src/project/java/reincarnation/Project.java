@@ -30,7 +30,8 @@ public class Project extends bee.api.Project {
         versionControlSystem("https://github.com/teletha/reincarnation");
 
         describe("""
-                Reincarnation aims to be a decompiler for all modern Java grammars.
+                Reincarnation is a decompiler that aims to support the latest Java specifications.
+                It also has an internal representation similar to AST, allowing it to transpile to a variety of languages.
 
                 #### Java Language Features
                 - [x] Declarations
@@ -53,7 +54,6 @@ public class Project extends bee.api.Project {
                     - [ ] Anonymous class
                 - [x] Class initializer, instance initializer
                 - [x] Constructor, field and method
-                - [x] Local variable
                 - [x] Statement
                     - [x] if-else
                     - [x] for
@@ -90,8 +90,7 @@ public class Project extends bee.api.Project {
                     - [x] String concatenation operator ( + )
                 - [x] Superclass member access (e.g. super.meth(), super.field)
                 - [x] this (reference to current instance)
-                - [x] Alternate constructor invocation (e.g. this(a, b, c);)
-                - [x] Superclass constructor invocation (e.g. super(a, b, c);)
+                - [x] Constructor invocation (e.g. this(a, b),  super(a)
                 - [x] Method invocation (e.g. System.out.println("Hello"))
                 - [x] Class Instance Creation Expression (e.g. new Foo())
                 - [x] Array Creation and Access Expression (e.g. new int[],  new Object[10][5][],  args[1])
@@ -122,16 +121,16 @@ public class Project extends bee.api.Project {
                     - [ ] Generic array type (e.g. T[])
                     - [x] Intersection type (e.g. X extends List & Serializable)
                 - [x] Annotation
-                    - [x] On Type
-                    - [x] On Constructor
-                    - [x] On Method
-                    - [x] On Field
-                    - [x] On Parameter
-                    - [x] On Annotation
-                    - [ ] On Local Variable
-                    - [ ] On Package
-                    - [ ] On Type Parameter
-                    - [ ] On Type Use
+                    - [x] on Type
+                    - [x] on Constructor
+                    - [x] on Method
+                    - [x] on Field
+                    - [x] on Parameter
+                    - [x] on Annotation
+                    - [ ] on Local Variable
+                    - [ ] on Package
+                    - [ ] on Type Parameter
+                    - [ ] on Type Use
                     - [ ] Repeatable declaration
                 - [x] Variable arity method (a.k.a. "varargs")
                 - [ ] Type interference for generic instance creation (a.k.a. the "diamond operator") (JLS11 15.9.1)
