@@ -1726,6 +1726,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
      * {@inheritDoc}
      */
     @Override
+    public void visitTableSwitchInsn(int min, int max, Label dflt, Label... labels) {
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void visitTryCatchBlock(Label start, Label end, Label handler, String type) {
         tries.addBlock(getNode(start), getNode(end), getNode(handler), load(type));
     }

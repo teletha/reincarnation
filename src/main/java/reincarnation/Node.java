@@ -854,6 +854,7 @@ public class Node implements Code<Operand> {
             // =============================================================
             // Switch block is independent from other blocks, so we must return at the end.
             if (switchy != null) {
+                System.out.println("OK");
                 // // execute first to detect default node
                 // Node exit = switchy.searchExit();
                 //
