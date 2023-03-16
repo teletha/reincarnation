@@ -57,20 +57,21 @@ public class Project extends bee.api.Project {
                 - [x] Statement
                     - [x] if-else
                     - [x] for
-                    - [x] enhanced for by iterator
-                    - [x] enhanced for by array
+                        - [x] enhanced for by iterable
+                        - [x] enhanced for by iterable
                     - [x] while
                     - [x] do-while
-                    - [x] try-catch-finally (including multiple catches)
+                    - [x] try-catch-finally
+                        - [x] multi catches
                     - [ ] try-with-resources
                     - [x] throw
                     - [x] return
                     - [x] break
                     - [x] continue
                     - [ ] switch
-                    - [ ] switch by enum
-                    - [ ] switch by String
-                    - [ ] switch with pattern matching
+                        - [ ] by enum
+                        - [ ] by String
+                        - [ ] pattern matching
                     - [ ] synchronized
                     - [x] assert
                     - [x] labeled statement

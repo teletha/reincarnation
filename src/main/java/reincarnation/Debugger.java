@@ -29,7 +29,18 @@ import java.util.stream.Collectors;
 import kiss.I;
 import reincarnation.JavaMethodDecompiler.TryCatchFinally;
 
-public class Debugger {
+/**
+ * <p>
+ * This debugger is provided for Reicarnation developers. Normally, it should be included in the
+ * test code, but due to unavoidable circumstances, it has been exposed in the implementation code.
+ * </p>
+ * <p>
+ * If you find strange behavior when decompiling an external class, using this class with the
+ * {@link Debuggable} annotation will help visualize the bytecode conversion process and facilitate
+ * the resolution of the problem.
+ * </p>
+ */
+class Debugger {
 
     /** The processing environment. */
     static boolean whileDebug = false;
@@ -58,7 +69,7 @@ public class Debugger {
      * 
      * @return
      */
-    public static Debugger current() {
+    static Debugger current() {
         return local.get();
     }
 
@@ -88,7 +99,7 @@ public class Debugger {
      * 
      * @return
      */
-    public StringBuilder replaceOutput() {
+    StringBuilder replaceOutput() {
         return this.buffer = new StringBuilder();
     }
 
@@ -97,7 +108,7 @@ public class Debugger {
      * 
      * @return
      */
-    public boolean isEnable() {
+    boolean isEnable() {
         return isEnable(getExecutable());
     }
 
@@ -106,7 +117,7 @@ public class Debugger {
      * 
      * @return
      */
-    public boolean isEnable(Executable executable) {
+    boolean isEnable(Executable executable) {
         boolean enable = this.enable || this.enableForcibly;
 
         if (enable && !used) {
@@ -162,7 +173,7 @@ public class Debugger {
     /**
      * @param message
      */
-    public void print(Object message) {
+    void print(Object message) {
         if (isEnable()) {
             if (buffer == null) {
                 System.out.println(message);
@@ -177,7 +188,7 @@ public class Debugger {
      * 
      * @param nodes
      */
-    public void print(List<Node> nodes) {
+    void print(List<Node> nodes) {
         if (isEnable()) {
             print(format(nodes));
         }
@@ -186,7 +197,7 @@ public class Debugger {
     /**
      * Print the current processing method info.
      */
-    public void printMethod() {
+    void printMethod() {
         if (isEnable()) {
             Executable m = getExecutable();
             String name = m instanceof Constructor ? "Constructor" : m instanceof Method ? "Method " + m.getName() : "StaticInitializer";
@@ -215,7 +226,7 @@ public class Debugger {
      * @param label
      * @return
      */
-    public Printable diff(List<Node> nodes, String label) {
+    Printable diff(List<Node> nodes, String label) {
         if (isEnable()) {
             String before = format(nodes);
 
