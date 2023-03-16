@@ -9,25 +9,44 @@
  */
 package reincarnation;
 
+import java.util.List;
+
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/11/06 10:46:03
- */
 class OperandString extends Operand {
 
     /** The actual string expression of this operand. */
     final String expression;
 
+    /** The text type. */
+    private final boolean textBlock;
+
     /**
      * Create String operand.
      */
-    OperandString(String expression) {
-        this.expression = expression.replaceAll("\\\\", "\\\\\\\\")
-                .replaceAll("\"", "\\\\\"")
-                .replaceAll("\r", "\\\\r")
-                .replaceAll("\n", "\\\\n");
+    OperandString(String text) {
         fix(String.class);
+
+        this.textBlock = speculateTextBlock(text);
+
+        if (textBlock) {
+            this.expression = text.replaceAll("\r\n", "\\\\r\\\\n");
+        } else {
+            this.expression = text.replaceAll("\\\\", "\\\\\\\\")
+                    .replaceAll("\"", "\\\\\"")
+                    .replaceAll("\r", "\\\\r")
+                    .replaceAll("\n", "\\\\n");
+        }
+    }
+
+    /**
+     * Test whether the given value is text block or not.
+     * 
+     * @param text
+     * @return
+     */
+    private boolean speculateTextBlock(String text) {
+        return text.endsWith("\n");
     }
 
     /**
@@ -35,7 +54,11 @@ class OperandString extends Operand {
      */
     @Override
     protected void writeCode(Coder coder) {
-        coder.writeString(expression);
+        if (textBlock) {
+            coder.writeTextBlock(List.of(expression.split("\n")));
+        } else {
+            coder.writeString(expression);
+        }
     }
 
     /**

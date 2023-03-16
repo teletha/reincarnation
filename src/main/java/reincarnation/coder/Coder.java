@@ -404,6 +404,13 @@ public abstract class Coder<O extends CodingOption> {
     public abstract void writeStringConcatenation(Iterator<Code> code);
 
     /**
+     * Block text.
+     * 
+     * @param code A line of text block.
+     */
+    public abstract void writeTextBlock(List<String> code);
+
+    /**
      * Class literal.
      * 
      * @param code A class literal.

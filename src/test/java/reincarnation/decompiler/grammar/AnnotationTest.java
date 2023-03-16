@@ -16,14 +16,12 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 import reincarnation.decompiler.grammar.annotation.Mark;
 import reincarnation.decompiler.grammar.annotation.Marks;
 import reincarnation.decompiler.grammar.annotation.Meta;
 import reincarnation.decompiler.grammar.annotation.Symbol;
 
-@Debuggable
 class AnnotationTest extends CodeVerifier {
 
     @Test

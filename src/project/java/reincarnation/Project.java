@@ -57,8 +57,8 @@ public class Project extends bee.api.Project {
                 - [x] Statement
                     - [x] if-else
                     - [x] for
-                        - [x] enhanced for by iterable
-                        - [x] enhanced for by iterable
+                        - [x] enhanced for by array
+                        - [x] enhanced for by Iterable
                     - [x] while
                     - [x] do-while
                     - [x] try-catch-finally
@@ -105,8 +105,8 @@ public class Project extends bee.api.Project {
                     - [x] boolean
                     - [x] character
                     - [x] string
-                    - [ ] text block
-                    - [ ] escape sequence
+                        - [x] text block
+                        - [ ] escape sequence
                     - [x] null
                     - [x] class (e.g. int.class, String.class)
                 - [x] Cast

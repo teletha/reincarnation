@@ -523,6 +523,20 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
+    public void writeTextBlock(List<String> code) {
+        write("\"\"\"", EoL);
+        indent(() -> {
+            for (String line : code) {
+                line(line.replaceAll(" $", "\\\\s"));
+            }
+            lineNB("\"\"\"");
+        });
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeStringConcatenation(Iterator<Code> codes) {
         if (codes.hasNext()) {
             write(codes.next());

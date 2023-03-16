@@ -205,6 +205,14 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
+    public void writeTextBlock(List<String> code) {
+        coder.writeTextBlock(code);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeClass(Class code) {
         coder.writeClass(code);
     }
