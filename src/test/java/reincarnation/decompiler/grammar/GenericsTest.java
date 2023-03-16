@@ -9,6 +9,7 @@
  */
 package reincarnation.decompiler.grammar;
 
+import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -288,6 +289,27 @@ class GenericsTest extends CodeVerifier {
                 assert params.length == 2;
                 assert params[0] == Integer.class;
                 assert params[1] == String.class;
+            }
+        });
+    }
+
+    @Test
+    void genericArray() {
+        verify(new TestCode.Run() {
+
+            @Override
+            public void run() {
+                interface Main<T> extends Map<T[], T[][]> {
+                }
+
+                Type parent = Main.class.getGenericInterfaces()[0];
+                assert parent instanceof ParameterizedType;
+
+                ParameterizedType parameterized = (ParameterizedType) parent;
+                Type[] params = parameterized.getActualTypeArguments();
+                assert params.length == 2;
+                assert params[0] instanceof GenericArrayType;
+                assert params[1] instanceof GenericArrayType;
             }
         });
     }

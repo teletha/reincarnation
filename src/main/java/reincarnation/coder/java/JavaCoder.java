@@ -1203,7 +1203,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                                 });
                     });
         } else if (type instanceof GenericArrayType array) {
-            throw new Error("Generic array");
+            qualify(array.getGenericComponentType(), builder);
+            builder.append("[]");
         } else {
             throw new Error(String.valueOf(type));
         }

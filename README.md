@@ -96,7 +96,7 @@ It also has an internal representation similar to AST, allowing it to transpile 
     - [x] Type variable (e.g. <S, T, R>)
     - [x] Parameterized type (e.g. Foo<X>)
     - [x] Wildcard type (e.g. ? extends Closeable)
-    - [ ] Generic array type (e.g. T[])
+    - [x] Generic array type (e.g. T[])
     - [x] Intersection type (e.g. X extends List & Serializable)
 - [x] Annotation
     - [x] on Type

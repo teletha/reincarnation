@@ -118,7 +118,7 @@ public class Project extends bee.api.Project {
                     - [x] Type variable (e.g. <S, T, R>)
                     - [x] Parameterized type (e.g. Foo<X>)
                     - [x] Wildcard type (e.g. ? extends Closeable)
-                    - [ ] Generic array type (e.g. T[])
+                    - [x] Generic array type (e.g. T[])
                     - [x] Intersection type (e.g. X extends List & Serializable)
                 - [x] Annotation
                     - [x] on Type
