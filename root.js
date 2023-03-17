@@ -216,6 +216,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Switch",
+			"packageName": "reincarnation.structure",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Try",
 			"packageName": "reincarnation.structure",
 			"type": "Class"
