@@ -26,6 +26,7 @@ import java.util.function.Consumer;
 
 import kiss.I;
 import kiss.Variable;
+import kiss.Ⅱ;
 import kiss.Ⅲ;
 import kiss.model.Model;
 import reincarnation.Reincarnation;
@@ -720,5 +721,13 @@ public abstract class Coder<O extends CodingOption> {
      */
     public abstract void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code follow);
 
-    public abstract void writeSwitch(Code condition, List<Integer> keys, List<Code> caseCodes, Code defaultCode);
+    /**
+     * Switch structure.
+     * 
+     * @param condition
+     * @param cases
+     * @param defaultCode
+     * @param follow
+     */
+    public abstract void writeSwitch(Code condition, List<Ⅱ<Integer, Code>> cases, Code defaultCode, Code follow);
 }

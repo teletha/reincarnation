@@ -19,6 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import kiss.Variable;
+import kiss.Ⅱ;
 import kiss.Ⅲ;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AccessMode;
@@ -509,7 +510,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeSwitch(Code condition, List<Integer> keys, List<Code> caseCodes, Code defaultCode) {
-        coder.writeSwitch(condition, keys, caseCodes, defaultCode);
+    public void writeSwitch(Code condition, List<Ⅱ<Integer, Code>> cases, Code defaultCode, Code follow) {
+        coder.writeSwitch(condition, cases, defaultCode, follow);
     }
 }

@@ -43,7 +43,7 @@ import reincarnation.structure.Try;
 import reincarnation.structure.While;
 import reincarnation.util.Classes;
 
-public class Node implements Code<Operand> {
+public class Node implements Code<Operand>, Comparable<Node> {
 
     /** The representation of node termination. */
     static final Node Termination = new Node("T");
@@ -92,6 +92,8 @@ public class Node implements Code<Operand> {
 
     /** The state. */
     private boolean whileFindingDominator;
+
+    boolean hasSwitch;
 
     /** The flag whether this node has already written or not. */
     boolean analyzed = false;
@@ -776,6 +778,14 @@ public class Node implements Code<Operand> {
      * {@inheritDoc}
      */
     @Override
+    public int compareTo(Node o) {
+        return isBefore(o) ? -1 : 1;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean isEmpty() {
         return stack.isEmpty();
     }
@@ -817,6 +827,13 @@ public class Node implements Code<Operand> {
                     removed.exit.additionalCalls++;
                 }
                 return new Try(this, removed.start, catches, removed.exit);
+            }
+
+            if (hasSwitch) {
+                Variable<OperandSwitch> switchOp = children(OperandSwitch.class).to();
+                if (switchOp.isPresent()) {
+                    return switchOp.v.structurize(this);
+                }
             }
 
             analyzed = true;

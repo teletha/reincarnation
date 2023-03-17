@@ -1046,25 +1046,25 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeSwitch(Code condition, List<Integer> keys, List<Code> caseCodes, Code defaultCode) {
+    public void writeSwitch(Code condition, List<Ⅱ<Integer, Code>> caseBlocks, Code defaultBlock, Code follow) {
         line("switch", space, "(", condition, ")", space, "{");
         indent(() -> {
-            for (int i = 0; i < keys.size(); i++) {
-                Code code = caseCodes.get(i);
-                line("case ", keys.get(i), ":");
+            for (Ⅱ<Integer, Code> block : caseBlocks) {
+                line("case ", block.ⅰ, ":");
                 indent(() -> {
-                    write(code);
+                    write(block.ⅱ);
                 });
             }
 
-            if (defaultCode != null) {
+            if (defaultBlock != null) {
                 line("default:");
                 indent(() -> {
-                    write(defaultCode);
+                    write(defaultBlock);
                 });
             }
         });
         line("}");
+        write(follow);
     }
 
     /**

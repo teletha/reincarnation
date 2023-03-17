@@ -15,11 +15,12 @@ import kiss.I;
 import kiss.Signal;
 import kiss.Ⅱ;
 import reincarnation.Node;
+import reincarnation.Operand;
 import reincarnation.coder.Coder;
 
 public class Switch extends Structure {
 
-    private final Node condition;
+    private final Operand condition;
 
     private final List<Ⅱ<Integer, Structure>> cases;
 
@@ -34,11 +35,11 @@ public class Switch extends Structure {
      * @param defaultCase
      * @param follow
      */
-    public Switch(Node that, Node condition, List<Ⅱ<Integer, Structure>> cases, Node defaultCase, Node follow) {
+    public Switch(Node that, Operand condition, List<Ⅱ<Integer, Node>> cases, Node defaultCase, Node follow) {
         super(that);
 
         this.condition = condition;
-        this.cases = cases;
+        this.cases = cases.stream().map(x -> I.pair(x.ⅰ, x.ⅱ.analyze())).toList();
         this.defaultCase = defaultCase.analyze();
         this.follow = that.process(follow);
     }
@@ -48,7 +49,7 @@ public class Switch extends Structure {
      */
     @Override
     public Signal<Structure> children() {
-        return I.signal(defaultCase).merge(I.signal(cases).map(v -> v.ⅱ)).skipNull();
+        return I.signal(cases).map(Ⅱ::ⅱ).startWith(defaultCase).skipNull();
     }
 
     /**
@@ -64,7 +65,6 @@ public class Switch extends Structure {
      */
     @Override
     protected void writeCode(Coder coder) {
-        coder.writeSwitch(condition, cases.stream().map(Ⅱ::ⅰ).toList(), cases.stream().map(Ⅱ::ⅱ).toList(), defaultCase);
-        follow.writeCode(coder);
+        coder.writeSwitch(condition, cases, defaultCase, follow);
     }
 }
