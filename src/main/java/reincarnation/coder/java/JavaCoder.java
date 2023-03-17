@@ -1043,6 +1043,31 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeSwitch(Code condition, List<Integer> keys, List<Code> caseCodes, Code defaultCode) {
+        line("switch", space, "(", condition, ")", space, "{");
+        indent(() -> {
+            for (int i = 0; i < keys.size(); i++) {
+                Code code = caseCodes.get(i);
+                line("case ", keys.get(i), ":");
+                indent(() -> {
+                    write(code);
+                });
+            }
+
+            if (defaultCode != null) {
+                line("default:");
+                indent(() -> {
+                    write(defaultCode);
+                });
+            }
+        });
+        line("}");
+    }
+
+    /**
      * Write the given annotation out.
      * 
      * @param element

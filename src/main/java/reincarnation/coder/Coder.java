@@ -719,4 +719,6 @@ public abstract class Coder<O extends CodingOption> {
      * Try-Catch-Finally structure.
      */
     public abstract void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code follow);
+
+    public abstract void writeSwitch(Code condition, List<Integer> keys, List<Code> caseCodes, Code defaultCode);
 }

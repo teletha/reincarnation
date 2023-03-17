@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.load;
+import static reincarnation.OperandUtil.*;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -25,6 +25,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.IntStream;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
@@ -37,7 +39,6 @@ import org.objectweb.asm.Type;
 import kiss.I;
 import kiss.Signal;
 import reincarnation.Debugger.Printable;
-import reincarnation.Node.Switch;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.Naming;
@@ -45,6 +46,7 @@ import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
+import reincarnation.structure.Breakable;
 import reincarnation.structure.Structure;
 import reincarnation.util.Classes;
 import reincarnation.util.GeneratedCodes;
@@ -210,6 +212,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
     /** The pool of try-catch-finally blocks. */
     private final TryCatchFinallyManager tries = new TryCatchFinallyManager();
 
+    /** The switch block manager. */
+    private final List<Switch> switches = new ArrayList();
+
     /** The root statement. */
     private Structure root;
 
@@ -364,6 +369,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
             dispose(node, true, false);
         }
 
+        // Preprocess switch
+        switches.forEach(Switch::process);
+
         debugger.printMethod();
         debugger.print(nodes);
 
@@ -380,15 +388,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
 
         // Search all backedge nodes.
         searchBackEdge(nodes.get(0), new ArrayDeque());
-
-        // Resoleve all string switch blocks
-        for (Node node : nodes) {
-            if (node.switchy != null) {
-                for (Node disposable : node.switchy.process()) {
-                    dispose(disposable, true, false);
-                }
-            }
-        }
 
         // ============================================
         // Analyze variable declaration
@@ -1680,18 +1679,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
             break;
 
         case INVOKESTATIC: // static method call
-            if (Switch.isEnumSwitchTable(method, desc)) {
-                enumSwitchInvoked = true;
-            } else {
-                // Non-private static method which is called from child class have parent
-                // class signature.
-                while (!hasStaticMethod(owner, method, parameters)) {
-                    owner = owner.getSuperclass();
-                }
-
-                // translate
-                current.addOperand(new OperandMethodCall(AccessMode.THIS, owner, method, parameters, new OperandType(owner), contexts));
+            // Non-private static method which is called from child class have parent
+            // class signature.
+            while (!hasStaticMethod(owner, method, parameters)) {
+                owner = owner.getSuperclass();
             }
+
+            // translate
+            current.addOperand(new OperandMethodCall(AccessMode.THIS, owner, method, parameters, new OperandType(owner), contexts));
             break;
         }
 
@@ -1726,8 +1721,21 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
      * {@inheritDoc}
      */
     @Override
-    public void visitTableSwitchInsn(int min, int max, Label dflt, Label... labels) {
+    public void visitTableSwitchInsn(int min, int max, Label defaults, Label... labels) {
+        int[] keys = new int[max - min + 1];
+        for (int i = 0; i < keys.length; i++) {
+            keys[i] = min + i;
+        }
 
+        switches.add(new Switch(current, defaults, keys, labels, match(ASTORE, INVOKEVIRTUAL)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void visitLookupSwitchInsn(Label defaults, int[] keys, Label[] labels) {
+        switches.add(new Switch(current, defaults, keys, labels, match(ASTORE, INVOKEVIRTUAL)));
     }
 
     /**
@@ -3006,6 +3014,179 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
         @Override
         public boolean equals(Object obj) {
             return obj instanceof CopiedFinally other ? Objects.equals(handler, other.handler) : false;
+        }
+    }
+
+    /**
+     * 
+     */
+    private class Switch extends Breakable {
+
+        /** The condition. */
+        private final Node condition;
+
+        /** The case value of this switch statement. */
+        private final List<Integer> keys;
+
+        /** The case nodes of this switch statement. */
+        private final List<Node> cases;
+
+        /** The default node of this switch statement. */
+        private final Node def;
+
+        /** The exit node. */
+        private Node exit;
+
+        /**
+         * Creat switch block infomation holder.
+         * 
+         * @param enter
+         * @param defaultLabel
+         * @param keys
+         * @param caseLabels
+         * @param isStringSwitch
+         */
+        private Switch(Node enter, Label defaultLabel, int[] keys, Label[] caseLabels, boolean isStringSwitch) {
+            super(enter, enter);
+
+            this.condition = enter;
+            this.keys = IntStream.of(keys).boxed().toList();
+            this.def = getNode(defaultLabel);
+            this.cases = I.signal(caseLabels).map(JavaMethodDecompiler.this::getNode).toList();
+
+            // connect enter node with each case node
+            I.signal(cases).merge(I.signal(def)).to(node -> {
+                enter.connect(node);
+                node.disposable = false;
+            });
+        }
+
+        /**
+         * Find all case values for the specified node.
+         * 
+         * @param node A target node.
+         * @return A collected case values.
+         */
+        private List<Integer> values(Node node) {
+            CopyOnWriteArrayList<Integer> values = new CopyOnWriteArrayList<Integer>();
+
+            for (int i = 0; i < cases.size(); i++) {
+                if (cases.get(i) == node) {
+                    values.addIfAbsent(keys.get(i));
+                }
+            }
+            return values;
+        }
+
+        /**
+         * Find all unique cases for the specified node.
+         * 
+         * @param node A target node.
+         * @return A collected case values.
+         */
+        private List<Node> cases() {
+            CopyOnWriteArrayList<Node> nodes = new CopyOnWriteArrayList<Node>();
+
+            for (int i = 0; i < cases.size(); i++) {
+                if (cases.get(i) != def) {
+                    nodes.addIfAbsent(cases.get(i));
+                }
+            }
+            return nodes;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected void analyze() {
+            for (Node node : cases) {
+                analyzeCase(node);
+            }
+            analyzeCase(def);
+        };
+
+        /**
+         * Analyze for each cases.
+         * 
+         * @param node
+         */
+        private void analyzeCase(Node node) {
+            List<Node> ends = node.outgoingRecursively()
+                    .take(n -> n.hasDominator(node))
+                    .take(n -> n.outgoing.size() == 1 && !n.outgoing.get(0).hasDominator(node))
+                    .toList();
+
+            for (Node end : ends) {
+                System.out.println(end.id + " need to break to " + end.outgoing.stream().map(x -> x.id).toList());
+            }
+        }
+
+        /**
+         * Search exit node of this switch block.
+         */
+        private void process() {
+            // // The end node is not default node.
+            // if (defaults.incoming.size() != 1 && defaults.incoming.contains(first)) {
+            // noDefault = true; // default node does not exist
+            // }
+            //
+            // for (Node node : defaults.incoming) {
+            // // if (node.hasDominator(enter)) {
+            // // if (node.outgoing.size() == 1) {
+            // // node.breaker = true;
+            // // }
+            // // }
+            // }
+            //
+            // if (!noDefault) {
+            // Set<Node> record = new HashSet<Node>();
+            // record.addAll(defaults.outgoing);
+            //
+            // List<Node> nodes = new LinkedList<Node>();
+            // nodes.addAll(defaults.outgoing);
+            //
+            // while (!nodes.isEmpty()) {
+            // Node node = nodes.remove(0);
+            //
+            // // PATTERN 1
+            // // The exit node accepts only from case nodes.
+            // // if (node.getDominator() == enter) {
+            // // for (Node incoming : node.incoming) {
+            // // incoming.breaker = true;
+            // // }
+            // // exit = node;
+            // // return;
+            // // }
+            //
+            // // PATTERN 2
+            // // The exit node accepts both case nodes and other flow nodes.
+            // // if (!node.hasDominator(enter)) {
+            // // for (Node incoming : node.incoming) {
+            // // if (incoming.hasDominator(enter)) {
+            // // incoming.breaker = true;
+            // // }
+            // // }
+            // // exit = node;
+            // // return;
+            // // }
+            //
+            // for (Node out : node.outgoing) {
+            // if (record.add(out)) {
+            // nodes.add(out);
+            // }
+            // }
+            // }
+            // }
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected void writeCode(Coder coder) {
+            coder.writeSwitch(condition, keys, cases, def);
+            if (exit != null) exit.write(coder);
         }
     }
 }

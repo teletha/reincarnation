@@ -13,8 +13,10 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
+@Debuggable
 @Disabled
 class SwitchTest extends CodeVerifier {
 
@@ -31,15 +33,18 @@ class SwitchTest extends CodeVerifier {
                 case 1:
                     return 15;
 
-                default:
+                case 2:
                     return 20;
+
+                default:
+                    return 25;
                 }
             }
         });
     }
 
     @Test
-    void switchStatementNoReturn() {
+    void switchStatementBreak() {
         verify(new TestCode.IntParam() {
 
             @Override
@@ -56,7 +61,11 @@ class SwitchTest extends CodeVerifier {
                     break;
 
                 default:
-                    value = 20;
+                    if (param == 4) {
+                        value = 100;
+                    } else {
+                        value = 20;
+                    }
                     break;
                 }
 
@@ -77,6 +86,25 @@ class SwitchTest extends CodeVerifier {
                 default -> {
                     param += -2;
                     yield 20 + param;
+                }
+                };
+            }
+        });
+    }
+
+    @Test
+    void blockInDefault() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                return switch (param) {
+                case 0 -> 20;
+                default -> {
+                    for (int i = 0; i < 2; i++) {
+                        param++;
+                    }
+                    yield param;
                 }
                 };
             }

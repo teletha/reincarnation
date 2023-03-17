@@ -504,4 +504,12 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
     public void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code follow) {
         coder.writeTryCatchFinally(tryBlock, catchBlocks, follow);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeSwitch(Code condition, List<Integer> keys, List<Code> caseCodes, Code defaultCode) {
+        coder.writeSwitch(condition, keys, caseCodes, defaultCode);
+    }
 }

@@ -87,14 +87,8 @@ public class Node implements Code<Operand> {
      */
     Node destination;
 
-    /** This node is switch starting node. */
-    Switch switchy;
-
     /** The dominator node. */
     Node dominator;
-
-    /** The flag whether this node has break expression or not. */
-    private boolean breaker = false;
 
     /** The state. */
     private boolean whileFindingDominator;
@@ -779,28 +773,6 @@ public class Node implements Code<Operand> {
     }
 
     /**
-     * Create switch statement.
-     * 
-     * @param defaults A default node.
-     * @param keys A case key values.
-     * @param cases A list of case nodes.
-     * @param isStringSwitch Whether this is string switch or not.
-     */
-    final void createSwitch(Node defaults, int[] keys, CopyOnWriteArrayList<Node> cases, boolean isStringSwitch) {
-        switchy = new Switch(this, defaults, keys, cases, isStringSwitch);
-
-        // connect enter node with each case node
-        for (Node node : cases) {
-            if (node != defaults) {
-                connect(node);
-            }
-        }
-
-        // connect enter node with default node
-        connect(defaults);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -848,44 +820,6 @@ public class Node implements Code<Operand> {
             }
 
             analyzed = true;
-
-            // =============================================================
-            // Switch Block
-            // =============================================================
-            // Switch block is independent from other blocks, so we must return at the end.
-            if (switchy != null) {
-                System.out.println("OK");
-                // // execute first to detect default node
-                // Node exit = switchy.searchExit();
-                //
-                // // enter switch
-                // buffer.write("switch", "(" + switchy.value + ")", "{");
-                // breakables.add(switchy);
-                //
-                // // each cases
-                // for (Node node : switchy.cases()) {
-                // for (int value : switchy.values(node)) {
-                // buffer.append("case ", value, ":").line();
-                // }
-                // process(node, buffer);
-                // }
-                //
-                // // default case
-                // if (!switchy.noDefault) {
-                // buffer.append("default:").line();
-                // process(switchy.defaults, buffer);
-                // }
-                //
-                // breakables.pollLast();
-                //
-                // // exit switch
-                // buffer.append("}").line();
-                //
-                // // write following node
-                // process(exit, buffer);
-                //
-                // return; // must
-            }
 
             // =============================================================
             // Other Block
@@ -1192,9 +1126,6 @@ public class Node implements Code<Operand> {
             }
 
             // normal process
-            // System.out
-            // .println("id:" + id + " req:" + requiredCalls + " add:" + next.additionalCalls + "
-            // next.current:" + next.currentCalls + "[" + next.id + "]");
             if (requiredCalls <= next.currentCalls) {
                 return next.analyze();
             }
@@ -1265,12 +1196,6 @@ public class Node implements Code<Operand> {
 
         previous.next.previous = node;
         previous.next = node;
-
-        if (previous.breaker) {
-            previous.breaker = false;
-            node.addExpression("break");
-            throw new Error("IMPLEMENT!");
-        }
 
         // API definition
         return node;
@@ -1456,243 +1381,6 @@ public class Node implements Code<Operand> {
                     }
                 }
             }
-        }
-    }
-
-    /**
-     * @version 2014/07/02 23:19:37
-     */
-    private abstract static class Breakable {
-
-        /** The first processing node of this block structure. */
-        protected final Node first;
-
-        /**
-         * @param first
-         */
-        protected Breakable(Node first) {
-            this.first = first;
-        }
-    }
-
-    /**
-     * @version 2013/01/23 9:25:08
-     */
-    static class Switch extends Breakable {
-
-        /** Normal switch or String switch. */
-        final boolean isStringSwitch;
-
-        /** The entering node. */
-        private final Node enter;
-
-        /** The evaluated value. */
-        private final Operand value;
-
-        /** The default node of this switch statement. */
-        final Node defaults;
-
-        /** The case nodes of this switch statement. */
-        final CopyOnWriteArrayList<Node> cases;
-
-        /** The case value of this switch statement. */
-        private final List<Integer> keys = new ArrayList<Integer>();
-
-        /** Whether this switch has default node or not. */
-        private boolean noDefault = false;
-
-        /**
-         * <p>
-         * Creat switch block infomation holder.
-         * </p>
-         * 
-         * @param enter
-         * @param defaults
-         * @param keys
-         * @param cases
-         * @param isStringSwitch
-         */
-        private Switch(Node enter, Node defaults, int[] keys, CopyOnWriteArrayList<Node> cases, boolean isStringSwitch) {
-            super(enter);
-
-            this.enter = enter;
-            this.enter.disposable = false;
-            this.value = enter.remove(0);
-            this.defaults = defaults;
-            this.cases = cases;
-            this.isStringSwitch = isStringSwitch;
-
-            enter.disposable = defaults.disposable = false;
-            for (Node node : cases) {
-                node.disposable = false;
-            }
-
-            for (int key : keys) {
-                this.keys.add(key);
-            }
-        }
-
-        /**
-         * <p>
-         * Find all case values for the specified node.
-         * </p>
-         * 
-         * @param node A target node.
-         * @return A collected case values.
-         */
-        private List<Integer> values(Node node) {
-            CopyOnWriteArrayList<Integer> values = new CopyOnWriteArrayList<Integer>();
-
-            for (int i = 0; i < cases.size(); i++) {
-                if (cases.get(i) == node) {
-                    values.addIfAbsent(keys.get(i));
-                }
-            }
-            return values;
-        }
-
-        /**
-         * <p>
-         * Find all unique cases for the specified node.
-         * </p>
-         * 
-         * @param node A target node.
-         * @return A collected case values.
-         */
-        private List<Node> cases() {
-            CopyOnWriteArrayList<Node> nodes = new CopyOnWriteArrayList<Node>();
-
-            for (int i = 0; i < cases.size(); i++) {
-                if (cases.get(i) != defaults) {
-                    nodes.addIfAbsent(cases.get(i));
-                }
-            }
-            return nodes;
-        }
-
-        /**
-         * <p>
-         * Search exit node of this switch block.
-         * </p>
-         * 
-         * @return Null or exit node.
-         */
-        private Node searchExit() {
-            // The end node is not default node.
-            if (defaults.incoming.size() != 1 && defaults.incoming.contains(enter)) {
-                noDefault = true; // default node does not exist
-            }
-
-            for (Node node : defaults.incoming) {
-                if (node.hasDominator(enter)) {
-                    if (node.outgoing.size() == 1) {
-                        node.addExpression("break");
-                    } else {
-                        node.breaker = true;
-                    }
-                }
-            }
-
-            if (!noDefault) {
-                Set<Node> record = new HashSet<Node>();
-                record.addAll(defaults.outgoing);
-
-                List<Node> nodes = new LinkedList<Node>();
-                nodes.addAll(defaults.outgoing);
-
-                while (!nodes.isEmpty()) {
-                    Node node = nodes.remove(0);
-
-                    // PATTERN 1
-                    // The exit node accepts only from case nodes.
-                    if (node.getDominator() == enter) {
-                        for (Node incoming : node.incoming) {
-                            incoming.addExpression("break");
-                        }
-                        return node;
-                    }
-
-                    // PATTERN 2
-                    // The exit node accepts both case nodes and other flow nodes.
-                    if (!node.hasDominator(enter)) {
-                        for (Node incoming : node.incoming) {
-                            if (incoming.hasDominator(enter)) {
-                                incoming.addExpression("break");
-                            }
-                        }
-                        return node;
-                    }
-
-                    for (Node out : node.outgoing) {
-                        if (record.add(out)) {
-                            nodes.add(out);
-                        }
-                    }
-                }
-            }
-            return defaults;
-        }
-
-        /**
-         * <p>
-         * Preprocess.
-         * </p>
-         */
-        List<Node> process() {
-            List<Node> disposables = new ArrayList<Node>();
-
-            if (isStringSwitch) {
-                // skip the value equivalent node like the following:
-                //
-                // case 97:
-                // if (value.equals("a")) {
-                // goto actual case node
-                // } else {
-                // goto default or exit node
-                // }
-                // break;
-                for (int i = 0; i < cases.size(); i++) {
-                    Node equivalent = cases.get(i);
-                    Node actualCase = equivalent.outgoing.get(equivalent.outgoing.get(0) == defaults ? 1 : 0);
-
-                    // replace to actual case node
-                    cases.set(i, actualCase);
-
-                    // dispose equivalent node
-                    disposables.add(equivalent);
-                }
-            }
-            return disposables;
-        }
-
-        /**
-         * <p>
-         * Helper method to detect special enum method.
-         * </p>
-         * 
-         * @param name
-         * @param description
-         * @return
-         */
-        static boolean isEnumSwitchTable(String name, String description) {
-            // For Eclipse JDT compiler.
-            if (name.startsWith("$SWITCH_TABLE$")) {
-                return true;
-            }
-
-            // For JDK compiler.
-            if (name.startsWith("$SwitchMap$")) {
-                return true;
-            }
-            return false;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String toString() {
-            return "Switch [enter=" + enter.id + "]";
         }
     }
 }
