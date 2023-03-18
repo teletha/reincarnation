@@ -51,7 +51,7 @@ class OperandSwitch extends Operand {
     }
 
     private Signal<Node> nodes() {
-        return I.signal(cases).map(Ⅱ::ⅱ).startWith(defautlNode);
+        return I.signal(cases).map(Ⅱ::ⅱ).startWith(defautlNode).skipNull();
     }
 
     /**
@@ -68,6 +68,8 @@ class OperandSwitch extends Operand {
         cases.sort(SORTER);
         cases.removeIf(x -> x.ⅱ == defautlNode);
 
+        List<Node> in = new ArrayList(defautlNode.incoming);
+
         nodes().to(node -> {
             node.disconnect(true, false);
             node.additionalCalls++;
@@ -75,6 +77,12 @@ class OperandSwitch extends Operand {
 
         Variable<Node> end = nodes().flatMap(node -> node.outgoingRecursively().take(n -> !n.hasDominator(node)).first()).distinct().to();
 
-        return new Switch(that, condition, cases, defautlNode, end);
+        if (end.isPresent()) {
+            return new Switch(that, condition, cases, defautlNode, end);
+        } else {
+            in.forEach(n -> n.connect(defautlNode));
+            return new Switch(that, condition, cases, defautlNode, Variable.of(defautlNode));
+        }
+
     }
 }

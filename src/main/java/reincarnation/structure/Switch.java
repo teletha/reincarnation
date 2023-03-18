@@ -46,7 +46,7 @@ public class Switch extends Breakable {
 
         this.condition = condition;
         this.cases = cases.stream().map(x -> I.pair(x.ⅰ, that.process(x.ⅱ))).toList();
-        this.defaultCase = that.process(defaultCase);
+        this.defaultCase = defaultCase == null ? null : that.process(defaultCase);
         this.follow = follow.isAbsent() ? null : follow.v.analyze();
     }
 

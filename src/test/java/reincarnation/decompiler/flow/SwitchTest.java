@@ -169,6 +169,25 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
+    void noDefault() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                switch (param) {
+                case 0:
+                    return 10;
+
+                case 7:
+                    return 20;
+                }
+
+                return 30;
+            }
+        });
+    }
+
+    @Test
     void fallThrough() {
         verify(new TestCode.IntParam() {
 
@@ -505,6 +524,26 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
+    void breakNoDefault() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                int value = 0;
+                switch (param) {
+                case 0:
+                    value = 1;
+                    break;
+                case 1:
+                    value = 3;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
     void breakFallThrough() {
         verify(new TestCode.IntParam() {
 
@@ -736,28 +775,6 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
-    void withoutDefault() {
-        verify(new TestCode.IntParam() {
-
-            @Override
-            public int run(@Param(from = 0, to = 10) int param) {
-                switch (param) {
-                case 0:
-                case 1:
-                case 2:
-                    return 10;
-
-                case 6:
-                case 7:
-                    return 20;
-                }
-
-                return 30;
-            }
-        });
-    }
-
-    @Test
     void nest() {
         verify(new TestCode.IntParam() {
 
@@ -792,52 +809,6 @@ class SwitchTest extends CodeVerifier {
                 }
 
                 return 30;
-            }
-        });
-    }
-
-    @Test
-    @Disabled
-    void breakNest() {
-        verify(new TestCode.IntParam() {
-
-            @Override
-            public int run(@Param(from = 0, to = 10) int param) {
-                int value = 0;
-
-                switch (param) {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                    switch (param % 2) {
-                    case 0:
-                        value += 1;
-                        break;
-                    case 1:
-                        value += 3;
-                        break;
-                    }
-                    value += 1;
-                    break;
-
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                    switch (param + 1) {
-                    case 8:
-                        value += 2;
-                        break;
-                    case 10:
-                        value -= 2;
-                        break;
-                    }
-                    value *= 2;
-                    break;
-                }
-                return value;
             }
         });
     }
