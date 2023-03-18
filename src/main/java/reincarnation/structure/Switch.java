@@ -13,12 +13,13 @@ import java.util.List;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.Variable;
 import kiss.Ⅱ;
 import reincarnation.Node;
 import reincarnation.Operand;
 import reincarnation.coder.Coder;
 
-public class Switch extends Structure {
+public class Switch extends Breakable {
 
     private final Operand condition;
 
@@ -35,13 +36,18 @@ public class Switch extends Structure {
      * @param defaultCase
      * @param follow
      */
-    public Switch(Node that, Operand condition, List<Ⅱ<Integer, Node>> cases, Node defaultCase, Node follow) {
-        super(that);
+    public Switch(Node that, Operand condition, List<Ⅱ<Integer, Node>> cases, Node defaultCase, Variable<Node> follow) {
+        super(that, that);
+
+        follow.to(node -> {
+            node.loopExit.set(this);
+            node.loopExit.fix();
+        });
 
         this.condition = condition;
-        this.cases = cases.stream().map(x -> I.pair(x.ⅰ, x.ⅱ.analyze())).toList();
-        this.defaultCase = defaultCase.analyze();
-        this.follow = that.process(follow);
+        this.cases = cases.stream().map(x -> I.pair(x.ⅰ, that.process(x.ⅱ))).toList();
+        this.defaultCase = that.process(defaultCase);
+        this.follow = follow.isAbsent() ? null : follow.v.analyze();
     }
 
     /**
@@ -65,6 +71,6 @@ public class Switch extends Structure {
      */
     @Override
     protected void writeCode(Coder coder) {
-        coder.writeSwitch(condition, cases, defaultCase, follow);
+        coder.writeSwitch(label(), condition, cases, defaultCase, follow);
     }
 }

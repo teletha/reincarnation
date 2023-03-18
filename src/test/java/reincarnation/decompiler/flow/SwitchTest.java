@@ -241,11 +241,14 @@ class SwitchTest extends CodeVerifier {
                 case 1:
                     param += 1;
 
+                case 2:
+                    return param + 20;
+
                 case 3:
-                    return 15 + param;
+                    param += 2;
 
                 default:
-                    return 25;
+                    return param + 30;
                 }
             }
         });
@@ -261,11 +264,14 @@ class SwitchTest extends CodeVerifier {
                 case 5:
                     param += 1;
 
+                case 3:
+                    param += 2;
+
                 case 0:
-                    return 15 + param;
+                    param += 3;
 
                 default:
-                    return 25;
+                    return param + 10;
                 }
             }
         });
@@ -312,7 +318,6 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void breakNatural() {
         verify(new TestCode.IntParam() {
 
@@ -330,6 +335,506 @@ class SwitchTest extends CodeVerifier {
 
                 default:
                     value = 12;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void breakReverse() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value;
+                switch (param) {
+                case 1:
+                    value = 10;
+                    break;
+
+                case 0:
+                    value = 11;
+                    break;
+
+                default:
+                    value = 12;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void breakMix() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value;
+                switch (param) {
+                case 3:
+                    value = 2;
+                    break;
+
+                case 0:
+                    value = 10;
+                    break;
+
+                case 4:
+                    value = 11;
+                    break;
+
+                default:
+                    value = 12;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void breakGap() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value;
+                switch (param) {
+                case 0:
+                    value = 2;
+                    break;
+
+                case 2:
+                    value = 10;
+                    break;
+
+                case 4:
+                    value = 11;
+                    break;
+
+                default:
+                    value = 12;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void breakGapReverse() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value;
+                switch (param) {
+                case 4:
+                    value = 2;
+                    break;
+
+                case 2:
+                    value = 10;
+                    break;
+
+                case 0:
+                    value = 11;
+                    break;
+
+                default:
+                    value = 12;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void breakSparse() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value;
+                switch (param) {
+                case 0:
+                    value = 2;
+                    break;
+
+                case 100:
+                    value = 10;
+                    break;
+
+                default:
+                    value = 12;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void breakSparseReverse() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value;
+                switch (param) {
+                case 100:
+                    value = 2;
+                    break;
+
+                case 0:
+                    value = 10;
+                    break;
+
+                default:
+                    value = 12;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void breakFallThrough() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value;
+                switch (param) {
+                case 0:
+                    param += 1;
+
+                case 1:
+                    value = param + 2;
+                    break;
+
+                case 2:
+                    param += 3;
+
+                default:
+                    value = param + 4;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void breakFallThroughReverse() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value;
+                switch (param) {
+                case 2:
+                    param += 1;
+
+                case 1:
+                    value = param + 2;
+                    break;
+
+                case 0:
+                    param += 3;
+
+                default:
+                    value = param + 4;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void breakFallThrougMix() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value;
+                switch (param) {
+                case 1:
+                    param += 1;
+
+                case 0:
+                    value = param + 2;
+                    break;
+
+                case 2:
+                    param += 3;
+
+                default:
+                    value = param + 4;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void breakFallThrougGap() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value;
+                switch (param) {
+                case 1:
+                    param += 1;
+
+                case 3:
+                    value = param + 2;
+                    break;
+
+                case 5:
+                    param += 3;
+
+                default:
+                    value = param + 4;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void breakFallThrougGapReverse() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value;
+                switch (param) {
+                case 5:
+                    param += 1;
+
+                case 3:
+                    value = param + 2;
+                    break;
+
+                case 1:
+                    param += 3;
+
+                default:
+                    value = param + 4;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void breakFallThroughSparse() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value;
+                switch (param) {
+                case 0:
+                    param += 1;
+
+                case 100:
+                    value = param + 2;
+
+                default:
+                    value = param + 4;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void breakFallThroughSparseReverse() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value;
+                switch (param) {
+                case 100:
+                    param += 1;
+
+                case 0:
+                    value = param + 2;
+
+                default:
+                    value = param + 4;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void expressionInCondition() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                switch (param % 5) {
+                case 0:
+                case 1:
+                    return 10;
+
+                case 3:
+                case 4:
+                    return 15;
+
+                default:
+                    return 25;
+                }
+            }
+        });
+    }
+
+    @Test
+    void multiple() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                switch (param) {
+                case 0:
+                case 1:
+                case 2:
+                    return 10;
+
+                case 3:
+                case 4:
+                case 5:
+                    return 15;
+
+                case 6:
+                case 7:
+                    return 20;
+
+                default:
+                    return 25;
+                }
+            }
+        });
+    }
+
+    @Test
+    void withoutDefault() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                switch (param) {
+                case 0:
+                case 1:
+                case 2:
+                    return 10;
+
+                case 6:
+                case 7:
+                    return 20;
+                }
+
+                return 30;
+            }
+        });
+    }
+
+    @Test
+    void nest() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                switch (param) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    switch (param + 1) {
+                    case 3:
+                        return 30;
+                    case 4:
+                        return 40;
+                    }
+                    return 10;
+
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                    switch (param + 1) {
+                    case 8:
+                        return 80;
+                    case 10:
+                        return 100;
+                    }
+                    return -1;
+                }
+
+                return 30;
+            }
+        });
+    }
+
+    @Test
+    @Disabled
+    void breakNest() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                int value = 0;
+
+                switch (param) {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    switch (param % 2) {
+                    case 0:
+                        value += 1;
+                        break;
+                    case 1:
+                        value += 3;
+                        break;
+                    }
+                    value += 1;
+                    break;
+
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                    switch (param + 1) {
+                    case 8:
+                        value += 2;
+                        break;
+                    case 10:
+                        value -= 2;
+                        break;
+                    }
+                    value *= 2;
                     break;
                 }
                 return value;

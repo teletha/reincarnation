@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.load;
+import static reincarnation.OperandUtil.*;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -1724,11 +1724,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
      * {@inheritDoc}
      */
     @Override
-    public void visitLookupSwitchInsn(Label defaults, int[] keys, Label[] labels) {
-        List<Node> nodes = I.signal(labels).map(this::getNode).toList();
+    public void visitLookupSwitchInsn(Label defaultLabel, int[] keys, Label[] labels) {
+        Node defaultNode = getNode(defaultLabel);
+        List<Node> caseNodes = I.signal(labels).map(this::getNode).toList();
 
-        current.addOperand(new OperandSwitch(current.remove(0), keys, nodes, getNode(defaults)));
-        current.hasSwitch = true;
+        // connect from entrance to each cases and default
+        I.signal(caseNodes).startWith(defaultNode).to(current::connect);
+
+        current.addOperand(current.switchy = new OperandSwitch(current.remove(0), keys, caseNodes, defaultNode));
     }
 
     /**

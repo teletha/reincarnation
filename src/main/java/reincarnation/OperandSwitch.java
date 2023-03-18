@@ -70,13 +70,11 @@ class OperandSwitch extends Operand {
 
         nodes().to(node -> {
             node.disconnect(true, false);
+            node.additionalCalls++;
         });
 
         Variable<Node> end = nodes().flatMap(node -> node.outgoingRecursively().take(n -> !n.hasDominator(node)).first()).distinct().to();
-        if (end.isPresent()) {
 
-        }
-
-        return new Switch(that, condition, cases, defautlNode, null);
+        return new Switch(that, condition, cases, defautlNode, end);
     }
 }

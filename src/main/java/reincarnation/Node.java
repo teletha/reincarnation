@@ -31,6 +31,7 @@ import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.structure.Break;
+import reincarnation.structure.Breakable;
 import reincarnation.structure.Continue;
 import reincarnation.structure.DoWhile;
 import reincarnation.structure.For;
@@ -93,7 +94,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
     /** The state. */
     private boolean whileFindingDominator;
 
-    boolean hasSwitch;
+    OperandSwitch switchy;
 
     /** The flag whether this node has already written or not. */
     boolean analyzed = false;
@@ -108,7 +109,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
     public final Variable<Loopable> loopHeader = Variable.empty();
 
     /** The relationship with loop structure exit. */
-    public final Variable<Loopable> loopExit = Variable.empty();
+    public final Variable<Breakable> loopExit = Variable.empty();
 
     /** The associated statement. */
     public Structure structure = Structure.Empty;
@@ -829,11 +830,8 @@ public class Node implements Code<Operand>, Comparable<Node> {
                 return new Try(this, removed.start, catches, removed.exit);
             }
 
-            if (hasSwitch) {
-                Variable<OperandSwitch> switchOp = children(OperandSwitch.class).to();
-                if (switchOp.isPresent()) {
-                    return switchOp.v.structurize(this);
-                }
+            if (switchy != null) {
+                return switchy.structurize(this);
             }
 
             analyzed = true;
@@ -1126,19 +1124,27 @@ public class Node implements Code<Operand>, Comparable<Node> {
 
             // break
             if (next.loopExit.isPresent()) {
-                Loopable loopable = next.loopExit.v;
+                Breakable breakable = next.loopExit.v;
 
-                if (loopable.exit == next && !loopable.containsAsHeader(this) && hasDominator(loopable.entrance)) {
-                    // check whether the current node connects to the exit node directly or not
-                    if (loopable.exit.incoming.contains(this)) {
-                        Break breaker = new Break(this, loopable);
+                if (breakable instanceof Loopable loopable) {
+                    if (loopable.exit == next && !loopable.containsAsHeader(this) && hasDominator(loopable.entrance)) {
+                        // check whether the current node connects to the exit node directly or not
+                        if (loopable.exit.incoming.contains(this)) {
+                            Break breaker = new Break(this, loopable);
 
-                        if (Debugger.current().isEnable()) {
-                            breaker.comment(id + " -> " + next.id + " break to " + loopable.entrance.id + "(" + next.currentCalls + " of " + requiredCalls + ") " + loopable);
+                            if (Debugger.current().isEnable()) {
+                                breaker.comment(id + " -> " + next.id + " break to " + loopable.entrance.id + "(" + next.currentCalls + " of " + requiredCalls + ") " + loopable);
+                            }
+                            return breaker;
                         }
-                        return breaker;
+                        return Structure.Empty;
                     }
-                    return Structure.Empty;
+                } else {
+                    Break breaker = new Break(this, breakable);
+                    if (Debugger.current().isEnable()) {
+                        breaker.comment(id + " -> " + next.id + " break to " + breakable + "(" + next.currentCalls + " of " + requiredCalls + ") ");
+                    }
+                    return breaker;
                 }
             }
 

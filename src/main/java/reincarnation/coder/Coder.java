@@ -723,11 +723,11 @@ public abstract class Coder<O extends CodingOption> {
 
     /**
      * Switch structure.
-     * 
+     * @param label TODO
      * @param condition
      * @param cases
      * @param defaultCode
      * @param follow
      */
-    public abstract void writeSwitch(Code condition, List<Ⅱ<Integer, Code>> cases, Code defaultCode, Code follow);
+    public abstract void writeSwitch(Optional<String> label, Code condition, List<Ⅱ<Integer, Code>> cases, Code defaultCode, Code follow);
 }
