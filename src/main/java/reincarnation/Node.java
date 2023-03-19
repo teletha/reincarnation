@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 import kiss.I;
 import kiss.Signal;
@@ -100,10 +101,16 @@ public class Node implements Code<Operand>, Comparable<Node> {
     boolean analyzed = false;
 
     /** The number of additional write calls. */
-    int additionalCalls = 0;
+    int additionalCall = 0;
 
     /** The number of current write calls. */
     private int currentCalls = 0;
+
+    /** The temporary store. */
+    private List<Node> hiddenIncoming;
+
+    /** The temporary store. */
+    private List<Node> hiddenOutgoing;
 
     /** The relationship with loop structure header. */
     public final Variable<Loopable> loopHeader = Variable.empty();
@@ -113,6 +120,8 @@ public class Node implements Code<Operand>, Comparable<Node> {
 
     /** The associated statement. */
     public Structure structure = Structure.Empty;
+
+    boolean breakable;
 
     /**
      */
@@ -529,6 +538,21 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     /**
+     * Helper method to check whether the specified node dominate this node or not.
+     * 
+     * @param dominators A dominator node.
+     * @return A result.
+     */
+    final boolean hasDominatorAny(List<Node> dominators) {
+        for (Node dom : dominators) {
+            if (hasDominator(dom)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Compute the immediate dominator of this node.
      * 
      * @return A dominator node. If this node is root, <code>null</code>.
@@ -740,6 +764,42 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     /**
+     * Hide all incoming nodes temporary.
+     */
+    final void hideIncoming() {
+        hiddenIncoming = new ArrayList(incoming);
+        disconnect(true, false);
+    }
+
+    /**
+     * Reveal all incoming nodes.
+     */
+    final void revealIncoming() {
+        if (hiddenIncoming != null) {
+            hiddenIncoming.forEach(n -> n.connect(this));
+            hiddenIncoming = null;
+        }
+    }
+
+    /**
+     * Hide all outgoing nodes temporary.
+     */
+    final void hideOutgoing() {
+        hiddenOutgoing = new ArrayList(outgoing);
+        disconnect(false, true);
+    }
+
+    /**
+     * Reveal all outgoing nodes.
+     */
+    final void revealOutgoing() {
+        if (hiddenOutgoing != null) {
+            hiddenOutgoing.forEach(n -> this.connect(n));
+            hiddenOutgoing = null;
+        }
+    }
+
+    /**
      * Disconnect from the previous node and connect to the next node on incoming nodes.
      * 
      * @param prev
@@ -825,7 +885,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
                                 .pair(catchOrFinally.exception, catchOrFinally.variable.toString(), process(catchOrFinally.node)))
                         .toList();
                 if (removed.exit != null) {
-                    removed.exit.additionalCalls++;
+                    removed.exit.additionalCall++;
                 }
                 return new Try(this, removed.start, catches, removed.exit);
             }
@@ -896,7 +956,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
         // clear all backedge nodes of infinite loop
         incoming.removeAll(group);
         backedges.removeAll(group);
-        currentCalls = incoming.size() - backedges.size() + additionalCalls + 1;
+        currentCalls = incoming.size() - backedges.size() + additionalCall + 1;
 
         return new InfiniteLoop(this, this, group.exit);
     }
@@ -1099,7 +1159,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
     public Structure process(Node next) {
         if (next != null) {
             // count a number of required write call
-            int requiredCalls = next.incoming.size() - next.backedges.size() + next.additionalCalls;
+            int requiredCalls = next.incoming.size() - next.backedges.size() + next.additionalCall;
 
             if (requiredCalls == next.currentCalls) {
                 return Structure.Empty;
@@ -1123,6 +1183,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
             }
 
             // break
+            System.out.println(id + "   " + next.id + "  " + next.loopExit);
             if (next.loopExit.isPresent()) {
                 Breakable breakable = next.loopExit.v;
 
@@ -1197,15 +1258,13 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     /**
-     * <p>
      * Create new connector node.
-     * </p>
      * 
      * @param previous A previous node.
      * @param next A next node.
      * @return A new created node.
      */
-    private Node createConnectorNode(Node previous, Node next) {
+    private static Node createConnectorNode(Node previous, Node next) {
         // dislinkage
         previous.disconnect(next);
 
@@ -1225,13 +1284,42 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     /**
+     * Create new connector node.
+     * 
+     * @param previous A previous node.
+     * @param next A next node.
+     * @return A new created node.
+     */
+    static Node createConnectorNode(List<Node> previous, Node next) {
+        // dislinkage
+        previous.forEach(prev -> prev.disconnect(next));
+
+        // create and linkage
+        String id = previous.stream().map(p -> p.id).collect(Collectors.joining("-"));
+        Node node = new Node(id + "*" + next.id);
+        previous.forEach(prev -> prev.connect(node));
+        node.connect(next);
+
+        node.next = next;
+        node.previous = next.previous;
+
+        previous.forEach(prev -> {
+            prev.next.previous = node;
+            prev.next = node;
+        });
+
+        // API definition
+        return node;
+    }
+
+    /**
      * Detects code groups that are recognizable as enhanced for loop.
      * 
      * @param current
      * @param entrance
      * @return
      */
-    private Variable<Ⅱ<Operand, Operand>> detectEnhancedForLoop(Node current, Node entrance) {
+    private static Variable<Ⅱ<Operand, Operand>> detectEnhancedForLoop(Node current, Node entrance) {
         return detectEnhancedForIterableLoop(current, entrance).or(detectEnhancedForArrayLoop(current, entrance)).to();
     }
 
@@ -1242,43 +1330,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
      * @param entrance
      * @return
      */
-    private Signal<Ⅱ<Operand, Operand>> detectEnhancedForIterableLoop(Node current, Node entrance) {
-        return I.signal(current.getPureIncoming())
-                // Check whether the only incoming node to the current is generating iterators.
-                .flatMap(in -> in.children(OperandAssign.class))
-                .flatMap(iterator -> iterator.children(OperandMethodCall.class)
-                        .take(m -> m.checkMethod(Iterable.class, "iterator"))
-                        .map(m -> m.owner)
-                        .combine(iterator.children(OperandLocalVariable.class)))
-
-                // Check whether the current node calls the iterator's hasNext method.
-                .takeIf(x -> current.children(OperandCondition.class, OperandMethodCall.class)
-                        .take(m -> m.checkCaller(x.ⅱ) && m.checkMethod(Iterator.class, "hasNext")))
-
-                // Check whether the entrance node calls the iterator's next method.
-                .takeIf(x -> entrance.children(OperandAssign.class, OperandMethodCall.class)
-                        .flatMap(this::throughUnwrapper)
-                        .take(m -> m.checkCaller(x.ⅱ) && m.checkMethod(Iterator.class, "next")))
-
-                // Summarize only information that will be used later.
-                .combine(entrance.children(OperandAssign.class, OperandLocalVariable.class).as(Operand.class), (a, b) -> I.pair(a.ⅰ, b))
-
-                // The contents of the entrance and incoming nodes should be deleted as they are no
-                // longer needed.
-                .effect(() -> {
-                    entrance.clear();
-                    current.getPureIncoming().forEach(Node::clear);
-                });
-    }
-
-    /**
-     * Detects code groups that are recognizable as enhanced for loop.
-     * 
-     * @param current
-     * @param entrance
-     * @return
-     */
-    private Signal<Ⅱ<Operand, Operand>> detectEnhancedForArrayLoop(Node current, Node entrance) {
+    private static Signal<Ⅱ<Operand, Operand>> detectEnhancedForArrayLoop(Node current, Node entrance) {
         return I.signal(current.getPureIncoming())
                 // Check whether the only incoming node to the current is array's length
                 .flatMap(in -> in.children(OperandAssign.class))
@@ -1308,13 +1360,49 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     /**
+     * Detects code groups that are recognizable as enhanced for loop.
+     * 
+     * @param current
+     * @param entrance
+     * @return
+     */
+    private static Signal<Ⅱ<Operand, Operand>> detectEnhancedForIterableLoop(Node current, Node entrance) {
+        return I.signal(current.getPureIncoming())
+                // Check whether the only incoming node to the current is generating iterators.
+                .flatMap(in -> in.children(OperandAssign.class))
+                .flatMap(iterator -> iterator.children(OperandMethodCall.class)
+                        .take(m -> m.checkMethod(Iterable.class, "iterator"))
+                        .map(m -> m.owner)
+                        .combine(iterator.children(OperandLocalVariable.class)))
+
+                // Check whether the current node calls the iterator's hasNext method.
+                .takeIf(x -> current.children(OperandCondition.class, OperandMethodCall.class)
+                        .take(m -> m.checkCaller(x.ⅱ) && m.checkMethod(Iterator.class, "hasNext")))
+
+                // Check whether the entrance node calls the iterator's next method.
+                .takeIf(x -> entrance.children(OperandAssign.class, OperandMethodCall.class)
+                        .flatMap(Node::throughUnwrapper)
+                        .take(m -> m.checkCaller(x.ⅱ) && m.checkMethod(Iterator.class, "next")))
+
+                // Summarize only information that will be used later.
+                .combine(entrance.children(OperandAssign.class, OperandLocalVariable.class).as(Operand.class), (a, b) -> I.pair(a.ⅰ, b))
+
+                // The contents of the entrance and incoming nodes should be deleted as they are no
+                // longer needed.
+                .effect(() -> {
+                    entrance.clear();
+                    current.getPureIncoming().forEach(Node::clear);
+                });
+    }
+
+    /**
      * If the specified method call is a primitive wrapper method, it is ignored and its internal
      * method calls are searched further.
      * 
      * @param call
      * @return
      */
-    private Signal<OperandMethodCall> throughUnwrapper(OperandMethodCall call) {
+    private static Signal<OperandMethodCall> throughUnwrapper(OperandMethodCall call) {
         if (Classes.isUnwrapper(call.method)) {
             return call.owner.children(OperandMethodCall.class);
         } else {

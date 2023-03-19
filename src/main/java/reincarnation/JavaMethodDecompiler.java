@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.*;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -36,6 +36,7 @@ import org.objectweb.asm.Type;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.Ⅱ;
 import reincarnation.Debugger.Printable;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -394,6 +395,21 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
         for (Node node : nodes) {
             Node dominator = node.getDominator();
             if (dominator != null) dominator.dominators.addIfAbsent(node);
+        }
+
+        // prepare switch
+        Set<Node> switchFollows = new HashSet();
+
+        for (Node node : new ArrayList<>(nodes)) {
+            if (node.switchy != null) {
+                Ⅱ<Node, List<Node>> x = node.switchy.analyzeFollow();
+
+                if (!switchFollows.add(x.ⅰ)) {
+                    Node created = Node.createConnectorNode(x.ⅱ(), x.ⅰ);
+
+                    switchFollows.add(node.switchy.follow = created);
+                }
+            }
         }
 
         // ============================================
@@ -2899,7 +2915,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
                 }
             }
             catcherOrFinally.disposable = false;
-            catcherOrFinally.additionalCalls++;
+            catcherOrFinally.additionalCall++;
             blocks.add(new CatchOrFinally(exception, catcherOrFinally));
         }
 

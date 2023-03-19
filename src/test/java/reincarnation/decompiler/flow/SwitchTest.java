@@ -188,6 +188,33 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
+    void nest() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                switch (param % 2) {
+                case 0:
+                    switch (param % 3) {
+                    case 0:
+                        return 3;
+                    default:
+                        return -3;
+                    }
+
+                default:
+                    switch (param % 3) {
+                    case 0:
+                        return 1;
+                    default:
+                        return -1;
+                    }
+                }
+            }
+        });
+    }
+
+    @Test
     void fallThrough() {
         verify(new TestCode.IntParam() {
 
@@ -360,6 +387,38 @@ class SwitchTest extends CodeVerifier {
                 }
 
                 return 30;
+            }
+        });
+    }
+
+    @Test
+    void fallThroughBlock() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                switch (param % 3) {
+                case 0:
+                    if (param % 2 == 0) {
+                        return 2;
+                    } else {
+                        param += 1;
+                    }
+
+                case 1:
+                    if (param % 2 == 0) {
+                        return 3;
+                    } else {
+                        param += 3;
+                    }
+
+                default:
+                    if (param % 5 == 0) {
+                        return 5;
+                    } else {
+                        return 1;
+                    }
+                }
             }
         });
     }
@@ -564,6 +623,70 @@ class SwitchTest extends CodeVerifier {
                     break;
                 case 1:
                     value = 3;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void breakBlock() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                int value = 0;
+                switch (param % 2) {
+                case 0:
+                    if (param % 3 == 0) {
+                        value = 3;
+                    } else {
+                        value = 4;
+                    }
+                    break;
+
+                default:
+                    if (param % 5 == 0) {
+                        value = 5;
+                    } else {
+                        value = 1;
+                    }
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void breakNest() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                int value = 0;
+                switch (param % 2) {
+                case 0:
+                    switch (param % 3) {
+                    case 0:
+                        value = 3;
+                        break;
+                    default:
+                        value = -3;
+                        break;
+                    }
+                    break;
+
+                default:
+                    switch (param % 5) {
+                    case 0:
+                        value = 1;
+                        break;
+                    default:
+                        value = -1;
+                        break;
+                    }
                     break;
                 }
                 return value;
@@ -779,6 +902,35 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
+    void breakFallThroughBlock() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 15) int param) {
+                int value = 0;
+                switch (param % 2) {
+                case 0:
+                    if (param % 3 == 0) {
+                        value = 3;
+                        break;
+                    } else {
+                        value = 4;
+                    }
+
+                default:
+                    if (param % 5 == 0) {
+                        value = 5;
+                    } else {
+                        value = 1;
+                        break;
+                    }
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
     void expressionInCondition() {
         verify(new TestCode.IntParam() {
 
@@ -824,45 +976,6 @@ class SwitchTest extends CodeVerifier {
                 default:
                     return 25;
                 }
-            }
-        });
-    }
-
-    @Test
-    void nest() {
-        verify(new TestCode.IntParam() {
-
-            @Override
-            public int run(@Param(from = 0, to = 10) int param) {
-                switch (param) {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                    switch (param + 1) {
-                    case 3:
-                        return 30;
-                    case 4:
-                        return 40;
-                    }
-                    return 10;
-
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                    switch (param + 1) {
-                    case 8:
-                        return 80;
-                    case 10:
-                        return 100;
-                    }
-                    return -1;
-                }
-
-                return 30;
             }
         });
     }
