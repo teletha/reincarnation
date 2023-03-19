@@ -13,7 +13,6 @@ import java.util.List;
 
 import kiss.I;
 import kiss.Signal;
-import kiss.Variable;
 import kiss.Ⅱ;
 import reincarnation.Node;
 import reincarnation.Operand;
@@ -36,18 +35,16 @@ public class Switch extends Breakable {
      * @param defaultCase
      * @param follow
      */
-    public Switch(Node that, Operand condition, List<Ⅱ<Integer, Node>> cases, Node defaultCase, Variable<Node> follow) {
+    public Switch(Node that, Operand condition, List<Ⅱ<Integer, Node>> cases, Node defaultCase, Node follow) {
         super(that, that);
 
-        follow.to(node -> {
-            node.loopExit.set(this);
-            node.loopExit.fix();
-        });
+        follow.loopExit.set(this);
+        follow.loopExit.fix();
 
         this.condition = condition;
         this.cases = cases.stream().map(x -> I.pair(x.ⅰ, that.process(x.ⅱ))).toList();
         this.defaultCase = defaultCase == null ? null : that.process(defaultCase);
-        this.follow = follow.isAbsent() ? null : follow.v.analyze();
+        this.follow = follow.analyze();
     }
 
     /**

@@ -15,7 +15,6 @@ import java.util.List;
 
 import kiss.I;
 import kiss.Signal;
-import kiss.Variable;
 import kiss.Ⅱ;
 import reincarnation.coder.Coder;
 import reincarnation.structure.Structure;
@@ -75,14 +74,14 @@ class OperandSwitch extends Operand {
             node.additionalCalls++;
         });
 
-        Variable<Node> end = nodes().flatMap(node -> node.outgoingRecursively().take(n -> !n.hasDominator(node)).first()).distinct().to();
+        Node end = nodes().flatMap(node -> node.outgoingRecursively().take(n -> !n.hasDominator(node)).first())
+                .distinct()
+                .to()
+                .or(defautlNode);
 
-        if (end.isPresent()) {
-            return new Switch(that, condition, cases, defautlNode, end);
-        } else {
-            in.forEach(n -> n.connect(defautlNode));
-            return new Switch(that, condition, cases, defautlNode, Variable.of(defautlNode));
+        if (end == defautlNode) {
+            in.forEach(n -> n.connect(end));
         }
-
+        return new Switch(that, condition, cases, defautlNode, end);
     }
 }
