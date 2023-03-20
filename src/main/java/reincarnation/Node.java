@@ -95,8 +95,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
     /** The state. */
     private boolean whileFindingDominator;
 
-    OperandSwitch switchy;
-
     /** The flag whether this node has already written or not. */
     boolean analyzed = false;
 
@@ -890,8 +888,9 @@ public class Node implements Code<Operand>, Comparable<Node> {
                 return new Try(this, removed.start, catches, removed.exit);
             }
 
-            if (switchy != null) {
-                return switchy.structurize(this);
+            Variable<Structure> switcher = child(OperandSwitch.class).map(o -> o.structurize(this));
+            if (switcher.isPresent()) {
+                return switcher.v;
             }
 
             analyzed = true;

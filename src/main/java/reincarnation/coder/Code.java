@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.Variable;
 
 public interface Code<C extends Code> {
 
@@ -52,6 +53,26 @@ public interface Code<C extends Code> {
      */
     default boolean isNotEmpty() {
         return !isEmpty();
+    }
+
+    /**
+     * Find the first child {@link Code} fragment.
+     * 
+     * @return
+     */
+    default Variable<C> child() {
+        return children().first().to();
+    }
+
+    /**
+     * Find the first child {@link Code} fragment.
+     * 
+     * @param <O>
+     * @param type
+     * @return
+     */
+    default <O extends C> Variable<O> child(Class<O> type) {
+        return children(type).first().to();
     }
 
     /**

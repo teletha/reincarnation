@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.load;
+import static reincarnation.OperandUtil.*;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -401,15 +401,15 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
         Set<Node> switchFollows = new HashSet();
 
         for (Node node : new ArrayList<>(nodes)) {
-            if (node.switchy != null) {
-                Ⅱ<Node, List<Node>> x = node.switchy.analyzeFollow();
+            node.child(OperandSwitch.class).to(switcher -> {
+                Ⅱ<Node, List<Node>> x = switcher.analyzeFollow();
 
                 if (!switchFollows.add(x.ⅰ)) {
                     Node created = Node.createConnectorNode(x.ⅱ(), x.ⅰ);
 
-                    switchFollows.add(node.switchy.follow = created);
+                    switcher.follow = created;
                 }
-            }
+            });
         }
 
         // ============================================
@@ -1747,7 +1747,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
         // connect from entrance to each cases and default
         I.signal(caseNodes).startWith(defaultNode).to(current::connect);
 
-        current.addOperand(current.switchy = new OperandSwitch(current.remove(0), keys, caseNodes, defaultNode));
+        current.addOperand(new OperandSwitch(current.remove(0), keys, caseNodes, defaultNode));
     }
 
     /**
