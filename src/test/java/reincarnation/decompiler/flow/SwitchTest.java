@@ -722,8 +722,7 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
-    void breakNestDeeply() {
+    void breakNestDeeply2() {
         verify(new TestCode.IntParam() {
 
             @Override
@@ -745,6 +744,54 @@ class SwitchTest extends CodeVerifier {
                         break;
                     }
                     value += 4;
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void breakNestDeeply3() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 20) int param) {
+                int value = 0;
+                root: switch (param % 2) {
+                case 0:
+                    child: switch (param % 3) {
+                    case 0:
+                        value += 1;
+                        break root;
+
+                    case 1:
+                        switch (param % 5) {
+                        case 0:
+                            value += 10;
+                            break;
+
+                        case 1:
+                            value += 20;
+                            break root;
+
+                        case 2:
+                            value += 30;
+                            break child;
+
+                        case 3:
+                            value += 40;
+                            break;
+                        }
+                        value += 100;
+                        break;
+
+                    default:
+                        value = 3;
+                        break;
+                    }
+                    value += 4;
+                    break;
                 }
                 return value;
             }

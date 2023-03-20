@@ -91,9 +91,11 @@ class OperandSwitch extends Operand {
         cases.sort(SORTER);
         cases.remove(defaultNode);
 
-        nodes().to(Node::hideIncoming);
-        List<Node> candidates = nodes().flatMap(node -> node.outgoingRecursively().take(n -> !n.hasDominator(node)).first())
-                .distinct()
+        List<Node> candidates = nodes().effect(x -> System.out.println("Check " + x.id))
+                .flatMap(node -> node.outgoingRecursively().take(n -> {
+                    System.out.println(n.id + " ++ " + !n.hasDominator(node));
+                    return !n.hasDominator(node);
+                }).first().effect(x -> System.out.println(node.id + " @@@ " + x.id)))
                 .toList();
 
         if (candidates.isEmpty()) {
@@ -102,11 +104,9 @@ class OperandSwitch extends Operand {
             defaultNode = null;
         } else {
             for (Node candidate : candidates) {
-                System.out.println("@@@ " + candidate.id);
                 follow = candidate;
             }
         }
-        nodes().to(Node::revealIncoming);
 
         System.out.println(condition + "   " + follow.id + " @ " + defaultNode);
 
