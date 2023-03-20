@@ -9,20 +9,10 @@
  */
 package reincarnation.structure;
 
-import java.util.LinkedList;
-
-import kiss.I;
-import kiss.Variable;
 import reincarnation.Node;
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/11/11 9:51:58
- */
 public class Continue extends Jumpable<Loopable> {
-
-    /** The omit state. */
-    protected final Variable<Boolean> hasFollowers = Variable.of(false);
 
     /**
      * Build continue statement.
@@ -32,17 +22,6 @@ public class Continue extends Jumpable<Loopable> {
      */
     public Continue(Node that, Loopable loopable) {
         super(that, loopable);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void analyze() {
-        LinkedList<Structure> ancestors = ancestor().takeUntil(s -> s instanceof Loopable).toCollection(new LinkedList());
-
-        I.signal(ancestors).skip(breakable).flatMap(Structure::follower).skip(Structure::isEmpty).isEmitted().to(hasFollowers);
-        I.signal(ancestors).as(Breakable.class).first().is(s -> s == breakable).to(omitLabel);
     }
 
     /**
