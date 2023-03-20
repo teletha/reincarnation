@@ -9,35 +9,34 @@
  */
 package reincarnation;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 import kiss.I;
 import kiss.Signal;
-import kiss.Ⅱ;
 import reincarnation.coder.Coder;
 import reincarnation.structure.Structure;
 import reincarnation.structure.Switch;
+import reincarnation.util.MultiMap;
 
 class OperandSwitch extends Operand {
 
     /** The case sorter. */
-    private static final Comparator<Ⅱ<Integer, Node>> SORTER = (o1, o2) -> {
-        return o1.ⅱ.isBefore(o2.ⅱ) ? -1 : 1;
+    private static final Comparator<Node> SORTER = (o1, o2) -> {
+        return o1.isBefore(o2) ? -1 : 1;
     };
 
     /** The condition. */
     private final Operand condition;
 
     /** The special case manager. */
-    private final List<Ⅱ<Integer, Node>> cases;
+    private final MultiMap<Node, Integer> cases = new MultiMap(true);
 
     /** The default case. */
     private Node defaultNode;
 
     /** The end node. */
-    Node follow;
+    private Node follow;
 
     /**
      * @param condition
@@ -49,11 +48,9 @@ class OperandSwitch extends Operand {
         this.condition = condition;
         this.defaultNode = defaultNode;
 
-        List<Ⅱ<Integer, Node>> list = new ArrayList<>();
         for (int i = 0; i < keys.length; i++) {
-            list.add(I.pair(keys[i], caseNodes.get(i)));
+            cases.put(caseNodes.get(i), keys[i]);
         }
-        this.cases = list;
     }
 
     /**
@@ -88,17 +85,13 @@ class OperandSwitch extends Operand {
     }
 
     /**
-     * Analyze end node.
+     * Analyze following node.
      */
-    Ⅱ<Node, List<Node>> analyzeFollow() {
+    void analyze(NodeCreator creator) {
         cases.sort(SORTER);
-        cases.removeIf(x -> x.ⅱ == defaultNode);
+        cases.remove(defaultNode);
 
-        nodes().to(node -> {
-            node.hideIncoming();
-            node.additionalCall++;
-        });
-
+        nodes().to(Node::hideIncoming);
         nodes().flatMap(node -> node.outgoingRecursively().take(n -> !n.hasDominator(node)).first()).distinct().to().to(node -> {
             follow = node;
         }, () -> {
@@ -106,12 +99,15 @@ class OperandSwitch extends Operand {
             follow.revealIncoming();
             defaultNode = null;
         });
+        nodes().to(Node::revealIncoming);
 
-        List<Node> cases = nodes().toList();
+        if (defaultNode != null) {
+            List<Node> cases = nodes().toList();
+            List<Node> incomings = I.signal(follow.getPureIncoming()).take(n -> n.hasDominatorAny(cases)).toList();
 
-        List<Node> incomings = I.signal(follow.getPureIncoming()).take(n -> n.hasDominatorAny(cases)).toList();
-
-        return I.pair(follow, incomings);
+            follow = creator.createSplitterNodeBefore(follow, incomings);
+            follow.additionalCall++;
+        }
     }
 
     /**
@@ -120,6 +116,6 @@ class OperandSwitch extends Operand {
      * @return
      */
     private Signal<Node> nodes() {
-        return I.signal(cases).map(Ⅱ::ⅱ).startWith(defaultNode);
+        return cases.keys().startWith(defaultNode).skipNull();
     }
 }

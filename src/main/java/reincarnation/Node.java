@@ -20,7 +20,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collectors;
 
 import kiss.I;
 import kiss.Signal;
@@ -122,12 +121,14 @@ public class Node implements Code<Operand>, Comparable<Node> {
     boolean breakable;
 
     /**
+     * Create node with integral id.
      */
     Node(int id) {
         this(String.valueOf(id));
     }
 
     /**
+     * Create node with textual id.
      */
     Node(String id) {
         this.id = id;
@@ -1182,7 +1183,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
             }
 
             // break
-            System.out.println(id + "   " + next.id + "  " + next.loopExit);
             if (next.loopExit.isPresent()) {
                 Breakable breakable = next.loopExit.v;
 
@@ -1199,10 +1199,10 @@ public class Node implements Code<Operand>, Comparable<Node> {
                         }
                         return Structure.Empty;
                     }
-                } else {
+                } else if (requiredCalls != next.currentCalls) {
                     Break breaker = new Break(this, breakable);
                     if (Debugger.current().isEnable()) {
-                        breaker.comment(id + " -> " + next.id + " break to " + breakable + "(" + next.currentCalls + " of " + requiredCalls + ") ");
+                        breaker.comment(id + " -> " + next.id + " break" + "(" + next.currentCalls + " of " + requiredCalls + ") ");
                     }
                     return breaker;
                 }
@@ -1277,35 +1277,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
 
         previous.next.previous = node;
         previous.next = node;
-
-        // API definition
-        return node;
-    }
-
-    /**
-     * Create new connector node.
-     * 
-     * @param previous A previous node.
-     * @param next A next node.
-     * @return A new created node.
-     */
-    static Node createConnectorNode(List<Node> previous, Node next) {
-        // dislinkage
-        previous.forEach(prev -> prev.disconnect(next));
-
-        // create and linkage
-        String id = previous.stream().map(p -> p.id).collect(Collectors.joining("-"));
-        Node node = new Node(id + "*" + next.id);
-        previous.forEach(prev -> prev.connect(node));
-        node.connect(next);
-
-        node.next = next;
-        node.previous = next.previous;
-
-        previous.forEach(prev -> {
-            prev.next.previous = node;
-            prev.next = node;
-        });
 
         // API definition
         return node;

@@ -36,7 +36,6 @@ import org.objectweb.asm.Type;
 
 import kiss.I;
 import kiss.Signal;
-import kiss.Ⅱ;
 import reincarnation.Debugger.Printable;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -50,7 +49,7 @@ import reincarnation.util.Classes;
 import reincarnation.util.GeneratedCodes;
 import reincarnation.util.MultiMap;
 
-class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
+class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeCreator {
 
     /** The reusable reference to record method. */
     private static final Method RecordToString;
@@ -386,7 +385,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
         // ============================================
         try (Printable diff = debugger.diff(nodes, "Analyze variable declaration")) {
             // insert variable declaration at the header of common dominator node
-            locals.analyzeVariableDeclarationNode(this::createNodeBefore);
+            locals.analyzeVariableDeclarationNode(this);
         }
 
         // ============================================
@@ -397,23 +396,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
             if (dominator != null) dominator.dominators.addIfAbsent(node);
         }
 
-        // prepare switch
-        Set<Node> switchFollows = new HashSet();
-
-        for (Node node : new ArrayList<>(nodes)) {
-            node.child(OperandSwitch.class).to(switcher -> {
-                Ⅱ<Node, List<Node>> x = switcher.analyzeFollow();
-
-                if (!switchFollows.add(x.ⅰ)) {
-                    Node created = Node.createConnectorNode(x.ⅱ(), x.ⅰ);
-
-                    switcher.follow = created;
-                }
-            });
+        // ============================================
+        // Analyze all switch blocks.
+        // ============================================
+        try (Printable diff = debugger.diff(nodes, "Analyze switch")) {
+            new ArrayList<>(nodes).forEach(n -> n.child(OperandSwitch.class).to(op -> {
+                op.analyze(this);
+            }));
         }
 
         // ============================================
-        // Resolve all try-catch-finally blocks.
+        // Analyze all try-catch-finally blocks.
         // ============================================
         tries.process();
 
@@ -2013,13 +2006,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
     }
 
     /**
-     * Create new node before the specified node.
-     * 
-     * @param index A index node.
-     * @return A created node.
+     * {@inheritDoc}
      */
-    private final Node createNodeBefore(Node index, boolean connectable) {
-        Node created = new Node("+" + index.id);
+    @Override
+    public final Node createNodeBefore(Node index, boolean connectable) {
+        Node created = new Node(counter++);
 
         // switch line number
         created.lineNumber = index.lineNumber;
@@ -2049,24 +2040,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming {
     }
 
     /**
-     * Create new node with your operands before the specified node.
-     * 
-     * @param index
-     * @param operand
-     * @return
+     * {@inheritDoc}
      */
-    private final Node createNodeBefore(Node index, Operand operand) {
-        return createNodeBefore(index, true).addOperand(operand);
-    }
-
-    /**
-     * Create new node after the specified node.
-     * 
-     * @param index A index node.
-     * @return A created node.
-     */
-    private final Node createNodeAfter(Node index, boolean connectable) {
-        Node created = new Node(index.id + "+");
+    @Override
+    public final Node createNodeAfter(Node index, boolean connectable) {
+        Node created = new Node(counter++);
 
         // switch line number
         created.lineNumber = index.lineNumber;

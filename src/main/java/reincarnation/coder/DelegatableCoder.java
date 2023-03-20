@@ -19,13 +19,13 @@ import java.util.Objects;
 import java.util.Optional;
 
 import kiss.Variable;
-import kiss.Ⅱ;
 import kiss.Ⅲ;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
+import reincarnation.util.MultiMap;
 
 public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> {
 
@@ -510,7 +510,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeSwitch(Optional<String> label, Code condition, List<Ⅱ<Integer, Code>> cases, Code defaultCode, Code follow) {
+    public void writeSwitch(Optional<String> label, Code condition, MultiMap<Code, Integer> cases, Code defaultCode, Code follow) {
         coder.writeSwitch(label, condition, cases, defaultCode, follow);
     }
 }

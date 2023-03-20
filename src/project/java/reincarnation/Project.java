@@ -72,7 +72,7 @@ public class Project extends bee.api.Project {
                     - [x] return
                     - [x] break
                     - [x] continue
-                    - [ ] switch
+                    - [x] switch
                         - [ ] by enum
                         - [ ] by String
                         - [ ] pattern matching

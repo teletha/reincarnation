@@ -26,7 +26,6 @@ import java.util.function.Consumer;
 
 import kiss.I;
 import kiss.Variable;
-import kiss.Ⅱ;
 import kiss.Ⅲ;
 import kiss.model.Model;
 import reincarnation.Reincarnation;
@@ -34,6 +33,7 @@ import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
+import reincarnation.util.MultiMap;
 
 public abstract class Coder<O extends CodingOption> {
 
@@ -723,11 +723,12 @@ public abstract class Coder<O extends CodingOption> {
 
     /**
      * Switch structure.
-     * @param label TODO
+     * 
+     * @param label A block label.
      * @param condition
      * @param cases
      * @param defaultCode
      * @param follow
      */
-    public abstract void writeSwitch(Optional<String> label, Code condition, List<Ⅱ<Integer, Code>> cases, Code defaultCode, Code follow);
+    public abstract void writeSwitch(Optional<String> label, Code condition, MultiMap<Code, Integer> cases, Code defaultCode, Code follow);
 }

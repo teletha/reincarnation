@@ -11,6 +11,11 @@ package reincarnation;
 
 import reincarnation.coder.Coder;
 
+/**
+ * Represents a boolean operand in the Reincarnation programming language. This class provides a
+ * boolean value, along with methods to invert the value and generate code to evaluate the operand
+ * in the target language.
+ */
 class OperandBoolean extends Operand {
 
     /** The reusable boolean. */
@@ -23,9 +28,9 @@ class OperandBoolean extends Operand {
     private final boolean value;
 
     /**
-     * Primitive boolean expression.
+     * Create a primitive boolean expression with the specified value.
      * 
-     * @param value
+     * @param value boolean value of this operand
      */
     private OperandBoolean(boolean value) {
         this.value = value;

@@ -50,7 +50,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
     - [x] return
     - [x] break
     - [x] continue
-    - [ ] switch
+    - [x] switch
         - [ ] by enum
         - [ ] by String
         - [ ] pattern matching

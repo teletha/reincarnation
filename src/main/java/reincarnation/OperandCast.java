@@ -13,21 +13,25 @@ import kiss.I;
 import kiss.Signal;
 import reincarnation.coder.Coder;
 
+/**
+ * An operand that represents a type cast operation.
+ */
 class OperandCast extends Operand {
 
-    /** The actual value. */
+    /** The actual value to be cast. */
     private final Operand value;
 
-    /** The type to cast. */
+    /** The type to cast to. */
     private final Class type;
 
+    /** Whether the cast is necessary or not. */
     private final boolean needCast;
 
     /**
-     * Create cast code.
+     * Constructs a new {@code OperandCast} instance that represents a cast to the specified type.
      * 
-     * @param value
-     * @param type
+     * @param value The operand to be cast.
+     * @param type The type to cast to.
      */
     OperandCast(Operand value, Class type) {
         this.value = value;

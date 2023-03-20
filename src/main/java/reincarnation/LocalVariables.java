@@ -17,7 +17,6 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.BiConsumer;
 
 import reincarnation.coder.Naming;
 
@@ -154,7 +153,7 @@ final class LocalVariables implements Naming {
      * Otherwise, declare in the header of the dominator node.
      * </p>
      */
-    void analyzeVariableDeclarationNode(BiConsumer<Node, OperandLocalVariable> createDeclarationNode) {
+    void analyzeVariableDeclarationNode(NodeCreator creator) {
         root: for (OperandLocalVariable variable : variables.values()) {
             // Determine if you need to add a node for variable declarations. For example, if the
             // same variable is referenced by multiple child nodes, you must consider whether you
@@ -180,7 +179,7 @@ final class LocalVariables implements Naming {
                 }
 
                 // Create additional nodes for declarations to use common variable declarations.
-                createDeclarationNode.accept(header, variable);
+                creator.createNodeBefore(header, variable);
             }
         }
     }

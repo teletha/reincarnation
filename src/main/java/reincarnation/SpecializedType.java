@@ -21,6 +21,10 @@ import java.util.Objects;
 import kiss.I;
 import reincarnation.coder.Join;
 
+/**
+ * {@link SpecializedType} represents a parameterized type that can be specialized with actual type
+ * arguments.
+ */
 final class SpecializedType implements ParameterizedType {
 
     /** The reusable type for <?>. */
@@ -81,7 +85,7 @@ final class SpecializedType implements ParameterizedType {
      * 
      * @return
      */
-    private synchronized Method sam() {
+    private Method sam() {
         if (sam == null) {
             List<Method> methods = I.signal(raw.getMethods()).skip(m -> m.isDefault() || Modifier.isStatic(m.getModifiers())).toList();
 
@@ -99,7 +103,7 @@ final class SpecializedType implements ParameterizedType {
      * @param method
      * @return
      */
-    private synchronized SpecializedType sam(Method method) {
+    private SpecializedType sam(Method method) {
         if (method != null) {
             sam = method;
         }
