@@ -195,6 +195,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "NodeCreator",
+			"packageName": "reincarnation",
+			"type": "Interface"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Operand",
 			"packageName": "reincarnation",
 			"type": "AbstractClass"
