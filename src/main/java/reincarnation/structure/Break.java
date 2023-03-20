@@ -9,13 +9,17 @@
  */
 package reincarnation.structure;
 
+import java.util.LinkedList;
+
+import kiss.I;
+import kiss.Variable;
 import reincarnation.Node;
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/10/31 0:36:33
- */
 public class Break extends Jumpable<Breakable> {
+
+    /** The omit state. */
+    protected final Variable<Boolean> hasFollowers = Variable.of(false);
 
     /**
      * Build break statement.
@@ -30,7 +34,18 @@ public class Break extends Jumpable<Breakable> {
      * {@inheritDoc}
      */
     @Override
+    protected void analyze() {
+        LinkedList<Structure> ancestors = ancestor().takeUntil(s -> s instanceof Loopable).toCollection(new LinkedList());
+
+        I.signal(ancestors).skip(breakable).flatMap(Structure::follower).skip(Structure::isEmpty).isEmitted().to(hasFollowers);
+        I.signal(ancestors).as(Breakable.class).first().is(s -> s == breakable).to(omitLabel);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeCode(Coder coder) {
-        coder.writeBreak(breakable.label());
+        coder.writeBreak(breakable.label(), omitLabel.v);
     }
 }

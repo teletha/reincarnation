@@ -438,8 +438,8 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeBreak(Optional<String> label) {
-        coder.writeBreak(label);
+    public void writeBreak(Optional<String> label, boolean omitLabel) {
+        coder.writeBreak(label, omitLabel);
     }
 
     /**

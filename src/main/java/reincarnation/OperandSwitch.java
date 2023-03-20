@@ -92,14 +92,23 @@ class OperandSwitch extends Operand {
         cases.remove(defaultNode);
 
         nodes().to(Node::hideIncoming);
-        nodes().flatMap(node -> node.outgoingRecursively().take(n -> !n.hasDominator(node)).first()).distinct().to().to(node -> {
-            follow = node;
-        }, () -> {
+        List<Node> candidates = nodes().flatMap(node -> node.outgoingRecursively().take(n -> !n.hasDominator(node)).first())
+                .distinct()
+                .toList();
+
+        if (candidates.isEmpty()) {
             follow = defaultNode;
             follow.revealIncoming();
             defaultNode = null;
-        });
+        } else {
+            for (Node candidate : candidates) {
+                System.out.println("@@@ " + candidate.id);
+                follow = candidate;
+            }
+        }
         nodes().to(Node::revealIncoming);
+
+        System.out.println(condition + "   " + follow.id + " @ " + defaultNode);
 
         if (defaultNode != null) {
             List<Node> cases = nodes().toList();

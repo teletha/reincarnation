@@ -911,8 +911,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeBreak(Optional<String> label) {
-        line("break", label.map(v -> space + "l" + v), ";");
+    public void writeBreak(Optional<String> label, boolean omitLabel) {
+        line("break", omitLabel ? "" : label.map(v -> space + "l" + v), ";");
     }
 
     /**

@@ -733,18 +733,18 @@ class SwitchTest extends CodeVerifier {
                 case 0:
                     switch (param % 3) {
                     case 0:
-                        value = 3;
+                        value += 1;
                         break root;
 
                     case 1:
-                        value += 1;
+                        value += 2;
                         break;
 
                     default:
-                        value = -3;
+                        value = 3;
                         break;
                     }
-                    value += 1;
+                    value += 4;
                 }
                 return value;
             }
