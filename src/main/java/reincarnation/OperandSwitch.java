@@ -85,23 +85,25 @@ class OperandSwitch extends Operand {
         cases.sort();
         cases.remove(defaultNode);
 
-        List<Node> candidates = nodes()
-                .flatMap(node -> node.outgoingRecursively(n -> cases.containsKey(n) || n == defaultNode)
-                        .take(n -> !n.hasDominator(node))
-                        .first())
-                .toList();
+        if (isReallyDefaultNode()) {
+            List<Node> candidates = nodes()
+                    .flatMap(node -> node.outgoingRecursively(n -> cases.containsKey(n) || n == defaultNode)
+                            .take(n -> !n.hasDominator(node))
+                            .first())
+                    .toList();
 
-        if (candidates.isEmpty()) {
-            follow = defaultNode;
-            follow.revealIncoming();
-            defaultNode = null;
-        } else {
-            for (Node candidate : candidates) {
-                follow = candidate;
+            if (candidates.isEmpty()) {
+                follow = defaultNode;
+                defaultNode = null;
+            } else {
+                for (Node candidate : candidates) {
+                    follow = candidate;
+                }
             }
+        } else {
+            follow = defaultNode;
+            defaultNode = null;
         }
-
-        System.out.println(condition + "   " + follow.id + " @ " + defaultNode);
 
         if (defaultNode != null) {
             List<Node> cases = nodes().toList();
@@ -109,6 +111,45 @@ class OperandSwitch extends Operand {
 
             follow = creator.createSplitterNodeBefore(follow, incomings);
             follow.additionalCall++;
+        }
+    }
+
+    /**
+     * Determine if the default node is really the default node or actually an exit node.
+     * 
+     * @return
+     */
+    private boolean isReallyDefaultNode() {
+        // In searching for follow nodes in switches, there are several things to consider.
+        //
+        // First, we need to determine if the default node is indeed a default node or if it is
+        // actually a follow node without a default node. What conditions must be met to determine
+        // that a node is a default node?
+        //
+        // The default node has zero or one other directly (without going through other case nodes)
+        // connected case nodes.
+        List<Node> directlyConnectedCases = cases.keys()
+                .take(caseNode -> caseNode.canReachTo(defaultNode, cases.keys().skip(caseNode).toSet()))
+                .toList();
+
+        switch (directlyConnectedCases.size()) {
+        // It is an independent default node that is not connected to any case node.
+        case 0:
+            return true;
+
+        // It is necessary to determine whether the node is a default node that has been
+        // fall-through from the previous case or a follow node that is connected by break only from
+        // one case.
+        case 1:
+            Node directly = directlyConnectedCases.get(0);
+            // If the connected case node is declared immediately before def, it is the default
+            // node. Conversely, if the connected case node has not been declared immediately
+            // before, it is an exit node.
+            return directly.isBefore(defaultNode, cases.keys().skip(directly).toSet());
+
+        // It is a follow node because it is connected to two or more case nodes
+        default:
+            return false;
         }
     }
 

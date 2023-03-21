@@ -13,10 +13,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
-@Debuggable
 class SwitchTest extends CodeVerifier {
 
     @Test
@@ -722,7 +720,7 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
-    void breakNestDeeply2() {
+    void breakDoubleNest() {
         verify(new TestCode.IntParam() {
 
             @Override
@@ -752,7 +750,7 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
-    void breakNestDeeply3() {
+    void breakTripleNest() {
         verify(new TestCode.IntParam() {
 
             @Override
@@ -766,24 +764,24 @@ class SwitchTest extends CodeVerifier {
                         break root;
 
                     case 1:
-                        switch (param % 5) {
+                        switch (param % 5) { // 6 -> 8def,9,10,11,12
                         case 0:
-                            value += 10;
+                            value += 10; // 9 -> 13 -> 8
                             break;
 
                         case 1:
-                            value += 20;
+                            value += 20; // 10 -> 14 -> 2
                             break root;
 
                         case 2:
-                            value += 30;
+                            value += 30; // 11 -> 15 -> 20
                             break child;
 
                         case 3:
-                            value += 40;
+                            value += 40; // 12 -> 8
                             break;
                         }
-                        value += 100;
+                        value += 100; // 8 -> 17 -> 20
                         break;
 
                     default:

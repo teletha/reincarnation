@@ -11,8 +11,8 @@ package reincarnation;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -104,12 +104,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
     /** The number of current write calls. */
     private int currentCalls = 0;
 
-    /** The temporary store. */
-    private List<Node> hiddenIncoming;
-
-    /** The temporary store. */
-    private List<Node> hiddenOutgoing;
-
     /** The relationship with loop structure header. */
     public final Variable<Loopable> loopHeader = Variable.empty();
 
@@ -169,7 +163,17 @@ public class Node implements Code<Operand>, Comparable<Node> {
      * @return
      */
     final boolean isBefore(Node target) {
-        while (target != null) {
+        return isBefore(target, Collections.EMPTY_SET);
+    }
+
+    /**
+     * Detect node positioning.
+     * 
+     * @param target
+     * @return
+     */
+    final boolean isBefore(Node target, Collection<Node> stopper) {
+        while (target != null && !stopper.contains(target)) {
             if (target == this) {
                 return true;
             }
@@ -185,7 +189,17 @@ public class Node implements Code<Operand>, Comparable<Node> {
      * @return
      */
     final boolean isAfter(Node target) {
-        while (target != null) {
+        return isAfter(target, Collections.EMPTY_SET);
+    }
+
+    /**
+     * Detect node positioning.
+     * 
+     * @param target
+     * @return
+     */
+    final boolean isAfter(Node target, Collection<Node> stopper) {
+        while (target != null && !stopper.contains(target)) {
             if (target == this) {
                 return true;
             }
@@ -534,10 +548,20 @@ public class Node implements Code<Operand>, Comparable<Node> {
      * @return A result.
      */
     final boolean hasDominator(Node dominator) {
+        return hasDominator(dominator, Collections.EMPTY_SET);
+    }
+
+    /**
+     * Helper method to check whether the specified node dominate this node or not.
+     * 
+     * @param dominator A dominator node.
+     * @return A result.
+     */
+    final boolean hasDominator(Node dominator, Collection<Node> stoppers) {
         Node current = this;
         Set<Node> recorder = new HashSet<>();
 
-        while (current != null && recorder.add(current)) {
+        while (current != null && recorder.add(current) && !stoppers.contains(current)) {
             if (current == dominator) {
                 return true;
             }
@@ -698,7 +722,16 @@ public class Node implements Code<Operand>, Comparable<Node> {
      * @return A result.
      */
     final boolean canReachTo(Node node, Node... exclusionNodes) {
-        List<Node> exclusions = Arrays.asList(exclusionNodes);
+        return canReachTo(node, I.set(exclusionNodes));
+    }
+
+    /**
+     * Detect whether the specified node is traversable from this node.
+     * 
+     * @param node A target node.
+     * @return A result.
+     */
+    final boolean canReachTo(Node node, Collection<Node> exclusionNodes) {
         Set<Node> recorder = new HashSet<Node>();
         recorder.add(this);
 
@@ -711,7 +744,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
                     return true;
                 }
 
-                if (!exclusions.contains(out) && recorder.add(out)) {
+                if (!exclusionNodes.contains(out) && recorder.add(out)) {
                     queue.addLast(out);
                 }
             }
@@ -772,42 +805,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
     final void disconnect(boolean incoming, boolean outgoing) {
         if (incoming) this.incoming.forEach(in -> in.disconnect(this));
         if (outgoing) this.outgoing.forEach(out -> out.disconnect(this));
-    }
-
-    /**
-     * Hide all incoming nodes temporary.
-     */
-    final void hideIncoming() {
-        hiddenIncoming = new ArrayList(incoming);
-        disconnect(true, false);
-    }
-
-    /**
-     * Reveal all incoming nodes.
-     */
-    final void revealIncoming() {
-        if (hiddenIncoming != null) {
-            hiddenIncoming.forEach(n -> n.connect(this));
-            hiddenIncoming = null;
-        }
-    }
-
-    /**
-     * Hide all outgoing nodes temporary.
-     */
-    final void hideOutgoing() {
-        hiddenOutgoing = new ArrayList(outgoing);
-        disconnect(false, true);
-    }
-
-    /**
-     * Reveal all outgoing nodes.
-     */
-    final void revealOutgoing() {
-        if (hiddenOutgoing != null) {
-            hiddenOutgoing.forEach(n -> this.connect(n));
-            hiddenOutgoing = null;
-        }
     }
 
     /**
