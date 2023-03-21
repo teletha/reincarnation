@@ -727,9 +727,10 @@ public abstract class Coder<O extends CodingOption> {
      * 
      * @param label A block label.
      * @param condition
+     * @param conditionType TODO
      * @param cases
      * @param defaultCode
      * @param follow
      */
-    public abstract void writeSwitch(Optional<String> label, Code condition, MultiMap<Code, Integer> cases, Code defaultCode, Code follow);
+    public abstract void writeSwitch(Optional<String> label, Code condition, Class conditionType, MultiMap<Code, Integer> cases, Code defaultCode, Code follow);
 }

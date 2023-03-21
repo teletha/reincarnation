@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class SwitchTest extends CodeVerifier {
@@ -1142,6 +1143,27 @@ class SwitchTest extends CodeVerifier {
 
                 default:
                     return 25;
+                }
+            }
+        });
+    }
+
+    @Test
+    @Debuggable
+    void conditionChar() {
+        verify(new TestCode.CharParam() {
+
+            @Override
+            public char run(@Param(chars = {'a', 'b', 'c', 'd', 'e'}) char param) {
+                switch (param) {
+                case 'a':
+                    return 'A';
+
+                case 'b':
+                    return 'B';
+
+                default:
+                    return param;
                 }
             }
         });

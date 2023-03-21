@@ -76,6 +76,6 @@ public class Switch extends Breakable {
      */
     @Override
     protected void writeCode(Coder coder) {
-        coder.writeSwitch(label(), condition, cases, defaultCase, follow);
+        coder.writeSwitch(label(), condition, condition.type(), cases, defaultCase, follow);
     }
 }

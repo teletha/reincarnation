@@ -1046,12 +1046,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeSwitch(Optional<String> label, Code condition, MultiMap<Code, Integer> caseBlocks, Code defaultBlock, Code follow) {
+    public void writeSwitch(Optional<String> label, Code condition, Class conditionType, MultiMap<Code, Integer> caseBlocks, Code defaultBlock, Code follow) {
         line(label(label), "switch", space, "(", condition, ")", space, "{");
         indent(() -> {
             caseBlocks.forEach((code, keys) -> {
                 for (int key : keys) {
-                    line("case ", key, ":");
+                    line("case ", conditionType == char.class ? writeChar(key) : key, ":");
                 }
                 indent(() -> write(code));
             });
@@ -1065,6 +1065,16 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         });
         line("}");
         write(follow);
+    }
+
+    /**
+     * Create char expression from int.
+     * 
+     * @param value
+     * @return
+     */
+    private String writeChar(int value) {
+        return "'" + (char) value + "'";
     }
 
     /**

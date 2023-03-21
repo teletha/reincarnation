@@ -18,6 +18,9 @@ import reincarnation.structure.Structure;
 import reincarnation.structure.Switch;
 import reincarnation.util.MultiMap;
 
+/**
+ * Operand representing a switch statement.
+ */
 class OperandSwitch extends Operand {
 
     /** The condition. */
@@ -33,10 +36,12 @@ class OperandSwitch extends Operand {
     private Node follow;
 
     /**
-     * @param condition
-     * @param keys
-     * @param caseNodes
-     * @param defaultNode
+     * Creates a new {@code OperandSwitch} instance.
+     *
+     * @param condition the condition operand
+     * @param keys the keys for each case
+     * @param caseNodes the nodes corresponding to each case
+     * @param defaultNode the default node
      */
     OperandSwitch(Operand condition, int[] keys, List<Node> caseNodes, Node defaultNode) {
         this.condition = condition;

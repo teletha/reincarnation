@@ -120,6 +120,15 @@ public abstract class Operand implements Code<Operand> {
     }
 
     /**
+     * Get the associated class type.
+     * 
+     * @return
+     */
+    public final Class type() {
+        return type.v instanceof Class clazz ? clazz : Object.class;
+    }
+
+    /**
      * Enclose myself.
      * 
      * @return Chainable API.

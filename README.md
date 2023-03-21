@@ -51,6 +51,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
     - [x] break
     - [x] continue
     - [x] switch
+        - [x] by char
         - [ ] by enum
         - [ ] by String
         - [ ] pattern matching
