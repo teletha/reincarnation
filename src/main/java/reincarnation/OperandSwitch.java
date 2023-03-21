@@ -9,7 +9,6 @@
  */
 package reincarnation;
 
-import java.util.Comparator;
 import java.util.List;
 
 import kiss.I;
@@ -20,11 +19,6 @@ import reincarnation.structure.Switch;
 import reincarnation.util.MultiMap;
 
 class OperandSwitch extends Operand {
-
-    /** The case sorter. */
-    private static final Comparator<Node> SORTER = (o1, o2) -> {
-        return o1.isBefore(o2) ? -1 : 1;
-    };
 
     /** The condition. */
     private final Operand condition;
@@ -88,14 +82,13 @@ class OperandSwitch extends Operand {
      * Analyze following node.
      */
     void analyze(NodeCreator creator) {
-        cases.sort(SORTER);
+        cases.sort();
         cases.remove(defaultNode);
 
-        List<Node> candidates = nodes().effect(x -> System.out.println("Check " + x.id))
-                .flatMap(node -> node.outgoingRecursively().take(n -> {
-                    System.out.println(n.id + " ++ " + !n.hasDominator(node));
-                    return !n.hasDominator(node);
-                }).first().effect(x -> System.out.println(node.id + " @@@ " + x.id)))
+        List<Node> candidates = nodes()
+                .flatMap(node -> node.outgoingRecursively(n -> cases.containsKey(n) || n == defaultNode)
+                        .take(n -> !n.hasDominator(node))
+                        .first())
                 .toList();
 
         if (candidates.isEmpty()) {

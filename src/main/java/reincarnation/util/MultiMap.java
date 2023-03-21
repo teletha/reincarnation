@@ -15,8 +15,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.TreeMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -51,12 +50,21 @@ public class MultiMap<K, V> {
     }
 
     /**
+     * Sorts this map by key using the natural {@link Comparator}.
+     */
+    public void sort() {
+        Map<K, List<V>> sortable = new ConcurrentSkipListMap();
+        sortable.putAll(map);
+        this.map = sortable;
+    }
+
+    /**
      * Sorts this map by key using the specified {@link Comparator}.
      * 
      * @param comparator The {@link Comparator} to be used to sort the map.
      */
     public void sort(Comparator<? super K> comparator) {
-        TreeMap<K, List<V>> sortable = new TreeMap(comparator);
+        Map<K, List<V>> sortable = new ConcurrentSkipListMap(comparator);
         sortable.putAll(map);
         this.map = sortable;
     }
@@ -103,10 +111,7 @@ public class MultiMap<K, V> {
      * @param key The key for which all values are to be removed.
      */
     public void remove(K key) {
-        // don't use Map#remove
-        // map.remove(key);
-        // why?
-        map.keySet().removeIf(x -> Objects.equals(x, key));
+        map.remove(key);
     }
 
     /**
@@ -130,6 +135,20 @@ public class MultiMap<K, V> {
      */
     public Signal<K> keys() {
         return I.signal(map.keySet());
+    }
+
+    /**
+     * Returns {@code true} if this map contains a mapping for the specified key.
+     * <p>
+     * More formally, returns {@code true} if and only if this map contains at a mapping for a key
+     * {@code k} such that {@code Objects.equals(key, k)}. (There can be at most one such mapping.)
+     * 
+     * @param key The key whose presence in this map is to be tested
+     * @return {@code true} if this map contains a mapping for the specified key
+     * @throws NullPointerException if the specified key is null and this map
+     */
+    public boolean containsKey(K key) {
+        return map.containsKey(key);
     }
 
     /**

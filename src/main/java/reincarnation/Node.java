@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Predicate;
 
 import kiss.I;
 import kiss.Signal;
@@ -275,6 +276,17 @@ public class Node implements Code<Operand>, Comparable<Node> {
      */
     final Signal<Node> outgoingRecursively() {
         return I.signal(this).recurseMap(n -> n.flatIterable(x -> x.outgoing)).takeWhile(n -> n != null && n.backedges.isEmpty());
+    }
+
+    /**
+     * Traverse outgoing nodes recursively.
+     * 
+     * @return
+     */
+    final Signal<Node> outgoingRecursively(Predicate<Node> exclude) {
+        return I.signal(this)
+                .recurseMap(n -> n.flatIterable(x -> x.outgoing).skip(exclude))
+                .takeWhile(n -> n != null && n.backedges.isEmpty());
     }
 
     /**
@@ -839,7 +851,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
      */
     @Override
     public int compareTo(Node o) {
-        return isBefore(o) ? -1 : 1;
+        return this == o ? 0 : isBefore(o) ? -1 : 1;
     }
 
     /**
