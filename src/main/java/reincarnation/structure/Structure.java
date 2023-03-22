@@ -72,7 +72,7 @@ public abstract class Structure implements Code<Structure> {
      * @return
      */
     public final Signal<Structure> ancestor() {
-        return I.signal(parent).recurseMap(s -> s.flatMap(v -> I.signal(v.parent).skipNull()));
+        return I.signal(parent).recurseMap(s -> s.skipNull().flatMap(v -> I.signal(v.parent).skipNull()));
     }
 
     /**

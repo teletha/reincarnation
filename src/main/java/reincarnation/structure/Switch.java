@@ -78,4 +78,12 @@ public class Switch extends Breakable {
     protected void writeCode(Coder coder) {
         coder.writeSwitch(label(), condition, condition.type(), cases, defaultCase, follow);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "switch(" + condition + ")";
+    }
 }
