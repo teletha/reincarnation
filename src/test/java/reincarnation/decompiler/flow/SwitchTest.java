@@ -9,11 +9,12 @@
  */
 package reincarnation.decompiler.flow;
 
+import java.lang.annotation.RetentionPolicy;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class SwitchTest extends CodeVerifier {
@@ -1149,8 +1150,7 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable
-    void conditionChar() {
+    void conditionByChar() {
         verify(new TestCode.CharParam() {
 
             @Override
@@ -1164,6 +1164,26 @@ class SwitchTest extends CodeVerifier {
 
                 default:
                     return param;
+                }
+            }
+        });
+    }
+
+    @Test
+    void conditionByEnum() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 3) int param) {
+                switch (RetentionPolicy.values()[param]) {
+                case CLASS:
+                    return 10;
+
+                case RUNTIME:
+                    return 20;
+
+                default:
+                    return 30;
                 }
             }
         });

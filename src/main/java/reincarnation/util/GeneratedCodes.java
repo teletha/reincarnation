@@ -155,6 +155,45 @@ public class GeneratedCodes {
     }
 
     /**
+     * Check whether the given method is generated code or not.
+     * 
+     * @param method
+     * @return
+     */
+    public static boolean isEnumSwitchMethod(Method method) {
+        return method.isSynthetic() && isEnumSwitchName(method.getName());
+    }
+
+    /**
+     * Check whether the given field is generated code or not.
+     * 
+     * @param field
+     * @return
+     */
+    public static boolean isEnumSwitchField(Field field) {
+        return field.isSynthetic() && isEnumSwitchName(field.getName());
+    }
+
+    /**
+     * Helper method to detect special enum method.
+     * 
+     * @param name
+     * @return
+     */
+    public static boolean isEnumSwitchName(String name) {
+        // For Eclipse JDT compiler.
+        if (name.startsWith("$SWITCH_TABLE$")) {
+            return true;
+        }
+
+        // For JDK compiler.
+        if (name.startsWith("$SwitchMap$")) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Check whether the given constructor is generated code or not.
      * 
      * @param constructor

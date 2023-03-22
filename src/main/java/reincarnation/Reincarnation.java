@@ -30,6 +30,7 @@ import reincarnation.coder.Coder;
 import reincarnation.coder.java.JavaCoder;
 import reincarnation.coder.java.JavaCodingOption;
 import reincarnation.util.Classes;
+import reincarnation.util.GeneratedCodes;
 
 /**
  * {@link Reincarnation} is a unit of decompilation.
@@ -81,7 +82,9 @@ public final class Reincarnation {
         // Separate fields into static and non-static
         for (Field field : clazz.getDeclaredFields()) {
             if (Classes.isStatic(field)) {
-                staticFields.add(field);
+                if (!GeneratedCodes.isEnumSwitchField(field)) {
+                    staticFields.add(field);
+                }
             } else {
                 fields.add(field);
             }
@@ -152,10 +155,10 @@ public final class Reincarnation {
      */
     public static final synchronized Reincarnation exhume(Class clazz) {
         return cache.computeIfAbsent(clazz, key -> {
-            Reincarnation reincarnation = new Reincarnation(clazz);
+            Reincarnation reincarnation = new Reincarnation(key);
 
             try {
-                new ClassReader(clazz.getName()).accept(new JavaClassDecompiler(reincarnation), 0);
+                new ClassReader(key.getName()).accept(new JavaClassDecompiler(reincarnation), 0);
             } catch (IOException e) {
                 throw I.quiet(e);
             }

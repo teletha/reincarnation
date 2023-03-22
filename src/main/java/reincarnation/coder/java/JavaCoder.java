@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.StringJoiner;
+import java.util.function.IntFunction;
 
 import kiss.I;
 import kiss.Variable;
@@ -1046,12 +1047,21 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeSwitch(Optional<String> label, Code condition, Class conditionType, MultiMap<Code, Integer> caseBlocks, Code defaultBlock, Code follow) {
+    public void writeSwitch(Optional<String> label, Code condition, Class type, MultiMap<Code, Integer> caseBlocks, Code defaultBlock, Code follow) {
+        IntFunction<String> keyWriter;
+        if (type.isEnum()) {
+            keyWriter = index -> ((Enum) type.getEnumConstants()[index - 1]).name();
+        } else if (type == char.class) {
+            keyWriter = this::writeChar;
+        } else {
+            keyWriter = String::valueOf;
+        }
+
         line(label(label), "switch", space, "(", condition, ")", space, "{");
         indent(() -> {
             caseBlocks.forEach((code, keys) -> {
                 for (int key : keys) {
-                    line("case ", conditionType == char.class ? writeChar(key) : key, ":");
+                    line("case ", keyWriter.apply(key), ":");
                 }
                 indent(() -> write(code));
             });

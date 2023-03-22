@@ -27,6 +27,7 @@ import reincarnation.coder.Coder;
 import reincarnation.coder.CodingOption;
 import reincarnation.coder.DelegatableCoder;
 import reincarnation.operator.AccessMode;
+import reincarnation.util.GeneratedCodes;
 
 class OperandMethodCall extends Operand {
 
@@ -162,20 +163,22 @@ class OperandMethodCall extends Operand {
      */
     @Override
     protected void writeCode(Coder coder) {
-        if (!method.isSynthetic()) {
-            if (method.equals(StringBuilderToString)) {
-                Iterator<Code> concat = detectStringConcantenation(owner, new LinkedList());
+        // if (!method.isSynthetic()) {
+        if (method.equals(StringBuilderToString)) {
+            Iterator<Code> concat = detectStringConcantenation(owner, new LinkedList());
 
-                if (concat != null) {
-                    coder.writeStringConcatenation(concat);
-                    return;
-                }
+            if (concat != null) {
+                coder.writeStringConcatenation(concat);
+                return;
             }
-            coder.writeMethodCall(method, owner, params, mode);
-        } else {
-            Code code = Reincarnation.exhume(method.getDeclaringClass()).methods.get(method);
-            code.write(new SyntheticMethodInliner(coder));
+        } else if (GeneratedCodes.isEnumSwitchMethod(method)) {
+            System.out.println(method + "   ");
         }
+        coder.writeMethodCall(method, owner, params, mode);
+        // } else {
+        // Code code = Reincarnation.exhume(method.getDeclaringClass()).methods.get(method);
+        // code.write(new SyntheticMethodInliner(coder));
+        // }
     }
 
     /**
@@ -226,6 +229,14 @@ class OperandMethodCall extends Operand {
      */
     private boolean isFactory(Method method) {
         return method.getDeclaringClass() == String.class && method.getName().equals("valueOf");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Signal<Operand> children() {
+        return I.signal(params).startWith(owner);
     }
 
     /**

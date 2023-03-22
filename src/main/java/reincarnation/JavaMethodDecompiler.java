@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.*;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -1136,8 +1136,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeCr
             if (enumSwitchInvoked) {
                 enumSwitchInvoked = false; // reset
 
-                // enum switch table starts from 1, but Enum#ordinal starts from 0
-                current.addOperand(current.remove(0) + "+1");
+                current.children(OperandMethodCall.class).to(method -> {
+                    current.remove(0);
+                    current.addOperand(method.owner);
+                });
                 break;
             }
         case AALOAD:
@@ -1679,6 +1681,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeCr
             break;
 
         case INVOKESTATIC: // static method call
+            if (GeneratedCodes.isEnumSwitchName(method)) {
+                enumSwitchInvoked = true;
+                return;
+            }
+
             // Non-private static method which is called from child class have parent
             // class signature.
             while (!hasStaticMethod(owner, method, parameters)) {

@@ -10,7 +10,7 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.OperandUtil.*;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -22,6 +22,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
 import kiss.I;
+import reincarnation.util.GeneratedCodes;
 
 class JavaClassDecompiler extends ClassVisitor {
 
@@ -91,6 +92,11 @@ class JavaClassDecompiler extends ClassVisitor {
                 source.staticInitializer.add(decompiler);
             } else {
                 Method method = source.clazz.getDeclaredMethod(name, load(parameterTypes));
+
+                if (GeneratedCodes.isEnumSwitchMethod(method)) {
+                    return null;
+                }
+
                 LocalVariables locals = new LocalVariables(source.clazz, isStatic, method);
                 decompiler = new JavaMethodDecompiler(source, locals, returnType, method);
 
