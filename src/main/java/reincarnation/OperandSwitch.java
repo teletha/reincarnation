@@ -27,10 +27,13 @@ class OperandSwitch extends Operand {
     private final Operand condition;
 
     /** The special case manager. */
-    private final MultiMap<Node, Integer> cases = new MultiMap(true);
+    private MultiMap<Node, Object> cases = new MultiMap(true);
 
     /** The default case. */
     private Node defaultNode;
+
+    /** The switch type mode. */
+    private final boolean isStringSwitch;
 
     /** The end node. */
     private Node follow;
@@ -43,9 +46,10 @@ class OperandSwitch extends Operand {
      * @param caseNodes the nodes corresponding to each case
      * @param defaultNode the default node
      */
-    OperandSwitch(Operand condition, int[] keys, List<Node> caseNodes, Node defaultNode) {
-        this.condition = condition;
+    OperandSwitch(Operand condition, int[] keys, List<Node> caseNodes, Node defaultNode, boolean isStringSwitch) {
+        this.condition = isStringSwitch ? ((OperandMethodCall) condition).owner : condition;
         this.defaultNode = defaultNode;
+        this.isStringSwitch = isStringSwitch;
 
         for (int i = 0; i < keys.length; i++) {
             cases.put(caseNodes.get(i), keys[i]);
@@ -89,6 +93,18 @@ class OperandSwitch extends Operand {
     void analyze(NodeCreator creator) {
         cases.sort();
         cases.remove(defaultNode);
+
+        if (isStringSwitch) {
+            MultiMap<Node, Object> converted = new MultiMap(true);
+            cases.forEach((n, v) -> {
+                OperandCondition newKey = n.children(OperandCondition.class).to().exact();
+                Object newValue = n.children(OperandCondition.class, OperandMethodCall.class).to().exact().params.get(0);
+
+                newKey.elze.outgoing.forEach(o -> o.additionalCall--);
+                converted.put(newKey.then, newValue);
+            });
+            this.cases = converted;
+        }
 
         if (isReallyDefaultNode()) {
             List<Node> candidates = nodes()

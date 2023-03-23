@@ -1225,7 +1225,6 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void conditionByString() {
         verify(new TestCode.TextParam() {
 

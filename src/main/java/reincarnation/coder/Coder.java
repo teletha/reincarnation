@@ -723,14 +723,26 @@ public abstract class Coder<O extends CodingOption> {
     public abstract void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code follow);
 
     /**
-     * Switch structure.
+     * Writes a switch statement.
      * 
-     * @param label A block label.
-     * @param condition
-     * @param conditionType TODO
-     * @param cases
-     * @param defaultCode
-     * @param follow
+     * @param label An optional label for the block.
+     * @param condition The condition to switch on.
+     * @param conditionType The type of the condition.
+     * @param caseBlocks A map of cases and their associated code blocks.
+     * @param defaultBlock The default code block to execute if no cases match.
+     * @param follow The code block to execute after the switch statement.
      */
-    public abstract void writeSwitch(Optional<String> label, Code condition, Class conditionType, MultiMap<Code, Integer> cases, Code defaultCode, Code follow);
+    public abstract void writeSwitch(Optional<String> label, Code condition, Class conditionType, MultiMap<Code, Integer> caseBlocks, Code defaultBlock, Code follow);
+
+    /**
+     * Writes a switch statement.
+     * 
+     * @param label An optional label for the block.
+     * @param condition The condition to switch on.
+     * @param conditionType The type of the condition.
+     * @param caseBlocks A map of cases and their associated code blocks.
+     * @param defaultBlock The default code block to execute if no cases match.
+     * @param follow The code block to execute after the switch statement.
+     */
+    public abstract void writeStringSwitch(Optional<String> label, Code condition, Class conditionType, MultiMap<Code, String> caseBlocks, Code defaultBlock, Code follow);
 }

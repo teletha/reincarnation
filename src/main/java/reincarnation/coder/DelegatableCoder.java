@@ -513,4 +513,13 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
     public void writeSwitch(Optional<String> label, Code condition, Class conditionType, MultiMap<Code, Integer> cases, Code defaultCode, Code follow) {
         coder.writeSwitch(label, condition, conditionType, cases, defaultCode, follow);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeStringSwitch(Optional<String> label, Code condition, Class conditionType, MultiMap<Code, String> cases, Code defaultCode, Code follow) {
+        coder.writeStringSwitch(label, condition, conditionType, cases, defaultCode, follow);
+    }
+
 }

@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.StringJoiner;
-import java.util.function.IntFunction;
+import java.util.function.Function;
 
 import kiss.I;
 import kiss.Variable;
@@ -1048,7 +1048,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeSwitch(Optional<String> label, Code condition, Class type, MultiMap<Code, Integer> caseBlocks, Code defaultBlock, Code follow) {
-        IntFunction<String> keyWriter;
+        Function<Integer, String> keyWriter;
         if (type.isEnum()) {
             keyWriter = index -> ((Enum) type.getEnumConstants()[index - 1]).name();
         } else if (type == char.class) {
@@ -1057,10 +1057,22 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             keyWriter = String::valueOf;
         }
 
+        writeSwitch(label, condition, type, keyWriter, caseBlocks, defaultBlock, follow);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeStringSwitch(Optional<String> label, Code condition, Class conditionType, MultiMap<Code, String> caseBlocks, Code defaultBlock, Code follow) {
+        writeSwitch(label, condition, conditionType, String::valueOf, caseBlocks, defaultBlock, follow);
+    }
+
+    private <T> void writeSwitch(Optional<String> label, Code condition, Class type, Function<T, String> keyWriter, MultiMap<Code, T> caseBlocks, Code defaultBlock, Code follow) {
         line(label(label), "switch", space, "(", condition, ")", space, "{");
         indent(() -> {
             caseBlocks.forEach((code, keys) -> {
-                for (int key : keys) {
+                for (T key : keys) {
                     line("case ", keyWriter.apply(key), ":");
                 }
                 indent(() -> write(code));

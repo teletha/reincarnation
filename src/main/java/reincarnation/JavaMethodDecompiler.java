@@ -1754,7 +1754,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeCr
         // connect from entrance to each cases and default
         I.signal(caseNodes).startWith(defaultNode).to(current::connect);
 
-        current.addOperand(new OperandSwitch(current.remove(0), keys, caseNodes, defaultNode));
+        current.addOperand(new OperandSwitch(current.remove(0), keys, caseNodes, defaultNode, match(ASTORE, INVOKEVIRTUAL)));
     }
 
     /**

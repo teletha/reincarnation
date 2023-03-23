@@ -25,7 +25,7 @@ public class Switch extends Breakable {
     private final Operand condition;
 
     /** A MultiMap containing the cases and their corresponding keys. */
-    private final MultiMap<Structure, Integer> cases;
+    private final MultiMap<Structure, Object> cases;
 
     /** The Node representing the default case, if any. */
     private final Structure defaultCase;
@@ -43,7 +43,7 @@ public class Switch extends Breakable {
      * @param follow the Node representing the next structure to be executed after the Switch
      *            structure.
      */
-    public Switch(Node that, Operand condition, MultiMap<Node, Integer> cases, Node defaultCase, Node follow) {
+    public Switch(Node that, Operand condition, MultiMap<Node, Object> cases, Node defaultCase, Node follow) {
         super(that, that);
 
         follow.loopExit.set(this);
