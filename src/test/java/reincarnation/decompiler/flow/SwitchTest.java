@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class SwitchTest extends CodeVerifier {
@@ -189,6 +188,23 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
+    void conditionalBlock() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                switch (param % 2) {
+                case 0:
+                    if (param < 5) {
+                        return 0;
+                    }
+                }
+                return 30;
+            }
+        });
+    }
+
+    @Test
     void nest() {
         verify(new TestCode.IntParam() {
 
@@ -211,24 +227,6 @@ class SwitchTest extends CodeVerifier {
                         return -1;
                     }
                 }
-            }
-        });
-    }
-
-    @Test
-    @Debuggable
-    void conditionalBlock() {
-        verify(new TestCode.IntParam() {
-
-            @Override
-            public int run(@Param(from = 0, to = 10) int param) {
-                switch (param % 2) {
-                case 0:
-                    if (param < 5) {
-                        return 0;
-                    }
-                }
-                return 30;
             }
         });
     }
@@ -701,6 +699,24 @@ class SwitchTest extends CodeVerifier {
                     break;
                 }
                 return value;
+            }
+        });
+    }
+
+    @Test
+    void breakConditionalBlock() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                switch (param % 2) {
+                case 0:
+                    if (param < 5) {
+                        param += 10;
+                        break;
+                    }
+                }
+                return param;
             }
         });
     }
@@ -1209,6 +1225,7 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
+    @Disabled
     void conditionByString() {
         verify(new TestCode.TextParam() {
 

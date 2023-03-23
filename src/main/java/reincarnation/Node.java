@@ -1053,69 +1053,29 @@ public class Node implements Code<Operand>, Comparable<Node> {
         }
 
         if (one.getPureIncoming().size() != 1) {
-            if (one.getDominator() != this) {
-                /**
-                 * loop breaker <pre>
-                 * loop-structure ( ~ ) {
-                 *   if (condition) {
-                 *     break; // to one
-                 *   } else {
-                 *     other
-                 *   }
-                 * }
-                 * one // dominator is not if-condition but loop-condition
-                 * </pre>
-                 */
-                condition.invert();
+            /**
+             * no else <pre>
+             * if (condition) {
+             *      other
+             * }
+             * one
+             * </pre>
+             */
+            condition.invert();
 
-                then = other;
-                elze = createConnectorNode(this, one);
-                follow = one;
-                follow.currentCalls--;
-            } else {
-                /**
-                 * no else <pre>
-                 * if (condition) {
-                 *      other
-                 * }
-                 * one
-                 * </pre>
-                 */
-                condition.invert();
-
-                then = other;
-                follow = one;
-            }
+            then = other;
+            follow = one;
         } else if (other.getPureIncoming().size() != 1) {
-            if (other.getDominator() != this) {
-                /**
-                 * loop breaker <pre>
-                 * loop-structure ( ~ ) {
-                 *   if (condition) {
-                 *     break; // to other
-                 *   } else {
-                 *     one
-                 *   }
-                 * }
-                 * other // dominator is not if-condition but loop-condition
-                 * </pre>
-                 */
-                then = one;
-                elze = createConnectorNode(this, other);
-                follow = other;
-                follow.currentCalls--;
-            } else {
-                /**
-                 * no else <pre>
-                 * if (condition) {
-                 *      one
-                 * }
-                 * other
-                 * </pre>
-                 */
-                then = one;
-                follow = other;
-            }
+            /**
+             * no else <pre>
+             * if (condition) {
+             *      one
+             * }
+             * other
+             * </pre>
+             */
+            then = one;
+            follow = other;
         } else {
             if (one.hasDominator(other)) {
                 /**
@@ -1263,32 +1223,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
             // condition.invert();
         }
         return nodes;
-    }
-
-    /**
-     * Create new connector node.
-     * 
-     * @param previous A previous node.
-     * @param next A next node.
-     * @return A new created node.
-     */
-    private static Node createConnectorNode(Node previous, Node next) {
-        // dislinkage
-        previous.disconnect(next);
-
-        // create and linkage
-        Node node = new Node(previous.id + "*" + next.id);
-        previous.connect(node);
-        node.connect(next);
-
-        node.next = previous.next;
-        node.previous = previous;
-
-        previous.next.previous = node;
-        previous.next = node;
-
-        // API definition
-        return node;
     }
 
     /**

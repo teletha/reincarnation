@@ -1427,6 +1427,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeCr
             return;
         }
 
+        // Consecutive jump instructions, such as ternary operators and if statements that break
+        // into loop structures, can be stored in separate nodes to normalize and simplify later
+        // processing.
+        if (match(JUMP)) {
+            visitLabel(new Label());
+        }
+
         // recode current instruction
         record(opcode);
 

@@ -12,7 +12,6 @@ package reincarnation.decompiler.flow;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class ForTest extends CodeVerifier {
@@ -153,7 +152,6 @@ class ForTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable
     void breakInIf() {
         verify(new TestCode.IntParam() {
 
@@ -170,7 +168,6 @@ class ForTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable
     void breakInOneLinerIf() {
         verify(new TestCode.IntParam() {
 
