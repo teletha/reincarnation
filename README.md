@@ -38,7 +38,12 @@ The output method of the analyzed code is not limited to Java, but is designed t
     - [x] Local class
     - [ ] Anonymous class
 - [x] Class initializer, instance initializer
-- [x] Constructor, field and method
+- [x] Constructor
+    - [ ] Explicit receiver parameters on inner class
+- [x] Field
+- [x] Method
+    - [x] Variable arity method (a.k.a. "varargs")
+    - [ ] Explicit receiver parameters
 - [x] Statement
     - [x] if-else
     - [x] for
@@ -124,7 +129,6 @@ The output method of the analyzed code is not limited to Java, but is designed t
     - [ ] on Type Parameter
     - [ ] on Type Use
     - [x] Repeatable declaration
-- [x] Variable arity method (a.k.a. "varargs")
 - [ ] Type interference for generic instance creation (a.k.a. the "diamond operator") (JLS11 15.9.1)
 - [x] Lambda expression
 - [x] Method reference (e.g. this::method, String::concat, Type::new, int[]::new)

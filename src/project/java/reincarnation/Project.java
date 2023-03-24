@@ -60,7 +60,12 @@ public class Project extends bee.api.Project {
                     - [x] Local class
                     - [ ] Anonymous class
                 - [x] Class initializer, instance initializer
-                - [x] Constructor, field and method
+                - [x] Constructor
+                    - [ ] Explicit receiver parameters on inner class
+                - [x] Field
+                - [x] Method
+                    - [x] Variable arity method (a.k.a. "varargs")
+                    - [ ] Explicit receiver parameters
                 - [x] Statement
                     - [x] if-else
                     - [x] for
@@ -146,7 +151,6 @@ public class Project extends bee.api.Project {
                     - [ ] on Type Parameter
                     - [ ] on Type Use
                     - [x] Repeatable declaration
-                - [x] Variable arity method (a.k.a. "varargs")
                 - [ ] Type interference for generic instance creation (a.k.a. the "diamond operator") (JLS11 15.9.1)
                 - [x] Lambda expression
                 - [x] Method reference (e.g. this::method, String::concat, Type::new, int[]::new)
