@@ -44,6 +44,9 @@ public class Project extends bee.api.Project {
                     - [ ] static import
                     - [x] class
                     - [x] interface
+                        - [x] Default method
+                        - [x] Static method
+                        - [x] Private method
                     - [x] annotation
                     - [x] enum
                     - [x] record
@@ -147,9 +150,6 @@ public class Project extends bee.api.Project {
                 - [ ] Type interference for generic instance creation (a.k.a. the "diamond operator") (JLS11 15.9.1)
                 - [x] Lambda expression
                 - [x] Method reference (e.g. this::method, String::concat, Type::new, int[]::new)
-                - [x] Default method
-                - [x] Static interface method
-                - [x] Private interface method
                 """);
     }
 

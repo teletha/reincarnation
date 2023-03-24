@@ -22,6 +22,9 @@ The output method of the analyzed code is not limited to Java, but is designed t
     - [ ] static import
     - [x] class
     - [x] interface
+        - [x] Default method
+        - [x] Static method
+        - [x] Private method
     - [x] annotation
     - [x] enum
     - [x] record
@@ -125,9 +128,6 @@ The output method of the analyzed code is not limited to Java, but is designed t
 - [ ] Type interference for generic instance creation (a.k.a. the "diamond operator") (JLS11 15.9.1)
 - [x] Lambda expression
 - [x] Method reference (e.g. this::method, String::concat, Type::new, int[]::new)
-- [x] Default method
-- [x] Static interface method
-- [x] Private interface method
 <p align="right"><a href="#top">back to top</a></p>
 
 
