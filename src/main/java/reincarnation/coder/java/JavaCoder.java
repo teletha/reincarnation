@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.StringJoiner;
-import java.util.function.Function;
 
 import kiss.I;
 import kiss.Variable;
@@ -1047,56 +1046,67 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeSwitch(Optional<String> label, Code condition, Class type, MultiMap<Code, Integer> caseBlocks, Code defaultBlock, Code follow) {
-        Function<Integer, String> keyWriter;
-        if (type.isEnum()) {
-            keyWriter = index -> ((Enum) type.getEnumConstants()[index - 1]).name();
-        } else if (type == char.class) {
-            keyWriter = this::writeChar;
-        } else {
-            keyWriter = String::valueOf;
-        }
-
-        writeSwitch(label, condition, type, keyWriter, caseBlocks, defaultBlock, follow);
+    protected void writeSwitch(Optional<String> label, Code condition, Class conditionType, Runnable caseProcess, Code follow) {
+        line(label(label), "switch", space, "(", condition, ")", space, "{");
+        indent(caseProcess);
+        line("}");
+        write(follow);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void writeStringSwitch(Optional<String> label, Code condition, Class conditionType, MultiMap<Code, String> caseBlocks, Code defaultBlock, Code follow) {
-        writeSwitch(label, condition, conditionType, String::valueOf, caseBlocks, defaultBlock, follow);
-    }
-
-    private <T> void writeSwitch(Optional<String> label, Code condition, Class type, Function<T, String> keyWriter, MultiMap<Code, T> caseBlocks, Code defaultBlock, Code follow) {
-        line(label(label), "switch", space, "(", condition, ")", space, "{");
-        indent(() -> {
-            caseBlocks.forEach((code, keys) -> {
-                for (T key : keys) {
-                    line("case ", keyWriter.apply(key), ":");
-                }
-                indent(() -> write(code));
-            });
-
-            if (defaultBlock != null) {
-                line("default:");
-                indent(() -> {
-                    write(defaultBlock);
-                });
-            }
-        });
-        line("}");
-        write(follow);
+    protected void writeIntCase(List<Integer> values, Code caseBlock) {
+        for (int value : values) {
+            line("case ", value, ":");
+        }
+        indent(() -> write(caseBlock));
     }
 
     /**
-     * Create char expression from int.
-     * 
-     * @param value
-     * @return
+     * {@inheritDoc}
      */
-    private String writeChar(int value) {
-        return "'" + (char) value + "'";
+    @Override
+    protected void writeCharCase(List<Character> values, Code caseBlock) {
+        for (char value : values) {
+            line("case '", value, "':");
+        }
+        indent(() -> write(caseBlock));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected <E extends Enum> void writeEnumCase(Class<E> type, List<E> values, Code caseBlock) {
+        String name = name(type);
+        boolean qualified = type.getName().equals(name);
+
+        for (E value : values) {
+            line("case ", qualified ? name + "." : "", value.name(), ":");
+        }
+        indent(() -> write(caseBlock));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void writeStringCase(List<String> values, Code caseBlock) {
+        for (String value : values) {
+            line("case ", value, ":");
+        }
+        indent(() -> write(caseBlock));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void writeDefaultCase(Code defaultBlock) {
+        line("default ", ":");
+        indent(() -> write(defaultBlock));
     }
 
     /**

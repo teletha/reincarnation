@@ -25,7 +25,6 @@ import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
-import reincarnation.util.MultiMap;
 
 public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> {
 
@@ -510,16 +509,48 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeSwitch(Optional<String> label, Code condition, Class conditionType, MultiMap<Code, Integer> cases, Code defaultCode, Code follow) {
-        coder.writeSwitch(label, condition, conditionType, cases, defaultCode, follow);
+    protected void writeSwitch(Optional<String> label, Code condition, Class conditionType, Runnable caseProcess, Code follow) {
+        coder.writeSwitch(label, condition, conditionType, caseProcess, follow);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void writeStringSwitch(Optional<String> label, Code condition, Class conditionType, MultiMap<Code, String> cases, Code defaultCode, Code follow) {
-        coder.writeStringSwitch(label, condition, conditionType, cases, defaultCode, follow);
+    protected void writeIntCase(List<Integer> values, Code caseBlock) {
+        coder.writeIntCase(values, caseBlock);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void writeCharCase(List<Character> values, Code caseBlock) {
+        coder.writeCharCase(values, caseBlock);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected <E extends Enum> void writeEnumCase(Class<E> type, List<E> values, Code caseBlock) {
+        coder.writeEnumCase(type, values, caseBlock);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void writeStringCase(List<String> values, Code caseBlock) {
+        coder.writeStringCase(values, caseBlock);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void writeDefaultCase(Code defaultBlock) {
+        coder.writeDefaultCase(defaultBlock);
     }
 
 }

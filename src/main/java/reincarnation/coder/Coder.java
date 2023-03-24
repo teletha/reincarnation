@@ -723,26 +723,87 @@ public abstract class Coder<O extends CodingOption> {
     public abstract void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code follow);
 
     /**
-     * Writes a switch statement.
+     * Writes switch statement.
      * 
      * @param label An optional label for the block.
      * @param condition The condition to switch on.
-     * @param conditionType The type of the condition.
+     * @param type The type of the condition.
      * @param caseBlocks A map of cases and their associated code blocks.
      * @param defaultBlock The default code block to execute if no cases match.
      * @param follow The code block to execute after the switch statement.
      */
-    public abstract void writeSwitch(Optional<String> label, Code condition, Class conditionType, MultiMap<Code, Integer> caseBlocks, Code defaultBlock, Code follow);
+    public final void writeSwitch(Optional<String> label, Code condition, Class type, MultiMap<Code, Object> caseBlocks, Code defaultBlock, Code follow) {
+        writeSwitch(label, condition, type, () -> {
+            if (Enum.class.isAssignableFrom(type)) {
+                caseBlocks.forEach((code, keys) -> {
+                    writeEnumCase(type, keys.stream().map(x -> (Enum) type.getEnumConstants()[(int) x - 1]).toList(), code);
+                });
+            } else if (type == char.class) {
+                caseBlocks.forEach((code, keys) -> {
+                    writeCharCase(keys.stream().map(x -> (char) (int) x).toList(), code);
+                });
+            } else if (type == String.class) {
+                caseBlocks.forEach((code, keys) -> {
+                    writeStringCase(keys.stream().map(String::valueOf).toList(), code);
+                });
+            } else {
+                caseBlocks.forEach((code, keys) -> {
+                    writeIntCase(keys.stream().map(x -> (Integer) x).toList(), code);
+                });
+            }
+            if (defaultBlock != null) {
+                writeDefaultCase(defaultBlock);
+            }
+        }, follow);
+    }
 
     /**
-     * Writes a switch statement.
+     * Write switch statement.
      * 
      * @param label An optional label for the block.
      * @param condition The condition to switch on.
-     * @param conditionType The type of the condition.
-     * @param caseBlocks A map of cases and their associated code blocks.
-     * @param defaultBlock The default code block to execute if no cases match.
+     * @param type The type of the condition.
+     * @param caseProcess A internal process for case and default blocks.
      * @param follow The code block to execute after the switch statement.
      */
-    public abstract void writeStringSwitch(Optional<String> label, Code condition, Class conditionType, MultiMap<Code, String> caseBlocks, Code defaultBlock, Code follow);
+    protected abstract void writeSwitch(Optional<String> label, Code condition, Class type, Runnable caseProcess, Code follow);
+
+    /**
+     * Write case block for integral value.
+     * 
+     * @param values A key value.
+     * @param caseBlock A code for case block.
+     */
+    protected abstract void writeIntCase(List<Integer> values, Code caseBlock);
+
+    /**
+     * Write case block for char value.
+     * 
+     * @param values A key value.
+     * @param caseBlock A code for case block.
+     */
+    protected abstract void writeCharCase(List<Character> values, Code caseBlock);
+
+    /**
+     * Write case block for enum value.
+     * 
+     * @param values A key value.
+     * @param caseBlock A code for case block.
+     */
+    protected abstract <E extends Enum> void writeEnumCase(Class<E> type, List<E> values, Code caseBlock);
+
+    /**
+     * Write case block for string value.
+     * 
+     * @param values A key value.
+     * @param caseBlock A code for case block.
+     */
+    protected abstract void writeStringCase(List<String> values, Code caseBlock);
+
+    /**
+     * Write case block for default value.
+     * 
+     * @param defaultBlock A code for default block.
+     */
+    protected abstract void writeDefaultCase(Code defaultBlock);
 }
