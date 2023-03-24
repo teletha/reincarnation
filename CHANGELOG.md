@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.4.0](https://github.com/teletha/reincarnation/compare/v1.3.0...v1.4.0) (2023-03-24)
+
+
+### Features
+
+* Omittable break label. ([1a30239](https://github.com/teletha/reincarnation/commit/1a302391b06390ec7a95e8ab027c0c6bca7953b8))
+* Support escape sequence in string literal. ([8d86e8c](https://github.com/teletha/reincarnation/commit/8d86e8c6ebfac0a1e3ea4f1dd038f5c131b761ff))
+* Support multiple cases on string switch. ([b622d2f](https://github.com/teletha/reincarnation/commit/b622d2f0083e1d399e29b15b2d2cdb1401b7bcfc))
+* Support repeatable annotation. ([69f6a1f](https://github.com/teletha/reincarnation/commit/69f6a1f8e5f8956e770e887d3868efebe70377d7))
+* Support switch statement by char. ([dd640c7](https://github.com/teletha/reincarnation/commit/dd640c7645c1b4691e5e4dceb936626c33263e44))
+* Support switch statement by enum. ([59ef662](https://github.com/teletha/reincarnation/commit/59ef662bf62ea6ee23adbe5a6026e9f6e4fa67a6))
+* Support switch statement by String. ([30898a0](https://github.com/teletha/reincarnation/commit/30898a0938ed6c9072fb5e5d0ba687b92c2da76b))
+* Support switch statement for integral number. ([c5dbcca](https://github.com/teletha/reincarnation/commit/c5dbccaa5b717d626e8a15f8d24dd47412b1478e))
+* Support switch statement partially. ([cf8b475](https://github.com/teletha/reincarnation/commit/cf8b4758cc9fd080a472053d8bcaebabbd0a3a46))
+* Support text block. ([277da89](https://github.com/teletha/reincarnation/commit/277da891450bc3919ed2463d68e39583deb1fd5b))
+
+
+### Bug Fixes
+
+* Hide Debugger. ([45ce4a6](https://github.com/teletha/reincarnation/commit/45ce4a6e6904f329d7e72eb4c09d93c8459d57bc))
+* Normalize the sequencial jump instructions. ([3972ec7](https://github.com/teletha/reincarnation/commit/3972ec7bcf632e755529215d2cc2e0851ad073d1))
+* Omit empty default block on switch. ([a48a7f6](https://github.com/teletha/reincarnation/commit/a48a7f64b9b64a7dc27367cf4de28c983a3904cf))
+
 ## [1.3.0](https://github.com/teletha/reincarnation/compare/v1.2.0...v1.3.0) (2023-03-16)
 
 
