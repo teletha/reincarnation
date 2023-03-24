@@ -11,7 +11,8 @@ package reincarnation;
 
 import java.util.List;
 
-public interface NodeCreator {
+public interface NodeManipulator {
+
     /**
      * Create a new node before the specified node.
      *
@@ -89,4 +90,11 @@ public interface NodeCreator {
 
         return created;
     }
+
+    /**
+     * Dispose the specified node.
+     * 
+     * @param node A target node to dispose.
+     */
+    void dispose(Node node);
 }

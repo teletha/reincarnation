@@ -153,7 +153,7 @@ final class LocalVariables implements Naming {
      * Otherwise, declare in the header of the dominator node.
      * </p>
      */
-    void analyzeVariableDeclarationNode(NodeCreator creator) {
+    void analyzeVariableDeclarationNode(NodeManipulator manipulator) {
         root: for (OperandLocalVariable variable : variables.values()) {
             // Determine if you need to add a node for variable declarations. For example, if the
             // same variable is referenced by multiple child nodes, you must consider whether you
@@ -179,7 +179,7 @@ final class LocalVariables implements Naming {
                 }
 
                 // Create additional nodes for declarations to use common variable declarations.
-                creator.createNodeBefore(header, variable);
+                manipulator.createNodeBefore(header, variable);
             }
         }
     }

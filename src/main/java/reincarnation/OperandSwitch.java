@@ -90,7 +90,7 @@ class OperandSwitch extends Operand {
     /**
      * Analyze following node.
      */
-    void analyze(NodeCreator creator) {
+    void analyze(NodeManipulator manipulator) {
         cases.sort();
         cases.remove(defaultNode);
 
@@ -101,11 +101,6 @@ class OperandSwitch extends Operand {
             MultiMap<Node, Object> renewed = new MultiMap(true);
             cases.keys().to(oldCaseBlock -> {
                 OperandCondition condition = oldCaseBlock.child(OperandCondition.class).exact();
-                Node caseBlock = condition.then;
-                Node caseBreak = condition.elze;
-
-                caseBreak.outgoing.forEach(o -> o.additionalCall--);
-                if (renewed.containsKey(caseBlock)) caseBlock.additionalCall--;
 
                 // retrieve the actual matching text
                 String text = oldCaseBlock.children(OperandCondition.class, OperandMethodCall.class, OperandString.class)
@@ -113,7 +108,10 @@ class OperandSwitch extends Operand {
                         .exact()
                         .toString();
 
-                renewed.put(caseBlock, text);
+                renewed.put(condition.then, text);
+
+                manipulator.dispose(condition.elze);
+                manipulator.dispose(oldCaseBlock);
             });
             this.cases = renewed;
         }
@@ -145,7 +143,7 @@ class OperandSwitch extends Operand {
             List<Node> cases = nodes().toList();
             List<Node> incomings = I.signal(follow.getPureIncoming()).take(n -> n.hasDominatorAny(cases)).toList();
 
-            follow = creator.createSplitterNodeBefore(follow, incomings);
+            follow = manipulator.createSplitterNodeBefore(follow, incomings);
             follow.additionalCall++;
         }
     }

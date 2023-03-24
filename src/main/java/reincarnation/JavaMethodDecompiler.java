@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.load;
+import static reincarnation.OperandUtil.*;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -49,7 +49,7 @@ import reincarnation.util.Classes;
 import reincarnation.util.GeneratedCodes;
 import reincarnation.util.MultiMap;
 
-class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeCreator {
+class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeManipulator {
 
     /** The reusable reference to record method. */
     private static final Method RecordToString;
@@ -1939,16 +1939,15 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeCr
     }
 
     /**
-     * Helper method to dispose the specified node.
+     * {@inheritDoc}
      */
-    private final void dispose(Node target) {
-        dispose(target, false, true);
+    @Override
+    public final void dispose(Node node) {
+        dispose(node, false, true);
     }
 
     /**
-     * <p>
      * Helper method to dispose the specified node.
-     * </p>
      * 
      * @param target A target node to dipose.
      * @param clearStack true will clear all operands in target node, false will transfer them into
