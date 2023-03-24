@@ -73,10 +73,15 @@ public class Project extends bee.api.Project {
                     - [x] break
                     - [x] continue
                     - [x] switch
+                        - [x] fall through
                         - [x] by char
                         - [x] by enum
                         - [x] by String
                         - [ ] pattern matching
+                        - [ ] expression
+                            - [ ] yield
+                            - [ ] arrow syntax
+                            - [ ] multiple comma-separated labels
                     - [ ] synchronized
                     - [x] assert
                     - [x] labeled statement
