@@ -1105,8 +1105,10 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     protected void writeDefaultCase(Code defaultBlock) {
-        line("default ", ":");
-        indent(() -> write(defaultBlock));
+        if (defaultBlock != null && defaultBlock.isNotEmpty()) {
+            line("default ", ":");
+            indent(() -> write(defaultBlock));
+        }
     }
 
     /**
