@@ -898,7 +898,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
                 return new Try(this, removed.start, catches, removed.exit);
             }
 
-            Variable<Structure> switcher = child(OperandSwitch.class).map(o -> o.structurize(this));
+            Variable<Structure> switcher = children(OperandSwitch.class).map(o -> o.structurize(this)).to();
             if (switcher.isPresent()) {
                 return switcher.v;
             }

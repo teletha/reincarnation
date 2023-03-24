@@ -173,6 +173,13 @@ public abstract class Operand implements Code<Operand> {
         statement = true;
     }
 
+    /**
+     * Mark this {@link Operand} as expression.
+     */
+    public final void markAsExpression() {
+        statement = false;
+    }
+
     public <T extends Operand> Variable<T> as(Class<T> type) {
         return I.signal(this).as(type).to();
     }

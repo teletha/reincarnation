@@ -54,6 +54,8 @@ class OperandSwitch extends Operand {
         for (int i = 0; i < keys.length; i++) {
             cases.put(caseNodes.get(i), keys[i]);
         }
+
+        markAsStatement();
     }
 
     /**
@@ -78,6 +80,8 @@ class OperandSwitch extends Operand {
     @Override
     protected void writeCode(Coder coder) {
     }
+
+    private Structure struct;
 
     /**
      * @param that

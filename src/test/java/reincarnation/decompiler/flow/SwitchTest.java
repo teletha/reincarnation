@@ -1308,7 +1308,7 @@ class SwitchTest extends CodeVerifier {
 
     @Test
     @Disabled
-    void switchExpression() {
+    void expression() {
         verify(new TestCode.IntParam() {
 
             @Override
@@ -1316,10 +1316,7 @@ class SwitchTest extends CodeVerifier {
                 return switch (param) {
                 case 0 -> 10;
                 case 1 -> 15;
-                default -> {
-                    param += -2;
-                    yield 20 + param;
-                }
+                default -> param;
                 };
             }
         });

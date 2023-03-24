@@ -188,6 +188,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     private static final int LOAD = 500;
 
+    /**
+     * Represents a switch instruction. TABLESWITCH, LOOKUPSWITCH etc
+     */
+    private static final int SWITCH = 510;
+
     /** The extra opcode for byte code parsing. */
     private static final int LABEL = 300;
 
@@ -671,6 +676,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         case F_SAME:
             record(FRAME_SAME);
+
+            if (match(SWITCH, LABEL, FRAME)) {
+                current.peek(0).as(OperandSwitch.class).to(Operand::markAsExpression);
+            }
 
             if (nLocal == 0 && nStack == 0) {
                 processTernaryOperator();
@@ -1736,11 +1745,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     @Override
     public void visitTableSwitchInsn(int min, int max, Label defaults, Label... labels) {
+        // recode current instruction
+        record(TABLESWITCH);
+
         int[] keys = new int[max - min + 1];
         for (int i = 0; i < keys.length; i++) {
             keys[i] = min + i;
         }
-        visitLookupSwitchInsn(defaults, keys, labels);
+        visitSwitchInsn(defaults, keys, labels);
     }
 
     /**
@@ -1748,13 +1760,20 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     @Override
     public void visitLookupSwitchInsn(Label defaultLabel, int[] keys, Label[] labels) {
+        // recode current instruction
+        record(LOOKUPSWITCH);
+
+        visitSwitchInsn(defaultLabel, keys, labels);
+    }
+
+    private void visitSwitchInsn(Label defaultLabel, int[] keys, Label[] labels) {
         Node defaultNode = getNode(defaultLabel);
         List<Node> caseNodes = I.signal(labels).map(this::getNode).toList();
 
         // connect from entrance to each cases and default
         I.signal(caseNodes).startWith(defaultNode).to(current::connect);
 
-        current.addOperand(new OperandSwitch(current.remove(0), keys, caseNodes, defaultNode, match(ASTORE, INVOKEVIRTUAL)));
+        current.addOperand(new OperandSwitch(current.remove(0), keys, caseNodes, defaultNode, match(ASTORE, INVOKEVIRTUAL, SWITCH)));
     }
 
     /**
@@ -2422,6 +2441,16 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             case OptionalLABEL:
                 if (record != LABEL) j++;
                 continue root;
+
+            case SWITCH:
+                switch (record) {
+                case LOOKUPSWITCH:
+                case TABLESWITCH:
+                    continue root;
+
+                default:
+                    return false;
+                }
 
             default:
                 if (record != opcodes[i]) {
