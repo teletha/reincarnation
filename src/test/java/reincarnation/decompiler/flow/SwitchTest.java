@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class SwitchTest extends CodeVerifier {
@@ -1206,6 +1205,28 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
+    void conditionByCharMultiple() {
+        verify(new TestCode.CharParam() {
+
+            @Override
+            public char run(@Param(chars = {'a', 'b', 'c', 'd', 'e'}) char param) {
+                switch (param) {
+                case 'a':
+                case 'b':
+                    return 'X';
+
+                case 'c':
+                case 'd':
+                    return 'Y';
+
+                default:
+                    return param;
+                }
+            }
+        });
+    }
+
+    @Test
     void conditionByEnum() {
         verify(new TestCode.IntParam() {
 
@@ -1226,7 +1247,24 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable
+    void conditionByEnumMultiple() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 3) int param) {
+                switch (RetentionPolicy.values()[param]) {
+                case CLASS:
+                case RUNTIME:
+                    return 20;
+
+                default:
+                    return 30;
+                }
+            }
+        });
+    }
+
+    @Test
     void conditionByString() {
         verify(new TestCode.TextParam() {
 
@@ -1238,6 +1276,28 @@ class SwitchTest extends CodeVerifier {
 
                 case "b":
                     return "B";
+
+                default:
+                    return param;
+                }
+            }
+        });
+    }
+
+    @Test
+    void conditionByStringMultiple() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"a", "b", "c", "d", "e"}) String param) {
+                switch (param) {
+                case "a":
+                case "b":
+                    return "AB";
+
+                case "c":
+                case "d":
+                    return "CD";
 
                 default:
                     return param;

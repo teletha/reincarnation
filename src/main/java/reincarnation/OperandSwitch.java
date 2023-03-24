@@ -33,7 +33,7 @@ class OperandSwitch extends Operand {
     private Node defaultNode;
 
     /** The switch type mode. */
-    private final boolean isStringSwitch;
+    private final boolean switchForString;
 
     /** The end node. */
     private Node follow;
@@ -46,10 +46,10 @@ class OperandSwitch extends Operand {
      * @param caseNodes the nodes corresponding to each case
      * @param defaultNode the default node
      */
-    OperandSwitch(Operand condition, int[] keys, List<Node> caseNodes, Node defaultNode, boolean isStringSwitch) {
-        this.condition = isStringSwitch ? ((OperandMethodCall) condition).owner : condition;
+    OperandSwitch(Operand condition, int[] keys, List<Node> caseNodes, Node defaultNode, boolean switchForString) {
+        this.condition = switchForString ? ((OperandMethodCall) condition).owner : condition;
         this.defaultNode = defaultNode;
-        this.isStringSwitch = isStringSwitch;
+        this.switchForString = switchForString;
 
         for (int i = 0; i < keys.length; i++) {
             cases.put(caseNodes.get(i), keys[i]);
@@ -94,18 +94,33 @@ class OperandSwitch extends Operand {
         cases.sort();
         cases.remove(defaultNode);
 
-        if (isStringSwitch) {
-            MultiMap<Node, Object> converted = new MultiMap(true);
-            cases.forEach((n, v) -> {
-                OperandCondition newKey = n.children(OperandCondition.class).to().exact();
-                Object newValue = n.children(OperandCondition.class, OperandMethodCall.class).to().exact().params.get(0);
+        // ===============================================
+        // Special handling for string switch
+        // ===============================================
+        if (switchForString) {
+            MultiMap<Node, Object> renewed = new MultiMap(true);
+            cases.keys().to(oldCaseBlock -> {
+                OperandCondition condition = oldCaseBlock.child(OperandCondition.class).exact();
+                Node caseBlock = condition.then;
+                Node caseBreak = condition.elze;
 
-                newKey.elze.outgoing.forEach(o -> o.additionalCall--);
-                converted.put(newKey.then, newValue);
+                caseBreak.outgoing.forEach(o -> o.additionalCall--);
+                if (renewed.containsKey(caseBlock)) caseBlock.additionalCall--;
+
+                // retrieve the actual matching text
+                String text = oldCaseBlock.children(OperandCondition.class, OperandMethodCall.class, OperandString.class)
+                        .to()
+                        .exact()
+                        .toString();
+
+                renewed.put(caseBlock, text);
             });
-            this.cases = converted;
+            this.cases = renewed;
         }
 
+        // ===============================================
+        // Detect the really default node
+        // ===============================================
         if (isReallyDefaultNode()) {
             List<Node> candidates = nodes()
                     .flatMap(node -> node.outgoingRecursively(n -> cases.containsKey(n) || n == defaultNode)
