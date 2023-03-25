@@ -30,7 +30,7 @@ public class Fragment extends Structure {
      * @param code
      */
     public Fragment(Node code) {
-        this(code, null, true);
+        this(code, null);
     }
 
     /**
@@ -38,16 +38,7 @@ public class Fragment extends Structure {
      * 
      * @param code
      */
-    public Fragment(Node code, boolean statement) {
-        this(code, null, statement);
-    }
-
-    /**
-     * Code fragment.
-     * 
-     * @param code
-     */
-    public Fragment(Node code, Structure follow, boolean statement) {
+    public Fragment(Node code, Structure follow) {
         super(code);
 
         this.code = Objects.requireNonNull(code);
@@ -58,7 +49,7 @@ public class Fragment extends Structure {
             operand.disclose();
 
             // top level operands MUST be statement.
-            if (statement) operand.markAsStatement();
+            operand.markAsStatement();
         });
     }
 

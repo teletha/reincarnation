@@ -917,7 +917,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
             if (isSwitchStatement()) {
                 return child(OperandSwitch.class).v.structurize();
             } else if (isSwitchExpression()) {
-                return new Fragment(this, false);
+                return Structure.Empty;
             }
 
             analyzed = true;
@@ -935,7 +935,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
                 // do while or normal
                 if (backs == 0) {
                     // normal node with follower
-                    return new Fragment(this, process(outgoing.get(0)), true);
+                    return new Fragment(this, process(outgoing.get(0)));
                 } else if (backs == 1) {
                     // do while or infinite loop
                     BackedgeGroup group = new BackedgeGroup(this);
