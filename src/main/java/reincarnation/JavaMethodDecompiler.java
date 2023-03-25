@@ -678,14 +678,15 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     .reverse()
                     .buffer()
                     .to(nodes -> {
-                        OperandSwitch switcher = nodes.get(0).child(OperandSwitch.class).v;
+                        Node entrance = nodes.get(0);
+                        OperandSwitch switcher = entrance.child(OperandSwitch.class).v;
                         if (switcher != null && switcher.isOther(current)) {
                             switcher.markAsExpression();
 
                             analyze(nodes);
 
-                            current.stack.addAll(nodes.get(0).stack);
-                            nodes.get(0).stack.clear();
+                            current.stack.addAll(entrance.stack);
+                            entrance.stack.clear();
 
                             this.nodes.removeAll(nodes);
                         }

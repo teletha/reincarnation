@@ -916,6 +916,8 @@ public class Node implements Code<Operand>, Comparable<Node> {
 
             if (isSwitchStatement()) {
                 return child(OperandSwitch.class).v.structurize();
+            } else if (isSwitchExpression()) {
+                return Structure.Empty;
             }
 
             analyzed = true;
