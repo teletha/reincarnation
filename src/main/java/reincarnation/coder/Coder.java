@@ -130,7 +130,7 @@ public abstract class Coder<O extends CodingOption> {
      * 
      * @param codes
      */
-    protected final void write(Object... codes) {
+    public final void write(Object... codes) {
         for (Object code : codes) {
             if (code != null) {
                 if (code instanceof Code) {
@@ -736,23 +736,57 @@ public abstract class Coder<O extends CodingOption> {
         writeSwitch(label, condition, type, () -> {
             if (Enum.class.isAssignableFrom(type)) {
                 caseBlocks.forEach((code, keys) -> {
-                    writeEnumCase(type, keys.stream().map(x -> (Enum) type.getEnumConstants()[(int) x - 1]).toList(), code);
+                    writeEnumCase(true, type, keys.stream().map(x -> (Enum) type.getEnumConstants()[(int) x - 1]).toList(), code);
                 });
             } else if (type == char.class) {
                 caseBlocks.forEach((code, keys) -> {
-                    writeCharCase(keys.stream().map(x -> (char) (int) x).toList(), code);
+                    writeCharCase(true, keys.stream().map(x -> (char) (int) x).toList(), code);
                 });
             } else if (type == String.class) {
                 caseBlocks.forEach((code, keys) -> {
-                    writeStringCase(keys.stream().map(String::valueOf).toList(), code);
+                    writeStringCase(true, keys.stream().map(String::valueOf).toList(), code);
                 });
             } else {
                 caseBlocks.forEach((code, keys) -> {
-                    writeIntCase(keys.stream().map(x -> (Integer) x).toList(), code);
+                    writeIntCase(true, keys.stream().map(x -> (Integer) x).toList(), code);
                 });
             }
             if (defaultBlock != null) {
-                writeDefaultCase(defaultBlock);
+                writeDefaultCase(true, defaultBlock);
+            }
+        }, follow);
+    }
+
+    /**
+     * Writes switch expression.
+     * 
+     * @param condition The condition to switch on.
+     * @param type The type of the condition.
+     * @param caseBlocks A map of cases and their associated code blocks.
+     * @param defaultBlock The default code block to execute if no cases match.
+     * @param follow The code block to execute after the switch statement.
+     */
+    public final void writeSwitchExpression(Code condition, Class type, MultiMap<Code, Object> caseBlocks, Code defaultBlock, Code follow) {
+        writeSwitchExpression(condition, type, () -> {
+            if (Enum.class.isAssignableFrom(type)) {
+                caseBlocks.forEach((code, keys) -> {
+                    writeEnumCase(true, type, keys.stream().map(x -> (Enum) type.getEnumConstants()[(int) x - 1]).toList(), code);
+                });
+            } else if (type == char.class) {
+                caseBlocks.forEach((code, keys) -> {
+                    writeCharCase(true, keys.stream().map(x -> (char) (int) x).toList(), code);
+                });
+            } else if (type == String.class) {
+                caseBlocks.forEach((code, keys) -> {
+                    writeStringCase(true, keys.stream().map(String::valueOf).toList(), code);
+                });
+            } else {
+                caseBlocks.forEach((code, keys) -> {
+                    writeIntCase(false, keys.stream().map(x -> (Integer) x).toList(), code);
+                });
+            }
+            if (defaultBlock != null) {
+                writeDefaultCase(false, defaultBlock);
             }
         }, follow);
     }
@@ -769,41 +803,56 @@ public abstract class Coder<O extends CodingOption> {
     protected abstract void writeSwitch(Optional<String> label, Code condition, Class type, Runnable caseProcess, Code follow);
 
     /**
+     * Write switch expression.
+     * 
+     * @param condition The condition to switch on.
+     * @param type The type of the condition.
+     * @param caseProcess A internal process for case and default blocks.
+     * @param follow The code block to execute after the switch statement.
+     */
+    protected abstract void writeSwitchExpression(Code condition, Class type, Runnable caseProcess, Code follow);
+
+    /**
      * Write case block for integral value.
      * 
+     * @param statement True means statement mode, False means expression mode.
      * @param values A key value.
      * @param caseBlock A code for case block.
      */
-    protected abstract void writeIntCase(List<Integer> values, Code caseBlock);
+    protected abstract void writeIntCase(boolean statement, List<Integer> values, Code caseBlock);
 
     /**
      * Write case block for char value.
      * 
+     * @param statement True means statement mode, False means expression mode.
      * @param values A key value.
      * @param caseBlock A code for case block.
      */
-    protected abstract void writeCharCase(List<Character> values, Code caseBlock);
+    protected abstract void writeCharCase(boolean statement, List<Character> values, Code caseBlock);
 
     /**
      * Write case block for enum value.
      * 
+     * @param statement True means statement mode, False means expression mode.
      * @param values A key value.
      * @param caseBlock A code for case block.
      */
-    protected abstract <E extends Enum> void writeEnumCase(Class<E> type, List<E> values, Code caseBlock);
+    protected abstract <E extends Enum> void writeEnumCase(boolean statement, Class<E> type, List<E> values, Code caseBlock);
 
     /**
      * Write case block for string value.
      * 
+     * @param statement True means statement mode, False means expression mode.
      * @param values A key value.
      * @param caseBlock A code for case block.
      */
-    protected abstract void writeStringCase(List<String> values, Code caseBlock);
+    protected abstract void writeStringCase(boolean statement, List<String> values, Code caseBlock);
 
     /**
      * Write case block for default value.
      * 
+     * @param statement True means statement mode, False means expression mode.
      * @param defaultBlock A code for default block.
      */
-    protected abstract void writeDefaultCase(Code defaultBlock);
+    protected abstract void writeDefaultCase(boolean statement, Code defaultBlock);
 }

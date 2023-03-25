@@ -9,6 +9,7 @@
  */
 package reincarnation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kiss.I;
@@ -22,6 +23,9 @@ import reincarnation.util.MultiMap;
  * Operand representing a switch statement.
  */
 class OperandSwitch extends Operand {
+
+    /** The entrance node. */
+    private final Node entrance;
 
     /** The condition. */
     private final Operand condition;
@@ -41,12 +45,14 @@ class OperandSwitch extends Operand {
     /**
      * Creates a new {@code OperandSwitch} instance.
      *
+     * @param entrance the entrance node
      * @param condition the condition operand
      * @param keys the keys for each case
      * @param caseNodes the nodes corresponding to each case
      * @param defaultNode the default node
      */
-    OperandSwitch(Operand condition, int[] keys, List<Node> caseNodes, Node defaultNode, boolean switchForString) {
+    OperandSwitch(Node entrance, Operand condition, int[] keys, List<Node> caseNodes, Node defaultNode, boolean switchForString) {
+        this.entrance = entrance;
         this.condition = switchForString ? ((OperandMethodCall) condition).owner : condition;
         this.defaultNode = defaultNode;
         this.switchForString = switchForString;
@@ -71,7 +77,7 @@ class OperandSwitch extends Operand {
      */
     @Override
     public String toString() {
-        return "switch(" + condition + ") case " + nodes().skipNull().map(x -> x == defaultNode ? "Default" + x.id : x.id).toList();
+        return "switch(" + condition + ") case " + nodes().skipNull().map(x -> x == defaultNode ? x.id + "D" : x.id).toList();
     }
 
     /**
@@ -79,9 +85,12 @@ class OperandSwitch extends Operand {
      */
     @Override
     protected void writeCode(Coder coder) {
+        if (Debugger.whileDebug) {
+            coder.write(toString());
+        } else {
+            coder.writeSwitchExpression(condition, condition.type(), cases, defaultNode, follow);
+        }
     }
-
-    private Structure struct;
 
     /**
      * @param that
@@ -92,11 +101,41 @@ class OperandSwitch extends Operand {
     }
 
     /**
+     * Test the given node is any case or not.
+     * 
+     * @param node
+     * @return
+     */
+    boolean isCase(Node node) {
+        return cases.containsKey(node);
+    }
+
+    /**
+     * Test the given node is default case or not.
+     * 
+     * @param node
+     * @return
+     */
+    boolean isDefault(Node node) {
+        return defaultNode == node;
+    }
+
+    /**
+     * Tests whether a given node is unrelated to this switch.
+     * 
+     * @param node
+     * @return
+     */
+    boolean isOther(Node node) {
+        return !isCase(node) && !isDefault(node) && entrance != node;
+    }
+
+    /**
      * Analyze following node.
      */
     void analyze(NodeManipulator manipulator) {
         cases.sort();
-        cases.remove(defaultNode);
+        if (defaultNode != null) cases.remove(defaultNode);
 
         // ===============================================
         // Special handling for string switch
@@ -143,6 +182,17 @@ class OperandSwitch extends Operand {
             defaultNode = null;
         }
 
+        if (follow != null && follow.frame != null && follow.frame.nStack() != 0) {
+            markAsExpression();
+
+            List<Node> incomings = new ArrayList(entrance.incoming);
+            entrance.disconnect(true, false);
+            follow.disconnect(true, false);
+
+            incomings.forEach(in -> in.connect(follow));
+            return;
+        }
+
         if (defaultNode != null) {
             List<Node> cases = nodes().toList();
             List<Node> incomings = I.signal(follow.getPureIncoming()).take(n -> n.hasDominatorAny(cases)).toList();
@@ -150,6 +200,7 @@ class OperandSwitch extends Operand {
             follow = manipulator.createSplitterNodeBefore(follow, incomings);
             follow.additionalCall++;
         }
+
     }
 
     /**

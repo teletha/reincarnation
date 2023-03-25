@@ -1057,57 +1057,91 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    protected void writeIntCase(List<Integer> values, Code caseBlock) {
-        for (int value : values) {
-            line("case ", value, ":");
-        }
-        indent(() -> write(caseBlock));
+    protected void writeSwitchExpression(Code condition, Class type, Runnable caseProcess, Code follow) {
+        lineNI("switch", space, "(", condition, ")", space, "{");
+        indent(caseProcess);
+        lineNB("}");
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void writeCharCase(List<Character> values, Code caseBlock) {
-        for (char value : values) {
-            line("case '", value, "':");
+    protected void writeIntCase(boolean statement, List<Integer> values, Code caseBlock) {
+        if (statement) {
+            for (int value : values) {
+                line("case ", value, ":");
+            }
+            indent(() -> write(caseBlock));
+        } else {
+            Join labels = Join.of(values).separator("," + space);
+            line("case ", labels, space, "->", space, caseBlock, ";");
         }
-        indent(() -> write(caseBlock));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected <E extends Enum> void writeEnumCase(Class<E> type, List<E> values, Code caseBlock) {
+    protected void writeCharCase(boolean statement, List<Character> values, Code caseBlock) {
+        if (statement) {
+            for (char value : values) {
+                line("case '", value, "':");
+            }
+            indent(() -> write(caseBlock));
+        } else {
+            Join labels = Join.of(values).separator("," + space).converter(v -> "'" + v + "'");
+            line("case ", labels, space, "->", space, caseBlock, ";");
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected <E extends Enum> void writeEnumCase(boolean statement, Class<E> type, List<E> values, Code caseBlock) {
         String name = name(type);
         boolean qualified = type.getName().equals(name);
 
-        for (E value : values) {
-            line("case ", qualified ? name + "." : "", value.name(), ":");
+        if (statement) {
+            for (E value : values) {
+                line("case ", qualified ? name + "." : "", value.name(), ":");
+            }
+            indent(() -> write(caseBlock));
+        } else {
+            Join labels = Join.of(values).separator("," + space).converter(v -> qualified ? name + "." + v.name() : v.name());
+            line("case ", labels, space, "->", space, caseBlock, ";");
         }
-        indent(() -> write(caseBlock));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void writeStringCase(List<String> values, Code caseBlock) {
-        for (String value : values) {
-            line("case ", value, ":");
+    protected void writeStringCase(boolean statement, List<String> values, Code caseBlock) {
+        if (statement) {
+            for (String value : values) {
+                line("case ", value, ":");
+            }
+            indent(() -> write(caseBlock));
+        } else {
+            Join labels = Join.of(values).separator("," + space);
+            line("case ", labels, space, "->", space, caseBlock, ";");
         }
-        indent(() -> write(caseBlock));
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void writeDefaultCase(Code defaultBlock) {
-        if (defaultBlock != null && defaultBlock.isNotEmpty()) {
-            line("default ", ":");
-            indent(() -> write(defaultBlock));
+    protected void writeDefaultCase(boolean statement, Code defaultBlock) {
+        if (statement) {
+            if (defaultBlock != null && defaultBlock.isNotEmpty()) {
+                line("default ", ":");
+                indent(() -> write(defaultBlock));
+            }
+        } else {
+            line("default ->", space, defaultBlock, ";");
         }
     }
 

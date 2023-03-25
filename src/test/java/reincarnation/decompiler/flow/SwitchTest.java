@@ -1308,22 +1308,6 @@ class SwitchTest extends CodeVerifier {
 
     @Test
     @Disabled
-    void expression() {
-        verify(new TestCode.IntParam() {
-
-            @Override
-            public int run(@Param(from = 0, to = 5) int param) {
-                return switch (param) {
-                case 0 -> 10;
-                case 1 -> 15;
-                default -> param;
-                };
-            }
-        });
-    }
-
-    @Test
-    @Disabled
     void blockInDefault() {
         verify(new TestCode.IntParam() {
 

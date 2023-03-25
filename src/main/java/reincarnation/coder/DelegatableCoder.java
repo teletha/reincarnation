@@ -517,40 +517,47 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    protected void writeIntCase(List<Integer> values, Code caseBlock) {
-        coder.writeIntCase(values, caseBlock);
+    protected void writeSwitchExpression(Code condition, Class conditionType, Runnable caseProcess, Code follow) {
+        coder.writeSwitchExpression(condition, conditionType, caseProcess, follow);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void writeCharCase(List<Character> values, Code caseBlock) {
-        coder.writeCharCase(values, caseBlock);
+    protected void writeIntCase(boolean statement, List<Integer> values, Code caseBlock) {
+        coder.writeIntCase(statement, values, caseBlock);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected <E extends Enum> void writeEnumCase(Class<E> type, List<E> values, Code caseBlock) {
-        coder.writeEnumCase(type, values, caseBlock);
+    protected void writeCharCase(boolean statement, List<Character> values, Code caseBlock) {
+        coder.writeCharCase(statement, values, caseBlock);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void writeStringCase(List<String> values, Code caseBlock) {
-        coder.writeStringCase(values, caseBlock);
+    protected <E extends Enum> void writeEnumCase(boolean statement, Class<E> type, List<E> values, Code caseBlock) {
+        coder.writeEnumCase(statement, type, values, caseBlock);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void writeDefaultCase(Code defaultBlock) {
-        coder.writeDefaultCase(defaultBlock);
+    protected void writeStringCase(boolean statement, List<String> values, Code caseBlock) {
+        coder.writeStringCase(statement, values, caseBlock);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void writeDefaultCase(boolean statement, Code defaultBlock) {
+        coder.writeDefaultCase(statement, defaultBlock);
+    }
 }

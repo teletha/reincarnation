@@ -10,15 +10,16 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.*;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -37,6 +38,7 @@ import org.objectweb.asm.Type;
 import kiss.I;
 import kiss.Signal;
 import reincarnation.Debugger.Printable;
+import reincarnation.Node.Frame;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.Naming;
@@ -278,6 +280,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     /** The default debugger. */
     private final Debugger debugger = Debugger.current();
 
+    /** The associated frame info. */
+    private Frame frame;
+
     /**
      * @param source
      * @param locals
@@ -363,13 +368,30 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             return;
         }
 
+        analyze(nodes);
+
+        // ============================================
+        // Reset debugger state
+        // ============================================
+        debugger.finishMethod();
+    }
+
+    /**
+     * Analyze the given sequencial nodes.
+     * 
+     * @param nodes
+     */
+    private void analyze(List<Node> nodes) {
+        // ============================================
+        // Print debug info
+        // ============================================
+        debugger.printMethod();
+        debugger.print(nodes);
+
         // Dispose all nodes which contains synchronized block.
         for (Node node : synchronizer) {
             dispose(node, true, false);
         }
-
-        debugger.printMethod();
-        debugger.print(nodes);
 
         tries.disposeCopiedFinallyBlock();
 
@@ -402,7 +424,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         }
 
         // ============================================
-        // Analyze all switch blocks.
+        // Analyze all switch block
         // ============================================
         try (Printable diff = debugger.diff(nodes, "Analyze switch")) {
             new ArrayList<>(nodes).forEach(n -> n.child(OperandSwitch.class).to(op -> {
@@ -432,7 +454,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         // Analyze node relation
         // ============================================
         try (Printable diff = debugger.diff(nodes, "Analyze nodes")) {
-            root = nodes.peekFirst().analyze();
+            root = nodes.get(0).analyze();
         }
 
         // ============================================
@@ -441,10 +463,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         root.structurize();
 
         // ============================================
-        // Reset debugger state
+        // Print debug info
         // ============================================
-        debugger.finishMethod();
-
         debugger.print(nodes);
     }
 
@@ -655,6 +675,26 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     @Override
     public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
+        current.frame = new Frame(type, nLocal, Arrays.asList(local), nStack, Arrays.asList(stack));
+
+        if (nStack != 0) {
+            I.signal(current)
+                    .recurseMap(x -> x.map(n -> n.previous).skipNull())
+                    .skip(current)
+                    .takeUntil(Node::isSwitch)
+                    .reverse()
+                    .buffer()
+                    .take(nodes -> nodes.get(0).child(OperandSwitch.class).is(x -> x != null && x.isOther(current)))
+                    .to(nodes -> {
+                            analyze(nodes);
+
+                            current.stack.addAll(nodes.get(0).stack);
+                            nodes.get(0).stack.clear();
+
+                            this.nodes.removeAll(nodes);
+                    });
+        }
+
         switch (type) {
         case F_NEW:
             record(FRAME_NEW);
@@ -676,10 +716,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         case F_SAME:
             record(FRAME_SAME);
-
-            if (match(SWITCH, LABEL, FRAME)) {
-                current.peek(0).as(OperandSwitch.class).to(Operand::markAsExpression);
-            }
 
             if (nLocal == 0 && nStack == 0) {
                 processTernaryOperator();
@@ -1767,13 +1803,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     }
 
     private void visitSwitchInsn(Label defaultLabel, int[] keys, Label[] labels) {
-        Node defaultNode = getNode(defaultLabel);
         List<Node> caseNodes = I.signal(labels).map(this::getNode).toList();
+        Node defaultNode = getNode(defaultLabel);
 
         // connect from entrance to each cases and default
         I.signal(caseNodes).startWith(defaultNode).to(current::connect);
 
-        current.addOperand(new OperandSwitch(current.remove(0), keys, caseNodes, defaultNode, match(ASTORE, INVOKEVIRTUAL, SWITCH)));
+        current.addOperand(new OperandSwitch(current, current
+                .remove(0), keys, caseNodes, defaultNode, match(ASTORE, INVOKEVIRTUAL, SWITCH)));
     }
 
     /**
