@@ -19,7 +19,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -38,7 +37,6 @@ import org.objectweb.asm.Type;
 import kiss.I;
 import kiss.Signal;
 import reincarnation.Debugger.Printable;
-import reincarnation.Node.Frame;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.Naming;
@@ -279,9 +277,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
     /** The default debugger. */
     private final Debugger debugger = Debugger.current();
-
-    /** The associated frame info. */
-    private Frame frame;
 
     /**
      * @param source
@@ -675,23 +670,25 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     @Override
     public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
-        current.frame = new Frame(type, nLocal, Arrays.asList(local), nStack, Arrays.asList(stack));
-
         if (nStack != 0) {
             I.signal(current)
                     .recurseMap(x -> x.map(n -> n.previous).skipNull())
                     .skip(current)
-                    .takeUntil(Node::isSwitch)
+                    .takeUntil(Node::isSwitchStatement)
                     .reverse()
                     .buffer()
-                    .take(nodes -> nodes.get(0).child(OperandSwitch.class).is(x -> x != null && x.isOther(current)))
                     .to(nodes -> {
+                        OperandSwitch switcher = nodes.get(0).child(OperandSwitch.class).v;
+                        if (switcher != null && switcher.isOther(current)) {
+                            switcher.markAsExpression();
+
                             analyze(nodes);
 
                             current.stack.addAll(nodes.get(0).stack);
                             nodes.get(0).stack.clear();
 
                             this.nodes.removeAll(nodes);
+                        }
                     });
         }
 
@@ -1164,7 +1161,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             Operand operand = current.remove(0);
             operand.fix(returnType);
 
-            current.addOperand(new OperandReturn(operand));
+            current.addOperand(new OperandReturn(operand).fix(returnType));
             current.destination = Termination;
             break;
 

@@ -86,17 +86,19 @@ public abstract class Operand implements Code<Operand> {
      * @param other
      */
     protected final Operand bindTo(Operand other) {
-        if (isFixed()) {
-            if (other.isFixed()) {
-                // do nothing
+        if (other != null && other != this) {
+            if (isFixed()) {
+                if (other.isFixed()) {
+                    // do nothing
+                } else {
+                    other.fix(type.v);
+                }
             } else {
-                other.fix(type.v);
-            }
-        } else {
-            if (other.isFixed()) {
-                fix(other.type.v);
-            } else {
-                type.observing().skip(Object.class).to(other.type::set);
+                if (other.isFixed()) {
+                    fix(other.type.v);
+                } else {
+                    type.observing().skip(Object.class).to(other.type::set);
+                }
             }
         }
         return this;

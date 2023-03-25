@@ -29,6 +29,8 @@ class OperandReturn extends Operand {
      */
     public OperandReturn(Operand value) {
         this.value = value == null ? Variable.empty() : Variable.of(value.disclose());
+
+        bindTo(value);
     }
 
     /**

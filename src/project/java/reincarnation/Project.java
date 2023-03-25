@@ -86,10 +86,10 @@ public class Project extends bee.api.Project {
                         - [x] by enum
                         - [x] by String
                         - [ ] pattern matching
-                        - [ ] expression
+                        - [x] expression
                             - [ ] yield
-                            - [ ] arrow syntax
-                            - [ ] multiple comma-separated labels
+                            - [x] arrow syntax
+                            - [x] multiple comma-separated labels
                     - [ ] synchronized
                     - [x] assert
                     - [x] labeled statement

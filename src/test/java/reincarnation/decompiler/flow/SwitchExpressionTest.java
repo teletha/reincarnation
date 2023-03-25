@@ -52,4 +52,34 @@ class SwitchExpressionTest extends CodeVerifier {
             }
         });
     }
+
+    @Test
+    void conditionByChar() {
+        verify(new TestCode.CharParam() {
+
+            @Override
+            public char run(@Param(chars = {'a', 'b', 'c', 'd', 'e'}) char param) {
+                return switch (param) {
+                case 'a' -> 'A';
+                case 'b' -> 'B';
+                default -> param;
+                };
+            }
+        });
+    }
+
+    @Test
+    void conditionByCharMultiple() {
+        verify(new TestCode.CharParam() {
+
+            @Override
+            public char run(@Param(chars = {'a', 'b', 'c', 'd', 'e'}) char param) {
+                return switch (param) {
+                case 'a', 'b' -> 'X';
+                case 'c', 'd' -> 'Y';
+                default -> param;
+                };
+            }
+        });
+    }
 }

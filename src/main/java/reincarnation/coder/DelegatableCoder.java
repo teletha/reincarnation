@@ -509,16 +509,8 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    protected void writeSwitch(Optional<String> label, Code condition, Class conditionType, Runnable caseProcess, Code follow) {
-        coder.writeSwitch(label, condition, conditionType, caseProcess, follow);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void writeSwitchExpression(Code condition, Class conditionType, Runnable caseProcess, Code follow) {
-        coder.writeSwitchExpression(condition, conditionType, caseProcess, follow);
+    protected void writeSwitch(boolean statement, Optional<String> label, Code condition, Class conditionType, Runnable caseProcess, Code follow) {
+        coder.writeSwitch(statement, label, condition, conditionType, caseProcess, follow);
     }
 
     /**

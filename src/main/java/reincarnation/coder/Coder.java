@@ -491,7 +491,7 @@ public abstract class Coder<O extends CodingOption> {
      * 
      * @param code A value to be checked.
      * @param type A type to check.
-     * @param cast TODO
+     * @param cast A casting code.
      */
     public abstract void writeInstanceof(Code code, Class type, Code cast);
 
@@ -725,6 +725,7 @@ public abstract class Coder<O extends CodingOption> {
     /**
      * Writes switch statement.
      * 
+     * @param statement True means statement mode, False means expression mode.
      * @param label An optional label for the block.
      * @param condition The condition to switch on.
      * @param type The type of the condition.
@@ -732,61 +733,27 @@ public abstract class Coder<O extends CodingOption> {
      * @param defaultBlock The default code block to execute if no cases match.
      * @param follow The code block to execute after the switch statement.
      */
-    public final void writeSwitch(Optional<String> label, Code condition, Class type, MultiMap<Code, Object> caseBlocks, Code defaultBlock, Code follow) {
-        writeSwitch(label, condition, type, () -> {
+    public final void writeSwitch(boolean statement, Optional<String> label, Code condition, Class type, MultiMap<Code, Object> caseBlocks, Code defaultBlock, Code follow) {
+        writeSwitch(statement, label, condition, type, () -> {
             if (Enum.class.isAssignableFrom(type)) {
                 caseBlocks.forEach((code, keys) -> {
-                    writeEnumCase(true, type, keys.stream().map(x -> (Enum) type.getEnumConstants()[(int) x - 1]).toList(), code);
+                    writeEnumCase(statement, type, keys.stream().map(x -> (Enum) type.getEnumConstants()[(int) x - 1]).toList(), code);
                 });
             } else if (type == char.class) {
                 caseBlocks.forEach((code, keys) -> {
-                    writeCharCase(true, keys.stream().map(x -> (char) (int) x).toList(), code);
+                    writeCharCase(statement, keys.stream().map(x -> (char) (int) x).toList(), code);
                 });
             } else if (type == String.class) {
                 caseBlocks.forEach((code, keys) -> {
-                    writeStringCase(true, keys.stream().map(String::valueOf).toList(), code);
+                    writeStringCase(statement, keys.stream().map(String::valueOf).toList(), code);
                 });
             } else {
                 caseBlocks.forEach((code, keys) -> {
-                    writeIntCase(true, keys.stream().map(x -> (Integer) x).toList(), code);
+                    writeIntCase(statement, keys.stream().map(x -> (Integer) x).toList(), code);
                 });
             }
             if (defaultBlock != null) {
-                writeDefaultCase(true, defaultBlock);
-            }
-        }, follow);
-    }
-
-    /**
-     * Writes switch expression.
-     * 
-     * @param condition The condition to switch on.
-     * @param type The type of the condition.
-     * @param caseBlocks A map of cases and their associated code blocks.
-     * @param defaultBlock The default code block to execute if no cases match.
-     * @param follow The code block to execute after the switch statement.
-     */
-    public final void writeSwitchExpression(Code condition, Class type, MultiMap<Code, Object> caseBlocks, Code defaultBlock, Code follow) {
-        writeSwitchExpression(condition, type, () -> {
-            if (Enum.class.isAssignableFrom(type)) {
-                caseBlocks.forEach((code, keys) -> {
-                    writeEnumCase(true, type, keys.stream().map(x -> (Enum) type.getEnumConstants()[(int) x - 1]).toList(), code);
-                });
-            } else if (type == char.class) {
-                caseBlocks.forEach((code, keys) -> {
-                    writeCharCase(true, keys.stream().map(x -> (char) (int) x).toList(), code);
-                });
-            } else if (type == String.class) {
-                caseBlocks.forEach((code, keys) -> {
-                    writeStringCase(true, keys.stream().map(String::valueOf).toList(), code);
-                });
-            } else {
-                caseBlocks.forEach((code, keys) -> {
-                    writeIntCase(false, keys.stream().map(x -> (Integer) x).toList(), code);
-                });
-            }
-            if (defaultBlock != null) {
-                writeDefaultCase(false, defaultBlock);
+                writeDefaultCase(statement, defaultBlock);
             }
         }, follow);
     }
@@ -794,23 +761,14 @@ public abstract class Coder<O extends CodingOption> {
     /**
      * Write switch statement.
      * 
-     * @param label An optional label for the block.
+     * @param statement True means statement mode, False means expression mode.
+     * @param label An optional label for the switch block, empty means expression mode.
      * @param condition The condition to switch on.
      * @param type The type of the condition.
      * @param caseProcess A internal process for case and default blocks.
      * @param follow The code block to execute after the switch statement.
      */
-    protected abstract void writeSwitch(Optional<String> label, Code condition, Class type, Runnable caseProcess, Code follow);
-
-    /**
-     * Write switch expression.
-     * 
-     * @param condition The condition to switch on.
-     * @param type The type of the condition.
-     * @param caseProcess A internal process for case and default blocks.
-     * @param follow The code block to execute after the switch statement.
-     */
-    protected abstract void writeSwitchExpression(Code condition, Class type, Runnable caseProcess, Code follow);
+    protected abstract void writeSwitch(boolean statement, Optional<String> label, Code condition, Class type, Runnable caseProcess, Code follow);
 
     /**
      * Write case block for integral value.

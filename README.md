@@ -64,10 +64,10 @@ The output method of the analyzed code is not limited to Java, but is designed t
         - [x] by enum
         - [x] by String
         - [ ] pattern matching
-        - [ ] expression
+        - [x] expression
             - [ ] yield
-            - [ ] arrow syntax
-            - [ ] multiple comma-separated labels
+            - [x] arrow syntax
+            - [x] multiple comma-separated labels
     - [ ] synchronized
     - [x] assert
     - [x] labeled statement
@@ -231,7 +231,7 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 
 ## Dependency
 Reincarnation depends on the following products on runtime.
-* [asm-9.4](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.4)
+* [asm-9.5](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.5)
 * [psychopath-1.7.1](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.7.1)
 * [sinobu-3.2.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.2.0)
 <p align="right"><a href="#top">back to top</a></p>

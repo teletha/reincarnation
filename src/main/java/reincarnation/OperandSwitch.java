@@ -9,8 +9,8 @@
  */
 package reincarnation;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import kiss.I;
 import kiss.Signal;
@@ -88,16 +88,15 @@ class OperandSwitch extends Operand {
         if (Debugger.whileDebug) {
             coder.write(toString());
         } else {
-            coder.writeSwitchExpression(condition, condition.type(), cases, defaultNode, follow);
+            coder.writeSwitch(false, Optional.empty(), condition, condition.type(), cases, defaultNode, follow);
         }
     }
 
     /**
-     * @param that
      * @return
      */
-    public Structure structurize(Node that) {
-        return new Switch(that, condition, cases, defaultNode, follow);
+    public Structure structurize() {
+        return new Switch(entrance, condition, cases, defaultNode, follow);
     }
 
     /**
@@ -135,7 +134,7 @@ class OperandSwitch extends Operand {
      */
     void analyze(NodeManipulator manipulator) {
         cases.sort();
-        if (defaultNode != null) cases.remove(defaultNode);
+        cases.remove(defaultNode);
 
         // ===============================================
         // Special handling for string switch
@@ -182,16 +181,8 @@ class OperandSwitch extends Operand {
             defaultNode = null;
         }
 
-        if (follow != null && follow.frame != null && follow.frame.nStack() != 0) {
-            markAsExpression();
-
-            List<Node> incomings = new ArrayList(entrance.incoming);
-            entrance.disconnect(true, false);
-            follow.disconnect(true, false);
-
-            incomings.forEach(in -> in.connect(follow));
-            return;
-        }
+        // type inference
+        follow.getPureIncoming().forEach(in -> bindTo(in.peek(0)));
 
         if (defaultNode != null) {
             List<Node> cases = nodes().toList();
@@ -200,7 +191,6 @@ class OperandSwitch extends Operand {
             follow = manipulator.createSplitterNodeBefore(follow, incomings);
             follow.additionalCall++;
         }
-
     }
 
     /**

@@ -95,9 +95,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
     /** The state. */
     private boolean whileFindingDominator;
 
-    /** The associated frame info. */
-    Frame frame;
-
     /** The flag whether this node has already written or not. */
     boolean analyzed = false;
 
@@ -162,8 +159,17 @@ public class Node implements Code<Operand>, Comparable<Node> {
      * 
      * @return
      */
-    final boolean isSwitch() {
-        return child(OperandSwitch.class).isPresent();
+    final boolean isSwitchStatement() {
+        return child(OperandSwitch.class).map(OperandSwitch::isStatement).or(Boolean.FALSE);
+    }
+
+    /**
+     * Check node type.
+     * 
+     * @return
+     */
+    final boolean isSwitchExpression() {
+        return child(OperandSwitch.class).map(OperandSwitch::isExpression).or(Boolean.FALSE);
     }
 
     /**
@@ -908,13 +914,8 @@ public class Node implements Code<Operand>, Comparable<Node> {
                 return new Try(this, removed.start, catches, removed.exit);
             }
 
-            Variable<OperandSwitch> switcher = children(OperandSwitch.class).to();
-            if (switcher.isPresent()) {
-                if (switcher.v.isStatement()) {
-                    return switcher.v.structurize(this);
-                } else {
-                    return new Fragment(this);
-                }
+            if (isSwitchStatement()) {
+                return child(OperandSwitch.class).v.structurize();
             }
 
             analyzed = true;
@@ -1348,12 +1349,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
             builder.append(operand.disclose());
         }
         return builder.toString();
-    }
-
-    /**
-     * Frame info.
-     */
-    record Frame(int type, int nLocal, List local, int nStack, List stack) {
     }
 
     /**

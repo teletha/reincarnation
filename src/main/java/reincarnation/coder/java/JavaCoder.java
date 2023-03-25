@@ -1046,21 +1046,17 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    protected void writeSwitch(Optional<String> label, Code condition, Class conditionType, Runnable caseProcess, Code follow) {
-        line(label(label), "switch", space, "(", condition, ")", space, "{");
-        indent(caseProcess);
-        line("}");
-        write(follow);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void writeSwitchExpression(Code condition, Class type, Runnable caseProcess, Code follow) {
-        lineNI("switch", space, "(", condition, ")", space, "{");
-        indent(caseProcess);
-        lineNB("}");
+    protected void writeSwitch(boolean statement, Optional<String> label, Code condition, Class conditionType, Runnable caseProcess, Code follow) {
+        if (statement) {
+            line(label(label), "switch", space, "(", condition, ")", space, "{");
+            indent(caseProcess);
+            line("}");
+            write(follow);
+        } else {
+            lineNI("switch", space, "(", condition, ")", space, "{");
+            indent(caseProcess);
+            lineNB("}");
+        }
     }
 
     /**
