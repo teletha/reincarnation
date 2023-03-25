@@ -1807,8 +1807,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         // connect from entrance to each cases and default
         I.signal(caseNodes).startWith(defaultNode).to(current::connect);
 
-        current.addOperand(new OperandSwitch(current, current
-                .remove(0), keys, caseNodes, defaultNode, match(ASTORE, INVOKEVIRTUAL, SWITCH)));
+        boolean isString = match(ASTORE, INVOKEVIRTUAL, SWITCH);
+        if (isString) {
+            locals.unregister(latestLocalVariableAccess());
+        }
+
+        current.addOperand(new OperandSwitch(current, current.remove(0), keys, caseNodes, defaultNode, isString));
     }
 
     /**
@@ -1993,14 +1997,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final void dispose(Node node) {
-        dispose(node, false, true);
-    }
-
-    /**
      * Helper method to dispose the specified node.
      * 
      * @param target A target node to dipose.
@@ -2008,7 +2004,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      *            the previous node.
      * @param recursive true will dispose the previous node if it is empty.
      */
-    private final void dispose(Node target, boolean clearStack, boolean recursive) {
+    @Override
+    public final void dispose(Node target, boolean clearStack, boolean recursive) {
         if (nodes.contains(target)) {
             // remove actually
             nodes.remove(target);
@@ -2494,6 +2491,15 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             }
         }
         return true;
+    }
+
+    /**
+     * Find the id of local variable which is accessed at latest.
+     * 
+     * @return
+     */
+    private int latestLocalVariableAccess() {
+        return localVarialbeAccess[(localVarialbeAccessIndex - 1 + localVarialbeAccess.length) % localVarialbeAccess.length];
     }
 
     /**

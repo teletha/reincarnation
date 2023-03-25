@@ -9,7 +9,6 @@
  */
 package reincarnation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -153,8 +152,8 @@ class OperandSwitch extends Operand {
 
                 renewed.put(condition.then, text);
 
-                manipulator.dispose(condition.elze);
-                manipulator.dispose(oldCaseBlock);
+                manipulator.dispose(condition.elze, true, true);
+                manipulator.dispose(oldCaseBlock, true, true);
             });
             this.cases = renewed;
         }
@@ -185,13 +184,13 @@ class OperandSwitch extends Operand {
         // type inference
         follow.getPureIncoming().forEach(in -> bindTo(in.peek(0)));
 
-        if (entrance.isSwitchExpression()) {
-            List<Node> incomings = new ArrayList(entrance.incoming);
-            entrance.disconnect(true, false);
-            follow.disconnect(true, false);
-
-            incomings.forEach(in -> in.connect(follow));
-        }
+        // if (entrance.isSwitchExpression()) {
+        // List<Node> incomings = new ArrayList(entrance.incoming);
+        // entrance.disconnect(true, false);
+        // follow.disconnect(true, false);
+        //
+        // incomings.forEach(in -> in.connect(follow));
+        // }
 
         if (defaultNode != null) {
             List<Node> cases = nodes().toList();

@@ -11,7 +11,6 @@ package reincarnation.decompiler.flow;
 
 import java.lang.annotation.RetentionPolicy;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
@@ -116,7 +115,6 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void conditionByString() {
         verify(new TestCode.TextParam() {
 
@@ -125,6 +123,21 @@ class SwitchExpressionTest extends CodeVerifier {
                 return switch (param) {
                 case "a" -> "A";
                 case "b" -> "B";
+                default -> param;
+                };
+            }
+        });
+    }
+
+    @Test
+    void conditionByStringMultiple() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"a", "b", "c", "d", "e"}) String param) {
+                return switch (param) {
+                case "a", "b" -> "AB";
+                case "c", "d" -> "CD";
                 default -> param;
                 };
             }

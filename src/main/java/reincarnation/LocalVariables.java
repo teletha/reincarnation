@@ -9,14 +9,16 @@
  */
 package reincarnation;
 
-import static reincarnation.OperandUtil.*;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import reincarnation.coder.Naming;
 
@@ -36,6 +38,9 @@ final class LocalVariables implements Naming {
 
     /** The undeclared local variable manager. */
     private final Map<String, OperandLocalVariable> variables = new HashMap();
+
+    /** The unused variables. */
+    private final Set<Integer> unregistered = new HashSet();
 
     /**
      * Create variable manager.
@@ -117,6 +122,16 @@ final class LocalVariables implements Naming {
         bindings.put(index, variable.index);
     }
 
+    /**
+     * Unregister the local variable by index.
+     * 
+     * @param index
+     */
+    void unregister(int index) {
+        bindings.remove(index);
+        unregistered.add(index);
+    }
+
     boolean isLocal(OperandLocalVariable variable) {
         return offset < variable.index;
     }
@@ -155,6 +170,8 @@ final class LocalVariables implements Naming {
      */
     void analyzeVariableDeclarationNode(NodeManipulator manipulator) {
         root: for (OperandLocalVariable variable : variables.values()) {
+            if (unregistered.contains(variable.index)) continue;
+
             // Determine if you need to add a node for variable declarations. For example, if the
             // same variable is referenced by multiple child nodes, you must consider whether you
             // should declare the variable at each child node or create a common parent node and

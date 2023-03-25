@@ -96,5 +96,17 @@ public interface NodeManipulator {
      * 
      * @param node A target node to dispose.
      */
-    void dispose(Node node);
+    default void dispose(Node node) {
+        dispose(node, false, true);
+    }
+
+    /**
+     * Helper method to dispose the specified node.
+     * 
+     * @param target A target node to dipose.
+     * @param clearStack true will clear all operands in target node, false will transfer them into
+     *            the previous node.
+     * @param recursive true will dispose the previous node if it is empty.
+     */
+    void dispose(Node target, boolean clearStack, boolean recursive);
 }
