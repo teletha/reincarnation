@@ -1161,9 +1161,13 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                 indent(() -> write(defaultBlock));
             }
         } else {
-            line("default ->", space, "{");
+            vars.start();
+
+            line("default ", space, "->", space, "{");
             indent(defaultBlock::write);
             line("}");
+
+            vars.end();
         }
     }
 
