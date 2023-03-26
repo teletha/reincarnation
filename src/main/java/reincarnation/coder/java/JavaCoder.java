@@ -1078,7 +1078,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             }
             indent(() -> write(caseBlock));
         } else {
-            Join labels = Join.of(values).separator("," + space);
+            Join labels = Join.of(values).prefix("case ").separator("," + space);
             writeSwitchExpressionBlock(labels, caseBlock);
         }
     }
@@ -1094,7 +1094,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             }
             indent(() -> write(caseBlock));
         } else {
-            Join labels = Join.of(values).separator("," + space).converter(v -> "'" + v + "'");
+            Join labels = Join.of(values).prefix("case ").separator("," + space).converter(v -> "'" + v + "'");
             writeSwitchExpressionBlock(labels, caseBlock);
         }
     }
@@ -1113,7 +1113,10 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             }
             indent(() -> write(caseBlock));
         } else {
-            Join labels = Join.of(values).separator("," + space).converter(v -> qualified ? name + "." + v.name() : v.name());
+            Join labels = Join.of(values)
+                    .prefix("case ")
+                    .separator("," + space)
+                    .converter(v -> qualified ? name + "." + v.name() : v.name());
             writeSwitchExpressionBlock(labels, caseBlock);
         }
     }
@@ -1129,25 +1132,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             }
             indent(() -> write(caseBlock));
         } else {
-            Join labels = Join.of(values).separator("," + space);
+            Join labels = Join.of(values).prefix("case ").separator("," + space);
             writeSwitchExpressionBlock(labels, caseBlock);
         }
-    }
-
-    /**
-     * Write the given case or default block for switch expression.
-     * 
-     * @param labels
-     * @param block
-     */
-    private void writeSwitchExpressionBlock(Join labels, Code block) {
-        vars.start();
-
-        line("case ", labels, space, "->", space, "{");
-        indent(block::write);
-        line("}");
-
-        vars.end();
     }
 
     /**
@@ -1161,14 +1148,25 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                 indent(() -> write(defaultBlock));
             }
         } else {
-            vars.start();
-
-            line("default ", space, "->", space, "{");
-            indent(defaultBlock::write);
-            line("}");
-
-            vars.end();
+            Join labels = Join.of().prefix("default");
+            writeSwitchExpressionBlock(labels, defaultBlock);
         }
+    }
+
+    /**
+     * Write the given case or default block for switch expression.
+     * 
+     * @param labels
+     * @param block
+     */
+    private void writeSwitchExpressionBlock(Join labels, Code block) {
+        vars.start();
+
+        line(labels, space, "->", space, "{");
+        indent(block::write);
+        line("}");
+
+        vars.end();
     }
 
     /**
