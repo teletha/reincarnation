@@ -141,6 +141,14 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
+    public void writeYield(Code code) {
+        coder.writeYield(code);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeBoolean(boolean code) {
         coder.writeBoolean(code);
     }

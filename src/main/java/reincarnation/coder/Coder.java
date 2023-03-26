@@ -349,6 +349,13 @@ public abstract class Coder<O extends CodingOption> {
     public abstract void writeReturn(Variable<Code> code);
 
     /**
+     * Yield expression.
+     * 
+     * @param code A yield code.
+     */
+    public abstract void writeYield(Code code);
+
+    /**
      * Boolean literal.
      * 
      * @param code A boolean literal.

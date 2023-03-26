@@ -1992,7 +1992,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         }
     }
 
-    private final boolean isDisposed(Node node) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final boolean isDisposed(Node node) {
         return !nodes.contains(node);
     }
 
@@ -2145,7 +2149,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      * @param label A label for node.
      * @return An asossiated and cached node.
      */
-    private final Node getNode(Label label) {
+    private Node getNode(Label label) {
         Node node = (Node) label.info;
 
         // search cached node
@@ -2163,7 +2167,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      * @param nodes A sequence of nodes.
      * @return A last node.
      */
-    private final Node link(Node... nodes) {
+    private Node link(Node... nodes) {
         int size = nodes.length - 1;
 
         for (int i = 0; i < size; i++) {
@@ -2179,7 +2183,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     /**
      * Helper method to merge all conditional operands.
      */
-    private final void merge(Node node) {
+    private void merge(Node node) {
         if (node == null) {
             return;
         }
@@ -2232,7 +2236,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     /**
      * Record the current instruction.
      */
-    private final void record(int opcode) {
+    private void record(int opcode) {
         // insert anonymous label at head if the processing method has no label
         if (records[0] == 0 && opcode != LABEL) {
             visitLabel(new Label());
@@ -2248,7 +2252,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     /**
      * Record the access to local variable.
      */
-    private final void recordLocalVariableAccess(int position) {
+    private void recordLocalVariableAccess(int position) {
         localVarialbeAccess[localVarialbeAccessIndex++] = position;
 
         if (localVarialbeAccessIndex == localVarialbeAccess.length) {
@@ -2262,7 +2266,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      * @param opcodes A sequence of opecodes to match.
      * @return A result.
      */
-    private final boolean match(int... opcodes) {
+    private boolean match(int... opcodes) {
         root: for (int i = opcodes.length - 1, j = opcodes.length - 1; 0 <= i; i--, j--) {
             int record = records[(recordIndex + j + records.length - opcodes.length) % records.length];
 
@@ -2508,7 +2512,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      * @param position A sequence of local variable positions to match.
      * @return A result.
      */
-    private final boolean matchLocalVariableAccess(int... position) {
+    private boolean matchLocalVariableAccess(int... position) {
         for (int i = 0; i < position.length; i++) {
             if (localVarialbeAccess[(localVarialbeAccessIndex + i + localVarialbeAccess.length - position.length) % localVarialbeAccess.length] != position[i]) {
                 return false;
@@ -2526,7 +2530,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      * @param post Post or pre.
      * @return A suitable code.
      */
-    private final Operand increment(Operand context, Class type, boolean increase, boolean post) {
+    private Operand increment(Operand context, Class type, boolean increase, boolean post) {
         UnaryOperator operator;
 
         if (post) {
@@ -2545,7 +2549,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      * @param types
      * @return
      */
-    private final boolean hasStaticMethod(Class owner, String name, Class[] types) {
+    private boolean hasStaticMethod(Class owner, String name, Class[] types) {
         if (owner == null) {
             return false;
         }

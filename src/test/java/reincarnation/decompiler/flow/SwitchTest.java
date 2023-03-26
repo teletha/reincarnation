@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class SwitchTest extends CodeVerifier {
@@ -1266,7 +1265,6 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable
     void conditionByString() {
         verify(new TestCode.TextParam() {
 

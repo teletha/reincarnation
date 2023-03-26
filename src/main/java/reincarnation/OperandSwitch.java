@@ -88,7 +88,10 @@ class OperandSwitch extends Operand {
         if (Debugger.whileDebug) {
             coder.write(toString());
         } else {
-            coder.writeSwitch(false, Optional.empty(), condition, condition.type(), cases, defaultNode, follow);
+            MultiMap<Structure, Object> caseBlocks = cases.convertKeys(entrance::process);
+            Structure defaultBlock = entrance.process(defaultNode);
+
+            coder.writeSwitch(false, Optional.empty(), condition, condition.type(), caseBlocks, defaultBlock, null);
         }
     }
 
@@ -181,8 +184,15 @@ class OperandSwitch extends Operand {
             defaultNode = null;
         }
 
-        // type inference
-        follow.getPureIncoming().forEach(in -> bindTo(in.peek(0)));
+        if (isExpression()) {
+            follow.getPureIncoming().forEach(in -> {
+                OperandYield yield = new OperandYield(in.remove(0));
+                in.addOperand(yield);
+
+                // type inference
+                bindTo(yield);
+            });
+        }
 
         // if (entrance.isSwitchExpression()) {
         // List<Node> incomings = new ArrayList(entrance.incoming);

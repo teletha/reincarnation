@@ -60,7 +60,7 @@ public class While extends Loopable {
      */
     @Override
     public Signal<Structure> follower() {
-        return I.signal(follow);
+        return I.signal(follow).skipNull();
     }
 
     /**

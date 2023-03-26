@@ -184,6 +184,19 @@ final class LocalVariables implements Naming {
             // If the header node is not one of the referent nodes, a common variable declaration
             // must be used.
             if (header != null && !variable.referrers.contains(header)) {
+                // Variable declarations for nodes that have already been discarded need not be
+                // handled.
+                if (manipulator.isDisposed(header)) {
+                    continue;
+                }
+
+                // Variable declarations with switch expressions as common nodes need not be
+                // considered, since it is believed that the variable declarations used in each case
+                // are simply duplicates.
+                if (header.isSwitchExpression()) {
+                    continue;
+                }
+
                 // If multiple types use the same variable, a common variable declaration cannot be
                 // used if one header node is the dominator of the other header node.
                 for (OperandLocalVariable other : variables.values()) {

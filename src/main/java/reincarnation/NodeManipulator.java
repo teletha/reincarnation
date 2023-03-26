@@ -92,6 +92,14 @@ public interface NodeManipulator {
     }
 
     /**
+     * Test whether the given node is disposed or not.
+     * 
+     * @param node A target node to test.
+     * @return A result of test.
+     */
+    boolean isDisposed(Node node);
+
+    /**
      * Dispose the specified node.
      * 
      * @param node A target node to dispose.
