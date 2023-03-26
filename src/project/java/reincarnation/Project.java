@@ -87,7 +87,7 @@ public class Project extends bee.api.Project {
                         - [x] by String
                         - [ ] pattern matching
                         - [x] expression
-                            - [ ] yield
+                            - [x] yield
                             - [x] arrow syntax
                             - [x] multiple comma-separated labels
                     - [ ] synchronized

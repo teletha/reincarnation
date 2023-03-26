@@ -65,7 +65,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
         - [x] by String
         - [ ] pattern matching
         - [x] expression
-            - [ ] yield
+            - [x] yield
             - [x] arrow syntax
             - [x] multiple comma-separated labels
     - [ ] synchronized
