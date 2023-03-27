@@ -599,6 +599,8 @@ class Debugger {
     /** The compiling route. */
     private Deque<DebugContext> route = new ArrayDeque();
 
+    private DebugContext lastAccessed;
+
     /**
      * Record starting class compiling.
      * 
@@ -618,7 +620,7 @@ class Debugger {
      * @param clazz A target class.
      */
     void finish(Class clazz) {
-        route.pollFirst();
+        lastAccessed = route.pollFirst();
     }
 
     /**
@@ -664,7 +666,7 @@ class Debugger {
      * @return The current compiling class.
      */
     Class getTarget() {
-        return route.peekFirst().clazz;
+        return latest().clazz;
     }
 
     /**
@@ -673,7 +675,7 @@ class Debugger {
      * @return The current compiling member.
      */
     Executable getExecutable() {
-        return route.peekFirst().executable;
+        return latest().executable;
     }
 
     /**
@@ -682,7 +684,7 @@ class Debugger {
      * @return The current compiling class.
      */
     String getMethodName() {
-        return route.peekFirst().signature;
+        return latest().signature;
     }
 
     /**
@@ -691,7 +693,7 @@ class Debugger {
      * @return The current compiling class.
      */
     int getMethodLine() {
-        return route.peekFirst().line;
+        return latest().line;
     }
 
     /**
@@ -700,7 +702,11 @@ class Debugger {
      * @return The current compiling class.
      */
     int getLine() {
-        return route.peekFirst().lineNow;
+        return latest().lineNow;
+    }
+
+    private DebugContext latest() {
+        return route.isEmpty() ? lastAccessed : route.peekFirst();
     }
 
     /**

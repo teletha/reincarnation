@@ -11,6 +11,7 @@ package reincarnation.decompiler.flow;
 
 import java.lang.annotation.RetentionPolicy;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
@@ -112,6 +113,68 @@ class SwitchExpressionTest extends CodeVerifier {
                     int value = param;
                     yield value + 3;
                 }
+                };
+            }
+        });
+    }
+
+    @Test
+    void conditional() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                return switch (param) {
+                case 0, 1, 2 -> {
+                    if (param < 2) {
+                        yield 10;
+                    } else {
+                        yield -20;
+                    }
+                }
+                default -> param;
+                };
+            }
+        });
+    }
+
+    @Test
+    void loop() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                return switch (param) {
+                case 0, 1, 2 -> {
+                    int value = 0;
+                    for (int i = 0; i < param; i++) {
+                        value += 2;
+                    }
+                    yield value;
+                }
+                default -> param;
+                };
+            }
+        });
+    }
+
+    @Test
+    @Disabled
+    void tryCatch() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                return switch (param) {
+                case 0, 1, 2 -> {
+                    try {
+                        param = MaybeThrow.error(param);
+                    } catch (Error e) {
+                        param = param + 1;
+                    }
+                    yield param;
+                }
+                default -> param;
                 };
             }
         });

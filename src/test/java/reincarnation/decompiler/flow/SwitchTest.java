@@ -188,7 +188,7 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
-    void conditionalBlock() {
+    void conditional() {
         verify(new TestCode.IntParam() {
 
             @Override
@@ -200,6 +200,50 @@ class SwitchTest extends CodeVerifier {
                     }
                 }
                 return 30;
+            }
+        });
+    }
+
+    @Test
+    void loop() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                switch (param) {
+                case 0, 1, 2:
+                    int value = 0;
+                    for (int i = 0; i < param; i++) {
+                        value += 2;
+                    }
+                    return value;
+
+                default:
+                    return param;
+                }
+            }
+        });
+    }
+
+    @Test
+    @Disabled
+    void tryCatch() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                switch (param) {
+                case 0, 1, 2:
+                    try {
+                        param = MaybeThrow.error(param);
+                    } catch (Error e) {
+                        param = param + 1;
+                    }
+                    return param + 5;
+
+                default:
+                    return param;
+                }
             }
         });
     }
