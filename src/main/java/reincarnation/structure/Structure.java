@@ -86,12 +86,11 @@ public abstract class Structure implements Code<Structure> {
     }
 
     /**
-     * Collect all follower structures.
-     * 
-     * @return
+     * {@inheritDoc}
      */
-    public Signal<Structure> follower() {
-        return I.signal();
+    @Override
+    public boolean hasFollower() {
+        return follower().skip(Empty).to().isPresent();
     }
 
     /**

@@ -1162,9 +1162,13 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     private void writeSwitchExpressionBlock(Join labels, Code block) {
         vars.start();
 
-        line(labels, space, "->", space, "{");
-        indent(block::write);
-        line("}");
+        if (block.hasFollower()) {
+            line(labels, space, "->", space, "{");
+            indent(block::write);
+            line("}");
+        } else {
+            line(labels, space, "->", space, expression(block));
+        }
 
         vars.end();
     }
@@ -1524,6 +1528,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         @Override
         public void writeStatement(Code code) {
             write(code);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeYield(Code code) {
+            write(code, ";");
         }
     }
 
