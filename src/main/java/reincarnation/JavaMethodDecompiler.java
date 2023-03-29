@@ -2793,7 +2793,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                             .take(Node::isNotEmpty)
                             .count()
                             .to()
-                            .exact()
+                            .or(0L)
                             .intValue();
 
                     try (Printable diff = debugger
@@ -2996,6 +2996,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             }
             catcherOrFinally.disposable = false;
             catcherOrFinally.additionalCall++;
+            catcherOrFinally.dominator = start;
             blocks.add(new CatchOrFinally(exception, catcherOrFinally));
         }
 

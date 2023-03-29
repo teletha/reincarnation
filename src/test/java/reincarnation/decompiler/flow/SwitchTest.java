@@ -226,29 +226,6 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
-    void tryCatch() {
-        verify(new TestCode.IntParam() {
-
-            @Override
-            public int run(@Param(from = 0, to = 5) int param) {
-                switch (param) {
-                case 0, 1, 2:
-                    try {
-                        param = MaybeThrow.error(param);
-                    } catch (Error e) {
-                        param = param + 1;
-                    }
-                    return param + 5;
-
-                default:
-                    return param;
-                }
-            }
-        });
-    }
-
-    @Test
     void nest() {
         verify(new TestCode.IntParam() {
 

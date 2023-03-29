@@ -77,7 +77,9 @@ class OperandSwitch extends Operand {
      */
     @Override
     public String toString() {
-        return "switch(" + condition + ") case " + nodes().skipNull().map(x -> x == defaultNode ? x.id + "D" : x.id).toList();
+        return "switch(" + condition + "){ case:" + nodes().skipNull()
+                .map(x -> x == defaultNode ? x.id + "D" : x.id)
+                .toList() + " exit:" + (follow == null ? "none" : follow.id) + "}";
     }
 
     /**
@@ -164,13 +166,12 @@ class OperandSwitch extends Operand {
         // ===============================================
         // Detect the really default node
         // ===============================================
-        if (isReallyDefaultNode()) {
+        if (isReallyDefaultNode(defaultNode)) {
             List<Node> candidates = nodes()
-                    .flatMap(node -> node.outgoingRecursively(n -> cases.containsKey(n) || n == defaultNode)
-                            .take(n -> !n.hasDominator(node))
-                            .first())
+                    .flatMap(node -> node.outgoingRecursively(n -> isCase(n) || isDefault(n)).take(n -> !n.hasDominator(node)).first())
                     .toList();
 
+            System.out.println(candidates);
             if (candidates.isEmpty()) {
                 follow = defaultNode;
                 defaultNode = null;
@@ -216,7 +217,7 @@ class OperandSwitch extends Operand {
      * 
      * @return
      */
-    private boolean isReallyDefaultNode() {
+    private boolean isReallyDefaultNode(Node node) {
         // In searching for follow nodes in switches, there are several things to consider.
         //
         // First, we need to determine if the default node is indeed a default node or if it is
@@ -226,7 +227,7 @@ class OperandSwitch extends Operand {
         // The default node has zero or one other directly (without going through other case nodes)
         // connected case nodes.
         List<Node> directlyConnectedCases = cases.keys()
-                .take(caseNode -> caseNode.canReachTo(defaultNode, cases.keys().skip(caseNode).toSet()))
+                .take(caseNode -> caseNode.canReachTo(node, cases.keys().skip(caseNode).toSet()))
                 .toList();
 
         switch (directlyConnectedCases.size()) {
@@ -242,7 +243,7 @@ class OperandSwitch extends Operand {
             // If the connected case node is declared immediately before def, it is the default
             // node. Conversely, if the connected case node has not been declared immediately
             // before, it is an exit node.
-            return directly.isBefore(defaultNode, cases.keys().skip(directly).toSet());
+            return directly.isBefore(node, cases.keys().skip(directly).toSet());
 
         // It is a follow node because it is connected to two or more case nodes
         default:

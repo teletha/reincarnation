@@ -254,4 +254,54 @@ class TryCatchFinallyTest extends CodeVerifier {
             }
         });
     }
+
+    @Test
+    void insideSwitch() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                switch (param) {
+                case 0, 1, 2:
+                    try {
+                        param = MaybeThrow.error(param);
+                    } catch (Error e) {
+                        param += 1;
+                    } finally {
+                        param += 2;
+                    }
+                    return param + 5;
+
+                default:
+                    return param;
+                }
+            }
+        });
+    }
+
+    @Test
+    void insideSwitchWithBreak() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                switch (param) {
+                case 0, 1:
+                    try {
+                        param = MaybeThrow.error(param);
+                    } catch (Error e) {
+                        param += 1;
+                    } finally {
+                        param += 2;
+                    }
+                    break;
+
+                default:
+                    param += 3;
+                    break;
+                }
+                return param + 10;
+            }
+        });
+    }
 }
