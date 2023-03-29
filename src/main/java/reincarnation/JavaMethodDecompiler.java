@@ -670,7 +670,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     @Override
     public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
-        if (nStack != 0) {
+        if (nStack != 0 && !tries.isCatch(current)) {
             I.signal(current)
                     .recurseMap(x -> x.map(n -> n.previous).skipNull())
                     .skip(current)
@@ -2834,6 +2834,21 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         private boolean match(CopiedFinally copied) {
             for (TryCatchFinally block : blocks) {
                 if (block.hasCatch() && block.start == copied.start && block.end == copied.end) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Test whether the given node is catch node or not.
+         * 
+         * @param node
+         * @return
+         */
+        private boolean isCatch(Node node) {
+            for (TryCatchFinally block : blocks) {
+                if (block.catcher == node) {
                     return true;
                 }
             }
