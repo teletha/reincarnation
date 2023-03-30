@@ -12,6 +12,7 @@ package reincarnation.decompiler.flow;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class TryCatchFinallyTest extends CodeVerifier {
@@ -280,6 +281,7 @@ class TryCatchFinallyTest extends CodeVerifier {
     }
 
     @Test
+    @Debuggable
     void insideSwitchWithBreak() {
         verify(new TestCode.IntParam() {
 

@@ -670,7 +670,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     @Override
     public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
-        if (nStack != 0 && !tries.isCatch(current)) {
+        if (nStack != 0 && !tries.isCatch(current) && !tries.isFinally(current)) {
             I.signal(current)
                     .recurseMap(x -> x.map(n -> n.previous).skipNull())
                     .skip(current)
@@ -2847,12 +2847,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
          * @return
          */
         private boolean isCatch(Node node) {
-            for (TryCatchFinally block : blocks) {
-                if (block.catcher == node) {
-                    return true;
-                }
-            }
-            return false;
+            return blocks.stream().flatMap(x -> x.blocks.stream()).anyMatch(x -> x.isCatch(node));
+        }
+
+        /**
+         * Test whether the given node is catch node or not.
+         * 
+         * @param node
+         * @return
+         */
+        private boolean isFinally(Node node) {
+            return blocks.stream().flatMap(x -> x.blocks.stream()).anyMatch(x -> x.isFinally(node));
         }
 
         /**
@@ -3070,6 +3075,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         CatchOrFinally(Class<?> exception, Node node) {
             this.exception = exception;
             this.node = node;
+        }
+
+        private boolean isCatch(Node node) {
+            return exception != null && this.node == node;
+        }
+
+        private boolean isFinally(Node node) {
+            return exception == null && this.node == node;
         }
     }
 

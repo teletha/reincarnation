@@ -17,6 +17,7 @@ import java.util.Map.Entry;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class TryCatchTest extends CodeVerifier {
@@ -480,6 +481,7 @@ class TryCatchTest extends CodeVerifier {
     }
 
     @Test
+    @Debuggable
     void insideSwitchWithBreak() {
         verify(new TestCode.IntParam() {
 
