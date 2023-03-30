@@ -171,7 +171,6 @@ class OperandSwitch extends Operand {
                     .flatMap(node -> node.outgoingRecursively(n -> isCase(n) || isDefault(n)).take(n -> !n.hasDominator(node)).first())
                     .toList();
 
-            System.out.println(candidates);
             if (candidates.isEmpty()) {
                 follow = defaultNode;
                 defaultNode = null;

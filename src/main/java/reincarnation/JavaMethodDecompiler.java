@@ -430,7 +430,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         // ============================================
         // Analyze all try-catch-finally blocks.
         // ============================================
-        tries.process();
+        try (Printable diff = debugger.diff(nodes, "Analyze try-catch-finally")) {
+            tries.process();
+        }
 
         // ============================================
         // Code Optimization
