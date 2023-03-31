@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.5.0](https://github.com/teletha/reincarnation/compare/v1.4.0...v1.5.0) (2023-03-31)
+
+
+### Features
+
+* Support omittable yield in switch statement. ([eaea4ec](https://github.com/teletha/reincarnation/commit/eaea4eca083548478f6142f2b671363db6fc548c))
+* Support omittable yield on switch expression. ([9dd20bc](https://github.com/teletha/reincarnation/commit/9dd20bc6834fcd76d9a983ad2e030042fb7056d6))
+* Support switch expression by char. ([e35760a](https://github.com/teletha/reincarnation/commit/e35760a5a2179ee95a2c2861eabbb3157cc66e9b))
+* Support switch expression by enum. ([78e69e7](https://github.com/teletha/reincarnation/commit/78e69e72502c8b381edfa36fd5481b30b69fd544))
+* Support switch expression by string. ([e9e5b1a](https://github.com/teletha/reincarnation/commit/e9e5b1a440f631b56cd4fdd1f75476c11f1ff862))
+* Support switch expression partially. ([35aed41](https://github.com/teletha/reincarnation/commit/35aed4149e271351ac4ebcc12d637d1bdf19135f))
+* Support yield on switch expression. ([d1d0655](https://github.com/teletha/reincarnation/commit/d1d06550b439dc071783610b92a4fa894ef1d337))
+
+
+### Bug Fixes
+
+* Detect the correct following node on if statement. ([48bba83](https://github.com/teletha/reincarnation/commit/48bba835ec7ded57cba2d3c2396affac3875a7b9))
+* Distinguish between switch expressions and catch blocks. ([8a7840f](https://github.com/teletha/reincarnation/commit/8a7840f734144ca84f167283555ffba895bf8215))
+* Distinguish between switch expressions and finally blocks. ([add9a3e](https://github.com/teletha/reincarnation/commit/add9a3e15596ac6f2445e87d9f63b8b2077ea3fa))
+* Enable variable declaration on switch expression's default block. ([9e1686e](https://github.com/teletha/reincarnation/commit/9e1686e93226b1efb5b34da68f231a181c5c6a38))
+
 ## [1.4.0](https://github.com/teletha/reincarnation/compare/v1.3.0...v1.4.0) (2023-03-24)
 
 
