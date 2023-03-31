@@ -18,7 +18,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
@@ -1264,6 +1263,20 @@ public class Node implements Code<Operand>, Comparable<Node> {
             return call.owner.children(OperandMethodCall.class);
         } else {
             return I.signal(call);
+        }
+    }
+
+    /**
+     * Ignore the empty connector node.
+     * 
+     * @param node
+     * @return
+     */
+    static Signal<Node> throughEmpty(Node node) {
+        if (node.isEmpty() && node.outgoing.size() == 1 && node.outgoing.get(0).incoming.size() == １) {
+            return I.signal(node.outgoing);
+        } else {
+            return I.signal(node);
         }
     }
 

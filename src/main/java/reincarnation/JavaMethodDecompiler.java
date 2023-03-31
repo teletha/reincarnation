@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.load;
+import static reincarnation.OperandUtil.*;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -501,7 +501,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     }
 
     /**
-     * Merge into one node if the specified nodes mean the immediate return.
+     * Merge into one node if the specified nodes mean the immediate return (and yield).
      */
     private void optimizeImmediateReturn() {
         // copy all nodes to avoid concurrent modification exception
@@ -512,6 +512,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 out.children(OperandReturn.class, OperandLocalVariable.class).to(local -> {
                     node.children(OperandAssign.class).flatMap(o -> o.assignedTo(local)).to(value -> {
                         node.clear().addOperand(new OperandReturn(value));
+
+                        dispose(out, true, false);
+                    });
+                });
+
+                out.children(OperandYield.class, OperandLocalVariable.class).to(local -> {
+                    node.children(OperandAssign.class).flatMap(o -> o.assignedTo(local)).to(value -> {
+                        node.clear().addOperand(new OperandYield(value));
 
                         dispose(out, true, false);
                     });
@@ -2726,10 +2734,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     private class TryCatchFinallyManager {
 
         /** The managed try-catch-finally blocks. */
-        private final List<TryCatchFinally> blocks = new ArrayList<>();
+        private final List<TryCatchFinally> blocks = new ArrayList();
 
         /** The copied finally node manager. */
         private final MultiMap<CopiedFinally, CopiedFinally> finallyCopies = new MultiMap(true);
+
+        /** The analyze state. */
+        private boolean analyzed;
 
         /**
          * @param start
@@ -2866,58 +2877,63 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
          * Analyze and process.
          */
         private void process() {
-            // To analyze try-catch-finally statement tree, we must connect each nodes.
-            // But these connections disturb the analysis of other statements (e.g. if, for).
-            // So we must disconnect them immediately after analysis of try-catch-finally statement.
+            if (analyzed == false) {
+                analyzed = true;
 
-            // At first, do connecting only.
-            for (TryCatchFinally block : blocks) {
-                block.start.connect(block.catcher);
+                // To analyze try-catch-finally statement tree, we must connect each nodes.
+                // But these connections disturb the analysis of other statements (e.g. if, for).
+                // So we must disconnect them immediately after analysis of try-catch-finally
+                // statement.
 
-                for (CatchOrFinally catchBlock : block.blocks) {
-                    block.start.connect(catchBlock.node);
+                // At first, do connecting only.
+                for (TryCatchFinally block : blocks) {
+                    block.start.connect(block.catcher);
+
+                    for (CatchOrFinally catchBlock : block.blocks) {
+                        block.start.connect(catchBlock.node);
+                    }
                 }
-            }
 
-            // Then, we can analyze.
-            for (TryCatchFinally block : blocks) {
-                // Associate node with block.
-                block.start.tries.add(block);
-                block.searchExit();
-                block.purgeUnreachableCatch();
-            }
-
-            // At last, disconnect immediately after analysis.
-            for (TryCatchFinally block : blocks) {
-                block.start.disconnect(block.catcher);
-
-                for (CatchOrFinally catchBlock : block.blocks) {
-                    block.start.disconnect(catchBlock.node);
+                // Then, we can analyze.
+                for (TryCatchFinally block : blocks) {
+                    // Associate node with block.
+                    block.start.tries.add(block);
+                    block.searchExit();
+                    block.purgeUnreachableCatch();
                 }
-            }
 
-            // Purge the catch block which is inside loop structure directly.
-            for (TryCatchFinally block : blocks) {
-                for (CatchOrFinally catchOrFinally : block.blocks) {
-                    Set<Node> recorder = new HashSet<>();
-                    recorder.add(catchOrFinally.node);
+                // At last, disconnect immediately after analysis.
+                for (TryCatchFinally block : blocks) {
+                    block.start.disconnect(block.catcher);
 
-                    Deque<Node> queue = new ArrayDeque<>();
-                    queue.add(catchOrFinally.node);
+                    for (CatchOrFinally catchBlock : block.blocks) {
+                        block.start.disconnect(catchBlock.node);
+                    }
+                }
 
-                    while (!queue.isEmpty()) {
-                        Node node = queue.pollFirst();
+                // Purge the catch block which is inside loop structure directly.
+                for (TryCatchFinally block : blocks) {
+                    for (CatchOrFinally catchOrFinally : block.blocks) {
+                        Set<Node> recorder = new HashSet<>();
+                        recorder.add(catchOrFinally.node);
 
-                        for (Node out : node.outgoing) {
-                            if (out.hasDominator(catchOrFinally.node)) {
-                                if (recorder.add(out)) {
-                                    // test next node
-                                    queue.add(out);
-                                }
-                            } else {
-                                if (!out.backedges.isEmpty()) {
-                                    // purge the catch block from the loop structure
-                                    node.disconnect(out);
+                        Deque<Node> queue = new ArrayDeque<>();
+                        queue.add(catchOrFinally.node);
+
+                        while (!queue.isEmpty()) {
+                            Node node = queue.pollFirst();
+
+                            for (Node out : node.outgoing) {
+                                if (out.hasDominator(catchOrFinally.node)) {
+                                    if (recorder.add(out)) {
+                                        // test next node
+                                        queue.add(out);
+                                    }
+                                } else {
+                                    if (!out.backedges.isEmpty()) {
+                                        // purge the catch block from the loop structure
+                                        node.disconnect(out);
+                                    }
                                 }
                             }
                         }

@@ -11,10 +11,10 @@ package reincarnation.decompiler.flow;
 
 import java.lang.annotation.RetentionPolicy;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class SwitchExpressionTest extends CodeVerifier {
@@ -157,7 +157,7 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
+    @Debuggable
     void tryCatch() {
         verify(new TestCode.IntParam() {
 
