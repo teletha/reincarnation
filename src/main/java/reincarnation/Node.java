@@ -150,8 +150,9 @@ public class Node implements Code<Operand>, Comparable<Node> {
      * 
      * @return
      */
-    final boolean isReturn() {
-        return stack.peekFirst() instanceof OperandReturn;
+    final boolean isReturnable() {
+        Operand o = stack.peekFirst();
+        return o instanceof OperandReturn || o instanceof OperandYield;
     }
 
     /**
@@ -1079,44 +1080,47 @@ public class Node implements Code<Operand>, Comparable<Node> {
 
             next.currentCalls++;
 
-            // continue
-            if (next.loopHeader.isPresent()) {
-                Loopable loopable = next.loopHeader.v;
+            if (!isReturnable()) {
+                // continue
+                if (next.loopHeader.isPresent()) {
+                    Loopable loopable = next.loopHeader.v;
 
-                if (loopable.containsAsHeader(next) && hasDominator(loopable.entrance)) {
-                    Continue continuer = new Continue(this, loopable);
+                    if (loopable.containsAsHeader(next) && hasDominator(loopable.entrance)) {
+                        Continue continuer = new Continue(this, loopable);
 
-                    if (Debugger.current().isEnable()) {
-                        continuer
-                                .comment(id + " -> " + next.id + " continue to " + loopable.entrance.id + " (" + next.currentCalls + " of " + requiredCalls + ") " + loopable);
-                    }
-                    return continuer;
-                }
-            }
-
-            // break
-            if (next.loopExit.isPresent()) {
-                Breakable breakable = next.loopExit.v;
-
-                if (breakable instanceof Loopable loopable) {
-                    if (loopable.exit == next && !loopable.containsAsHeader(this) && hasDominator(loopable.entrance)) {
-                        // check whether the current node connects to the exit node directly or not
-                        if (loopable.exit.incoming.contains(this)) {
-                            Break breaker = new Break(this, loopable);
-
-                            if (Debugger.current().isEnable()) {
-                                breaker.comment(id + " -> " + next.id + " break to " + loopable.entrance.id + "(" + next.currentCalls + " of " + requiredCalls + ") " + loopable);
-                            }
-                            return breaker;
+                        if (Debugger.current().isEnable()) {
+                            continuer
+                                    .comment(id + " -> " + next.id + " continue to " + loopable.entrance.id + " (" + next.currentCalls + " of " + requiredCalls + ") " + loopable);
                         }
-                        return Structure.Empty;
+                        return continuer;
                     }
-                } else if (requiredCalls != next.currentCalls && outgoing.contains(next)) {
-                    Break breaker = new Break(this, breakable);
-                    if (Debugger.current().isEnable()) {
-                        breaker.comment(id + " -> " + next.id + " break" + "(" + next.currentCalls + " of " + requiredCalls + ") ");
+                }
+
+                // break
+                if (next.loopExit.isPresent()) {
+                    Breakable breakable = next.loopExit.v;
+
+                    if (breakable instanceof Loopable loopable) {
+                        if (loopable.exit == next && !loopable.containsAsHeader(this) && hasDominator(loopable.entrance)) {
+                            // check whether the current node connects to the exit node directly or
+                            // not
+                            if (loopable.exit.incoming.contains(this)) {
+                                Break breaker = new Break(this, loopable);
+
+                                if (Debugger.current().isEnable()) {
+                                    breaker.comment(id + " -> " + next.id + " break to " + loopable.entrance.id + "(" + next.currentCalls + " of " + requiredCalls + ") " + loopable);
+                                }
+                                return breaker;
+                            }
+                            return Structure.Empty;
+                        }
+                    } else if (requiredCalls != next.currentCalls && outgoing.contains(next)) {
+                        Break breaker = new Break(this, breakable);
+                        if (Debugger.current().isEnable()) {
+                            breaker.comment(id + " -> " + next.id + " break" + "(" + next.currentCalls + " of " + requiredCalls + ") ");
+                        }
+                        return breaker;
                     }
-                    return breaker;
                 }
             }
 

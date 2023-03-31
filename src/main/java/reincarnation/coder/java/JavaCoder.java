@@ -50,6 +50,7 @@ import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
+import reincarnation.structure.Fragment;
 import reincarnation.util.Classes;
 import reincarnation.util.GeneratedCodes;
 import reincarnation.util.MultiMap;
@@ -1162,12 +1163,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     private void writeSwitchExpressionBlock(Join labels, Code block) {
         vars.start();
 
-        if (block.hasFollower()) {
+        if (block instanceof Fragment frag && !frag.hasFollower()) {
+            line(labels, space, "->", space, expression(block));
+        } else {
             line(labels, space, "->", space, "{");
             indent(block::write);
             line("}");
-        } else {
-            line(labels, space, "->", space, expression(block));
         }
 
         vars.end();

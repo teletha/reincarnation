@@ -15,9 +15,6 @@ import reincarnation.Node;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 
-/**
- * @version 2018/11/05 12:47:50
- */
 public class DoWhile extends Loopable {
 
     /** The code. */

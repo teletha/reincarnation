@@ -86,9 +86,19 @@ public abstract class Structure implements Code<Structure> {
     }
 
     /**
-     * {@inheritDoc}
+     * Find all follower {@link Code} fragments.
+     * 
+     * @return
      */
-    @Override
+    public Signal<Structure> follower() {
+        return I.signal();
+    }
+
+    /**
+     * Test whether this code has followers or not.
+     * 
+     * @return
+     */
     public boolean hasFollower() {
         return follower().skip(Empty).to().isPresent();
     }

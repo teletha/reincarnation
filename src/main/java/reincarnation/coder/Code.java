@@ -119,22 +119,4 @@ public interface Code<C extends Code> {
     default Signal<C> descendent() {
         return I.signal(this).merge(children().skipNull().flatMap(c -> c.descendent()));
     }
-
-    /**
-     * Find all follower {@link Code} fragments.
-     * 
-     * @return
-     */
-    default Signal<C> follower() {
-        return I.signal();
-    }
-
-    /**
-     * Test whether this code has followers or not.
-     * 
-     * @return
-     */
-    default boolean hasFollower() {
-        return follower().to().isPresent();
-    }
 }
