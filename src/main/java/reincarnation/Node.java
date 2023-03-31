@@ -1258,7 +1258,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
      * @param call
      * @return
      */
-    private static Signal<OperandMethodCall> throughUnwrapper(OperandMethodCall call) {
+    static Signal<OperandMethodCall> throughUnwrapper(OperandMethodCall call) {
         if (Classes.isUnwrapper(call.method)) {
             return call.owner.children(OperandMethodCall.class);
         } else {
@@ -1273,11 +1273,13 @@ public class Node implements Code<Operand>, Comparable<Node> {
      * @return
      */
     static Signal<Node> throughEmpty(Node node) {
-        if (node.isEmpty() && node.outgoing.size() == 1 && node.outgoing.get(0).incoming.size() == 1) {
-            return I.signal(node.outgoing);
-        } else {
-            return I.signal(node);
+        if (node.isEmpty() && node.outgoing.size() == 1) {
+            Node next = node.outgoing.get(0);
+            if (next.incoming.size() == 1 && next == node.next) {
+                return I.signal(next);
+            }
         }
+        return I.signal(node);
     }
 
     /**

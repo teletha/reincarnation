@@ -14,6 +14,7 @@ import java.lang.annotation.RetentionPolicy;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class SwitchTest extends CodeVerifier {
@@ -216,6 +217,75 @@ class SwitchTest extends CodeVerifier {
                         value += 2;
                     }
                     return value;
+
+                default:
+                    return param;
+                }
+            }
+        });
+    }
+
+    @Test
+    void infinitLoop() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                switch (param) {
+                case 0, 1, 2:
+                    while (true) {
+                        param += 4;
+
+                        if (10 < param) {
+                            return param;
+                        }
+                    }
+
+                default:
+                    return param;
+                }
+            }
+        });
+    }
+
+    @Test
+    void tryCatch() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                switch (param) {
+                case 0, 1, 2:
+                    try {
+                        param = MaybeThrow.error(param);
+                    } catch (Error e) {
+                        param = param + 1;
+                    }
+                    return param + 5;
+
+                default:
+                    return param;
+                }
+            }
+        });
+    }
+
+    @Test
+    void tryCatchFinally() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                switch (param) {
+                case 0, 1, 2:
+                    try {
+                        param = MaybeThrow.error(param);
+                    } catch (Error e) {
+                        param = param + 1;
+                    } finally {
+                        param += 2;
+                    }
+                    return param + 5;
 
                 default:
                     return param;
@@ -724,6 +794,31 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
+    void breakInfinitLoop() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                root: switch (param) {
+                case 0, 1, 2:
+                    while (true) {
+                        param += 4;
+
+                        if (10 < param) {
+                            break root;
+                        }
+                    }
+
+                default:
+                    param = 100;
+                    break;
+                }
+                return param;
+            }
+        });
+    }
+
+    @Test
     void breakConditionalBlock() {
         verify(new TestCode.IntParam() {
 
@@ -737,6 +832,59 @@ class SwitchTest extends CodeVerifier {
                     }
                 }
                 return param;
+            }
+        });
+    }
+
+    @Test
+    void breakTryCatch() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                switch (param) {
+                case 0, 1:
+                    try {
+                        param = MaybeThrow.error(param);
+                    } catch (Error e) {
+                        param = param + 1;
+                    }
+                    break;
+
+                default:
+                    param += 2;
+                    break;
+                }
+                return param + 10;
+            }
+        });
+    }
+
+    @Test
+    @Debuggable
+    void breakTryCatchFinally() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                switch (param) {
+                case 0, 1:
+                    try {
+                        param = MaybeThrow.error(param);
+                    } catch (Error e) {
+                        param = param + 1;
+                        break;
+                    } finally {
+                        param += 2;
+                    }
+                    param += 3;
+                    break;
+
+                default:
+                    param += 4;
+                    break;
+                }
+                return param + 10;
             }
         });
     }

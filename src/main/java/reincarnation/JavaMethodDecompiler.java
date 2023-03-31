@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
+import static reincarnation.Node.Termination;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.*;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -508,7 +508,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         List<Node> copied = new ArrayList(nodes);
 
         for (Node node : copied) {
-            node.uniqueOutgoing().to(out -> {
+            node.uniqueOutgoing().flatMap(Node::throughEmpty).to(out -> {
                 out.children(OperandReturn.class, OperandLocalVariable.class).to(local -> {
                     node.children(OperandAssign.class).flatMap(o -> o.assignedTo(local)).to(value -> {
                         node.clear().addOperand(new OperandReturn(value));

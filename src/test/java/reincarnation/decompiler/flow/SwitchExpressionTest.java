@@ -11,10 +11,10 @@ package reincarnation.decompiler.flow;
 
 import java.lang.annotation.RetentionPolicy;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class SwitchExpressionTest extends CodeVerifier {
@@ -157,7 +157,28 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable
+    @Disabled
+    void infiniteLoop() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                return switch (param) {
+                case 0, 1, 2 -> {
+                    while (true) {
+                        param += 4;
+                        if (10 < param) {
+                            yield param;
+                        }
+                    }
+                }
+                default -> param;
+                };
+            }
+        });
+    }
+
+    @Test
     void tryCatch() {
         verify(new TestCode.IntParam() {
 
@@ -169,6 +190,29 @@ class SwitchExpressionTest extends CodeVerifier {
                         param = MaybeThrow.error(param);
                     } catch (Error e) {
                         param = param + 1;
+                    }
+                    yield param;
+                }
+                default -> param;
+                };
+            }
+        });
+    }
+
+    @Test
+    void tryCatchFinally() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                return switch (param) {
+                case 0, 1, 2 -> {
+                    try {
+                        param = MaybeThrow.error(param);
+                    } catch (Error e) {
+                        param = param + 1;
+                    } finally {
+                        param += 2;
                     }
                     yield param;
                 }
