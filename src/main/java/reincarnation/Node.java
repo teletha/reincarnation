@@ -1273,7 +1273,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
      * @return
      */
     static Signal<Node> throughEmpty(Node node) {
-        if (node.isEmpty() && node.outgoing.size() == 1 && node.outgoing.get(0).incoming.size() == １) {
+        if (node.isEmpty() && node.outgoing.size() == 1 && node.outgoing.get(0).incoming.size() == 1) {
             return I.signal(node.outgoing);
         } else {
             return I.signal(node);
