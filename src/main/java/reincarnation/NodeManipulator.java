@@ -9,7 +9,7 @@
  */
 package reincarnation;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface NodeManipulator {
 
@@ -40,7 +40,11 @@ public interface NodeManipulator {
      * @param incomings The incoming nodes for the new splitter node.
      * @return The newly created splitter node.
      */
-    default Node createSplitterNodeBefore(Node index, List<Node> incomings) {
+    default Node createSplitterNodeBefore(Node index, Collection<Node> incomings) {
+        if (index.incoming.size() == 1 && index.incoming.containsAll(incomings)) {
+            return index;
+        }
+
         Node created = createNodeBefore(index, false);
 
         for (Node incoming : incomings) {
@@ -79,7 +83,11 @@ public interface NodeManipulator {
      * @param outgoings The outgoing nodes for the new splitter node.
      * @return The newly created splitter node.
      */
-    default Node createSplitterNodeAfter(Node index, List<Node> outgoings) {
+    default Node createSplitterNodeAfter(Node index, Collection<Node> outgoings) {
+        if (index.outgoing.size() == 1 && index.outgoing.containsAll(outgoings)) {
+            return index;
+        }
+
         Node created = createNodeBefore(index, false);
 
         for (Node outgoing : outgoings) {

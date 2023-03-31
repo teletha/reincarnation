@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
@@ -249,15 +250,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
      */
     final Signal<Node> next() {
         return I.signal(next);
-    }
-
-    /**
-     * Traverse forward sibling nodes.
-     * 
-     * @return
-     */
-    final Signal<Node> nexts() {
-        return I.signal(this).recurse(n -> n.next).takeWhile(n -> n != null);
     }
 
     /**
@@ -589,36 +581,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     /**
-     * Helper method to check whether the specified node dominate this node or not.
-     * 
-     * @param dominators A dominator node.
-     * @return A result.
-     */
-    final boolean hasDominatorAny(List<Node> dominators) {
-        for (Node dom : dominators) {
-            if (hasDominator(dom)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Helper method to check whether the specified node dominate this node or not.
-     * 
-     * @param dominators A dominator node.
-     * @return A result.
-     */
-    final Node detectDominatorAny(List<Node> dominators) {
-        for (Node dom : dominators) {
-            if (hasDominator(dom)) {
-                return dom;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Compute the immediate dominator of this node.
      * 
      * @return A dominator node. If this node is root, <code>null</code>.
@@ -784,26 +746,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     /**
-     * Helper method to check whether the specified node is incoming.
-     * 
-     * @param node
-     * @return
-     */
-    final boolean equalsAsIncoming(Node node) {
-        return node == this || incoming.contains(node);
-    }
-
-    /**
-     * Helper method to check whether the specified node is outgoing.
-     * 
-     * @param node
-     * @return
-     */
-    final boolean equalsAsOutgoing(Node node) {
-        return node == this || outgoing.contains(node);
-    }
-
-    /**
      * Helper method to connect nodes each other.
      * 
      * @param node A target node.
@@ -836,42 +778,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
     final void disconnect(boolean incoming, boolean outgoing) {
         if (incoming) this.incoming.forEach(in -> in.disconnect(this));
         if (outgoing) this.outgoing.forEach(out -> out.disconnect(this));
-    }
-
-    /**
-     * Disconnect from the previous node and connect to the next node on incoming nodes.
-     * 
-     * @param prev
-     * @param next
-     */
-    final void switchIncoming(Node prev, Node next) {
-        int indexPrev = incoming.indexOf(prev);
-        int indexNext = incoming.indexOf(next);
-
-        if (indexPrev != -1 && indexNext == -1) {
-            incoming.set(indexPrev, next);
-
-            disconnect(prev);
-            connect(next);
-        }
-    }
-
-    /**
-     * Disconnect from the previous node and connect to the next node on incoming nodes.
-     * 
-     * @param prev
-     * @param next
-     */
-    final void switchOutgoing(Node prev, Node next) {
-        int indexPrev = outgoing.indexOf(prev);
-        int indexNext = outgoing.indexOf(next);
-
-        if (indexPrev != -1 && indexNext == -1) {
-            outgoing.set(indexPrev, next);
-
-            disconnect(prev);
-            connect(next);
-        }
     }
 
     /**

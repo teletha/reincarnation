@@ -10,9 +10,8 @@
 package reincarnation;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.Set;
 
 import kiss.I;
 import kiss.Signal;
@@ -207,19 +206,21 @@ class OperandSwitch extends Operand {
         if (defaultNode != null) {
             List<Node> cases = nodes().toList();
 
-            Map<Node, List<Node>> group = I.signal(follow.getPureIncoming())
-                    .take(n -> n.hasDominatorAny(cases))
-                    .toGroup(n -> n.detectDominatorAny(cases));
-
-            for (Entry<Node, List<Node>> entry : group.entrySet()) {
-                List<Node> incomings = entry.getValue();
-                if (1 < incomings.size()) {
-                    Node created = manipulator.createSplitterNodeBefore(follow, incomings);
-                    entry.setValue(List.of(created));
+            // group incomings by cases
+            MultiMap<Node, Node> group = new MultiMap(true);
+            for (Node in : follow.getPureIncoming()) {
+                for (Node node : cases) {
+                    if (in.hasDominator(node)) {
+                        group.put(node, in);
+                    }
                 }
             }
 
-            follow = manipulator.createSplitterNodeBefore(follow, group.values().stream().flatMap(x -> x.stream()).toList());
+            // create splitter node for each cases
+            Set<Node> incomings = group.values().map(nodes -> manipulator.createSplitterNodeBefore(follow, nodes)).toSet();
+
+            // create splitter node for this switch
+            follow = manipulator.createSplitterNodeBefore(follow, incomings);
             follow.additionalCall++;
         }
     }

@@ -138,6 +138,16 @@ public class MultiMap<K, V> {
     }
 
     /**
+     * Traverses all keys in this {@link MultiMap} and returns a {@link Signal} that emits each key
+     * sequentially.
+     * 
+     * @return
+     */
+    public Signal<List<V>> values() {
+        return I.signal(map.values());
+    }
+
+    /**
      * Returns {@code true} if this map contains a mapping for the specified key.
      * <p>
      * More formally, returns {@code true} if and only if this map contains at a mapping for a key
@@ -165,6 +175,24 @@ public class MultiMap<K, V> {
         MultiMap created = new MultiMap(acceptDuplication);
         forEach((key, values) -> {
             created.putAll(converter.apply(key), values);
+        });
+        return created;
+    }
+
+    /**
+     * Returns a new {@link MultiMap} with the values of this map converted using the specified
+     * {@link Function}.
+     * 
+     * @param <N> The new type of values in the returned map.
+     * @param converter The {@link Function} to be applied to each value in this map to obtain the
+     *            new value in the returned map.
+     * @return A new {@link MultiMap} with the values of this map converted using the specified
+     *         {@link Function}.
+     */
+    public <N> MultiMap<K, N> convertValues(Function<List<V>, N> converter) {
+        MultiMap created = new MultiMap(acceptDuplication);
+        forEach((key, values) -> {
+            created.put(key, converter.apply(values));
         });
         return created;
     }
