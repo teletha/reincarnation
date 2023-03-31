@@ -604,6 +604,21 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     /**
+     * Helper method to check whether the specified node dominate this node or not.
+     * 
+     * @param dominators A dominator node.
+     * @return A result.
+     */
+    final Node detectDominatorAny(List<Node> dominators) {
+        for (Node dom : dominators) {
+            if (hasDominator(dom)) {
+                return dom;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Compute the immediate dominator of this node.
      * 
      * @return A dominator node. If this node is root, <code>null</code>.
@@ -665,7 +680,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
     final List<Node> getDominators() {
         List<Node> nodes = new ArrayList();
         Node dom = getDominator();
-        while (dom != null) {
+        while (dom != null && !nodes.contains(dom)) {
             nodes.add(dom);
             dom = dom.getDominator();
         }
@@ -1127,9 +1142,15 @@ public class Node implements Code<Operand>, Comparable<Node> {
                  */
                 then = one;
                 elze = other;
-                follow = dominators.stream().filter(node -> !outgoing.contains(node)).findFirst().orElse(null);
-                if (follow != null) {
-                    follow.currentCalls--;
+
+                List<Node> candidates = I.signal(one, other)
+                        .flatMap(node -> node.outgoingRecursively().take(n -> !n.hasDominator(node) && n.hasDominator(this)).first())
+                        .distinct()
+                        .toList();
+
+                if (!candidates.isEmpty()) {
+                    follow = candidates.get(0);
+                    follow.additionalCall++;
                 }
             }
         }
@@ -1185,7 +1206,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
                         }
                         return Structure.Empty;
                     }
-                } else if (requiredCalls != next.currentCalls) {
+                } else if (requiredCalls != next.currentCalls && outgoing.contains(next)) {
                     Break breaker = new Break(this, breakable);
                     if (Debugger.current().isEnable()) {
                         breaker.comment(id + " -> " + next.id + " break" + "(" + next.currentCalls + " of " + requiredCalls + ") ");

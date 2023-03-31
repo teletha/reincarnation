@@ -14,9 +14,6 @@ import org.junit.jupiter.api.Test;
 import reincarnation.CodeVerifier;
 import reincarnation.TestCode;
 
-/**
- * @version 2018/11/05 14:47:21
- */
 class DoWhileTest extends CodeVerifier {
 
     @Test

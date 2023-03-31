@@ -10,6 +10,8 @@
 package reincarnation;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 import kiss.I;
@@ -204,9 +206,20 @@ class OperandSwitch extends Operand {
 
         if (defaultNode != null) {
             List<Node> cases = nodes().toList();
-            List<Node> incomings = I.signal(follow.getPureIncoming()).take(n -> n.hasDominatorAny(cases)).toList();
 
-            follow = manipulator.createSplitterNodeBefore(follow, incomings);
+            Map<Node, List<Node>> group = I.signal(follow.getPureIncoming())
+                    .take(n -> n.hasDominatorAny(cases))
+                    .toGroup(n -> n.detectDominatorAny(cases));
+
+            for (Entry<Node, List<Node>> entry : group.entrySet()) {
+                List<Node> incomings = entry.getValue();
+                if (1 < incomings.size()) {
+                    Node created = manipulator.createSplitterNodeBefore(follow, incomings);
+                    entry.setValue(List.of(created));
+                }
+            }
+
+            follow = manipulator.createSplitterNodeBefore(follow, group.values().stream().flatMap(x -> x.stream()).toList());
             follow.additionalCall++;
         }
     }

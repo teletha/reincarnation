@@ -379,7 +379,7 @@ class ForTest extends CodeVerifier {
             @Override
             public int run(int value) {
                 if (value == 0) {
-                    value++;
+                    value += 2;
                 } else {
                     for (int i = 0; i < 3; i++) {
                         value++;

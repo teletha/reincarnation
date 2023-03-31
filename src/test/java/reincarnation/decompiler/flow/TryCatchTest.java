@@ -14,14 +14,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
-@Debuggable
 class TryCatchTest extends CodeVerifier {
 
     @Test
@@ -483,8 +480,6 @@ class TryCatchTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable
-    @Disabled
     void insideSwitchWithBreak() {
         verify(new TestCode.IntParam() {
 
