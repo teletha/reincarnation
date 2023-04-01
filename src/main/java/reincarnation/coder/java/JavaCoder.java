@@ -1538,6 +1538,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         public void writeYield(Code code) {
             write(code, ";");
         }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeThrow(Code code) {
+            write("throw ", code, ";");
+        }
     }
 
     /**

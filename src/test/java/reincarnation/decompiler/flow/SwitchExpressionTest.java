@@ -11,6 +11,7 @@ package reincarnation.decompiler.flow;
 
 import java.lang.annotation.RetentionPolicy;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
@@ -216,6 +217,30 @@ class SwitchExpressionTest extends CodeVerifier {
                 }
                 default -> param;
                 };
+            }
+        });
+    }
+
+    @Test
+    @Disabled
+    void withThrow() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                try {
+                    return value(switch (param) {
+                    case 0 -> 10;
+                    case 1 -> 15;
+                    default -> throw new Error();
+                    });
+                } catch (Error e) {
+                    return 30;
+                }
+            }
+
+            private int value(int value) {
+                return value;
             }
         });
     }

@@ -295,6 +295,30 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
+    void withThrow() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                try {
+                    switch (param) {
+                    case 0:
+                        return 10;
+
+                    case 1:
+                        return 20;
+
+                    default:
+                        throw new Error();
+                    }
+                } catch (Error e) {
+                    return 30;
+                }
+            }
+        });
+    }
+
+    @Test
     void nest() {
         verify(new TestCode.IntParam() {
 
