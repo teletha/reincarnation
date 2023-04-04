@@ -507,6 +507,18 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     /**
+     * Transfer all operands to the given node.
+     * 
+     * @param node
+     */
+    final void transferTo(Node node) {
+        if (node != null) {
+            node.stack.addAll(stack);
+            stack.clear();
+        }
+    }
+
+    /**
      * <p>
      * Helper method to add new conditional operand on the top of this stack.
      * </p>

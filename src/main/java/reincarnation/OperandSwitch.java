@@ -9,6 +9,7 @@
  */
 package reincarnation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -195,13 +196,13 @@ class OperandSwitch extends Operand {
             });
         }
 
-        // if (entrance.isSwitchExpression()) {
-        // List<Node> incomings = new ArrayList(entrance.incoming);
-        // entrance.disconnect(true, false);
-        // follow.disconnect(true, false);
-        //
-        // incomings.forEach(in -> in.connect(follow));
-        // }
+        if (entrance.isSwitchExpression()) {
+            List<Node> incomings = new ArrayList(entrance.incoming);
+            entrance.disconnect(true, false);
+            follow.disconnect(true, false);
+
+            incomings.forEach(in -> in.connect(follow));
+        }
 
         if (defaultNode != null) {
             List<Node> cases = nodes().toList();

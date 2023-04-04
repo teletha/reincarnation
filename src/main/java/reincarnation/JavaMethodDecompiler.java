@@ -10,9 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
+import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.load;
+import static reincarnation.OperandUtil.*;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -695,8 +695,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
                             analyze(nodes);
 
-                            current.stack.addAll(entrance.stack);
-                            entrance.stack.clear();
+                            entrance.transferTo(current);
 
                             this.nodes.removeAll(nodes);
                         }
@@ -1810,7 +1809,18 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         visitSwitchInsn(defaultLabel, keys, labels);
     }
 
+    /**
+     * General switch instruction.
+     * 
+     * @param defaultLabel
+     * @param keys
+     * @param labels
+     */
     private void visitSwitchInsn(Label defaultLabel, int[] keys, Label[] labels) {
+        if (tries.isTry(current)) {
+            current = createNodeAfter(current, true, true);
+        }
+
         List<Node> caseNodes = I.signal(labels).map(this::getNode).toList();
         Node defaultNode = getNode(defaultLabel);
 
@@ -2087,7 +2097,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      * {@inheritDoc}
      */
     @Override
-    public final Node createNodeBefore(Node index, boolean connectable) {
+    public final Node createNodeBefore(Node index, boolean connectable, boolean transferOperands) {
         Node created = new Node(counter++);
 
         // switch line number
@@ -2107,6 +2117,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             created.connect(index);
         }
 
+        if (transferOperands) {
+            index.transferTo(created);
+        }
+
         // insert to node list
         nodes.add(nodes.indexOf(index), created);
 
@@ -2121,7 +2135,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      * {@inheritDoc}
      */
     @Override
-    public final Node createNodeAfter(Node index, boolean connectable) {
+    public final Node createNodeAfter(Node index, boolean connectable, boolean transferOperands) {
         Node created = new Node(counter++);
 
         // switch line number
@@ -2144,6 +2158,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 out.dominator = null;
             }
             index.connect(created);
+        }
+
+        if (transferOperands) {
+            index.transferTo(created);
         }
 
         // insert to node list
@@ -2851,6 +2869,16 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 }
             }
             return false;
+        }
+
+        /**
+         * Test whether the given node is try node or not.
+         * 
+         * @param node
+         * @return
+         */
+        private boolean isTry(Node node) {
+            return blocks.stream().anyMatch(x -> x.start == node);
         }
 
         /**

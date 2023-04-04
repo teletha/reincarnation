@@ -14,6 +14,7 @@ import java.lang.annotation.RetentionPolicy;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class SwitchExpressionTest extends CodeVerifier {
@@ -221,6 +222,7 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @Test
+    @Debuggable
     void withThrow() {
         verify(new TestCode.IntParam() {
 

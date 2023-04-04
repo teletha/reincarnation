@@ -20,7 +20,18 @@ public interface NodeManipulator {
      * @param connectable Whether the new node should be connectable.
      * @return The newly created node.
      */
-    Node createNodeBefore(Node index, boolean connectable);
+    default Node createNodeBefore(Node index, boolean connectable) {
+        return createNodeBefore(index, connectable, false);
+    }
+
+    /**
+     * Create a new node before the specified node.
+     *
+     * @param index The index node before which to create the new node.
+     * @param connectable Whether the new node should be connectable.
+     * @return The newly created node.
+     */
+    Node createNodeBefore(Node index, boolean connectable, boolean transferOperands);
 
     /**
      * Create a new node with the specified initial operand before the specified node.
@@ -63,7 +74,19 @@ public interface NodeManipulator {
      * @param connectable Whether the new node should be connectable.
      * @return The newly created node.
      */
-    Node createNodeAfter(Node index, boolean connectable);
+    default Node createNodeAfter(Node index, boolean connectable) {
+        return createNodeAfter(index, connectable, false);
+    }
+
+    /**
+     * Create a new node after the specified node.
+     * 
+     * @param index The index node after which to create the new node.
+     * @param connectable Whether the new node should be connectable.
+     * @param transferOperands Whether the new node should spoil all original operands.
+     * @return The newly created node.
+     */
+    Node createNodeAfter(Node index, boolean connectable, boolean transferOperands);
 
     /**
      * Create a new node with the specified initial operand after the specified node.
