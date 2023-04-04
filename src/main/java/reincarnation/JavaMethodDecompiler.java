@@ -689,7 +689,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     .buffer()
                     .to(nodes -> {
                         Node entrance = nodes.get(0);
+
+                        List<String> list = nodes.stream().map(x -> x.id).toList();
+
                         OperandSwitch switcher = entrance.child(OperandSwitch.class).v;
+                        System.out
+                                .println("Search analyze expresion " + entrance.id + " to " + current.id + "  " + list + "  " + switcher + "  " + switcher
+                                        .isOther(current));
                         if (switcher != null && switcher.isOther(current)) {
                             switcher.markAsExpression();
 
@@ -698,6 +704,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                             entrance.transferTo(current);
 
                             this.nodes.removeAll(nodes);
+
+                            System.out.println("Process analyze expresion " + entrance.id + " to " + current.id);
+
+                            current = createNodeAfter(current, true);
                         }
                     });
         }

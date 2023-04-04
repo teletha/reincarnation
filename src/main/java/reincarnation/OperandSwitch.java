@@ -143,6 +143,8 @@ class OperandSwitch extends Operand {
         cases.sort();
         cases.remove(defaultNode);
 
+        System.out.println(entrance.id + " to ");
+
         // ===============================================
         // Special handling for string switch
         // ===============================================
