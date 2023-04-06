@@ -441,7 +441,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             optimizeTailEmptyReturn();
         }
         try (Printable diff = debugger.diff(nodes, "Merge immediate return")) {
-            optimizeImmediateReturn();
+            optimizeImmediateReturn(nodes);
         }
         try (Printable diff = debugger.diff(nodes, "Build shorthand assign")) {
             optimizeShorthandAssign();
@@ -503,7 +503,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     /**
      * Merge into one node if the specified nodes mean the immediate return (and yield).
      */
-    private void optimizeImmediateReturn() {
+    private void optimizeImmediateReturn(List<Node> nodes) {
         // copy all nodes to avoid concurrent modification exception
         List<Node> copied = new ArrayList(nodes);
 
@@ -689,27 +689,21 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     .buffer()
                     .to(nodes -> {
                         Node entrance = nodes.get(0);
+                        entrance.children(OperandSwitch.class).to(switcher -> {
+                            if (switcher != null && switcher.isOther(current)) {
+                                switcher.markAsExpression();
 
-                        List<String> list = nodes.stream().map(x -> x.id).toList();
+                                analyze(nodes);
 
-                        OperandSwitch switcher = entrance.child(OperandSwitch.class).v;
-                        System.out
-                                .println("Search analyze expresion " + entrance.id + " to " + current.id + "  " + list + "  " + switcher + "  " + switcher
-                                        .isOther(current));
-                        if (switcher != null && switcher.isOther(current)) {
-                            switcher.markAsExpression();
+                                entrance.transferTo(current);
 
-                            analyze(nodes);
+                                this.nodes.removeAll(nodes);
 
-                            entrance.transferTo(current);
-
-                            this.nodes.removeAll(nodes);
-
-                            System.out.println("Process analyze expresion " + entrance.id + " to " + current.id);
-
-                            current = createNodeAfter(current, true);
-                        }
+                                current = createNodeAfter(current, true);
+                            }
+                        });
                     });
+
         }
 
         switch (type) {

@@ -143,8 +143,6 @@ class OperandSwitch extends Operand {
         cases.sort();
         cases.remove(defaultNode);
 
-        System.out.println(entrance.id + " to ");
-
         // ===============================================
         // Special handling for string switch
         // ===============================================
@@ -189,7 +187,7 @@ class OperandSwitch extends Operand {
         }
 
         if (isExpression()) {
-            follow.getPureIncoming().forEach(in -> {
+            I.signal(follow.getPureIncoming()).skip(in -> in.isBefore(entrance)).to(in -> {
                 OperandYield yield = new OperandYield(in.remove(0));
                 in.addOperand(yield);
 
