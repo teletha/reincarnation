@@ -55,6 +55,21 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @Test
+    void sparse() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                return switch (param) {
+                case 5 -> 10;
+                case 100 -> 15;
+                default -> 25;
+                };
+            }
+        });
+    }
+
+    @Test
     void block() {
         verify(new TestCode.IntParam() {
 
@@ -251,7 +266,7 @@ class SwitchExpressionTest extends CodeVerifier {
 
             @Override
             public int run(@Param(from = 0, to = 10) int param) {
-                return value(switch (param % 2) {
+                return switch (param % 2) {
                 case 0 -> switch (param) {
                 case 2 -> 20;
                 default -> param;
@@ -260,11 +275,7 @@ class SwitchExpressionTest extends CodeVerifier {
                 case 1 -> -10;
                 default -> -param;
                 };
-                });
-            }
-
-            private int value(int value) {
-                return value;
+                };
             }
         });
     }

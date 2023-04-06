@@ -27,7 +27,7 @@ import reincarnation.util.MultiMap;
 class OperandSwitch extends Operand {
 
     /** The entrance node. */
-    private final Node entrance;
+    final Node entrance;
 
     /** The condition. */
     private final Operand condition;
@@ -89,14 +89,10 @@ class OperandSwitch extends Operand {
      */
     @Override
     protected void writeCode(Coder coder) {
-        if (Debugger.whileDebug) {
-            coder.write(toString());
-        } else {
-            MultiMap<Structure, Object> caseBlocks = cases.convertKeys(entrance::process);
-            Structure defaultBlock = entrance.process(defaultNode);
+        MultiMap<Structure, Object> caseBlocks = cases.convertKeys(entrance::process);
+        Structure defaultBlock = entrance.process(defaultNode);
 
-            coder.writeSwitch(false, Optional.empty(), condition, condition.type(), caseBlocks, defaultBlock, null);
-        }
+        coder.writeSwitch(false, Optional.empty(), condition, condition.type(), caseBlocks, defaultBlock, null);
     }
 
     /**
@@ -141,7 +137,7 @@ class OperandSwitch extends Operand {
      */
     void analyze(NodeManipulator manipulator) {
         cases.sort();
-        cases.remove(defaultNode);
+        if (defaultNode != null) cases.remove(defaultNode);
 
         // ===============================================
         // Special handling for string switch
@@ -186,7 +182,7 @@ class OperandSwitch extends Operand {
             defaultNode = null;
         }
 
-        if (isExpression()) {
+        if (isExpression() && follow != null) {
             I.signal(follow.getPureIncoming()).skip(in -> in.isBefore(entrance)).to(in -> {
                 OperandYield yield = new OperandYield(in.remove(0));
                 in.addOperand(yield);
@@ -270,7 +266,7 @@ class OperandSwitch extends Operand {
      * 
      * @return
      */
-    private Signal<Node> nodes() {
+    Signal<Node> nodes() {
         return cases.keys().startWith(defaultNode).skipNull();
     }
 }

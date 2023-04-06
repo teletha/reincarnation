@@ -21,6 +21,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -213,6 +214,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
     /** The pool of try-catch-finally blocks. */
     private final TryCatchFinallyManager tries = new TryCatchFinallyManager();
+
+    private final Deque<OperandSwitch> switches = new ArrayDeque();
 
     /** The root statement. */
     private Structure root;
@@ -681,29 +684,44 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     @Override
     public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
         if (nStack != 0 && !tries.isCatch(current) && !tries.isFinally(current)) {
-            I.signal(current)
-                    .recurseMap(x -> x.map(n -> n.previous).skipNull())
-                    .skip(current)
-                    .takeUntil(Node::isSwitchStatement)
-                    .reverse()
-                    .buffer()
-                    .to(nodes -> {
-                        Node entrance = nodes.get(0);
-                        entrance.children(OperandSwitch.class).to(switcher -> {
-                            if (switcher != null && switcher.isOther(current)) {
-                                switcher.markAsExpression();
 
-                                analyze(nodes);
+            Node init = current;
+            Iterator<OperandSwitch> iterator = switches.descendingIterator();
+            while (iterator.hasNext()) {
+                OperandSwitch op = iterator.next();
 
-                                entrance.transferTo(current);
+                if (op.isStatement() && op.isOther(init)) {
+                    try (Printable diff = debugger.diff(nodes, "Process switch expression")) {
+                        List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance), nodes.indexOf(init)));
 
-                                this.nodes.removeAll(nodes);
+                        System.out.println("Remove " + sub.stream().map(x -> x.id).toList() + " current:" + init.id);
 
-                                current = createNodeAfter(current, true);
-                            }
-                        });
-                    });
+                        op.markAsExpression();
 
+                        analyze(sub);
+
+                        op.entrance.transferTo(current);
+
+                        this.nodes.removeAll(sub);
+
+                        current = createNodeAfter(current, true);
+                    }
+                }
+            }
+
+            // I.signal(current)
+            // .recurseMap(x -> x.map(n -> n.previous).skipNull())
+            // .skip(current)
+            // .takeUntil(Node::isSwitchStatement)
+            // .reverse()
+            // .buffer()
+            // .to(nodes -> {
+            // Node entrance = nodes.get(0);
+            // OperandSwitch switcher = entrance.children(OperandSwitch.class).to().v;
+            // if (switcher != null && switcher.isOther(current)) {
+            //
+            // }
+            // });
         }
 
         switch (type) {
@@ -1836,7 +1854,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             locals.unregister(latestLocalVariableAccess());
         }
 
-        current.addOperand(new OperandSwitch(current, current.remove(0), keys, caseNodes, defaultNode, isString));
+        OperandSwitch o = new OperandSwitch(current, current.remove(0), keys, caseNodes, defaultNode, isString);
+        current.addOperand(o);
+        switches.add(o);
     }
 
     /**
