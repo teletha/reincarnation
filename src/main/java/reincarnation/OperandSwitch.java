@@ -80,8 +80,8 @@ class OperandSwitch extends Operand {
     @Override
     public String toString() {
         return "switch(" + condition + "){ case:" + nodes().skipNull()
-                .map(x -> x == defaultNode ? x.id + "D" : x.id)
-                .toList() + " exit:" + (follow == null ? "none" : follow.id) + "}";
+                .map(x -> x == defaultNode ? "#" + x.id : x.id)
+                .toList() + " follow:" + (follow == null ? "none" : follow.id) + "}";
     }
 
     /**
@@ -137,7 +137,7 @@ class OperandSwitch extends Operand {
      */
     void analyze(NodeManipulator manipulator) {
         cases.sort();
-        if (defaultNode != null) cases.remove(defaultNode);
+        cases.remove(defaultNode);
 
         // ===============================================
         // Special handling for string switch

@@ -10,9 +10,14 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.*;
-import static reincarnation.OperandCondition.*;
-import static reincarnation.OperandUtil.*;
+import static reincarnation.Node.Termination;
+import static reincarnation.OperandCondition.EQ;
+import static reincarnation.OperandCondition.GE;
+import static reincarnation.OperandCondition.GT;
+import static reincarnation.OperandCondition.LE;
+import static reincarnation.OperandCondition.LT;
+import static reincarnation.OperandCondition.NE;
+import static reincarnation.OperandUtil.load;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -228,6 +233,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
     /** The counter for the current processing node identifier. */
     private int counter = 0;
+
+    /** The counter for the generated node identifier. */
+    private int counterAlpha = 1;
 
     /** The counter for construction of the object initialization. */
     private int countInitialization = 0;
@@ -692,12 +700,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
                 if (op.isStatement() && op.isOther(init)) {
                     try (Printable diff = debugger.diff(nodes, "Process switch expression")) {
-                        List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance), nodes.indexOf(init)));
-
-                        System.out.println("Remove " + sub.stream().map(x -> x.id).toList() + " current:" + init.id);
-
                         op.markAsExpression();
 
+                        List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance), nodes.indexOf(init)));
                         analyze(sub);
 
                         op.entrance.transferTo(current);
@@ -2122,7 +2127,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     @Override
     public final Node createNodeBefore(Node index, boolean connectable, boolean transferOperands) {
-        Node created = new Node(counter++);
+        Node created = new Node(alphaId());
 
         // switch line number
         created.lineNumber = index.lineNumber;
@@ -2160,7 +2165,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     @Override
     public final Node createNodeAfter(Node index, boolean connectable, boolean transferOperands) {
-        Node created = new Node(counter++);
+        Node created = new Node(alphaId());
 
         // switch line number
         created.lineNumber = index.lineNumber;
@@ -2193,6 +2198,22 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         // API definition
         return created;
+    }
+
+    /**
+     * Generate the aphpabetical identifier.
+     * 
+     * @return
+     */
+    private String alphaId() {
+        StringBuilder id = new StringBuilder();
+
+        int num = counterAlpha++;
+        while (0 < num) {
+            id.insert(0, (char) (--num % 26 + 'A'));
+            num /= 26;
+        }
+        return id.toString();
     }
 
     /**

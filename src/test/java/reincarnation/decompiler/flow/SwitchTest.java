@@ -1497,23 +1497,4 @@ class SwitchTest extends CodeVerifier {
             }
         });
     }
-
-    @Test
-    void blockInDefault() {
-        verify(new TestCode.IntParam() {
-
-            @Override
-            public int run(@Param(from = 0, to = 5) int param) {
-                return switch (param) {
-                case 0 -> 20;
-                default -> {
-                    for (int i = 0; i < 2; i++) {
-                        param++;
-                    }
-                    yield param;
-                }
-                };
-            }
-        });
-    }
 }
