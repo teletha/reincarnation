@@ -24,6 +24,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -686,23 +687,47 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         return new OperandFieldAccess(owner, name, new OperandType(owner));
     }
 
+    private boolean isSwitchExpression(OperandSwitch op) {
+        if (!op.isStatement() || !op.isOther(current)) {
+            return false;
+        }
+
+        for (Node node : op.nodes().toList()) {
+            if (!node.isBefore(current)) {
+                return false;
+            }
+
+            if (!node.canReachTo(current, Collections.EMPTY_SET, true)) {
+                return false;
+            }
+        }
+
+        for (Node in : current.getNonEmptyIncoming()) {
+            if (!in.isValue()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
-        if (nStack != 0 && !tries.isCatch(current) && !tries.isFinally(current)) {
+        if (!tries.isCatch(current) && !tries.isFinally(current)) {
 
-            Node init = current;
             Iterator<OperandSwitch> iterator = switches.descendingIterator();
             while (iterator.hasNext()) {
                 OperandSwitch op = iterator.next();
 
-                if (op.isStatement() && op.isOther(init)) {
+                if (isSwitchExpression(op)) {
+                    System.out.println(current.id);
                     try (Printable diff = debugger.diff(nodes, "Process switch expression")) {
                         op.markAsExpression();
 
-                        List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance), nodes.indexOf(init)));
+                        List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance), nodes.indexOf(current)));
                         analyze(sub);
 
                         op.entrance.transferTo(current);

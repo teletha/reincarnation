@@ -42,7 +42,7 @@ class SwitchExpressionTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 5) int param) {
                 return value(switch (param) {
-                case 0 -> 10;
+                case 0 -> param = 10;
                 case 1 -> 15;
                 default -> param;
                 });

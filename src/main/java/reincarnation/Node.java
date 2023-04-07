@@ -127,6 +127,11 @@ public class Node implements Code<Operand>, Comparable<Node> {
         this.id = id;
     }
 
+    final boolean isValue() {
+        System.out.println(stack);
+        return true;
+    }
+
     /**
      * Check node type.
      * 
@@ -721,6 +726,28 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     /**
+     * Collect pure incoming nodes which is not backedge.
+     * 
+     * @return
+     */
+    Set<Node> getNonEmptyIncoming() {
+        Set<Node> nodes = new HashSet();
+        Set<Node> recorder = new HashSet();
+        Deque<Node> queue = new ArrayDeque(getPureIncoming());
+        while (!queue.isEmpty()) {
+            Node node = queue.poll();
+            if (recorder.add(node)) {
+                if (node.isEmpty()) {
+                    queue.addAll(node.getPureIncoming());
+                } else {
+                    nodes.add(node);
+                }
+            }
+        }
+        return nodes;
+    }
+
+    /**
      * Detect whether the specified node is traversable from this node.
      * 
      * @param node A target node.
@@ -737,10 +764,22 @@ public class Node implements Code<Operand>, Comparable<Node> {
      * @return A result.
      */
     final boolean canReachTo(Node node, Collection<Node> exclusionNodes) {
-        Set<Node> recorder = new HashSet<Node>();
+        return canReachTo(node, exclusionNodes, false);
+    }
+
+    /**
+     * Detect whether the specified node is traversable from this node.
+     * 
+     * @param node A target node.
+     * @return A result.
+     */
+    final boolean canReachTo(Node node, Collection<Node> exclusionNodes, boolean acceptThrow) {
+        Set<Node> tails = new HashSet();
+
+        Set<Node> recorder = new HashSet();
         recorder.add(this);
 
-        Deque<Node> queue = new ArrayDeque<Node>();
+        Deque<Node> queue = new ArrayDeque();
         queue.add(this);
 
         while (!queue.isEmpty()) {
@@ -751,9 +790,18 @@ public class Node implements Code<Operand>, Comparable<Node> {
 
                 if (!exclusionNodes.contains(out) && recorder.add(out)) {
                     queue.addLast(out);
+
+                    if (out.outgoing.isEmpty()) {
+                        tails.add(out);
+                    }
                 }
             }
         }
+
+        if (acceptThrow) {
+            return tails.stream().allMatch(Node::isThrow);
+        }
+
         return false;
     }
 
