@@ -63,4 +63,12 @@ class OperandCast extends Operand {
     public Signal<Operand> children() {
         return I.signal(value);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isValue() {
+        return true;
+    }
 }

@@ -275,4 +275,12 @@ class OperandCondition extends Operand {
     protected String info() {
         return super.info() + " then " + then.id + " else " + (elze == null ? "SAME" : elze.id);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isValue() {
+        return true;
+    }
 }

@@ -136,6 +136,10 @@ final class LocalVariables implements Naming {
         return offset < variable.index;
     }
 
+    boolean isParam(OperandLocalVariable variable) {
+        return variable.index <= offset;
+    }
+
     /**
      * Register the name of variable at the specified index.
      * 

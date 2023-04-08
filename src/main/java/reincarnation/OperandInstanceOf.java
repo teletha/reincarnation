@@ -72,4 +72,12 @@ class OperandInstanceOf extends Operand {
     protected void writeCode(Coder coder) {
         coder.writeInstanceof(value, type, cast);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isValue() {
+        return true;
+    }
 }

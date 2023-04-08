@@ -24,7 +24,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -697,7 +696,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 return false;
             }
 
-            if (!node.canReachTo(current, Collections.EMPTY_SET, true)) {
+            if (!node.canReachTo(current, op.nodes().skip(node).toSet(), true)) {
                 return false;
             }
         }
@@ -717,13 +716,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     @Override
     public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
         if (!tries.isCatch(current) && !tries.isFinally(current)) {
-
             Iterator<OperandSwitch> iterator = switches.descendingIterator();
             while (iterator.hasNext()) {
                 OperandSwitch op = iterator.next();
 
                 if (isSwitchExpression(op)) {
-                    System.out.println(current.id);
                     try (Printable diff = debugger.diff(nodes, "Process switch expression")) {
                         op.markAsExpression();
 
@@ -738,20 +735,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     }
                 }
             }
-
-            // I.signal(current)
-            // .recurseMap(x -> x.map(n -> n.previous).skipNull())
-            // .skip(current)
-            // .takeUntil(Node::isSwitchStatement)
-            // .reverse()
-            // .buffer()
-            // .to(nodes -> {
-            // Node entrance = nodes.get(0);
-            // OperandSwitch switcher = entrance.children(OperandSwitch.class).to().v;
-            // if (switcher != null && switcher.isOther(current)) {
-            //
-            // }
-            // });
         }
 
         switch (type) {
@@ -944,6 +927,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             }
         } else {
             current.addOperand(new OperandAssign(variable, AssignOperator.PLUS, new OperandNumber(increment)));
+
         }
     }
 
@@ -1970,13 +1954,16 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             if (match(INCREMENT, ILOAD)) {
                 Operand prev = current.peek(0);
 
-                if (prev instanceof OperandUnary) {
-                    OperandUnary unary = (OperandUnary) prev;
-
+                if (prev instanceof OperandUnary unary) {
                     if (unary.operator == UnaryOperator.PRE_INCREMENT || unary.operator == UnaryOperator.PRE_DECREMENT) {
                         if (unary.value.equals(variable)) {
                             break;
                         }
+                    }
+                } else if (prev instanceof OperandAssign assign) {
+                    if (assign.left.equals(variable)) {
+                        assign.encolose();
+                        break;
                     }
                 }
             }
@@ -2043,7 +2030,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 OperandAssign assign = new OperandAssign(variable, AssignOperator.ASSIGN, operand);
 
                 if (!operand.duplicated) {
-                    current.addExpression(assign);
+                    current.addOperand(assign);
                 } else {
                     operand.duplicated = false;
 

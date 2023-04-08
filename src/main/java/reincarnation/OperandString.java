@@ -71,4 +71,12 @@ class OperandString extends Operand {
     protected String info() {
         return "String";
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isValue() {
+        return true;
+    }
 }

@@ -154,6 +154,14 @@ class OperandMethodCall extends Operand {
      * {@inheritDoc}
      */
     @Override
+    protected boolean isValue() {
+        return type.isNot(void.class);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected boolean isNegatable() {
         return type.is(boolean.class) || type.is(Boolean.class);
     }

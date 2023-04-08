@@ -70,4 +70,12 @@ class OperandConstructorCall extends Operand {
             coder.writeThisConstructorCall(constructor, params);
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isValue() {
+        return true;
+    }
 }

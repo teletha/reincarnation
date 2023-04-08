@@ -15,9 +15,6 @@ import reincarnation.CodeVerifier;
 import reincarnation.TestCode;
 import reincarnation.TestCode.Int;
 
-/**
- * @version 2018/10/05 0:17:07
- */
 class IntTest extends CodeVerifier {
 
     @Test
@@ -186,6 +183,21 @@ class IntTest extends CodeVerifier {
     }
 
     @Test
+    void addAssignableOnParameter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return value(value += 2);
+            }
+
+            private int value(int value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
     void subtrrun() {
         verify(new TestCode.IntParam() {
 
@@ -203,6 +215,21 @@ class IntTest extends CodeVerifier {
             @Override
             public int run(int value) {
                 return value -= 2;
+            }
+        });
+    }
+
+    @Test
+    void subtractAssignableOnParameter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return value(value -= 2);
+            }
+
+            private int value(int value) {
+                return value;
             }
         });
     }
@@ -230,6 +257,21 @@ class IntTest extends CodeVerifier {
     }
 
     @Test
+    void multipleAssignableOnParameter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return value(value *= 20000);
+            }
+
+            private int value(int value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
     void divide() {
         verify(new TestCode.IntParam() {
 
@@ -247,6 +289,21 @@ class IntTest extends CodeVerifier {
             @Override
             public int run(int value) {
                 return value /= 2;
+            }
+        });
+    }
+
+    @Test
+    void divideAssignableOnParameter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return value(value /= 2);
+            }
+
+            private int value(int value) {
+                return value;
             }
         });
     }
@@ -274,6 +331,21 @@ class IntTest extends CodeVerifier {
     }
 
     @Test
+    void moduloAssignableOnParameter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return value(value %= 2);
+            }
+
+            private int value(int value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
     void bitFlag() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -296,6 +368,32 @@ class IntTest extends CodeVerifier {
     }
 
     @Test
+    void bitAndAssignable() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return value &= 0x010101;
+            }
+        });
+    }
+
+    @Test
+    void bitAndAssignableOnParameter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return value(value &= 0x010101);
+            }
+
+            private int value(int value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
     void bitOr() {
         verify(new TestCode.IntParam() {
 
@@ -308,10 +406,26 @@ class IntTest extends CodeVerifier {
 
     @Test
     void bitOrAssignable() {
-        verify(new TestCode() {
+        verify(new TestCode.IntParam() {
 
+            @Override
             public int run(int value) {
                 return value |= 0x010101;
+            }
+        });
+    }
+
+    @Test
+    void bitOrAssignableOnParameter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return value(value |= 0x010101);
+            }
+
+            private int value(int value) {
+                return value;
             }
         });
     }
@@ -334,6 +448,21 @@ class IntTest extends CodeVerifier {
             @Override
             public int run(int value) {
                 return value ^= 0x010101;
+            }
+        });
+    }
+
+    @Test
+    void bitXorAssignableOnParameter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return value(value ^= 0x010101);
+            }
+
+            private int value(int value) {
+                return value;
             }
         });
     }
@@ -372,6 +501,21 @@ class IntTest extends CodeVerifier {
     }
 
     @Test
+    void shiftLeftAssignableOnParameter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return value(value <<= 1);
+            }
+
+            private int value(int value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
     void shiftRight() {
         verify(new TestCode.IntParam() {
 
@@ -394,6 +538,21 @@ class IntTest extends CodeVerifier {
     }
 
     @Test
+    void shiftRightAssignableOnParameter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return value(value >>= 1);
+            }
+
+            private int value(int value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
     void unsignedShiftRight() {
         verify(new TestCode.IntParam() {
 
@@ -411,6 +570,21 @@ class IntTest extends CodeVerifier {
             @Override
             public int run(int value) {
                 return value >>>= 1;
+            }
+        });
+    }
+
+    @Test
+    void unsignedShiftRightAssignableOnParameter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return value(value >>>= 1);
+            }
+
+            private int value(int value) {
+                return value;
             }
         });
     }
@@ -516,6 +690,21 @@ class IntTest extends CodeVerifier {
     }
 
     @Test
+    void postIncrementOnParameter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return value(value++);
+            }
+
+            private int value(int value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
     void preIncrement() {
         verify(new TestCode.IntParam() {
 
@@ -533,6 +722,21 @@ class IntTest extends CodeVerifier {
             @Override
             public int run(int value) {
                 return 2 * ++value;
+            }
+        });
+    }
+
+    @Test
+    void preIncrementOnParameter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return value(++value);
+            }
+
+            private int value(int value) {
+                return value;
             }
         });
     }

@@ -89,10 +89,14 @@ class OperandSwitch extends Operand {
      */
     @Override
     protected void writeCode(Coder coder) {
-        MultiMap<Structure, Object> caseBlocks = cases.convertKeys(entrance::process);
-        Structure defaultBlock = entrance.process(defaultNode);
+        if (Debugger.whileDebug) {
+            coder.write(toString());
+        } else {
+            MultiMap<Structure, Object> caseBlocks = cases.convertKeys(entrance::process);
+            Structure defaultBlock = entrance.process(defaultNode);
 
-        coder.writeSwitch(false, Optional.empty(), condition, condition.type(), caseBlocks, defaultBlock, null);
+            coder.writeSwitch(false, Optional.empty(), condition, condition.type(), caseBlocks, defaultBlock, null);
+        }
     }
 
     /**

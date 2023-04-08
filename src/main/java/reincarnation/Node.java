@@ -128,8 +128,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     final boolean isValue() {
-        System.out.println(stack);
-        return true;
+        return !stack.isEmpty() && stack.peekLast().isValue();
     }
 
     /**
@@ -1354,7 +1353,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
         StringBuilder builder = new StringBuilder();
 
         for (Operand operand : stack) {
-            builder.append(operand.disclose());
+            builder.append(operand);
         }
         return builder.toString();
     }

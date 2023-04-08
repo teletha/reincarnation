@@ -59,4 +59,12 @@ class OperandBinary extends Operand {
     protected void writeCode(Coder coder) {
         coder.writeBinaryOperation(left, operator, right);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isValue() {
+        return true;
+    }
 }

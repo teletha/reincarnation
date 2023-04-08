@@ -10,7 +10,13 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static org.objectweb.asm.Type.*;
+import static org.objectweb.asm.Type.ARRAY;
+import static org.objectweb.asm.Type.BOOLEAN;
+import static org.objectweb.asm.Type.BYTE;
+import static org.objectweb.asm.Type.CHAR;
+import static org.objectweb.asm.Type.INT;
+import static org.objectweb.asm.Type.SHORT;
+import static org.objectweb.asm.Type.VOID;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;

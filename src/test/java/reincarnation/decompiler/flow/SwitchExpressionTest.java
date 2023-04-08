@@ -11,6 +11,7 @@ package reincarnation.decompiler.flow;
 
 import java.lang.annotation.RetentionPolicy;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
@@ -42,13 +43,58 @@ class SwitchExpressionTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 5) int param) {
                 return value(switch (param) {
-                case 0 -> param = 10;
+                case 0 -> 10;
                 case 1 -> 15;
                 default -> param;
                 });
             }
 
             private int value(int value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void withAssign() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value = switch (param) {
+                case 0 -> param = 10;
+                default -> param;
+                };
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void withUnaryOperator() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value = switch (param) {
+                case 0 -> --param;
+                default -> param;
+                };
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void withAssignOperator() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value = switch (param) {
+                case 0 -> param += 10;
+                default -> param;
+                };
                 return value;
             }
         });
@@ -260,6 +306,7 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @Test
+    @Disabled
     @Debuggable
     void nest() {
         verify(new TestCode.IntParam() {

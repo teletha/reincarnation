@@ -62,6 +62,14 @@ class OperandLocalVariable extends Operand {
      * {@inheritDoc}
      */
     @Override
+    public boolean isValue() {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void writeCode(Coder coder) {
         if (name.equals("this")) {
             coder.writeThis();

@@ -33,4 +33,12 @@ class OperandType extends Operand {
     protected void writeCode(Coder coder) {
         coder.writeAccessType(value);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isValue() {
+        return true;
+    }
 }

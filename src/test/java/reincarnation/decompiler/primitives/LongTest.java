@@ -14,9 +14,6 @@ import org.junit.jupiter.api.Test;
 import reincarnation.CodeVerifier;
 import reincarnation.TestCode;
 
-/**
- * @version 2018/10/09 15:53:39
- */
 class LongTest extends CodeVerifier {
 
     @Test
@@ -119,6 +116,21 @@ class LongTest extends CodeVerifier {
     }
 
     @Test
+    void addAssignableOnParameter() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                return value(value += 2L);
+            }
+
+            private long value(long value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
     void negate() {
         verify(new TestCode.LongParam() {
 
@@ -152,6 +164,21 @@ class LongTest extends CodeVerifier {
     }
 
     @Test
+    void subtractAssignableOnParameter() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                return value(value -= 2L);
+            }
+
+            private long value(long value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
     void multiply() {
         verify(new TestCode.LongParam() {
 
@@ -169,6 +196,21 @@ class LongTest extends CodeVerifier {
             @Override
             public long run(long value) {
                 return value *= 2;
+            }
+        });
+    }
+
+    @Test
+    void multipleAssignableOnParameter() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                return value(value *= 2L);
+            }
+
+            private long value(long value) {
+                return value;
             }
         });
     }
@@ -196,6 +238,21 @@ class LongTest extends CodeVerifier {
     }
 
     @Test
+    void divideAssignableOnParameter() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                return value(value /= 2L);
+            }
+
+            private long value(long value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
     void modulo() {
         verify(new TestCode.LongParam() {
 
@@ -213,6 +270,21 @@ class LongTest extends CodeVerifier {
             @Override
             public long run(long value) {
                 return value %= 2;
+            }
+        });
+    }
+
+    @Test
+    void moduloAssignableOnParameter() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                return value(value %= 2L);
+            }
+
+            private long value(long value) {
+                return value;
             }
         });
     }
@@ -240,6 +312,32 @@ class LongTest extends CodeVerifier {
     }
 
     @Test
+    void bitAndAssignable() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                return value &= 0x010101;
+            }
+        });
+    }
+
+    @Test
+    void bitAndAssignableOnParameter() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                return value(value &= 0x010101);
+            }
+
+            private long value(long value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
     void bitOr() {
         verify(new TestCode.LongParam() {
 
@@ -262,6 +360,21 @@ class LongTest extends CodeVerifier {
     }
 
     @Test
+    void bitOrAssignableOnParameter() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                return value(value |= 0x010101);
+            }
+
+            private long value(long value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
     void bitXor() {
         verify(new TestCode.LongParam() {
 
@@ -279,6 +392,21 @@ class LongTest extends CodeVerifier {
             @Override
             public long run(long value) {
                 return value ^= 0x010101;
+            }
+        });
+    }
+
+    @Test
+    void bitXorAssignableOnParameter() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                return value(value ^= 0x010101);
+            }
+
+            private long value(long value) {
+                return value;
             }
         });
     }
@@ -317,6 +445,21 @@ class LongTest extends CodeVerifier {
     }
 
     @Test
+    void shiftLeftAssignableOnParameter() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                return value(value <<= 1);
+            }
+
+            private long value(long value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
     void shiftRight() {
         verify(new TestCode.LongParam() {
 
@@ -339,6 +482,21 @@ class LongTest extends CodeVerifier {
     }
 
     @Test
+    void shiftRightAssignableOnParameter() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                return value(value >>= 1);
+            }
+
+            private long value(long value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
     void unsignedShiftRight() {
         verify(new TestCode.LongParam() {
 
@@ -356,6 +514,21 @@ class LongTest extends CodeVerifier {
             @Override
             public long run(long value) {
                 return value >>>= 1;
+            }
+        });
+    }
+
+    @Test
+    void unsignedShiftRightAssignableOnParameter() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                return value(value >>>= 1);
+            }
+
+            private long value(long value) {
+                return value;
             }
         });
     }

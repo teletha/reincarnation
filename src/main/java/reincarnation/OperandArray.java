@@ -189,4 +189,12 @@ class OperandArray extends Operand {
         }
         return size;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isValue() {
+        return true;
+    }
 }

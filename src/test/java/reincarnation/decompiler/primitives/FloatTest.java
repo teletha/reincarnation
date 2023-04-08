@@ -12,11 +12,9 @@ package reincarnation.decompiler.primitives;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
-/**
- * @version 2018/10/10 11:02:56
- */
 class FloatTest extends CodeVerifier {
 
     @Test
@@ -69,7 +67,7 @@ class FloatTest extends CodeVerifier {
 
             @Override
             public float run(float value) {
-                return -1;
+                return -1F;
             }
         });
     }
@@ -102,7 +100,7 @@ class FloatTest extends CodeVerifier {
 
             @Override
             public float run(float value) {
-                return value + 1;
+                return value + 1F;
             }
         });
     }
@@ -113,7 +111,22 @@ class FloatTest extends CodeVerifier {
 
             @Override
             public float run(float value) {
-                return value += 2;
+                return value += 2F;
+            }
+        });
+    }
+
+    @Test
+    void addAssignableOnParameter() {
+        verify(new TestCode.FloatParam() {
+
+            @Override
+            public float run(float value) {
+                return value(value += 2F);
+            }
+
+            private float value(float value) {
+                return value;
             }
         });
     }
@@ -124,7 +137,7 @@ class FloatTest extends CodeVerifier {
 
             @Override
             public float run(float value) {
-                return value - 1;
+                return value - 1F;
             }
         });
     }
@@ -135,7 +148,23 @@ class FloatTest extends CodeVerifier {
 
             @Override
             public float run(float value) {
-                return value -= 2;
+                return value -= 2F;
+            }
+        });
+    }
+
+    @Test
+    @Debuggable
+    void subtractAssignableOnParameter() {
+        verify(new TestCode.FloatParam() {
+
+            @Override
+            public float run(float value) {
+                return value(value -= 2.2F);
+            }
+
+            private float value(float value) {
+                return value;
             }
         });
     }
@@ -146,7 +175,7 @@ class FloatTest extends CodeVerifier {
 
             @Override
             public float run(float value) {
-                return value * 2;
+                return value * 2F;
             }
         });
     }
@@ -157,7 +186,22 @@ class FloatTest extends CodeVerifier {
 
             @Override
             public float run(float value) {
-                return value *= 2;
+                return value *= 2F;
+            }
+        });
+    }
+
+    @Test
+    void multipleAssignableOnParameter() {
+        verify(new TestCode.FloatParam() {
+
+            @Override
+            public float run(float value) {
+                return value(value *= 2.2F);
+            }
+
+            private float value(float value) {
+                return value;
             }
         });
     }
@@ -168,7 +212,7 @@ class FloatTest extends CodeVerifier {
 
             @Override
             public float run(float value) {
-                return value / 2;
+                return value / 2F;
             }
         });
     }
@@ -179,7 +223,22 @@ class FloatTest extends CodeVerifier {
 
             @Override
             public float run(float value) {
-                return value /= 2;
+                return value /= 2F;
+            }
+        });
+    }
+
+    @Test
+    void divideAssignableOnParameter() {
+        verify(new TestCode.FloatParam() {
+
+            @Override
+            public float run(float value) {
+                return value(value /= 2F);
+            }
+
+            private float value(float value) {
+                return value;
             }
         });
     }
@@ -190,7 +249,7 @@ class FloatTest extends CodeVerifier {
 
             @Override
             public float run(float value) {
-                return value % 2;
+                return value % 2F;
             }
         });
     }
@@ -201,7 +260,22 @@ class FloatTest extends CodeVerifier {
 
             @Override
             public float run(float value) {
-                return value %= 2;
+                return value %= 2F;
+            }
+        });
+    }
+
+    @Test
+    void moduloAssignableOnParameter() {
+        verify(new TestCode.FloatParam() {
+
+            @Override
+            public float run(float value) {
+                return value(value %= 2F);
+            }
+
+            private float value(float value) {
+                return value;
             }
         });
     }

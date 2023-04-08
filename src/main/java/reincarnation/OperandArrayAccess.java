@@ -37,4 +37,12 @@ class OperandArrayAccess extends Operand {
     protected void writeCode(Coder coder) {
         coder.writeAccessArray(array, index);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isValue() {
+        return true;
+    }
 }

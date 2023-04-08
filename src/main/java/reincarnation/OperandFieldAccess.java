@@ -112,4 +112,12 @@ class OperandFieldAccess extends Operand {
     protected void writeCode(Coder coder) {
         coder.writeAccessField(field, context, mode);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isValue() {
+        return true;
+    }
 }

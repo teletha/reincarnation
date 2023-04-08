@@ -122,6 +122,19 @@ public abstract class Operand implements Code<Operand> {
     }
 
     /**
+     * Check whether this operand means any value or not.
+     * 
+     * @return
+     */
+    protected boolean isValue() {
+        return enclosed;
+    }
+
+    protected final boolean isEnclosed() {
+        return enclosed;
+    }
+
+    /**
      * Get the associated class type.
      * 
      * @return

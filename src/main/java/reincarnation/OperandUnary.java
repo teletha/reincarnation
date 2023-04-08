@@ -55,4 +55,12 @@ class OperandUnary extends Operand {
     protected void writeCode(Coder coder) {
         coder.writeUnaryOperation(value, operator);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isValue() {
+        return true;
+    }
 }

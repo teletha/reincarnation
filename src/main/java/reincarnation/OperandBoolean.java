@@ -68,4 +68,12 @@ class OperandBoolean extends Operand {
     protected boolean isFalse() {
         return value == false;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isValue() {
+        return true;
+    }
 }

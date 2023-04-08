@@ -22,7 +22,7 @@ import reincarnation.operator.AssignOperator;
 class OperandAssign extends Operand {
 
     /** The left value. */
-    private final Operand left;
+    final Operand left;
 
     /** The right value. */
     private Operand right;
@@ -37,9 +37,9 @@ class OperandAssign extends Operand {
      * @param operator A operator.
      * @param right A right value.
      */
-    public OperandAssign(Operand left, AssignOperator operator, Operand right) {
+    OperandAssign(Operand left, AssignOperator operator, Operand right) {
         this.left = Objects.requireNonNull(left);
-        this.right = Objects.requireNonNull(right).disclose();
+        this.right = Objects.requireNonNull(right);
         this.operator = Objects.requireNonNull(operator);
 
         bindTo(left.bindTo(right));

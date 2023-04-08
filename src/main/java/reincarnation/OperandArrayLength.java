@@ -40,4 +40,12 @@ class OperandArrayLength extends Operand {
     protected void writeCode(Coder coder) {
         coder.writeAccessArrayLength(owner);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isValue() {
+        return true;
+    }
 }

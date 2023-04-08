@@ -43,4 +43,12 @@ class OperandMethodReference extends Operand {
             coder.writeMethodReference(reference, context);
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isValue() {
+        return true;
+    }
 }
