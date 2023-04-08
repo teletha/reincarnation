@@ -107,6 +107,14 @@ class OperandSwitch extends Operand {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected boolean isValue() {
+        return isExpression();
+    }
+
+    /**
      * Test the given node is any case or not.
      * 
      * @param node

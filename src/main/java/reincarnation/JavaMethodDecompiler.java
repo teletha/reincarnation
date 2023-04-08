@@ -693,16 +693,19 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         for (Node node : op.nodes().toList()) {
             if (!node.isBefore(current)) {
+                System.out.println(node.id + " is not before " + current.id);
                 return false;
             }
 
             if (!node.canReachTo(current, op.nodes().skip(node).toSet(), true)) {
+                System.out.println("Cant reach from " + node.id + " to " + current.id);
                 return false;
             }
         }
 
         for (Node in : current.getNonEmptyIncoming()) {
             if (!in.isValue()) {
+                System.out.println(in + " is not value");
                 return false;
             }
         }
@@ -720,6 +723,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             while (iterator.hasNext()) {
                 OperandSwitch op = iterator.next();
 
+                if (op.isExpression()) {
+                    continue;
+                }
+
+                System.out.println("Process " + op);
                 if (isSwitchExpression(op)) {
                     try (Printable diff = debugger.diff(nodes, "Process switch expression")) {
                         op.markAsExpression();
