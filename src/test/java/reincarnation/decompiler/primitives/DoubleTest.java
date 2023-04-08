@@ -25,7 +25,7 @@ class DoubleTest extends CodeVerifier {
 
             @Override
             public double run(double value) {
-                return 0;
+                return 0d;
             }
         });
     }
@@ -36,7 +36,7 @@ class DoubleTest extends CodeVerifier {
 
             @Override
             public double run(double value) {
-                return 1;
+                return 1d;
             }
         });
     }
@@ -47,7 +47,7 @@ class DoubleTest extends CodeVerifier {
 
             @Override
             public double run(double value) {
-                return 2;
+                return 2d;
             }
         });
     }
@@ -58,7 +58,7 @@ class DoubleTest extends CodeVerifier {
 
             @Override
             public double run(double value) {
-                return 3;
+                return 3d;
             }
         });
     }
@@ -69,7 +69,7 @@ class DoubleTest extends CodeVerifier {
 
             @Override
             public double run(double value) {
-                return -1;
+                return -1d;
             }
         });
     }
@@ -102,7 +102,7 @@ class DoubleTest extends CodeVerifier {
 
             @Override
             public double run(double value) {
-                return value + 1;
+                return value + 1d;
             }
         });
     }
@@ -113,7 +113,22 @@ class DoubleTest extends CodeVerifier {
 
             @Override
             public double run(double value) {
-                return value += 2;
+                return value += 2d;
+            }
+        });
+    }
+
+    @Test
+    void addAssignableOnParameter() {
+        verify(new TestCode.DoubleParam() {
+
+            @Override
+            public double run(double value) {
+                return value(value += 2d);
+            }
+
+            private double value(double value) {
+                return value;
             }
         });
     }
@@ -124,7 +139,7 @@ class DoubleTest extends CodeVerifier {
 
             @Override
             public double run(double value) {
-                return value - 1;
+                return value - 1d;
             }
         });
     }
@@ -135,7 +150,22 @@ class DoubleTest extends CodeVerifier {
 
             @Override
             public double run(double value) {
-                return value -= 2;
+                return value -= 2d;
+            }
+        });
+    }
+
+    @Test
+    void subtractAssignableOnParameter() {
+        verify(new TestCode.DoubleParam() {
+
+            @Override
+            public double run(double value) {
+                return value(value -= 2d);
+            }
+
+            private double value(double value) {
+                return value;
             }
         });
     }
@@ -146,7 +176,7 @@ class DoubleTest extends CodeVerifier {
 
             @Override
             public double run(double value) {
-                return value * 2;
+                return value * 2d;
             }
         });
     }
@@ -157,7 +187,22 @@ class DoubleTest extends CodeVerifier {
 
             @Override
             public double run(double value) {
-                return value *= 2;
+                return value *= 2d;
+            }
+        });
+    }
+
+    @Test
+    void multipleAssignableOnParameter() {
+        verify(new TestCode.DoubleParam() {
+
+            @Override
+            public double run(double value) {
+                return value(value *= 2d);
+            }
+
+            private double value(double value) {
+                return value;
             }
         });
     }
@@ -168,7 +213,7 @@ class DoubleTest extends CodeVerifier {
 
             @Override
             public double run(double value) {
-                return value / 2;
+                return value / 2d;
             }
         });
     }
@@ -179,7 +224,22 @@ class DoubleTest extends CodeVerifier {
 
             @Override
             public double run(double value) {
-                return value /= 2;
+                return value /= 2d;
+            }
+        });
+    }
+
+    @Test
+    void divideAssignableOnParameter() {
+        verify(new TestCode.DoubleParam() {
+
+            @Override
+            public double run(double value) {
+                return value(value /= 2d);
+            }
+
+            private double value(double value) {
+                return value;
             }
         });
     }
@@ -190,7 +250,7 @@ class DoubleTest extends CodeVerifier {
 
             @Override
             public double run(double value) {
-                return value % 2;
+                return value % 2d;
             }
         });
     }
@@ -201,7 +261,22 @@ class DoubleTest extends CodeVerifier {
 
             @Override
             public double run(double value) {
-                return value %= 2;
+                return value %= 2d;
+            }
+        });
+    }
+
+    @Test
+    void moduloAssignableOnParameter() {
+        verify(new TestCode.DoubleParam() {
+
+            @Override
+            public double run(double value) {
+                return value(value %= 2d);
+            }
+
+            private double value(double value) {
+                return value;
             }
         });
     }
@@ -241,12 +316,54 @@ class DoubleTest extends CodeVerifier {
     }
 
     @Test
+    void postIncrementOnParameter() {
+        verify(new TestCode.DoubleParam() {
+
+            @Override
+            public double run(double value) {
+                return value(value++);
+            }
+
+            private double value(double value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
     void preIncrement() {
         verify(new TestCode.DoubleParam() {
 
             @Override
             public double run(double value) {
                 return ++value;
+            }
+        });
+    }
+
+    @Test
+    void preIncrementValue() {
+        verify(new TestCode.DoubleParam() {
+
+            @Override
+            public double run(double value) {
+                double next = ++value;
+                return value + next;
+            }
+        });
+    }
+
+    @Test
+    void preIncrementOnParameter() {
+        verify(new TestCode.DoubleParam() {
+
+            @Override
+            public double run(double value) {
+                return value(++value);
+            }
+
+            private double value(double value) {
+                return value;
             }
         });
     }

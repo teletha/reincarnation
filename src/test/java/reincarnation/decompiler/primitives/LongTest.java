@@ -22,7 +22,7 @@ class LongTest extends CodeVerifier {
 
             @Override
             public long run() {
-                return 0;
+                return 0L;
             }
         });
     }
@@ -33,7 +33,7 @@ class LongTest extends CodeVerifier {
 
             @Override
             public long run() {
-                return 1;
+                return 1L;
             }
         });
     }
@@ -44,7 +44,7 @@ class LongTest extends CodeVerifier {
 
             @Override
             public long run() {
-                return 2;
+                return 2L;
             }
         });
     }
@@ -55,7 +55,7 @@ class LongTest extends CodeVerifier {
 
             @Override
             public long run() {
-                return 3;
+                return 3L;
             }
         });
     }
@@ -66,7 +66,7 @@ class LongTest extends CodeVerifier {
 
             @Override
             public long run() {
-                return -1;
+                return -1L;
             }
         });
     }
@@ -99,7 +99,7 @@ class LongTest extends CodeVerifier {
 
             @Override
             public long run(long param) {
-                return param + 1;
+                return param + 1L;
             }
         });
     }
@@ -110,7 +110,7 @@ class LongTest extends CodeVerifier {
 
             @Override
             public long run(long value) {
-                return value += 2;
+                return value += 2L;
             }
         });
     }
@@ -147,7 +147,7 @@ class LongTest extends CodeVerifier {
 
             @Override
             public long run(long value) {
-                return value - 1;
+                return value - 1L;
             }
         });
     }
@@ -158,7 +158,7 @@ class LongTest extends CodeVerifier {
 
             @Override
             public long run(long value) {
-                return value -= 2;
+                return value -= 2L;
             }
         });
     }
@@ -184,7 +184,7 @@ class LongTest extends CodeVerifier {
 
             @Override
             public long run(long value) {
-                return value * 2;
+                return value * 2L;
             }
         });
     }
@@ -195,7 +195,7 @@ class LongTest extends CodeVerifier {
 
             @Override
             public long run(long value) {
-                return value *= 2;
+                return value *= 2L;
             }
         });
     }
@@ -221,7 +221,7 @@ class LongTest extends CodeVerifier {
 
             @Override
             public long run(long value) {
-                return value / 2;
+                return value / 2L;
             }
         });
     }
@@ -232,7 +232,7 @@ class LongTest extends CodeVerifier {
 
             @Override
             public long run(long value) {
-                return value /= 2;
+                return value /= 2L;
             }
         });
     }
@@ -258,7 +258,7 @@ class LongTest extends CodeVerifier {
 
             @Override
             public long run(long value) {
-                return value % 2;
+                return value % 2L;
             }
         });
     }
@@ -269,7 +269,7 @@ class LongTest extends CodeVerifier {
 
             @Override
             public long run(long value) {
-                return value %= 2;
+                return value %= 2L;
             }
         });
     }

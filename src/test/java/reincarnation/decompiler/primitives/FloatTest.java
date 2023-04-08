@@ -23,7 +23,7 @@ class FloatTest extends CodeVerifier {
 
             @Override
             public float run(float value) {
-                return 0;
+                return 0F;
             }
         });
     }
@@ -34,7 +34,7 @@ class FloatTest extends CodeVerifier {
 
             @Override
             public float run(float value) {
-                return 1;
+                return 1F;
             }
         });
     }
@@ -45,7 +45,7 @@ class FloatTest extends CodeVerifier {
 
             @Override
             public float run(float value) {
-                return 2;
+                return 2F;
             }
         });
     }
@@ -56,7 +56,7 @@ class FloatTest extends CodeVerifier {
 
             @Override
             public float run(float value) {
-                return 3;
+                return 3F;
             }
         });
     }
@@ -304,12 +304,27 @@ class FloatTest extends CodeVerifier {
     }
 
     @Test
+    void postIncrementOnParameter() {
+        verify(new TestCode.FloatParam() {
+
+            @Override
+            public float run(float value) {
+                return value(value++);
+            }
+
+            private float value(float value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
     void postIncrementLike() {
         verify(new TestCode.FloatParam() {
 
             @Override
             public float run(float value) {
-                return value + 1;
+                return value + 1F;
             }
         });
     }
@@ -321,6 +336,33 @@ class FloatTest extends CodeVerifier {
             @Override
             public float run(float value) {
                 return ++value;
+            }
+        });
+    }
+
+    @Test
+    void preIncrementValue() {
+        verify(new TestCode.FloatParam() {
+
+            @Override
+            public float run(float value) {
+                float next = ++value;
+                return value + next;
+            }
+        });
+    }
+
+    @Test
+    void preIncrementOnParameter() {
+        verify(new TestCode.FloatParam() {
+
+            @Override
+            public float run(float value) {
+                return value(++value);
+            }
+
+            private float value(float value) {
+                return value;
             }
         });
     }
