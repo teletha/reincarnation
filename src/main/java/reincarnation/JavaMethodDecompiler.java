@@ -727,8 +727,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     continue;
                 }
 
-                System.out.println("Process " + op);
                 if (isSwitchExpression(op)) {
+                    System.out.println("Process " + op);
                     try (Printable diff = debugger.diff(nodes, "Process switch expression")) {
                         op.markAsExpression();
 

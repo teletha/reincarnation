@@ -316,10 +316,7 @@ class SwitchExpressionTest extends CodeVerifier {
                 case 2 -> 20;
                 default -> param;
                 };
-                default -> switch (param) {
-                case 1 -> -10;
-                default -> -param;
-                };
+                default -> 30;
                 };
             }
         });

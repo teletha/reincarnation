@@ -207,7 +207,12 @@ class OperandSwitch extends Operand {
         if (entrance.isSwitchExpression()) {
             List<Node> incomings = new ArrayList(entrance.incoming);
             entrance.disconnect(true, false);
-            follow.disconnect(true, false);
+            // follow.disconnect(true, false);
+            for (Node in : follow.incoming) {
+                if (in.hasDominator(entrance)) {
+                    in.disconnect(follow);
+                }
+            }
 
             incomings.forEach(in -> in.connect(follow));
         }
