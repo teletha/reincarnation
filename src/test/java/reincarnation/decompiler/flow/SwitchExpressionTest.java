@@ -18,6 +18,7 @@ import reincarnation.CodeVerifier;
 import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
+@Debuggable
 class SwitchExpressionTest extends CodeVerifier {
 
     @Test

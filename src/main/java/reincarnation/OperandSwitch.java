@@ -9,7 +9,10 @@
  */
 package reincarnation;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -195,16 +198,14 @@ class OperandSwitch extends Operand {
         }
 
         if (isExpression() && follow != null) {
-            I.signal(follow.getPureIncoming()).skip(in -> in.isBefore(entrance)).to(in -> {
+            collectYieldables(follow).forEach(in -> {
                 OperandYield yield = new OperandYield(in.remove(0));
                 in.addOperand(yield);
 
                 // type inference
                 bindTo(yield);
             });
-        }
 
-        if (entrance.isSwitchExpression()) {
             List<Node> incomings = new ArrayList(entrance.incoming);
             entrance.disconnect(true, false);
             // follow.disconnect(true, false);
@@ -283,7 +284,59 @@ class OperandSwitch extends Operand {
      * 
      * @return
      */
-    Signal<Node> nodes() {
+    private Signal<Node> nodes() {
         return cases.keys().startWith(defaultNode).skipNull();
+    }
+
+    boolean canBeExpression(Node follow) {
+        if (isExpression()) {
+            return false;
+        }
+
+        if (!isOther(follow)) {
+            return false;
+        }
+
+        for (Node node : nodes().toList()) {
+            if (!node.isBefore(follow)) {
+                return false;
+            }
+
+            if (!node.canReachTo(follow, nodes().skip(node).toSet(), true)) {
+                return false;
+            }
+        }
+
+        for (Node node : collectYieldables(follow)) {
+            if (!node.isValue()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Collect pure incoming nodes which is not backedge.
+     * 
+     * @return
+     */
+    private Set<Node> collectYieldables(Node follow) {
+        Set<Node> nodes = new HashSet();
+        Set<Node> recorder = new HashSet();
+        Deque<Node> queue = new ArrayDeque(follow.getPureIncoming());
+        while (!queue.isEmpty()) {
+            Node node = queue.poll();
+            if (recorder.add(node)) {
+                if (node == entrance) {
+                    // ignore
+                } else if (node.isEmpty()) {
+                    queue.addAll(node.getPureIncoming());
+                } else {
+                    nodes.add(node);
+                }
+            }
+        }
+        return nodes;
     }
 }

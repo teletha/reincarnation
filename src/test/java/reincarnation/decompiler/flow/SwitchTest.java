@@ -14,7 +14,6 @@ import java.lang.annotation.RetentionPolicy;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class SwitchTest extends CodeVerifier {
@@ -885,7 +884,6 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable
     void breakTryCatchFinally() {
         verify(new TestCode.IntParam() {
 

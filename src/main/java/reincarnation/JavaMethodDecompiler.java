@@ -26,7 +26,6 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -220,7 +219,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     /** The pool of try-catch-finally blocks. */
     private final TryCatchFinallyManager tries = new TryCatchFinallyManager();
 
-    private final Deque<OperandSwitch> switches = new ArrayDeque();
+    private final LinkedList<OperandSwitch> switches = new LinkedList();
 
     /** The root statement. */
     private Structure root;
@@ -663,48 +662,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         return new OperandFieldAccess(owner, name, new OperandType(owner));
     }
 
-    private boolean isSwitchExpression(OperandSwitch op) {
-        if (!op.isStatement() || !op.isOther(current)) {
-            return false;
-        }
-
-        for (Node node : op.nodes().toList()) {
-            if (!node.isBefore(current)) {
-                System.out.println(node.id + " is not before " + current.id);
-                return false;
-            }
-
-            if (!node.canReachTo(current, op.nodes().skip(node).toSet(), true)) {
-                System.out.println("Cant reach from " + node.id + " to " + current.id);
-                return false;
-            }
-        }
-
-        for (Node in : current.getNonEmptyIncoming()) {
-            if (!in.isValue()) {
-                System.out.println(in + " is not value");
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
     public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
         if (!tries.isCatch(current) && !tries.isFinally(current)) {
-            Iterator<OperandSwitch> iterator = switches.descendingIterator();
-            while (iterator.hasNext()) {
-                OperandSwitch op = iterator.next();
-
-                if (op.isExpression()) {
-                    continue;
-                }
-
-                if (isSwitchExpression(op)) {
+            for (OperandSwitch op : switches) {
+                if (op.canBeExpression(current)) {
                     try (Printable diff = debugger.diff(nodes, "Process switch expression")) {
                         op.markAsExpression();
 
@@ -1854,7 +1819,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         OperandSwitch o = new OperandSwitch(current, current.remove(0), keys, caseNodes, defaultNode, isString);
         current.addOperand(o);
-        switches.add(o);
+        switches.addFirst(o);
     }
 
     /**

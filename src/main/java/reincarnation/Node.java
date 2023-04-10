@@ -755,28 +755,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     /**
-     * Collect pure incoming nodes which is not backedge.
-     * 
-     * @return
-     */
-    Set<Node> getNonEmptyIncoming() {
-        Set<Node> nodes = new HashSet();
-        Set<Node> recorder = new HashSet();
-        Deque<Node> queue = new ArrayDeque(getPureIncoming());
-        while (!queue.isEmpty()) {
-            Node node = queue.poll();
-            if (recorder.add(node)) {
-                if (node.isEmpty()) {
-                    queue.addAll(node.getPureIncoming());
-                } else {
-                    nodes.add(node);
-                }
-            }
-        }
-        return nodes;
-    }
-
-    /**
      * Detect whether the specified node is traversable from this node.
      * 
      * @param node A target node.
