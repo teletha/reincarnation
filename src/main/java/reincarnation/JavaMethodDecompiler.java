@@ -411,7 +411,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         }
 
         // Search all backedge nodes.
-        searchBackEdge(nodes.get(0), new ArrayDeque());
+        nodes.get(0).searchBackEdge();
 
         // ============================================
         // Analyze variable declaration
@@ -474,29 +474,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         // Print debug info
         // ============================================
         debugger.print(nodes);
-    }
-
-    /**
-     * Helper method to search all backedge nodes using depth-first search.
-     * 
-     * @param node A target node to check.
-     * @param recorder All passed nodes.
-     */
-    private void searchBackEdge(Node node, Deque<Node> recorder) {
-        // Store the current processing node.
-        recorder.add(node);
-
-        // Step into outgoing nodes.
-        for (Node out : node.outgoing) {
-            if (recorder.contains(out)) {
-                out.backedges.addIfAbsent(node);
-            } else {
-                searchBackEdge(out, recorder);
-            }
-        }
-
-        // Remove the current processing node.
-        recorder.pollLast();
     }
 
     /**
@@ -728,7 +705,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 }
 
                 if (isSwitchExpression(op)) {
-                    System.out.println("Process " + op);
                     try (Printable diff = debugger.diff(nodes, "Process switch expression")) {
                         op.markAsExpression();
 
@@ -2310,11 +2286,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             // If the previous node is terminated by conditional operand and the target node is
             // started by conditional operand, we should try to merge them.
             if (info.conditionalHead && node.previous != null) {
+                // The direct self-backedge node is not mergeable
+                if (node.incoming.contains(node)) {
+                    return;
+                }
+
                 Operand operand = node.previous.peek(0);
 
-                if (operand instanceof OperandCondition) {
-                    OperandCondition condition = (OperandCondition) operand;
-
+                if (operand instanceof OperandCondition condition) {
                     if (info.canMerge(condition, right) && condition.elze == node) {
                         dispose(node);
 
@@ -2798,9 +2777,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         }
 
         /**
-         * <p>
-         * Test whether target conditions is able to merge.
-         * </p>
+         * Test whether target condition is able to merge.
          * 
          * @param left A left condition.
          * @param right A right condition.

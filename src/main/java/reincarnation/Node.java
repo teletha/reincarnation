@@ -566,6 +566,36 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     /**
+     * Helper method to search all backedge nodes using depth-first search.
+     */
+    final void searchBackEdge() {
+        searchBackEdge(this, new ArrayDeque());
+    }
+
+    /**
+     * Helper method to search all backedge nodes using depth-first search.
+     * 
+     * @param node A target node to check.
+     * @param recorder All passed nodes.
+     */
+    private static void searchBackEdge(Node node, Deque<Node> recorder) {
+        // Store the current processing node.
+        recorder.add(node);
+
+        // Step into outgoing nodes.
+        for (Node out : node.outgoing) {
+            if (recorder.contains(out)) {
+                out.backedges.addIfAbsent(node);
+            } else {
+                searchBackEdge(out, recorder);
+            }
+        }
+
+        // Remove the current processing node.
+        recorder.pollLast();
+    }
+
+    /**
      * Helper method to check whether the specified node dominate this node or not.
      * 
      * @param dominator A dominator node.

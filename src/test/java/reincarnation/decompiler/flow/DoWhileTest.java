@@ -9,7 +9,6 @@
  */
 package reincarnation.decompiler.flow;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
@@ -195,7 +194,6 @@ class DoWhileTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void inIfOneLiner() {
         verify(new TestCode.IntParam() {
 
@@ -212,7 +210,6 @@ class DoWhileTest extends CodeVerifier {
     }
 
     @Test
-    @Disabled
     void inOneLinerIf() {
         verify(new TestCode.IntParam() {
 
