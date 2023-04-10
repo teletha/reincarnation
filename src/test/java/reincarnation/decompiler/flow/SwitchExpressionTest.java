@@ -326,6 +326,49 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @Test
+    @Disabled
+    void inSwitchStatement() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                switch (param % 2) {
+                case 0:
+                    return switch (param) {
+                    case 2 -> 20;
+                    default -> param;
+                    };
+                default:
+                    return 30;
+                }
+            }
+        });
+    }
+
+    @Test
+    @Disabled
+    void onSwitchStatement() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                return switch (param % 2) {
+                case 0 -> {
+                    switch (param) {
+                    case 2:
+                        yield 20;
+                    default:
+                        yield param;
+                    }
+                }
+                default -> 30;
+                };
+            }
+        });
+
+    }
+
+    @Test
     void conditionByChar() {
         verify(new TestCode.CharParam() {
 
