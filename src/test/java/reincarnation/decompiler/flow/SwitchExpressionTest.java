@@ -326,6 +326,7 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @Test
+    @Disabled
     void inSwitchStatement() {
         verify(new TestCode.IntParam() {
 

@@ -2932,7 +2932,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 // Then, we can analyze.
                 for (TryCatchFinally block : blocks) {
                     // Associate node with block.
-                    block.start.tries.add(block);
                     block.searchExit();
                     block.purgeUnreachableCatch();
                 }
@@ -3029,6 +3028,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             end.disposable = false;
             catcher.disposable = false;
 
+            start.tries.add(0, this);
             addCatchOrFinallyBlock(exception, catcher);
         }
 
