@@ -2196,25 +2196,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     }
 
     /**
-     * Link all nodes as order of appearance.
-     * 
-     * @param nodes A sequence of nodes.
-     * @return A last node.
-     */
-    private Node link(Node... nodes) {
-        int size = nodes.length - 1;
-
-        for (int i = 0; i < size; i++) {
-            Node prev = nodes[i];
-            Node next = nodes[i + 1];
-
-            if (prev != null) prev.next = next;
-            if (next != null) next.previous = prev;
-        }
-        return nodes[size];
-    }
-
-    /**
      * Helper method to merge all conditional operands.
      */
     private void merge(Node node) {

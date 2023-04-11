@@ -148,4 +148,23 @@ public interface NodeManipulator {
      * @param recursive true will dispose the previous node if it is empty.
      */
     void dispose(Node target, boolean clearStack, boolean recursive);
+
+    /**
+     * Link all nodes as order of appearance.
+     * 
+     * @param nodes A sequence of nodes.
+     * @return A last node.
+     */
+    default Node link(Node... nodes) {
+        int size = nodes.length - 1;
+
+        for (int i = 0; i < size; i++) {
+            Node prev = nodes[i];
+            Node next = nodes[i + 1];
+
+            if (prev != null) prev.next = next;
+            if (next != null) next.previous = prev;
+        }
+        return nodes[size];
+    }
 }
