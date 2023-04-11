@@ -3024,9 +3024,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             this.start = start;
             this.end = end;
             this.catcher = catcher;
-            if (start != null) start.disposable = false;
-            if (end != null) end.disposable = false;
-            if (catcher != null) catcher.disposable = false;
+
+            start.disposable = false;
+            end.disposable = false;
+            catcher.disposable = false;
 
             addCatchOrFinallyBlock(exception, catcher);
         }

@@ -45,7 +45,7 @@ class OperandSwitch extends Operand {
     private final boolean switchForString;
 
     /** The end node. */
-    private Node follow;
+    Node follow;
 
     /**
      * Creates a new {@code OperandSwitch} instance.
