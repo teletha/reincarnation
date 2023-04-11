@@ -89,6 +89,8 @@ public class Node implements Code<Operand>, Comparable<Node> {
      */
     Node destination;
 
+    Node catching;
+
     /** The dominator node. */
     Node dominator;
 
@@ -652,7 +654,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
 
             switch (size) {
             case 0: // this is root node
-                dominator = null;
+                dominator = catching; // or null
                 break;
 
             case 1: // only one incoming node

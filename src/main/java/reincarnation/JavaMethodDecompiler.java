@@ -3029,6 +3029,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             catcher.disposable = false;
 
             start.tries.add(0, this);
+            catcher.catching = start;
             addCatchOrFinallyBlock(exception, catcher);
         }
 
