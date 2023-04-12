@@ -42,6 +42,29 @@ class SwitchTest extends CodeVerifier {
     }
 
     @Test
+    void firstDefault() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                switch (param) {
+                default:
+                    return 25;
+
+                case 0:
+                    return 10;
+
+                case 1:
+                    return 15;
+
+                case 2:
+                    return 20;
+                }
+            }
+        });
+    }
+
+    @Test
     void reverse() {
         verify(new TestCode.IntParam() {
 
@@ -358,6 +381,26 @@ class SwitchTest extends CodeVerifier {
                     return 1 + param;
 
                 default:
+                    return 25;
+                }
+            }
+        });
+    }
+
+    @Test
+    void fallThroughDefault() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                switch (param) {
+                default:
+                    param += 1;
+
+                case 1:
+                    return 1 + param;
+
+                case 0:
                     return 25;
                 }
             }

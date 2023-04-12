@@ -80,6 +80,15 @@ public class MultiMap<K, V> {
     }
 
     /**
+     * Associates the empty value with the specified key in this map.
+     * 
+     * @param key The key with which to associate the specified value.
+     */
+    public void put(K key) {
+        map.computeIfAbsent(key, k -> new ArrayList());
+    }
+
+    /**
      * Associates the specified value with the specified key in this map.
      * 
      * @param key The key with which to associate the specified value.

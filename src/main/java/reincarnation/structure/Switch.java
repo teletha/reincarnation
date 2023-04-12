@@ -46,8 +46,10 @@ public class Switch extends Breakable {
     public Switch(Node that, Operand condition, MultiMap<Node, Object> cases, Node defaultCase, Node follow) {
         super(that, that);
 
-        follow.loopExit.set(this);
-        follow.loopExit.fix();
+        if (follow != null) {
+            follow.loopExit.set(this);
+            follow.loopExit.fix();
+        }
 
         this.condition = condition;
         this.cases = cases.convertKeys(that::process);

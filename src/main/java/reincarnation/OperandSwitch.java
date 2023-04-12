@@ -218,7 +218,7 @@ class OperandSwitch extends Operand {
             incomings.forEach(in -> in.connect(follow));
         }
 
-        if (defaultNode != null) {
+        if (defaultNode != null && follow != null) {
             List<Node> cases = nodes().toList();
 
             // group incomings by cases
@@ -277,6 +277,14 @@ class OperandSwitch extends Operand {
         default:
             return false;
         }
+    }
+
+    private boolean acceptFallThrough(Node node) {
+        return nodes().skip(node).any(node::hasDominator).to().v;
+    }
+
+    private boolean hasFallThrough(Node node) {
+        return nodes().skip(n -> n == node || n.isBefore(node)).any(n -> node.canReachTo(n)).to().v;
     }
 
     /**
