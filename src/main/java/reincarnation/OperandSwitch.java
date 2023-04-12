@@ -339,4 +339,14 @@ class OperandSwitch extends Operand {
         }
         return nodes;
     }
+
+    void replaceCase(Node oldNode, Node newNode) {
+        if (defaultNode == oldNode) {
+            defaultNode = newNode;
+        }
+
+        if (cases.containsKey(oldNode)) {
+            cases.putAll(newNode, cases.remove(oldNode));
+        }
+    }
 }

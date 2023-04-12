@@ -681,6 +681,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                         this.nodes.removeAll(sub);
 
                         current = createNodeAfter(current, true);
+
+                        switches.forEach(o -> o.replaceCase(op.entrance, current));
                     }
                 }
             }
@@ -3010,7 +3012,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             catcher.disposable = false;
 
             start.tries.add(0, this);
-            catcher.catching = start;
             addCatchOrFinallyBlock(exception, catcher);
         }
 

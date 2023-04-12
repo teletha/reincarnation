@@ -89,8 +89,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
      */
     Node destination;
 
-    Node catching;
-
     /** The dominator node. */
     Node dominator;
 
@@ -295,6 +293,19 @@ public class Node implements Code<Operand>, Comparable<Node> {
      */
     final Signal<Node> incomingRecursively() {
         return I.signal(this).recurseMap(n -> n.flatIterable(x -> x.incoming)).takeWhile(n -> n != null);
+    }
+
+    /**
+     * Traverse incoming nodes recursively.
+     * 
+     * @return
+     */
+    final Signal<Node> incomingRecursively(Predicate<Node> exclude) {
+        Set<Node> recorder = new HashSet();
+
+        return I.signal(this)
+                .recurseMap(n -> n.flatIterable(x -> x.incoming).skip(x -> !recorder.add(x) || exclude.test(x)))
+                .takeWhile(n -> n != null && n.backedges.isEmpty());
     }
 
     /**
@@ -654,7 +665,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
 
             switch (size) {
             case 0: // this is root node
-                dominator = catching; // or null
+                dominator = null;
                 break;
 
             case 1: // only one incoming node
@@ -846,7 +857,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
      */
     final void disconnect(boolean incoming, boolean outgoing) {
         if (incoming) this.incoming.forEach(in -> in.disconnect(this));
-        if (outgoing) this.outgoing.forEach(out -> out.disconnect(this));
+        if (outgoing) this.outgoing.forEach(out -> disconnect(out));
     }
 
     /**

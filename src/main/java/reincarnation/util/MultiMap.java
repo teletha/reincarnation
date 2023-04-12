@@ -110,8 +110,8 @@ public class MultiMap<K, V> {
      * 
      * @param key The key for which all values are to be removed.
      */
-    public void remove(K key) {
-        map.remove(key);
+    public List<V> remove(K key) {
+        return map.remove(key);
     }
 
     /**
