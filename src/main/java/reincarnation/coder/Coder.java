@@ -737,30 +737,42 @@ public abstract class Coder<O extends CodingOption> {
      * @param condition The condition to switch on.
      * @param type The type of the condition.
      * @param caseBlocks A map of cases and their associated code blocks.
-     * @param defaultBlock The default code block to execute if no cases match.
      * @param follow The code block to execute after the switch statement.
      */
-    public final void writeSwitch(boolean statement, Optional<String> label, Code condition, Class type, MultiMap<Code, Object> caseBlocks, Code defaultBlock, Code follow) {
+    public final void writeSwitch(boolean statement, Optional<String> label, Code condition, Class type, MultiMap<Code, Object> caseBlocks, Code follow) {
         writeSwitch(statement, label, condition, type, () -> {
             if (Enum.class.isAssignableFrom(type)) {
                 caseBlocks.forEach((code, keys) -> {
-                    writeEnumCase(statement, type, keys.stream().map(x -> (Enum) type.getEnumConstants()[(int) x - 1]).toList(), code);
+                    if (keys.isEmpty()) {
+                        writeDefaultCase(statement, code);
+                    } else {
+                        writeEnumCase(statement, type, keys.stream().map(x -> (Enum) type.getEnumConstants()[(int) x - 1]).toList(), code);
+                    }
                 });
             } else if (type == char.class) {
                 caseBlocks.forEach((code, keys) -> {
-                    writeCharCase(statement, keys.stream().map(x -> (char) (int) x).toList(), code);
+                    if (keys.isEmpty()) {
+                        writeDefaultCase(statement, code);
+                    } else {
+                        writeCharCase(statement, keys.stream().map(x -> (char) (int) x).toList(), code);
+                    }
                 });
             } else if (type == String.class) {
                 caseBlocks.forEach((code, keys) -> {
-                    writeStringCase(statement, keys.stream().map(String::valueOf).toList(), code);
+                    if (keys.isEmpty()) {
+                        writeDefaultCase(statement, code);
+                    } else {
+                        writeStringCase(statement, keys.stream().map(String::valueOf).toList(), code);
+                    }
                 });
             } else {
                 caseBlocks.forEach((code, keys) -> {
-                    writeIntCase(statement, keys.stream().map(x -> (Integer) x).toList(), code);
+                    if (keys.isEmpty()) {
+                        writeDefaultCase(statement, code);
+                    } else {
+                        writeIntCase(statement, keys.stream().map(x -> (Integer) x).toList(), code);
+                    }
                 });
-            }
-            if (defaultBlock != null) {
-                writeDefaultCase(statement, defaultBlock);
             }
         }, follow);
     }
