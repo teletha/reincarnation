@@ -12,7 +12,6 @@ package reincarnation.decompiler.primitives;
 import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class FloatTest extends CodeVerifier {
@@ -154,7 +153,6 @@ class FloatTest extends CodeVerifier {
     }
 
     @Test
-    @Debuggable
     void subtractAssignableOnParameter() {
         verify(new TestCode.FloatParam() {
 

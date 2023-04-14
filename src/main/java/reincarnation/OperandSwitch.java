@@ -277,7 +277,7 @@ class OperandSwitch extends Operand {
         List<Node> maybeFollowers = nodes()
                 .flatMap(node -> node.outgoingRecursively(n -> isCase(n) || isDefault(n)).take(n -> !n.hasDominator(node)).first())
                 .toList();
-    
+
         if (maybeFollowers.isEmpty()) {
             if (hasFallThrough(defaultNode)) {
                 return null;
