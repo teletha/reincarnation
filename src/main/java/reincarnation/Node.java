@@ -323,8 +323,10 @@ public class Node implements Code<Operand>, Comparable<Node> {
      * @return
      */
     final Signal<Node> outgoingRecursively(Predicate<Node> exclude) {
+        Set<Node> recorder = new HashSet();
+
         return I.signal(this)
-                .recurseMap(n -> n.flatIterable(x -> x.outgoing).skip(exclude))
+                .recurseMap(n -> n.flatIterable(x -> x.outgoing).skip(x -> !recorder.add(x) || exclude.test(x)))
                 .takeWhile(n -> n != null && n.backedges.isEmpty());
     }
 

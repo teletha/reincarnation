@@ -676,13 +676,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                         List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance), nodes.indexOf(current)));
                         analyze(sub);
 
-                        op.entrance.transferTo(current);
+                        Node created = createNodeBefore(op.entrance, true);
+                        link(created, current);
+                        op.entrance.transferTo(created);
 
                         this.nodes.removeAll(sub);
-
-                        current = createNodeAfter(current, true);
-
-                        switches.forEach(o -> o.replaceCase(op.entrance, current));
                     }
                 }
             }
