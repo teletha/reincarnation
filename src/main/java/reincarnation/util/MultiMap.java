@@ -183,7 +183,7 @@ public class MultiMap<K, V> {
     public <N> MultiMap<N, V> convertKeys(Function<K, N> converter) {
         MultiMap created = new MultiMap(acceptDuplication);
         forEach((key, values) -> {
-            created.putAll(converter.apply(key), values);
+            created.map.put(converter.apply(key), values);
         });
         return created;
     }

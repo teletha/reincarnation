@@ -45,7 +45,7 @@ class OperandSwitch extends Operand {
     private final boolean switchForString;
 
     /** The end node. */
-    Node follow;
+    Node follower;
 
     /**
      * Creates a new {@code OperandSwitch} instance.
@@ -84,7 +84,7 @@ class OperandSwitch extends Operand {
     public String toString() {
         return "switch(" + condition + "){ case:" + nodes().skipNull()
                 .map(x -> x == defaultNode ? "#" + x.id : x.id)
-                .toList() + " follow:" + (follow == null ? "none" : follow.id) + "}";
+                .toList() + " follow:" + (follower == null ? "none" : follower.id) + "}";
     }
 
     /**
@@ -96,7 +96,6 @@ class OperandSwitch extends Operand {
             coder.write(toString());
         } else {
             MultiMap<Structure, Object> caseBlocks = cases.convertKeys(entrance::process);
-            Structure defaultBlock = entrance.process(defaultNode);
 
             coder.writeSwitch(false, Optional.empty(), condition, condition.type(), caseBlocks, null);
         }
@@ -106,7 +105,7 @@ class OperandSwitch extends Operand {
      * @return
      */
     public Structure structurize() {
-        return new Switch(entrance, condition, cases, defaultNode, follow);
+        return new Switch(entrance, condition, cases, follower);
     }
 
     /**
@@ -180,25 +179,20 @@ class OperandSwitch extends Operand {
         // Detect the really default node
         // ===============================================
         if (isReallyDefaultNode(defaultNode)) {
-            List<Node> candidates = nodes()
-                    .flatMap(node -> node.outgoingRecursively(n -> isCase(n) || isDefault(n)).take(n -> !n.hasDominator(node)).first())
-                    .toList();
+            follower = searchFollower();
 
-            if (candidates.isEmpty()) {
-                follow = defaultNode;
+            if (follower == defaultNode) {
                 defaultNode = null;
             } else {
-                for (Node candidate : candidates) {
-                    follow = candidate;
-                }
+                cases.put(defaultNode);
             }
         } else {
-            follow = defaultNode;
+            follower = defaultNode;
             defaultNode = null;
         }
 
-        if (isExpression() && follow != null) {
-            collectYieldables(follow).forEach(in -> {
+        if (isExpression() && follower != null) {
+            collectYieldables(follower).forEach(in -> {
                 OperandYield yield = new OperandYield(in.remove(0));
                 in.addOperand(yield);
 
@@ -209,21 +203,21 @@ class OperandSwitch extends Operand {
             List<Node> incomings = new ArrayList(entrance.incoming);
             entrance.disconnect(true, false);
             // follow.disconnect(true, false);
-            for (Node in : follow.incoming) {
+            for (Node in : follower.incoming) {
                 if (in.hasDominator(entrance)) {
-                    in.disconnect(follow);
+                    in.disconnect(follower);
                 }
             }
 
-            incomings.forEach(in -> in.connect(follow));
+            incomings.forEach(in -> in.connect(follower));
         }
 
-        if (defaultNode != null && follow != null) {
+        if (defaultNode != null && follower != null) {
             List<Node> cases = nodes().toList();
 
             // group incomings by cases
             MultiMap<Node, Node> group = new MultiMap(true);
-            for (Node in : follow.getPureIncoming()) {
+            for (Node in : follower.getPureIncoming()) {
                 for (Node node : cases) {
                     if (in.hasDominator(node)) {
                         group.put(node, in);
@@ -232,11 +226,11 @@ class OperandSwitch extends Operand {
             }
 
             // create splitter node for each cases
-            Set<Node> incomings = group.values().map(nodes -> manipulator.createSplitterNodeBefore(follow, nodes)).toSet();
+            Set<Node> incomings = group.values().map(nodes -> manipulator.createSplitterNodeBefore(follower, nodes)).toSet();
 
             // create splitter node for this switch
-            follow = manipulator.createSplitterNodeBefore(follow, incomings);
-            follow.additionalCall++;
+            follower = manipulator.createSplitterNodeBefore(follower, incomings);
+            follower.additionalCall++;
         }
     }
 
@@ -276,6 +270,22 @@ class OperandSwitch extends Operand {
         // It is a follow node because it is connected to two or more case nodes
         default:
             return false;
+        }
+    }
+
+    private Node searchFollower() {
+        List<Node> maybeFollowers = nodes()
+                .flatMap(node -> node.outgoingRecursively(n -> isCase(n) || isDefault(n)).take(n -> !n.hasDominator(node)).first())
+                .toList();
+    
+        if (maybeFollowers.isEmpty()) {
+            if (hasFallThrough(defaultNode)) {
+                return null;
+            } else {
+                return defaultNode;
+            }
+        } else {
+            return maybeFollowers.get(0);
         }
     }
 

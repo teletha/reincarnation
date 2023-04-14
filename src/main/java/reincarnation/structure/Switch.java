@@ -27,9 +27,6 @@ public class Switch extends Breakable {
     /** A MultiMap containing the cases and their corresponding keys. */
     private final MultiMap<Structure, Object> cases;
 
-    /** The Node representing the default case, if any. */
-    private final Structure defaultCase;
-
     /** The Node representing the next structure to be executed after the Switch structure. */
     private final Structure follow;
 
@@ -39,11 +36,10 @@ public class Switch extends Breakable {
      * @param that the Node that represents this Switch structure.
      * @param condition the Operand representing the condition to be evaluated.
      * @param cases a MultiMap containing the cases and their corresponding keys.
-     * @param defaultCase the Node representing the default case, if any.
      * @param follow the Node representing the next structure to be executed after the Switch
      *            structure.
      */
-    public Switch(Node that, Operand condition, MultiMap<Node, Object> cases, Node defaultCase, Node follow) {
+    public Switch(Node that, Operand condition, MultiMap<Node, Object> cases, Node follow) {
         super(that, that);
 
         if (follow != null) {
@@ -53,7 +49,6 @@ public class Switch extends Breakable {
 
         this.condition = condition;
         this.cases = cases.convertKeys(that::process);
-        this.defaultCase = that.process(defaultCase);
         this.follow = that.process(follow);
     }
 
@@ -62,7 +57,7 @@ public class Switch extends Breakable {
      */
     @Override
     public Signal<Structure> children() {
-        return cases.keys().startWith(defaultCase).skipNull();
+        return cases.keys().skipNull();
     }
 
     /**

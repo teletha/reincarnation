@@ -650,7 +650,7 @@ public abstract class Coder<O extends CodingOption> {
      * Break statement.
      * 
      * @param label A label of break point.
-     * @param omitLabel TODO
+     * @param omitLabel You can omit label or not.
      */
     public abstract void writeBreak(Optional<String> label, boolean omitLabel);
 
