@@ -17,13 +17,13 @@ public class Project extends bee.api.Project {
         require("org.ow2.asm", "asm");
         require("com.github.teletha", "sinobu");
         require("com.github.teletha", "psychopath");
-        require("org.vineflower", "vineflower");
 
         require("com.github.teletha", "icymanipulator").atAnnotation();
         require("com.github.teletha", "bee").atTest();
         require("com.github.teletha", "antibug").atTest();
         require("com.github.teletha", "viewtify").atTest();
         require("com.github.javaparser", "javaparser-core").atTest();
+        require("org.vineflower", "vineflower").atTest();
 
         // for jetbrains fernflower
         require("org.jetbrains", "annotations").atTest();
