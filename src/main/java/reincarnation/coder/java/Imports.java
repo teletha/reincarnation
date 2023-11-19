@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import kiss.I;
-import kiss.model.Model;
+import kiss.Model;
 import reincarnation.util.Classes;
 
 class Imports {

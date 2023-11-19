@@ -25,9 +25,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 import kiss.I;
+import kiss.Model;
 import kiss.Variable;
 import kiss.Ⅲ;
-import kiss.model.Model;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;

@@ -18,7 +18,7 @@ import java.util.LinkedList;
 import java.util.Set;
 
 import kiss.I;
-import kiss.model.Model;
+import kiss.Model;
 
 public class Classes {
 
@@ -157,13 +157,13 @@ public class Classes {
     public static boolean isUnwrapper(Method method) {
         Class type = method.getDeclaringClass();
         String name = method.getName();
-    
+
         // check parameter
         Parameter[] params = method.getParameters();
         if (params.length != 0) {
             return false;
         }
-    
+
         // check owner and method name
         return (type == Integer.class && name.equals("intValue")) // for int
                 || (type == Long.class && name.equals("longValue")) // for long
@@ -184,13 +184,13 @@ public class Classes {
     public static boolean isWrapper(Method method) {
         Class type = method.getDeclaringClass();
         String name = method.getName();
-    
+
         // check parameter
         Parameter[] params = method.getParameters();
         if (params.length != 1 || I.wrap(params[0].getType()) != type) {
             return false;
         }
-    
+
         // check owner and method name
         return (type == Integer.class && name.equals("valueOf")) // for int
                 || (type == Long.class && name.equals("valueOf")) // for long

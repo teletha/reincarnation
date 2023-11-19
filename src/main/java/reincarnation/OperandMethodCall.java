@@ -19,9 +19,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import kiss.I;
+import kiss.Model;
 import kiss.Signal;
 import kiss.Variable;
-import kiss.model.Model;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.CodingOption;
