@@ -166,7 +166,7 @@ Add it into in the dependencies element like so:
 <dependency>
     <groupId>com.github.teletha</groupId>
     <artifactId>Reincarnation</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
 </dependency>
 ```
 #### [Gradle](https://gradle.org/)
@@ -179,7 +179,7 @@ repositories {
 Add it into the dependencies section like so:
 ```gradle
 dependencies {
-    implementation 'com.github.teletha:Reincarnation:1.4.0'
+    implementation 'com.github.teletha:Reincarnation:1.5.0'
 }
 ```
 #### [SBT](https://www.scala-sbt.org/)
@@ -189,7 +189,7 @@ resolvers += "jitpack" at "https://jitpack.io"
 ```
 Add it into the libraryDependencies section like so:
 ```scala
-libraryDependencies += "com.github.teletha" % "Reincarnation" % "1.4.0"
+libraryDependencies += "com.github.teletha" % "Reincarnation" % "1.5.0"
 ```
 #### [Leiningen](https://leiningen.org/)
 Add JitPack repository at the end of repositories in your project.clj:
@@ -198,12 +198,12 @@ Add JitPack repository at the end of repositories in your project.clj:
 ```
 Add it into the dependencies section like so:
 ```clj
-:dependencies [[com.github.teletha/Reincarnation "1.4.0"]]
+:dependencies [[com.github.teletha/Reincarnation "1.5.0"]]
 ```
 #### [Bee](https://teletha.github.io/bee)
 Add it into your project definition class like so:
 ```java
-require("com.github.teletha", "Reincarnation", "1.4.0");
+require("com.github.teletha", "Reincarnation", "1.5.0");
 ```
 <p align="right"><a href="#top">back to top</a></p>
 
@@ -231,14 +231,14 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 
 ## Dependency
 Reincarnation depends on the following products on runtime.
-* [asm-9.5](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.5)
-* [psychopath-1.7.1](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.7.1)
-* [sinobu-3.2.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.2.0)
+* [asm-9.6](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.6)
+* [psychopath-1.12.1](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.12.1)
+* [sinobu-3.9.1](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.9.1)
 <p align="right"><a href="#top">back to top</a></p>
 
 
 ## License
-Copyright (C) 2023 The REINCARNATION Development Team
+Copyright (C) 2024 The REINCARNATION Development Team
 
 MIT License
 
