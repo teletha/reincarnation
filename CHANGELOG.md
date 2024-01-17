@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.6.0](https://github.com/teletha/reincarnation/compare/v1.5.0...v1.6.0) (2023-04-14)
+
+
+### Features
+
+* Disable continue and break on return and yield statement. ([45058f3](https://github.com/teletha/reincarnation/commit/45058f3098d1bbd2657651a48e4693165248c6e6))
+* Optimize the immediate yield partially. ([58be4e0](https://github.com/teletha/reincarnation/commit/58be4e0c6b514ce1f415afe2ed8e89c54fd4566c))
+* Support non-last default case on switch statement. ([0de49bb](https://github.com/teletha/reincarnation/commit/0de49bb6bf175e10be8c0daa42972581bb6a3935))
+* Support throw on switch expression. ([a8cb756](https://github.com/teletha/reincarnation/commit/a8cb7569cfdc47cbb018ab59310ecc5eea9c9b69))
+
+
+### Bug Fixes
+
+* Avoid excessive merging of conditional nodes. ([50e7275](https://github.com/teletha/reincarnation/commit/50e72758fa89dbefc3e5410c37c4ab2e5bd560eb))
+
 ## [1.5.0](https://github.com/teletha/reincarnation/compare/v1.4.0...v1.5.0) (2023-03-31)
 
 
