@@ -301,8 +301,8 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeLocalVariable(Type type, String name) {
-        coder.writeLocalVariable(type, name);
+    public void writeLocalVariable(Type type, int index, String name) {
+        coder.writeLocalVariable(type, index, name);
     }
 
     /**

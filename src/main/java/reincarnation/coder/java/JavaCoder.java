@@ -656,7 +656,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeLocalVariable(Type type, String name) {
+    public void writeLocalVariable(Type type, int index, String name) {
         String prefix;
         if (vars.isDeclared(name)) {
             prefix = "";

@@ -74,7 +74,7 @@ class OperandLocalVariable extends Operand {
         if (name.equals("this")) {
             coder.writeThis();
         } else {
-            coder.writeLocalVariable(type.v, original == null ? name : original);
+            coder.writeLocalVariable(type.v, index, original == null ? name : original);
         }
     }
 

@@ -506,9 +506,10 @@ public abstract class Coder<O extends CodingOption> {
      * Access the local variable.
      * 
      * @param type A infered type of local variabel.
+     * @param index A local variable index.
      * @param name A local variable name.
      */
-    public abstract void writeLocalVariable(Type type, String name);
+    public abstract void writeLocalVariable(Type type, int index, String name);
 
     /**
      * Access to field.
