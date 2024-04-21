@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. " name="description"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="j">
+		<header class="J">
+			<h1 class="P" date="2023-03-31" ver="1.5.0"><code>Reincarnation</code></h1>
+			<nav class="M"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#package"/>
+					</svg><code>API</code></a><a href="https://github.com/teletha/reincarnation/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#user"/>
+					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#activity"/>
+					</svg>Activity</a><a href="https://github.com/teletha/reincarnation" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#github"/>
+					</svg>Repository</a></nav>
+			<div class="g" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#sun"/>
+					</svg>
+				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<main class="c">
+			<nav class="K">
+				<div></div>
+			</nav>
+			<article class="X" id="Article">
+				<section class="R B" id="1.5.0(2023-03-31)">
+					<header class="B S">
+						<h2>1.5.0 (2023-03-31)</h2>
+						<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+									<use href="main.svg#copy"/>
+								</svg>
+							</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+									<use href="main.svg#twitter"/>
+								</svg>
+							</a></div>
+					</header>
+					<section class="B U" id="Features">
+						<header class="B L">
+							<h3>Features</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+
+							<li>Support omittable yield in switch statement. (<a href="https://github.com/teletha/reincarnation/commit/eaea4eca083548478f6142f2b671363db6fc548c">eaea4ec</a>)</li>
+
+							<li>Support omittable yield on switch expression. (<a href="https://github.com/teletha/reincarnation/commit/9dd20bc6834fcd76d9a983ad2e030042fb7056d6">9dd20bc</a>)</li>
+
+							<li>Support switch expression by char. (<a href="https://github.com/teletha/reincarnation/commit/e35760a5a2179ee95a2c2861eabbb3157cc66e9b">e35760a</a>)</li>
+
+							<li>Support switch expression by enum. (<a href="https://github.com/teletha/reincarnation/commit/78e69e72502c8b381edfa36fd5481b30b69fd544">78e69e7</a>)</li>
+
+							<li>Support switch expression by string. (<a href="https://github.com/teletha/reincarnation/commit/e9e5b1a440f631b56cd4fdd1f75476c11f1ff862">e9e5b1a</a>)</li>
+
+							<li>Support switch expression partially. (<a href="https://github.com/teletha/reincarnation/commit/35aed4149e271351ac4ebcc12d637d1bdf19135f">35aed41</a>)</li>
+
+							<li>Support yield on switch expression. (<a href="https://github.com/teletha/reincarnation/commit/d1d06550b439dc071783610b92a4fa894ef1d337">d1d0655</a>)</li>
+</ul>
+					</section>
+					<section class="B U" id="BugFixes">
+						<header class="B L">
+							<h3>Bug Fixes</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+
+							<li>Detect the correct following node on if statement. (<a href="https://github.com/teletha/reincarnation/commit/48bba835ec7ded57cba2d3c2396affac3875a7b9">48bba83</a>)</li>
+
+							<li>Distinguish between switch expressions and catch blocks. (<a href="https://github.com/teletha/reincarnation/commit/8a7840f734144ca84f167283555ffba895bf8215">8a7840f</a>)</li>
+
+							<li>Distinguish between switch expressions and finally blocks. (<a href="https://github.com/teletha/reincarnation/commit/add9a3e15596ac6f2445e87d9f63b8b2077ea3fa">add9a3e</a>)</li>
+
+							<li>Enable variable declaration on switch expression&#39;s default block. (<a href="https://github.com/teletha/reincarnation/commit/9e1686e93226b1efb5b34da68f231a181c5c6a38">9e1686e</a>)</li>
+</ul>
+					</section>
+					<section class="B U" id="Asserts">
+						<header class="B L">
+							<h3>Assets</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+							<li><a href="https://github.com/teletha/reincarnation/archive/refs/tags/v1.5.0.zip">Source code</a> (zip)</li>
+						</ul>
+					</section>
+				</section>
+				<section class="R B" id="1.4.0(2023-03-24)">
+					<header class="B S">
+						<h2>1.4.0 (2023-03-24)</h2>
+						<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+									<use href="main.svg#copy"/>
+								</svg>
+							</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+									<use href="main.svg#twitter"/>
+								</svg>
+							</a></div>
+					</header>
+					<section class="B U" id="Features">
+						<header class="B L">
+							<h3>Features</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+
+							<li>Omittable break label. (<a href="https://github.com/teletha/reincarnation/commit/1a302391b06390ec7a95e8ab027c0c6bca7953b8">1a30239</a>)</li>
+
+							<li>Support escape sequence in string literal. (<a href="https://github.com/teletha/reincarnation/commit/8d86e8c6ebfac0a1e3ea4f1dd038f5c131b761ff">8d86e8c</a>)</li>
+
+							<li>Support multiple cases on string switch. (<a href="https://github.com/teletha/reincarnation/commit/b622d2f0083e1d399e29b15b2d2cdb1401b7bcfc">b622d2f</a>)</li>
+
+							<li>Support repeatable annotation. (<a href="https://github.com/teletha/reincarnation/commit/69f6a1f8e5f8956e770e887d3868efebe70377d7">69f6a1f</a>)</li>
+
+							<li>Support switch statement by char. (<a href="https://github.com/teletha/reincarnation/commit/dd640c7645c1b4691e5e4dceb936626c33263e44">dd640c7</a>)</li>
+
+							<li>Support switch statement by enum. (<a href="https://github.com/teletha/reincarnation/commit/59ef662bf62ea6ee23adbe5a6026e9f6e4fa67a6">59ef662</a>)</li>
+
+							<li>Support switch statement by String. (<a href="https://github.com/teletha/reincarnation/commit/30898a0938ed6c9072fb5e5d0ba687b92c2da76b">30898a0</a>)</li>
+
+							<li>Support switch statement for integral number. (<a href="https://github.com/teletha/reincarnation/commit/c5dbccaa5b717d626e8a15f8d24dd47412b1478e">c5dbcca</a>)</li>
+
+							<li>Support switch statement partially. (<a href="https://github.com/teletha/reincarnation/commit/cf8b4758cc9fd080a472053d8bcaebabbd0a3a46">cf8b475</a>)</li>
+
+							<li>Support text block. (<a href="https://github.com/teletha/reincarnation/commit/277da891450bc3919ed2463d68e39583deb1fd5b">277da89</a>)</li>
+</ul>
+					</section>
+					<section class="B U" id="BugFixes">
+						<header class="B L">
+							<h3>Bug Fixes</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+
+							<li>Hide Debugger. (<a href="https://github.com/teletha/reincarnation/commit/45ce4a6e6904f329d7e72eb4c09d93c8459d57bc">45ce4a6</a>)</li>
+
+							<li>Normalize the sequencial jump instructions. (<a href="https://github.com/teletha/reincarnation/commit/3972ec7bcf632e755529215d2cc2e0851ad073d1">3972ec7</a>)</li>
+
+							<li>Omit empty default block on switch. (<a href="https://github.com/teletha/reincarnation/commit/a48a7f64b9b64a7dc27367cf4de28c983a3904cf">a48a7f6</a>)</li>
+</ul>
+					</section>
+					<section class="B U" id="Asserts">
+						<header class="B L">
+							<h3>Assets</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+							<li><a href="https://github.com/teletha/reincarnation/archive/refs/tags/v1.4.0.zip">Source code</a> (zip)</li>
+						</ul>
+					</section>
+				</section>
+				<section class="R B" id="1.3.0(2023-03-16)">
+					<header class="B S">
+						<h2>1.3.0 (2023-03-16)</h2>
+						<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+									<use href="main.svg#copy"/>
+								</svg>
+							</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+									<use href="main.svg#twitter"/>
+								</svg>
+							</a></div>
+					</header>
+					<section class="B U" id="Features">
+						<header class="B L">
+							<h3>Features</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+
+							<li>(Java) Optimize output for the implicit constructor. (<a href="https://github.com/teletha/reincarnation/commit/02664f12eb8211f53bc8a6615d002232b45fa40b">02664f1</a>)</li>
+
+							<li>Support annotation on annotation and parameter. (<a href="https://github.com/teletha/reincarnation/commit/d2c5957c22ab58c885b8927e146651406ce1f3c3">d2c5957</a>)</li>
+
+							<li>Support annotation on type, constructor, method and field. (<a href="https://github.com/teletha/reincarnation/commit/c0df1ca178e4132576bd64dadb06257dd0f44320">c0df1ca</a>)</li>
+
+							<li>Support enhanced for loop by array. (<a href="https://github.com/teletha/reincarnation/commit/e70e99c4104cdb79bed2a758bb05eadb43d6b438">e70e99c</a>)</li>
+
+							<li>Support enum features completely. (<a href="https://github.com/teletha/reincarnation/commit/b046aa10e27b0ac7980ee9088b922be0fc804ecd">b046aa1</a>)</li>
+
+							<li>Support enum. (<a href="https://github.com/teletha/reincarnation/commit/1db1026c467c8c3b960b2eb7ec0b92d5af8437ec">1db1026</a>)</li>
+
+							<li>Support extending class. (<a href="https://github.com/teletha/reincarnation/commit/e9854996837eb472ffaa8ea620452be1a6addb50">e985499</a>)</li>
+
+							<li>Support GenericArrayType. (<a href="https://github.com/teletha/reincarnation/commit/8dae09051ecf9a8d86470d8d0e826316bd43164b">8dae090</a>)</li>
+
+							<li>Support record features. (<a href="https://github.com/teletha/reincarnation/commit/82ddb159273fca01574604716e57de99f1c4593a">82ddb15</a>)</li>
+
+							<li>Support sealed class. (<a href="https://github.com/teletha/reincarnation/commit/4b8bf11a72d42ac09ffb72c081a6db294a3788bd">4b8bf11</a>)</li>
+</ul>
+					</section>
+					<section class="B U" id="BugFixes">
+						<header class="B L">
+							<h3>Bug Fixes</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+
+							<li>(Java) Optimize super() code writing. (<a href="https://github.com/teletha/reincarnation/commit/3e16baf2252b89363ecf77625bf647ab55ea5bc1">3e16baf</a>)</li>
+
+							<li>Don&#39;t use Parameter#isSynthetic. (<a href="https://github.com/teletha/reincarnation/commit/b9447141da7a86b03cef119d01842a6c9f465f5b">b944714</a>)</li>
+
+							<li>Hide OperandLocalVariable and Inference. (<a href="https://github.com/teletha/reincarnation/commit/a4cf1dd07ec3a1dc0233a262c608b3ccdd3131f0">a4cf1dd</a>)</li>
+
+							<li>Hide some operand types. (<a href="https://github.com/teletha/reincarnation/commit/de4ebca488bab366b925c96099898168232ce460">de4ebca</a>)</li>
+
+							<li>Hide some operand types. (<a href="https://github.com/teletha/reincarnation/commit/fa2db3160db418b15e034c972a76aa67496ba44a">fa2db31</a>)</li>
+
+							<li>Move OperandUtil#isWrapper and #isUnwrapper to Classes. (<a href="https://github.com/teletha/reincarnation/commit/adcf70bfffdfcd37eb0b1b27874c9e2bb7376b8f">adcf70b</a>)</li>
+
+							<li>Update ecj compiler. (<a href="https://github.com/teletha/reincarnation/commit/ce4a5205630aa8ebb7b7194204ec27ba2dd81e55">ce4a520</a>)</li>
+</ul>
+					</section>
+					<section class="B U" id="Asserts">
+						<header class="B L">
+							<h3>Assets</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+							<li><a href="https://github.com/teletha/reincarnation/archive/refs/tags/v1.3.0.zip">Source code</a> (zip)</li>
+						</ul>
+					</section>
+				</section>
+				<section class="R B" id="1.2.0(2023-03-13)">
+					<header class="B S">
+						<h2>1.2.0 (2023-03-13)</h2>
+						<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+									<use href="main.svg#copy"/>
+								</svg>
+							</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+									<use href="main.svg#twitter"/>
+								</svg>
+							</a></div>
+					</header>
+					<section class="B U" id="Features">
+						<header class="B L">
+							<h3>Features</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+
+							<li>(Java) Import classes are filtered, sorted and grouped. (<a href="https://github.com/teletha/reincarnation/commit/1627e9a6c522aa2f29a522bcceab37ea68fb72c8">1627e9a</a>)</li>
+
+							<li>Optimize class literal for primitive types. (<a href="https://github.com/teletha/reincarnation/commit/35d9530b3fa1ed3e927ab8da20b6b4ecd0ab761e">35d9530</a>)</li>
+
+							<li>Provide specialized ParameterizedType. (<a href="https://github.com/teletha/reincarnation/commit/5f1da9ca8b932aa6f7d51185345d847a8f7db481">5f1da9c</a>)</li>
+
+							<li>Support all modifiers. (<a href="https://github.com/teletha/reincarnation/commit/ae1798328ab9e6d58be70f337b1f1465b64ed6bc">ae17983</a>)</li>
+
+							<li>Support assert with message. (<a href="https://github.com/teletha/reincarnation/commit/375d0347b788cd366f6db2ab480fd4a580c34c01">375d034</a>)</li>
+
+							<li>Support generics on type definition. (<a href="https://github.com/teletha/reincarnation/commit/5c811dd1ec2636f014a88f036f1317532dbf72a7">5c811dd</a>)</li>
+
+							<li>Support generics partially. (<a href="https://github.com/teletha/reincarnation/commit/b3f0219a174c3fd8aaec8249bf41a3c439e7f88b">b3f0219</a>)</li>
+
+							<li>Support lambda with contextual local variables. (<a href="https://github.com/teletha/reincarnation/commit/098d7f550aa66e9f3069ed0e30bfed8938f85566">098d7f5</a>)</li>
+
+							<li>Support local class. (<a href="https://github.com/teletha/reincarnation/commit/5dcc7e1667e1b53a427a3876999a9fe2aac040c9">5dcc7e1</a>)</li>
+
+							<li>Support method reference for array and constructor. (<a href="https://github.com/teletha/reincarnation/commit/1a47b330b6c30295b4fa90234608e856236343cc">1a47b33</a>)</li>
+
+							<li>Support method reference. (<a href="https://github.com/teletha/reincarnation/commit/63aaa91ac041a217c35ac24d2ebcfe7bf72a81d3">63aaa91</a>)</li>
+
+							<li>Support nested lambda with contextual variables. (<a href="https://github.com/teletha/reincarnation/commit/094c379e87f710d4241a8927c3786d2187b7bc74">094c379</a>)</li>
+
+							<li>Support static method and private method on interface. (<a href="https://github.com/teletha/reincarnation/commit/9abb142aafe4b570a3fd1aa7ce40a176800aeaca">9abb142</a>)</li>
+
+							<li>Support the bounded type variable on type definition. (<a href="https://github.com/teletha/reincarnation/commit/e7ec82adb9cc273ffe1fcf8f260e770c0ba47163">e7ec82a</a>)</li>
+
+							<li>Support vararg. (<a href="https://github.com/teletha/reincarnation/commit/775945052831481cf9a1a9cfa9de0df9b1b63bd6">7759450</a>)</li>
+</ul>
+					</section>
+					<section class="B U" id="BugFixes">
+						<header class="B L">
+							<h3>Bug Fixes</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+
+							<li>Capture assertion error if needed. (<a href="https://github.com/teletha/reincarnation/commit/ef5f894bf399d89c0aa51b838fe1f0e92784bd96">ef5f894</a>)</li>
+
+							<li>Enable assertion on verify tests. (<a href="https://github.com/teletha/reincarnation/commit/16ea2cc2030865c04ec7b125a6fbe565f81caaf7">16ea2cc</a>)</li>
+
+							<li>Optimize cast code. (<a href="https://github.com/teletha/reincarnation/commit/6321803022607286ec359533035306c8618c0b5c">6321803</a>)</li>
+
+							<li>remove duplicated code (<a href="https://github.com/teletha/reincarnation/commit/55b50ba28c33f57295e838e2f63fecc9861a29ed">55b50ba</a>)</li>
+</ul>
+					</section>
+					<section class="B U" id="Asserts">
+						<header class="B L">
+							<h3>Assets</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+							<li><a href="https://github.com/teletha/reincarnation/archive/refs/tags/v1.2.0.zip">Source code</a> (zip)</li>
+						</ul>
+					</section>
+				</section>
+				<section class="R B" id="1.1.0(2023-03-02)">
+					<header class="B S">
+						<h2>1.1.0 (2023-03-02)</h2>
+						<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+									<use href="main.svg#copy"/>
+								</svg>
+							</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+									<use href="main.svg#twitter"/>
+								</svg>
+							</a></div>
+					</header>
+					<section class="B U" id="Features">
+						<header class="B L">
+							<h3>Features</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+
+							<li>(Java) Hide wrapper method call. (<a href="https://github.com/teletha/reincarnation/commit/0ece9ec685b12c1d9027fd6c1b1b140b136e7f39">0ece9ec</a>)</li>
+
+							<li>Drop Reincarnation#rebirth(Class). (<a href="https://github.com/teletha/reincarnation/commit/fa15a221fefdf5d3b1a06c4d443530cb31ba3ece">fa15a22</a>)</li>
+
+							<li>Enable fernflower on debug mode. (<a href="https://github.com/teletha/reincarnation/commit/f3122d5e3d441dcecf8efd5cd4981000732469e2">f3122d5</a>)</li>
+
+							<li>Operand matching engine supports optional value. (<a href="https://github.com/teletha/reincarnation/commit/3448d45c665c981343ca98886dcd8e0d60e94f0a">3448d45</a>)</li>
+
+							<li>OperandUtil#load supports array related operands. (<a href="https://github.com/teletha/reincarnation/commit/c9cf309dfe398c667adddfdd91ddf6a3630ec6f2">c9cf309</a>)</li>
+
+							<li>OperandUtil#load supports object array related operands. (<a href="https://github.com/teletha/reincarnation/commit/05d5f9c56c1b33be1706a41a03f26bf6d71f00df">05d5f9c</a>)</li>
+
+							<li>Optimize boolean condition. (<a href="https://github.com/teletha/reincarnation/commit/a3462678d9409b5095fb1dac0ed5271496760b9a">a346267</a>)</li>
+
+							<li>Optimize empty if or else block. (<a href="https://github.com/teletha/reincarnation/commit/7d4e1e30c5c8a04e5ddaa9d78fbd2824144a4b67">7d4e1e3</a>)</li>
+
+							<li>Optimize instanceof with pattern matching. (<a href="https://github.com/teletha/reincarnation/commit/fc6366cce254a8bb101a8ed320103d6cfa78bcb3">fc6366c</a>)</li>
+
+							<li>Provide Naming strategy. (<a href="https://github.com/teletha/reincarnation/commit/d8cb5fe7e7adf3973fbceccb893933cfa96af4bc">d8cb5fe</a>)</li>
+
+							<li>Remove InferredType. (<a href="https://github.com/teletha/reincarnation/commit/a856c555fd66e0053ca3ea136f1fcd615ddc6384">a856c55</a>)</li>
+
+							<li>Support duplicated variable usage. (<a href="https://github.com/teletha/reincarnation/commit/da7862e72a9dc5fe4e33b80aef2d13f0a3d379c9">da7862e</a>)</li>
+
+							<li>Support enhanced for loop. (<a href="https://github.com/teletha/reincarnation/commit/10f1614740573ebcc609a3ba34211a71f7f82ed0">10f1614</a>)</li>
+
+							<li>Support enhanced for-loop for primitive wrapper classes. (<a href="https://github.com/teletha/reincarnation/commit/7defc416589d720c62d6437335a00d16effc5785">7defc41</a>)</li>
+
+							<li>Support enhanced for-loop with break. (<a href="https://github.com/teletha/reincarnation/commit/1e77f61a4ba8ecadf21d5701da8d8c0ec703a512">1e77f61</a>)</li>
+
+							<li>Support negation of instanceof. (<a href="https://github.com/teletha/reincarnation/commit/982292d987ea6591ce957b3245a8f8f50376e47b">982292d</a>)</li>
+
+							<li>Support original variable name if available. (<a href="https://github.com/teletha/reincarnation/commit/7d5dba685c63b4f7f8558107ed33ebc2fb27bfe3">7d5dba6</a>)</li>
+
+							<li>Support pattern matching for instanceof. (<a href="https://github.com/teletha/reincarnation/commit/10f7218afe4edc67e6b0368c19d57b95956b846a">10f7218</a>)</li>
+
+							<li>Support reusable variable declaration. (<a href="https://github.com/teletha/reincarnation/commit/162424885b955e919c86171382190f5c2c13820d">1624248</a>)</li>
+
+							<li>Support string concatenation. (<a href="https://github.com/teletha/reincarnation/commit/58bd29dbdfaef7dc3f171b2dd7ddc099442ecfe9">58bd29d</a>)</li>
+</ul>
+					</section>
+					<section class="B U" id="BugFixes">
+						<header class="B L">
+							<h3>Bug Fixes</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+
+							<li>Enable debuggable on class. (<a href="https://github.com/teletha/reincarnation/commit/e252e175332f4145a2c7b36cdd43508758b1b64b">e252e17</a>)</li>
+
+							<li>OperandInstanceOf must infer its type as boolean. (<a href="https://github.com/teletha/reincarnation/commit/d27f813393ac10ad7ec4e7304f8bce0964b1f100">d27f813</a>)</li>
+
+							<li>OperandLocalVariable must be stateless. (<a href="https://github.com/teletha/reincarnation/commit/84180f417172e2562f1a03945b2452489d35a098">84180f4</a>)</li>
+
+							<li>Support ALOAD oprand in Util#load. (<a href="https://github.com/teletha/reincarnation/commit/4d5741c05ee86318395f76a52e6393c057df010a">4d5741c</a>)</li>
+</ul>
+					</section>
+					<section class="B U" id="Asserts">
+						<header class="B L">
+							<h3>Assets</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+							<li><a href="https://github.com/teletha/reincarnation/archive/refs/tags/v1.1.0.zip">Source code</a> (zip)</li>
+						</ul>
+					</section>
+				</section>
+				<section class="R B" id="1.0.0(2023-02-23)">
+					<header class="B S">
+						<h2>1.0.0 (2023-02-23)</h2>
+						<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+									<use href="main.svg#copy"/>
+								</svg>
+							</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+									<use href="main.svg#twitter"/>
+								</svg>
+							</a></div>
+					</header>
+					<section class="B U" id="Features">
+						<header class="B L">
+							<h3>Features</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+
+							<li>debuggable annotaion is enabled at test class and method (<a href="https://github.com/teletha/reincarnation/commit/5476927e9403dc4914e351f22e78227a21f6a480">5476927</a>)</li>
+
+							<li>Debugger is thread-safe. (<a href="https://github.com/teletha/reincarnation/commit/89e09354057c5572608f8302eb39901396d15f33">89e0935</a>)</li>
+
+							<li>enhance debug message (<a href="https://github.com/teletha/reincarnation/commit/6e22ff88bb40109a12e69f3d989d4490d61d1b91">6e22ff8</a>)</li>
+
+							<li>Failed test uses debug mode automatically. (<a href="https://github.com/teletha/reincarnation/commit/2cbff2e21e6ad29f1f83d426dbad2eda8272b7e5">2cbff2e</a>)</li>
+
+							<li>Optimize the immediate return. (<a href="https://github.com/teletha/reincarnation/commit/e548b59e2c7cd74b604166900fe400686e473549">e548b59</a>)</li>
+
+							<li>Optimize value assignment. (<a href="https://github.com/teletha/reincarnation/commit/35b62fdc7b4a9910acf457ff5a7dabc0a3325f2c">35b62fd</a>)</li>
+
+							<li>Provide Decompiler API. (<a href="https://github.com/teletha/reincarnation/commit/74fb411a7912e313a0c58ae210001801866b05a0">74fb411</a>)</li>
+</ul>
+					</section>
+					<section class="B U" id="BugFixes">
+						<header class="B L">
+							<h3>Bug Fixes</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+
+							<li>debug mode causes some error (<a href="https://github.com/teletha/reincarnation/commit/5b70343965d115d4306666ec7404d37c4717aaf4">5b70343</a>)</li>
+
+							<li>Duplicated variable name. (<a href="https://github.com/teletha/reincarnation/commit/faba88e4d56ebe6a977e204b455fd213093ce924">faba88e</a>)</li>
+
+							<li>Pass try-finally tests. (<a href="https://github.com/teletha/reincarnation/commit/df2eac33026389b3a2f909dd336a54ea7ed941ab">df2eac3</a>)</li>
+
+							<li>Pass TryCatchFinally tests. (<a href="https://github.com/teletha/reincarnation/commit/ebf2574895ca50278d122cf1bb3662463aa963a7">ebf2574</a>)</li>
+
+							<li>Update bee. (<a href="https://github.com/teletha/reincarnation/commit/28e91fbd12e3cf6a01664b4aebfcf78d138ec85b">28e91fb</a>)</li>
+
+							<li>update viewtify (<a href="https://github.com/teletha/reincarnation/commit/104369346dae6f0bf6f5637c2c30387f2e11484e">1043693</a>)</li>
+</ul>
+					</section>
+					<section class="B U" id="Asserts">
+						<header class="B L">
+							<h3>Assets</h3>
+							<div class="f"><span class="perp H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#copy"/>
+									</svg>
+								</span><a class="tweet H"><svg class="A svg" viewBox="0 0 24 24">
+										<use href="main.svg#twitter"/>
+									</svg>
+								</a></div>
+						</header>
+						<ul>
+							<li><a href="https://github.com/teletha/reincarnation/archive/refs/tags/v1.0.0.zip">Source code</a> (zip)</li>
+						</ul>
+					</section>
+				</section>
+			</article>
+			<aside class="e" id="SubNavi">
+				<div class="a">
+					<ul>
+						<li><a href="doc/changelog.html#1.5.0(2023-03-31)">1.5.0 (2023-03-31)</a></li>
+						<li><a href="doc/changelog.html#1.4.0(2023-03-24)">1.4.0 (2023-03-24)</a></li>
+						<li><a href="doc/changelog.html#1.3.0(2023-03-16)">1.3.0 (2023-03-16)</a></li>
+						<li><a href="doc/changelog.html#1.2.0(2023-03-13)">1.2.0 (2023-03-13)</a></li>
+						<li><a href="doc/changelog.html#1.1.0(2023-03-02)">1.1.0 (2023-03-02)</a></li>
+						<li><a href="doc/changelog.html#1.0.0(2023-02-23)">1.0.0 (2023-02-23)</a></li>
+					</ul>
+				</div>
+			</aside>
+		</main>
+		<script src="root.js"></script>
+		<script src="main.js" type="module"></script>
+	</body>
+</html>

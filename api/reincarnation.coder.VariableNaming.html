@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. " name="description"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="j">
+		<header class="J">
+			<h1 class="P" date="2023-03-31" ver="1.5.0"><code>Reincarnation</code></h1>
+			<nav class="M"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#package"/>
+					</svg><code>API</code></a><a href="https://github.com/teletha/reincarnation/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#user"/>
+					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#activity"/>
+					</svg>Activity</a><a href="https://github.com/teletha/reincarnation" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#github"/>
+					</svg>Repository</a></nav>
+			<div class="g" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#sun"/>
+					</svg>
+				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<main class="c">
+			<nav class="K">
+				<div></div>
+			</nav>
+			<article class="X" id="Article">
+				<section class="R"><code class="h">reincarnation.coder</code>
+					<h2 class="Class N"><code class="m">VariableNaming</code></h2>
+					<div class="d"></div><span class="B"><p>Depth based variable manager.</p>
+</span></section>
+				<section class="R" id="VariableNaming()">
+					<h2 class="i"><i class="PUBLIC"></i><code class="m">VariableNaming</code><code class="k">()</code></h2>
+				</section>
+				<section class="R" id="start()">
+					<h2 class="i"><i class="PUBLIC"></i><code class="m">start</code><code class="k">()</code><i class="Y"><code>void</code></i></h2><span class="B"><p>Start new context.</p>
+</span></section>
+				<section class="R" id="end()">
+					<h2 class="i"><i class="PUBLIC"></i><code class="m">end</code><code class="k">()</code><i class="Y"><code>void</code></i></h2><span class="B"><p>End the current context and restore previous one.</p>
+</span></section>
+				<section class="R" id="declare(java.lang.String)">
+					<h2 class="i"><i class="PUBLIC"></i><code class="m">declare</code><code class="k">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">name</code>)</code><i class="Y"><code>void</code></i></h2>
+					<table class="V">
+						<tr class="T">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>name</code></td>
+							<td><span><p>A variable name.</p>
+</span></td>
+						</tr>
+					</table><span class="B"><p>Declare the variable name.</p>
+</span></section>
+				<section class="R" id="declare(java.lang.String,java.lang.String)">
+					<h2 class="i"><i class="PUBLIC"></i><code class="m">declare</code><code class="k">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">name</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">renamed</code>)</code><i class="Y"><code>void</code></i></h2>
+					<table class="V">
+						<tr class="T">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>name</code></td>
+							<td><span><p>A variable name.</p>
+</span></td>
+						</tr>
+						<tr class="T">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>renamed</code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Declare the variable name.</p>
+</span></section>
+				<section class="R" id="isDeclared(java.lang.String)">
+					<h2 class="i"><i class="PUBLIC"></i><code class="m">isDeclared</code><code class="k">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">name</code>)</code><i class="Y"><code>boolean</code></i></h2>
+					<table class="V">
+						<tr class="T">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>name</code></td>
+							<td><span><p>A variable name.</p>
+</span></td>
+						</tr>
+						<tr class="Z">
+							<td><code>boolean</code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Test whether the specified variablen name is already declared or not.</p>
+</span></section>
+				<section class="R" id="use(java.lang.String)">
+					<h2 class="i"><i class="PUBLIC"></i><code class="m">use</code><code class="k">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">name</code>)</code><i class="Y"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="V">
+						<tr class="T">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code>name</code></td>
+							<td></td>
+						</tr>
+						<tr class="Z">
+							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
+							<td></td>
+						</tr>
+					</table><span class="B"><p>Resolve the variable name.</p>
+</span></section>
+			</article>
+			<aside class="e" id="SubNavi">
+				<div class="a">
+					<h5 class="b">Constructors</h5>
+					<ul>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.VariableNaming.html#VariableNaming()">VariableNaming</a></code><code class="k">()</code></li>
+					</ul>
+					<h5 class="b">Methods</h5>
+					<ul>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.VariableNaming.html#start()">start</a></code><code class="k">()</code><i class="W"><code>void</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.VariableNaming.html#end()">end</a></code><code class="k">()</code><i class="W"><code>void</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.VariableNaming.html#declare(java.lang.String)">declare</a></code><code class="k">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">name</code>)</code><i class="W"><code>void</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.VariableNaming.html#declare(java.lang.String,java.lang.String)">declare</a></code><code class="k">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">name</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">renamed</code>)</code><i class="W"><code>void</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.VariableNaming.html#isDeclared(java.lang.String)">isDeclared</a></code><code class="k">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">name</code>)</code><i class="W"><code>boolean</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.VariableNaming.html#use(java.lang.String)">use</a></code><code class="k">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code> <code class="parameterName">name</code>)</code><i class="W"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					</ul>
+				</div>
+			</aside>
+		</main>
+		<script src="root.js"></script>
+		<script src="main.js" type="module"></script>
+	</body>
+</html>
