@@ -959,18 +959,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             }
 
         case POP2:
-            // instanceof with cast produces special bytecode, so we must handle it by special way.
-            if (match(ALOAD, CHECKCAST, DUP, ASTORE, ALOAD, CHECKCAST, POP2)) {
-                current.remove(0);
-                current.remove(0);
-                OperandLocalVariable casted = current.remove(0).as(OperandLocalVariable.class).exact();
-                current.peek(0).children(OperandInstanceOf.class).to(o -> {
-                    casted.type.set(o.type);
-                    o.withCast(casted);
-                });
-                return;
-            }
-
             // One sequence of expressions was finished, so we must write out one remaining
             // operand. (e.g. Method invocation which returns some operands but it is not used ever)
             current.addExpression(current.remove(0));
@@ -1895,8 +1883,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             // In the ECJ compiler, the instanceof operator with pattern matching generates code
             // that assigns the target variable to a temporary variable. So we optimize the code to
             // remove that variable and use the original variable.
-            if (match(ASTORE, ALOAD, INSTANCEOF)) {
-                Operand extra = current.remove(0);
+            if (match(DUP, ASTORE, INSTANCEOF)) {
+                Operand extra = current.remove(1);
                 current.remove(0).as(OperandAssign.class).exact().assignedTo(extra).to(current::addOperand);
             }
 
@@ -1952,6 +1940,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             break;
 
         case ASTORE:
+            // instanceof with cast produces special bytecode, so we must handle it by special way.
+            if (match(DUP, ASTORE, INSTANCEOF, IFEQ, ALOAD, CHECKCAST, ASTORE)) {
+                current.remove(0);
+                current.peek(0).children(OperandInstanceOf.class).to(o -> o.withCast(variable));
+                return;
+            }
+
             if (match(FRAME_SAME1, ASTORE) || match(FRAME_FULL, ASTORE)) {
                 tries.assignExceptionVariable(current, variable);
             }
