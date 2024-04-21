@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://docs.oracle.com/en/java/javase/19/"><img src="https://img.shields.io/badge/Java-Release%2019-green"/></a>
+    <a href="https://docs.oracle.com/en/java/javase/21/"><img src="https://img.shields.io/badge/Java-Release%2021-green"/></a>
     <span>&nbsp;</span>
     <a href="https://jitpack.io/#teletha/reincarnation"><img src="https://img.shields.io/jitpack/v/github/teletha/reincarnation?label=Repository&color=green"></a>
     <span>&nbsp;</span>
@@ -141,7 +141,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
 
 
 ## Prerequisites
-Reincarnation runs on all major operating systems and requires only [Java version 19](https://docs.oracle.com/en/java/javase/19/) or later to run.
+Reincarnation runs on all major operating systems and requires only [Java version 21](https://docs.oracle.com/en/java/javase/21/) or later to run.
 To check, please run `java -version` from the command line interface. You should see something like this:
 ```
 > java -version
@@ -231,9 +231,9 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 
 ## Dependency
 Reincarnation depends on the following products on runtime.
-* [asm-9.6](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.6)
-* [psychopath-1.12.1](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.12.1)
-* [sinobu-3.9.1](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.9.1)
+* [asm-9.7](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.7)
+* [psychopath-1.12.2](https://mvnrepository.com/artifact/com.github.teletha/psychopath/1.12.2)
+* [sinobu-3.11.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/3.11.0)
 <p align="right"><a href="#top">back to top</a></p>
 
 
