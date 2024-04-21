@@ -179,6 +179,9 @@ class OperandMethodCall extends Operand {
                 coder.writeStringConcatenation(concat);
                 return;
             }
+        } else if (method.equals(JavaMethodDecompiler.MakeConcatWithConstants)) {
+            coder.writeStringConcatenation(params.iterator());
+            return;
         } else if (GeneratedCodes.isEnumSwitchMethod(method)) {
             System.out.println(method + "   ");
         }

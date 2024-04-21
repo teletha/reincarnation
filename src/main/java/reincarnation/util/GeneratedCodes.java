@@ -9,6 +9,7 @@
  */
 package reincarnation.util;
 
+import java.lang.invoke.StringConcatFactory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
@@ -297,4 +298,12 @@ public class GeneratedCodes {
      * @return
      */
     public static native int recordHashCode(Object o);
+
+    /**
+     * Special reference for
+     * {@link StringConcatFactory#makeConcatWithConstants(java.lang.invoke.MethodHandles.Lookup, String, java.lang.invoke.MethodType, String, Object...)}
+     * 
+     * @return
+     */
+    public static native String makeConcatWithConstants();
 }

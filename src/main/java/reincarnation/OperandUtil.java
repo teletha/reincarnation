@@ -10,13 +10,7 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static org.objectweb.asm.Type.ARRAY;
-import static org.objectweb.asm.Type.BOOLEAN;
-import static org.objectweb.asm.Type.BYTE;
-import static org.objectweb.asm.Type.CHAR;
-import static org.objectweb.asm.Type.INT;
-import static org.objectweb.asm.Type.SHORT;
-import static org.objectweb.asm.Type.VOID;
+import static org.objectweb.asm.Type.*;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
@@ -274,7 +268,7 @@ class OperandUtil {
             }
             return new OperandArray(ops, value.getClass().getComponentType());
         } else {
-            throw new Error();
+            throw new Error(value.getClass() + " is not supported.");
         }
     }
 

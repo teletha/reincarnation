@@ -72,6 +72,62 @@ class StringTest extends CodeVerifier {
     }
 
     @Test
+    void concatMultipleStrings() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(String param) {
+                String before = "A";
+                String after = "B";
+                return before + param + after;
+            }
+        });
+    }
+
+    /**
+     * There is a JVM limit (classfile structural constraint): no method can call with more than 255
+     * slots. This limits the number of static and dynamic arguments one can pass to bootstrap
+     * method. Since there are potential concatenation strategies that use MethodHandle combinators,
+     * we need to reserve a few empty slots on the parameter lists to capture the temporal results.
+     * This is why bootstrap methods in this factory do not accept more than 200 argument slots.
+     * Users requiring more than 200 argument slots in concatenation are expected to split the large
+     * concatenation in smaller expressions.
+     */
+    @Test
+    void concat200OverStrings() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(String p) {
+                // row 12 column 20 total 240
+                return p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + 1 //
+                        + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + 2 //
+                        + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + 3 //
+                        + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + 4 //
+                        + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + 5 //
+                        + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + 6 //
+                        + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + 7 //
+                        + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + 8 //
+                        + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + 9 //
+                        + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + 10 //
+                        + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + 11 //
+                        + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + p + 12;//
+            }
+        });
+    }
+
+    @Test
+    void concatSpecialRecipeString() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(String param) {
+                return /* \u0001 */ "[" + param + "]\u0001";
+            }
+        });
+    }
+
+    @Test
     void concatInt() {
         verify(new TestCode.TextParam() {
 

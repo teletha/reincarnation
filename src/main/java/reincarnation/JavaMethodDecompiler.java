@@ -10,14 +10,9 @@
 package reincarnation;
 
 import static org.objectweb.asm.Opcodes.*;
-import static reincarnation.Node.Termination;
-import static reincarnation.OperandCondition.EQ;
-import static reincarnation.OperandCondition.GE;
-import static reincarnation.OperandCondition.GT;
-import static reincarnation.OperandCondition.LE;
-import static reincarnation.OperandCondition.LT;
-import static reincarnation.OperandCondition.NE;
-import static reincarnation.OperandUtil.load;
+import static reincarnation.Node.*;
+import static reincarnation.OperandCondition.*;
+import static reincarnation.OperandUtil.*;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -65,11 +60,15 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     /** The reusable reference to record method. */
     private static final Method RecordHashCode;
 
+    /** The reusable reference to record method. */
+    static final Method MakeConcatWithConstants;
+
     static {
         try {
             RecordToString = GeneratedCodes.class.getMethod("recordToString", Object.class);
             RecordEquals = GeneratedCodes.class.getMethod("recordEquals", Object.class, Object.class);
             RecordHashCode = GeneratedCodes.class.getMethod("recordHashCode", Object.class);
+            MakeConcatWithConstants = GeneratedCodes.class.getMethod("makeConcatWithConstants");
         } catch (Exception e) {
             throw I.quiet(e);
         }
@@ -1384,6 +1383,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             case "equals" -> current.addOperand(OperandUtil.convertMethod(RecordEquals, current.remove(0), current.remove(0)));
             default -> throw new IllegalArgumentException("Unexpected value: " + name);
             }
+        } else if (bootstrap.getOwner().equals("java/lang/invoke/StringConcatFactory") && bootstrap.getName()
+                .equals("makeConcatWithConstants")) {
+            current.addOperand(OperandUtil.convertMethod(MakeConcatWithConstants, parseConcatString((String) bootstrapMethodArguments[0])));
         } else {
             Handle handle = (Handle) bootstrapMethodArguments[1];
             Type callerType = Type.getMethodType(description);
@@ -1450,6 +1452,34 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 throw I.quiet(e);
             }
         }
+    }
+
+    private Object[] parseConcatString(String recipe) {
+        int parsed = recipe.length();
+        LinkedList params = new LinkedList();
+
+        for (int i = parsed - 1; 0 <= i; i--) {
+            char c = recipe.charAt(i);
+            switch (c) {
+            case '': // \u0001
+                if (parsed != i + 1) {
+                    params.addFirst(recipe.substring(i + 1, parsed));
+                }
+                params.addFirst(current.remove(0));
+                parsed = i;
+                break;
+
+            default: // skip others
+                break;
+            }
+        }
+
+        // add remaining if needed
+        if (0 < parsed) {
+            params.addFirst(recipe.substring(0, parsed));
+        }
+
+        return params.toArray();
     }
 
     /**
