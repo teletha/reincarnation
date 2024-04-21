@@ -1,0 +1,256 @@
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.github.teletha</groupId>
+	<artifactId>Reincarnation</artifactId>
+	<version>1.5.0</version>
+	<packaging>jar</packaging>
+	<name>Reincarnation</name>
+	<description>Reincarnation is designed as a decompiler intended to support modern Java syntax.
+Eventually, it should be able to understand all of the syntax and grammars listed below.
+However, some information that is completely removed by the compiler and cannot be accessed from the bytecode cannot be restored,
+but we believe that the restored code will not interfere with its operation.
+
+The output method of the analyzed code is not limited to Java, but is designed to be convertible to a variety of languages.
+
+#### Java Language Features
+- [x] Declarations
+    - [x] package
+    - [x] import
+    - [ ] static import
+    - [x] class
+    - [x] interface
+        - [x] Default method
+        - [x] Static method
+        - [x] Private method
+    - [x] annotation
+    - [x] enum
+    - [x] record
+- [x] Inheritance
+    - [x] extends
+    - [x] implements
+    - [x] sealed and permits
+- [x] Modifiers (public protected private static abstract final synchronized native  transient volatile strictfp)
+- [x] Inner class declaration
+    - [x] Member class (static or non-static)
+    - [x] Local class
+    - [ ] Anonymous class
+- [x] Class initializer, instance initializer
+- [x] Constructor
+    - [ ] Explicit receiver parameters on inner class
+- [x] Field
+- [x] Method
+    - [x] Variable arity method (a.k.a. &#34;varargs&#34;)
+    - [ ] Explicit receiver parameters
+- [x] Statement
+    - [x] if-else
+    - [x] for
+        - [x] enhanced for by array
+        - [x] enhanced for by Iterable
+    - [x] while
+    - [x] do-while
+    - [x] try-catch-finally
+        - [x] multi catches
+    - [ ] try-with-resources
+    - [x] throw
+    - [x] return
+    - [x] break
+    - [x] continue
+    - [x] switch
+        - [x] fall through
+        - [x] by char
+        - [x] by enum
+        - [x] by String
+        - [ ] pattern matching
+        - [x] expression
+            - [x] yield
+            - [x] arrow syntax
+            - [x] multiple comma-separated labels
+    - [ ] synchronized
+    - [x] assert
+    - [x] labeled statement
+- [x] Types, Values, and Variables
+    - [x] Primitive Types (boolean, char, byte, short, int, long, float, double)
+    - [x] Reference Types (class, interface, array)
+- [x] Operators
+    - [x] Unary operators ( +  -  ++  --  ~  ! )
+    - [x] Multiplicative operators ( *  /  % )
+    - [x] Additive operators ( +  - )
+    - [x] Shift operators ( &#60;&#60;  &#62;&#62;  &#62;&#62;&#62; )
+    - [x] Relational operators ( &#60;  &#62;  &#60;=  &#62;=  instanceof )
+    - [x] Equality operators ( ==  != )
+    - [x] Logical operators and Integer bitwise operators ( &#38;  ^  !  |  ~ )
+    - [x] Conditional operator ( ||  &#38;&#38;  ? ... : ... )
+    - [x] Assignment operators ( =  *=  /=  %=  +=  -=  &#60;&#60;=  &#62;&#62;=  &#62;&#62;&#62;=  &#38;=  ^=  |= )
+    - [x] String concatenation operator ( + )
+- [x] Superclass member access (e.g. super.meth(), super.field)
+- [x] this (reference to current instance)
+- [x] Constructor invocation (e.g. this(a, b),  super(a)
+- [x] Method invocation (e.g. System.out.println(&#34;Hello&#34;))
+- [x] Class Instance Creation Expression (e.g. new Foo())
+- [x] Array Creation and Access Expression (e.g. new int[],  new Object[10][5][],  args[1])
+- [x] Array initializer (e.g. String[] array = { &#34;x&#34;, &#34;y&#34;, &#34;z&#34; })
+- [x] Field Access Expression (e.g. System.out)
+- [x] Local variable access
+- [x] Local variable type inference (a.k.a. &#34;var&#34;)
+- [x] Literal
+    - [x] integer
+    - [x] floating-point
+    - [x] boolean
+    - [x] character
+    - [x] string
+        - [x] text block
+        - [x] escape sequence
+    - [x] null
+    - [x] class (e.g. int.class, String.class)
+- [x] Cast
+    - [x] instanceof
+    - [x] instanceof with pattern matching
+    - [x] wideining
+    - [x] narrowing
+    - [x] auto-boxing and auto-unboxing
+- [x] Generics
+    - [x] Type variable (e.g. &#60;S, T, R&#62;)
+    - [x] Parameterized type (e.g. Foo&#60;X&#62;)
+    - [x] Wildcard type (e.g. ? extends Closeable)
+    - [x] Generic array type (e.g. T[])
+    - [x] Intersection type (e.g. X extends List &#38; Serializable)
+- [x] Annotation
+    - [x] on Type
+    - [x] on Constructor
+    - [x] on Method
+    - [x] on Field
+    - [x] on Parameter
+    - [x] on Annotation
+    - [ ] on Local Variable
+    - [ ] on Package
+    - [ ] on Type Parameter
+    - [ ] on Type Use
+    - [x] Repeatable declaration
+- [ ] Type interference for generic instance creation (a.k.a. the &#34;diamond operator&#34;) (JLS11 15.9.1)
+- [x] Lambda expression
+- [x] Method reference (e.g. this::method, String::concat, Type::new, int[]::new)</description>
+	<dependencies>
+		<dependency>
+			<groupId>org.jetbrains</groupId>
+			<artifactId>annotations</artifactId>
+			<version>24.1.0</version>
+			<scope>test</scope>
+			<exclusions/>
+		</dependency>
+		<dependency>
+			<groupId>com.github.teletha</groupId>
+			<artifactId>antibug</artifactId>
+			<version>1.7.0</version>
+			<scope>test</scope>
+			<exclusions/>
+		</dependency>
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>9.7</version>
+			<scope>compile</scope>
+			<exclusions/>
+		</dependency>
+		<dependency>
+			<groupId>com.github.teletha</groupId>
+			<artifactId>bee</artifactId>
+			<version>0.46.1</version>
+			<scope>test</scope>
+			<exclusions/>
+		</dependency>
+		<dependency>
+			<groupId>com.github.teletha</groupId>
+			<artifactId>icymanipulator</artifactId>
+			<version>1.4.3</version>
+			<scope>provided</scope>
+			<exclusions/>
+		</dependency>
+		<dependency>
+			<groupId>com.github.javaparser</groupId>
+			<artifactId>javaparser-core</artifactId>
+			<version>3.25.10</version>
+			<scope>test</scope>
+			<exclusions/>
+		</dependency>
+		<dependency>
+			<groupId>com.github.teletha</groupId>
+			<artifactId>psychopath</artifactId>
+			<version>1.12.2</version>
+			<scope>compile</scope>
+			<exclusions/>
+		</dependency>
+		<dependency>
+			<groupId>com.github.teletha</groupId>
+			<artifactId>sinobu</artifactId>
+			<version>3.11.0</version>
+			<scope>compile</scope>
+			<exclusions/>
+		</dependency>
+		<dependency>
+			<groupId>com.github.teletha</groupId>
+			<artifactId>viewtify</artifactId>
+			<version>2.24.0</version>
+			<scope>test</scope>
+			<exclusions/>
+		</dependency>
+		<dependency>
+			<groupId>org.vineflower</groupId>
+			<artifactId>vineflower</artifactId>
+			<version>1.10.1</version>
+			<scope>test</scope>
+			<exclusions/>
+		</dependency>
+	</dependencies>
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://opensource.org/licenses/MIT</url>
+		</license>
+	</licenses>
+	<repositories>
+		<repository>
+			<id>Maven</id>
+			<name>repo1.maven.org</name>
+			<url>https://repo1.maven.org/maven2/</url>
+		</repository>
+		<repository>
+			<id>JitPack</id>
+			<name>jitpack.io</name>
+			<url>https://jitpack.io/</url>
+		</repository>
+	</repositories>
+	<url>https://github.com/teletha/reincarnation</url>
+	<scm>
+		<url>https://github.com/teletha/reincarnation</url>
+		<connection>scm:git:https://github.com/teletha/reincarnation.git</connection>
+		<developerConnection>scm:git:https://github.com/teletha/reincarnation.git</developerConnection>
+	</scm>
+	<issueManagement>
+		<system>github</system>
+		<url>https://github.com/teletha/reincarnation/issues</url>
+	</issueManagement>
+	<developers>
+		<developer>
+			<name>teletha</name>
+			<email/>
+			<url>https://github.com/teletha</url>
+		</developer>
+	</developers>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<release>21</release>
+					<compilerArgs/>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M5</version>
+			</plugin>
+		</plugins>
+	</build>
+</project>
