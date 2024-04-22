@@ -10,12 +10,12 @@
 package reincarnation.decompiler.primitives;
 
 import reincarnation.CodeVerifier;
-import reincarnation.CompilableTest;
+import reincarnation.DecompilableTest;
 import reincarnation.TestCode;
 
 class DoubleTest extends CodeVerifier {
 
-    @CompilableTest
+    @DecompilableTest
     void zero() {
         verify(new TestCode.DoubleParam() {
 
@@ -26,7 +26,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void one() {
         verify(new TestCode.DoubleParam() {
 
@@ -37,7 +37,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void two() {
         verify(new TestCode.DoubleParam() {
 
@@ -48,7 +48,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void three() {
         verify(new TestCode.DoubleParam() {
 
@@ -59,7 +59,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void minus() {
         verify(new TestCode.DoubleParam() {
 
@@ -70,7 +70,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void max() {
         verify(new TestCode.Double() {
 
@@ -81,7 +81,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void min() {
         verify(new TestCode.Double() {
 
@@ -92,7 +92,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void add() {
         verify(new TestCode.DoubleParam() {
 
@@ -103,7 +103,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void addAssignable() {
         verify(new TestCode.DoubleParam() {
 
@@ -114,7 +114,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void addAssignableOnParameter() {
         verify(new TestCode.DoubleParam() {
 
@@ -129,7 +129,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void subtract() {
         verify(new TestCode.DoubleParam() {
 
@@ -140,7 +140,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void subtractAssignable() {
         verify(new TestCode.DoubleParam() {
 
@@ -151,7 +151,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void subtractAssignableOnParameter() {
         verify(new TestCode.DoubleParam() {
 
@@ -166,7 +166,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void multiply() {
         verify(new TestCode.DoubleParam() {
 
@@ -177,7 +177,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void multiplyAssignable() {
         verify(new TestCode.DoubleParam() {
 
@@ -188,7 +188,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void multipleAssignableOnParameter() {
         verify(new TestCode.DoubleParam() {
 
@@ -203,7 +203,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void divide() {
         verify(new TestCode.DoubleParam() {
 
@@ -214,7 +214,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void divideAssignable() {
         verify(new TestCode.DoubleParam() {
 
@@ -225,7 +225,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void divideAssignableOnParameter() {
         verify(new TestCode.DoubleParam() {
 
@@ -240,7 +240,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void modulo() {
         verify(new TestCode.DoubleParam() {
 
@@ -251,7 +251,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void moduloAssignable() {
         verify(new TestCode.DoubleParam() {
 
@@ -262,7 +262,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void moduloAssignableOnParameter() {
         verify(new TestCode.DoubleParam() {
 
@@ -277,7 +277,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void postIncrement() {
         verify(new TestCode.DoubleParam() {
 
@@ -288,7 +288,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void postIncrementValue() {
         verify(new TestCode.DoubleParam() {
 
@@ -300,7 +300,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void postIncrementLike() {
         verify(new TestCode.DoubleParam() {
 
@@ -311,7 +311,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void postIncrementOnParameter() {
         verify(new TestCode.DoubleParam() {
 
@@ -326,7 +326,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void preIncrement() {
         verify(new TestCode.DoubleParam() {
 
@@ -337,7 +337,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void preIncrementValue() {
         verify(new TestCode.DoubleParam() {
 
@@ -349,7 +349,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void preIncrementOnParameter() {
         verify(new TestCode.DoubleParam() {
 
@@ -364,7 +364,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void equal() {
         verify(new TestCode.DoubleParamBoolean() {
 
@@ -375,7 +375,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void notEqual() {
         verify(new TestCode.DoubleParamBoolean() {
 
@@ -386,7 +386,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void less() {
         verify(new TestCode.DoubleParamBoolean() {
 
@@ -397,7 +397,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void lessEqual() {
         verify(new TestCode.DoubleParamBoolean() {
 
@@ -408,7 +408,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void lessEqual2() {
         verify(new TestCode.DoubleParamBoolean() {
 
@@ -419,7 +419,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void greater() {
         verify(new TestCode.DoubleParamBoolean() {
 
@@ -430,7 +430,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void greater2() {
         verify(new TestCode.DoubleParamBoolean() {
 
@@ -441,7 +441,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void greaterEqual() {
         verify(new TestCode.DoubleParamBoolean() {
 
@@ -452,7 +452,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void greaterEqual2() {
         verify(new TestCode.DoubleParamBoolean() {
 
@@ -463,7 +463,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void incrementStatiFieldInFieldAccess() throws Exception {
         verify(new IncrementStaticField());
     }
@@ -485,7 +485,7 @@ class DoubleTest extends CodeVerifier {
         }
     }
 
-    @CompilableTest
+    @DecompilableTest
     void decrementStatiFieldInFieldAccess() throws Exception {
         verify(new DecrementStaticField());
     }
@@ -507,7 +507,7 @@ class DoubleTest extends CodeVerifier {
         }
     }
 
-    @CompilableTest
+    @DecompilableTest
     void preincrementStatiFieldInFieldAccess() throws Exception {
         verify(new PreincrementStaticField());
     }
@@ -529,7 +529,7 @@ class DoubleTest extends CodeVerifier {
         }
     }
 
-    @CompilableTest
+    @DecompilableTest
     void predecrementStatiFieldInFieldAccess() throws Exception {
         verify(new PredecrementStaticField());
     }
@@ -551,7 +551,7 @@ class DoubleTest extends CodeVerifier {
         }
     }
 
-    @CompilableTest
+    @DecompilableTest
     void classEquality() {
         verify(new TestCode.Boolean() {
 
@@ -562,7 +562,7 @@ class DoubleTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void arrayClassEquality() {
         verify(new TestCode.Boolean() {
 

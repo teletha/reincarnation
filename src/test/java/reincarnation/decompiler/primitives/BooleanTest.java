@@ -10,12 +10,12 @@
 package reincarnation.decompiler.primitives;
 
 import reincarnation.CodeVerifier;
-import reincarnation.CompilableTest;
+import reincarnation.DecompilableTest;
 import reincarnation.TestCode;
 
 class BooleanTest extends CodeVerifier {
 
-    @CompilableTest
+    @DecompilableTest
     void value() {
         verify(new TestCode.BooleanParam() {
 
@@ -26,7 +26,7 @@ class BooleanTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void negate() {
         verify(new TestCode.BooleanParam() {
 
@@ -37,7 +37,7 @@ class BooleanTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void negateTwice() {
         verify(new TestCode.BooleanParam() {
 
@@ -48,7 +48,7 @@ class BooleanTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void negateInVariable() {
         verify(new TestCode.BooleanParam() {
 
@@ -61,7 +61,7 @@ class BooleanTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void negateTwiceInVariable() {
         verify(new TestCode.BooleanParam() {
 
@@ -74,7 +74,7 @@ class BooleanTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void classEquality() {
         verify(new TestCode.Boolean() {
 
@@ -85,7 +85,7 @@ class BooleanTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void arrayClassEquality() {
         verify(new TestCode.Boolean() {
 

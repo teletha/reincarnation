@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestTemplateInvocationContext;
 import org.junit.jupiter.api.extension.TestTemplateInvocationContextProvider;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.helpers.AnnotationHelper;
 
 public class CompilerProvider implements TestTemplateInvocationContextProvider {
 
@@ -30,6 +31,6 @@ public class CompilerProvider implements TestTemplateInvocationContextProvider {
      */
     @Override
     public Stream<TestTemplateInvocationContext> provideTestTemplateInvocationContexts(ExtensionContext context) {
-        return Stream.of(CompilerType.values());
+        return Stream.of(AnnotationHelper.findAnnotation(context.getTestMethod().get(), DecompilableTest.class).value());
     }
 }

@@ -10,12 +10,12 @@
 package reincarnation.decompiler.primitives;
 
 import reincarnation.CodeVerifier;
-import reincarnation.CompilableTest;
+import reincarnation.DecompilableTest;
 import reincarnation.TestCode;
 
 class LongTest extends CodeVerifier {
 
-    @CompilableTest
+    @DecompilableTest
     void zero() {
         verify(new TestCode.Long() {
 
@@ -26,7 +26,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void one() {
         verify(new TestCode.Long() {
 
@@ -37,7 +37,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void two() {
         verify(new TestCode.Long() {
 
@@ -48,7 +48,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void three() {
         verify(new TestCode.Long() {
 
@@ -59,7 +59,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void minus() {
         verify(new TestCode.Long() {
 
@@ -70,7 +70,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void max() {
         verify(new TestCode.Long() {
 
@@ -81,7 +81,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void min() {
         verify(new TestCode.Long() {
 
@@ -92,7 +92,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void add() {
         verify(new TestCode.LongParam() {
 
@@ -103,7 +103,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void addAssignable() {
         verify(new TestCode.LongParam() {
 
@@ -114,7 +114,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void addAssignableOnParameter() {
         verify(new TestCode.LongParam() {
 
@@ -129,7 +129,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void negate() {
         verify(new TestCode.LongParam() {
 
@@ -140,7 +140,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void subtract() {
         verify(new TestCode.LongParam() {
 
@@ -151,7 +151,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void subtractAssignable() {
         verify(new TestCode.LongParam() {
 
@@ -162,7 +162,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void subtractAssignableOnParameter() {
         verify(new TestCode.LongParam() {
 
@@ -177,7 +177,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void multiply() {
         verify(new TestCode.LongParam() {
 
@@ -188,7 +188,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void multiplyAssignable() {
         verify(new TestCode.LongParam() {
 
@@ -199,7 +199,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void multipleAssignableOnParameter() {
         verify(new TestCode.LongParam() {
 
@@ -214,7 +214,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void divide() {
         verify(new TestCode.LongParam() {
 
@@ -225,7 +225,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void divideAssignable() {
         verify(new TestCode.LongParam() {
 
@@ -236,7 +236,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void divideAssignableOnParameter() {
         verify(new TestCode.LongParam() {
 
@@ -251,7 +251,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void modulo() {
         verify(new TestCode.LongParam() {
 
@@ -262,7 +262,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void moduloAssignable() {
         verify(new TestCode.LongParam() {
 
@@ -273,7 +273,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void moduloAssignableOnParameter() {
         verify(new TestCode.LongParam() {
 
@@ -288,7 +288,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void bitFlag() {
         verify(new TestCode.LongParamBoolean() {
 
@@ -299,7 +299,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void bitAnd() {
         verify(new TestCode.LongParam() {
 
@@ -310,7 +310,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void bitAndAssignable() {
         verify(new TestCode.LongParam() {
 
@@ -321,7 +321,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void bitAndAssignableOnParameter() {
         verify(new TestCode.LongParam() {
 
@@ -336,7 +336,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void bitOr() {
         verify(new TestCode.LongParam() {
 
@@ -347,7 +347,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void bitOrAssignable() {
         verify(new TestCode.LongParam() {
 
@@ -358,7 +358,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void bitOrAssignableOnParameter() {
         verify(new TestCode.LongParam() {
 
@@ -373,7 +373,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void bitXor() {
         verify(new TestCode.LongParam() {
 
@@ -384,7 +384,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void bitXorAssignable() {
         verify(new TestCode.LongParam() {
 
@@ -395,7 +395,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void bitXorAssignableOnParameter() {
         verify(new TestCode.LongParam() {
 
@@ -410,7 +410,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void bitNot() {
         verify(new TestCode.LongParam() {
 
@@ -421,7 +421,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void shiftLeft() {
         verify(new TestCode.LongParam() {
 
@@ -432,7 +432,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void shiftLeftAssignable() {
         verify(new TestCode.LongParam() {
 
@@ -443,7 +443,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void shiftLeftAssignableOnParameter() {
         verify(new TestCode.LongParam() {
 
@@ -458,7 +458,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void shiftRight() {
         verify(new TestCode.LongParam() {
 
@@ -469,7 +469,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void shiftRightAssignable() {
         verify(new TestCode.LongParam() {
 
@@ -480,7 +480,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void shiftRightAssignableOnParameter() {
         verify(new TestCode.LongParam() {
 
@@ -495,7 +495,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void unsignedShiftRight() {
         verify(new TestCode.LongParam() {
 
@@ -506,7 +506,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void unsignedShiftRightAssignable() {
         verify(new TestCode.LongParam() {
 
@@ -517,7 +517,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void unsignedShiftRightAssignableOnParameter() {
         verify(new TestCode.LongParam() {
 
@@ -532,7 +532,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void equal() {
         verify(new TestCode.LongParamBoolean() {
 
@@ -543,7 +543,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void notEqual() {
         verify(new TestCode.LongParamBoolean() {
 
@@ -554,7 +554,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void less() {
         verify(new TestCode.LongParamBoolean() {
 
@@ -565,7 +565,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void lessEqual() {
         verify(new TestCode.LongParamBoolean() {
 
@@ -576,7 +576,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void greater() {
         verify(new TestCode.LongParamBoolean() {
 
@@ -587,7 +587,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void greaterEqual() {
         verify(new TestCode.LongParamBoolean() {
 
@@ -598,7 +598,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void postIncrement() {
         verify(new TestCode.LongParam() {
 
@@ -609,7 +609,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void postIncrementValue() {
         verify(new TestCode.LongParam() {
 
@@ -621,7 +621,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void postIncrementLike() {
         verify(new TestCode.LongParam() {
 
@@ -632,7 +632,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void preIncrement() {
         verify(new TestCode.LongParam() {
 
@@ -643,7 +643,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void preIncrementInStatement() {
         verify(new TestCode.LongParam() {
 
@@ -654,7 +654,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void incrementStaticFieldInFieldAccess() throws Exception {
         verify(new IncrementStaticField());
     }
@@ -676,7 +676,7 @@ class LongTest extends CodeVerifier {
         }
     }
 
-    @CompilableTest
+    @DecompilableTest
     void decrementStaticFieldInFieldAccess() throws Exception {
         verify(new DecrementStaticField());
     }
@@ -698,7 +698,7 @@ class LongTest extends CodeVerifier {
         }
     }
 
-    @CompilableTest
+    @DecompilableTest
     void preincrementStaticFieldInFieldAccess() throws Exception {
         verify(new PreincrementStaticField());
     }
@@ -720,7 +720,7 @@ class LongTest extends CodeVerifier {
         }
     }
 
-    @CompilableTest
+    @DecompilableTest
     void predecrementStaticFieldInFieldAccess() throws Exception {
         verify(new PredecrementStaticField());
     }
@@ -742,7 +742,7 @@ class LongTest extends CodeVerifier {
         }
     }
 
-    @CompilableTest
+    @DecompilableTest
     void classEquality() {
         verify(new TestCode.Boolean() {
 
@@ -753,7 +753,7 @@ class LongTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void arrayClassEquality() {
         verify(new TestCode.Boolean() {
 

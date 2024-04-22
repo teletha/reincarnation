@@ -10,12 +10,12 @@
 package reincarnation.decompiler.primitives;
 
 import reincarnation.CodeVerifier;
-import reincarnation.CompilableTest;
+import reincarnation.DecompilableTest;
 import reincarnation.TestCode;
 
 class ShortTest extends CodeVerifier {
 
-    @CompilableTest
+    @DecompilableTest
     void zero() {
         verify(new TestCode.Short() {
 
@@ -26,7 +26,7 @@ class ShortTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void one() {
         verify(new TestCode.Short() {
 
@@ -37,7 +37,7 @@ class ShortTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void two() {
         verify(new TestCode.Short() {
 
@@ -48,7 +48,7 @@ class ShortTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void three() {
         verify(new TestCode.Short() {
 
@@ -59,7 +59,7 @@ class ShortTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void minus() {
         verify(new TestCode.Short() {
 
@@ -70,7 +70,7 @@ class ShortTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void max() {
         verify(new TestCode.Short() {
 
@@ -81,7 +81,7 @@ class ShortTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void min() {
         verify(new TestCode.Short() {
 
@@ -92,7 +92,7 @@ class ShortTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void classEquality() {
         verify(new TestCode.Boolean() {
 
@@ -103,7 +103,7 @@ class ShortTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void arrayClassEquality() {
         verify(new TestCode.Boolean() {
 

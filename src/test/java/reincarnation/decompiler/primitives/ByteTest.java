@@ -10,12 +10,12 @@
 package reincarnation.decompiler.primitives;
 
 import reincarnation.CodeVerifier;
-import reincarnation.CompilableTest;
+import reincarnation.DecompilableTest;
 import reincarnation.TestCode;
 
 public class ByteTest extends CodeVerifier {
 
-    @CompilableTest
+    @DecompilableTest
     public void zero() {
         verify(new TestCode.ByteParam() {
 
@@ -26,7 +26,7 @@ public class ByteTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     public void one() {
         verify(new TestCode.ByteParam() {
 
@@ -37,7 +37,7 @@ public class ByteTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     public void two() {
         verify(new TestCode.ByteParam() {
 
@@ -48,7 +48,7 @@ public class ByteTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     public void three() {
         verify(new TestCode.ByteParam() {
 
@@ -59,7 +59,7 @@ public class ByteTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     public void minus() {
         verify(new TestCode.ByteParam() {
 
@@ -70,7 +70,7 @@ public class ByteTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     public void max() {
         verify(new TestCode.ByteParam() {
 
@@ -81,7 +81,7 @@ public class ByteTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     public void min() {
         verify(new TestCode.ByteParam() {
 
@@ -92,7 +92,7 @@ public class ByteTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void classEquality() {
         verify(new TestCode.Boolean() {
 
@@ -103,7 +103,7 @@ public class ByteTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void arrayClassEquality() {
         verify(new TestCode.Boolean() {
 

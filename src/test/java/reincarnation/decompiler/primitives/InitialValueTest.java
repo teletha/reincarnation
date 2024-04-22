@@ -10,12 +10,12 @@
 package reincarnation.decompiler.primitives;
 
 import reincarnation.CodeVerifier;
-import reincarnation.CompilableTest;
+import reincarnation.DecompilableTest;
 import reincarnation.TestCode;
 
 class InitialValueTest extends CodeVerifier {
 
-    @CompilableTest
+    @DecompilableTest
     void Interger() {
         verify(new TestCode.Int() {
 
@@ -28,7 +28,7 @@ class InitialValueTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void Long() {
         verify(new TestCode.Long() {
 
@@ -41,7 +41,7 @@ class InitialValueTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void Float() {
         verify(new TestCode.Float() {
 
@@ -54,7 +54,7 @@ class InitialValueTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void Double() {
         verify(new TestCode.Double() {
 
@@ -67,7 +67,7 @@ class InitialValueTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void Byte() {
         verify(new TestCode.Byte() {
 
@@ -80,7 +80,7 @@ class InitialValueTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void Short() {
         verify(new TestCode.Short() {
 
@@ -93,7 +93,7 @@ class InitialValueTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void Char() {
         verify(new TestCode.Char() {
 
@@ -106,7 +106,7 @@ class InitialValueTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void Boolean() {
         verify(new TestCode.Boolean() {
 
@@ -119,7 +119,7 @@ class InitialValueTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void Static() {
         verify(new Static());
     }

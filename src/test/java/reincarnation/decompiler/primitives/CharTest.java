@@ -10,12 +10,12 @@
 package reincarnation.decompiler.primitives;
 
 import reincarnation.CodeVerifier;
-import reincarnation.CompilableTest;
+import reincarnation.DecompilableTest;
 import reincarnation.TestCode;
 
 public class CharTest extends CodeVerifier {
 
-    @CompilableTest
+    @DecompilableTest
     public void primitive() {
         verify(new TestCode.CharParam() {
 
@@ -26,7 +26,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     public void equalToChar() {
         verify(new TestCode.CharParamBoolean() {
 
@@ -37,7 +37,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     public void equalToNumber1() {
         verify(new TestCode.CharParamBoolean() {
 
@@ -48,7 +48,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     public void equalToNumber2() {
         verify(new TestCode.CharParamBoolean() {
 
@@ -59,7 +59,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     public void add() {
         verify(new TestCode.CharParamInt() {
 
@@ -70,7 +70,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     public void subtract() {
         verify(new TestCode.CharParamInt() {
 
@@ -81,7 +81,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     public void codition() {
         verify(new TestCode.CharParamBoolean() {
 
@@ -92,7 +92,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     public void cast() {
         verify(new TestCode.CharParam() {
 
@@ -103,7 +103,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void classEquality() {
         verify(new TestCode.Boolean() {
 
@@ -114,7 +114,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @CompilableTest
+    @DecompilableTest
     void arrayClassEquality() {
         verify(new TestCode.Boolean() {
 

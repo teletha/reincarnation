@@ -10,28 +10,28 @@
 package reincarnation.decompiler.primitives;
 
 import reincarnation.CodeVerifier;
-import reincarnation.CompilableTest;
+import reincarnation.DecompilableTest;
 
 public class FloatInAssertTest extends CodeVerifier {
 
     private float value = 10F;
 
-    @CompilableTest
+    @DecompilableTest
     public void less() throws Exception {
         assert value < 100F; // CMPG IFLT
     }
 
-    @CompilableTest
+    @DecompilableTest
     public void lessEqual() throws Exception {
         assert value <= 100F; // CMPG IFLE
     }
 
-    @CompilableTest
+    @DecompilableTest
     public void greater() throws Exception {
         assert value > 0F; // CMPL IFGT
     }
 
-    @CompilableTest
+    @DecompilableTest
     public void greaterEqual() throws Exception {
         assert value >= 0F; // CMPL IFGE
     }

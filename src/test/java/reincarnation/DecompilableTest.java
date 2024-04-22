@@ -21,5 +21,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @Target(ElementType.METHOD)
 @TestTemplate
 @ExtendWith(CompilerProvider.class)
-public @interface CompilableTest {
+public @interface DecompilableTest {
+
+    /**
+     * Provide compiler types to test.
+     * 
+     * @return
+     */
+    CompilerType[] value() default {CompilerType.ECJ, CompilerType.Javac};
 }
