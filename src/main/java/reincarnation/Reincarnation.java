@@ -10,6 +10,7 @@
 package reincarnation;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -36,6 +37,9 @@ import reincarnation.util.GeneratedCodes;
  * {@link Reincarnation} is a unit of decompilation.
  */
 public final class Reincarnation {
+
+    /** The class loader to search type. */
+    static final ThreadLocal<ClassLoader> loader = ThreadLocal.withInitial(ClassLoader::getSystemClassLoader);
 
     /** The cache. */
     static final Map<Class, Reincarnation> cache = new ConcurrentHashMap();
@@ -158,7 +162,8 @@ public final class Reincarnation {
             Reincarnation reincarnation = new Reincarnation(key);
 
             try {
-                new ClassReader(key.getName()).accept(new JavaClassDecompiler(reincarnation), 0);
+                InputStream input = key.getClassLoader().getResourceAsStream(key.getName().replace('.', '/') + ".class");
+                new ClassReader(input).accept(new JavaClassDecompiler(reincarnation), 0);
             } catch (IOException e) {
                 throw I.quiet(e);
             }

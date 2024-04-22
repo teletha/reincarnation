@@ -109,9 +109,9 @@ public class CodeVerifier {
     protected final void verify(TestCode code) {
         Class target = code.getClass();
 
-        // ====================================================
+        // ========================================================
         // execute test code and store results by java
-        // ====================================================
+        // ========================================================
         JavaVerifier base = new JavaVerifier(target, "Execute original test case by java.");
         List inputs = prepareInputs(base.method);
         List expecteds = new ArrayList();
@@ -128,21 +128,21 @@ public class CodeVerifier {
             return;
         }
 
-        // ====================================================
+        // ========================================================
         // prepare recompile
-        // ====================================================
+        // ========================================================
         StringBuilder debugLog = debugger.replaceOutput();
         String decompiled = "";
 
         try {
-            // ====================================================
+            // ========================================================
             // decompile code
-            // ====================================================
+            // ========================================================
             decompiled = decompile(target, debuggable != null);
 
-            // ====================================================
+            // ========================================================
             // recompile java code
-            // ====================================================
+            // ========================================================
             Class recompiledClass;
             Silent notifier = new Silent();
             try {
@@ -163,14 +163,57 @@ public class CodeVerifier {
                         .reason("=================================================");
             }
 
-            // ====================================================
+            // ========================================================
             // execute recompiled code and compare result with original
-            // ====================================================
+            // ========================================================
             JavaVerifier java = new JavaVerifier(recompiledClass, decompiled);
 
             for (int i = 0; i < inputs.size(); i++) {
                 java.verify(inputs.get(i), expecteds.get(i));
             }
+
+            // // ========================================================
+            // // compile code by javac
+            // // ========================================================
+            // compileAllTestsByJavac();
+            //
+            // try {
+            // // ========================================================
+            // // decompile javac code
+            // // ========================================================
+            // Class clazz = JavacClassLoader.loadClass(target.getName());
+            // decompiled = decompile(clazz, debuggable != null);
+            // System.out.println(decompiled);
+            //
+            // // ========================================================
+            // // recompile javac code
+            // // ========================================================
+            // ClassLoader loader = JavaCompiler.with(notifier)
+            // .addSource(JavaCoder.computeName(target.getEnclosingClass()), decompiled)
+            // .addClassPath(Locator.directory("target/test-classes"))
+            // .compile();
+            // System.out.println("OKO");
+            // recompiledClass = loader.loadClass(JavaCoder.computeName(target));
+            // assert target != recompiledClass; // load from different classloader
+            // System.out.println("OKO");
+            // } catch (Throwable e) {
+            // throw Failuer.type("Compile Error on Javac Code")
+            // .reason(e)
+            // .reason("=================================================")
+            // .reason(notifier.message)
+            // .reason("-------------------------------------------------")
+            // .reason(format(decompiled))
+            // .reason("=================================================");
+            // }
+            //
+            // // ========================================================
+            // // execute recompiled javac code and compare result with original
+            // // ========================================================
+            // java = new JavaVerifier(recompiledClass, decompiled);
+            //
+            // for (int i = 0; i < inputs.size(); i++) {
+            // java.verify(inputs.get(i), expecteds.get(i));
+            // }
         } catch (Throwable e) {
             if (debugLog.isEmpty() && debugged.add(target)) {
                 // decompile with debug mode
@@ -196,6 +239,18 @@ public class CodeVerifier {
     }
 
     private String decompile(Class target, boolean debug) {
+        if (CompilerType.current.get() == CompilerType.ECJ) {
+            Reincarnation.loader.set(ClassLoader.getSystemClassLoader());
+        } else {
+            try {
+                compileAllTestsByJavac();
+                Reincarnation.loader.set(JavacClassLoader);
+                target = JavacClassLoader.loadClass(target.getName());
+            } catch (ClassNotFoundException e) {
+                throw I.quiet(e);
+            }
+        }
+
         JavaCodingOption options = new JavaCodingOption();
         options.writeMemberFromTopLevel = true;
 
@@ -342,6 +397,21 @@ public class CodeVerifier {
                 .reason("=================================================")
                 .reason(message)
                 .reason("=================================================");
+    }
+
+    /** The compiled class loader for Javac. */
+    private static ClassLoader JavacClassLoader;
+
+    /**
+     * Compile all test sources by Javac.
+     */
+    private static synchronized void compileAllTestsByJavac() {
+        if (JavacClassLoader == null) {
+            JavacClassLoader = JavaCompiler.with(new Silent())
+                    .addCurrentClassPath()
+                    .addSourceDirectory(Locator.directory("src/test/java"))
+                    .compile();
+        }
     }
 
     /**

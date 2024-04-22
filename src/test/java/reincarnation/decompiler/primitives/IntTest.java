@@ -9,15 +9,14 @@
  */
 package reincarnation.decompiler.primitives;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CompilableTest;
 import reincarnation.TestCode;
 import reincarnation.TestCode.Int;
 
 class IntTest extends CodeVerifier {
 
-    @Test
+    @CompilableTest
     void zero() {
         verify(new Int() {
 
@@ -28,7 +27,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void one() {
         verify(new Int() {
 
@@ -39,7 +38,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void two() {
         verify(new Int() {
 
@@ -50,7 +49,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void three() {
         verify(new Int() {
 
@@ -61,7 +60,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void four() {
         verify(new Int() {
 
@@ -72,7 +71,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void five() {
         verify(new Int() {
 
@@ -83,7 +82,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void six() {
         verify(new Int() {
 
@@ -94,7 +93,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void seven() {
         verify(new Int() {
 
@@ -105,7 +104,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void minusOne() {
         verify(new Int() {
 
@@ -116,7 +115,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void minusTwo() {
         verify(new Int() {
 
@@ -127,7 +126,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void minusThree() {
         verify(new Int() {
 
@@ -138,7 +137,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void max() {
         verify(new TestCode.Int() {
 
@@ -149,7 +148,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void min() {
         verify(new TestCode.Int() {
 
@@ -160,7 +159,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void add() {
         verify(new TestCode.IntParam() {
 
@@ -171,7 +170,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void addAssignable() {
         verify(new TestCode.IntParam() {
 
@@ -182,7 +181,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void addAssignableOnParameter() {
         verify(new TestCode.IntParam() {
 
@@ -197,7 +196,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void subtrrun() {
         verify(new TestCode.IntParam() {
 
@@ -208,7 +207,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void subtractAssignable() {
         verify(new TestCode.IntParam() {
 
@@ -219,7 +218,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void subtractAssignableOnParameter() {
         verify(new TestCode.IntParam() {
 
@@ -234,7 +233,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void multiply() {
         verify(new TestCode.IntParam() {
 
@@ -245,7 +244,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void multiplyAssignable() {
         verify(new TestCode.IntParam() {
 
@@ -256,7 +255,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void multipleAssignableOnParameter() {
         verify(new TestCode.IntParam() {
 
@@ -271,7 +270,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void divide() {
         verify(new TestCode.IntParam() {
 
@@ -282,7 +281,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void divideAssignable() {
         verify(new TestCode.IntParam() {
 
@@ -293,7 +292,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void divideAssignableOnParameter() {
         verify(new TestCode.IntParam() {
 
@@ -308,7 +307,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void modulo() {
         verify(new TestCode.IntParam() {
 
@@ -319,7 +318,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void moduloAssignable() {
         verify(new TestCode.IntParam() {
 
@@ -330,7 +329,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void moduloAssignableOnParameter() {
         verify(new TestCode.IntParam() {
 
@@ -345,7 +344,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void bitFlag() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -356,7 +355,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void bitAnd() {
         verify(new TestCode.IntParam() {
 
@@ -367,7 +366,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void bitAndAssignable() {
         verify(new TestCode.IntParam() {
 
@@ -378,7 +377,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void bitAndAssignableOnParameter() {
         verify(new TestCode.IntParam() {
 
@@ -393,7 +392,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void bitOr() {
         verify(new TestCode.IntParam() {
 
@@ -404,7 +403,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void bitOrAssignable() {
         verify(new TestCode.IntParam() {
 
@@ -415,7 +414,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void bitOrAssignableOnParameter() {
         verify(new TestCode.IntParam() {
 
@@ -430,7 +429,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void bitXor() {
         verify(new TestCode.IntParam() {
 
@@ -441,7 +440,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void bitXorAssignable() {
         verify(new TestCode.IntParam() {
 
@@ -452,7 +451,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void bitXorAssignableOnParameter() {
         verify(new TestCode.IntParam() {
 
@@ -467,7 +466,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void bitNot() {
         verify(new TestCode.IntParam() {
 
@@ -478,7 +477,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void shiftLeft() {
         verify(new TestCode.IntParam() {
 
@@ -489,7 +488,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void shiftLeftAssignable() {
         verify(new TestCode.IntParam() {
 
@@ -500,7 +499,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void shiftLeftAssignableOnParameter() {
         verify(new TestCode.IntParam() {
 
@@ -515,7 +514,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void shiftRight() {
         verify(new TestCode.IntParam() {
 
@@ -526,7 +525,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void shiftRightAssignable() {
         verify(new TestCode.IntParam() {
 
@@ -537,7 +536,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void shiftRightAssignableOnParameter() {
         verify(new TestCode.IntParam() {
 
@@ -552,7 +551,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void unsignedShiftRight() {
         verify(new TestCode.IntParam() {
 
@@ -563,7 +562,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void unsignedShiftRightAssignable() {
         verify(new TestCode.IntParam() {
 
@@ -574,7 +573,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void unsignedShiftRightAssignableOnParameter() {
         verify(new TestCode.IntParam() {
 
@@ -589,7 +588,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void equal() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -600,7 +599,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void notEqual() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -611,7 +610,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void less() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -622,7 +621,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void lessEqual() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -633,7 +632,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void greater() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -644,7 +643,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void greaterEqual() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -655,7 +654,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void postIncrement() {
         verify(new TestCode.IntParam() {
 
@@ -666,7 +665,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void postIncrementValue() {
         verify(new TestCode.IntParam() {
 
@@ -678,7 +677,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void postIncrementLike() {
         verify(new TestCode.IntParam() {
 
@@ -689,7 +688,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void postIncrementOnParameter() {
         verify(new TestCode.IntParam() {
 
@@ -704,7 +703,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void preIncrement() {
         verify(new TestCode.IntParam() {
 
@@ -715,7 +714,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void preIncrementInStatement() {
         verify(new TestCode.IntParam() {
 
@@ -726,7 +725,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void preIncrementOnParameter() {
         verify(new TestCode.IntParam() {
 
@@ -741,7 +740,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void incrementStatiFieldInFieldAccess() {
         verify(new IncrementStaticField());
     }
@@ -762,7 +761,7 @@ class IntTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CompilableTest
     void decrementStatiFieldInFieldAccess() {
         verify(new DecrementStaticField());
     }
@@ -784,7 +783,7 @@ class IntTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CompilableTest
     void preincrementStatiFieldInFieldAccess() {
         verify(new PreincrementStaticField());
     }
@@ -806,7 +805,7 @@ class IntTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CompilableTest
     void predecrementStatiFieldInFieldAccess() {
         verify(new PredecrementStaticField());
     }
@@ -828,7 +827,7 @@ class IntTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CompilableTest
     void classEquality() {
         verify(new TestCode.Boolean() {
 
@@ -839,7 +838,7 @@ class IntTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void arrayClassEquality() {
         verify(new TestCode.Boolean() {
 
