@@ -9,17 +9,13 @@
  */
 package reincarnation.decompiler.primitives;
 
-import org.junit.jupiter.api.Test;
-
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.CompilableTest;
+import reincarnation.TestCode;
 
-/**
- * @version 2018/10/22 16:36:04
- */
 class WideningPrimitiveConversionTest extends CodeVerifier {
 
-    @Test
+    @CompilableTest
     void longToDouble() {
         verify(new TestCode.LongParamDouble() {
 

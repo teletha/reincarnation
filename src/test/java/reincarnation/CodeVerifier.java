@@ -9,6 +9,10 @@
  */
 package reincarnation;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
@@ -34,6 +38,8 @@ import org.jetbrains.java.decompiler.main.extern.IResultSaver;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.util.TraceClassVisitor;
 
 import bee.UserInterface;
 import bee.api.Command;
@@ -147,6 +153,18 @@ public class CodeVerifier {
 
         try {
             // ========================================================
+            // Copile code by javac.
+            // ========================================================
+            if (CompilerType.isJavac()) {
+                try {
+                    compileAllTestsByJavac();
+                    target = JavacClassLoader.loadClass(target.getName());
+                } catch (ClassNotFoundException e) {
+                    throw I.quiet(e);
+                }
+            }
+
+            // ========================================================
             // Decompile code.
             // ========================================================
             decompiled = decompile(target, debuggable != null);
@@ -154,7 +172,7 @@ public class CodeVerifier {
             // ========================================================
             // Recompile java code.
             // ========================================================
-            Class recompiledClass;
+            Class recompiledClass = null;
             Silent notifier = new Silent();
             try {
                 ClassLoader loader = JavaCompiler.with(notifier)
@@ -165,15 +183,26 @@ public class CodeVerifier {
                 recompiledClass = loader.loadClass(JavaCoder.computeName(target));
                 assert target != recompiledClass; // load from different classloader
             } catch (Throwable e) {
-                throw Failuer.type("Compile Error")
+                Failuer failuer = Failuer.type("Compile Error")
                         .reason(e)
                         .reason("=================================================")
                         .reason(notifier.message)
                         .reason("-------------------------------------------------")
-                        .reason(format(decompiled))
-                        .reason("=================================================");
-            }
+                        .reason(format(decompiled, true));
 
+                if (CompilerType.isJavac()) {
+                    failuer //
+                            .reason("-------------------------------------------------")
+                            .reason("  Javac version")
+                            .reason("-------------------------------------------------")
+                            .reason(asmifier(target))
+                            .reason("-------------------------------------------------")
+                            .reason("  ECJ version")
+                            .reason("-------------------------------------------------")
+                            .reason(asmifier(code.getClass()));
+                }
+                throw failuer.reason("=================================================");
+            }
             // ========================================================
             // Execute recompiled code and compare result with original.
             // ========================================================
@@ -182,49 +211,6 @@ public class CodeVerifier {
             for (int i = 0; i < inputs.size(); i++) {
                 java.verify(inputs.get(i), expecteds.get(i));
             }
-
-            // // ========================================================
-            // // compile code by javac
-            // // ========================================================
-            // compileAllTestsByJavac();
-            //
-            // try {
-            // // ========================================================
-            // // decompile javac code
-            // // ========================================================
-            // Class clazz = JavacClassLoader.loadClass(target.getName());
-            // decompiled = decompile(clazz, debuggable != null);
-            // System.out.println(decompiled);
-            //
-            // // ========================================================
-            // // recompile javac code
-            // // ========================================================
-            // ClassLoader loader = JavaCompiler.with(notifier)
-            // .addSource(JavaCoder.computeName(target.getEnclosingClass()), decompiled)
-            // .addClassPath(Locator.directory("target/test-classes"))
-            // .compile();
-            // System.out.println("OKO");
-            // recompiledClass = loader.loadClass(JavaCoder.computeName(target));
-            // assert target != recompiledClass; // load from different classloader
-            // System.out.println("OKO");
-            // } catch (Throwable e) {
-            // throw Failuer.type("Compile Error on Javac Code")
-            // .reason(e)
-            // .reason("=================================================")
-            // .reason(notifier.message)
-            // .reason("-------------------------------------------------")
-            // .reason(format(decompiled))
-            // .reason("=================================================");
-            // }
-            //
-            // // ========================================================
-            // // execute recompiled javac code and compare result with original
-            // // ========================================================
-            // java = new JavaVerifier(recompiledClass, decompiled);
-            //
-            // for (int i = 0; i < inputs.size(); i++) {
-            // java.verify(inputs.get(i), expecteds.get(i));
-            // }
         } catch (Throwable e) {
             if (debugLog.isEmpty() && debugged.add(target)) {
                 // decompile with debug mode
@@ -234,7 +220,7 @@ public class CodeVerifier {
             throw I.quiet(e);
         } finally {
             if (!debugLog.isEmpty()) {
-                for (String line : format(decompiled)) {
+                for (String line : format(decompiled, true)) {
                     debugLog.append(line).append("\r\n");
                 }
                 debugLog.append("\r\n");
@@ -250,12 +236,6 @@ public class CodeVerifier {
     }
 
     private String decompile(Class target, boolean debug) {
-        if (CompilerType.current.get() == CompilerType.ECJ) {
-            Reincarnation.loader.set(ClassLoader.getSystemClassLoader());
-        } else {
-            Reincarnation.loader.set(ClassLoader.getSystemClassLoader());
-        }
-
         JavaCodingOption options = new JavaCodingOption();
         options.writeMemberFromTopLevel = true;
 
@@ -379,16 +359,48 @@ public class CodeVerifier {
      * @param code
      * @return
      */
-    private String[] format(String code) {
+    private String[] format(String code, boolean enableLineNumber) {
         String[] lines = code.split("\r\n");
-        int max = (int) (Math.log10(lines.length) + 1);
 
-        for (int i = 0; i < lines.length; i++) {
-            int number = i + 1;
-            int size = (int) (Math.log10(number) + 1);
-            lines[i] = "0".repeat(max - size) + number + "    " + lines[i];
+        if (enableLineNumber) {
+            int max = (int) (Math.log10(lines.length) + 1);
+
+            for (int i = 0; i < lines.length; i++) {
+                int number = i + 1;
+                int size = (int) (Math.log10(number) + 1);
+                lines[i] = "0".repeat(max - size) + number + "    " + lines[i];
+            }
         }
         return lines;
+    }
+
+    /**
+     * Write ASM code.
+     * 
+     * @param target
+     * @return
+     */
+    private String[] asmifier(Class target) {
+        try {
+            StringWriter output = new StringWriter();
+            InputStream input = target.getClassLoader().getResourceAsStream(target.getName().replace('.', '/') + ".class");
+            new ClassReader(input).accept(new TraceClassVisitor(null, new ASMWriter(), new PrintWriter(output)), ClassReader.EXPAND_FRAMES);
+
+            return I.signal(output.toString().split("\n"))
+                    .skip(line -> line.startsWith("import ") || line.startsWith("package "))
+                    .skip(line -> line.startsWith("ClassWriter ") || line.startsWith("FieldVisitor ") || line
+                            .startsWith("RecordComponentVisitor ") || line
+                                    .startsWith("MethodVisitor ") || line.startsWith("AnnotationVisitor "))
+                    .skip(line -> line.startsWith("classWriter.visitSource") || line.startsWith("classWriter.visitNestHost") || line
+                            .startsWith("classWriter.visitNestMember") || line
+                                    .startsWith("classWriter.visitOuterClass") || line.startsWith("classWriter.visitInnerClass"))
+                    .skip(line -> line.startsWith("classWriter.visitEnd") || line.startsWith("return classWriter.toByteArray"))
+                    .skip("", (prev, next) -> prev.isBlank() && next.isBlank())
+                    .toList()
+                    .toArray(new String[0]);
+        } catch (IOException e) {
+            throw I.quiet(e);
+        }
     }
 
     /**

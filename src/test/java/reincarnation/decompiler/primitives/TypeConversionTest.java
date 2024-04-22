@@ -9,17 +9,13 @@
  */
 package reincarnation.decompiler.primitives;
 
-import org.junit.jupiter.api.Test;
-
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.CompilableTest;
+import reincarnation.TestCode;
 
-/**
- * @version 2018/10/22 16:04:57
- */
 class TypeConversionTest extends CodeVerifier {
 
-    @Test
+    @CompilableTest
     void longToInt() {
         verify(new TestCode.Run() {
 
@@ -49,7 +45,7 @@ class TypeConversionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void intToLong() {
         verify(new TestCode.Run() {
 

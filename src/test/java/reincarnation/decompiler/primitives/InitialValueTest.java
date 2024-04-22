@@ -9,17 +9,13 @@
  */
 package reincarnation.decompiler.primitives;
 
-import org.junit.jupiter.api.Test;
-
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.CompilableTest;
+import reincarnation.TestCode;
 
-/**
- * @version 2018/10/10 11:14:35
- */
 class InitialValueTest extends CodeVerifier {
 
-    @Test
+    @CompilableTest
     void Interger() {
         verify(new TestCode.Int() {
 
@@ -32,7 +28,7 @@ class InitialValueTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void Long() {
         verify(new TestCode.Long() {
 
@@ -45,7 +41,7 @@ class InitialValueTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void Float() {
         verify(new TestCode.Float() {
 
@@ -58,7 +54,7 @@ class InitialValueTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void Double() {
         verify(new TestCode.Double() {
 
@@ -71,7 +67,7 @@ class InitialValueTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void Byte() {
         verify(new TestCode.Byte() {
 
@@ -84,7 +80,7 @@ class InitialValueTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void Short() {
         verify(new TestCode.Short() {
 
@@ -97,7 +93,7 @@ class InitialValueTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void Char() {
         verify(new TestCode.Char() {
 
@@ -110,7 +106,7 @@ class InitialValueTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void Boolean() {
         verify(new TestCode.Boolean() {
 
@@ -123,7 +119,7 @@ class InitialValueTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void Static() {
         verify(new Static());
     }

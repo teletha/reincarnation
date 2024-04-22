@@ -9,17 +9,13 @@
  */
 package reincarnation.decompiler.primitives;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CompilableTest;
 import reincarnation.TestCode;
 
-/**
- * @version 2018/10/06 1:06:47
- */
 class BooleanTest extends CodeVerifier {
 
-    @Test
+    @CompilableTest
     void value() {
         verify(new TestCode.BooleanParam() {
 
@@ -30,7 +26,7 @@ class BooleanTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void negate() {
         verify(new TestCode.BooleanParam() {
 
@@ -41,7 +37,7 @@ class BooleanTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void negateTwice() {
         verify(new TestCode.BooleanParam() {
 
@@ -52,7 +48,7 @@ class BooleanTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void negateInVariable() {
         verify(new TestCode.BooleanParam() {
 
@@ -65,7 +61,7 @@ class BooleanTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void negateTwiceInVariable() {
         verify(new TestCode.BooleanParam() {
 
@@ -78,7 +74,7 @@ class BooleanTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void classEquality() {
         verify(new TestCode.Boolean() {
 
@@ -89,7 +85,7 @@ class BooleanTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void arrayClassEquality() {
         verify(new TestCode.Boolean() {
 

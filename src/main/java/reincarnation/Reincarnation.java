@@ -159,6 +159,8 @@ public final class Reincarnation {
      */
     public static final synchronized Reincarnation exhume(Class clazz) {
         return cache.computeIfAbsent(clazz, key -> {
+            loader.set(key.getClassLoader());
+
             Reincarnation reincarnation = new Reincarnation(key);
 
             try {

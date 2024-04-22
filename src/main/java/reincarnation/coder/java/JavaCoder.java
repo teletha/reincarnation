@@ -233,7 +233,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeStaticField(Field field) {
         // ignore compiler generated code
-        if (GeneratedCodes.isRecordField(field) || GeneratedCodes.isEnumField(field)) {
+        if (GeneratedCodes.isRecordField(field) || GeneratedCodes.isEnumField(field) || GeneratedCodes.isAssertionField(field)) {
             return;
         }
 

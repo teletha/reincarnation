@@ -9,17 +9,13 @@
  */
 package reincarnation.decompiler.primitives;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CompilableTest;
 import reincarnation.TestCode;
 
-/**
- * @version 2018/10/10 9:05:14
- */
 public class CharTest extends CodeVerifier {
 
-    @Test
+    @CompilableTest
     public void primitive() {
         verify(new TestCode.CharParam() {
 
@@ -30,7 +26,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     public void equalToChar() {
         verify(new TestCode.CharParamBoolean() {
 
@@ -41,7 +37,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     public void equalToNumber1() {
         verify(new TestCode.CharParamBoolean() {
 
@@ -52,7 +48,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     public void equalToNumber2() {
         verify(new TestCode.CharParamBoolean() {
 
@@ -63,7 +59,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     public void add() {
         verify(new TestCode.CharParamInt() {
 
@@ -74,7 +70,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     public void subtract() {
         verify(new TestCode.CharParamInt() {
 
@@ -85,7 +81,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     public void codition() {
         verify(new TestCode.CharParamBoolean() {
 
@@ -96,7 +92,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     public void cast() {
         verify(new TestCode.CharParam() {
 
@@ -107,7 +103,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void classEquality() {
         verify(new TestCode.Boolean() {
 
@@ -118,7 +114,7 @@ public class CharTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void arrayClassEquality() {
         verify(new TestCode.Boolean() {
 

@@ -9,33 +9,29 @@
  */
 package reincarnation.decompiler.primitives;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CompilableTest;
 
-/**
- * @version 2018/10/10 11:06:22
- */
 public class FloatInAssertTest extends CodeVerifier {
 
     private float value = 10F;
 
-    @Test
+    @CompilableTest
     public void less() throws Exception {
         assert value < 100F; // CMPG IFLT
     }
 
-    @Test
+    @CompilableTest
     public void lessEqual() throws Exception {
         assert value <= 100F; // CMPG IFLE
     }
 
-    @Test
+    @CompilableTest
     public void greater() throws Exception {
         assert value > 0F; // CMPL IFGT
     }
 
-    @Test
+    @CompilableTest
     public void greaterEqual() throws Exception {
         assert value >= 0F; // CMPL IFGE
     }

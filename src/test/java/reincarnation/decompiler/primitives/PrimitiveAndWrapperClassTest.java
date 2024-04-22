@@ -9,17 +9,13 @@
  */
 package reincarnation.decompiler.primitives;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CompilableTest;
 import reincarnation.TestCode;
 
-/**
- * @version 2018/10/10 11:14:56
- */
 class PrimitiveAndWrapperClassTest extends CodeVerifier {
 
-    @Test
+    @CompilableTest
     void IntegerPrimitive() {
         verify(new TestCode.Object<Class>() {
 
@@ -30,7 +26,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void IntegerWrapper() {
         verify(new TestCode.Object<Class>() {
 
@@ -41,7 +37,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void IntegerPrimitiveAndWrapper() {
         verify(new TestCode.Boolean() {
 
@@ -53,7 +49,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void LongPrimitive() {
         verify(new TestCode.Object<Class>() {
 
@@ -64,7 +60,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void LongWrapper() {
         verify(new TestCode.Object<Class>() {
 
@@ -75,7 +71,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void LongPrimitiveAndWrapper() {
         verify(new TestCode.Boolean() {
 
@@ -87,7 +83,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void FloatPrimitive() {
         verify(new TestCode.Object<Class>() {
 
@@ -98,7 +94,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void FloatWrapper() {
         verify(new TestCode.Object<Class>() {
 
@@ -109,7 +105,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void FloatPrimitiveAndWrapper() {
         verify(new TestCode.Boolean() {
 
@@ -121,7 +117,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void DoublePrimitive() {
         verify(new TestCode.Object<Class>() {
 
@@ -132,7 +128,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void DoubleWrapper() {
         verify(new TestCode.Object<Class>() {
 
@@ -143,7 +139,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void DoublePrimitiveAndWrapper() {
         verify(new TestCode.Boolean() {
 
@@ -155,7 +151,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void ShortPrimitive() {
         verify(new TestCode.Object<Class>() {
 
@@ -166,7 +162,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void ShortWrapper() {
         verify(new TestCode.Object<Class>() {
 
@@ -177,7 +173,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void ShortPrimitiveAndWrapper() {
         verify(new TestCode.Boolean() {
 
@@ -189,7 +185,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void BytePrimitive() {
         verify(new TestCode.Object<Class>() {
 
@@ -200,7 +196,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void ByteWrapper() {
         verify(new TestCode.Object<Class>() {
 
@@ -211,7 +207,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void BytePrimitiveAndWrapper() {
         verify(new TestCode.Boolean() {
 
@@ -223,7 +219,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void BooleanPrimitive() {
         verify(new TestCode.Object<Class>() {
 
@@ -234,7 +230,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void BooleanWrapper() {
         verify(new TestCode.Object<Class>() {
 
@@ -245,7 +241,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void BooleanPrimitiveAndWrapper() {
         verify(new TestCode.Boolean() {
 

@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.primitives;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CompilableTest;
 import reincarnation.TestCode;
 
 class FloatTest extends CodeVerifier {
 
-    @Test
+    @CompilableTest
     void zero() {
         verify(new TestCode.FloatParam() {
 
@@ -27,7 +26,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void one() {
         verify(new TestCode.FloatParam() {
 
@@ -38,7 +37,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void two() {
         verify(new TestCode.FloatParam() {
 
@@ -49,7 +48,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void three() {
         verify(new TestCode.FloatParam() {
 
@@ -60,7 +59,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void minus() {
         verify(new TestCode.FloatParam() {
 
@@ -71,7 +70,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void max() {
         verify(new TestCode.Float() {
 
@@ -82,7 +81,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void min() {
         verify(new TestCode.Float() {
 
@@ -93,7 +92,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void add() {
         verify(new TestCode.FloatParam() {
 
@@ -104,7 +103,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void addAssignable() {
         verify(new TestCode.FloatParam() {
 
@@ -115,7 +114,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void addAssignableOnParameter() {
         verify(new TestCode.FloatParam() {
 
@@ -130,7 +129,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void subtract() {
         verify(new TestCode.FloatParam() {
 
@@ -141,7 +140,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void subtractAssignable() {
         verify(new TestCode.FloatParam() {
 
@@ -152,7 +151,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void subtractAssignableOnParameter() {
         verify(new TestCode.FloatParam() {
 
@@ -167,7 +166,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void multiply() {
         verify(new TestCode.FloatParam() {
 
@@ -178,7 +177,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void multiplyAssignable() {
         verify(new TestCode.FloatParam() {
 
@@ -189,7 +188,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void multipleAssignableOnParameter() {
         verify(new TestCode.FloatParam() {
 
@@ -204,7 +203,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void divide() {
         verify(new TestCode.FloatParam() {
 
@@ -215,7 +214,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void divideAssignable() {
         verify(new TestCode.FloatParam() {
 
@@ -226,7 +225,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void divideAssignableOnParameter() {
         verify(new TestCode.FloatParam() {
 
@@ -241,7 +240,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void modulo() {
         verify(new TestCode.FloatParam() {
 
@@ -252,7 +251,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void moduloAssignable() {
         verify(new TestCode.FloatParam() {
 
@@ -263,7 +262,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void moduloAssignableOnParameter() {
         verify(new TestCode.FloatParam() {
 
@@ -278,7 +277,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void postIncrement() {
         verify(new TestCode.FloatParam() {
 
@@ -289,7 +288,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void postIncrementValue() {
         verify(new TestCode.FloatParam() {
 
@@ -301,7 +300,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void postIncrementOnParameter() {
         verify(new TestCode.FloatParam() {
 
@@ -316,7 +315,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void postIncrementLike() {
         verify(new TestCode.FloatParam() {
 
@@ -327,7 +326,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void preIncrement() {
         verify(new TestCode.FloatParam() {
 
@@ -338,7 +337,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void preIncrementValue() {
         verify(new TestCode.FloatParam() {
 
@@ -350,7 +349,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void preIncrementOnParameter() {
         verify(new TestCode.FloatParam() {
 
@@ -365,7 +364,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void equal() {
         verify(new TestCode.FloatParamBoolean() {
 
@@ -376,7 +375,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void notEqual() {
         verify(new TestCode.FloatParamBoolean() {
 
@@ -387,7 +386,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void less() {
         verify(new TestCode.FloatParamBoolean() {
 
@@ -398,7 +397,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void lessEqual() {
         verify(new TestCode.FloatParamBoolean() {
 
@@ -409,7 +408,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void greater() {
         verify(new TestCode.FloatParamBoolean() {
 
@@ -420,7 +419,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void greaterEqual() {
         verify(new TestCode.FloatParamBoolean() {
 
@@ -431,7 +430,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void incrementStatiFieldInFieldAccess() {
         verify(new IncrementStaticField());
     }
@@ -453,7 +452,7 @@ class FloatTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CompilableTest
     void decrementStatiFieldInFieldAccess() {
         verify(new DecrementStaticField());
     }
@@ -475,7 +474,7 @@ class FloatTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CompilableTest
     void preincrementStatiFieldInFieldAccess() {
         verify(new PreincrementStaticField());
     }
@@ -497,7 +496,7 @@ class FloatTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CompilableTest
     void predecrementStatiFieldInFieldAccess() {
         verify(new PredecrementStaticField());
     }
@@ -519,7 +518,7 @@ class FloatTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CompilableTest
     void classEquality() {
         verify(new TestCode.Boolean() {
 
@@ -530,7 +529,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void arrayClassEquality() {
         verify(new TestCode.Boolean() {
 

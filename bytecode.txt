@@ -1,0 +1,87 @@
+public class PrimitiveAndWrapperClassTest$9Dump implements Opcodes {
+
+public static byte[] dump () throws Exception {
+
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest$9", null, "java/lang/Object", new String[] { "reincarnation/TestCode$Boolean" });
+
+{
+fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_STATIC | ACC_SYNTHETIC, "$assertionsDisabled", "Z", null, null);
+fieldVisitor.visitEnd();
+}
+{
+methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest;)V", null, null);
+methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_MANDATED);
+methodVisitor.visitCode();
+Label label0 = new Label();
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(110, label0);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+methodVisitor.visitInsn(RETURN);
+Label label1 = new Label();
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest$9;", null, label0, label1, 0);
+methodVisitor.visitLocalVariable("this$0", "Lreincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest;", null, label0, label1, 1);
+methodVisitor.visitMaxs(1, 2);
+methodVisitor.visitEnd();
+}
+{
+methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "()Z", null, null);
+methodVisitor.visitCode();
+Label label0 = new Label();
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(114, label0);
+methodVisitor.visitFieldInsn(GETSTATIC, "reincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest$9", "$assertionsDisabled", "Z");
+Label label1 = new Label();
+methodVisitor.visitJumpInsn(IFNE, label1);
+methodVisitor.visitLdcInsn(Type.getType("Ljava/lang/Float;"));
+methodVisitor.visitFieldInsn(GETSTATIC, "java/lang/Float", "TYPE", "Ljava/lang/Class;");
+methodVisitor.visitJumpInsn(IF_ACMPNE, label1);
+methodVisitor.visitTypeInsn(NEW, "java/lang/AssertionError");
+methodVisitor.visitInsn(DUP);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/AssertionError", "<init>", "()V", false);
+methodVisitor.visitInsn(ATHROW);
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLineNumber(115, label1);
+methodVisitor.visitFrame(Opcodes.F_NEW, 1, new Object[] {"reincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest$9"}, 0, new Object[] {});
+methodVisitor.visitLdcInsn(Type.getType("Ljava/lang/Float;"));
+methodVisitor.visitFieldInsn(GETSTATIC, "java/lang/Float", "TYPE", "Ljava/lang/Class;");
+Label label2 = new Label();
+methodVisitor.visitJumpInsn(IF_ACMPNE, label2);
+methodVisitor.visitInsn(ICONST_1);
+Label label3 = new Label();
+methodVisitor.visitJumpInsn(GOTO, label3);
+methodVisitor.visitLabel(label2);
+methodVisitor.visitFrame(Opcodes.F_NEW, 1, new Object[] {"reincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest$9"}, 0, new Object[] {});
+methodVisitor.visitInsn(ICONST_0);
+methodVisitor.visitLabel(label3);
+methodVisitor.visitFrame(Opcodes.F_NEW, 1, new Object[] {"reincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest$9"}, 1, new Object[] {Opcodes.INTEGER});
+methodVisitor.visitInsn(IRETURN);
+Label label4 = new Label();
+methodVisitor.visitLabel(label4);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest$9;", null, label0, label4, 0);
+methodVisitor.visitMaxs(2, 1);
+methodVisitor.visitEnd();
+}
+{
+methodVisitor = classWriter.visitMethod(ACC_STATIC, "<clinit>", "()V", null, null);
+methodVisitor.visitCode();
+Label label0 = new Label();
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(110, label0);
+methodVisitor.visitLdcInsn(Type.getType("Lreincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest;"));
+methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "desiredAssertionStatus", "()Z", false);
+Label label1 = new Label();
+methodVisitor.visitJumpInsn(IFNE, label1);
+methodVisitor.visitInsn(ICONST_1);
+Label label2 = new Label();
+methodVisitor.visitJumpInsn(GOTO, label2);
+methodVisitor.visitLabel(label1);
+methodVisitor.visitFrame(Opcodes.F_NEW, 0, new Object[] {}, 0, new Object[] {});
+methodVisitor.visitInsn(ICONST_0);
+methodVisitor.visitLabel(label2);
+methodVisitor.visitFrame(Opcodes.F_NEW, 0, new Object[] {}, 1, new Object[] {Opcodes.INTEGER});
+methodVisitor.visitFieldInsn(PUTSTATIC, "reincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest$9", "$assertionsDisabled", "Z");
+methodVisitor.visitInsn(RETURN);
+methodVisitor.visitMaxs(1, 0);
+methodVisitor.visitEnd();

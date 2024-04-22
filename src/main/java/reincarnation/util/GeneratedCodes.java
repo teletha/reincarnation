@@ -69,6 +69,16 @@ public class GeneratedCodes {
     }
 
     /**
+     * Check whether the given field is generated code or not.
+     * 
+     * @param field
+     * @return
+     */
+    public static boolean isAssertionField(Field field) {
+        return field.getName().equals("$assertionsDisabled") && field.getType() == boolean.class;
+    }
+
+    /**
      * Check whether the given constructor is generated code or not.
      * 
      * @param constructor

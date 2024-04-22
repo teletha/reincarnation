@@ -9,19 +9,15 @@
  */
 package reincarnation.decompiler.primitives;
 
-import org.junit.jupiter.api.Test;
-
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.CompilableTest;
+import reincarnation.TestCode;
 
-/**
- * @version 2018/10/10 9:54:53
- */
 class DoubleInAssertTest extends CodeVerifier {
 
     private double value = 10D;
 
-    @Test
+    @CompilableTest
     void less() throws Exception {
         verify(new TestCode.Run() {
 
@@ -34,17 +30,17 @@ class DoubleInAssertTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void lessEqual() throws Exception {
         assert value <= 100D; // CMPG IFLE
     }
 
-    @Test
+    @CompilableTest
     void greater() throws Exception {
         assert value > 0D; // CMPL IFGT
     }
 
-    @Test
+    @CompilableTest
     void greaterEqual() throws Exception {
         assert value >= 0D; // CMPL IFGE
     }

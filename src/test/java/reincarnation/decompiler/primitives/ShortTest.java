@@ -9,17 +9,13 @@
  */
 package reincarnation.decompiler.primitives;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CompilableTest;
 import reincarnation.TestCode;
 
-/**
- * @version 2018/10/10 11:07:32
- */
 class ShortTest extends CodeVerifier {
 
-    @Test
+    @CompilableTest
     void zero() {
         verify(new TestCode.Short() {
 
@@ -30,7 +26,7 @@ class ShortTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void one() {
         verify(new TestCode.Short() {
 
@@ -41,7 +37,7 @@ class ShortTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void two() {
         verify(new TestCode.Short() {
 
@@ -52,7 +48,7 @@ class ShortTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void three() {
         verify(new TestCode.Short() {
 
@@ -63,7 +59,7 @@ class ShortTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void minus() {
         verify(new TestCode.Short() {
 
@@ -74,7 +70,7 @@ class ShortTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void max() {
         verify(new TestCode.Short() {
 
@@ -85,7 +81,7 @@ class ShortTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void min() {
         verify(new TestCode.Short() {
 
@@ -96,7 +92,7 @@ class ShortTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void classEquality() {
         verify(new TestCode.Boolean() {
 
@@ -107,7 +103,7 @@ class ShortTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void arrayClassEquality() {
         verify(new TestCode.Boolean() {
 

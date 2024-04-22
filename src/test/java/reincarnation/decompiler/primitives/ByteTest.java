@@ -9,17 +9,13 @@
  */
 package reincarnation.decompiler.primitives;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CompilableTest;
 import reincarnation.TestCode;
 
-/**
- * @version 2018/10/10 8:46:48
- */
 public class ByteTest extends CodeVerifier {
 
-    @Test
+    @CompilableTest
     public void zero() {
         verify(new TestCode.ByteParam() {
 
@@ -30,7 +26,7 @@ public class ByteTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     public void one() {
         verify(new TestCode.ByteParam() {
 
@@ -41,7 +37,7 @@ public class ByteTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     public void two() {
         verify(new TestCode.ByteParam() {
 
@@ -52,7 +48,7 @@ public class ByteTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     public void three() {
         verify(new TestCode.ByteParam() {
 
@@ -63,7 +59,7 @@ public class ByteTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     public void minus() {
         verify(new TestCode.ByteParam() {
 
@@ -74,7 +70,7 @@ public class ByteTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     public void max() {
         verify(new TestCode.ByteParam() {
 
@@ -85,7 +81,7 @@ public class ByteTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     public void min() {
         verify(new TestCode.ByteParam() {
 
@@ -96,7 +92,7 @@ public class ByteTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void classEquality() {
         verify(new TestCode.Boolean() {
 
@@ -107,7 +103,7 @@ public class ByteTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CompilableTest
     void arrayClassEquality() {
         verify(new TestCode.Boolean() {
 

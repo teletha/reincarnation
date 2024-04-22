@@ -20,7 +20,26 @@ public enum CompilerType implements TestTemplateInvocationContext {
 
     Javac, ECJ;
 
-    static final ThreadLocal<CompilerType> current = ThreadLocal.withInitial(() -> ECJ);
+    /** The current compiler type. */
+    private static final ThreadLocal<CompilerType> current = ThreadLocal.withInitial(() -> ECJ);
+
+    /**
+     * Check the current compiler type.
+     * 
+     * @return
+     */
+    public static boolean isECJ() {
+        return current.get() == ECJ;
+    }
+
+    /**
+     * Check the current compiler type.
+     * 
+     * @return
+     */
+    public static boolean isJavac() {
+        return current.get() == Javac;
+    }
 
     /**
      * {@inheritDoc}
@@ -43,4 +62,5 @@ public enum CompilerType implements TestTemplateInvocationContext {
             }
         });
     }
+
 }
