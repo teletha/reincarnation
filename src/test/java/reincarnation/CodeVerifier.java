@@ -79,6 +79,12 @@ public class CodeVerifier {
     /** The built-in parameters. */
     private static final List<String> texts = List.of("", " ", "a", "A", "あ", "\\", "\t", "some value");
 
+    /**
+     * Cache the original expected value. If a test containing static references is run multiple
+     * times, the expected value may be different each time.
+     */
+    private static final Map<Class, List> cache = new ConcurrentHashMap();
+
     /** The debugged class manager. */
     private static final Set<Class> debugged = ConcurrentHashMap.newKeySet();
 
@@ -110,15 +116,20 @@ public class CodeVerifier {
         Class target = code.getClass();
 
         // ========================================================
-        // execute test code and store results by java
+        // Execute test code and store results by java.
+        //
+        // Cache the original expected value. If a test containing static references is run multiple
+        // times, the expected value may be different each time.
         // ========================================================
         JavaVerifier base = new JavaVerifier(target, "Execute original test case by java.");
         List inputs = prepareInputs(base.method);
-        List expecteds = new ArrayList();
-
-        for (Object input : inputs) {
-            expecteds.add(base.verifier.apply(input));
-        }
+        List expecteds = cache.computeIfAbsent(target, key -> {
+            List list = new ArrayList();
+            for (Object input : inputs) {
+                list.add(base.verifier.apply(input));
+            }
+            return list;
+        });
 
         if (base.method.isAnnotationPresent(ShowJavaResultOnly.class)) {
             System.out.println("Show Java result : " + base.method);
@@ -129,19 +140,19 @@ public class CodeVerifier {
         }
 
         // ========================================================
-        // prepare recompile
+        // Prepare recompile.
         // ========================================================
         StringBuilder debugLog = debugger.replaceOutput();
         String decompiled = "";
 
         try {
             // ========================================================
-            // decompile code
+            // Decompile code.
             // ========================================================
             decompiled = decompile(target, debuggable != null);
 
             // ========================================================
-            // recompile java code
+            // Recompile java code.
             // ========================================================
             Class recompiledClass;
             Silent notifier = new Silent();
@@ -164,7 +175,7 @@ public class CodeVerifier {
             }
 
             // ========================================================
-            // execute recompiled code and compare result with original
+            // Execute recompiled code and compare result with original.
             // ========================================================
             JavaVerifier java = new JavaVerifier(recompiledClass, decompiled);
 
@@ -242,13 +253,7 @@ public class CodeVerifier {
         if (CompilerType.current.get() == CompilerType.ECJ) {
             Reincarnation.loader.set(ClassLoader.getSystemClassLoader());
         } else {
-            try {
-                compileAllTestsByJavac();
-                Reincarnation.loader.set(JavacClassLoader);
-                target = JavacClassLoader.loadClass(target.getName());
-            } catch (ClassNotFoundException e) {
-                throw I.quiet(e);
-            }
+            Reincarnation.loader.set(ClassLoader.getSystemClassLoader());
         }
 
         JavaCodingOption options = new JavaCodingOption();
