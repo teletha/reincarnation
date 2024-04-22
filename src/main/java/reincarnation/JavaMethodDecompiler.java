@@ -587,6 +587,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             break;
 
         case PUTSTATIC:
+            // On Javac, $assertionDisabled flag field is assigined in static initializer, but that
+            // field will be remove to avoid other compile error, so we must remove this assign
+            // statement also.
+            if (match(INVOKEVIRTUAL, JUMP, ICONST_1, GOTO, LABEL, FRAME, ICONST_0, LABEL, FRAME, PUTSTATIC)) {
+                current.remove(0);
+                break;
+            }
+
             if (match(GETSTATIC, DUPLICATE, CONSTANT_1, ADD, PUTSTATIC)) {
                 // The pattenr of post-increment field is like above.
                 current.remove(0);
