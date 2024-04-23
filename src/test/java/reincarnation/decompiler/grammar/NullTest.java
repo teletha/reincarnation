@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.grammar;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class NullTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void Null() {
         verify(new TestCode.Object() {
 

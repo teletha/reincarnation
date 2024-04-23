@@ -12,14 +12,14 @@ package reincarnation.decompiler.grammar;
 import java.util.function.Function;
 import java.util.function.IntSupplier;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class EnumTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void name() {
         verify(new TestCode.Text() {
 
@@ -34,7 +34,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ordinal() {
         verify(new TestCode.Int() {
 
@@ -49,7 +49,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void valueOf() {
         verify(new TestCode.Int() {
 
@@ -64,7 +64,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void values() {
         verify(new TestCode.Int() {
 
@@ -79,7 +79,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void multiple() {
         verify(new TestCode.Int() {
 
@@ -94,7 +94,8 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
+    @Debuggable
     void userDefiendConstructor() {
         verify(new TestCode.Int() {
 
@@ -115,7 +116,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void userDefiendMultipleConstructors() {
         verify(new TestCode.Int() {
 
@@ -146,7 +147,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void userDefinedInitializer() {
         verify(new TestCode.Text() {
 
@@ -167,7 +168,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void userDefinedStaticInitializer() {
         verify(new TestCode.Text() {
 
@@ -188,7 +189,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void userDefinedField() {
         verify(new TestCode.Int() {
 
@@ -205,7 +206,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void userDefinedStaticField() {
         verify(new TestCode.Int() {
 
@@ -222,7 +223,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void userDefiendMethod() {
         verify(new TestCode.Int() {
 
@@ -241,7 +242,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void userDefiendStaticMethod() {
         verify(new TestCode.Int() {
 
@@ -260,7 +261,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void constantSpecificMethod() {
         verify(new TestCode.Int() {
 
@@ -283,7 +284,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void constantSpecificStaticMethod() {
         verify(new TestCode.Int() {
 
@@ -309,7 +310,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void constantSpecificField() {
         verify(new TestCode.Int() {
 
@@ -333,7 +334,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void constantSpecificInitializer() {
         verify(new TestCode.Int() {
 
@@ -361,7 +362,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void overrideUserDefinedMethodInConstant() {
         verify(new TestCode.Int() {
 
@@ -385,7 +386,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void implementInterface() {
         verify(new TestCode.Int() {
 
@@ -411,7 +412,7 @@ class EnumTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void implementParameterizedInterface() {
         verify(new TestCode.Int() {
 

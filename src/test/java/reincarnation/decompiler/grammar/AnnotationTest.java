@@ -13,9 +13,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 import reincarnation.decompiler.grammar.annotation.Mark;
 import reincarnation.decompiler.grammar.annotation.Marks;
@@ -24,7 +23,7 @@ import reincarnation.decompiler.grammar.annotation.Symbol;
 
 class AnnotationTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void onClass() {
         verify(new TestCode.Boolean() {
 
@@ -40,7 +39,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void onMethod() {
         verify(new TestCode.Int() {
 
@@ -57,7 +56,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void onField() {
         verify(new TestCode.Int() {
 
@@ -74,7 +73,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void onConstructor() {
         verify(new TestCode.Int() {
 
@@ -96,7 +95,7 @@ class AnnotationTest extends CodeVerifier {
     @interface AnnotatedAnnotation {
     }
 
-    @Test
+    @CrossDecompilerTest
     void onAnnotation() {
         verify(new TestCode.Int() {
 
@@ -107,7 +106,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void onParameter() {
         verify(new TestCode.Int() {
 
@@ -122,7 +121,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void intValue() {
         verify(new TestCode.Int() {
 
@@ -138,7 +137,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void longValue() {
         verify(new TestCode.Long() {
 
@@ -154,7 +153,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void floatValue() {
         verify(new TestCode.Float() {
 
@@ -170,7 +169,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void doubleValue() {
         verify(new TestCode.Double() {
 
@@ -186,7 +185,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void shortValue() {
         verify(new TestCode.Short() {
 
@@ -202,7 +201,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void byteValue() {
         verify(new TestCode.Byte() {
 
@@ -218,7 +217,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void charValue() {
         verify(new TestCode.Char() {
 
@@ -234,7 +233,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void booleanValue() {
         verify(new TestCode.Boolean() {
 
@@ -250,7 +249,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void stringValue() {
         verify(new TestCode.Text() {
 
@@ -266,7 +265,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void enumValue() {
         verify(new TestCode.Text() {
 
@@ -282,7 +281,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void classValue() {
         verify(new TestCode.Text() {
 
@@ -298,7 +297,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void annotationValue() {
         verify(new TestCode.Text() {
 
@@ -314,7 +313,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void arrayValue() {
         verify(new TestCode.Int() {
 
@@ -330,7 +329,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void multiValues() {
         verify(new TestCode.Long() {
 
@@ -347,7 +346,7 @@ class AnnotationTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void repeat() {
         verify(new TestCode.Long() {
 

@@ -10,12 +10,12 @@
 package reincarnation.decompiler.primitives;
 
 import reincarnation.CodeVerifier;
-import reincarnation.DecompilableTest;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class WideningPrimitiveConversionTest extends CodeVerifier {
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void longToDouble() {
         verify(new TestCode.LongParamDouble() {
 

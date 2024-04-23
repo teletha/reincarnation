@@ -1381,7 +1381,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             }
         } else if (bootstrap.getOwner().equals("java/lang/invoke/StringConcatFactory") && bootstrap.getName()
                 .equals("makeConcatWithConstants")) {
-            current.addOperand(OperandUtil.convertMethod(MakeConcatWithConstants, parseConcatString((String) bootstrapMethodArguments[0])));
+            current.addOperand(OperandUtil.convertMethod(MakeConcatWithConstants, parseConcatString(bootstrapMethodArguments)));
         } else {
             Handle handle = (Handle) bootstrapMethodArguments[1];
             Type callerType = Type.getMethodType(description);
@@ -1450,18 +1450,29 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         }
     }
 
-    private Object[] parseConcatString(String recipe) {
+    private Object[] parseConcatString(Object... recipes) {
+        String recipe = (String) recipes[0];
+
+        int escaper = recipes.length - 1;
         int parsed = recipe.length();
         LinkedList params = new LinkedList();
 
         for (int i = parsed - 1; 0 <= i; i--) {
             char c = recipe.charAt(i);
             switch (c) {
-            case '': // \u0001
+            case '\u0001':
                 if (parsed != i + 1) {
                     params.addFirst(recipe.substring(i + 1, parsed));
                 }
                 params.addFirst(current.remove(0));
+                parsed = i;
+                break;
+
+            case '\u0002':
+                if (parsed != i + 1) {
+                    params.addFirst(recipe.substring(i + 1, parsed));
+                }
+                params.addFirst(recipes[escaper--]);
                 parsed = i;
                 break;
 

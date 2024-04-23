@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.grammar;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class StringTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void literal() {
         verify(new TestCode.Text() {
 
@@ -27,7 +26,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void escape() {
         verify(new TestCode.Text() {
 
@@ -38,7 +37,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void escapeUnicode() {
         verify(new TestCode.Text() {
 
@@ -49,7 +48,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void concatString() {
         verify(new TestCode.TextParam() {
 
@@ -60,7 +59,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void concatStringFirst() {
         verify(new TestCode.TextParam() {
 
@@ -71,7 +70,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void concatMultipleStrings() {
         verify(new TestCode.TextParam() {
 
@@ -93,7 +92,7 @@ class StringTest extends CodeVerifier {
      * Users requiring more than 200 argument slots in concatenation are expected to split the large
      * concatenation in smaller expressions.
      */
-    @Test
+    @CrossDecompilerTest
     void concat200OverStrings() {
         verify(new TestCode.TextParam() {
 
@@ -116,7 +115,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void concatSpecialRecipeString() {
         verify(new TestCode.TextParam() {
 
@@ -127,7 +126,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void concatInt() {
         verify(new TestCode.TextParam() {
 
@@ -138,7 +137,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void concatLong() {
         verify(new TestCode.TextParam() {
 
@@ -149,7 +148,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void concatFloat() {
         verify(new TestCode.TextParam() {
 
@@ -160,7 +159,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void concatDouble() {
         verify(new TestCode.TextParam() {
 
@@ -171,7 +170,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void concatBoolean() {
         verify(new TestCode.TextParam() {
 
@@ -182,7 +181,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void concatShort() {
         verify(new TestCode.TextParam() {
 
@@ -193,7 +192,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void concatByte() {
         verify(new TestCode.TextParam() {
 
@@ -204,7 +203,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void concatEnclosed() {
         verify(new TestCode.TextParam() {
 
@@ -215,7 +214,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void concatTernary() {
         verify(new TestCode.TextParam() {
 
@@ -226,7 +225,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void builder() {
         verify(new TestCode.TextParam() {
 
@@ -239,7 +238,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void builder2() {
         verify(new TestCode.TextParam() {
 
@@ -252,7 +251,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void inParam() {
         verify(new TestCode.TextParam() {
 
@@ -267,7 +266,7 @@ class StringTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void assignLocalVariable() {
         verify(new TestCode.TextParam() {
 

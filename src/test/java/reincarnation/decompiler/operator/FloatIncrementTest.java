@@ -10,12 +10,12 @@
 package reincarnation.decompiler.operator;
 
 import reincarnation.CodeVerifier;
-import reincarnation.DecompilableTest;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class FloatIncrementTest extends CodeVerifier {
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void sequence() {
         verify(new TestCode.FloatParam() {
 
@@ -29,7 +29,7 @@ class FloatIncrementTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void incrementFieldInMethodCall() {
         verify(new TestCode.Float() {
 
@@ -46,7 +46,7 @@ class FloatIncrementTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void decrementFieldInMethodCall() {
         verify(new TestCode.Float() {
 
@@ -63,7 +63,7 @@ class FloatIncrementTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void preincrementFieldInMethodCall() {
         verify(new TestCode.Float() {
 
@@ -80,7 +80,7 @@ class FloatIncrementTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void predecrementFieldInMethodCall() {
         verify(new TestCode.Float() {
 
@@ -97,7 +97,7 @@ class FloatIncrementTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void incrementVariableInMethodCall() {
         verify(new TestCode.FloatParam() {
 
@@ -114,7 +114,7 @@ class FloatIncrementTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void decrementVariableInMethodCall() {
         verify(new TestCode.FloatParam() {
 
@@ -131,7 +131,7 @@ class FloatIncrementTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void incrementFieldInFieldAccess() {
         verify(new TestCode.Float() {
 
@@ -148,7 +148,7 @@ class FloatIncrementTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void decrementFieldInFieldAccess() {
         verify(new TestCode.Float() {
 
@@ -165,7 +165,7 @@ class FloatIncrementTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void preincrementFieldInFieldAccess() {
         verify(new TestCode.Float() {
 
@@ -182,7 +182,7 @@ class FloatIncrementTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void predecrementFieldInFieldAccess() {
         verify(new TestCode.Float() {
 

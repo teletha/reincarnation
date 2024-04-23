@@ -10,12 +10,12 @@
 package reincarnation.decompiler.operator;
 
 import reincarnation.CodeVerifier;
-import reincarnation.DecompilableTest;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class IntIncrementTest2 extends CodeVerifier {
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void postIncrementParentFieldInLocalVariableAccess() {
         verify(new TestCode.Int() {
 
@@ -28,7 +28,7 @@ class IntIncrementTest2 extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void preIncrementParentFieldInLocalVariableAccess() {
         verify(new TestCode.Int() {
 
@@ -41,7 +41,7 @@ class IntIncrementTest2 extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void postDecrementParentFieldInLocalVariableAccess() {
         verify(new TestCode.Int() {
 
@@ -54,7 +54,7 @@ class IntIncrementTest2 extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void preDecrementParentFieldInLocalVariableAccess() {
         verify(new TestCode.Int() {
 

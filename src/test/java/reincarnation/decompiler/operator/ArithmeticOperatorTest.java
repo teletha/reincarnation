@@ -10,12 +10,12 @@
 package reincarnation.decompiler.operator;
 
 import reincarnation.CodeVerifier;
-import reincarnation.DecompilableTest;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class ArithmeticOperatorTest extends CodeVerifier {
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void AdditionLeft() {
         verify(new TestCode.IntParam() {
 
@@ -26,7 +26,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void AdditonRight() {
         verify(new TestCode.IntParam() {
 
@@ -37,7 +37,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void SubtractionLeft() {
         verify(new TestCode.IntParam() {
 
@@ -48,7 +48,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void SubtractionRight() {
         verify(new TestCode.IntParam() {
 
@@ -59,7 +59,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void MultiplicationLeft() {
         verify(new TestCode.DoubleParam() {
 
@@ -70,7 +70,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void MultiplicationRight() {
         verify(new TestCode.DoubleParam() {
 
@@ -81,7 +81,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void DivisionLeft() {
         verify(new TestCode.DoubleParam() {
 
@@ -92,7 +92,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void DivisionRight() {
         verify(new TestCode.DoubleParam() {
 
@@ -103,7 +103,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void ReminderLeft() {
         verify(new TestCode.IntParam() {
 
@@ -114,7 +114,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void ReminderRight() {
         verify(new TestCode.IntParam() {
 
@@ -125,7 +125,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void Complex() {
         verify(new TestCode.IntParam() {
 
@@ -136,7 +136,7 @@ class ArithmeticOperatorTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void Negative() {
         verify(new TestCode.IntParam() {
 

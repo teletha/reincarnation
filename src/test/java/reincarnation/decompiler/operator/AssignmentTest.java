@@ -10,12 +10,12 @@
 package reincarnation.decompiler.operator;
 
 import reincarnation.CodeVerifier;
-import reincarnation.DecompilableTest;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class AssignmentTest extends CodeVerifier {
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void onelineInExpresion() {
         verify(new TestCode.IntParam() {
 
@@ -28,7 +28,7 @@ class AssignmentTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void dual() {
         verify(new TestCode.IntParam() {
 
@@ -43,7 +43,7 @@ class AssignmentTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void multiple() {
         verify(new TestCode.IntParam() {
 
@@ -58,7 +58,7 @@ class AssignmentTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void fieldDual() {
         verify(new TestCode.IntParam() {
 
@@ -75,7 +75,7 @@ class AssignmentTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void fieldMultiple() {
         verify(new TestCode.DoubleParam() {
 
@@ -94,7 +94,7 @@ class AssignmentTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void fieldMix() {
         verify(new TestCode.LongParam() {
 

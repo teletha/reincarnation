@@ -9,9 +9,8 @@
  */
 package reincarnation.decompiler.grammar;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class SealedClassTest extends CodeVerifier {
@@ -25,7 +24,7 @@ class SealedClassTest extends CodeVerifier {
     static non-sealed class B extends Clazz {
     }
 
-    @Test
+    @CrossDecompilerTest
     void onClass() {
         verify(new TestCode.Run() {
 
@@ -52,7 +51,7 @@ class SealedClassTest extends CodeVerifier {
     static non-sealed class D implements Interface {
     }
 
-    @Test
+    @CrossDecompilerTest
     void onInterface() {
         verify(new TestCode.Run() {
 
@@ -79,7 +78,7 @@ class SealedClassTest extends CodeVerifier {
     record F(String value) implements UseRecord {
     }
 
-    @Test
+    @CrossDecompilerTest
     void useRecord() {
         verify(new TestCode.Run() {
 

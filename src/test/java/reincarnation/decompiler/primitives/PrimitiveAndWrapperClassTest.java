@@ -10,12 +10,12 @@
 package reincarnation.decompiler.primitives;
 
 import reincarnation.CodeVerifier;
-import reincarnation.DecompilableTest;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class PrimitiveAndWrapperClassTest extends CodeVerifier {
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void IntegerPrimitive() {
         verify(new TestCode.Object<Class>() {
 
@@ -26,7 +26,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void IntegerWrapper() {
         verify(new TestCode.Object<Class>() {
 
@@ -37,7 +37,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void IntegerPrimitiveAndWrapper() {
         verify(new TestCode.Boolean() {
 
@@ -49,7 +49,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void LongPrimitive() {
         verify(new TestCode.Object<Class>() {
 
@@ -60,7 +60,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void LongWrapper() {
         verify(new TestCode.Object<Class>() {
 
@@ -71,7 +71,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void LongPrimitiveAndWrapper() {
         verify(new TestCode.Boolean() {
 
@@ -83,7 +83,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void FloatPrimitive() {
         verify(new TestCode.Object<Class>() {
 
@@ -94,7 +94,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void FloatWrapper() {
         verify(new TestCode.Object<Class>() {
 
@@ -105,7 +105,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void FloatPrimitiveAndWrapper() {
         verify(new TestCode.Boolean() {
 
@@ -117,7 +117,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void DoublePrimitive() {
         verify(new TestCode.Object<Class>() {
 
@@ -128,7 +128,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void DoubleWrapper() {
         verify(new TestCode.Object<Class>() {
 
@@ -139,7 +139,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void DoublePrimitiveAndWrapper() {
         verify(new TestCode.Boolean() {
 
@@ -151,7 +151,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void ShortPrimitive() {
         verify(new TestCode.Object<Class>() {
 
@@ -162,7 +162,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void ShortWrapper() {
         verify(new TestCode.Object<Class>() {
 
@@ -173,7 +173,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void ShortPrimitiveAndWrapper() {
         verify(new TestCode.Boolean() {
 
@@ -185,7 +185,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void BytePrimitive() {
         verify(new TestCode.Object<Class>() {
 
@@ -196,7 +196,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void ByteWrapper() {
         verify(new TestCode.Object<Class>() {
 
@@ -207,7 +207,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void BytePrimitiveAndWrapper() {
         verify(new TestCode.Boolean() {
 
@@ -219,7 +219,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void BooleanPrimitive() {
         verify(new TestCode.Object<Class>() {
 
@@ -230,7 +230,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void BooleanWrapper() {
         verify(new TestCode.Object<Class>() {
 
@@ -241,7 +241,7 @@ class PrimitiveAndWrapperClassTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void BooleanPrimitiveAndWrapper() {
         verify(new TestCode.Boolean() {
 

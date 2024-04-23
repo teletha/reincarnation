@@ -10,12 +10,12 @@
 package reincarnation.decompiler.operator;
 
 import reincarnation.CodeVerifier;
-import reincarnation.DecompilableTest;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class ArithmeticOperatorPriorityTest extends CodeVerifier {
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void shiftWithAdd() {
         verify(new TestCode.Run() {
 

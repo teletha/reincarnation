@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import reincarnation.CodeVerifier;
-import reincarnation.DecompilableTest;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class InstanceOfTest extends CodeVerifier {
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void base() {
         verify(new Base());
     }
@@ -31,7 +31,7 @@ class InstanceOfTest extends CodeVerifier {
         }
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void negate() {
         verify(new Negate());
     }
@@ -44,7 +44,7 @@ class InstanceOfTest extends CodeVerifier {
         }
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void InstanceOfChild() {
         verify(new Child1());
     }
@@ -57,7 +57,7 @@ class InstanceOfTest extends CodeVerifier {
         }
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void InstanceOfBase() {
         verify(new Child2());
     }
@@ -70,7 +70,7 @@ class InstanceOfTest extends CodeVerifier {
         }
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void InstanceOfObject() {
         verify(new OBJECT());
     }
@@ -83,7 +83,7 @@ class InstanceOfTest extends CodeVerifier {
         }
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void InstanceOfInterface() {
         verify(new ValidInterface());
     }
@@ -96,12 +96,12 @@ class InstanceOfTest extends CodeVerifier {
         }
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void InstanceOfInvalidInterface() {
         verify(new ValidInterface());
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void StringLiteral() {
         verify(new TestCode.Boolean() {
 
@@ -112,7 +112,7 @@ class InstanceOfTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void ArrayPrimitive() {
         verify(new TestCode.Boolean() {
 
@@ -124,7 +124,7 @@ class InstanceOfTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void ArrayObject() {
         verify(new TestCode.Boolean() {
 
@@ -136,7 +136,7 @@ class InstanceOfTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void StringNull() {
         verify(new TestCode.Boolean() {
 
@@ -148,7 +148,7 @@ class InstanceOfTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void ConcreateNull() {
         verify(new TestCode.Boolean() {
 
@@ -160,7 +160,7 @@ class InstanceOfTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void InterfaceNull() {
         verify(new TestCode.Boolean() {
 
@@ -172,7 +172,7 @@ class InstanceOfTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void withoutCast() {
         verify(new TestCode.Text() {
 
@@ -189,7 +189,7 @@ class InstanceOfTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void withCast() {
         verify(new TestCode.Text() {
 

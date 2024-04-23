@@ -19,15 +19,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 @SuppressWarnings("serial")
 class GenericsTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void parameterizedType() {
         verify(new TestCode.Int() {
 
@@ -42,7 +41,7 @@ class GenericsTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void extendType() {
         verify(new TestCode.Int() {
 
@@ -57,7 +56,7 @@ class GenericsTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void superType() {
         verify(new TestCode.Int() {
 
@@ -72,7 +71,7 @@ class GenericsTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void wildcard() {
         verify(new TestCode.Int() {
 
@@ -87,7 +86,7 @@ class GenericsTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void classVariable() {
         verify(new TestCode.Run() {
 
@@ -103,7 +102,7 @@ class GenericsTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void classVariables() {
         verify(new TestCode.Run() {
 
@@ -120,7 +119,7 @@ class GenericsTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void classBoundedVariable() {
         verify(new TestCode.Run() {
 
@@ -139,7 +138,7 @@ class GenericsTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void classParameterized() {
         verify(new TestCode.Run() {
 
@@ -163,7 +162,7 @@ class GenericsTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void extendsVariable() {
         verify(new TestCode.Run() {
 
@@ -184,7 +183,7 @@ class GenericsTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void extendsVariables() {
         verify(new TestCode.Run() {
 
@@ -207,7 +206,7 @@ class GenericsTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void extendsParameterized() {
         verify(new TestCode.Run() {
 
@@ -228,7 +227,7 @@ class GenericsTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void implementsVariable() {
         verify(new TestCode.Run() {
 
@@ -249,7 +248,7 @@ class GenericsTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void implementsVariables() {
         verify(new TestCode.Run() {
 
@@ -272,7 +271,7 @@ class GenericsTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void implementsParameterized() {
         verify(new TestCode.Run() {
 
@@ -293,7 +292,7 @@ class GenericsTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void genericArray() {
         verify(new TestCode.Run() {
 

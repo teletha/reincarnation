@@ -10,14 +10,14 @@
 package reincarnation.decompiler.primitives;
 
 import reincarnation.CodeVerifier;
-import reincarnation.DecompilableTest;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class DoubleInAssertTest extends CodeVerifier {
 
     private double value = 10D;
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void less() throws Exception {
         verify(new TestCode.Run() {
 
@@ -30,17 +30,17 @@ class DoubleInAssertTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void lessEqual() throws Exception {
         assert value <= 100D; // CMPG IFLE
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void greater() throws Exception {
         assert value > 0D; // CMPL IFGT
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void greaterEqual() throws Exception {
         assert value >= 0D; // CMPL IFGE
     }

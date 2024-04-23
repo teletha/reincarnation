@@ -10,12 +10,12 @@
 package reincarnation.decompiler.operator;
 
 import reincarnation.CodeVerifier;
-import reincarnation.DecompilableTest;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class NegativeOperatorTest extends CodeVerifier {
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void shiftInside() {
         verify(new TestCode.IntParam() {
 
@@ -26,7 +26,7 @@ class NegativeOperatorTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void shiftOutside() {
         verify(new TestCode.IntParam() {
 

@@ -10,12 +10,12 @@
 package reincarnation.decompiler.primitives;
 
 import reincarnation.CodeVerifier;
-import reincarnation.DecompilableTest;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class TypeConversionTest extends CodeVerifier {
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void longToInt() {
         verify(new TestCode.Run() {
 
@@ -45,7 +45,7 @@ class TypeConversionTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void intToLong() {
         verify(new TestCode.Run() {
 

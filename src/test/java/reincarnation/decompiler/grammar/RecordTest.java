@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.grammar;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class RecordTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void primitiveInt() {
         verify(new TestCode.Int() {
 
@@ -30,7 +29,7 @@ class RecordTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void primitiveFloat() {
         verify(new TestCode.Float() {
 
@@ -44,7 +43,7 @@ class RecordTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void string() {
         verify(new TestCode.Text() {
 
@@ -58,7 +57,7 @@ class RecordTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void item2() {
         verify(new TestCode.Text() {
 
@@ -72,7 +71,7 @@ class RecordTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void item3() {
         verify(new TestCode.Text() {
 
@@ -86,7 +85,7 @@ class RecordTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void item4() {
         verify(new TestCode.Text() {
 
@@ -100,7 +99,7 @@ class RecordTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void array() {
         verify(new TestCode.Int() {
 
@@ -114,7 +113,7 @@ class RecordTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void vararg() {
         verify(new TestCode.Int() {
 
@@ -128,7 +127,7 @@ class RecordTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void varargWithBase() {
         verify(new TestCode.Int() {
 
@@ -142,7 +141,7 @@ class RecordTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void varargArray() {
         verify(new TestCode.Int() {
 
@@ -159,7 +158,7 @@ class RecordTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void empty() {
         verify(new TestCode.Run() {
 
@@ -173,7 +172,7 @@ class RecordTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void additionalConstructor() {
         verify(new TestCode.Int() {
 
@@ -190,7 +189,7 @@ class RecordTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void additionalMethod() {
         verify(new TestCode.Int() {
 
@@ -207,7 +206,7 @@ class RecordTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void additionalStaticMethod() {
         verify(new TestCode.Int() {
 
@@ -224,7 +223,7 @@ class RecordTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void additionalCodeInConstructor() {
         verify(new TestCode.Int() {
 
@@ -242,7 +241,7 @@ class RecordTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void additionalCodeInAccessor() {
         verify(new TestCode.Int() {
 
@@ -259,7 +258,7 @@ class RecordTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void implementInterface() {
         verify(new TestCode.Int() {
 

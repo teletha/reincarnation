@@ -10,12 +10,12 @@
 package reincarnation.decompiler.primitives;
 
 import reincarnation.CodeVerifier;
-import reincarnation.DecompilableTest;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class FloatTest extends CodeVerifier {
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void zero() {
         verify(new TestCode.FloatParam() {
 
@@ -26,7 +26,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void one() {
         verify(new TestCode.FloatParam() {
 
@@ -37,7 +37,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void two() {
         verify(new TestCode.FloatParam() {
 
@@ -48,7 +48,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void three() {
         verify(new TestCode.FloatParam() {
 
@@ -59,7 +59,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void minus() {
         verify(new TestCode.FloatParam() {
 
@@ -70,7 +70,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void max() {
         verify(new TestCode.Float() {
 
@@ -81,7 +81,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void min() {
         verify(new TestCode.Float() {
 
@@ -92,7 +92,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void add() {
         verify(new TestCode.FloatParam() {
 
@@ -103,7 +103,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void addAssignable() {
         verify(new TestCode.FloatParam() {
 
@@ -114,7 +114,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void addAssignableOnParameter() {
         verify(new TestCode.FloatParam() {
 
@@ -129,7 +129,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void subtract() {
         verify(new TestCode.FloatParam() {
 
@@ -140,7 +140,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void subtractAssignable() {
         verify(new TestCode.FloatParam() {
 
@@ -151,7 +151,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void subtractAssignableOnParameter() {
         verify(new TestCode.FloatParam() {
 
@@ -166,7 +166,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void multiply() {
         verify(new TestCode.FloatParam() {
 
@@ -177,7 +177,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void multiplyAssignable() {
         verify(new TestCode.FloatParam() {
 
@@ -188,7 +188,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void multipleAssignableOnParameter() {
         verify(new TestCode.FloatParam() {
 
@@ -203,7 +203,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void divide() {
         verify(new TestCode.FloatParam() {
 
@@ -214,7 +214,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void divideAssignable() {
         verify(new TestCode.FloatParam() {
 
@@ -225,7 +225,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void divideAssignableOnParameter() {
         verify(new TestCode.FloatParam() {
 
@@ -240,7 +240,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void modulo() {
         verify(new TestCode.FloatParam() {
 
@@ -251,7 +251,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void moduloAssignable() {
         verify(new TestCode.FloatParam() {
 
@@ -262,7 +262,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void moduloAssignableOnParameter() {
         verify(new TestCode.FloatParam() {
 
@@ -277,7 +277,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void postIncrement() {
         verify(new TestCode.FloatParam() {
 
@@ -288,7 +288,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void postIncrementValue() {
         verify(new TestCode.FloatParam() {
 
@@ -300,7 +300,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void postIncrementOnParameter() {
         verify(new TestCode.FloatParam() {
 
@@ -315,7 +315,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void postIncrementLike() {
         verify(new TestCode.FloatParam() {
 
@@ -326,7 +326,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void preIncrement() {
         verify(new TestCode.FloatParam() {
 
@@ -337,7 +337,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void preIncrementValue() {
         verify(new TestCode.FloatParam() {
 
@@ -349,7 +349,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void preIncrementOnParameter() {
         verify(new TestCode.FloatParam() {
 
@@ -364,7 +364,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void equal() {
         verify(new TestCode.FloatParamBoolean() {
 
@@ -375,7 +375,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void notEqual() {
         verify(new TestCode.FloatParamBoolean() {
 
@@ -386,7 +386,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void less() {
         verify(new TestCode.FloatParamBoolean() {
 
@@ -397,7 +397,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void lessEqual() {
         verify(new TestCode.FloatParamBoolean() {
 
@@ -408,7 +408,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void greater() {
         verify(new TestCode.FloatParamBoolean() {
 
@@ -419,7 +419,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void greaterEqual() {
         verify(new TestCode.FloatParamBoolean() {
 
@@ -430,7 +430,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void incrementStatiFieldInFieldAccess() {
         verify(new IncrementStaticField());
     }
@@ -452,7 +452,7 @@ class FloatTest extends CodeVerifier {
         }
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void decrementStatiFieldInFieldAccess() {
         verify(new DecrementStaticField());
     }
@@ -474,7 +474,7 @@ class FloatTest extends CodeVerifier {
         }
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void preincrementStatiFieldInFieldAccess() {
         verify(new PreincrementStaticField());
     }
@@ -496,7 +496,7 @@ class FloatTest extends CodeVerifier {
         }
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void predecrementStatiFieldInFieldAccess() {
         verify(new PredecrementStaticField());
     }
@@ -518,7 +518,7 @@ class FloatTest extends CodeVerifier {
         }
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void classEquality() {
         verify(new TestCode.Boolean() {
 
@@ -529,7 +529,7 @@ class FloatTest extends CodeVerifier {
         });
     }
 
-    @DecompilableTest
+    @CrossDecompilerTest
     void arrayClassEquality() {
         verify(new TestCode.Boolean() {
 

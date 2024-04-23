@@ -31,6 +31,6 @@ public class CompilerProvider implements TestTemplateInvocationContextProvider {
      */
     @Override
     public Stream<TestTemplateInvocationContext> provideTestTemplateInvocationContexts(ExtensionContext context) {
-        return Stream.of(AnnotationHelper.findAnnotation(context.getTestMethod().get(), DecompilableTest.class).value());
+        return Stream.of(AnnotationHelper.findAnnotation(context.getTestMethod().get(), CrossDecompilerTest.class).value());
     }
 }

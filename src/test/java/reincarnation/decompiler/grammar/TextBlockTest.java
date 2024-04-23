@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.grammar;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class TextBlockTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void textBlock() {
         verify(new TestCode.Text() {
 
@@ -29,7 +28,7 @@ class TextBlockTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void multiLines() {
         verify(new TestCode.Text() {
 
@@ -45,7 +44,7 @@ class TextBlockTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void noTailBreak() {
         verify(new TestCode.Text() {
 
@@ -60,7 +59,7 @@ class TextBlockTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void empty() {
         verify(new TestCode.Text() {
 
@@ -72,7 +71,7 @@ class TextBlockTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void doubleQuote() {
         verify(new TestCode.Text() {
 
@@ -85,7 +84,7 @@ class TextBlockTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void lineBreak() {
         verify(new TestCode.Text() {
 
@@ -99,7 +98,7 @@ class TextBlockTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void noLineBreak() {
         verify(new TestCode.Text() {
 
@@ -113,7 +112,7 @@ class TextBlockTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void lineHeadSpace() {
         verify(new TestCode.Text() {
 
@@ -126,7 +125,7 @@ class TextBlockTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void lineHeadSpace2() {
         verify(new TestCode.Text() {
 
@@ -142,7 +141,7 @@ class TextBlockTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void lineTailSpace() {
         verify(new TestCode.Text() {
 
@@ -155,7 +154,7 @@ class TextBlockTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void lineTailSpace2() {
         verify(new TestCode.Text() {
 

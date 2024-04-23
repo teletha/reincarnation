@@ -21,7 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @Target(ElementType.METHOD)
 @TestTemplate
 @ExtendWith(CompilerProvider.class)
-public @interface DecompilableTest {
+public @interface CrossDecompilerTest {
 
     /**
      * Provide compiler types to test.
