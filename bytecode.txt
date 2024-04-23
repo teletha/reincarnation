@@ -1,48 +1,49 @@
 reincarnation.Failuer: Compile Error
 =================================================
-/reincarnation/decompiler/grammar/EnumTest.java:21: エラー: '.class'がありません
-                    this.value = int value * int multiplier;
-                                     ^
-/reincarnation/decompiler/grammar/EnumTest.java:21: エラー: '.class'がありません
-                    this.value = int value * int multiplier;
-                                                 ^
-/reincarnation/decompiler/grammar/EnumTest.java:21: エラー: 文ではありません
-                    this.value = int value * int multiplier;
+/reincarnation/decompiler/grammar/LocalClassTest.java:20: エラー: ';'がありません
+                    this.val$outer = String local2;
                                            ^
+/reincarnation/decompiler/grammar/LocalClassTest.java:20: エラー: 文ではありません
+                    this.val$outer = String local2;
+                                            ^
 
 -------------------------------------------------
 01    package reincarnation.decompiler.grammar;
 02    
 03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.Int;
-05    import reincarnation.decompiler.grammar.EnumTest;
+04    import reincarnation.TestCode.Text;
+05    import reincarnation.decompiler.grammar.LocalClassTest;
 06    
-07    class EnumTest extends CodeVerifier {
+07    class LocalClassTest extends CodeVerifier {
 08    
-09        class EnumTest$6 implements Int {
+09        class LocalClassTest$3 implements Text {
 10    
-11            EnumTest$6(final EnumTest this$0) {
+11            LocalClassTest$3(final LocalClassTest this$0) {
 12            }
 13    
-14            public int run() {
+14            public String run() {
 15    
-16                enum Symbol {
-17                    A;
-18                    private final int value;
-19    
-20                    private Symbol() {
-21                        this.value = int value * int multiplier;
-22                    }
-23                }
-24    
-25                return Symbol.A.value;
-26            }
-27        }
-28    }
+16                class Local {
+17                    final String val$outer;
+18    
+19                    Local() {
+20                        this.val$outer = String local2;
+21                    }
+22    
+23                    String text() {
+24                        return this.val$outer;
+25                    }
+26                }
+27    
+28                String outer = "from outer";
+29                return new Local(this, outer).text();
+30            }
+31        }
+32    }
 =================================================
 	at reincarnation.Failuer.type(Failuer.java:38)
-	at reincarnation.CodeVerifier.verify(CodeVerifier.java:186)
-	at reincarnation.decompiler.grammar.EnumTest.userDefiendConstructor(EnumTest.java:100)
+	at reincarnation.CodeVerifier.verify(CodeVerifier.java:183)
+	at reincarnation.decompiler.grammar.LocalClassTest.outerReference(LocalClassTest.java:50)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at antibug.powerassert.PowerAssert.capture(PowerAssert.java:62)
 	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
@@ -55,363 +56,230 @@ reincarnation.Failuer: Compile Error
 No solution.
 	Suppressed: reincarnation.Failuer: Fail to cross-decompile.
 -----------------------------------------------------------------------
-  Javac version - reincarnation.decompiler.grammar.EnumTest$6
+  Javac version - reincarnation.decompiler.grammar.LocalClassTest$3$1Local
 -----------------------------------------------------------------------
-public class EnumTest$6Dump implements Opcodes {
+public class LocalClassTest$3$1LocalDump implements Opcodes {
 
 public static byte[] dump () throws Exception {
 
-classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/grammar/EnumTest$6", null, "java/lang/Object", new String[] { "reincarnation/TestCode$Int" });
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/grammar/LocalClassTest$3$1Local", null, "java/lang/Object", null);
 
 {
-methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/grammar/EnumTest;)V", null, null);
+fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "val$outer", "Ljava/lang/String;", null, null);
+fieldVisitor.visitEnd();
+}
+{
+methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/grammar/LocalClassTest$3;Ljava/lang/String;)V", "()V", null);
+methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_MANDATED);
+methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_SYNTHETIC);
+methodVisitor.visitCode();
+Label label0 = new Label();
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(56, label0);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitVarInsn(ALOAD, 2);
+methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/grammar/LocalClassTest$3$1Local", "val$outer", "Ljava/lang/String;");
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+methodVisitor.visitInsn(RETURN);
+Label label1 = new Label();
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/grammar/LocalClassTest$3$1Local;", null, label0, label1, 0);
+methodVisitor.visitLocalVariable("this$1", "Lreincarnation/decompiler/grammar/LocalClassTest$3;", null, label0, label1, 1);
+methodVisitor.visitMaxs(2, 3);
+methodVisitor.visitEnd();
+}
+{
+methodVisitor = classWriter.visitMethod(0, "text", "()Ljava/lang/String;", null, null);
+methodVisitor.visitCode();
+Label label0 = new Label();
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(58, label0);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitFieldInsn(GETFIELD, "reincarnation/decompiler/grammar/LocalClassTest$3$1Local", "val$outer", "Ljava/lang/String;");
+methodVisitor.visitInsn(ARETURN);
+Label label1 = new Label();
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/grammar/LocalClassTest$3$1Local;", null, label0, label1, 0);
+methodVisitor.visitMaxs(1, 1);
+methodVisitor.visitEnd();
+}
+
+}
+}
+-----------------------------------------------------------------------
+  ECJ version - reincarnation.decompiler.grammar.LocalClassTest$3$1Local
+-----------------------------------------------------------------------
+public class LocalClassTest$3$1LocalDump implements Opcodes {
+
+public static byte[] dump () throws Exception {
+
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/grammar/LocalClassTest$3$1Local", null, "java/lang/Object", null);
+
+{
+fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "this$1", "Lreincarnation/decompiler/grammar/LocalClassTest$3;", null, null);
+fieldVisitor.visitEnd();
+}
+{
+fieldVisitor = classWriter.visitField(ACC_PRIVATE | ACC_FINAL | ACC_SYNTHETIC, "val$outer", "Ljava/lang/String;", null, null);
+fieldVisitor.visitEnd();
+}
+{
+methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/grammar/LocalClassTest$3;Ljava/lang/String;)V", null, null);
+methodVisitor.visitParameter("this$0", ACC_FINAL | ACC_MANDATED);
+methodVisitor.visitParameter("val$outer", ACC_FINAL | ACC_SYNTHETIC);
+methodVisitor.visitCode();
+Label label0 = new Label();
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(56, label0);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitVarInsn(ALOAD, 1);
+methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/grammar/LocalClassTest$3$1Local", "this$1", "Lreincarnation/decompiler/grammar/LocalClassTest$3;");
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitVarInsn(ALOAD, 2);
+methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/grammar/LocalClassTest$3$1Local", "val$outer", "Ljava/lang/String;");
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+methodVisitor.visitInsn(RETURN);
+Label label1 = new Label();
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/grammar/LocalClassTest$3$1Local;", null, label0, label1, 0);
+methodVisitor.visitMaxs(2, 3);
+methodVisitor.visitEnd();
+}
+{
+methodVisitor = classWriter.visitMethod(0, "text", "()Ljava/lang/String;", null, null);
+methodVisitor.visitCode();
+Label label0 = new Label();
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(58, label0);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitFieldInsn(GETFIELD, "reincarnation/decompiler/grammar/LocalClassTest$3$1Local", "val$outer", "Ljava/lang/String;");
+methodVisitor.visitInsn(ARETURN);
+Label label1 = new Label();
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/grammar/LocalClassTest$3$1Local;", null, label0, label1, 0);
+methodVisitor.visitMaxs(1, 1);
+methodVisitor.visitEnd();
+}
+
+}
+}
+-----------------------------------------------------------------------
+  Javac version - reincarnation.decompiler.grammar.LocalClassTest$3
+-----------------------------------------------------------------------
+public class LocalClassTest$3Dump implements Opcodes {
+
+public static byte[] dump () throws Exception {
+
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/grammar/LocalClassTest$3", null, "java/lang/Object", new String[] { "reincarnation/TestCode$Text" });
+
+{
+methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/grammar/LocalClassTest;)V", null, null);
 methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_MANDATED);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(100, label0);
+methodVisitor.visitLineNumber(50, label0);
 methodVisitor.visitVarInsn(ALOAD, 0);
 methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
 methodVisitor.visitInsn(RETURN);
 Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/grammar/EnumTest$6;", null, label0, label1, 0);
-methodVisitor.visitLocalVariable("this$0", "Lreincarnation/decompiler/grammar/EnumTest;", null, label0, label1, 1);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/grammar/LocalClassTest$3;", null, label0, label1, 0);
+methodVisitor.visitLocalVariable("this$0", "Lreincarnation/decompiler/grammar/LocalClassTest;", null, label0, label1, 1);
 methodVisitor.visitMaxs(1, 2);
 methodVisitor.visitEnd();
 }
 {
-methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "()I", null, null);
+methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "()Ljava/lang/String;", null, null);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(114, label0);
-methodVisitor.visitFieldInsn(GETSTATIC, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "A", "Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;");
-methodVisitor.visitFieldInsn(GETFIELD, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "value", "I");
-methodVisitor.visitInsn(IRETURN);
+methodVisitor.visitLineNumber(54, label0);
+methodVisitor.visitLdcInsn("from outer");
+methodVisitor.visitVarInsn(ASTORE, 1);
 Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/grammar/EnumTest$6;", null, label0, label1, 0);
-methodVisitor.visitMaxs(1, 1);
+methodVisitor.visitLineNumber(61, label1);
+methodVisitor.visitTypeInsn(NEW, "reincarnation/decompiler/grammar/LocalClassTest$3$1Local");
+methodVisitor.visitInsn(DUP);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitVarInsn(ALOAD, 1);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/grammar/LocalClassTest$3$1Local", "<init>", "(Lreincarnation/decompiler/grammar/LocalClassTest$3;Ljava/lang/String;)V", false);
+methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "reincarnation/decompiler/grammar/LocalClassTest$3$1Local", "text", "()Ljava/lang/String;", false);
+methodVisitor.visitInsn(ARETURN);
+Label label2 = new Label();
+methodVisitor.visitLabel(label2);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/grammar/LocalClassTest$3;", null, label0, label2, 0);
+methodVisitor.visitLocalVariable("outer", "Ljava/lang/String;", null, label1, label2, 1);
+methodVisitor.visitMaxs(4, 2);
 methodVisitor.visitEnd();
 }
 
 }
 }
 -----------------------------------------------------------------------
-  ECJ version - reincarnation.decompiler.grammar.EnumTest$6
+  ECJ version - reincarnation.decompiler.grammar.LocalClassTest$3
 -----------------------------------------------------------------------
-public class EnumTest$6Dump implements Opcodes {
+public class LocalClassTest$3Dump implements Opcodes {
 
 public static byte[] dump () throws Exception {
 
-classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/grammar/EnumTest$6", null, "java/lang/Object", new String[] { "reincarnation/TestCode$Int" });
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/grammar/LocalClassTest$3", null, "java/lang/Object", new String[] { "reincarnation/TestCode$Text" });
 
 {
-fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "this$0", "Lreincarnation/decompiler/grammar/EnumTest;", null, null);
+fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "this$0", "Lreincarnation/decompiler/grammar/LocalClassTest;", null, null);
 fieldVisitor.visitEnd();
 }
 {
-methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/grammar/EnumTest;)V", null, null);
+methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/grammar/LocalClassTest;)V", null, null);
 methodVisitor.visitParameter("this$0", ACC_FINAL | ACC_MANDATED);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(100, label0);
+methodVisitor.visitLineNumber(50, label0);
 methodVisitor.visitVarInsn(ALOAD, 0);
 methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/grammar/EnumTest$6", "this$0", "Lreincarnation/decompiler/grammar/EnumTest;");
+methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/grammar/LocalClassTest$3", "this$0", "Lreincarnation/decompiler/grammar/LocalClassTest;");
 methodVisitor.visitVarInsn(ALOAD, 0);
 methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
 methodVisitor.visitInsn(RETURN);
 Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/grammar/EnumTest$6;", null, label0, label1, 0);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/grammar/LocalClassTest$3;", null, label0, label1, 0);
 methodVisitor.visitMaxs(2, 2);
 methodVisitor.visitEnd();
 }
 {
-methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "()I", null, null);
+methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "()Ljava/lang/String;", null, null);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(114, label0);
-methodVisitor.visitFieldInsn(GETSTATIC, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "A", "Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;");
-methodVisitor.visitFieldInsn(GETFIELD, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "value", "I");
-methodVisitor.visitInsn(IRETURN);
+methodVisitor.visitLineNumber(54, label0);
+methodVisitor.visitLdcInsn("from outer");
+methodVisitor.visitVarInsn(ASTORE, 1);
 Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/grammar/EnumTest$6;", null, label0, label1, 0);
-methodVisitor.visitMaxs(1, 1);
-methodVisitor.visitEnd();
-}
-
-}
-}
------------------------------------------------------------------------
-		at reincarnation.Failuer.type(Failuer.java:38)
-		at reincarnation.CodeVerifier.addCrossDecompileBytecode(CodeVerifier.java:243)
-		at reincarnation.CodeVerifier.verify(CodeVerifier.java:226)
-		... 9 more
-	Suppressed: reincarnation.Failuer: Fail to cross-decompile.
------------------------------------------------------------------------
-  Javac version - reincarnation.decompiler.grammar.EnumTest$6$1Symbol
------------------------------------------------------------------------
-public class EnumTest$6$1SymbolDump implements Opcodes {
-
-public static byte[] dump () throws Exception {
-
-classWriter.visit(V21, ACC_FINAL | ACC_SUPER | ACC_ENUM, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "Ljava/lang/Enum<Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;>;", "java/lang/Enum", null);
-
-{
-fieldVisitor = classWriter.visitField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC | ACC_ENUM, "A", "Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;", null, null);
-fieldVisitor.visitEnd();
-}
-{
-fieldVisitor = classWriter.visitField(ACC_PRIVATE | ACC_FINAL, "value", "I", null, null);
-fieldVisitor.visitEnd();
-}
-{
-fieldVisitor = classWriter.visitField(ACC_PRIVATE | ACC_FINAL | ACC_STATIC | ACC_SYNTHETIC, "$VALUES", "[Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;", null, null);
-fieldVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(ACC_PUBLIC | ACC_STATIC, "values", "()[Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;", null, null);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(104, label0);
-methodVisitor.visitFieldInsn(GETSTATIC, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "$VALUES", "[Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;");
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "[Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;", "clone", "()Ljava/lang/Object;", false);
-methodVisitor.visitTypeInsn(CHECKCAST, "[Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;");
-methodVisitor.visitInsn(ARETURN);
-methodVisitor.visitMaxs(1, 0);
-methodVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(ACC_PUBLIC | ACC_STATIC, "valueOf", "(Ljava/lang/String;)Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;", null, null);
-methodVisitor.visitParameter("NoParameterName", ACC_MANDATED);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(104, label0);
-methodVisitor.visitLdcInsn(Type.getType("Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;"));
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitMethodInsn(INVOKESTATIC, "java/lang/Enum", "valueOf", "(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Enum;", false);
-methodVisitor.visitTypeInsn(CHECKCAST, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol");
-methodVisitor.visitInsn(ARETURN);
-Label label1 = new Label();
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("name", "Ljava/lang/String;", null, label0, label1, 0);
-methodVisitor.visitMaxs(2, 1);
-methodVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(ACC_PRIVATE, "<init>", "(Ljava/lang/String;III)V", "(II)V", null);
-methodVisitor.visitParameter("NoParameterName", ACC_SYNTHETIC);
-methodVisitor.visitParameter("NoParameterName", ACC_SYNTHETIC);
-methodVisitor.visitParameter("NoParameterName", 0);
-methodVisitor.visitParameter("NoParameterName", 0);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(109, label0);
+methodVisitor.visitLineNumber(61, label1);
+methodVisitor.visitTypeInsn(NEW, "reincarnation/decompiler/grammar/LocalClassTest$3$1Local");
+methodVisitor.visitInsn(DUP);
 methodVisitor.visitVarInsn(ALOAD, 0);
 methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitVarInsn(ILOAD, 2);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Enum", "<init>", "(Ljava/lang/String;I)V", false);
-Label label1 = new Label();
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLineNumber(110, label1);
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitVarInsn(ILOAD, 3);
-methodVisitor.visitVarInsn(ILOAD, 4);
-methodVisitor.visitInsn(IMUL);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "value", "I");
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/grammar/LocalClassTest$3$1Local", "<init>", "(Lreincarnation/decompiler/grammar/LocalClassTest$3;Ljava/lang/String;)V", false);
+methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "reincarnation/decompiler/grammar/LocalClassTest$3$1Local", "text", "()Ljava/lang/String;", false);
+methodVisitor.visitInsn(ARETURN);
 Label label2 = new Label();
 methodVisitor.visitLabel(label2);
-methodVisitor.visitLineNumber(111, label2);
-methodVisitor.visitInsn(RETURN);
-Label label3 = new Label();
-methodVisitor.visitLabel(label3);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;", null, label0, label3, 0);
-methodVisitor.visitLocalVariable("value", "I", null, label0, label3, 3);
-methodVisitor.visitLocalVariable("multiplier", "I", null, label0, label3, 4);
-methodVisitor.visitMaxs(3, 5);
-methodVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "$values", "()[Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;", null, null);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(104, label0);
-methodVisitor.visitInsn(ICONST_1);
-methodVisitor.visitTypeInsn(ANEWARRAY, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol");
-methodVisitor.visitInsn(DUP);
-methodVisitor.visitInsn(ICONST_0);
-methodVisitor.visitFieldInsn(GETSTATIC, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "A", "Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;");
-methodVisitor.visitInsn(AASTORE);
-methodVisitor.visitInsn(ARETURN);
-methodVisitor.visitMaxs(4, 0);
-methodVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(ACC_STATIC, "<clinit>", "()V", null, null);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(105, label0);
-methodVisitor.visitTypeInsn(NEW, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol");
-methodVisitor.visitInsn(DUP);
-methodVisitor.visitLdcInsn("A");
-methodVisitor.visitInsn(ICONST_0);
-methodVisitor.visitInsn(ICONST_1);
-methodVisitor.visitInsn(ICONST_2);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "<init>", "(Ljava/lang/String;III)V", false);
-methodVisitor.visitFieldInsn(PUTSTATIC, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "A", "Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;");
-Label label1 = new Label();
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLineNumber(104, label1);
-methodVisitor.visitMethodInsn(INVOKESTATIC, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "$values", "()[Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;", false);
-methodVisitor.visitFieldInsn(PUTSTATIC, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "$VALUES", "[Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;");
-methodVisitor.visitInsn(RETURN);
-methodVisitor.visitMaxs(6, 0);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/grammar/LocalClassTest$3;", null, label0, label2, 0);
+methodVisitor.visitLocalVariable("outer", "Ljava/lang/String;", null, label1, label2, 1);
+methodVisitor.visitMaxs(4, 2);
 methodVisitor.visitEnd();
 }
 
 }
 }
------------------------------------------------------------------------
-  ECJ version - reincarnation.decompiler.grammar.EnumTest$6$1Symbol
------------------------------------------------------------------------
-public class EnumTest$6$1SymbolDump implements Opcodes {
-
-public static byte[] dump () throws Exception {
-
-classWriter.visit(V21, ACC_FINAL | ACC_SUPER | ACC_ENUM, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "Ljava/lang/Enum<Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;>;", "java/lang/Enum", null);
-
-{
-fieldVisitor = classWriter.visitField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC | ACC_ENUM, "A", "Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;", null, null);
-fieldVisitor.visitEnd();
-}
-{
-fieldVisitor = classWriter.visitField(ACC_PRIVATE | ACC_FINAL, "value", "I", null, null);
-fieldVisitor.visitEnd();
-}
-{
-fieldVisitor = classWriter.visitField(ACC_PRIVATE | ACC_FINAL | ACC_STATIC | ACC_SYNTHETIC, "ENUM$VALUES", "[Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;", null, null);
-fieldVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(ACC_STATIC, "<clinit>", "()V", null, null);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(105, label0);
-methodVisitor.visitTypeInsn(NEW, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol");
-methodVisitor.visitInsn(DUP);
-methodVisitor.visitLdcInsn("A");
-methodVisitor.visitInsn(ICONST_0);
-methodVisitor.visitInsn(ICONST_1);
-methodVisitor.visitInsn(ICONST_2);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "<init>", "(Ljava/lang/String;III)V", false);
-methodVisitor.visitFieldInsn(PUTSTATIC, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "A", "Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;");
-Label label1 = new Label();
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLineNumber(104, label1);
-methodVisitor.visitInsn(ICONST_1);
-methodVisitor.visitTypeInsn(ANEWARRAY, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol");
-methodVisitor.visitInsn(DUP);
-methodVisitor.visitInsn(ICONST_0);
-methodVisitor.visitFieldInsn(GETSTATIC, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "A", "Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;");
-methodVisitor.visitInsn(AASTORE);
-methodVisitor.visitFieldInsn(PUTSTATIC, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "ENUM$VALUES", "[Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;");
-methodVisitor.visitInsn(RETURN);
-methodVisitor.visitMaxs(6, 0);
-methodVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(ACC_PRIVATE, "<init>", "(Ljava/lang/String;III)V", null, null);
-methodVisitor.visitParameter("$enum$name", ACC_SYNTHETIC);
-methodVisitor.visitParameter("$enum$ordinal", ACC_SYNTHETIC);
-methodVisitor.visitParameter("value", 0);
-methodVisitor.visitParameter("multiplier", 0);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(109, label0);
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitVarInsn(ILOAD, 2);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Enum", "<init>", "(Ljava/lang/String;I)V", false);
-Label label1 = new Label();
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLineNumber(110, label1);
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitVarInsn(ILOAD, 3);
-methodVisitor.visitVarInsn(ILOAD, 4);
-methodVisitor.visitInsn(IMUL);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "value", "I");
-Label label2 = new Label();
-methodVisitor.visitLabel(label2);
-methodVisitor.visitLineNumber(111, label2);
-methodVisitor.visitInsn(RETURN);
-Label label3 = new Label();
-methodVisitor.visitLabel(label3);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;", null, label0, label3, 0);
-methodVisitor.visitLocalVariable("value", "I", null, label0, label3, 3);
-methodVisitor.visitLocalVariable("multiplier", "I", null, label0, label3, 4);
-methodVisitor.visitMaxs(3, 5);
-methodVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(ACC_PUBLIC | ACC_STATIC, "values", "()[Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;", null, null);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(1, label0);
-methodVisitor.visitFieldInsn(GETSTATIC, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol", "ENUM$VALUES", "[Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;");
-methodVisitor.visitInsn(DUP);
-methodVisitor.visitVarInsn(ASTORE, 0);
-methodVisitor.visitInsn(ICONST_0);
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitInsn(ARRAYLENGTH);
-methodVisitor.visitInsn(DUP);
-methodVisitor.visitVarInsn(ISTORE, 1);
-methodVisitor.visitTypeInsn(ANEWARRAY, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol");
-methodVisitor.visitInsn(DUP);
-methodVisitor.visitVarInsn(ASTORE, 2);
-methodVisitor.visitInsn(ICONST_0);
-methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitMethodInsn(INVOKESTATIC, "java/lang/System", "arraycopy", "(Ljava/lang/Object;ILjava/lang/Object;II)V", false);
-methodVisitor.visitVarInsn(ALOAD, 2);
-methodVisitor.visitInsn(ARETURN);
-methodVisitor.visitMaxs(5, 3);
-methodVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(ACC_PUBLIC | ACC_STATIC, "valueOf", "(Ljava/lang/String;)Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;", null, null);
-methodVisitor.visitParameter("name", ACC_MANDATED);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(1, label0);
-methodVisitor.visitLdcInsn(Type.getType("Lreincarnation/decompiler/grammar/EnumTest$6$1Symbol;"));
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitMethodInsn(INVOKESTATIC, "java/lang/Enum", "valueOf", "(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Enum;", false);
-methodVisitor.visitTypeInsn(CHECKCAST, "reincarnation/decompiler/grammar/EnumTest$6$1Symbol");
-methodVisitor.visitInsn(ARETURN);
-methodVisitor.visitMaxs(2, 1);
-methodVisitor.visitEnd();
-}
-
-}
-}
------------------------------------------------------------------------
 		at reincarnation.Failuer.type(Failuer.java:38)
-		at reincarnation.CodeVerifier.addCrossDecompileBytecode(CodeVerifier.java:243)
-		at reincarnation.CodeVerifier.addCrossDecompileBytecode(CodeVerifier.java:260)
 		at reincarnation.CodeVerifier.verify(CodeVerifier.java:226)
 		... 9 more
 

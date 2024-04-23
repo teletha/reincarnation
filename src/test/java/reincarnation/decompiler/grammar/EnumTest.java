@@ -14,7 +14,6 @@ import java.util.function.IntSupplier;
 
 import reincarnation.CodeVerifier;
 import reincarnation.CrossDecompilerTest;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class EnumTest extends CodeVerifier {
@@ -95,7 +94,6 @@ class EnumTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    @Debuggable
     void userDefiendConstructor() {
         verify(new TestCode.Int() {
 
