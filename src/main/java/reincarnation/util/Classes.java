@@ -9,10 +9,13 @@
  */
 package reincarnation.util;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Executable;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
+import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -200,5 +203,34 @@ public class Classes {
                 || (type == Byte.class && name.equals("valueOf")) // for byte
                 || (type == Short.class && name.equals("valueOf")) // for short
                 || (type == Character.class && name.equals("valueOf")); // for char
+    }
+
+    /**
+     * Calling Executable#getGenericParameterTypes in class files compiled with Javac and ECJ
+     * returns different results for some APIs. (Enum constructors only?).
+     * 
+     * It seems to be caused by whether the parameter qualifier is Synthetic or Mandated, but I
+     * don't know the details.
+     * 
+     * @param executable
+     * @return
+     */
+    public static Type[] fixGenericParameterTypes(Executable executable) {
+        Class<?> clazz = executable.getDeclaringClass();
+        if (clazz.isEnum() && Constructor.class.isInstance(executable)) {
+            Type[] types = executable.getGenericParameterTypes();
+            Class<?>[] params = executable.getParameterTypes();
+
+            if (types.length < params.length) {
+                Type[] fixed = new Type[params.length];
+                System.arraycopy(types, 0, fixed, params.length - types.length, types.length);
+                fixed[0] = String.class; // enum name
+                fixed[1] = int.class; // enum ordinal
+
+                return fixed;
+            }
+        }
+
+        return executable.getGenericParameterTypes();
     }
 }

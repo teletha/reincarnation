@@ -9,7 +9,7 @@
  */
 package reincarnation;
 
-import static reincarnation.OperandUtil.load;
+import static reincarnation.OperandUtil.*;
 
 import java.lang.reflect.Executable;
 import java.lang.reflect.Parameter;
@@ -21,6 +21,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import reincarnation.coder.Naming;
+import reincarnation.util.Classes;
 
 /**
  * Local variable manager.
@@ -53,11 +54,12 @@ final class LocalVariables implements Naming {
         int offset = 0;
 
         if (isStatic == false) {
-            params.put(offset++, new OperandLocalVariable(clazz, 0, "this"));
+            params.put(offset, new OperandLocalVariable(clazz, offset, "this"));
+            offset++;
         }
 
         if (exe != null) {
-            Type[] types = exe.getGenericParameterTypes();
+            Type[] types = Classes.fixGenericParameterTypes(exe);
             Parameter[] parameters = exe.getParameters();
 
             for (int i = 0; i < types.length; i++) {

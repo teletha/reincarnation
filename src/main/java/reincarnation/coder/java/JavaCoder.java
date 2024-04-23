@@ -403,7 +403,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     private Join buildParameter(Executable executable, Naming strategy) {
         List<Ⅱ<Parameter, Type>> params = I.signal(executable.getParameters())
-                .combine(I.signal(executable.getGenericParameterTypes()))
+                .combine(I.signal(Classes.fixGenericParameterTypes(executable)))
                 .toList();
 
         return Join.of(params)
