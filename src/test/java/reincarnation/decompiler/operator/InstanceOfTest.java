@@ -12,14 +12,13 @@ package reincarnation.decompiler.operator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.DecompilableTest;
 import reincarnation.TestCode;
 
 class InstanceOfTest extends CodeVerifier {
 
-    @Test
+    @DecompilableTest
     void base() {
         verify(new Base());
     }
@@ -32,7 +31,7 @@ class InstanceOfTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @DecompilableTest
     void negate() {
         verify(new Negate());
     }
@@ -45,7 +44,7 @@ class InstanceOfTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @DecompilableTest
     void InstanceOfChild() {
         verify(new Child1());
     }
@@ -58,7 +57,7 @@ class InstanceOfTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @DecompilableTest
     void InstanceOfBase() {
         verify(new Child2());
     }
@@ -71,7 +70,7 @@ class InstanceOfTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @DecompilableTest
     void InstanceOfObject() {
         verify(new OBJECT());
     }
@@ -84,7 +83,7 @@ class InstanceOfTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @DecompilableTest
     void InstanceOfInterface() {
         verify(new ValidInterface());
     }
@@ -97,12 +96,12 @@ class InstanceOfTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @DecompilableTest
     void InstanceOfInvalidInterface() {
         verify(new ValidInterface());
     }
 
-    @Test
+    @DecompilableTest
     void StringLiteral() {
         verify(new TestCode.Boolean() {
 
@@ -113,7 +112,7 @@ class InstanceOfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void ArrayPrimitive() {
         verify(new TestCode.Boolean() {
 
@@ -125,7 +124,7 @@ class InstanceOfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void ArrayObject() {
         verify(new TestCode.Boolean() {
 
@@ -137,7 +136,7 @@ class InstanceOfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void StringNull() {
         verify(new TestCode.Boolean() {
 
@@ -149,7 +148,7 @@ class InstanceOfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void ConcreateNull() {
         verify(new TestCode.Boolean() {
 
@@ -161,7 +160,7 @@ class InstanceOfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void InterfaceNull() {
         verify(new TestCode.Boolean() {
 
@@ -173,7 +172,7 @@ class InstanceOfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void withoutCast() {
         verify(new TestCode.Text() {
 
@@ -190,7 +189,7 @@ class InstanceOfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void withCast() {
         verify(new TestCode.Text() {
 

@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.operator;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.DecompilableTest;
 import reincarnation.TestCode;
 
 class AssignmentTest extends CodeVerifier {
 
-    @Test
+    @DecompilableTest
     void onelineInExpresion() {
         verify(new TestCode.IntParam() {
 
@@ -29,7 +28,7 @@ class AssignmentTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void dual() {
         verify(new TestCode.IntParam() {
 
@@ -44,7 +43,7 @@ class AssignmentTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void multiple() {
         verify(new TestCode.IntParam() {
 
@@ -59,7 +58,7 @@ class AssignmentTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void fieldDual() {
         verify(new TestCode.IntParam() {
 
@@ -76,7 +75,7 @@ class AssignmentTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void fieldMultiple() {
         verify(new TestCode.DoubleParam() {
 
@@ -95,7 +94,7 @@ class AssignmentTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void fieldMix() {
         verify(new TestCode.LongParam() {
 

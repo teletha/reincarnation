@@ -9,17 +9,13 @@
  */
 package reincarnation.decompiler.operator;
 
-import org.junit.jupiter.api.Test;
-
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.DecompilableTest;
+import reincarnation.TestCode;
 
-/**
- * @version 2018/10/23 15:15:59
- */
 class NegativeOperatorTest extends CodeVerifier {
 
-    @Test
+    @DecompilableTest
     void shiftInside() {
         verify(new TestCode.IntParam() {
 
@@ -30,7 +26,7 @@ class NegativeOperatorTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void shiftOutside() {
         verify(new TestCode.IntParam() {
 

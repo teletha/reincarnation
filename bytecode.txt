@@ -1,87 +1,193 @@
-public class PrimitiveAndWrapperClassTest$9Dump implements Opcodes {
+java.lang.ClassCastException: class reincarnation.OperandAssign cannot be cast to class reincarnation.OperandCondition (reincarnation.OperandAssign and reincarnation.OperandCondition are in unnamed module of loader 'app')
+	at reincarnation.Node.writeIf(Node.java:1063)
+	at reincarnation.Node.analyze(Node.java:965)
+	at reincarnation.Node.process(Node.java:1211)
+	at reincarnation.Node.analyze(Node.java:941)
+	at reincarnation.JavaMethodDecompiler.analyze(JavaMethodDecompiler.java:463)
+	at reincarnation.JavaMethodDecompiler.visitEnd(JavaMethodDecompiler.java:375)
+	at org.objectweb.asm.ClassReader.readMethod(ClassReader.java:1516)
+	at org.objectweb.asm.ClassReader.accept(ClassReader.java:745)
+	at org.objectweb.asm.ClassReader.accept(ClassReader.java:425)
+	at reincarnation.Reincarnation.lambda$1(Reincarnation.java:168)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1708)
+	at reincarnation.Reincarnation.exhume(Reincarnation.java:161)
+	at reincarnation.Reincarnation.rebirth(Reincarnation.java:187)
+	at reincarnation.CodeVerifier.decompile(CodeVerifier.java:258)
+	at reincarnation.CodeVerifier.verify(CodeVerifier.java:218)
+	at reincarnation.decompiler.operator.InstanceOfTest.withCast(InstanceOfTest.java:194)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
+	Suppressed: reincarnation.Failuer: Decompile Error
+-------------------------------------------------
+  Javac version
+-------------------------------------------------
+public class InstanceOfTest$8Dump implements Opcodes {
 
 public static byte[] dump () throws Exception {
 
-classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest$9", null, "java/lang/Object", new String[] { "reincarnation/TestCode$Boolean" });
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/operator/InstanceOfTest$8", null, "java/lang/Object", new String[] { "reincarnation/TestCode$Text" });
 
 {
-fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_STATIC | ACC_SYNTHETIC, "$assertionsDisabled", "Z", null, null);
+fieldVisitor = classWriter.visitField(0, "cs", "Ljava/lang/CharSequence;", null, null);
 fieldVisitor.visitEnd();
 }
 {
-methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest;)V", null, null);
+methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/operator/InstanceOfTest;)V", null, null);
 methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_MANDATED);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(110, label0);
+methodVisitor.visitLineNumber(194, label0);
 methodVisitor.visitVarInsn(ALOAD, 0);
 methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-methodVisitor.visitInsn(RETURN);
 Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest$9;", null, label0, label1, 0);
-methodVisitor.visitLocalVariable("this$0", "Lreincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest;", null, label0, label1, 1);
-methodVisitor.visitMaxs(1, 2);
+methodVisitor.visitLineNumber(196, label1);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitLdcInsn("test");
+methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/operator/InstanceOfTest$8", "cs", "Ljava/lang/CharSequence;");
+methodVisitor.visitInsn(RETURN);
+Label label2 = new Label();
+methodVisitor.visitLabel(label2);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/operator/InstanceOfTest$8;", null, label0, label2, 0);
+methodVisitor.visitLocalVariable("this$0", "Lreincarnation/decompiler/operator/InstanceOfTest;", null, label0, label2, 1);
+methodVisitor.visitMaxs(2, 2);
 methodVisitor.visitEnd();
 }
 {
-methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "()Z", null, null);
+methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "()Ljava/lang/String;", null, null);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(114, label0);
-methodVisitor.visitFieldInsn(GETSTATIC, "reincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest$9", "$assertionsDisabled", "Z");
+methodVisitor.visitLineNumber(200, label0);
+methodVisitor.visitLdcInsn("");
+methodVisitor.visitVarInsn(ASTORE, 1);
 Label label1 = new Label();
-methodVisitor.visitJumpInsn(IFNE, label1);
-methodVisitor.visitLdcInsn(Type.getType("Ljava/lang/Float;"));
-methodVisitor.visitFieldInsn(GETSTATIC, "java/lang/Float", "TYPE", "Ljava/lang/Class;");
-methodVisitor.visitJumpInsn(IF_ACMPNE, label1);
-methodVisitor.visitTypeInsn(NEW, "java/lang/AssertionError");
-methodVisitor.visitInsn(DUP);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/AssertionError", "<init>", "()V", false);
-methodVisitor.visitInsn(ATHROW);
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLineNumber(115, label1);
-methodVisitor.visitFrame(Opcodes.F_NEW, 1, new Object[] {"reincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest$9"}, 0, new Object[] {});
-methodVisitor.visitLdcInsn(Type.getType("Ljava/lang/Float;"));
-methodVisitor.visitFieldInsn(GETSTATIC, "java/lang/Float", "TYPE", "Ljava/lang/Class;");
+methodVisitor.visitLineNumber(201, label1);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitFieldInsn(GETFIELD, "reincarnation/decompiler/operator/InstanceOfTest$8", "cs", "Ljava/lang/CharSequence;");
+methodVisitor.visitVarInsn(ASTORE, 3);
+methodVisitor.visitVarInsn(ALOAD, 3);
+methodVisitor.visitTypeInsn(INSTANCEOF, "java/lang/String");
 Label label2 = new Label();
-methodVisitor.visitJumpInsn(IF_ACMPNE, label2);
-methodVisitor.visitInsn(ICONST_1);
+methodVisitor.visitJumpInsn(IFEQ, label2);
+methodVisitor.visitVarInsn(ALOAD, 3);
+methodVisitor.visitTypeInsn(CHECKCAST, "java/lang/String");
+methodVisitor.visitVarInsn(ASTORE, 2);
 Label label3 = new Label();
-methodVisitor.visitJumpInsn(GOTO, label3);
-methodVisitor.visitLabel(label2);
-methodVisitor.visitFrame(Opcodes.F_NEW, 1, new Object[] {"reincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest$9"}, 0, new Object[] {});
-methodVisitor.visitInsn(ICONST_0);
 methodVisitor.visitLabel(label3);
-methodVisitor.visitFrame(Opcodes.F_NEW, 1, new Object[] {"reincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest$9"}, 1, new Object[] {Opcodes.INTEGER});
-methodVisitor.visitInsn(IRETURN);
+methodVisitor.visitLineNumber(202, label3);
+methodVisitor.visitVarInsn(ALOAD, 2);
+methodVisitor.visitVarInsn(ASTORE, 1);
+methodVisitor.visitLabel(label2);
+methodVisitor.visitLineNumber(204, label2);
+methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/operator/InstanceOfTest$8", "java/lang/String"}, 0, new Object[] {});
+methodVisitor.visitVarInsn(ALOAD, 1);
+methodVisitor.visitInsn(ARETURN);
 Label label4 = new Label();
 methodVisitor.visitLabel(label4);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest$9;", null, label0, label4, 0);
-methodVisitor.visitMaxs(2, 1);
+methodVisitor.visitLocalVariable("text", "Ljava/lang/String;", null, label3, label2, 2);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/operator/InstanceOfTest$8;", null, label0, label4, 0);
+methodVisitor.visitLocalVariable("result", "Ljava/lang/String;", null, label1, label4, 1);
+methodVisitor.visitMaxs(1, 4);
 methodVisitor.visitEnd();
 }
+
+}
+}
+-------------------------------------------------
+  ECJ version
+-------------------------------------------------
+public class InstanceOfTest$8Dump implements Opcodes {
+
+public static byte[] dump () throws Exception {
+
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/operator/InstanceOfTest$8", null, "java/lang/Object", new String[] { "reincarnation/TestCode$Text" });
+
 {
-methodVisitor = classWriter.visitMethod(ACC_STATIC, "<clinit>", "()V", null, null);
+fieldVisitor = classWriter.visitField(0, "cs", "Ljava/lang/CharSequence;", null, null);
+fieldVisitor.visitEnd();
+}
+{
+fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "this$0", "Lreincarnation/decompiler/operator/InstanceOfTest;", null, null);
+fieldVisitor.visitEnd();
+}
+{
+methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/operator/InstanceOfTest;)V", null, null);
+methodVisitor.visitParameter("this$0", ACC_FINAL | ACC_MANDATED);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(110, label0);
-methodVisitor.visitLdcInsn(Type.getType("Lreincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest;"));
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "desiredAssertionStatus", "()Z", false);
+methodVisitor.visitLineNumber(194, label0);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitVarInsn(ALOAD, 1);
+methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/operator/InstanceOfTest$8", "this$0", "Lreincarnation/decompiler/operator/InstanceOfTest;");
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
 Label label1 = new Label();
-methodVisitor.visitJumpInsn(IFNE, label1);
-methodVisitor.visitInsn(ICONST_1);
-Label label2 = new Label();
-methodVisitor.visitJumpInsn(GOTO, label2);
 methodVisitor.visitLabel(label1);
-methodVisitor.visitFrame(Opcodes.F_NEW, 0, new Object[] {}, 0, new Object[] {});
-methodVisitor.visitInsn(ICONST_0);
+methodVisitor.visitLineNumber(196, label1);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitLdcInsn("test");
+methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/operator/InstanceOfTest$8", "cs", "Ljava/lang/CharSequence;");
+Label label2 = new Label();
 methodVisitor.visitLabel(label2);
-methodVisitor.visitFrame(Opcodes.F_NEW, 0, new Object[] {}, 1, new Object[] {Opcodes.INTEGER});
-methodVisitor.visitFieldInsn(PUTSTATIC, "reincarnation/decompiler/primitives/PrimitiveAndWrapperClassTest$9", "$assertionsDisabled", "Z");
+methodVisitor.visitLineNumber(194, label2);
 methodVisitor.visitInsn(RETURN);
-methodVisitor.visitMaxs(1, 0);
+Label label3 = new Label();
+methodVisitor.visitLabel(label3);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/operator/InstanceOfTest$8;", null, label0, label3, 0);
+methodVisitor.visitMaxs(2, 2);
 methodVisitor.visitEnd();
+}
+{
+methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "()Ljava/lang/String;", null, null);
+methodVisitor.visitCode();
+Label label0 = new Label();
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(200, label0);
+methodVisitor.visitLdcInsn("");
+methodVisitor.visitVarInsn(ASTORE, 1);
+Label label1 = new Label();
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLineNumber(201, label1);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitFieldInsn(GETFIELD, "reincarnation/decompiler/operator/InstanceOfTest$8", "cs", "Ljava/lang/CharSequence;");
+methodVisitor.visitInsn(DUP);
+methodVisitor.visitVarInsn(ASTORE, 3);
+methodVisitor.visitTypeInsn(INSTANCEOF, "java/lang/String");
+Label label2 = new Label();
+methodVisitor.visitJumpInsn(IFEQ, label2);
+methodVisitor.visitVarInsn(ALOAD, 3);
+methodVisitor.visitTypeInsn(CHECKCAST, "java/lang/String");
+methodVisitor.visitVarInsn(ASTORE, 2);
+
+-------------------------------------------------
+  Javac version
+-------------------------------------------------
+methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "()Ljava/lang/String;", null, null);
+methodVisitor.visitCode();
+Label label0 = new Label();
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(200, label0);
+methodVisitor.visitLdcInsn("");
+methodVisitor.visitVarInsn(ASTORE, 1);
+Label label1 = new Label();
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLineNumber(201, label1);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitFieldInsn(GETFIELD, "reincarnation/decompiler/operator/InstanceOfTest$8", "cs", "Ljava/lang/CharSequence;");
+methodVisitor.visitVarInsn(ASTORE, 3);
+methodVisitor.visitVarInsn(ALOAD, 3);
+methodVisitor.visitTypeInsn(INSTANCEOF, "java/lang/String");
+Label label2 = new Label();
+methodVisitor.visitJumpInsn(IFEQ, label2);
+methodVisitor.visitVarInsn(ALOAD, 3);
+methodVisitor.visitTypeInsn(CHECKCAST, "java/lang/String");
+methodVisitor.visitVarInsn(ASTORE, 2);

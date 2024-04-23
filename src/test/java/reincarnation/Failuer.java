@@ -41,6 +41,22 @@ public class Failuer extends AssertionError {
     }
 
     /**
+     * Create wrapped error.
+     * 
+     * @param error
+     * @return
+     */
+    public static Failuer wrap(Throwable error) {
+        if (error instanceof Failuer failuer) {
+            return failuer;
+        }
+
+        Failuer failuer = type(error.getMessage());
+        failuer.addSuppressed(error);
+        return failuer;
+    }
+
+    /**
      * Add cause of this {@link Failuer}.
      * 
      * @param reason

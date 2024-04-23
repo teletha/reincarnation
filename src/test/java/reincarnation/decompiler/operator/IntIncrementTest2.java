@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.operator;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.DecompilableTest;
 import reincarnation.TestCode;
 
 class IntIncrementTest2 extends CodeVerifier {
 
-    @Test
+    @DecompilableTest
     void postIncrementParentFieldInLocalVariableAccess() {
         verify(new TestCode.Int() {
 
@@ -29,7 +28,7 @@ class IntIncrementTest2 extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void preIncrementParentFieldInLocalVariableAccess() {
         verify(new TestCode.Int() {
 
@@ -42,7 +41,7 @@ class IntIncrementTest2 extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void postDecrementParentFieldInLocalVariableAccess() {
         verify(new TestCode.Int() {
 
@@ -55,7 +54,7 @@ class IntIncrementTest2 extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void preDecrementParentFieldInLocalVariableAccess() {
         verify(new TestCode.Int() {
 

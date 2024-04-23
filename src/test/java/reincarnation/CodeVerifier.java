@@ -191,8 +191,7 @@ public class CodeVerifier {
                         .reason(format(decompiled, true));
 
                 if (CompilerType.isJavac()) {
-                    failuer //
-                            .reason("-------------------------------------------------")
+                    failuer.reason("-------------------------------------------------")
                             .reason("  Javac version")
                             .reason("-------------------------------------------------")
                             .reason(asmifier(target))
@@ -213,11 +212,27 @@ public class CodeVerifier {
             }
         } catch (Throwable e) {
             if (debugLog.isEmpty() && debugged.add(target)) {
-                // decompile with debug mode
-                Reincarnation.cache.remove(target);
-                decompiled = decompile(target, true);
+                try {
+                    // decompile with debug mode
+                    Reincarnation.cache.remove(target);
+                    decompiled = decompile(target, true);
+                } catch (Throwable decompileError) {
+                    if (CompilerType.isJavac()) {
+                        Failuer failuer = Failuer.type("Decompile Error")
+                                .reason("-------------------------------------------------")
+                                .reason("  Javac version")
+                                .reason("-------------------------------------------------")
+                                .reason(asmifier(target))
+                                .reason("-------------------------------------------------")
+                                .reason("  ECJ version")
+                                .reason("-------------------------------------------------")
+                                .reason(asmifier(code.getClass()));
+                        decompileError.addSuppressed(failuer);
+                    }
+                    throw decompileError;
+                }
             }
-            throw I.quiet(e);
+            throw e;
         } finally {
             if (!debugLog.isEmpty()) {
                 for (String line : format(decompiled, true)) {

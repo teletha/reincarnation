@@ -66,6 +66,15 @@ class OperandAssign extends Operand {
     }
 
     /**
+     * Select the assign value on this operand.
+     * 
+     * @return
+     */
+    final Signal<Operand> assign() {
+        return I.signal(right);
+    }
+
+    /**
      * Change to the shorter assignment if possible.
      */
     final void shorten() {

@@ -1888,11 +1888,27 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             break;
 
         case INSTANCEOF:
-            // In the ECJ compiler, the instanceof operator with pattern matching generates code
-            // that assigns the target variable to a temporary variable. So we optimize the code to
-            // remove that variable and use the original variable.
             if (match(DUP, ASTORE, INSTANCEOF)) {
+                // In ECJ compiler, the instanceof operator with pattern matching generates code
+                // that assigns the target variable to a temporary variable. So we optimize the code
+                // to remove that variable and use the original variable.
+                //
+                // ================= Sample Bytecode =================
+                // methodVisitor.visitInsn(DUP);
+                // methodVisitor.visitVarInsn(ASTORE, 3);
+                // methodVisitor.visitTypeInsn(INSTANCEOF, "java/lang/String");
                 Operand extra = current.remove(1);
+                current.remove(0).as(OperandAssign.class).exact().assignedTo(extra).to(current::addOperand);
+            } else if (match(ASTORE, ALOAD, INSTANCEOF)) {
+                // In Javac compiler, the instanceof operator with pattern matching generates code
+                // that assigns the target variable to a temporary variable. So we optimize the code
+                // to remove that variable and use the original variable.
+                //
+                // ================= Sample Bytecode =================
+                // methodVisitor.visitVarInsn(ASTORE, 3);
+                // methodVisitor.visitVarInsn(ALOAD, 3);
+                // methodVisitor.visitTypeInsn(INSTANCEOF, "java/lang/String");
+                Operand extra = current.remove(0);
                 current.remove(0).as(OperandAssign.class).exact().assignedTo(extra).to(current::addOperand);
             }
 
@@ -1949,7 +1965,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         case ASTORE:
             // instanceof with cast produces special bytecode, so we must handle it by special way.
-            if (match(DUP, ASTORE, INSTANCEOF, IFEQ, ALOAD, CHECKCAST, ASTORE)) {
+            // For ECJ - DUP STORE INSTANCEOF ....
+            // For Javac - ASTORE ALOAD INSTANCEOF ...
+            if (match(DUP, ASTORE, INSTANCEOF, IFEQ, ALOAD, CHECKCAST, ASTORE) || match(ASTORE, ALOAD, INSTANCEOF, IFEQ, ALOAD, CHECKCAST, ASTORE)) {
                 current.remove(0);
                 current.peek(0).children(OperandInstanceOf.class).to(o -> o.withCast(variable));
                 return;

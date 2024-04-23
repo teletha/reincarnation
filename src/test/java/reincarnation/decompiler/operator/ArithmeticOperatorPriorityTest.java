@@ -9,17 +9,13 @@
  */
 package reincarnation.decompiler.operator;
 
-import org.junit.jupiter.api.Test;
-
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.DecompilableTest;
+import reincarnation.TestCode;
 
-/**
- * @version 2018/10/22 17:01:57
- */
 class ArithmeticOperatorPriorityTest extends CodeVerifier {
 
-    @Test
+    @DecompilableTest
     void shiftWithAdd() {
         verify(new TestCode.Run() {
 

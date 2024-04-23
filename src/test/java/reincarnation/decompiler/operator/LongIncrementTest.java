@@ -9,17 +9,13 @@
  */
 package reincarnation.decompiler.operator;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.DecompilableTest;
 import reincarnation.TestCode;
 
-/**
- * @version 2018/11/05 14:22:54
- */
 class LongIncrementTest extends CodeVerifier {
 
-    @Test
+    @DecompilableTest
     void sequence() {
         verify(new TestCode.LongParam() {
 
@@ -33,7 +29,7 @@ class LongIncrementTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void incrementFieldInMethodCall() {
         verify(new TestCode.Long() {
 
@@ -50,7 +46,7 @@ class LongIncrementTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void decrementFieldInMethodCall() {
         verify(new TestCode.Long() {
 
@@ -67,7 +63,7 @@ class LongIncrementTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void preincrementFieldInMethodCall() {
         verify(new TestCode.Long() {
 
@@ -84,7 +80,7 @@ class LongIncrementTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void predecrementFieldInMethodCall() {
         verify(new TestCode.Long() {
 
@@ -101,7 +97,7 @@ class LongIncrementTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void incrementVariableInMethodCall() {
         verify(new TestCode.LongParam() {
 
@@ -118,7 +114,7 @@ class LongIncrementTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void decrementVariableInMethodCall() {
         verify(new TestCode.LongParam() {
 
@@ -135,7 +131,7 @@ class LongIncrementTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void incrementFieldInFieldAccess() {
         verify(new TestCode.Long() {
 
@@ -152,7 +148,7 @@ class LongIncrementTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void decrementFieldInFieldAccess() {
         verify(new TestCode.Long() {
 
@@ -169,7 +165,7 @@ class LongIncrementTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void preincrementFieldInFieldAccess() {
         verify(new TestCode.Long() {
 
@@ -186,7 +182,7 @@ class LongIncrementTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @DecompilableTest
     void predecrementFieldInFieldAccess() {
         verify(new TestCode.Long() {
 
