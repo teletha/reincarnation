@@ -62,7 +62,7 @@ class OperandLocalVariable extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean isValue() {
+    protected boolean isValue() {
         return true;
     }
 

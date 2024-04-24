@@ -57,6 +57,10 @@ class OperandMethodReference extends Operand {
      */
     @Override
     protected String view() {
-        return context.view() + "::" + reference.getName();
+        if (context == null) {
+            return reference.getDeclaringClass().getSimpleName() + "::" + reference.getName();
+        } else {
+            return context.view() + "::" + reference.getName();
+        }
     }
 }

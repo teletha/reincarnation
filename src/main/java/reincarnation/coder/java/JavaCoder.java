@@ -757,6 +757,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
+    public void writeConstructorReference(Constructor constructor) {
+        write(name(constructor.getDeclaringClass()), "::new");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeMethodCall(Method method, Code context, List<Code> params, AccessMode mode) {
         if (method.isSynthetic()) {
             write(context, ".", method.getName(), buildParameter(method, params));

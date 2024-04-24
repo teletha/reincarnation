@@ -349,6 +349,14 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
+    public void writeConstructorReference(Constructor constructor) {
+        coder.writeConstructorReference(constructor);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void writeSuperConstructorCall(Constructor constructor, List<Code> params) {
         coder.writeSuperConstructorCall(constructor, params);
     }

@@ -14,6 +14,7 @@ import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
 import static reincarnation.OperandUtil.*;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -936,18 +937,23 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             break;
 
         case POP:
-            // When the JDK compiler compiles the code including "instance method reference", it
+            // When the compiler compiles the code including "instance method reference", it
             // generates the byte code expressed in following ASM codes.
             //
+            // In Javac
+            // visitInsn(DUP);
+            // visitMethodInsn(INVOKESTATIC, "java/util/Objects","requireNonNull",SIGNATURE, false);
+            // visitInsn(POP);
+            //
+            // In ECJ
             // visitInsn(DUP);
             // visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object","getClass","()Ljava/lang/Class;");
             // visitInsn(POP);
             //
-            // Although i guess that it is the initialization code for the class to
-            // which the lambda method belongs, ECJ doesn't generated such code.
-            // In Javascript runtime, it is a completely unnecessary code,
-            // so we should delete them unconditionally.
-            if (match(DUP, INVOKEVIRTUAL, POP)) {
+            // I guess that it is NULL checker and initialize code for the class to which the lambda
+            // method belongs. It is a completely unnecessary code, so we should remove them
+            // unconditionally.
+            if (match(DUP, INVOKESTATIC, POP) || match(DUP, INVOKEVIRTUAL, POP)) {
                 current.remove(0);
                 break;
             }
@@ -1389,60 +1395,70 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             // detect functional interface
             Class interfaceClass = load(callerType.getReturnType());
 
-            // detect lambda method
             try {
+                // detect lambda method
                 Class lambdaClass = load(handle.getOwner());
+                String lambdaName = handle.getName();
                 Class[] lambdaParameterTypes = load(Type.getArgumentTypes(handle.getDesc()));
-                Method lambdaMethod = lambdaClass.getDeclaredMethod(handle.getName(), lambdaParameterTypes);
+                boolean needInstance = callerType.getArgumentTypes().length != 0;
 
-                if (lambdaMethod.isSynthetic()) {
-                    // ==================================
-                    // Lambda
-                    // ==================================
-                    // build parameter from local environment
-                    int consumableStackSize = callerType.getArgumentTypes().length;
-                    List<Operand> params = new ArrayList();
+                source.require(lambdaClass);
 
-                    for (int i = consumableStackSize - 1; 0 <= i; i--) {
-                        Operand removed = current.remove(i);
-                        if (removed instanceof OperandLocalVariable local && local.index == 0) {
-                            // ignore "this" variable
-                        } else {
-                            params.add(removed);
-                        }
-                    }
-
-                    current.addOperand(new OperandLambda(interfaceClass, lambdaMethod, params, source));
-                } else {
+                switch (handle.getTag()) {
+                case H_INVOKESTATIC:
+                case H_INVOKEVIRTUAL:
+                case H_INVOKEINTERFACE:
                     // ==================================
                     // Method Reference
                     // ==================================
-                    source.require(lambdaClass);
+                    Method lambdaMethod = lambdaClass.getDeclaredMethod(lambdaName, lambdaParameterTypes);
+                    if (lambdaMethod.isSynthetic()) {
+                        // ==================================
+                        // Lambda
+                        // ==================================
+                        // build parameter from local environment
+                        int consumableStackSize = callerType.getArgumentTypes().length;
+                        List<Operand> params = new ArrayList();
 
-                    boolean needInstance = callerType.getArgumentTypes().length != 0;
-
-                    switch (handle.getTag()) {
-                    case H_INVOKESTATIC:
-                    case H_INVOKEVIRTUAL:
-                    case H_INVOKEINTERFACE:
+                        for (int i = consumableStackSize - 1; 0 <= i; i--) {
+                            Operand removed = current.remove(i);
+                            if (removed instanceof OperandLocalVariable local && local.index == 0) {
+                                // ignore "this" variable
+                            } else {
+                                params.add(removed);
+                            }
+                        }
+                        current.addOperand(new OperandLambda(interfaceClass, lambdaMethod, params, source));
+                    } else {
                         SpecializedType specialized = new SpecializedType(interfaceClass)
                                 .specializeByReturnAndParamTypes((Type) bootstrapMethodArguments[2])
                                 .specializeBySAM(lambdaMethod);
 
                         current.addOperand(new OperandMethodReference(lambdaMethod, needInstance ? current.remove(0) : null)
                                 .fix(specialized));
-                        break;
-
-                    case H_INVOKESPECIAL:
-                    case H_NEWINVOKESPECIAL:
-                        break;
-
-                    default:
-                        // If this exception will be thrown, it is bug of this program. So we must
-                        // rethrow
-                        // the wrapped error in here.
-                        throw new Error();
                     }
+                    break;
+
+                case H_INVOKESPECIAL:
+                    break;
+
+                case H_NEWINVOKESPECIAL:
+                    // ==================================
+                    // Constructor Reference in Javac
+                    // ==================================
+                    Constructor lambdaConstructor = lambdaClass.getDeclaredConstructor(lambdaParameterTypes);
+                    SpecializedType specialized = new SpecializedType(interfaceClass).specializeByReturnType(lambdaClass)
+                            .specializeByParamTypes(lambdaParameterTypes);
+
+                    current.addOperand(new OperandConstructorReference(lambdaConstructor).fix(specialized));
+                    break;
+
+                default:
+                    // If this exception will be thrown, it is bug of this program. So we
+                    // must
+                    // rethrow
+                    // the wrapped error in here.
+                    throw new Error();
                 }
             } catch (Exception e) {
                 throw I.quiet(e);

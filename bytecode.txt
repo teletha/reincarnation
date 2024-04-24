@@ -1,317 +1,179 @@
-reincarnation.Failuer: Compile Error
-=================================================
-/reincarnation/decompiler/method/ExtendTest.java:29: エラー: クラス Parentのコンストラクタ Parentは指定された型に適用できません。
-                Child(final ExtendTest$1 this$1) {
-                                                 ^
-  期待値: reincarnation.decompiler.method.ExtendTest.ExtendTest$1
-  検出値:    引数がありません
-  理由: 実引数リストと仮引数リストの長さが異なります
-
--------------------------------------------------
-01    package reincarnation.decompiler.method;
-02    
-03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.Int;
-05    import reincarnation.decompiler.method.ExtendTest;
-06    
-07    class ExtendTest extends CodeVerifier {
-08    
-09        class ExtendTest$1 implements Int {
-10    
-11            ExtendTest$1(final ExtendTest this$0) {
-12            }
-13    
-14            public int run() {
-15    
-16                class Parent {
-17    
-18                    Parent(final ExtendTest$1 this$1) {
-19                    }
-20    
-21                    int value() {
-22                        return 10;
-23                    }
-24                }
-25    
-26    
-27                class Child extends Parent {
-28    
-29                    Child(final ExtendTest$1 this$1) {
-30                    }
-31                }
-32    
-33                return new Child(this).value();
-34            }
-35        }
-36    }
-=================================================
-	at reincarnation.Failuer.type(Failuer.java:38)
-	at reincarnation.CodeVerifier.verify(CodeVerifier.java:183)
-	at reincarnation.decompiler.method.ExtendTest.extendClass(ExtendTest.java:24)
+java.lang.NoSuchMethodException: reincarnation.decompiler.lambda.MethodReferenceTest$ConstructorReference.<init>()
+	at java.base/java.lang.Class.getDeclaredMethod(Class.java:2848)
+	at reincarnation.JavaMethodDecompiler.visitInvokeDynamicInsn(JavaMethodDecompiler.java:1401)
+	at org.objectweb.asm.ClassReader.readCode(ClassReader.java:2473)
+	at org.objectweb.asm.ClassReader.readMethod(ClassReader.java:1512)
+	at org.objectweb.asm.ClassReader.accept(ClassReader.java:745)
+	at org.objectweb.asm.ClassReader.accept(ClassReader.java:425)
+	at reincarnation.Reincarnation.lambda$1(Reincarnation.java:168)
+	at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1708)
+	at reincarnation.Reincarnation.exhume(Reincarnation.java:161)
+	at reincarnation.Reincarnation.rebirth(Reincarnation.java:187)
+	at reincarnation.CodeVerifier.decompile(CodeVerifier.java:252)
+	at reincarnation.CodeVerifier.verify(CodeVerifier.java:203)
+	at reincarnation.decompiler.lambda.MethodReferenceTest.constructorReference(MethodReferenceTest.java:47)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at antibug.powerassert.PowerAssert.capture(PowerAssert.java:62)
 	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
 	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
 	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
 	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
 	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
 	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
-	Suppressed: Fail compiling code.
-No solution.
 	Suppressed: reincarnation.Failuer: Fail to cross-decompile.
 -----------------------------------------------------------------------
-  Javac version - reincarnation.decompiler.method.ExtendTest$1$1Parent
+  Javac version - reincarnation.decompiler.lambda.MethodReferenceTest$2
 -----------------------------------------------------------------------
-public class ExtendTest$1$1ParentDump implements Opcodes {
+public class MethodReferenceTest$2Dump implements Opcodes {
 
 public static byte[] dump () throws Exception {
 
-classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$1$1Parent", null, "java/lang/Object", null);
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/lambda/MethodReferenceTest$2", null, "java/lang/Object", new String[] { "reincarnation/TestCode$Run" });
 
 {
-methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/method/ExtendTest$1;)V", null, null);
+fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_STATIC | ACC_SYNTHETIC, "$assertionsDisabled", "Z", null, null);
+fieldVisitor.visitEnd();
+}
+{
+methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/lambda/MethodReferenceTest;)V", null, null);
 methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_MANDATED);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(28, label0);
+methodVisitor.visitLineNumber(47, label0);
 methodVisitor.visitVarInsn(ALOAD, 0);
 methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
 methodVisitor.visitInsn(RETURN);
 Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1$1Parent;", null, label0, label1, 0);
-methodVisitor.visitLocalVariable("this$1", "Lreincarnation/decompiler/method/ExtendTest$1;", null, label0, label1, 1);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/lambda/MethodReferenceTest$2;", null, label0, label1, 0);
+methodVisitor.visitLocalVariable("this$0", "Lreincarnation/decompiler/lambda/MethodReferenceTest;", null, label0, label1, 1);
 methodVisitor.visitMaxs(1, 2);
 methodVisitor.visitEnd();
 }
 {
-methodVisitor = classWriter.visitMethod(0, "value", "()I", null, null);
+methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "()V", null, null);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(30, label0);
-methodVisitor.visitIntInsn(BIPUSH, 10);
-methodVisitor.visitInsn(IRETURN);
+methodVisitor.visitLineNumber(51, label0);
+methodVisitor.visitInvokeDynamicInsn("get", "()Ljava/util/function/Supplier;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("()Ljava/lang/Object;"), new Handle(Opcodes.H_NEWINVOKESPECIAL, "reincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference", "<init>", "()V", false), Type.getType("()Lreincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference;")});
+methodVisitor.visitVarInsn(ASTORE, 1);
 Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1$1Parent;", null, label0, label1, 0);
-methodVisitor.visitMaxs(1, 1);
-methodVisitor.visitEnd();
-}
-
-}
-}
------------------------------------------------------------------------
-  ECJ version - reincarnation.decompiler.method.ExtendTest$1$1Parent
------------------------------------------------------------------------
-public class ExtendTest$1$1ParentDump implements Opcodes {
-
-public static byte[] dump () throws Exception {
-
-classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$1$1Parent", null, "java/lang/Object", null);
-
-{
-fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "this$1", "Lreincarnation/decompiler/method/ExtendTest$1;", null, null);
-fieldVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/method/ExtendTest$1;)V", null, null);
-methodVisitor.visitParameter("this$0", ACC_FINAL | ACC_MANDATED);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(28, label0);
-methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitLineNumber(52, label1);
 methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/method/ExtendTest$1$1Parent", "this$1", "Lreincarnation/decompiler/method/ExtendTest$1;");
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-methodVisitor.visitInsn(RETURN);
-Label label1 = new Label();
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1$1Parent;", null, label0, label1, 0);
-methodVisitor.visitMaxs(2, 2);
-methodVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(0, "value", "()I", null, null);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(30, label0);
-methodVisitor.visitIntInsn(BIPUSH, 10);
-methodVisitor.visitInsn(IRETURN);
-Label label1 = new Label();
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1$1Parent;", null, label0, label1, 0);
-methodVisitor.visitMaxs(1, 1);
-methodVisitor.visitEnd();
-}
-
-}
-}
------------------------------------------------------------------------
-  Javac version - reincarnation.decompiler.method.ExtendTest$1$1Child
------------------------------------------------------------------------
-public class ExtendTest$1$1ChildDump implements Opcodes {
-
-public static byte[] dump () throws Exception {
-
-classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$1$1Child", null, "reincarnation/decompiler/method/ExtendTest$1$1Parent", null);
-
-{
-methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/method/ExtendTest$1;)V", null, null);
-methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_MANDATED);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(34, label0);
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/method/ExtendTest$1$1Parent", "<init>", "(Lreincarnation/decompiler/method/ExtendTest$1;)V", false);
-methodVisitor.visitInsn(RETURN);
-Label label1 = new Label();
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1$1Child;", null, label0, label1, 0);
-methodVisitor.visitLocalVariable("this$1", "Lreincarnation/decompiler/method/ExtendTest$1;", null, label0, label1, 1);
-methodVisitor.visitMaxs(2, 2);
-methodVisitor.visitEnd();
-}
-
-}
-}
------------------------------------------------------------------------
-  ECJ version - reincarnation.decompiler.method.ExtendTest$1$1Child
------------------------------------------------------------------------
-public class ExtendTest$1$1ChildDump implements Opcodes {
-
-public static byte[] dump () throws Exception {
-
-classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$1$1Child", null, "reincarnation/decompiler/method/ExtendTest$1$1Parent", null);
-
-{
-fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "this$1", "Lreincarnation/decompiler/method/ExtendTest$1;", null, null);
-fieldVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/method/ExtendTest$1;)V", null, null);
-methodVisitor.visitParameter("this$0", ACC_FINAL | ACC_MANDATED);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(34, label0);
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/method/ExtendTest$1$1Child", "this$1", "Lreincarnation/decompiler/method/ExtendTest$1;");
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/method/ExtendTest$1$1Parent", "<init>", "(Lreincarnation/decompiler/method/ExtendTest$1;)V", false);
-methodVisitor.visitInsn(RETURN);
-Label label1 = new Label();
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1$1Child;", null, label0, label1, 0);
-methodVisitor.visitMaxs(2, 2);
-methodVisitor.visitEnd();
-}
-
-}
-}
------------------------------------------------------------------------
-  Javac version - reincarnation.decompiler.method.ExtendTest$1
------------------------------------------------------------------------
-public class ExtendTest$1Dump implements Opcodes {
-
-public static byte[] dump () throws Exception {
-
-classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$1", null, "java/lang/Object", new String[] { "reincarnation/TestCode$Int" });
-
-{
-methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/method/ExtendTest;)V", null, null);
-methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_MANDATED);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(24, label0);
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-methodVisitor.visitInsn(RETURN);
-Label label1 = new Label();
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1;", null, label0, label1, 0);
-methodVisitor.visitLocalVariable("this$0", "Lreincarnation/decompiler/method/ExtendTest;", null, label0, label1, 1);
-methodVisitor.visitMaxs(1, 2);
-methodVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "()I", null, null);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(37, label0);
-methodVisitor.visitTypeInsn(NEW, "reincarnation/decompiler/method/ExtendTest$1$1Child");
+methodVisitor.visitMethodInsn(INVOKEINTERFACE, "java/util/function/Supplier", "get", "()Ljava/lang/Object;", true);
+methodVisitor.visitTypeInsn(CHECKCAST, "reincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference");
+methodVisitor.visitVarInsn(ASTORE, 2);
+Label label2 = new Label();
+methodVisitor.visitLabel(label2);
+methodVisitor.visitLineNumber(54, label2);
+methodVisitor.visitFieldInsn(GETSTATIC, "reincarnation/decompiler/lambda/MethodReferenceTest$2", "$assertionsDisabled", "Z");
+Label label3 = new Label();
+methodVisitor.visitJumpInsn(IFNE, label3);
+methodVisitor.visitVarInsn(ALOAD, 2);
+methodVisitor.visitFieldInsn(GETFIELD, "reincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference", "value", "I");
+methodVisitor.visitInsn(ICONST_M1);
+methodVisitor.visitJumpInsn(IF_ICMPEQ, label3);
+methodVisitor.visitTypeInsn(NEW, "java/lang/AssertionError");
 methodVisitor.visitInsn(DUP);
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/method/ExtendTest$1$1Child", "<init>", "(Lreincarnation/decompiler/method/ExtendTest$1;)V", false);
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "reincarnation/decompiler/method/ExtendTest$1$1Child", "value", "()I", false);
-methodVisitor.visitInsn(IRETURN);
+
+
+-----------------------------------------------------------------------
+  ECJ version - reincarnation.decompiler.lambda.MethodReferenceTest$2
+
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(51, label0);
+上がJavac 下がECJ
+methodVisitor.visitInvokeDynamicInsn("get", "()Ljava/util/function/Supplier;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("()Ljava/lang/Object;"), new Handle(Opcodes.H_NEWINVOKESPECIAL, "reincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference", "<init>", "()V", false), Type.getType("()Lreincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference;")});
+methodVisitor.visitInvokeDynamicInsn("get", "()Ljava/util/function/Supplier;", new Handle(Opcodes.H_INVOKESTATIC, "java/lang/invoke/LambdaMetafactory", "metafactory", "(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;", false), new Object[]{Type.getType("()Ljava/lang/Object;"), new Handle(Opcodes.H_INVOKESTATIC, "reincarnation/decompiler/lambda/MethodReferenceTest$2", "lambda$0", "()Lreincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference;", false), Type.getType("()Lreincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference;")});
+methodVisitor.visitVarInsn(ASTORE, 1);
 Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1;", null, label0, label1, 0);
-methodVisitor.visitMaxs(3, 1);
-methodVisitor.visitEnd();
-}
-
-}
-}
------------------------------------------------------------------------
-  ECJ version - reincarnation.decompiler.method.ExtendTest$1
------------------------------------------------------------------------
-public class ExtendTest$1Dump implements Opcodes {
-
-public static byte[] dump () throws Exception {
-
-classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$1", null, "java/lang/Object", new String[] { "reincarnation/TestCode$Int" });
-
-{
-fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "this$0", "Lreincarnation/decompiler/method/ExtendTest;", null, null);
-fieldVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/method/ExtendTest;)V", null, null);
-methodVisitor.visitParameter("this$0", ACC_FINAL | ACC_MANDATED);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(24, label0);
-methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitLineNumber(52, label1);
 methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/method/ExtendTest$1", "this$0", "Lreincarnation/decompiler/method/ExtendTest;");
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+methodVisitor.visitMethodInsn(INVOKEINTERFACE, "java/util/function/Supplier", "get", "()Ljava/lang/Object;", true);
+methodVisitor.visitTypeInsn(CHECKCAST, "reincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference");
+methodVisitor.visitVarInsn(ASTORE, 2);
+Label label2 = new Label();
+methodVisitor.visitLabel(label2);
+methodVisitor.visitLineNumber(54, label2);
+methodVisitor.visitFieldInsn(GETSTATIC, "reincarnation/decompiler/lambda/MethodReferenceTest", "$assertionsDisabled", "Z");
+Label label3 = new Label();
+methodVisitor.visitJumpInsn(IFNE, label3);
+methodVisitor.visitVarInsn(ALOAD, 2);
+methodVisitor.visitFieldInsn(GETFIELD, "reincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference", "value", "I");
+methodVisitor.visitInsn(ICONST_M1);
+methodVisitor.visitJumpInsn(IF_ICMPEQ, label3);
+methodVisitor.visitTypeInsn(NEW, "java/lang/AssertionError");
+methodVisitor.visitInsn(DUP);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/AssertionError", "<init>", "()V", false);
+methodVisitor.visitInsn(ATHROW);
+methodVisitor.visitLabel(label3);
+methodVisitor.visitLineNumber(55, label3);
+methodVisitor.visitFrame(Opcodes.F_NEW, 3, new Object[] {"reincarnation/decompiler/lambda/MethodReferenceTest$2", "java/util/function/Supplier", "reincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference"}, 0, new Object[] {});
+methodVisitor.visitFieldInsn(GETSTATIC, "reincarnation/decompiler/lambda/MethodReferenceTest", "$assertionsDisabled", "Z");
+Label label4 = new Label();
+methodVisitor.visitJumpInsn(IFNE, label4);
+methodVisitor.visitVarInsn(ALOAD, 2);
+methodVisitor.visitTypeInsn(INSTANCEOF, "reincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference");
+methodVisitor.visitJumpInsn(IFNE, label4);
+methodVisitor.visitTypeInsn(NEW, "java/lang/AssertionError");
+methodVisitor.visitInsn(DUP);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/AssertionError", "<init>", "()V", false);
+methodVisitor.visitInsn(ATHROW);
+methodVisitor.visitLabel(label4);
+methodVisitor.visitLineNumber(56, label4);
+methodVisitor.visitFrame(Opcodes.F_NEW, 3, new Object[] {"reincarnation/decompiler/lambda/MethodReferenceTest$2", "java/util/function/Supplier", "reincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference"}, 0, new Object[] {});
+methodVisitor.visitFieldInsn(GETSTATIC, "reincarnation/decompiler/lambda/MethodReferenceTest", "$assertionsDisabled", "Z");
+Label label5 = new Label();
+methodVisitor.visitJumpInsn(IFNE, label5);
+methodVisitor.visitVarInsn(ALOAD, 2);
+methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "getClass", "()Ljava/lang/Class;", false);
+methodVisitor.visitLdcInsn(Type.getType("Lreincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference;"));
+methodVisitor.visitJumpInsn(IF_ACMPEQ, label5);
+methodVisitor.visitTypeInsn(NEW, "java/lang/AssertionError");
+methodVisitor.visitInsn(DUP);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/AssertionError", "<init>", "()V", false);
+methodVisitor.visitInsn(ATHROW);
+methodVisitor.visitLabel(label5);
+methodVisitor.visitLineNumber(57, label5);
+methodVisitor.visitFrame(Opcodes.F_NEW, 3, new Object[] {"reincarnation/decompiler/lambda/MethodReferenceTest$2", "java/util/function/Supplier", "reincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference"}, 0, new Object[] {});
+methodVisitor.visitFieldInsn(GETSTATIC, "reincarnation/decompiler/lambda/MethodReferenceTest", "$assertionsDisabled", "Z");
+Label label6 = new Label();
+methodVisitor.visitJumpInsn(IFNE, label6);
+methodVisitor.visitLdcInsn(Type.getType("Lreincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference;"));
+methodVisitor.visitVarInsn(ALOAD, 2);
+methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "getClass", "()Ljava/lang/Class;", false);
+methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "isAssignableFrom", "(Ljava/lang/Class;)Z", false);
+methodVisitor.visitJumpInsn(IFNE, label6);
+methodVisitor.visitTypeInsn(NEW, "java/lang/AssertionError");
+methodVisitor.visitInsn(DUP);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/AssertionError", "<init>", "()V", false);
+methodVisitor.visitInsn(ATHROW);
+methodVisitor.visitLabel(label6);
+methodVisitor.visitLineNumber(58, label6);
+methodVisitor.visitFrame(Opcodes.F_NEW, 3, new Object[] {"reincarnation/decompiler/lambda/MethodReferenceTest$2", "java/util/function/Supplier", "reincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference"}, 0, new Object[] {});
 methodVisitor.visitInsn(RETURN);
-Label label1 = new Label();
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1;", null, label0, label1, 0);
-methodVisitor.visitMaxs(2, 2);
+Label label7 = new Label();
+methodVisitor.visitLabel(label7);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/lambda/MethodReferenceTest$2;", null, label0, label7, 0);
+methodVisitor.visitLocalVariable("function", "Ljava/util/function/Supplier;", "Ljava/util/function/Supplier<Lreincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference;>;", label1, label7, 1);
+methodVisitor.visitLocalVariable("instance", "Lreincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference;", null, label2, label7, 2);
+methodVisitor.visitMaxs(2, 3);
 methodVisitor.visitEnd();
 }
 {
-methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "()I", null, null);
+methodVisitor = classWriter.visitMethod(ACC_PRIVATE | ACC_STATIC | ACC_SYNTHETIC, "lambda$0", "()Lreincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference;", null, null);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(37, label0);
-methodVisitor.visitTypeInsn(NEW, "reincarnation/decompiler/method/ExtendTest$1$1Child");
+methodVisitor.visitLineNumber(1, label0);
+methodVisitor.visitTypeInsn(NEW, "reincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference");
 methodVisitor.visitInsn(DUP);
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/method/ExtendTest$1$1Child", "<init>", "(Lreincarnation/decompiler/method/ExtendTest$1;)V", false);
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "reincarnation/decompiler/method/ExtendTest$1$1Child", "value", "()I", false);
-methodVisitor.visitInsn(IRETURN);
-Label label1 = new Label();
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1;", null, label0, label1, 0);
-methodVisitor.visitMaxs(3, 1);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/lambda/MethodReferenceTest$ConstructorReference", "<init>", "()V", false);
+methodVisitor.visitInsn(ARETURN);
+methodVisitor.visitMaxs(2, 0);
 methodVisitor.visitEnd();
 }
 
@@ -319,5 +181,5 @@ methodVisitor.visitEnd();
 }
 		at reincarnation.Failuer.type(Failuer.java:38)
 		at reincarnation.CodeVerifier.verify(CodeVerifier.java:226)
-		... 9 more
+		... 8 more
 

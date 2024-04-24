@@ -17,14 +17,13 @@ import java.util.function.IntSupplier;
 import java.util.function.IntUnaryOperator;
 import java.util.function.LongSupplier;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class LambdaTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void inlineWithoutArg() {
         verify(new TestCode.Int() {
 
@@ -39,7 +38,7 @@ class LambdaTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void inlineWithArg() {
         verify(new TestCode.Int() {
 
@@ -54,7 +53,7 @@ class LambdaTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void inlineWithArgs() {
         verify(new TestCode.Int() {
 
@@ -69,7 +68,7 @@ class LambdaTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void inlineWithObject() {
         verify(new TestCode.Text() {
 
@@ -84,7 +83,7 @@ class LambdaTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void inlineWithParamiterizedType() {
         verify(new TestCode.Text() {
 
@@ -99,7 +98,7 @@ class LambdaTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void useLocalVariable() {
         verify(new TestCode.Int() {
 
@@ -116,7 +115,7 @@ class LambdaTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void useLocalVariables() {
         verify(new TestCode.Long() {
 
@@ -134,7 +133,7 @@ class LambdaTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void useLocalVariableWithArg() {
         verify(new TestCode.Text() {
 
@@ -151,7 +150,7 @@ class LambdaTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void useLocalVariablesWithArg() {
         verify(new TestCode.Text() {
 
@@ -169,7 +168,7 @@ class LambdaTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void useLocalVariablesWithArgs() {
         verify(new TestCode.Text() {
 
@@ -187,7 +186,7 @@ class LambdaTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void useLocalVariableWithArgNest() {
         verify(new TestCode.Int() {
 

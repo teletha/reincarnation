@@ -13,11 +13,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import kiss.I;
 import kiss.Model;
@@ -80,7 +81,14 @@ class OperandMethodCall extends Operand {
      * @return
      */
     private Method find(Class owner, String name, Class[] types) {
-        for (Class type : Model.collectTypes(owner)) {
+        Set<Class> collections = Model.collectTypes(owner);
+
+        // In Javac, when the interface method reference invokes the Object class method,
+        // it is compiled as a call to the interface, not to the object. However, this would fail to
+        // find methods of the Object class, so the Object class is added unconditionally.
+        collections.add(Object.class);
+
+        for (Class type : collections) {
             try {
                 Method method = type.getDeclaredMethod(name, types);
                 int mod = method.getModifiers();
@@ -98,7 +106,9 @@ class OperandMethodCall extends Operand {
                 // ignore
             }
         }
-        throw new NoSuchMethodError(owner + "#" + name + Arrays.toString(types));
+        throw new NoSuchMethodError(owner + "#" + name + Stream.of(types)
+                .map(Class::getSimpleName)
+                .collect(Collectors.joining(", ", "(", ")")));
     }
 
     /**

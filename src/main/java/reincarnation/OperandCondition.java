@@ -289,6 +289,6 @@ class OperandCondition extends Operand {
      */
     @Override
     protected String view() {
-        return "if (" + left.view() + " " + right.view() + ") then " + then.id + " else " + elze.id;
+        return "if (" + left.view() + " " + right.view() + ") then " + then.id + " else " + (elze == null ? "SAME" : elze.id);
     }
 }

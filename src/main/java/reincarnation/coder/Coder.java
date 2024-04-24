@@ -584,6 +584,13 @@ public abstract class Coder<O extends CodingOption> {
     public abstract void writeThisConstructorCall(Constructor constructor, List<Code> params);
 
     /**
+     * Constructor reference.
+     * 
+     * @param constructor A constructor info.
+     */
+    public abstract void writeConstructorReference(Constructor constructor);
+
+    /**
      * Method call expression.
      * 
      * @param method A method info.

@@ -20,14 +20,13 @@ import java.util.function.LongSupplier;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class MethodReferenceTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void arrayReference() {
         verify(new TestCode.Run() {
 
@@ -43,7 +42,7 @@ class MethodReferenceTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void constructorReference() {
         verify(new TestCode.Run() {
 
@@ -60,7 +59,7 @@ class MethodReferenceTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void constructorReferenceWithParam() {
         verify(new TestCode.Run() {
 
@@ -90,7 +89,7 @@ class MethodReferenceTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void methodReference() {
         verify(new TestCode.Run() {
 
@@ -107,7 +106,7 @@ class MethodReferenceTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void staticMethodReference() {
         verify(new TestCode.Run() {
 
@@ -134,7 +133,7 @@ class MethodReferenceTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void supplierAsFunctionOnAbstractMethod() {
         verify(new TestCode.Run() {
 
@@ -147,7 +146,7 @@ class MethodReferenceTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void supplierAsFunctionOnConcreteMethod() {
         verify(new TestCode.Run() {
 
@@ -160,7 +159,7 @@ class MethodReferenceTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void functionAsBiFunction() {
         verify(new TestCode.Run() {
 
@@ -173,7 +172,7 @@ class MethodReferenceTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void functionAsBiFunctionOnAbstractMethod() {
         verify(new TestCode.Run() {
 
@@ -188,7 +187,7 @@ class MethodReferenceTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void functionAsBiFunctionOnConcreteMethod() {
         verify(new TestCode.Run() {
 
@@ -206,7 +205,7 @@ class MethodReferenceTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void functionAsBiFunctionWithComplicatedType() {
         verify(new TestCode.Run() {
 
@@ -221,7 +220,7 @@ class MethodReferenceTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void defaultMethod() {
         verify(new TestCode.Run() {
 
