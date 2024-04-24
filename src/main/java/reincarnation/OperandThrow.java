@@ -52,4 +52,12 @@ class OperandThrow extends Operand {
     protected void writeCode(Coder coder) {
         coder.writeThrow(value);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return "throw " + value.view();
+    }
 }

@@ -9,9 +9,8 @@
  */
 package reincarnation.decompiler.method;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode.BooleanParam;
 import reincarnation.TestCode.ByteParam;
 import reincarnation.TestCode.CharParam;
@@ -24,7 +23,7 @@ import reincarnation.TestCode.TextParam;
 
 class ParameterTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void Int() {
         verify(new IntParam() {
 
@@ -35,7 +34,7 @@ class ParameterTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Long() {
         verify(new LongParam() {
 
@@ -46,7 +45,7 @@ class ParameterTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Float() {
         verify(new FloatParam() {
 
@@ -57,7 +56,7 @@ class ParameterTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Double() {
         verify(new DoubleParam() {
 
@@ -68,7 +67,7 @@ class ParameterTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Byte() {
         verify(new ByteParam() {
 
@@ -79,7 +78,7 @@ class ParameterTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Short() {
         verify(new ShortParam() {
 
@@ -90,7 +89,7 @@ class ParameterTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Character() {
         verify(new CharParam() {
 
@@ -101,7 +100,7 @@ class ParameterTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Boolean() {
         verify(new BooleanParam() {
 
@@ -112,7 +111,7 @@ class ParameterTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void String() {
         verify(new TextParam() {
 

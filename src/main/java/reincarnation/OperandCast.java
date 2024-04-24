@@ -71,4 +71,12 @@ class OperandCast extends Operand {
     protected boolean isValue() {
         return true;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return "(" + type.getSimpleName() + ") " + value.view();
+    }
 }

@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.method;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class StaticMethodTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void callStaticMethodFromChildClass() {
         verify(new CallFromChild());
     }

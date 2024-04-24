@@ -82,6 +82,14 @@ class OperandLocalVariable extends Operand {
      * {@inheritDoc}
      */
     @Override
+    protected String view() {
+        return toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public int hashCode() {
         return index;
     }

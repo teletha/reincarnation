@@ -11,6 +11,7 @@ package reincarnation;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import kiss.I;
 import kiss.Signal;
@@ -77,5 +78,13 @@ class OperandConstructorCall extends Operand {
     @Override
     protected boolean isValue() {
         return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return constructor.getName() + params.stream().map(Operand::view).collect(Collectors.joining(", ", "(", ")"));
     }
 }

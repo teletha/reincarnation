@@ -578,7 +578,7 @@ class Debugger {
             for (int i = 0; i < operands.size(); i++) {
                 Operand operand = operands.get(i);
 
-                builder.append(operand.toString().strip()).append(" [").append(operand.info()).append("]");
+                builder.append(operand.view().strip()).append(" [").append(operand.info()).append("]");
 
                 if (i != operands.size() - 1) {
                     builder.append(" ");

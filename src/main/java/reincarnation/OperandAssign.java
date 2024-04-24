@@ -114,4 +114,12 @@ class OperandAssign extends Operand {
     protected void writeCode(Coder coder) {
         coder.writeAssignOperation(left, operator, right);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return left.view() + " " + operator + " " + right.view();
+    }
 }

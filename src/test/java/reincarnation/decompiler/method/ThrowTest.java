@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.method;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class ThrowTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void exception() {
         verify(new TestCode.Int() {
 
@@ -31,7 +30,7 @@ class ThrowTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void exceptionWithParam() {
         verify(new TestCode.Text() {
 
@@ -46,7 +45,7 @@ class ThrowTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void runtimeException() {
         verify(new TestCode.Text() {
 
@@ -61,7 +60,7 @@ class ThrowTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void error() {
         verify(new TestCode.Text() {
 

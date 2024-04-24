@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.method;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class MethodTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void Basic() {
         verify(new Basic());
     }
@@ -36,7 +35,7 @@ class MethodTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void Param() {
         verify(new Param());
     }
@@ -56,7 +55,7 @@ class MethodTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void MultipleParams() {
         verify(new MultipleParams());
     }
@@ -76,7 +75,7 @@ class MethodTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void ArrayParam() {
         verify(new ArrayParam());
     }
@@ -104,7 +103,7 @@ class MethodTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void AssignLocalParam() {
         verify(new AssignLocalParam());
     }
@@ -127,7 +126,7 @@ class MethodTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void AssignFieldParam() {
         verify(new AssignFieldParam());
     }
@@ -151,7 +150,7 @@ class MethodTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void VariableParam() {
         verify(new VariableParam());
     }
@@ -177,7 +176,7 @@ class MethodTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void VariableParamWithBase() {
         verify(new VariableParamWithBase());
     }
@@ -203,7 +202,7 @@ class MethodTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void VariableParamWithBaseOnly() {
         verify(new VariableParamWithBaseOnly());
     }
@@ -229,7 +228,7 @@ class MethodTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void Nest() {
         verify(new Nest());
     }
@@ -253,7 +252,7 @@ class MethodTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void Overload() {
         verify(new Overload());
     }
@@ -277,7 +276,7 @@ class MethodTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void ExtendPublic() {
         verify(new ExtendPublic());
     }
@@ -303,7 +302,7 @@ class MethodTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void ExtendProtected() {
         verify(new ExtendProtected());
     }
@@ -329,7 +328,7 @@ class MethodTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void ExtendPackage() {
         verify(new ExtendPackage());
     }
@@ -355,7 +354,7 @@ class MethodTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void Override() {
         verify(new OverrideChild());
     }
@@ -386,12 +385,12 @@ class MethodTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void callOverriddenMethod() {
         verify(new Child());
     }
 
-    @Test
+    @CrossDecompilerTest
     void callOverriddenMethodFromInstance() {
         verify(new TestCode.IntParam() {
 

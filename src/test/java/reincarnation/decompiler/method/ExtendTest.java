@@ -11,14 +11,15 @@ package reincarnation.decompiler.method;
 
 import java.util.ArrayList;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class ExtendTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
+    @Debuggable
     void extendClass() {
         verify(new TestCode.Int() {
 
@@ -38,7 +39,86 @@ class ExtendTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
+    @Debuggable
+    void extendClassWithParameter() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                class Parent {
+
+                    int value;
+
+                    Parent(int value) {
+                        this.value = value;
+                    }
+
+                    int value() {
+                        return value;
+                    }
+                }
+
+                class Child extends Parent {
+
+                    Child(int value) {
+                        super(value);
+                    }
+                }
+
+                return new Child(20).value();
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    @Debuggable
+    void extendClassWithExternalReference() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                int value = 20;
+
+                class Parent {
+                    int value() {
+                        return value;
+                    }
+                }
+
+                class Child extends Parent {
+                }
+
+                return new Child().value();
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    @Debuggable
+    void extendClassWithExternalReferences() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                int a = 20;
+                int b = 10;
+
+                class Parent {
+                    int value() {
+                        return a - b;
+                    }
+                }
+
+                class Child extends Parent {
+                }
+
+                return new Child().value();
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     void extendAbstractClass() {
         verify(new TestCode.Int() {
 
@@ -58,7 +138,7 @@ class ExtendTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void extendObjectClass() {
         verify(new TestCode.Int() {
 
@@ -75,7 +155,7 @@ class ExtendTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     @SuppressWarnings("serial")
     void extendParamiterizedClass() {
         verify(new TestCode.Int() {
@@ -90,7 +170,7 @@ class ExtendTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void extendDeeply() {
         verify(new TestCode.Int() {
 
@@ -113,7 +193,7 @@ class ExtendTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void implementAbstractMethod() {
         verify(new TestCode.Int() {
 
@@ -136,7 +216,7 @@ class ExtendTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     @SuppressWarnings("unused")
     void overrideParentMethod() {
         verify(new TestCode.Int() {
@@ -162,7 +242,7 @@ class ExtendTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void useParentMethodInChild() {
         verify(new TestCode.Int() {
 
@@ -185,7 +265,7 @@ class ExtendTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void useOverriddenParentMethodInChild() {
         verify(new TestCode.Int() {
 
@@ -209,7 +289,7 @@ class ExtendTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void useParentFieldInChild() {
         verify(new TestCode.Int() {
 
@@ -228,7 +308,7 @@ class ExtendTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     @SuppressWarnings("unused")
     void shadowParentFieldInChild() {
         verify(new TestCode.Int() {
@@ -248,7 +328,7 @@ class ExtendTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void useShadowedParentFieldInChild() {
         verify(new TestCode.Int() {
 

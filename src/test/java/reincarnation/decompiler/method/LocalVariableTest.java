@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.method;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class LocalVariableTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void parallel() {
         verify(new TestCode.IntParam() {
 
@@ -38,7 +37,7 @@ class LocalVariableTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void parallel2() {
         verify(new TestCode.IntParam() {
 
@@ -62,7 +61,7 @@ class LocalVariableTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void parallelWithSameNameAndDifferenceType() {
         verify(new TestCode.IntParam() {
 
@@ -84,7 +83,7 @@ class LocalVariableTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void parallelWithSameNameAndDifferenceTypeAndSameType() {
         verify(new TestCode.IntParam() {
 
@@ -111,7 +110,7 @@ class LocalVariableTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void parallelWithSameNameAndDifferenceTypeAndSameType2() {
         verify(new TestCode.IntParam() {
 
@@ -135,7 +134,7 @@ class LocalVariableTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void sameNameInFollower() {
         verify(new TestCode.IntParam() {
 
@@ -151,7 +150,7 @@ class LocalVariableTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void PrimitiveLongAndDoubleUses2Stacks() {
         verify(new TestCode.DoubleParam() {
 
@@ -166,7 +165,7 @@ class LocalVariableTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void CompilerGeneratedCodeDoesntProduceLocalVariableOperand() {
         verify(new CompilerGenerator());
     }

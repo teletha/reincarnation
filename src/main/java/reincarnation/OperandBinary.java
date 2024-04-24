@@ -67,4 +67,12 @@ class OperandBinary extends Operand {
     protected boolean isValue() {
         return true;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return left.view() + " " + operator + " " + right.view();
+    }
 }

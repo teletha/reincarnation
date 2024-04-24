@@ -63,4 +63,12 @@ class OperandUnary extends Operand {
     protected boolean isValue() {
         return true;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return operator + "" + value.view();
+    }
 }

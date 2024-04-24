@@ -114,4 +114,12 @@ class OperandNumber extends Operand {
             throw new Error("[" + value + "] is illegal number.");
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return value.toString();
+    }
 }

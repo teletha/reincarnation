@@ -47,4 +47,12 @@ class OperandAssert extends Operand {
     public Signal<Operand> children() {
         return I.signal(condition);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return "assert " + condition.view();
+    }
 }

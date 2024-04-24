@@ -103,7 +103,7 @@ class OperandArray extends Operand {
      * @param value A value of array.
      */
     void set(Operand index, Operand value) {
-        int i = Integer.valueOf(index.toString()).intValue();
+        int i = index.as(OperandNumber.class).v.value.intValue();
 
         if (items.size() <= i) {
             for (int j = items.size(); j <= i; j++) {
@@ -139,7 +139,8 @@ class OperandArray extends Operand {
             }
             coder.writeCreateArray(root(type), levels);
         } else {
-            int requiredSize = dimensions.isEmpty() ? items.size() : Math.max(Integer.parseInt(dimensions.get(0).toString()), items.size());
+            int requiredSize = dimensions.isEmpty() ? items.size()
+                    : Math.max(dimensions.get(0).as(OperandNumber.class).v.value.intValue(), items.size());
 
             List<Code> levels = List.of(Code.Empty);
             List<Code> initializer = new ArrayList();
@@ -196,5 +197,13 @@ class OperandArray extends Operand {
     @Override
     protected boolean isValue() {
         return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return "new " + type.getSimpleName() + "[]";
     }
 }

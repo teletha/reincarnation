@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.method;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class MethodChainTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void chainInMultiLines() {
         verify(new TestCode.Text() {
 

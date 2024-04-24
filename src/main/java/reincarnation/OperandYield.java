@@ -60,4 +60,12 @@ class OperandYield extends Operand {
     protected String info() {
         return super.info() + " - " + value;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return "yield " + value.view();
+    }
 }

@@ -81,4 +81,12 @@ class OperandTernary extends OperandCondition {
     protected String info() {
         return super.info() + "<" + left.info() + " and " + right.info() + ">";
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return left.view() + " " + condition.view() + " " + right.view();
+    }
 }

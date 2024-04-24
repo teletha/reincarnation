@@ -283,4 +283,12 @@ class OperandCondition extends Operand {
     protected boolean isValue() {
         return true;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return "if (" + left.view() + " " + right.view() + ") then " + then.id + " else " + elze.id;
+    }
 }

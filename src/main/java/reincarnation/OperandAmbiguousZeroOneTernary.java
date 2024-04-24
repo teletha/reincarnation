@@ -34,4 +34,12 @@ class OperandAmbiguousZeroOneTernary extends Operand {
             coder.writeTernary(condition, new OperandNumber(1), new OperandNumber(0));
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return condition.view() + "? 1 : 0";
+    }
 }

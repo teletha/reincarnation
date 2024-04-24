@@ -76,4 +76,12 @@ class OperandBoolean extends Operand {
     protected boolean isValue() {
         return true;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return String.valueOf(value);
+    }
 }

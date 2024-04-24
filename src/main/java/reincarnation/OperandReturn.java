@@ -64,4 +64,12 @@ class OperandReturn extends Operand {
     protected String info() {
         return super.info() + " - " + value.map(v -> v.info()).v;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return "return " + value.map(Operand::view);
+    }
 }

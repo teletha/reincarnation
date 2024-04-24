@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.method;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class GenericCallTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     public void compare() {
         verify(new TestCode.Run() {
 
@@ -31,7 +30,7 @@ class GenericCallTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     public void compareAsComparable() {
         verify(new TestCode.Run() {
 
@@ -46,7 +45,7 @@ class GenericCallTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     public void compareAsComparableString() {
         verify(new TestCode.Run() {
 

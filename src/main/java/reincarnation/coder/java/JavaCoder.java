@@ -796,8 +796,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     private Join buildParameter(Executable executable, List<Code> params, int start) {
         Join concat = new Join().prefix("(").suffix(")").separator("," + space);
-        if (executable.isVarArgs()) {
-            params.remove(params.size() - 1).children().skip(1).to(c -> params.add((Code) c));
+        if (executable.isVarArgs() && !params.isEmpty()) {
+            Code last = params.remove(params.size() - 1);
+            last.children().skip(1) /* skip dimension */.to(c -> params.add((Code) c));
         }
 
         Parameter[] parameters = executable.getParameters();
@@ -1776,17 +1777,25 @@ public class JavaCoder extends Coder<JavaCodingOption> {
          */
         @Override
         public void writeStatement(Code code) {
-            if (initialized == 0) {
-                // this.this$0 = this&0
-                assignment = code;
-            } else if (initialized == 1) {
-                // super(this$0)
-                super.writeStatement(code);
-                super.writeStatement(assignment);
-            } else {
-                super.writeStatement(code);
-            }
-            initialized++;
+            System.out.println(code + "    " + code.getClass());
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeAccessField(Field field, Code context, AccessMode mode) {
+            super.writeAccessField(field, context, mode);
+            System.out.println(field);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeConstructorCall(Constructor constructor, List<Code> params) {
+            super.writeConstructorCall(constructor, params);
+            System.out.println(constructor + "    " + params);
         }
     }
 }

@@ -162,12 +162,9 @@ class OperandSwitch extends Operand {
                 OperandCondition condition = oldCaseBlock.child(OperandCondition.class).exact();
 
                 // retrieve the actual matching text
-                String text = oldCaseBlock.children(OperandCondition.class, OperandMethodCall.class, OperandString.class)
-                        .to()
-                        .exact()
-                        .toString();
+                Operand textCase = oldCaseBlock.children(OperandCondition.class, OperandMethodCall.class, OperandString.class).to().exact();
 
-                renewed.put(condition.then, text);
+                renewed.put(condition.then, textCase);
 
                 manipulator.dispose(condition.elze, true, true);
                 manipulator.dispose(oldCaseBlock, true, true);
@@ -366,5 +363,13 @@ class OperandSwitch extends Operand {
         if (cases.containsKey(oldNode)) {
             cases.putAll(newNode, cases.remove(oldNode));
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return "switch (" + condition.view() + ")";
     }
 }

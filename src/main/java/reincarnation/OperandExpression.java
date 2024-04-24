@@ -91,4 +91,12 @@ class OperandExpression extends Operand {
             throw new Error(expression.toString() + "  " + expression.getClass());
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return String.valueOf(expression);
+    }
 }

@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import kiss.I;
 import kiss.Model;
@@ -248,6 +249,14 @@ class OperandMethodCall extends Operand {
     @Override
     public Signal<Operand> children() {
         return I.signal(params).startWith(owner);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return owner.view() + "." + method.getName() + params.stream().map(Operand::view).collect(Collectors.joining(",", "(", ")"));
     }
 
     /**

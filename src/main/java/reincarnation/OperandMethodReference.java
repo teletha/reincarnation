@@ -51,4 +51,12 @@ class OperandMethodReference extends Operand {
     protected boolean isValue() {
         return true;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return context.view() + "::" + reference.getName();
+    }
 }

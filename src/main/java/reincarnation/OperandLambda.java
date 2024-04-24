@@ -45,4 +45,12 @@ class OperandLambda extends Operand {
             coder.writeLambda(lambda, context, code);
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return "Lambda$" + lambda.toGenericString();
+    }
 }

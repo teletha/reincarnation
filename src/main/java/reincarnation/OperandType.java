@@ -41,4 +41,12 @@ class OperandType extends Operand {
     protected boolean isValue() {
         return true;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return value.getSimpleName();
+    }
 }

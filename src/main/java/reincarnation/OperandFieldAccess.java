@@ -120,4 +120,12 @@ class OperandFieldAccess extends Operand {
     protected boolean isValue() {
         return true;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String view() {
+        return context.view() + "." + field.getName();
+    }
 }
