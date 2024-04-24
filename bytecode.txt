@@ -126,8 +126,6 @@ fieldVisitor.visitEnd();
 }
 {
 methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/grammar/LocalClassTest$3;Ljava/lang/String;)V", null, null);
-methodVisitor.visitParameter("this$0", ACC_FINAL | ACC_MANDATED);
-methodVisitor.visitParameter("val$outer", ACC_FINAL | ACC_SYNTHETIC);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
@@ -234,7 +232,6 @@ fieldVisitor.visitEnd();
 }
 {
 methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/grammar/LocalClassTest;)V", null, null);
-methodVisitor.visitParameter("this$0", ACC_FINAL | ACC_MANDATED);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);

@@ -216,17 +216,22 @@ public class Classes {
      * @return
      */
     public static Type[] fixGenericParameterTypes(Executable executable) {
-        Class<?> clazz = executable.getDeclaringClass();
-        if (clazz.isEnum() && Constructor.class.isInstance(executable)) {
-            Type[] types = executable.getGenericParameterTypes();
-            Class<?>[] params = executable.getParameterTypes();
+        Class clazz = executable.getDeclaringClass();
+        Type[] types = executable.getGenericParameterTypes();
+        Class[] params = executable.getParameterTypes();
 
-            if (types.length < params.length) {
+        if (types.length < params.length) {
+            if (clazz.isEnum() && Constructor.class.isInstance(executable)) {
                 Type[] fixed = new Type[params.length];
                 System.arraycopy(types, 0, fixed, params.length - types.length, types.length);
                 fixed[0] = String.class; // enum name
                 fixed[1] = int.class; // enum ordinal
+                return fixed;
+            }
 
+            if (clazz.isLocalClass() && Constructor.class.isInstance(executable)) {
+                Type[] fixed = new Type[params.length];
+                System.arraycopy(params, 0, fixed, 0, params.length);
                 return fixed;
             }
         }
