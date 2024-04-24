@@ -17,7 +17,7 @@ import kiss.I;
 import kiss.Signal;
 import reincarnation.coder.Coder;
 
-class OperandConstructorCall extends Operand {
+public class OperandConstructorCall extends Operand {
 
     /** The call kind. (this, super or others) */
     private final String kind;

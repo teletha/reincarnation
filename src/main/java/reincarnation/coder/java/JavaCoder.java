@@ -38,6 +38,7 @@ import kiss.Ⅱ;
 import kiss.Ⅲ;
 import reincarnation.Debuggable;
 import reincarnation.Operand;
+import reincarnation.OperandConstructorCall;
 import reincarnation.Reincarnation;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -1760,10 +1761,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     private class NonStaticLocalConstructor extends DelegatableCoder<CodingOption> {
 
         /** The number of initialized constants. */
-        private int initialized;
-
-        /** The synthetic code. */
-        private Code assignment;
+        private List<Code> initializer = new ArrayList();
 
         /**
          * @param coder
@@ -1776,26 +1774,20 @@ public class JavaCoder extends Coder<JavaCodingOption> {
          * {@inheritDoc}
          */
         @Override
-        public void writeStatement(Code code) {
-            System.out.println(code + "    " + code.getClass());
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void writeAccessField(Field field, Code context, AccessMode mode) {
-            super.writeAccessField(field, context, mode);
-            System.out.println(field);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void writeConstructorCall(Constructor constructor, List<Code> params) {
-            super.writeConstructorCall(constructor, params);
-            System.out.println(constructor + "    " + params);
+        public void writeStatement(Code<?> code) {
+            if (initializer == null) {
+                super.writeStatement(code);
+            } else {
+                if (code instanceof OperandConstructorCall call) {
+                    super.writeStatement(call);
+                    for (Code init : initializer) {
+                        super.writeStatement(init);
+                    }
+                    initializer = null;
+                } else {
+                    initializer.add(code);
+                }
+            }
         }
     }
 }

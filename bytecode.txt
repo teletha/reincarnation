@@ -1,8 +1,11 @@
 reincarnation.Failuer: Compile Error
 =================================================
-/reincarnation/decompiler/method/ExtendTest.java:38: エラー: superの呼出しはコンストラクタの先頭文である必要があります
-                    super(this$1, arg2, arg1);
-                         ^
+/reincarnation/decompiler/method/ExtendTest.java:29: エラー: クラス Parentのコンストラクタ Parentは指定された型に適用できません。
+                Child(final ExtendTest$1 this$1) {
+                                                 ^
+  期待値: reincarnation.decompiler.method.ExtendTest.ExtendTest$1
+  検出値:    引数がありません
+  理由: 実引数リストと仮引数リストの長さが異なります
 
 -------------------------------------------------
 01    package reincarnation.decompiler.method;
@@ -13,49 +16,38 @@ reincarnation.Failuer: Compile Error
 06    
 07    class ExtendTest extends CodeVerifier {
 08    
-09        class ExtendTest$4 implements Int {
+09        class ExtendTest$1 implements Int {
 10    
-11            ExtendTest$4(final ExtendTest this$0) {
+11            ExtendTest$1(final ExtendTest this$0) {
 12            }
 13    
 14            public int run() {
 15    
 16                class Parent {
-17                    final int val$a;
-18                    final int val$b;
-19    
-20                    Parent(final ExtendTest$4 this$1, final int arg1, final int arg2) {
-21                        this.val$b = arg2;
-22                        this.val$a = arg1;
+17    
+18                    Parent(final ExtendTest$1 this$1) {
+19                    }
+20    
+21                    int value() {
+22                        return 10;
 23                    }
-24    
-25                    int value() {
-26                        return this.val$a - this.val$b;
-27                    }
-28                }
-29    
-30    
-31                class Child extends Parent {
-32                    final int val$b;
-33                    final int val$a;
-34    
-35                    Child(final ExtendTest$4 this$1, final int arg1, final int arg2) {
-36                        this.val$a = arg2;
-37                        this.val$b = arg1;
-38                        super(this$1, arg2, arg1);
-39                    }
-40                }
-41    
-42                int a = 20;
-43                int b = 10;
-44                return new Child(this, b, a).value();
-45            }
-46        }
-47    }
+24                }
+25    
+26    
+27                class Child extends Parent {
+28    
+29                    Child(final ExtendTest$1 this$1) {
+30                    }
+31                }
+32    
+33                return new Child(this).value();
+34            }
+35        }
+36    }
 =================================================
 	at reincarnation.Failuer.type(Failuer.java:38)
 	at reincarnation.CodeVerifier.verify(CodeVerifier.java:183)
-	at reincarnation.decompiler.method.ExtendTest.extendClassWithExternalReferences(ExtendTest.java:100)
+	at reincarnation.decompiler.method.ExtendTest.extendClass(ExtendTest.java:24)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at antibug.powerassert.PowerAssert.capture(PowerAssert.java:62)
 	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
@@ -68,45 +60,29 @@ reincarnation.Failuer: Compile Error
 No solution.
 	Suppressed: reincarnation.Failuer: Fail to cross-decompile.
 -----------------------------------------------------------------------
-  Javac version - reincarnation.decompiler.method.ExtendTest$4$1Parent
+  Javac version - reincarnation.decompiler.method.ExtendTest$1$1Parent
 -----------------------------------------------------------------------
-public class ExtendTest$4$1ParentDump implements Opcodes {
+public class ExtendTest$1$1ParentDump implements Opcodes {
 
 public static byte[] dump () throws Exception {
 
-classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$4$1Parent", null, "java/lang/Object", null);
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$1$1Parent", null, "java/lang/Object", null);
 
 {
-fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "val$a", "I", null, null);
-fieldVisitor.visitEnd();
-}
-{
-fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "val$b", "I", null, null);
-fieldVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/method/ExtendTest$4;II)V", "()V", null);
+methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/method/ExtendTest$1;)V", null, null);
 methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_MANDATED);
-methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_SYNTHETIC);
-methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_SYNTHETIC);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(107, label0);
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitVarInsn(ILOAD, 2);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/method/ExtendTest$4$1Parent", "val$a", "I");
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitVarInsn(ILOAD, 3);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/method/ExtendTest$4$1Parent", "val$b", "I");
+methodVisitor.visitLineNumber(28, label0);
 methodVisitor.visitVarInsn(ALOAD, 0);
 methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
 methodVisitor.visitInsn(RETURN);
 Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$4$1Parent;", null, label0, label1, 0);
-methodVisitor.visitLocalVariable("this$1", "Lreincarnation/decompiler/method/ExtendTest$4;", null, label0, label1, 1);
-methodVisitor.visitMaxs(2, 4);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1$1Parent;", null, label0, label1, 0);
+methodVisitor.visitLocalVariable("this$1", "Lreincarnation/decompiler/method/ExtendTest$1;", null, label0, label1, 1);
+methodVisitor.visitMaxs(1, 2);
 methodVisitor.visitEnd();
 }
 {
@@ -114,65 +90,48 @@ methodVisitor = classWriter.visitMethod(0, "value", "()I", null, null);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(109, label0);
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitFieldInsn(GETFIELD, "reincarnation/decompiler/method/ExtendTest$4$1Parent", "val$a", "I");
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitFieldInsn(GETFIELD, "reincarnation/decompiler/method/ExtendTest$4$1Parent", "val$b", "I");
-methodVisitor.visitInsn(ISUB);
+methodVisitor.visitLineNumber(30, label0);
+methodVisitor.visitIntInsn(BIPUSH, 10);
 methodVisitor.visitInsn(IRETURN);
 Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$4$1Parent;", null, label0, label1, 0);
-methodVisitor.visitMaxs(2, 1);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1$1Parent;", null, label0, label1, 0);
+methodVisitor.visitMaxs(1, 1);
 methodVisitor.visitEnd();
 }
 
 }
 }
 -----------------------------------------------------------------------
-  ECJ version - reincarnation.decompiler.method.ExtendTest$4$1Parent
+  ECJ version - reincarnation.decompiler.method.ExtendTest$1$1Parent
 -----------------------------------------------------------------------
-public class ExtendTest$4$1ParentDump implements Opcodes {
+public class ExtendTest$1$1ParentDump implements Opcodes {
 
 public static byte[] dump () throws Exception {
 
-classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$4$1Parent", null, "java/lang/Object", null);
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$1$1Parent", null, "java/lang/Object", null);
 
 {
-fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "this$1", "Lreincarnation/decompiler/method/ExtendTest$4;", null, null);
+fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "this$1", "Lreincarnation/decompiler/method/ExtendTest$1;", null, null);
 fieldVisitor.visitEnd();
 }
 {
-fieldVisitor = classWriter.visitField(ACC_PRIVATE | ACC_FINAL | ACC_SYNTHETIC, "val$a", "I", null, null);
-fieldVisitor.visitEnd();
-}
-{
-fieldVisitor = classWriter.visitField(ACC_PRIVATE | ACC_FINAL | ACC_SYNTHETIC, "val$b", "I", null, null);
-fieldVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/method/ExtendTest$4;II)V", null, null);
+methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/method/ExtendTest$1;)V", null, null);
+methodVisitor.visitParameter("this$0", ACC_FINAL | ACC_MANDATED);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(107, label0);
+methodVisitor.visitLineNumber(28, label0);
 methodVisitor.visitVarInsn(ALOAD, 0);
 methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/method/ExtendTest$4$1Parent", "this$1", "Lreincarnation/decompiler/method/ExtendTest$4;");
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitVarInsn(ILOAD, 2);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/method/ExtendTest$4$1Parent", "val$a", "I");
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitVarInsn(ILOAD, 3);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/method/ExtendTest$4$1Parent", "val$b", "I");
+methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/method/ExtendTest$1$1Parent", "this$1", "Lreincarnation/decompiler/method/ExtendTest$1;");
 methodVisitor.visitVarInsn(ALOAD, 0);
 methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
 methodVisitor.visitInsn(RETURN);
 Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$4$1Parent;", null, label0, label1, 0);
-methodVisitor.visitMaxs(2, 4);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1$1Parent;", null, label0, label1, 0);
+methodVisitor.visitMaxs(2, 2);
 methodVisitor.visitEnd();
 }
 {
@@ -180,115 +139,92 @@ methodVisitor = classWriter.visitMethod(0, "value", "()I", null, null);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(109, label0);
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitFieldInsn(GETFIELD, "reincarnation/decompiler/method/ExtendTest$4$1Parent", "val$a", "I");
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitFieldInsn(GETFIELD, "reincarnation/decompiler/method/ExtendTest$4$1Parent", "val$b", "I");
-methodVisitor.visitInsn(ISUB);
+methodVisitor.visitLineNumber(30, label0);
+methodVisitor.visitIntInsn(BIPUSH, 10);
 methodVisitor.visitInsn(IRETURN);
 Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$4$1Parent;", null, label0, label1, 0);
-methodVisitor.visitMaxs(2, 1);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1$1Parent;", null, label0, label1, 0);
+methodVisitor.visitMaxs(1, 1);
 methodVisitor.visitEnd();
 }
 
 }
 }
 -----------------------------------------------------------------------
-  Javac version - reincarnation.decompiler.method.ExtendTest$4$1Child
+  Javac version - reincarnation.decompiler.method.ExtendTest$1$1Child
 -----------------------------------------------------------------------
-public class ExtendTest$4$1ChildDump implements Opcodes {
+public class ExtendTest$1$1ChildDump implements Opcodes {
 
 public static byte[] dump () throws Exception {
 
-classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$4$1Child", null, "reincarnation/decompiler/method/ExtendTest$4$1Parent", null);
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$1$1Child", null, "reincarnation/decompiler/method/ExtendTest$1$1Parent", null);
 
 {
-fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "val$b", "I", null, null);
-fieldVisitor.visitEnd();
-}
-{
-fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "val$a", "I", null, null);
-fieldVisitor.visitEnd();
-}
-{
-methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/method/ExtendTest$4;II)V", "()V", null);
+methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/method/ExtendTest$1;)V", null, null);
 methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_MANDATED);
-methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_SYNTHETIC);
-methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_SYNTHETIC);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(113, label0);
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitVarInsn(ILOAD, 2);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/method/ExtendTest$4$1Child", "val$b", "I");
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitVarInsn(ILOAD, 3);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/method/ExtendTest$4$1Child", "val$a", "I");
+methodVisitor.visitLineNumber(34, label0);
 methodVisitor.visitVarInsn(ALOAD, 0);
 methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitVarInsn(ILOAD, 3);
-methodVisitor.visitVarInsn(ILOAD, 2);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/method/ExtendTest$4$1Parent", "<init>", "(Lreincarnation/decompiler/method/ExtendTest$4;II)V", false);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/method/ExtendTest$1$1Parent", "<init>", "(Lreincarnation/decompiler/method/ExtendTest$1;)V", false);
 methodVisitor.visitInsn(RETURN);
 Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$4$1Child;", null, label0, label1, 0);
-methodVisitor.visitLocalVariable("this$1", "Lreincarnation/decompiler/method/ExtendTest$4;", null, label0, label1, 1);
-methodVisitor.visitMaxs(4, 4);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1$1Child;", null, label0, label1, 0);
+methodVisitor.visitLocalVariable("this$1", "Lreincarnation/decompiler/method/ExtendTest$1;", null, label0, label1, 1);
+methodVisitor.visitMaxs(2, 2);
 methodVisitor.visitEnd();
 }
 
 }
 }
 -----------------------------------------------------------------------
-  ECJ version - reincarnation.decompiler.method.ExtendTest$4$1Child
+  ECJ version - reincarnation.decompiler.method.ExtendTest$1$1Child
 -----------------------------------------------------------------------
-public class ExtendTest$4$1ChildDump implements Opcodes {
+public class ExtendTest$1$1ChildDump implements Opcodes {
 
 public static byte[] dump () throws Exception {
 
-classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$4$1Child", null, "reincarnation/decompiler/method/ExtendTest$4$1Parent", null);
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$1$1Child", null, "reincarnation/decompiler/method/ExtendTest$1$1Parent", null);
 
 {
-fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "this$1", "Lreincarnation/decompiler/method/ExtendTest$4;", null, null);
+fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "this$1", "Lreincarnation/decompiler/method/ExtendTest$1;", null, null);
 fieldVisitor.visitEnd();
 }
 {
-methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/method/ExtendTest$4;II)V", null, null);
+methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/method/ExtendTest$1;)V", null, null);
+methodVisitor.visitParameter("this$0", ACC_FINAL | ACC_MANDATED);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(113, label0);
+methodVisitor.visitLineNumber(34, label0);
 methodVisitor.visitVarInsn(ALOAD, 0);
 methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/method/ExtendTest$4$1Child", "this$1", "Lreincarnation/decompiler/method/ExtendTest$4;");
+methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/method/ExtendTest$1$1Child", "this$1", "Lreincarnation/decompiler/method/ExtendTest$1;");
 methodVisitor.visitVarInsn(ALOAD, 0);
 methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitVarInsn(ILOAD, 2);
-methodVisitor.visitVarInsn(ILOAD, 3);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/method/ExtendTest$4$1Parent", "<init>", "(Lreincarnation/decompiler/method/ExtendTest$4;II)V", false);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/method/ExtendTest$1$1Parent", "<init>", "(Lreincarnation/decompiler/method/ExtendTest$1;)V", false);
 methodVisitor.visitInsn(RETURN);
 Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$4$1Child;", null, label0, label1, 0);
-methodVisitor.visitMaxs(4, 4);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1$1Child;", null, label0, label1, 0);
+methodVisitor.visitMaxs(2, 2);
 methodVisitor.visitEnd();
 }
 
 }
 }
 -----------------------------------------------------------------------
-  Javac version - reincarnation.decompiler.method.ExtendTest$4
+  Javac version - reincarnation.decompiler.method.ExtendTest$1
 -----------------------------------------------------------------------
-public class ExtendTest$4Dump implements Opcodes {
+public class ExtendTest$1Dump implements Opcodes {
 
 public static byte[] dump () throws Exception {
 
-classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$4", null, "java/lang/Object", new String[] { "reincarnation/TestCode$Int" });
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$1", null, "java/lang/Object", new String[] { "reincarnation/TestCode$Int" });
 
 {
 methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/method/ExtendTest;)V", null, null);
@@ -296,13 +232,13 @@ methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_MANDATED);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(100, label0);
+methodVisitor.visitLineNumber(24, label0);
 methodVisitor.visitVarInsn(ALOAD, 0);
 methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
 methodVisitor.visitInsn(RETURN);
 Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$4;", null, label0, label1, 0);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1;", null, label0, label1, 0);
 methodVisitor.visitLocalVariable("this$0", "Lreincarnation/decompiler/method/ExtendTest;", null, label0, label1, 1);
 methodVisitor.visitMaxs(1, 2);
 methodVisitor.visitEnd();
@@ -312,44 +248,30 @@ methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "()I", null, null);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(104, label0);
-methodVisitor.visitIntInsn(BIPUSH, 20);
-methodVisitor.visitVarInsn(ISTORE, 1);
-Label label1 = new Label();
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLineNumber(105, label1);
-methodVisitor.visitIntInsn(BIPUSH, 10);
-methodVisitor.visitVarInsn(ISTORE, 2);
-Label label2 = new Label();
-methodVisitor.visitLabel(label2);
-methodVisitor.visitLineNumber(116, label2);
-methodVisitor.visitTypeInsn(NEW, "reincarnation/decompiler/method/ExtendTest$4$1Child");
+methodVisitor.visitLineNumber(37, label0);
+methodVisitor.visitTypeInsn(NEW, "reincarnation/decompiler/method/ExtendTest$1$1Child");
 methodVisitor.visitInsn(DUP);
 methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitVarInsn(ILOAD, 2);
-methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/method/ExtendTest$4$1Child", "<init>", "(Lreincarnation/decompiler/method/ExtendTest$4;II)V", false);
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "reincarnation/decompiler/method/ExtendTest$4$1Child", "value", "()I", false);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/method/ExtendTest$1$1Child", "<init>", "(Lreincarnation/decompiler/method/ExtendTest$1;)V", false);
+methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "reincarnation/decompiler/method/ExtendTest$1$1Child", "value", "()I", false);
 methodVisitor.visitInsn(IRETURN);
-Label label3 = new Label();
-methodVisitor.visitLabel(label3);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$4;", null, label0, label3, 0);
-methodVisitor.visitLocalVariable("a", "I", null, label1, label3, 1);
-methodVisitor.visitLocalVariable("b", "I", null, label2, label3, 2);
-methodVisitor.visitMaxs(5, 3);
+Label label1 = new Label();
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1;", null, label0, label1, 0);
+methodVisitor.visitMaxs(3, 1);
 methodVisitor.visitEnd();
 }
 
 }
 }
 -----------------------------------------------------------------------
-  ECJ version - reincarnation.decompiler.method.ExtendTest$4
+  ECJ version - reincarnation.decompiler.method.ExtendTest$1
 -----------------------------------------------------------------------
-public class ExtendTest$4Dump implements Opcodes {
+public class ExtendTest$1Dump implements Opcodes {
 
 public static byte[] dump () throws Exception {
 
-classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$4", null, "java/lang/Object", new String[] { "reincarnation/TestCode$Int" });
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/method/ExtendTest$1", null, "java/lang/Object", new String[] { "reincarnation/TestCode$Int" });
 
 {
 fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "this$0", "Lreincarnation/decompiler/method/ExtendTest;", null, null);
@@ -357,19 +279,20 @@ fieldVisitor.visitEnd();
 }
 {
 methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/method/ExtendTest;)V", null, null);
+methodVisitor.visitParameter("this$0", ACC_FINAL | ACC_MANDATED);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(100, label0);
+methodVisitor.visitLineNumber(24, label0);
 methodVisitor.visitVarInsn(ALOAD, 0);
 methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/method/ExtendTest$4", "this$0", "Lreincarnation/decompiler/method/ExtendTest;");
+methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/method/ExtendTest$1", "this$0", "Lreincarnation/decompiler/method/ExtendTest;");
 methodVisitor.visitVarInsn(ALOAD, 0);
 methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
 methodVisitor.visitInsn(RETURN);
 Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$4;", null, label0, label1, 0);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1;", null, label0, label1, 0);
 methodVisitor.visitMaxs(2, 2);
 methodVisitor.visitEnd();
 }
@@ -378,31 +301,17 @@ methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "()I", null, null);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(104, label0);
-methodVisitor.visitIntInsn(BIPUSH, 20);
-methodVisitor.visitVarInsn(ISTORE, 1);
-Label label1 = new Label();
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLineNumber(105, label1);
-methodVisitor.visitIntInsn(BIPUSH, 10);
-methodVisitor.visitVarInsn(ISTORE, 2);
-Label label2 = new Label();
-methodVisitor.visitLabel(label2);
-methodVisitor.visitLineNumber(116, label2);
-methodVisitor.visitTypeInsn(NEW, "reincarnation/decompiler/method/ExtendTest$4$1Child");
+methodVisitor.visitLineNumber(37, label0);
+methodVisitor.visitTypeInsn(NEW, "reincarnation/decompiler/method/ExtendTest$1$1Child");
 methodVisitor.visitInsn(DUP);
 methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitVarInsn(ILOAD, 2);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/method/ExtendTest$4$1Child", "<init>", "(Lreincarnation/decompiler/method/ExtendTest$4;II)V", false);
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "reincarnation/decompiler/method/ExtendTest$4$1Child", "value", "()I", false);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "reincarnation/decompiler/method/ExtendTest$1$1Child", "<init>", "(Lreincarnation/decompiler/method/ExtendTest$1;)V", false);
+methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "reincarnation/decompiler/method/ExtendTest$1$1Child", "value", "()I", false);
 methodVisitor.visitInsn(IRETURN);
-Label label3 = new Label();
-methodVisitor.visitLabel(label3);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$4;", null, label0, label3, 0);
-methodVisitor.visitLocalVariable("a", "I", null, label1, label3, 1);
-methodVisitor.visitLocalVariable("b", "I", null, label2, label3, 2);
-methodVisitor.visitMaxs(5, 3);
+Label label1 = new Label();
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/method/ExtendTest$1;", null, label0, label1, 0);
+methodVisitor.visitMaxs(3, 1);
 methodVisitor.visitEnd();
 }
 

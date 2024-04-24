@@ -13,13 +13,11 @@ import java.util.ArrayList;
 
 import reincarnation.CodeVerifier;
 import reincarnation.CrossDecompilerTest;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class ExtendTest extends CodeVerifier {
 
     @CrossDecompilerTest
-    @Debuggable
     void extendClass() {
         verify(new TestCode.Int() {
 
@@ -40,7 +38,6 @@ class ExtendTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    @Debuggable
     void extendClassWithParameter() {
         verify(new TestCode.Int() {
 
@@ -72,7 +69,6 @@ class ExtendTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    @Debuggable
     void extendClassWithExternalReference() {
         verify(new TestCode.Int() {
 
@@ -95,7 +91,6 @@ class ExtendTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    @Debuggable
     void extendClassWithExternalReferences() {
         verify(new TestCode.Int() {
 

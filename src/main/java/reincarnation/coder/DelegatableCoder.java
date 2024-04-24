@@ -125,7 +125,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeStatement(Code code) {
+    public void writeStatement(Code<?> code) {
         coder.writeStatement(code);
     }
 
