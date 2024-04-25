@@ -1400,7 +1400,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 Class lambdaClass = load(handle.getOwner());
                 String lambdaName = handle.getName();
                 Class[] lambdaParameterTypes = load(Type.getArgumentTypes(handle.getDesc()));
-                boolean needInstance = callerType.getArgumentTypes().length != 0;
 
                 source.require(lambdaClass);
 
@@ -1408,9 +1407,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 case H_INVOKESTATIC:
                 case H_INVOKEVIRTUAL:
                 case H_INVOKEINTERFACE:
-                    // ==================================
-                    // Method Reference
-                    // ==================================
+                case H_INVOKESPECIAL:
                     Method lambdaMethod = lambdaClass.getDeclaredMethod(lambdaName, lambdaParameterTypes);
                     if (lambdaMethod.isSynthetic()) {
                         // ==================================
@@ -1430,16 +1427,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                         }
                         current.addOperand(new OperandLambda(interfaceClass, lambdaMethod, params, source));
                     } else {
+                        // ==================================
+                        // Method Reference
+                        // ==================================
                         SpecializedType specialized = new SpecializedType(interfaceClass)
                                 .specializeByReturnAndParamTypes((Type) bootstrapMethodArguments[2])
                                 .specializeBySAM(lambdaMethod);
 
+                        boolean needInstance = callerType.getArgumentTypes().length != 0;
                         current.addOperand(new OperandMethodReference(lambdaMethod, needInstance ? current.remove(0) : null)
                                 .fix(specialized));
                     }
-                    break;
-
-                case H_INVOKESPECIAL:
                     break;
 
                 case H_NEWINVOKESPECIAL:
