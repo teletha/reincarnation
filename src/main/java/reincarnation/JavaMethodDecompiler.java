@@ -631,6 +631,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             break;
 
         case GETSTATIC:
+            // In Javac, accessing static fields via instances generates extra rubbish, which should
+            // be removed.
+            if (match(ALOAD, POP, GETSTATIC)) {
+                current.remove(0);
+                current.remove(0);
+            }
+
             // Primitive class literals are converted to special field accesses. So it is restored
             // to its original code.
             if (name.equals("TYPE")) {
@@ -1228,6 +1235,15 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         // read array length
         case ARRAYLENGTH:
+            if (match(ALOAD, ASTORE, ALOAD, ARRAYLENGTH)) {
+                Operand prev = current.peek(1);
+                Operand next = current.peek(0);
+                if (prev instanceof OperandAssign assign && next instanceof OperandLocalVariable local) {
+                    assign.assignedTo(local).as(OperandLocalVariable.class).to(original -> {
+                        locals.register(local.index, original);
+                    });
+                }
+            }
             current.addOperand(new OperandArrayLength(current.remove(0)));
             break;
 

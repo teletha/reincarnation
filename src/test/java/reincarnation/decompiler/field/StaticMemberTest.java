@@ -9,17 +9,13 @@
  */
 package reincarnation.decompiler.field;
 
-import org.junit.jupiter.api.Test;
-
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
+import reincarnation.TestCode;
 
-/**
- * @version 2018/10/26 12:29:11
- */
 class StaticMemberTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void StringValueOf() {
         verify(new TestCode.Text() {
 
@@ -30,7 +26,7 @@ class StaticMemberTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void StaticMethod() {
         verify(new StaticMethod());
     }
@@ -50,7 +46,7 @@ class StaticMemberTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void StaticMethodWithParam() {
         verify(new StaticMethodWithParam());
     }
@@ -70,7 +66,7 @@ class StaticMemberTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void GetStaticField() {
         verify(new GetStaticField());
     }
@@ -88,7 +84,7 @@ class StaticMemberTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void GetStaticFieldFromStaticMethod() {
         verify(new GetStaticFieldFromStaticMethod());
     }
@@ -110,7 +106,7 @@ class StaticMemberTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void GetStaticFieldFromSubClass() {
         verify(new GetStaticFieldFromSubClass());
     }
@@ -134,7 +130,7 @@ class StaticMemberTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void SetStaticField() {
         verify(new SetStaticField());
     }
@@ -154,7 +150,7 @@ class StaticMemberTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void SetStaticFieldFromSubClass() {
         verify(new SetStaticFieldFromSubClass());
     }
@@ -179,7 +175,7 @@ class StaticMemberTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void StaticInitialization() {
         verify(new StaticInitialization());
     }
@@ -201,7 +197,7 @@ class StaticMemberTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void Lazy() {
         verify(new Lazy());
     }

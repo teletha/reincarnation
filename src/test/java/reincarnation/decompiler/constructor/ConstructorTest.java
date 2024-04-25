@@ -9,17 +9,13 @@
  */
 package reincarnation.decompiler.constructor;
 
-import org.junit.jupiter.api.Test;
-
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
+import reincarnation.TestCode;
 
-/**
- * @version 2018/10/10 11:47:57
- */
 class ConstructorTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void NoParameterTopLevelClass() {
         verify(new TestCode.Text() {
 
@@ -30,7 +26,7 @@ class ConstructorTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ImplicitConstructorOfPublicMember() {
         verify(new TestCode.Text() {
 
@@ -52,7 +48,7 @@ class ConstructorTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void ImplicitConstructorOfProtectedMember() {
         verify(new TestCode.Text() {
 
@@ -74,7 +70,7 @@ class ConstructorTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void ImplicitConstructorOfPackageMember() {
         verify(new TestCode.Text() {
 
@@ -96,7 +92,7 @@ class ConstructorTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void ImplicitConstructorOfPrivateMember() {
         verify(new TestCode.Text() {
 
@@ -123,7 +119,7 @@ class ConstructorTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void ExplicitConstructorOfPrivateMember() {
         verify(new TestCode.Text() {
 
@@ -154,7 +150,7 @@ class ConstructorTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void Parameter() {
         verify(new TestCode.TextParam() {
 
@@ -182,7 +178,7 @@ class ConstructorTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void Parameters() {
         verify(new TestCode.TextParam() {
 
@@ -216,7 +212,7 @@ class ConstructorTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void Overload1() {
         verify(new TestCode.Text() {
 
@@ -227,7 +223,7 @@ class ConstructorTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Overload2() {
         verify(new TestCode.TextParam() {
 
@@ -238,7 +234,7 @@ class ConstructorTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Overload3() {
         verify(new TestCode.TextParam() {
 
@@ -249,7 +245,7 @@ class ConstructorTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Overload4() {
         verify(new TestCode.TextParam() {
 
@@ -296,7 +292,7 @@ class ConstructorTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void Extend1() {
         verify(new TestCode.TextParam() {
 
@@ -309,7 +305,7 @@ class ConstructorTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Extend2() {
         verify(new TestCode.TextParam() {
 
@@ -364,7 +360,7 @@ class ConstructorTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void Inner() {
         verify(new TestCode.TextParam() {
 
@@ -384,7 +380,7 @@ class ConstructorTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Local() {
         verify(new TestCode.TextParam() {
 
@@ -406,7 +402,7 @@ class ConstructorTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void SameNameLocalClassInDifferentMethods() {
         verify(new TestCode.TextParam() {
 
@@ -434,7 +430,7 @@ class ConstructorTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Anonymous() {
         verify(new TestCode.TextParam() {
 
@@ -451,7 +447,7 @@ class ConstructorTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void AnonymousWIthOuterAccess() {
         verify(new TestCode.TextParam() {
 

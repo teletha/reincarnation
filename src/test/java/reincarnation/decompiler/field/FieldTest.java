@@ -9,17 +9,13 @@
  */
 package reincarnation.decompiler.field;
 
-import org.junit.jupiter.api.Test;
-
-import reincarnation.TestCode;
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
+import reincarnation.TestCode;
 
-/**
- * @version 2018/10/23 15:37:11
- */
 class FieldTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     public void IntField() {
         verify(new IntField());
     }
@@ -37,7 +33,7 @@ class FieldTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     public void IntFieldWithExpresison() {
         verify(new IntFieldWithExpresison());
     }
@@ -55,7 +51,7 @@ class FieldTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     public void LongField() {
         verify(new LongField());
     }
@@ -73,7 +69,7 @@ class FieldTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     public void FloatField() {
         verify(new FloatField());
     }
@@ -91,7 +87,7 @@ class FieldTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     public void DoubleField() {
         verify(new DoubleField());
     }
@@ -109,7 +105,7 @@ class FieldTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     public void BooleanField() {
         verify(new BooleanField());
     }
@@ -127,7 +123,7 @@ class FieldTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     public void Extend() {
         verify(new ExtendChild());
     }
@@ -151,7 +147,7 @@ class FieldTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     public void Override() {
         verify(new OverrideChild());
     }
@@ -177,17 +173,17 @@ class FieldTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void accessHidingFieldFromThis() {
         verify(new Parent());
     }
 
-    @Test
+    @CrossDecompilerTest
     void accessNestedHidingFieldFromThis() {
         verify(new Child());
     }
 
-    @Test
+    @CrossDecompilerTest
     void accessNestedHidingFieldFromInstance() {
         verify(new TestCode.Int() {
 
@@ -247,7 +243,7 @@ class FieldTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     public void Wrapper() {
         verify(new Wrapper());
     }

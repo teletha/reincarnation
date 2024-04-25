@@ -9,9 +9,8 @@
  */
 package reincarnation.decompiler.constructor;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class VarArgTest extends CodeVerifier {
@@ -36,7 +35,7 @@ class VarArgTest extends CodeVerifier {
         }
     }
 
-    @Test
+    @CrossDecompilerTest
     void primitive() {
         verify(new TestCode.Int() {
 
@@ -47,7 +46,7 @@ class VarArgTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void withHeaderParam() {
         verify(new TestCode.Int() {
 

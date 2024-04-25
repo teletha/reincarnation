@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.field;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class InterfaceStaticFieldTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void interfaceAccess() {
         verify(new TestCode.Text() {
 
@@ -27,7 +26,7 @@ class InterfaceStaticFieldTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     @SuppressWarnings("static-access")
     void instanceAccess() {
         verify(new TestCode.Text() {

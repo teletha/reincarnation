@@ -13,15 +13,15 @@ import reincarnation.CodeVerifier;
 import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
-public class IntArrayTest extends CodeVerifier {
+public class LongArrayTest extends CodeVerifier {
 
     @CrossDecompilerTest
     public void base() {
-        verify(new TestCode.IntArray() {
+        verify(new TestCode.LongArray() {
 
             @Override
-            public int[] run() {
-                int[] array = new int[2];
+            public long[] run() {
+                long[] array = new long[2];
                 array[0] = 0;
                 array[1] = 1;
 
@@ -32,11 +32,11 @@ public class IntArrayTest extends CodeVerifier {
 
     @CrossDecompilerTest
     public void multipleAssign() throws Exception {
-        verify(new TestCode.IntArray() {
+        verify(new TestCode.LongArray() {
 
             @Override
-            public int[] run() {
-                int[] array = new int[3];
+            public long[] run() {
+                long[] array = new long[3];
                 array[0] = array[1] = array[2] = 1;
 
                 return array;
@@ -46,13 +46,13 @@ public class IntArrayTest extends CodeVerifier {
 
     @CrossDecompilerTest
     public void ArrayWithExpression() {
-        verify(new TestCode.IntArray() {
+        verify(new TestCode.LongArray() {
 
-            private int field = 1;
+            private long field = 1;
 
             @Override
-            public int[] run() {
-                int[] array = new int[2];
+            public long[] run() {
+                long[] array = new long[2];
                 array[0] = field;
                 array[1] = field + 1;
 
@@ -63,61 +63,61 @@ public class IntArrayTest extends CodeVerifier {
 
     @CrossDecompilerTest
     public void ArrayByShorthand() {
-        verify(new TestCode.IntArray() {
+        verify(new TestCode.LongArray() {
 
             @Override
 
-            public int[] run() {
-                return new int[] {1, 0};
+            public long[] run() {
+                return new long[] {1, 0};
             }
         });
     }
 
     @CrossDecompilerTest
     public void ArrayByShorthandWithAllFalse() {
-        verify(new TestCode.IntArray() {
+        verify(new TestCode.LongArray() {
 
             @Override
-            public int[] run() {
-                return new int[] {0, 0};
+            public long[] run() {
+                return new long[] {0, 0};
             }
         });
     }
 
     @CrossDecompilerTest
     public void ArrayWithExpressionByShorthand() {
-        verify(new TestCode.IntArray() {
+        verify(new TestCode.LongArray() {
 
-            private int field = 1;
+            private long field = 1;
 
             @Override
-            public int[] run() {
-                return new int[] {field, field + 1};
+            public long[] run() {
+                return new long[] {field, field + 1};
             }
         });
     }
 
     @CrossDecompilerTest
     public void ArraySoMany() {
-        verify(new TestCode.IntArray() {
+        verify(new TestCode.LongArray() {
 
             @Override
-            public int[] run() {
-                return new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 0, -1, -2};
+            public long[] run() {
+                return new long[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 0, -1, -2};
             }
         });
     }
 
     @CrossDecompilerTest
     public void MultiDimensionArray() {
-        verify(new TestCode.Object<int[][]>() {
+        verify(new TestCode.Object<long[][]>() {
 
             @Override
-            public int[][] run() {
-                int[][] array = new int[3][2];
-                array[0] = new int[] {1, 2};
-                array[1] = new int[] {3, 4};
-                array[2] = new int[] {5, 6};
+            public long[][] run() {
+                long[][] array = new long[3][2];
+                array[0] = new long[] {1, 2};
+                array[1] = new long[] {3, 4};
+                array[2] = new long[] {5, 6};
 
                 return array;
             }
@@ -126,24 +126,24 @@ public class IntArrayTest extends CodeVerifier {
 
     @CrossDecompilerTest
     public void MultiDimensionArrayByShorthand() {
-        verify(new TestCode.Object<int[][]>() {
+        verify(new TestCode.Object<long[][]>() {
 
             @Override
-            public int[][] run() {
-                return new int[][] {{1, 2}, {3, 4}, {5, 6}};
+            public long[][] run() {
+                return new long[][] {{1, 2}, {3, 4}, {5, 6}};
             }
         });
     }
 
     @CrossDecompilerTest
     public void ThreeDimensionArray() {
-        verify(new TestCode.Object<int[][][]>() {
+        verify(new TestCode.Object<long[][][]>() {
 
             @Override
-            public int[][][] run() {
-                int[][][] array = new int[2][3][1];
-                array[0] = new int[][] {{1}, {2}, {3}};
-                array[1] = new int[][] {{5}, {6}, {7, 8, 9}};
+            public long[][][] run() {
+                long[][][] array = new long[2][3][1];
+                array[0] = new long[][] {{1}, {2}, {3}};
+                array[1] = new long[][] {{5}, {6}, {7, 8, 9}};
 
                 return array;
             }
@@ -152,13 +152,13 @@ public class IntArrayTest extends CodeVerifier {
 
     @CrossDecompilerTest
     public void ThreeDimensionArrayWithoutNeedlessDeclaration() {
-        verify(new TestCode.Object<int[][][]>() {
+        verify(new TestCode.Object<long[][][]>() {
 
             @Override
-            public int[][][] run() {
-                int[][][] array = new int[2][][];
-                array[0] = new int[][] {{1}, {2}, {3}};
-                array[1] = new int[][] {{4}, {5}, {6, 7, 8}};
+            public long[][][] run() {
+                long[][][] array = new long[2][][];
+                array[0] = new long[][] {{1}, {2}, {3}};
+                array[1] = new long[][] {{4}, {5}, {6, 7, 8}};
 
                 return array;
             }
@@ -167,11 +167,11 @@ public class IntArrayTest extends CodeVerifier {
 
     @CrossDecompilerTest
     public void ArrayAccess() {
-        verify(new TestCode.IntParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
-            public int run(int value) {
-                int[] array = {1, value};
+            public long run(long value) {
+                long[] array = {1, value};
 
                 return array[1];
             }
@@ -180,23 +180,23 @@ public class IntArrayTest extends CodeVerifier {
 
     @CrossDecompilerTest
     public void ArrayLength() {
-        verify(new TestCode.IntParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
-            public int run(@Param(ints = {0, 1, 10}) int value) {
-                return new int[value].length;
+            public long run(@Param(longs = {0, 1, 10}) long value) {
+                return new long[(int) value].length;
             }
         });
     }
 
     @CrossDecompilerTest
     public void ArrayFor() {
-        verify(new TestCode.IntParam() {
+        verify(new TestCode.LongParam() {
 
             @Override
-            public int run(int value) {
-                int sum = 0;
-                int[] array = {1, 2, 3};
+            public long run(long value) {
+                long sum = 0;
+                long[] array = {1, 2, 3};
 
                 for (int i = 0; i < array.length; i++) {
                     if (array[i] == 1) {
@@ -210,13 +210,13 @@ public class IntArrayTest extends CodeVerifier {
 
     @CrossDecompilerTest
     public void ArrayForEach() {
-        verify(new TestCode.IntParam() {
+        verify(new TestCode.LongParam() {
             @Override
-            public int run(int value) {
-                int sum = 0;
-                int[] array = {1, 2, 3};
+            public long run(long value) {
+                long sum = 0;
+                long[] array = {1, 2, 3};
 
-                for (int i : array) {
+                for (long i : array) {
                     if (i == 1) {
                         sum++;
                     }

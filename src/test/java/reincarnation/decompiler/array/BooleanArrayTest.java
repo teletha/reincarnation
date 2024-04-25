@@ -9,17 +9,13 @@
  */
 package reincarnation.decompiler.array;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
-/**
- * @version 2018/10/09 9:25:34
- */
 public class BooleanArrayTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     public void base() {
         verify(new TestCode.BooleanArray() {
 
@@ -34,7 +30,7 @@ public class BooleanArrayTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     public void multipleAssign() throws Exception {
         verify(new TestCode.BooleanArray() {
 
@@ -48,7 +44,7 @@ public class BooleanArrayTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     public void ArrayWithExpression() {
         verify(new TestCode.BooleanArray() {
 
@@ -65,7 +61,7 @@ public class BooleanArrayTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     public void ArrayByShorthand() {
         verify(new TestCode.BooleanArray() {
 
@@ -77,7 +73,7 @@ public class BooleanArrayTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     public void ArrayByShorthandWithAllFalse() {
         verify(new TestCode.BooleanArray() {
 
@@ -88,7 +84,7 @@ public class BooleanArrayTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     public void ArrayWithExpressionByShorthand() {
         verify(new TestCode.BooleanArray() {
 
@@ -101,7 +97,7 @@ public class BooleanArrayTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     public void ArraySoMany() {
         verify(new TestCode.BooleanArray() {
 
@@ -112,7 +108,7 @@ public class BooleanArrayTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     public void MultiDimensionArray() {
         verify(new TestCode.Object<boolean[][]>() {
 
@@ -128,7 +124,7 @@ public class BooleanArrayTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     public void MultiDimensionArrayByShorthand() {
         verify(new TestCode.Object<boolean[][]>() {
 
@@ -139,7 +135,7 @@ public class BooleanArrayTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     public void ThreeDimensionArray() {
         verify(new TestCode.Object<boolean[][][]>() {
 
@@ -154,7 +150,7 @@ public class BooleanArrayTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     public void ThreeDimensionArrayWithoutNeedlessDeclaration() {
         verify(new TestCode.Object<boolean[][][]>() {
 
@@ -169,7 +165,7 @@ public class BooleanArrayTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     public void ArrayAccess() {
         verify(new TestCode.BooleanParam() {
 
@@ -182,7 +178,7 @@ public class BooleanArrayTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     public void ArrayLength() {
         verify(new TestCode.IntParam() {
 
@@ -193,7 +189,7 @@ public class BooleanArrayTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     public void ArrayFor() {
         verify(new TestCode.BooleanParamInt() {
 
@@ -212,7 +208,7 @@ public class BooleanArrayTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     public void ArrayForEach() {
         verify(new TestCode.BooleanParamInt() {
             @Override

@@ -1051,13 +1051,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
             // initializer.addOperand(new OperandExpression(removed));
             // }
             // });
-
-            if (nodes[0] == destination) {
-                peek(0).invert();
-                return new For(this, null, this, update, nodes[0], nodes[1], detectEnhancedForLoop(this, nodes[0]));
-            } else {
-                return new For(this, null, this, update, nodes[0], nodes[1], detectEnhancedForLoop(this, nodes[0]));
-            }
+            return new For(this, null, this, update, nodes[0], nodes[1], detectEnhancedForLoop(this, nodes[0]));
         }
     }
 
@@ -1254,7 +1248,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
         OperandCondition condition = (OperandCondition) stack.peekLast().disclose();
 
         if (condition.then != nodes[0]) {
-            // condition.invert();
+            condition.invert();
         }
         return nodes;
     }
