@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.flow;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class ForTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void normal() {
         verify(new TestCode.IntParam() {
 
@@ -31,7 +30,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void multipleInitializer() {
         verify(new TestCode.IntParam() {
 
@@ -45,7 +44,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void withoutInitialize() {
         verify(new TestCode.IntParam() {
 
@@ -63,7 +62,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void withoutUpdate() {
         verify(new TestCode.IntParam() {
 
@@ -83,7 +82,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void multipleUpdate() {
         verify(new TestCode.IntParam() {
 
@@ -97,7 +96,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void afterProcess() {
         verify(new TestCode.IntParam() {
 
@@ -114,7 +113,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void noneReturnCodeAfterLoopWillConfuseCompiler() {
         verify(new TestCode.Text() {
 
@@ -132,7 +131,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakNoLabel() {
         verify(new TestCode.IntParam() {
 
@@ -151,7 +150,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakInIf() {
         verify(new TestCode.IntParam() {
 
@@ -167,7 +166,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakInOneLinerIf() {
         verify(new TestCode.IntParam() {
 
@@ -181,7 +180,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void continueNoLabel() {
         verify(new TestCode.IntParam() {
 
@@ -200,7 +199,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void continueNest() {
         verify(new TestCode.IntParam() {
 
@@ -220,7 +219,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void continueMultiple() {
         verify(new TestCode.IntParam() {
 
@@ -245,7 +244,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void continueInIf() {
         verify(new TestCode.IntParam() {
 
@@ -262,7 +261,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void continueInShorthandIf() {
         verify(new TestCode.IntParam() {
 
@@ -277,7 +276,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void continueInLogicalIf() {
         verify(new TestCode.IntParam() {
 
@@ -294,7 +293,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void returnNest() {
         verify(new TestCode.IntParam() {
 
@@ -314,7 +313,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void continueWithLogicalExpressionFail() {
         verify(new TestCode.IntParam() {
 
@@ -334,7 +333,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void continueWithLogicalExpressionAndAfterProcess() {
         verify(new TestCode.IntParam() {
 
@@ -353,7 +352,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void continueWithLogicalExpression() {
         verify(new TestCode.IntParam() {
 
@@ -372,7 +371,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void returnInNest() {
         verify(new TestCode.IntParam() {
 
@@ -394,7 +393,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void complex() {
         verify(new TestCode.IntParam() {
 
@@ -415,7 +414,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infinite() {
         verify(new TestCode.IntParam() {
 
@@ -439,7 +438,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infiniteLikeFor() {
         verify(new TestCode.IntParam() {
 
@@ -460,7 +459,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infiniteLikeWhile() {
         verify(new TestCode.IntParam() {
 
@@ -481,7 +480,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infiniteWithWhile() {
         verify(new TestCode.IntParam() {
 
@@ -504,7 +503,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infiniteWithWhileNodes() {
         verify(new TestCode.IntParam() {
 
@@ -527,7 +526,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infiniteIfReturn() {
         verify(new TestCode.IntParam() {
 
@@ -547,7 +546,7 @@ class ForTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infiniteIfElse() {
         verify(new TestCode.IntParam() {
 

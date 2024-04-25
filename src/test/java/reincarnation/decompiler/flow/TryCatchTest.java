@@ -14,14 +14,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class TryCatchTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void TryCatch() {
         verify(new TestCode.IntParam() {
 
@@ -36,7 +35,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryCatchAfter() {
         verify(new TestCode.IntParam() {
 
@@ -52,7 +51,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryCatchAfter2() {
         verify(new TestCode.IntParam() {
 
@@ -69,7 +68,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryCatchAfter3() {
         verify(new TestCode.IntParam() {
 
@@ -85,7 +84,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryEmptyCatch() {
         verify(new TestCode.IntParam() {
 
@@ -101,7 +100,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryEmptyCatchAfterThrow() {
         verify(new TestCode.IntParam() {
 
@@ -127,7 +126,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryMultipleCatch() {
         verify(new TestCode.IntParam() {
 
@@ -147,7 +146,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryMultipleCatchInherited() {
         verify(new TestCode.IntParam() {
 
@@ -166,7 +165,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryMultipleCatchAfter() {
         verify(new TestCode.IntParam() {
 
@@ -185,7 +184,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryCatchInCatch() {
         verify(new TestCode.IntParam() {
 
@@ -204,7 +203,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryCatchInCatchAfter() {
         verify(new TestCode.IntParam() {
 
@@ -225,7 +224,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryCatchInTry() {
         verify(new TestCode.IntParam() {
 
@@ -247,7 +246,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryCatchInTryImmediately() {
         verify(new TestCode.IntParam() {
 
@@ -267,7 +266,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryCatchsInTry() {
         verify(new TestCode.IntParam() {
 
@@ -295,7 +294,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryCatchsInTryMultiCatches() {
         verify(new TestCode.IntParam() {
 
@@ -325,7 +324,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryCatchInTryAfter() {
         verify(new TestCode.IntParam() {
 
@@ -348,7 +347,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryCatchWithFrameFull() {
         verify(new TestCode.IntParam() {
             @Override
@@ -366,7 +365,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryCatchSequencial() {
         verify(new TestCode.IntParam() {
 
@@ -388,7 +387,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void insideFor() {
         verify(new TestCode.Text() {
 
@@ -411,7 +410,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void insideForWithContinue() {
         verify(new TestCode.Int() {
 
@@ -434,7 +433,7 @@ class TryCatchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void insideForWithBreak() {
         verify(new TestCode.Int() {
 

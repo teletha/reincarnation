@@ -2810,6 +2810,26 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
                     // connect from created to next
                     created.connect(base.destination == null ? created.destination : base.destination);
+
+                    List<OperandCondition> conditions = base.children(OperandCondition.class).toList();
+                    if (conditions.size() == 2) {
+                        OperandCondition first = conditions.get(0);
+                        OperandCondition second = conditions.get(1);
+                        System.out.println((first.then == second.then) + "    " + (first.elze == second.elze));
+
+                        Node split = createNodeAfter(base, false);
+                        split.stack.addFirst(base.stack.pollLast());
+
+                        base.disconnect(second.then);
+                        base.disconnect(second.elze);
+                        base.disconnect(created);
+                        base.connect(split);
+
+                        split.connect(second.then);
+                        split.connect(second.elze);
+                        split.disconnect(base);
+                        split.connect(created);
+                    }
                 }
             }
         }

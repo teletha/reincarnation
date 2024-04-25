@@ -11,14 +11,13 @@ package reincarnation.decompiler.flow;
 
 import java.lang.annotation.RetentionPolicy;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class SwitchTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void natural() {
         verify(new TestCode.IntParam() {
 
@@ -41,7 +40,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void firstDefault() {
         verify(new TestCode.IntParam() {
 
@@ -64,7 +63,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void reverse() {
         verify(new TestCode.IntParam() {
 
@@ -87,7 +86,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void mix() {
         verify(new TestCode.IntParam() {
 
@@ -110,7 +109,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void gap() {
         verify(new TestCode.IntParam() {
 
@@ -130,7 +129,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void gapReverse() {
         verify(new TestCode.IntParam() {
 
@@ -150,7 +149,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void sparse() {
         verify(new TestCode.IntParam() {
 
@@ -170,7 +169,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void sparseReverse() {
         verify(new TestCode.IntParam() {
 
@@ -190,7 +189,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void noDefault() {
         verify(new TestCode.IntParam() {
 
@@ -209,7 +208,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void conditional() {
         verify(new TestCode.IntParam() {
 
@@ -226,7 +225,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void loop() {
         verify(new TestCode.IntParam() {
 
@@ -247,7 +246,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infinitLoop() {
         verify(new TestCode.IntParam() {
 
@@ -270,7 +269,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void tryCatch() {
         verify(new TestCode.IntParam() {
 
@@ -292,7 +291,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void tryCatchFinally() {
         verify(new TestCode.IntParam() {
 
@@ -316,7 +315,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void withThrow() {
         verify(new TestCode.IntParam() {
 
@@ -340,7 +339,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void nest() {
         verify(new TestCode.IntParam() {
 
@@ -367,7 +366,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void fallThrough() {
         verify(new TestCode.IntParam() {
 
@@ -387,7 +386,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void fallThroughFirstDefault() {
         verify(new TestCode.IntParam() {
 
@@ -407,7 +406,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void fallThroughReverse() {
         verify(new TestCode.IntParam() {
 
@@ -427,7 +426,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void fallThroughMix() {
         verify(new TestCode.IntParam() {
 
@@ -450,7 +449,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void fallThroughGap() {
         verify(new TestCode.IntParam() {
 
@@ -473,7 +472,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void fallThroughGapReverse() {
         verify(new TestCode.IntParam() {
 
@@ -496,7 +495,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void fallThroughSpase() {
         verify(new TestCode.IntParam() {
 
@@ -516,7 +515,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void fallThroughSpaseReverse() {
         verify(new TestCode.IntParam() {
 
@@ -536,7 +535,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void fallThroughNoDefault() {
         verify(new TestCode.IntParam() {
 
@@ -564,7 +563,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void fallThroughBlock() {
         verify(new TestCode.IntParam() {
 
@@ -596,7 +595,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void fallThroughNest() {
         verify(new TestCode.IntParam() {
 
@@ -623,7 +622,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakNatural() {
         verify(new TestCode.IntParam() {
 
@@ -648,7 +647,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakReverse() {
         verify(new TestCode.IntParam() {
 
@@ -673,7 +672,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakFirstDefault() {
         verify(new TestCode.IntParam() {
 
@@ -698,7 +697,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakMix() {
         verify(new TestCode.IntParam() {
 
@@ -727,7 +726,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakGap() {
         verify(new TestCode.IntParam() {
 
@@ -756,7 +755,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakGapReverse() {
         verify(new TestCode.IntParam() {
 
@@ -785,7 +784,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakSparse() {
         verify(new TestCode.IntParam() {
 
@@ -810,7 +809,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakSparseReverse() {
         verify(new TestCode.IntParam() {
 
@@ -835,7 +834,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakNoDefault() {
         verify(new TestCode.IntParam() {
 
@@ -855,7 +854,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakBlock() {
         verify(new TestCode.IntParam() {
 
@@ -884,7 +883,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakInfinitLoop() {
         verify(new TestCode.IntParam() {
 
@@ -909,7 +908,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakConditionalBlock() {
         verify(new TestCode.IntParam() {
 
@@ -927,7 +926,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakTryCatch() {
         verify(new TestCode.IntParam() {
 
@@ -951,7 +950,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakTryCatchFinally() {
         verify(new TestCode.IntParam() {
 
@@ -979,7 +978,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakNest() {
         verify(new TestCode.IntParam() {
 
@@ -1014,7 +1013,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakDoubleNest() {
         verify(new TestCode.IntParam() {
 
@@ -1044,7 +1043,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakTripleNest() {
         verify(new TestCode.IntParam() {
 
@@ -1091,7 +1090,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakFallThrough() {
         verify(new TestCode.IntParam() {
 
@@ -1118,7 +1117,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakFallThroughFirstDefault() {
         verify(new TestCode.IntParam() {
 
@@ -1142,7 +1141,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakFallThroughReverse() {
         verify(new TestCode.IntParam() {
 
@@ -1169,7 +1168,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakFallThrougMix() {
         verify(new TestCode.IntParam() {
 
@@ -1196,7 +1195,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakFallThrougGap() {
         verify(new TestCode.IntParam() {
 
@@ -1223,7 +1222,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakFallThrougGapReverse() {
         verify(new TestCode.IntParam() {
 
@@ -1250,7 +1249,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakFallThroughSparse() {
         verify(new TestCode.IntParam() {
 
@@ -1273,7 +1272,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakFallThroughSparseReverse() {
         verify(new TestCode.IntParam() {
 
@@ -1296,7 +1295,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakFallThroughNoDefault() {
         verify(new TestCode.IntParam() {
 
@@ -1322,7 +1321,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakFallThroughBlock() {
         verify(new TestCode.IntParam() {
 
@@ -1351,7 +1350,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakFallThroughNest() {
         verify(new TestCode.IntParam() {
 
@@ -1394,7 +1393,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void expressionInCondition() {
         verify(new TestCode.IntParam() {
 
@@ -1416,7 +1415,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void expressionInCondition2() {
         verify(new TestCode.IntParam() {
 
@@ -1438,7 +1437,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void multiple() {
         verify(new TestCode.IntParam() {
 
@@ -1466,7 +1465,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void conditionByChar() {
         verify(new TestCode.CharParam() {
 
@@ -1486,7 +1485,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void conditionByCharMultiple() {
         verify(new TestCode.CharParam() {
 
@@ -1508,7 +1507,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void conditionByEnum() {
         verify(new TestCode.IntParam() {
 
@@ -1528,7 +1527,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void conditionByEnumMultiple() {
         verify(new TestCode.IntParam() {
 
@@ -1546,7 +1545,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void conditionByString() {
         verify(new TestCode.TextParam() {
 
@@ -1566,7 +1565,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void conditionByStringMultiple() {
         verify(new TestCode.TextParam() {
 

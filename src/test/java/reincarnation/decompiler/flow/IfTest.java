@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.flow;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 public class IfTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void normal() {
         verify(new TestCode.IntParam() {
 
@@ -30,7 +29,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void then() {
         verify(new TestCode.IntParam() {
 
@@ -44,7 +43,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void thenNest() {
         verify(new TestCode.IntParam() {
 
@@ -62,7 +61,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void thenNestImmidiately() {
         verify(new TestCode.IntParam() {
 
@@ -79,7 +78,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void nestReturn() {
         verify(new TestCode.IntParam() {
 
@@ -96,7 +95,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void nestComplexLogicalExpression() {
         verify(new TestCode.IntParam() {
 
@@ -114,7 +113,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void integer() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -129,7 +128,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void object() {
         verify(new TestCode.ObjectParamBoolean() {
 
@@ -144,7 +143,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void object2() {
         verify(new TestCode.ObjectParamBoolean() {
 
@@ -159,7 +158,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ifelse() {
         verify(new TestCode.IntParam() {
 
@@ -174,7 +173,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void multiple() {
         verify(new TestCode.IntParam() {
 
@@ -191,7 +190,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void sequence() {
         verify(new TestCode.IntParam() {
 
@@ -213,7 +212,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ifelseWithFollowing() {
         verify(new TestCode.IntParam() {
 
@@ -229,7 +228,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void shorthand() {
         verify(new TestCode.IntParam() {
 
@@ -241,7 +240,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void shorthandLine() {
         verify(new TestCode.IntParam() {
 
@@ -255,7 +254,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void shorthandElse() {
         verify(new TestCode.IntParam() {
 
@@ -269,7 +268,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void shorthandMultiple() {
         verify(new TestCode.IntParam() {
 
@@ -285,7 +284,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void shorthandWithExpression() {
         verify(new TestCode.IntParam() {
 
@@ -298,7 +297,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void shorthandElseWithExpression() {
         verify(new TestCode.IntParam() {
 
@@ -313,7 +312,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void shorthandInFlow() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -328,7 +327,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void shorthandInNest() {
         verify(new TestCode.IntParam() {
 
@@ -345,7 +344,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void noElse() {
         verify(new TestCode.IntParam() {
 
@@ -361,7 +360,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ternaryLike() {
         verify(new TestCode.IntParam() {
 
@@ -377,7 +376,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void oneLiner() {
         verify(new TestCode.IntParam() {
 
@@ -390,7 +389,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void denyInElse() {
         verify(new TestCode.TextParamBoolean() {
 
@@ -405,7 +404,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void whileInElse() {
         verify(new TestCode.TextParam() {
 
@@ -425,7 +424,7 @@ public class IfTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void multipleInWhile() {
         verify(new TestCode.IntParam() {
 

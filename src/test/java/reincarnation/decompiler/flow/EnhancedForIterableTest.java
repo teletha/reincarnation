@@ -11,14 +11,13 @@ package reincarnation.decompiler.flow;
 
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class EnhancedForIterableTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void normal() {
         verify(new TestCode.IntParam() {
 
@@ -33,7 +32,7 @@ class EnhancedForIterableTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void noneReturnCodeAfterLoopWillConfuseCompiler() {
         verify(new TestCode.Text() {
 
@@ -51,7 +50,7 @@ class EnhancedForIterableTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakNoLabel() {
         verify(new TestCode.IntParam() {
 
@@ -69,7 +68,7 @@ class EnhancedForIterableTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakInIf() {
         verify(new TestCode.IntParam() {
 
@@ -88,7 +87,7 @@ class EnhancedForIterableTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakInOneLinerIf() {
         verify(new TestCode.IntParam() {
 

@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.flow;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class TryCatchFinallyTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void after() {
         verify(new TestCode.IntParam() {
             @Override
@@ -33,7 +32,7 @@ class TryCatchFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void immediateReturnInTryAndCatch() {
         verify(new TestCode.IntParam() {
 
@@ -56,7 +55,7 @@ class TryCatchFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void immediateReturnInTryWithAfter() {
         verify(new TestCode.IntParam() {
 
@@ -80,7 +79,7 @@ class TryCatchFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void immediateReturnInCatchWithAfter() {
         verify(new TestCode.IntParam() {
 
@@ -104,7 +103,7 @@ class TryCatchFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void tryCatchInTry() {
         verify(new TestCode.IntParam() {
 
@@ -132,7 +131,7 @@ class TryCatchFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void tryCatchInCatch() {
         verify(new TestCode.IntParam() {
 
@@ -160,7 +159,7 @@ class TryCatchFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void tryCatchInFinally() {
         verify(new TestCode.IntParam() {
 
@@ -182,7 +181,7 @@ class TryCatchFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void tryCatchNodesInFinally() {
         verify(new TestCode.IntParam() {
 
@@ -205,7 +204,7 @@ class TryCatchFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void rethrow() {
         verify(new TestCode.IntParam() {
 
@@ -228,7 +227,7 @@ class TryCatchFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void nodesInFinally() {
         verify(new TestCode.IntParam() {
 
@@ -255,7 +254,7 @@ class TryCatchFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void insideSwitch() {
         verify(new TestCode.IntParam() {
 
@@ -279,7 +278,7 @@ class TryCatchFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void insideSwitchWithBreak() {
         verify(new TestCode.IntParam() {
 

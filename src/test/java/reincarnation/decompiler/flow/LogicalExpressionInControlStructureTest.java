@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.flow;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class LogicalExpressionInControlStructureTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void Or() {
         verify(new TestCode.IntParam() {
 
@@ -31,7 +30,7 @@ class LogicalExpressionInControlStructureTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex() {
         verify(new TestCode.IntParam() {
 
@@ -46,7 +45,7 @@ class LogicalExpressionInControlStructureTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex2() {
         verify(new TestCode.IntParam() {
 
@@ -61,7 +60,7 @@ class LogicalExpressionInControlStructureTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void NotOr() {
         verify(new TestCode.IntParam() {
 
@@ -76,7 +75,7 @@ class LogicalExpressionInControlStructureTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void OrNot() {
         verify(new TestCode.IntParam() {
 
@@ -91,7 +90,7 @@ class LogicalExpressionInControlStructureTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void NotOrNot() {
         verify(new TestCode.IntParam() {
 
@@ -106,7 +105,7 @@ class LogicalExpressionInControlStructureTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void MultipuleOR() {
         verify(new TestCode.IntParam() {
 
@@ -121,7 +120,7 @@ class LogicalExpressionInControlStructureTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void And() {
         verify(new TestCode.IntParam() {
 
@@ -136,7 +135,7 @@ class LogicalExpressionInControlStructureTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void NotAnd() {
         verify(new TestCode.IntParam() {
 
@@ -151,7 +150,7 @@ class LogicalExpressionInControlStructureTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void AndNot() {
         verify(new TestCode.IntParam() {
 
@@ -166,7 +165,7 @@ class LogicalExpressionInControlStructureTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void NotAndNot() {
         verify(new TestCode.IntParam() {
 
@@ -181,7 +180,7 @@ class LogicalExpressionInControlStructureTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void MultipleAnd() {
         verify(new TestCode.IntParam() {
 
@@ -196,7 +195,7 @@ class LogicalExpressionInControlStructureTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void nest() {
         verify(new TestCode.IntParam() {
 

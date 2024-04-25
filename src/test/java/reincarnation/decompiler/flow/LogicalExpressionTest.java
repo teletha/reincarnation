@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.flow;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class LogicalExpressionTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void True() {
         verify(new TestCode.Boolean() {
 
@@ -27,7 +26,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void False() {
         verify(new TestCode.Boolean() {
 
@@ -38,7 +37,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Equal() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -49,7 +48,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Not() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -60,7 +59,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Or() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -71,7 +70,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void NotOr() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -82,7 +81,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void OrNot() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -93,7 +92,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void NotOrNot() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -104,7 +103,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void MultipleOr() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -115,7 +114,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void OrWithOtherStatement() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -128,7 +127,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void And() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -139,7 +138,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void NotAnd() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -150,7 +149,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void AndNot() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -161,7 +160,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void NotAndNot() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -172,7 +171,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void MultipleAnd() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -183,7 +182,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void postIncrement() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -194,7 +193,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void preIncrement() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -205,7 +204,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void postDecrement() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -216,7 +215,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void preDecrement() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -227,7 +226,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex1() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -238,7 +237,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex2() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -249,7 +248,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex3() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -260,7 +259,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex4() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -271,7 +270,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex5() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -282,7 +281,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex6() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -293,7 +292,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex10() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -304,7 +303,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex11() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -315,7 +314,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex12() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -326,7 +325,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex13() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -337,7 +336,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex14() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -348,7 +347,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex20() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -359,7 +358,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex21() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -370,7 +369,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex22() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -381,7 +380,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex23() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -392,7 +391,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex24() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -403,7 +402,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex25() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -414,7 +413,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex26() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -425,7 +424,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex27() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -436,7 +435,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex28() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -447,7 +446,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex29() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -458,7 +457,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex30() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -469,7 +468,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Complex31() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -480,7 +479,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void IfOr() {
         verify(new TestCode.IntParam() {
 
@@ -495,7 +494,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void IfAnd() {
         verify(new TestCode.IntParam() {
 
@@ -510,7 +509,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void IfComplex1() {
         verify(new TestCode.IntParam() {
 
@@ -525,7 +524,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void IfComplex2() {
         verify(new TestCode.IntParam() {
 
@@ -540,7 +539,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void MethodOr() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -555,7 +554,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void MethodAnd() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -570,7 +569,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void MethodComplex1() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -585,7 +584,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void MethodComplex2() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -600,7 +599,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void WithMethodCall() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -619,7 +618,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void VariableOr() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -632,7 +631,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void VariableAnd() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -645,7 +644,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void VariableComplex1() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -658,7 +657,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void VariableComplex2() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -671,7 +670,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ConditionalOperator() {
         verify(new TestCode.IntParam() {
 
@@ -682,7 +681,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ConditionalOperatorLogicalSum() {
         verify(new TestCode.IntParam() {
 
@@ -693,7 +692,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ConditionalOperatorComplex() {
         verify(new TestCode.IntParam() {
 
@@ -704,7 +703,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ConditionalOperatorNest1() {
         verify(new TestCode.IntParam() {
 
@@ -715,7 +714,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ConditionalOperatorNest2() {
         verify(new TestCode.IntParam() {
 
@@ -726,7 +725,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ConditionalOperatorNest3() {
         verify(new TestCode.IntParam() {
 
@@ -737,7 +736,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ConditionalOperatorNest4() {
         verify(new TestCode.IntParam() {
 
@@ -748,7 +747,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ConditionalOperatorNest5() {
         verify(new TestCode.IntParam() {
 
@@ -759,7 +758,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ConditionalOperatorWithIf() {
         verify(new TestCode.IntParam() {
 
@@ -774,7 +773,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ConditionalOperatorInMethod() {
         verify(new TestCode.IntParam() {
 
@@ -789,7 +788,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ConditionalOperatorWithLogicalSumInMethod() {
         verify(new TestCode.IntParam() {
 
@@ -804,7 +803,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ConditionalOperatorComplexInMethod() {
         verify(new TestCode.IntParam() {
 
@@ -819,7 +818,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void Anonymous() {
         verify(new TestCode.Text() {
 
@@ -836,7 +835,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void IntArrayForEach() {
         verify(new TestCode.IntParam() {
 
@@ -853,7 +852,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void If() {
         verify(new TestCode.IntParam() {
 
@@ -867,7 +866,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void IfElse() {
         verify(new TestCode.IntParam() {
 
@@ -882,7 +881,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void lfElseAfter() {
         verify(new TestCode.IntParam() {
 
@@ -898,7 +897,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void IfNest() {
         verify(new TestCode.IntParam() {
 
@@ -915,7 +914,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void IfNestComplex() {
         verify(new TestCode.IntParam() {
 
@@ -933,7 +932,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void DoWhile() {
         verify(new TestCode.IntParam() {
 
@@ -948,7 +947,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void DoWhileEquivalent() {
         verify(new TestCode.IntParam() {
 
@@ -985,7 +984,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void DoWhileInfiniteBreak() {
         verify(new TestCode.IntParam() {
 
@@ -1004,7 +1003,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void DoWhileContinue() {
         verify(new TestCode.IntParam() {
 
@@ -1025,7 +1024,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void For() {
         verify(new TestCode.IntParam() {
 
@@ -1040,7 +1039,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ForWithoutInitialize() {
         verify(new TestCode.IntParam() {
 
@@ -1058,7 +1057,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ForWithoutUpdate() {
         verify(new TestCode.IntParam() {
 
@@ -1078,7 +1077,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ForBreak() {
         verify(new TestCode.IntParam() {
 
@@ -1097,7 +1096,7 @@ class LogicalExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ForContinue() {
         verify(new TestCode.IntParam() {
 

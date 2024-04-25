@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.flow;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class DoWhileTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void normal() {
         verify(new TestCode.IntParam() {
 
@@ -31,7 +30,7 @@ class DoWhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void equivalent() {
         verify(new TestCode.IntParam() {
 
@@ -50,7 +49,7 @@ class DoWhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void complexCondition() {
         verify(new TestCode.IntParam() {
 
@@ -65,7 +64,7 @@ class DoWhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakNoLabel() {
         verify(new TestCode.IntParam() {
 
@@ -85,7 +84,7 @@ class DoWhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void breakInfinite() {
         verify(new TestCode.IntParam() {
 
@@ -104,7 +103,7 @@ class DoWhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void continueNoLabel() {
         verify(new TestCode.IntParam() {
 
@@ -125,7 +124,7 @@ class DoWhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void continueAndBreak() {
         verify(new TestCode.IntParam() {
 
@@ -149,7 +148,7 @@ class DoWhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void oneLiner() {
         verify(new TestCode.IntParam() {
 
@@ -163,7 +162,7 @@ class DoWhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void oneLinerComplexCondition() {
         verify(new TestCode.IntParam() {
 
@@ -177,7 +176,7 @@ class DoWhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void inIf() {
         verify(new TestCode.IntParam() {
 
@@ -193,7 +192,7 @@ class DoWhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void inIfOneLiner() {
         verify(new TestCode.IntParam() {
 
@@ -209,7 +208,7 @@ class DoWhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void inOneLinerIf() {
         verify(new TestCode.IntParam() {
 
@@ -223,7 +222,7 @@ class DoWhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void continueThenFollow() {
         verify(new TestCode.IntParam() {
 
@@ -246,7 +245,7 @@ class DoWhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void withWhile() {
         verify(new TestCode.IntParam() {
 
@@ -269,7 +268,7 @@ class DoWhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void nestContinueJump() {
         verify(new TestCode.IntParam() {
 
@@ -299,7 +298,7 @@ class DoWhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void nestBreakJump() {
         verify(new TestCode.IntParam() {
 

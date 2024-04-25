@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.flow;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class TernaryExpressionTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void base() {
         verify(new TestCode.IntParam() {
 
@@ -27,7 +26,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void postIncrement() {
         verify(new TestCode.IntParam() {
 
@@ -38,7 +37,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void preIncrement() {
         verify(new TestCode.IntParam() {
 
@@ -49,7 +48,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void logicalExpressionInLeft() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -60,7 +59,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void logicalExpressionInRight() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -73,7 +72,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void logicalExpressionInBoth() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -84,7 +83,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void logicalCondition() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -97,7 +96,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void logicalAll() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -108,7 +107,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void logicalAllUnformat() {
         verify(new TestCode.IntParamBoolean() {
 
@@ -123,7 +122,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void string() {
         verify(new TestCode.IntParamText() {
 
@@ -134,7 +133,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void stringNest() {
         verify(new TestCode.IntParamText() {
 
@@ -145,7 +144,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void stringComplex() {
         verify(new TestCode.IntParamText() {
 
@@ -156,7 +155,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void nestRight() {
         verify(new TestCode.IntParamText() {
 
@@ -167,7 +166,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void nestLeft() {
         verify(new TestCode.IntParamText() {
 
@@ -178,7 +177,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void withExpression() {
         verify(new TestCode.TextParamInt() {
 
@@ -189,7 +188,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void withExpressionThenAssignToVariable() {
         verify(new TestCode.TextParam() {
 
@@ -204,7 +203,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void withAssignToVariable() {
         verify(new TestCode.BooleanParamInt() {
 
@@ -217,7 +216,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void afterLogicalExpression() {
         verify(new TestCode.IntParam() {
 
@@ -229,7 +228,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void inIf() {
         verify(new TestCode.IntParam() {
 
@@ -244,7 +243,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ifConditionLogical() {
         verify(new TestCode.IntParamText() {
 
@@ -262,7 +261,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ifConditionTernary() {
         verify(new TestCode.IntParamText() {
 
@@ -280,7 +279,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void ifConditionTernaryBoolean() {
         verify(new TestCode.IntParamText() {
 
@@ -294,7 +293,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void whileConditionTernary() {
         verify(new TestCode.IntParam() {
 
@@ -308,7 +307,7 @@ class TernaryExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void withLogical() {
         verify(new TestCode.IntParamBoolean() {
 

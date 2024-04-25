@@ -12,14 +12,14 @@ package reincarnation.decompiler.flow;
 import java.lang.annotation.RetentionPolicy;
 
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class SwitchExpressionTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void assignToVariable() {
         verify(new TestCode.IntParam() {
 
@@ -35,7 +35,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void methodParameter() {
         verify(new TestCode.IntParam() {
 
@@ -54,7 +54,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void withAssign() {
         verify(new TestCode.IntParam() {
 
@@ -69,7 +69,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void withUnaryOperator() {
         verify(new TestCode.IntParam() {
 
@@ -84,7 +84,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void withAssignOperator() {
         verify(new TestCode.IntParam() {
 
@@ -99,7 +99,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void sparse() {
         verify(new TestCode.IntParam() {
 
@@ -114,7 +114,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void block() {
         verify(new TestCode.IntParam() {
 
@@ -131,7 +131,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void blockInMultipleCases() {
         verify(new TestCode.IntParam() {
 
@@ -152,7 +152,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void blockInDefault() {
         verify(new TestCode.IntParam() {
 
@@ -176,7 +176,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void conditional() {
         verify(new TestCode.IntParam() {
 
@@ -196,7 +196,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void loop() {
         verify(new TestCode.IntParam() {
 
@@ -216,7 +216,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infiniteLoop() {
         verify(new TestCode.IntParam() {
 
@@ -237,7 +237,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void tryCatch() {
         verify(new TestCode.IntParam() {
 
@@ -258,7 +258,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void tryCatchFinally() {
         verify(new TestCode.IntParam() {
 
@@ -281,7 +281,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void withThrow() {
         verify(new TestCode.IntParam() {
 
@@ -304,7 +304,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     @Disabled
     void nest() {
         verify(new TestCode.IntParam() {
@@ -322,7 +322,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     @Disabled
     void inSwitchStatement() {
         verify(new TestCode.IntParam() {
@@ -342,7 +342,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     @Disabled
     void onSwitchStatement() {
         verify(new TestCode.IntParam() {
@@ -365,7 +365,7 @@ class SwitchExpressionTest extends CodeVerifier {
 
     }
 
-    @Test
+    @CrossDecompilerTest
     void conditionByChar() {
         verify(new TestCode.CharParam() {
 
@@ -380,7 +380,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void conditionByCharMultiple() {
         verify(new TestCode.CharParam() {
 
@@ -395,7 +395,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void conditionByEnum() {
         verify(new TestCode.IntParam() {
 
@@ -410,7 +410,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void conditionByEnumMultiple() {
         verify(new TestCode.IntParam() {
 
@@ -424,7 +424,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void conditionByString() {
         verify(new TestCode.TextParam() {
 
@@ -439,7 +439,7 @@ class SwitchExpressionTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void conditionByStringMultiple() {
         verify(new TestCode.TextParam() {
 

@@ -10,14 +10,15 @@
 package reincarnation.decompiler.flow;
 
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class WhileTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void normal() {
         verify(new TestCode.IntParam() {
 
@@ -32,7 +33,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void withBreak() {
         verify(new TestCode.IntParam() {
 
@@ -50,7 +51,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void multipuleBreaks() {
         verify(new TestCode.IntParam() {
 
@@ -72,7 +73,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void withContinue() {
         verify(new TestCode.IntParam() {
 
@@ -91,7 +92,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void withReturn() {
         verify(new TestCode.IntParam() {
 
@@ -109,7 +110,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void mix() {
         verify(new TestCode.IntParam() {
 
@@ -130,7 +131,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void nest() {
         verify(new TestCode.IntParam() {
 
@@ -148,7 +149,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void labeledBreak() {
         verify(new TestCode.IntParam() {
 
@@ -171,7 +172,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void inIf() {
         verify(new TestCode.IntParam() {
 
@@ -186,7 +187,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void afterIf() {
         verify(new TestCode.IntParam() {
 
@@ -205,7 +206,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void logical() {
         verify(new TestCode.IntParam() {
 
@@ -219,7 +220,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void assignWithMethod() {
         verify(new TestCode.IntParam() {
 
@@ -237,7 +238,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void oneLiner() {
         verify(new TestCode.IntParam() {
 
@@ -252,7 +253,8 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
+    @Debuggable
     void oneLinerNest() {
         verify(new TestCode.IntParam() {
 
@@ -267,7 +269,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void sequentialWithComplexCondition() {
         verify(new TestCode.IntParam() {
 
@@ -285,7 +287,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infiniteBreak() {
         verify(new TestCode.IntParam() {
 
@@ -303,7 +305,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infiniteFisrtBreak() {
         verify(new TestCode.IntParam() {
 
@@ -323,7 +325,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infiniteStatementBreakWithFollow() {
         verify(new TestCode.IntParam() {
 
@@ -343,7 +345,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infiniteMultipleStatementBreak() {
         verify(new TestCode.IntParam() {
             @Override
@@ -365,7 +367,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infiniteMultipleStatementBreaks() {
         verify(new TestCode.IntParam() {
 
@@ -389,7 +391,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infiniteNonConditionalSingleBackedge() {
         verify(new TestCode.IntParam() {
 
@@ -415,7 +417,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infiniteBreakInNestedIf() {
         verify(new TestCode.IntParam() {
 
@@ -441,7 +443,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infiniteBreakAndContinue() {
         verify(new TestCode.IntParam() {
 
@@ -469,7 +471,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void inifinitContinue() {
         verify(new TestCode.IntParam() {
 
@@ -490,7 +492,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void inifinitContinueWithShorthandIf() {
         verify(new TestCode.IntParam() {
 
@@ -509,7 +511,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void inifinitContinueWithShorthandIfInAnotherIf() {
         verify(new TestCode.IntParam() {
 
@@ -532,7 +534,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void infiniteNest() {
         verify(new TestCode.IntParam() {
             @Override
@@ -560,7 +562,7 @@ class WhileTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     @Disabled
     void infiniteNestBreakAndContinue() {
         verify(new TestCode.IntParam() {

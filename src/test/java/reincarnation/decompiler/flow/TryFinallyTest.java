@@ -9,14 +9,13 @@
  */
 package reincarnation.decompiler.flow;
 
-import org.junit.jupiter.api.Test;
-
 import reincarnation.CodeVerifier;
+import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
 class TryFinallyTest extends CodeVerifier {
 
-    @Test
+    @CrossDecompilerTest
     void normal() {
         verify(new TestCode.IntParam() {
 
@@ -31,7 +30,7 @@ class TryFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void normalAfter() {
         verify(new TestCode.IntParam() {
 
@@ -47,7 +46,7 @@ class TryFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void nodesInFinally() {
         verify(new TestCode.IntParam() {
 
@@ -72,7 +71,7 @@ class TryFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void nodesInFinallyAfter() {
         verify(new TestCode.IntParam() {
 
@@ -92,7 +91,7 @@ class TryFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void nodesInTryAndFinallyAfter() {
         verify(new TestCode.IntParam() {
 
@@ -116,7 +115,7 @@ class TryFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void halfNodesInTryAndFinallyAfter() {
         verify(new TestCode.IntParam() {
 
@@ -140,7 +139,7 @@ class TryFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void multipleReturnInTry() {
         verify(new TestCode.IntParam() {
 
@@ -175,7 +174,7 @@ class TryFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void emptyTry() {
         verify(new TestCode.IntParam() {
 
@@ -191,7 +190,7 @@ class TryFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void emptyFinally() {
         verify(new TestCode.IntParam() {
 
@@ -207,7 +206,7 @@ class TryFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void returnInTry() {
         verify(new TestCode.IntParam() {
 
@@ -233,7 +232,7 @@ class TryFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void returnInAfter() {
         verify(new TestCode.IntParam() {
 
@@ -260,7 +259,7 @@ class TryFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void tryFinallyInTryAndFinally() {
         verify(new TestCode.IntParam() {
 
@@ -284,7 +283,7 @@ class TryFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void tryFinallyWithHeadNodeInTryAndFinally() {
         verify(new TestCode.IntParam() {
 
@@ -312,7 +311,7 @@ class TryFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void tryFinallyWithTailNodeInTryAndFinally() {
         verify(new TestCode.IntParam() {
 
@@ -338,7 +337,7 @@ class TryFinallyTest extends CodeVerifier {
         });
     }
 
-    @Test
+    @CrossDecompilerTest
     void TryFinallyAfterNest2() {
         verify(new TestCode.IntParam() {
 
