@@ -2817,21 +2817,51 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                         OperandCondition second = conditions.get(1);
                         System.out.println((first.then == second.then) + "    " + (first.elze == second.elze));
 
-                        Node split = createNodeAfter(base, false);
-                        split.stack.addFirst(base.stack.pollLast());
+                        Node after = createNodeAfter(base, false);
+                        after.stack.addFirst(base.stack.pollLast());
 
                         base.disconnect(second.then);
                         base.disconnect(second.elze);
                         base.disconnect(created);
-                        base.connect(split);
+                        base.connect(after);
 
-                        split.connect(second.then);
-                        split.connect(second.elze);
-                        split.disconnect(base);
-                        split.connect(created);
+                        after.connect(second.then);
+                        after.connect(second.elze);
+                        after.disconnect(base);
+                        after.connect(created);
                     }
                 }
             }
+        }
+
+        private void splitCondition(Node target, int splitPosition) {
+            int size = target.stack.size();
+
+            // ignore single condition
+            if (size <= 1) {
+                return;
+            }
+
+            Set<Node> outgoings = new HashSet();
+
+            for (int i = 0; i < size; i++) {
+                Operand operand = target.stack.get(i);
+                if (operand instanceof OperandCondition condition) {
+                    if (condition.then != target) outgoings.add(condition.then);
+                    if (condition.elze != target) outgoings.add(condition.elze);
+                }
+
+                if (2 < outgoings.size()) {
+
+                    return;
+                }
+            }
+
+            List<OperandCondition> conditions = I.signal(target.stack).as(OperandCondition.class).toList();
+            // ignore any non-condition operand
+            if (conditions.size() != size) {
+            }
+
         }
 
         /**
