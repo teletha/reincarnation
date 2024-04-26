@@ -2750,6 +2750,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         }
 
         /**
+         * Test whether target condition is able to merge.
+         * 
+         * @param left A left condition.
+         * @param right A right condition.
+         * @return A result.
+         */
+        private boolean canMerge(OperandCondition left, OperandCondition right) {
+            return left.then == right.then || left.then == right.elze;
+        }
+
+        /**
          * <p>
          * Split mixed contents into condition part and non-condition part.
          * </p>
@@ -2813,67 +2824,55 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
                     List<OperandCondition> conditions = base.children(OperandCondition.class).toList();
                     if (conditions.size() == 2) {
-                        OperandCondition first = conditions.get(0);
-                        OperandCondition second = conditions.get(1);
-                        System.out.println((first.then == second.then) + "    " + (first.elze == second.elze));
-
-                        Node after = createNodeAfter(base, false);
-                        after.stack.addFirst(base.stack.pollLast());
-
-                        base.disconnect(second.then);
-                        base.disconnect(second.elze);
-                        base.disconnect(created);
-                        base.connect(after);
-
-                        after.connect(second.then);
-                        after.connect(second.elze);
-                        after.disconnect(base);
-                        after.connect(created);
+                        splitCondition(base);
                     }
                 }
             }
         }
 
-        private void splitCondition(Node target, int splitPosition) {
-            int size = target.stack.size();
+        private void splitCondition(Node node) {
+            int index = searchSplittableIndex(node);
 
-            // ignore single condition
-            if (size <= 1) {
-                return;
+            List<OperandCondition> front = I.signal(node.stack).take(index).as(OperandCondition.class).toList();
+            List<OperandCondition> rear = I.signal(node.stack).skip(index).as(OperandCondition.class).toList();
+
+            Node after = createNodeAfter(node, rear);
+
+            // for (OperandCondition condition : rear) {
+            // base.disconnect(condition.then);
+            // base.disconnect(condition.elze);
+            // }
+            for (OperandCondition condition : front) {
+                base.connect(condition.then);
+                base.connect(condition.elze);
             }
 
-            Set<Node> outgoings = new HashSet();
-
-            for (int i = 0; i < size; i++) {
-                Operand operand = target.stack.get(i);
-                if (operand instanceof OperandCondition condition) {
-                    if (condition.then != target) outgoings.add(condition.then);
-                    if (condition.elze != target) outgoings.add(condition.elze);
-                }
-
-                if (2 < outgoings.size()) {
-
-                    return;
-                }
+            for (OperandCondition condition : front) {
+                after.disconnect(condition.then);
+                after.disconnect(condition.elze);
             }
-
-            List<OperandCondition> conditions = I.signal(target.stack).as(OperandCondition.class).toList();
-            // ignore any non-condition operand
-            if (conditions.size() != size) {
-            }
-
+            // for (OperandCondition condition : rear) {
+            // after.connect(condition.then);
+            // after.connect(condition.elze);
+            // }
         }
+    }
 
-        /**
-         * Test whether target condition is able to merge.
-         * 
-         * @param left A left condition.
-         * @param right A right condition.
-         * @return A result.
-         */
-        private boolean canMerge(OperandCondition left, OperandCondition right) {
-            return left.then == right.then || left.then == right.elze;
+    private int searchSplittableIndex(Node node) {
+        Set<Node> outgoings = new HashSet();
+
+        for (int i = 0; i < node.stack.size(); i++) {
+            Operand operand = node.stack.get(i);
+            if (operand instanceof OperandCondition condition) {
+                if (condition.then != node) outgoings.add(condition.then);
+                if (condition.elze != node) outgoings.add(condition.elze);
+            }
+
+            if (2 < outgoings.size()) {
+                return i;
+            }
         }
+        return -1;
     }
 
     /**

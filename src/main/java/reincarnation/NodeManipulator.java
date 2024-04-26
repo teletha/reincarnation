@@ -10,6 +10,7 @@
 package reincarnation;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface NodeManipulator {
 
@@ -37,11 +38,27 @@ public interface NodeManipulator {
      * Create a new node with the specified initial operand before the specified node.
      * 
      * @param index The index node before which to create the new node.
-     * @param initial The initial operand for the new node.
+     * @param initials The initial operand for the new node.
      * @return The newly created node.
      */
-    default Node createNodeBefore(Node index, Operand initial) {
-        return createNodeBefore(index, true).addOperand(initial);
+    default Node createNodeBefore(Node index, Operand... initials) {
+        return createNodeBefore(index, List.of(initials));
+    }
+
+    /**
+     * Create a new node with the specified initial operand before the specified node.
+     * 
+     * @param index The index node before which to create the new node.
+     * @param initials The initial operand for the new node.
+     * @return The newly created node.
+     */
+    default Node createNodeBefore(Node index, Iterable<? extends Operand> initials) {
+        Node created = createNodeBefore(index, true);
+        for (Operand initial : initials) {
+            created.addOperand(initial);
+            index.stack.remove(initial);
+        }
+        return created;
     }
 
     /**
@@ -92,11 +109,27 @@ public interface NodeManipulator {
      * Create a new node with the specified initial operand after the specified node.
      * 
      * @param index The index node after which to create the new node.
-     * @param initial The initial operand for the new node.
+     * @param initials The initial operand for the new node.
      * @return The newly created node.
      */
-    default Node createNodeAfter(Node index, Operand initial) {
-        return createNodeAfter(index, true).addOperand(initial);
+    default Node createNodeAfter(Node index, Operand... initials) {
+        return createNodeAfter(index, List.of(initials));
+    }
+
+    /**
+     * Create a new node with the specified initial operand after the specified node.
+     * 
+     * @param index The index node after which to create the new node.
+     * @param initials The initial operand for the new node.
+     * @return The newly created node.
+     */
+    default Node createNodeAfter(Node index, Iterable<? extends Operand> initials) {
+        Node created = createNodeAfter(index, true);
+        for (Operand initial : initials) {
+            created.addOperand(initial);
+            index.stack.remove(initial);
+        }
+        return created;
     }
 
     /**
