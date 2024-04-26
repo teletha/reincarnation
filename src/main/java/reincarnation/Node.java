@@ -1075,7 +1075,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
             /**
              * no else <pre>
              * if (condition) {
-             *      other
+             * other
              * }
              * one
              * </pre>
@@ -1088,7 +1088,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
             /**
              * no else <pre>
              * if (condition) {
-             *      one
+             * one
              * }
              * other
              * </pre>
@@ -1100,7 +1100,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
                 /**
                  * no else <pre>
                  * if (condition) {
-                 *      one
+                 * one
                  * }
                  * </pre>
                  */
@@ -1110,7 +1110,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
                 /**
                  * no else <pre>
                  * if (!condition) {
-                 *      other
+                 * other
                  * }
                  * </pre>
                  */
@@ -1121,9 +1121,9 @@ public class Node implements Code<Operand>, Comparable<Node> {
                 /**
                  * with else <pre>
                  * if (condition) {
-                 *      one
+                 * one
                  * } else {
-                 *      other
+                 * other
                  * }
                  * </pre>
                  */
@@ -1214,9 +1214,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     /**
-     * <p>
      * Detect the follower node.
-     * </p>
      * 
      * @return A non-follower node.
      */
@@ -1231,7 +1229,9 @@ public class Node implements Code<Operand>, Comparable<Node> {
 
         Node[] nodes;
 
-        if (backedges.get(0).hasDominator(first)) {
+        if (outgoing.contains(backedges.get(0))) {
+            nodes = new Node[] {last, first};
+        } else if (backedges.get(0).hasDominator(first)) {
             nodes = new Node[] {first, last};
         } else {
             nodes = new Node[] {last, first};
@@ -1240,7 +1240,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
         /**
          * condition's destination node must be the process node <pre>
          * loop (condition) {
-         *      process-node
+         * process-node
          * }
          * exit-node
          * </pre>

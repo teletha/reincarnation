@@ -132,6 +132,7 @@ class WhileTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    @Debuggable
     void nest() {
         verify(new TestCode.IntParam() {
 
@@ -254,7 +255,6 @@ class WhileTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    @Debuggable
     void oneLinerNest() {
         verify(new TestCode.IntParam() {
 

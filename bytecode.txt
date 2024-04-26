@@ -1,8 +1,8 @@
 reincarnation.Failuer: Compile Error
 =================================================
-/reincarnation/decompiler/flow/WhileTest.java:16: ÉGÉâÅ[: returnï∂Ç™éwíËÇ≥ÇÍÇƒÇ¢Ç‹ÇπÇÒ
-        }
-        ^
+/reincarnation/decompiler/flow/WhileTest.java:21: ÉGÉâÅ[: ÉâÉxÉãl1ÇÕñ¢íËã`Ç≈Ç∑
+                continue l1;
+                ^
 
 -------------------------------------------------
 01    package reincarnation.decompiler.flow;
@@ -14,26 +14,29 @@ reincarnation.Failuer: Compile Error
 07    
 08    class WhileTest extends CodeVerifier {
 09    
-10        class WhileTest$14 implements IntParam {
+10        class WhileTest$7 implements IntParam {
 11    
-12            WhileTest$14(final WhileTest this$0) {
+12            WhileTest$7(final WhileTest this$0) {
 13            }
 14    
-15            public int run(@Param(from = -5, to = 5) int value) {
-16            }
-17        }
-18    }
+15            public int run(@Param(to = 10) int value) {
+16                while (value < 30) {
+17                    value += 10;
+18                    l1 : for (; 30 >= value; --value) {
+19                    }
+20                    // 3 -> 4 continue to 3 (1 of 1) Loop[entrance=3, first=0, exit=4, check=4]
+21                    continue l1;
+22                }
+23                return value;
+24            }
+25        }
+26    }
 =================================================
 	at reincarnation.Failuer.type(Failuer.java:38)
 	at reincarnation.CodeVerifier.verify(CodeVerifier.java:183)
-	at reincarnation.decompiler.flow.WhileTest.oneLinerNest(WhileTest.java:257)
+	at reincarnation.decompiler.flow.WhileTest.nest(WhileTest.java:135)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at antibug.powerassert.PowerAssert.capture(PowerAssert.java:62)
-	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
-	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
-	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.tryRemoveAndExec(ForkJoinPool.java:1351)
-	at java.base/java.util.concurrent.ForkJoinTask.awaitDone(ForkJoinTask.java:422)
-	at java.base/java.util.concurrent.ForkJoinTask.get(ForkJoinTask.java:991)
 	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
 	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
 	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
@@ -44,99 +47,93 @@ reincarnation.Failuer: Compile Error
 No solution.
 	Suppressed: reincarnation.Failuer: Fail to cross-decompile.
 -----------------------------------------------------------------------
-  Javac version - reincarnation.decompiler.flow.WhileTest$14
+  Javac version - reincarnation.decompiler.flow.WhileTest$7
 -----------------------------------------------------------------------
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(262, label0);
-methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$14", Opcodes.INTEGER}, 0, new Object[] {});
+methodVisitor.visitLineNumber(139, label0);
+methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$7", Opcodes.INTEGER}, 0, new Object[] {});
 methodVisitor.visitVarInsn(ILOAD, 1);
+methodVisitor.visitIntInsn(BIPUSH, 30);
 Label label1 = new Label();
-methodVisitor.visitJumpInsn(IFGE, label1);
-methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitInsn(ICONST_2);
-methodVisitor.visitInsn(IREM);
-Label label2 = new Label();
-methodVisitor.visitJumpInsn(IFNE, label2);
-methodVisitor.visitIincInsn(1, 3);
-methodVisitor.visitJumpInsn(GOTO, label0);
-methodVisitor.visitLabel(label2);
-methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$14", Opcodes.INTEGER}, 0, new Object[] {});
-methodVisitor.visitIincInsn(1, 5);
-methodVisitor.visitJumpInsn(GOTO, label0);
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLineNumber(265, label1);
-methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$14", Opcodes.INTEGER}, 0, new Object[] {});
-methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitInsn(IRETURN);
-Label label3 = new Label();
-methodVisitor.visitLabel(label3);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/WhileTest$14;", null, label0, label3, 0);
-methodVisitor.visitLocalVariable("value", "I", null, label0, label3, 1);
-methodVisitor.visitMaxs(2, 2);
-methodVisitor.visitEnd();
-}
-//-------------------------------------- WhileTest#oneLinerNest (WhileTest.java:263) --------------------------------------//
-[38;5;21mMethod run(int arg0)[0m (WhileTest.java:267)
-0	  in : [0,2]	out : [1,2,0]dom : [0]	doms : []	prev : []	next : [2]	dest : [0]	code : if (value 0) then 1 else SAME [Condition then 1 else SAME] if (value % 2 0) then 2 else 0 [Condition then 2 else 0] value += 3 [Assign#int]
-2	  in : [0]	out : [0]		dom : [0]	doms : []	prev : [0]	next : [1]	dest : [0]	code : value += 5 [Assign#int]
-1	  in : [0]	out : []		dom : [0]	doms : []	prev : [2]	next : [3]	dest : [T]	code : return value [Return#int - LocalVariable#int]
-3	  in : []	out : []		dom : []	doms : []	prev : [1]	next : []	dest : []	code : 
-
-0	  in : [2,A]	out : [1,2,A]dom : []	doms : [A,2,1]	prev : []	next : [A]	dest : [0]	back : [2,A]	code : if (value 0) then 1 else SAME [Condition then 1 else SAME] if (value % 2 0) then 2 else 0 [Condition then 2 else 0]
-A	  in : [0]	out : [0]		dom : [0]	doms : []	prev : [0]	next : [2]	dest : []	back : []	code : value += 3 [Assign#int]
-2	  in : [0]	out : [0]		dom : [0]	doms : []	prev : [A]	next : [1]	dest : [0]	back : []	code : value += 5 [Assign#int]
-1	  in : [0]	out : []		dom : [0]	doms : []	prev : [2]	next : []	dest : [T]	back : []	code : return value [Return#int - LocalVariable#int]
------------------------------------------------------------------------
-  ECJ version - reincarnation.decompiler.flow.WhileTest$14
------------------------------------------------------------------------
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(262, label0);
-Label label1 = new Label();
-methodVisitor.visitJumpInsn(GOTO, label1);
+methodVisitor.visitJumpInsn(IF_ICMPGE, label1);
 Label label2 = new Label();
 methodVisitor.visitLabel(label2);
-methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$14", Opcodes.INTEGER}, 0, new Object[] {});
-methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitInsn(ICONST_2);
-methodVisitor.visitInsn(IREM);
+methodVisitor.visitLineNumber(140, label2);
+methodVisitor.visitIincInsn(1, 10);
 Label label3 = new Label();
-methodVisitor.visitJumpInsn(IFNE, label3);
-methodVisitor.visitIincInsn(1, 3);
-methodVisitor.visitJumpInsn(GOTO, label1);
 methodVisitor.visitLabel(label3);
-methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$14", Opcodes.INTEGER}, 0, new Object[] {});
-methodVisitor.visitIincInsn(1, 5);
-methodVisitor.visitLabel(label1);
-methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$14", Opcodes.INTEGER}, 0, new Object[] {});
+methodVisitor.visitLineNumber(142, label3);
+methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$7", Opcodes.INTEGER}, 0, new Object[] {});
+methodVisitor.visitIntInsn(BIPUSH, 30);
 methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitJumpInsn(IFLT, label2);
+methodVisitor.visitJumpInsn(IF_ICMPGE, label0);
 Label label4 = new Label();
 methodVisitor.visitLabel(label4);
-methodVisitor.visitLineNumber(265, label4);
+methodVisitor.visitLineNumber(143, label4);
+methodVisitor.visitIincInsn(1, -1);
+methodVisitor.visitJumpInsn(GOTO, label3);
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLineNumber(146, label1);
+methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$7", Opcodes.INTEGER}, 0, new Object[] {});
 methodVisitor.visitVarInsn(ILOAD, 1);
 methodVisitor.visitInsn(IRETURN);
+0	  in : [3]	out : [1,2]	dom : []	doms : [2,1]	prev : []	next : [2]	dest : [2]	back : [3]	code : if (value 30) then 1 else 2 [Condition then 1 else 2]
+2	  in : [0]	out : [3]	dom : [0]	doms : [3]	prev : [0]	next : [3]	dest : [3]	back : []	code : value += 10 [Assign#int]
+3	  in : [2,4]out : [0,4]	dom : [2]	doms : [4]	prev : [2]	next : [4]	dest : [4]	back : [4]	code : if (30 value) then 0 else 4 [Condition then 0 else 4]
+4	  in : [3]	out : [3]	dom : [3]	doms : []	prev : [3]	next : [1]	dest : [3]	back : []	code : --value [Unary#int]
+1	  in : [0]	out : []	dom : [0]	doms : []	prev : [4]	next : []	dest : [T]	back : []	code : return value [Return#int - LocalVariable#int]
+-----------------------------------------------------------------------
+  ECJ version - reincarnation.decompiler.flow.WhileTest$7
+-----------------------------------------------------------------------
+Label label0 = new Label();
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(139, label0);
+Label label1 = new Label();
+methodVisitor.visitJumpInsn(GOTO, label1);
+Label label2 = new Label();
+methodVisitor.visitLabel(label2);
+methodVisitor.visitLineNumber(140, label2);
+methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$7", Opcodes.INTEGER}, 0, new Object[] {});
+methodVisitor.visitIincInsn(1, 10);
+Label label3 = new Label();
+methodVisitor.visitLabel(label3);
+methodVisitor.visitLineNumber(142, label3);
+Label label4 = new Label();
+methodVisitor.visitJumpInsn(GOTO, label4);
 Label label5 = new Label();
 methodVisitor.visitLabel(label5);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/WhileTest$14;", null, label0, label5, 0);
-methodVisitor.visitLocalVariable("value", "I", null, label0, label5, 1);
+methodVisitor.visitLineNumber(143, label5);
+methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$7", Opcodes.INTEGER}, 0, new Object[] {});
+methodVisitor.visitIincInsn(1, -1);
+methodVisitor.visitLabel(label4);
+methodVisitor.visitLineNumber(142, label4);
+methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$7", Opcodes.INTEGER}, 0, new Object[] {});
+methodVisitor.visitIntInsn(BIPUSH, 30);
+methodVisitor.visitVarInsn(ILOAD, 1);
+methodVisitor.visitJumpInsn(IF_ICMPLT, label5);
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLineNumber(139, label1);
+methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$7", Opcodes.INTEGER}, 0, new Object[] {});
+methodVisitor.visitVarInsn(ILOAD, 1);
+methodVisitor.visitIntInsn(BIPUSH, 30);
+methodVisitor.visitJumpInsn(IF_ICMPLT, label2);
+Label label6 = new Label();
+methodVisitor.visitLabel(label6);
+methodVisitor.visitLineNumber(146, label6);
+methodVisitor.visitVarInsn(ILOAD, 1);
+methodVisitor.visitInsn(IRETURN);
+Label label7 = new Label();
+methodVisitor.visitLabel(label7);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/WhileTest$7;", null, label0, label7, 0);
+methodVisitor.visitLocalVariable("value", "I", null, label0, label7, 1);
 methodVisitor.visitMaxs(2, 2);
 methodVisitor.visitEnd();
-//-------------------------------------- WhileTest#oneLinerNest (WhileTest.java:263) --------------------------------------//
-[38;5;21mMethod run(int value)[0m (WhileTest.java:267)
-0	  in : []		out : [1]	dom : []	doms : []	prev : []	next : [2]	dest : [1]	code : 
-2	  in : [1]		out : [3,1]	dom : [1]	doms : []	prev : [0]	next : [3]	dest : [1]	code : if (value % 2 0) then 3 else 1 [Condition then 3 else 1] value += 3 [Assign#int]
-3	  in : [2]		out : [1]	dom : [2]	doms : []	prev : [2]	next : [1]	dest : [1]	code : value += 5 [Assign#int]
-1	  in : [0,2,3]		out : [2,4]	dom : []	doms : []	prev : [3]	next : [4]	dest : [4]	code : if (value 0) then 2 else 4 [Condition then 2 else 4]
-4	  in : [1]		out : []	dom : [1]	doms : []	prev : [1]	next : [5]	dest : [T]	code : return value [Return#int - LocalVariable#int]
-5	  in : []		out : []	dom : []	doms : []	prev : [4]	next : []	dest : []	code : 
-
-0	  in : []		out : [1]	dom : []	doms : [1]	prev : []	next : [2]	dest : [1]	back : []	code : 
-2	  in : [1]		out : [3,A]	dom : [1]	doms : [A,3]prev : [0]	next : [A]	dest : [1]	back : []	code : if (value % 2 0) then 3 else 1 [Condition then 3 else 1]
-A	  in : [2]		out : [1]	dom : [2]	doms : []	prev : [2]	next : [3]	dest : []	back : []	code : value += 3 [Assign#int]
-3	  in : [2]		out : [1]	dom : [2]	doms : []	prev : [A]	next : [1]	dest : [1]	back : []	code : value += 5 [Assign#int]
-1	  in : [0,3,A]	out : [2,4]	dom : [0]	doms : [2,4]prev : [3]	next : [4]	dest : [4]	back : [3,A]code : if (value 0) then 2 else 4 [Condition then 2 else 4]
-4	  in : [1]		out : []	dom : [1]	doms : []	prev : [1]	next : []	dest : [T]	back : []	code : return value [Return#int - LocalVariable#int]
+0	  in : []	out : [1]	dom : []	doms : [1]	prev : []	next : [2]	dest : [1]	back : []	code : 
+2	  in : [1]	out : [3]	dom : [1]	doms : [3]	prev : [0]	next : [3]	dest : [3]	back : []	code : value += 10 [Assign#int]
+3	  in : [2]	out : [4]	dom : [2]	doms : [4]	prev : [2]	next : [5]	dest : [4]	back : []	code : 
+5	  in : [4]	out : [4]	dom : [4]	doms : []	prev : [3]	next : [4]	dest : [4]	back : []	code : --value [Unary#int]
+4	  in : [3,5]out : [5,1]	dom : [3]	doms : [5]	prev : [5]	next : [1]	dest : [1]	back : [5]	code : if (30 value) then 5 else 1 [Condition then 5 else 1]
+1	  in : [0,4]out : [2,6]	dom : [0]	doms : [2,6]prev : [4]	next : [6]	dest : [6]	back : [4]	code : if (value 30) then 2 else 6 [Condition then 2 else 6]
+6	  in : [1]	out : []	dom : [1]	doms : []	prev : [1]	next : []	dest : [T]	back : []	code : return value [Return#int - LocalVariable#int]
