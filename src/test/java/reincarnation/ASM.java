@@ -39,8 +39,7 @@ public class ASM {
         try {
             InputStream input = target.getClassLoader().getResourceAsStream(target.getName().replace('.', '/') + ".class");
             Translator translator = new Translator(target);
-            new ClassReader(input)
-                    .accept(new TraceClassVisitor(null, translator, new PrintWriter(translator.writer)), ClassReader.EXPAND_FRAMES);
+            new ClassReader(input).accept(new TraceClassVisitor(null, translator, new PrintWriter(translator.writer)), 0);
 
             asmifiers.put(target, translator.format());
         } catch (IOException e) {

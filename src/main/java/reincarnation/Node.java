@@ -1229,9 +1229,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
 
         Node[] nodes;
 
-        if (outgoing.contains(backedges.get(0))) {
-            nodes = new Node[] {last, first};
-        } else if (backedges.get(0).hasDominator(first)) {
+        if (first.canReachTo(this, getDominators())) {
             nodes = new Node[] {first, last};
         } else {
             nodes = new Node[] {last, first};

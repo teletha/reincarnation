@@ -118,6 +118,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     private static final int FRAME = 406;
 
     /**
+     * Represents an expanded frame. See {@link ClassReader#EXPAND_FRAMES}.
+     */
+    private static final int FRAME_ANY_SAME = 407;
+
+    /**
      * Represents a jump instruction. A jump instruction is an instruction that may jump to another
      * instruction.
      */
@@ -1136,31 +1141,35 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             break;
 
         case IRETURN:
-            // Java bytecode represents boolean value as integer value (0 or 1).
-            if (match(JUMP, ICONST_0, IRETURN, LABEL, FRAME, ICONST_1, IRETURN) || match(JUMP, LABEL, FRAME, ICONST_0, IRETURN, LABEL, FRAME, ICONST_1, IRETURN)) {
-                // Current operands is like the following, so we must remove four operands to
-                // represent boolean value.
-                //
-                // JUMP [Condition] return false [Expression] 1 [Number]
-                current.remove(0); // remove "1"
-                current.remove(0); // remove "return false"
-
-                // remove empty node if needed
-                if (current.previous.stack.isEmpty()) dispose(current.previous);
-            } else if (match(JUMP, ICONST_1, IRETURN, LABEL, FRAME, ICONST_0, IRETURN) || match(JUMP, LABEL, FRAME, ICONST_1, IRETURN, LABEL, FRAME, ICONST_0, IRETURN)) {
-                // Current operands is like the following, so we must remove four operands to
-                // represent boolean value.
-                //
-                // JUMP [Condition] return true [Expression] 0 [Number]
-                current.remove(0); // remove "0"
-                current.remove(0); // remove "return true"
-
-                // remove empty node if needed
-                if (current.previous.stack.isEmpty()) dispose(current.previous);
-
-                // invert the latest condition
-                current.peek(0).invert();
-            }
+            // // Java bytecode represents boolean value as integer value (0 or 1).
+            // if (match(JUMP, ICONST_0, IRETURN, LABEL, FRAME_ANY_SAME, ICONST_1, IRETURN) ||
+            // match(JUMP, LABEL, FRAME, ICONST_0, IRETURN, LABEL, FRAME_ANY_SAME, ICONST_1,
+            // IRETURN)) {
+            // // Current operands is like the following, so we must remove four operands to
+            // // represent boolean value.
+            // //
+            // // JUMP [Condition] return false [Expression] 1 [Number]
+            // current.remove(0); // remove "1"
+            // current.remove(0); // remove "return false"
+            //
+            // // remove empty node if needed
+            // if (current.previous.stack.isEmpty()) dispose(current.previous);
+            // } else if (match(JUMP, ICONST_1, IRETURN, LABEL, FRAME_ANY_SAME, ICONST_0, IRETURN)
+            // || match(JUMP, LABEL, FRAME, ICONST_1, IRETURN, LABEL, FRAME_ANY_SAME, ICONST_0,
+            // IRETURN)) {
+            // // Current operands is like the following, so we must remove four operands to
+            // // represent boolean value.
+            // //
+            // // JUMP [Condition] return true [Expression] 0 [Number]
+            // current.remove(0); // remove "0"
+            // current.remove(0); // remove "return true"
+            //
+            // // remove empty node if needed
+            // if (current.previous.stack.isEmpty()) dispose(current.previous);
+            //
+            // // invert the latest condition
+            // current.peek(0).invert();
+            // }
             Operand operand = current.remove(0);
             operand.fix(returnType);
 
@@ -2538,6 +2547,16 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 case FRAME_CHOP:
                 case FRAME_FULL:
                 case FRAME_NEW:
+                case FRAME_SAME:
+                case FRAME_SAME1:
+                    continue root;
+
+                default:
+                    return false;
+                }
+
+            case FRAME_ANY_SAME:
+                switch (record) {
                 case FRAME_SAME:
                 case FRAME_SAME1:
                     continue root;

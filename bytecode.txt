@@ -1,40 +1,41 @@
-reincarnation.Failuer: Compile Error
+antibug.powerassert.PowerAssertionError: reincarnation.Failuer: Invalid Decompilation
 =================================================
-/reincarnation/decompiler/flow/WhileTest.java:21: エラー: ラベルl1は未定義です
-                continue l1;
-                ^
+package reincarnation.decompiler.flow;
 
--------------------------------------------------
-01    package reincarnation.decompiler.flow;
-02    
-03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.IntParam;
-05    import reincarnation.TestCode.Param;
-06    import reincarnation.decompiler.flow.WhileTest;
-07    
-08    class WhileTest extends CodeVerifier {
-09    
-10        class WhileTest$7 implements IntParam {
-11    
-12            WhileTest$7(final WhileTest this$0) {
-13            }
-14    
-15            public int run(@Param(to = 10) int value) {
-16                while (value < 30) {
-17                    value += 10;
-18                    l1 : for (; 30 >= value; --value) {
-19                    }
-20                    // 3 -> 4 continue to 3 (1 of 1) Loop[entrance=3, first=0, exit=4, check=4]
-21                    continue l1;
-22                }
-23                return value;
-24            }
-25        }
-26    }
+import reincarnation.CodeVerifier;
+import reincarnation.TestCode.IntParamBoolean;
+import reincarnation.decompiler.flow.IfTest;
+
+public class IfTest extends CodeVerifier {
+
+    class IfTest$20 implements IntParamBoolean {
+
+        IfTest$20(final IfTest this$0) {
+        }
+
+        public boolean run(int o) {
+            for (; o < 4; o += 2) {
+                // 0 -> 2 continue to 0 (1 of 1) Loop[entrance=0, first=2, exit=1, check=2]
+            }
+            return o == 2;
+        }
+    }
+}
+
 =================================================
-	at reincarnation.Failuer.type(Failuer.java:38)
-	at reincarnation.CodeVerifier.verify(CodeVerifier.java:183)
-	at reincarnation.decompiler.flow.WhileTest.nest(WhileTest.java:135)
+assert expected.equals(actual)
+┌─────────────────────────────────────────
+│expected　　　　#java.lang.Boolean@7027632a
+│　　true
+├─────────────────────────────────────────
+│actual　　　　#java.lang.Boolean@6e225724
+│　　false
+└─────────────────────────────────────────
+
+	at reincarnation.CodeVerifier$JavaVerifier.assertObject(CodeVerifier.java:533)
+	at reincarnation.CodeVerifier$JavaVerifier.verify(CodeVerifier.java:509)
+	at reincarnation.CodeVerifier.verify(CodeVerifier.java:197)
+	at reincarnation.decompiler.flow.IfTest.shorthandInFlow(IfTest.java:319)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at antibug.powerassert.PowerAssert.capture(PowerAssert.java:62)
 	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
@@ -43,97 +44,176 @@ reincarnation.Failuer: Compile Error
 	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
 	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
 	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
-	Suppressed: Fail compiling code.
-No solution.
 	Suppressed: reincarnation.Failuer: Fail to cross-decompile.
 -----------------------------------------------------------------------
-  Javac version - reincarnation.decompiler.flow.WhileTest$7
+  Javac version - reincarnation.decompiler.flow.IfTest$20
 -----------------------------------------------------------------------
+public class IfTest$20Dump implements Opcodes {
+
+public static byte[] dump () throws Exception {
+
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/flow/IfTest$20", null, "java/lang/Object", new String[] { "reincarnation/TestCode$IntParamBoolean" });
+
+{
+methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/flow/IfTest;)V", null, null);
+methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_MANDATED);
 methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(139, label0);
-methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$7", Opcodes.INTEGER}, 0, new Object[] {});
+methodVisitor.visitLineNumber(319, label0);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+methodVisitor.visitInsn(RETURN);
+Label label1 = new Label();
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/IfTest$20;", null, label0, label1, 0);
+methodVisitor.visitLocalVariable("this$0", "Lreincarnation/decompiler/flow/IfTest;", null, label0, label1, 1);
+methodVisitor.visitMaxs(1, 2);
+methodVisitor.visitEnd();
+}
+{
+methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "(I)Z", null, null);
+methodVisitor.visitCode();
+Label label0 = new Label();
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(323, label0);
+methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
 methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitIntInsn(BIPUSH, 30);
+methodVisitor.visitInsn(ICONST_4);
 Label label1 = new Label();
 methodVisitor.visitJumpInsn(IF_ICMPGE, label1);
 Label label2 = new Label();
 methodVisitor.visitLabel(label2);
-methodVisitor.visitLineNumber(140, label2);
-methodVisitor.visitIincInsn(1, 10);
+methodVisitor.visitLineNumber(324, label2);
+methodVisitor.visitVarInsn(ILOAD, 1);
+methodVisitor.visitInsn(ICONST_2);
+methodVisitor.visitInsn(IADD);
+methodVisitor.visitVarInsn(ISTORE, 1);
 Label label3 = new Label();
 methodVisitor.visitLabel(label3);
-methodVisitor.visitLineNumber(142, label3);
-methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$7", Opcodes.INTEGER}, 0, new Object[] {});
-methodVisitor.visitIntInsn(BIPUSH, 30);
+methodVisitor.visitLineNumber(325, label3);
 methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitJumpInsn(IF_ICMPGE, label0);
+methodVisitor.visitInsn(ICONST_2);
+methodVisitor.visitJumpInsn(IF_ICMPNE, label0);
+methodVisitor.visitInsn(ICONST_1);
+methodVisitor.visitInsn(IRETURN);
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLineNumber(327, label1);
+methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+methodVisitor.visitInsn(ICONST_0);
+methodVisitor.visitInsn(IRETURN);
 Label label4 = new Label();
 methodVisitor.visitLabel(label4);
-methodVisitor.visitLineNumber(143, label4);
-methodVisitor.visitIincInsn(1, -1);
-methodVisitor.visitJumpInsn(GOTO, label3);
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLineNumber(146, label1);
-methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$7", Opcodes.INTEGER}, 0, new Object[] {});
-methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitInsn(IRETURN);
-0	  in : [3]	out : [1,2]	dom : []	doms : [2,1]	prev : []	next : [2]	dest : [2]	back : [3]	code : if (value 30) then 1 else 2 [Condition then 1 else 2]
-2	  in : [0]	out : [3]	dom : [0]	doms : [3]	prev : [0]	next : [3]	dest : [3]	back : []	code : value += 10 [Assign#int]
-3	  in : [2,4]out : [0,4]	dom : [2]	doms : [4]	prev : [2]	next : [4]	dest : [4]	back : [4]	code : if (30 value) then 0 else 4 [Condition then 0 else 4]
-4	  in : [3]	out : [3]	dom : [3]	doms : []	prev : [3]	next : [1]	dest : [3]	back : []	code : --value [Unary#int]
-1	  in : [0]	out : []	dom : [0]	doms : []	prev : [4]	next : []	dest : [T]	back : []	code : return value [Return#int - LocalVariable#int]
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/IfTest$20;", null, label0, label4, 0);
+methodVisitor.visitLocalVariable("o", "I", null, label0, label4, 1);
+methodVisitor.visitMaxs(2, 2);
+methodVisitor.visitEnd();
+}
+
+}
+}
 -----------------------------------------------------------------------
-  ECJ version - reincarnation.decompiler.flow.WhileTest$7
+  ECJ version - reincarnation.decompiler.flow.IfTest$20
 -----------------------------------------------------------------------
+public class IfTest$20Dump implements Opcodes {
+
+public static byte[] dump () throws Exception {
+
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/flow/IfTest$20", null, "java/lang/Object", new String[] { "reincarnation/TestCode$IntParamBoolean" });
+
+{
+fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "this$0", "Lreincarnation/decompiler/flow/IfTest;", null, null);
+fieldVisitor.visitEnd();
+}
+{
+methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/flow/IfTest;)V", null, null);
+methodVisitor.visitCode();
 Label label0 = new Label();
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(139, label0);
+methodVisitor.visitLineNumber(319, label0);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitVarInsn(ALOAD, 1);
+methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/flow/IfTest$20", "this$0", "Lreincarnation/decompiler/flow/IfTest;");
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+methodVisitor.visitInsn(RETURN);
+Label label1 = new Label();
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/IfTest$20;", null, label0, label1, 0);
+methodVisitor.visitMaxs(2, 2);
+methodVisitor.visitEnd();
+}
+{
+methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "(I)Z", null, null);
+methodVisitor.visitCode();
+Label label0 = new Label();
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(323, label0);
 Label label1 = new Label();
 methodVisitor.visitJumpInsn(GOTO, label1);
 Label label2 = new Label();
 methodVisitor.visitLabel(label2);
-methodVisitor.visitLineNumber(140, label2);
-methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$7", Opcodes.INTEGER}, 0, new Object[] {});
-methodVisitor.visitIincInsn(1, 10);
+methodVisitor.visitLineNumber(324, label2);
+methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+methodVisitor.visitIincInsn(1, 2);
 Label label3 = new Label();
 methodVisitor.visitLabel(label3);
-methodVisitor.visitLineNumber(142, label3);
+methodVisitor.visitLineNumber(325, label3);
+methodVisitor.visitVarInsn(ILOAD, 1);
+methodVisitor.visitInsn(ICONST_2);
+methodVisitor.visitJumpInsn(IF_ICMPNE, label1);
+methodVisitor.visitInsn(ICONST_1);
+methodVisitor.visitInsn(IRETURN);
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLineNumber(323, label1);
+methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+methodVisitor.visitVarInsn(ILOAD, 1);
+methodVisitor.visitInsn(ICONST_4);
+methodVisitor.visitJumpInsn(IF_ICMPLT, label2);
 Label label4 = new Label();
-methodVisitor.visitJumpInsn(GOTO, label4);
+methodVisitor.visitLabel(label4);
+methodVisitor.visitLineNumber(327, label4);
+methodVisitor.visitInsn(ICONST_0);
+methodVisitor.visitInsn(IRETURN);
 Label label5 = new Label();
 methodVisitor.visitLabel(label5);
-methodVisitor.visitLineNumber(143, label5);
-methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$7", Opcodes.INTEGER}, 0, new Object[] {});
-methodVisitor.visitIincInsn(1, -1);
-methodVisitor.visitLabel(label4);
-methodVisitor.visitLineNumber(142, label4);
-methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$7", Opcodes.INTEGER}, 0, new Object[] {});
-methodVisitor.visitIntInsn(BIPUSH, 30);
-methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitJumpInsn(IF_ICMPLT, label5);
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLineNumber(139, label1);
-methodVisitor.visitFrame(Opcodes.F_NEW, 2, new Object[] {"reincarnation/decompiler/flow/WhileTest$7", Opcodes.INTEGER}, 0, new Object[] {});
-methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitIntInsn(BIPUSH, 30);
-methodVisitor.visitJumpInsn(IF_ICMPLT, label2);
-Label label6 = new Label();
-methodVisitor.visitLabel(label6);
-methodVisitor.visitLineNumber(146, label6);
-methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitInsn(IRETURN);
-Label label7 = new Label();
-methodVisitor.visitLabel(label7);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/WhileTest$7;", null, label0, label7, 0);
-methodVisitor.visitLocalVariable("value", "I", null, label0, label7, 1);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/IfTest$20;", null, label0, label5, 0);
+methodVisitor.visitLocalVariable("o", "I", null, label0, label5, 1);
 methodVisitor.visitMaxs(2, 2);
 methodVisitor.visitEnd();
-0	  in : []	out : [1]	dom : []	doms : [1]	prev : []	next : [2]	dest : [1]	back : []	code : 
-2	  in : [1]	out : [3]	dom : [1]	doms : [3]	prev : [0]	next : [3]	dest : [3]	back : []	code : value += 10 [Assign#int]
-3	  in : [2]	out : [4]	dom : [2]	doms : [4]	prev : [2]	next : [5]	dest : [4]	back : []	code : 
-5	  in : [4]	out : [4]	dom : [4]	doms : []	prev : [3]	next : [4]	dest : [4]	back : []	code : --value [Unary#int]
-4	  in : [3,5]out : [5,1]	dom : [3]	doms : [5]	prev : [5]	next : [1]	dest : [1]	back : [5]	code : if (30 value) then 5 else 1 [Condition then 5 else 1]
-1	  in : [0,4]out : [2,6]	dom : [0]	doms : [2,6]prev : [4]	next : [6]	dest : [6]	back : [4]	code : if (value 30) then 2 else 6 [Condition then 2 else 6]
-6	  in : [1]	out : []	dom : [1]	doms : []	prev : [1]	next : []	dest : [T]	back : []	code : return value [Return#int - LocalVariable#int]
+}
+
+}
+}
+		at reincarnation.Failuer.type(Failuer.java:38)
+		at reincarnation.CodeVerifier.verify(CodeVerifier.java:226)
+		... 9 more
+Caused by: reincarnation.Failuer: Invalid Decompilation
+=================================================
+package reincarnation.decompiler.flow;
+
+import reincarnation.CodeVerifier;
+import reincarnation.TestCode.IntParamBoolean;
+import reincarnation.decompiler.flow.IfTest;
+
+public class IfTest extends CodeVerifier {
+
+    class IfTest$20 implements IntParamBoolean {
+
+        IfTest$20(final IfTest this$0) {
+        }
+
+        public boolean run(int o) {
+            for (; o < 4; o += 2) {
+                // 0 -> 2 continue to 0 (1 of 1) Loop[entrance=0, first=2, exit=1, check=2]
+            }
+            return o == 2;
+        }
+    }
+}
+
+=================================================
+	at reincarnation.Failuer.type(Failuer.java:38)
+	at reincarnation.CodeVerifier.error(CodeVerifier.java:393)
+	... 12 more
+

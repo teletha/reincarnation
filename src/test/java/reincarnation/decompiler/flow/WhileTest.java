@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Disabled;
 
 import reincarnation.CodeVerifier;
 import reincarnation.CrossDecompilerTest;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class WhileTest extends CodeVerifier {
@@ -132,7 +131,6 @@ class WhileTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    @Debuggable
     void nest() {
         verify(new TestCode.IntParam() {
 
