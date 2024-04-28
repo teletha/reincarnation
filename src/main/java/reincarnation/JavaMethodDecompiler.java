@@ -26,6 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
@@ -38,6 +39,7 @@ import org.objectweb.asm.Type;
 import kiss.I;
 import kiss.Signal;
 import reincarnation.Debugger.Printable;
+import reincarnation.OperandSwitch.CaseProcessor;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.Naming;
@@ -1747,7 +1749,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
         // If no debugging options are specified, this information is not added. So only the name
         // will be used if available.
-        locals.registerName(index, name, signature);
+        locals.registerName(index, name);
     }
 
     /**
@@ -1905,15 +1907,74 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         // connect from entrance to each cases and default
         I.signal(caseNodes).startWith(defaultNode).to(current::connect);
 
-        boolean isString = match(ASTORE, INVOKEVIRTUAL, SWITCH);
-        if (isString) {
+        Operand switchCondition = current.remove(0);
+        CaseProcessor processor = new CaseProcessor();
+
+        // for ECJ
+        if (match(DUP, ASTORE, INVOKEVIRTUAL, SWITCH)) {
+            switchCondition = switchCondition.as(OperandMethodCall.class).exact().owner;
+            processor.processCase = cases -> {
+                MultiMap<Node, Object> renewed = new MultiMap(true);
+                cases.keys().to(oldCaseBlock -> {
+                    OperandCondition condition = oldCaseBlock.child(OperandCondition.class).exact();
+
+                    // retrieve the actual matching text
+                    OperandString text = oldCaseBlock.children(OperandCondition.class, OperandMethodCall.class, OperandString.class)
+                            .to()
+                            .exact();
+
+                    renewed.put(condition.then, text);
+
+                    dispose(condition.elze, true, true);
+                    dispose(oldCaseBlock, true, true);
+                });
+                return renewed;
+            };
             locals.unregister(latestLocalVariableAccess());
         }
 
-        OperandSwitch o = new OperandSwitch(current, current.remove(0), keys, caseNodes, defaultNode, isString);
+        // for Javac
+        if (match(ALOAD, ASTORE, ICONST_M1, ISTORE, ALOAD, INVOKEVIRTUAL, SWITCH)) {
+            if (current.peek(1) instanceof OperandAssign assign) {
+                stringSwitch = processor;
+                switchCondition = switchCondition.as(OperandMethodCall.class).exact().owner;
+                processor.processCase = cases -> {
+                    AtomicInteger caseIndex = new AtomicInteger();
+                    MultiMap<Node, Object> renewed = new MultiMap(true);
+                    cases.keys().to(oldCaseBlock -> {
+                        OperandCondition condition = oldCaseBlock.child(OperandCondition.class).exact();
+
+                        // retrieve the actual matching text
+                        OperandString text = oldCaseBlock.children(OperandCondition.class, OperandMethodCall.class, OperandString.class)
+                                .to()
+                                .exact();
+
+                        renewed.put(caseNodes.get(caseIndex.getAndIncrement()), text);
+
+                        System.out.println(condition.view());
+
+                        // dispose(condition.elze, true, true);
+                        // dispose(oldCaseBlock, true, true);
+                    });
+                    return renewed;
+                };
+
+                OperandLocalVariable right = assign.assign().as(OperandLocalVariable.class).to().exact();
+                OperandLocalVariable left = (OperandLocalVariable) assign.left;
+                right.original.observing().to(left.original::set);
+            }
+        } else if (stringSwitch != null) {
+            switcher.caseNodes = caseNodes;
+            switcher.defaultNode = defaultNode;
+            switcher = null;
+        }
+
+        OperandSwitch o = new OperandSwitch(current, switchCondition, keys, caseNodes, defaultNode, caseProcessor);
         current.addOperand(o);
         switches.addFirst(o);
     }
+
+    private CaseProcessor stringSwitch;
 
     /**
      * {@inheritDoc}

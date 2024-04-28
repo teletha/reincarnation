@@ -148,16 +148,16 @@ final class LocalVariables implements Naming {
      * @param index
      * @param name
      */
-    void registerName(int index, String name, String signature) {
+    void registerName(int index, String name) {
         OperandLocalVariable param = params.get(index);
         if (param != null) {
-            param.original = name;
+            param.original.set(name);
         } else {
             for (Entry<String, OperandLocalVariable> entry : variables.entrySet()) {
                 String id = entry.getKey();
                 if (id.startsWith(index + "#")) {
                     OperandLocalVariable variable = entry.getValue();
-                    variable.original = name;
+                    variable.original.set(name);
                 }
             }
         }
@@ -225,6 +225,10 @@ final class LocalVariables implements Naming {
      */
     @Override
     public String name(String name) {
+        System.out.println("Find " + name + "   " + params.values()
+                .stream()
+                .map(x -> x.name + "@" + x.toString())
+                .toList() + "    " + variables.values().stream().map(x -> x.name + "@" + x.toString()).toList());
         for (OperandLocalVariable param : params.values()) {
             if (param.name.equals(name)) {
                 return param.toString();

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import kiss.Variable;
 import reincarnation.coder.Coder;
 
 class OperandLocalVariable extends Operand {
@@ -28,7 +29,7 @@ class OperandLocalVariable extends Operand {
     final List<Node> referrers = new ArrayList();
 
     /** The detected original name. */
-    String original;
+    final Variable<String> original = Variable.empty();
 
     /**
      * Create local variable with index.
@@ -74,7 +75,7 @@ class OperandLocalVariable extends Operand {
         if (name.equals("this")) {
             coder.writeThis();
         } else {
-            coder.writeLocalVariable(type.v, index, original == null ? name : original);
+            coder.writeLocalVariable(type.v, index, original.isAbsent() ? name : original.v);
         }
     }
 
@@ -108,6 +109,6 @@ class OperandLocalVariable extends Operand {
     @Override
     public String toString() {
         // don't call #write, it will throw error in debug mode.
-        return original == null ? name : original;
+        return original.isAbsent() ? name : original.v;
     }
 }

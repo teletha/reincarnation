@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.UnaryOperator;
 
 import kiss.I;
 import kiss.Signal;
@@ -102,8 +103,8 @@ class OperandSwitch extends Operand {
     /** The default case. */
     private Node defaultNode;
 
-    /** The switch type mode. */
-    private final boolean switchForString;
+    /** The case post processor. */
+    private final CaseProcessor processor;
 
     /** The end node. */
     Node follower;
@@ -117,7 +118,7 @@ class OperandSwitch extends Operand {
      * @param caseNodes the nodes corresponding to each case
      * @param defaultNode the default node
      */
-    OperandSwitch(Node entrance, Operand condition, int[] keys, List<Node> caseNodes, Node defaultNode, boolean switchForString) {
+    OperandSwitch(Node entrance, Operand condition, int[] keys, List<Node> caseNodes, Node defaultNode, CaseProcessor processor) {
         // enum switch generates special code, we should strip them
         if (condition instanceof OperandArrayAccess access) {
             // For ECJ
@@ -147,9 +148,9 @@ class OperandSwitch extends Operand {
         }
 
         this.entrance = entrance;
-        this.condition = switchForString ? ((OperandMethodCall) condition).owner : condition;
+        this.condition = condition;
         this.defaultNode = defaultNode;
-        this.switchForString = switchForString;
+        this.processor = processor;
 
         for (int i = 0; i < keys.length; i++) {
             cases.put(caseNodes.get(i), keys[i]);
@@ -242,24 +243,8 @@ class OperandSwitch extends Operand {
         cases.sort();
         cases.remove(defaultNode);
 
-        // ===============================================
-        // Special handling for string switch
-        // ===============================================
-        if (switchForString) {
-            MultiMap<Node, Object> renewed = new MultiMap(true);
-            cases.keys().to(oldCaseBlock -> {
-                OperandCondition condition = oldCaseBlock.child(OperandCondition.class).exact();
-
-                // retrieve the actual matching text
-                Operand textCase = oldCaseBlock.children(OperandCondition.class, OperandMethodCall.class, OperandString.class).to().exact();
-
-                renewed.put(condition.then, textCase);
-
-                manipulator.dispose(condition.elze, true, true);
-                manipulator.dispose(oldCaseBlock, true, true);
-            });
-            this.cases = renewed;
-        }
+        this.cases = processor.processCase.apply(cases);
+        this.defaultNode = processor.processDefault.apply(defaultNode);
 
         // ===============================================
         // Detect the really default node
@@ -460,5 +445,12 @@ class OperandSwitch extends Operand {
     @Override
     protected String view() {
         return "switch (" + condition.view() + ")";
+    }
+
+    static class CaseProcessor {
+
+        UnaryOperator<MultiMap<Node, Object>> processCase = UnaryOperator.identity();
+
+        UnaryOperator<Node> processDefault = UnaryOperator.identity();
     }
 }
