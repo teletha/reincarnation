@@ -261,29 +261,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     private Operand[] enumValues = new Operand[2];
 
-    /**
-     * <p>
-     * Switch statement with enum produces special bytecode, so we must handle it by special way.
-     * The following asmfier code is typical code for enum switch.
-     * </p>
-     * <pre>
-     * // invoke compiler generated static method to retrieve the user class specific number array
-     * // we should ignore this oeprand
-     * mv.visitMethodInsn(INVOKESTATIC, "EnumSwitchUserClass", "$SWITCH_TABLE$EnumClass", "()[I");
-     *
-     * // load target enum variable
-     * mv.visitVarInsn(ALOAD, 1);
-     * 
-     * // invoke Enum#ordinal method to retieve identical number
-     * mv.visitMethodInsn(INVOKEVIRTUAL, "EnumClass", "ordinal", "()I");
-     * 
-     * // access mapping number array
-     * //we should ignore this operand
-     * mv.visitInsn(IALOAD);
-     * </pre>
-     */
-    private boolean enumSwitchInvoked;
-
     /** The synchronized block related nodes. */
     private Set<Node> synchronizer = new HashSet();
 
@@ -594,20 +571,19 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             break;
 
         case PUTSTATIC:
-            // On Javac, enum switch generates the special byte code like the following
-            // static {
-            // 15 $SwitchMap$java$lang$annotation$RetentionPolicy = new int[ENUM.values().length];
-            // 16 try {
-            // 17 $SwitchMap$java$lang$annotation$RetentionPolicy[ENUM.VALU1.ordinal()] = 1;
-            // 18 } catch(NoSuchFieldError local0) {
-            // 19 }
-            // 20 try {
-            // 21 $SwitchMap$java$lang$annotation$RetentionPolicy[ENUM.VALUE2.ordinal()] = 2;
-            // 22 } catch(NoSuchFieldError local0) {
-            // 23 }
-            // 24 }
-            //
-            // We must remove completely.
+            /**
+             * On Javac, enum switch generates the special byte code like the following
+             * {@snippet :
+             * // The compiler adds an array for mapping from ordinals to case labels for enumerated constants.
+             * static final int[] $SwitchMap$;
+             * 
+             * static {
+             *     // Instantiate an array for mapping. size is the number of all enumeration constants.
+             *     $SwitchMap$ = new int[ENUM.values().length];
+             * }
+             * }
+             * We must remove it completely. See {@link OperandSwitch} header document for details.
+             */
             if (GeneratedCodes.isEnumSwitchName(name)) {
                 current.remove(0);
                 break;
@@ -695,6 +671,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             current.addOperand(accessClassField(owner, name));
             break;
         }
+
     }
 
     private Operand accessClassField(Class owner, String name) {
@@ -1206,17 +1183,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             break;
 
         // write array value by index
-        case IALOAD:
-            if (enumSwitchInvoked) {
-                enumSwitchInvoked = false; // reset
-
-                current.children(OperandMethodCall.class).to(method -> {
-                    current.remove(0);
-                    current.addOperand(method.owner);
-                });
-                break;
-            }
         case AALOAD:
+        case IALOAD:
         case BALOAD:
         case LALOAD:
         case FALOAD:
@@ -1228,20 +1196,33 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         // read array value by index
         case IASTORE:
-            // On Javac, enum switch generates the special byte code like the following
-            // static {
-            // 15 $SwitchMap$java$lang$annotation$RetentionPolicy = new int[ENUM.values().length];
-            // 16 try {
-            // 17 $SwitchMap$java$lang$annotation$RetentionPolicy[ENUM.VALU1.ordinal()] = 1;
-            // 18 } catch(NoSuchFieldError local0) {
-            // 19 }
-            // 20 try {
-            // 21 $SwitchMap$java$lang$annotation$RetentionPolicy[ENUM.VALUE2.ordinal()] = 2;
-            // 22 } catch(NoSuchFieldError local0) {
-            // 23 }
-            // 24 }
-            //
-            // We must remove completely.
+            /**
+             * On Javac, enum switch generates the special byte code like the following
+             * {@snippet :
+             * // The compiler adds an array for mapping from ordinals to case labels for enumerated constants.
+             * static final int[] $SwitchMap$;
+             * 
+             * static {
+             *     // The data for mapping are numbered from 1 in the order indicated by the labels in the switch statement.
+             *     try {
+             *         $SwitchMap$[ENUM.A.ordinal()] = 1;
+             *     } catch (NoSuchFieldError e) {
+             *         // ignore error
+             *     }
+             *     try {
+             *         $SwitchMap$[ENUM.B.ordinal()] = 2;
+             *     } catch (NoSuchFieldError e) {
+             *         // ignore error
+             *     }
+             *     try {
+             *         $SwitchMap$[ENUM.C.ordinal()] = 3;
+             *     } catch (NoSuchFieldError e) {
+             *         // ignore error
+             *     }
+             * }
+             * }
+             * We must remove it completely. See {@link OperandSwitch} header document for details.
+             */
             if (current.peek(2) instanceof OperandFieldAccess field && GeneratedCodes.isEnumSwitchField(field.field)) {
                 current.remove(0);
                 current.remove(0);
@@ -1842,11 +1823,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             break;
 
         case INVOKESTATIC: // static method call
-            if (GeneratedCodes.isEnumSwitchName(method)) {
-                enumSwitchInvoked = true;
-                return;
-            }
-
             // Non-private static method which is called from child class have parent
             // class signature.
             while (!hasStaticMethod(owner, method, parameters)) {

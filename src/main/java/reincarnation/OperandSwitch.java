@@ -27,6 +27,66 @@ import reincarnation.util.MultiMap;
 
 /**
  * Operand representing a switch statement.
+ * 
+ * ====================================================================
+ * For Javac
+ *
+ * A static array is added to the bytecode compiled by Javac. At runtime, this array
+ * dynamically stores the ordinal numbers of the enumerated constants and the
+ * mapping data for the case labels. The array is created large enough to store all
+ * enumeration constants, but the mapping data is stored only for the constants used
+ * for the case labels.
+ *
+ * The following is Java code that is roughly equivalent to byte code
+ * {@snippet :
+ * public class Main {
+ *     // The compiler adds an array for mapping from ordinals to case labels for enumerated constants.
+ *     static final int[] $SwitchMap$;
+ * 
+ *     static {
+ *         // Instantiate an array for mapping. size is the number of all enumeration constants.
+ *         $SwitchMap$ = new int[ENUM.values().length];
+ * 
+ *         // The data for mapping are numbered from 1 in the order indicated by the labels in the switch statement.
+ *         try {
+ *             $SwitchMap$[ENUM.A.ordinal()] = 1;
+ *         } catch (NoSuchFieldError e) {
+ *             // ignore error
+ *         }
+ *         try {
+ *             $SwitchMap$[ENUM.B.ordinal()] = 2;
+ *         } catch (NoSuchFieldError e) {
+ *             // ignore error
+ *         }
+ *         try {
+ *             $SwitchMap$[ENUM.C.ordinal()] = 3;
+ *         } catch (NoSuchFieldError e) {
+ *             // ignore error
+ *         }
+ *     }
+ * 
+ *     public static void main(String[] args) {
+ *         switch ($SwitchMap$[ENUM.B.ordinal()]) {
+ *         case 1:
+ *             System.out.println("A");
+ *             break;
+ *         case 2:
+ *             System.out.println("B");
+ *             break;
+ *         case 3:
+ *             System.out.println("C");
+ *             break;
+ *         }
+ *     }
+ * }
+ * }
+ * 
+ * If the enumeration constant used for the case label fails to be retrieved, the exception is
+ * ignored. This allows the switch statement to work without problems even after the enumeration
+ * constant in question has been deleted in the enumeration class.
+ * 
+ * @SeeAlso https://happynow.hateblo.jp/entry/20120505/1336227066
+ * @SeeAlso http://www.ne.jp/asahi/hishidama/home/tech/java/enum.html#h2_switch
  */
 class OperandSwitch extends Operand {
 
@@ -59,15 +119,28 @@ class OperandSwitch extends Operand {
      */
     OperandSwitch(Node entrance, Operand condition, int[] keys, List<Node> caseNodes, Node defaultNode, boolean switchForString) {
         // enum switch generates special code, we should strip them
-        // for javac
         if (condition instanceof OperandArrayAccess access) {
-            if (access.array instanceof OperandFieldAccess field && GeneratedCodes.isEnumSwitchField(field.field)) {
+            // For ECJ
+            if (access.array instanceof OperandMethodCall ordinals && GeneratedCodes.isEnumSwitchMethod(ordinals.method)) {
                 if (access.index instanceof OperandMethodCall call && call.method.getName()
                         .equals("ordinal") && call.method.getDeclaringClass() == Enum.class) {
                     condition = call.owner;
+                }
+            } else {
+                // For Javac
+                if (access.array instanceof OperandFieldAccess field && GeneratedCodes.isEnumSwitchField(field.field)) {
+                    if (access.index instanceof OperandMethodCall call && call.method.getName()
+                            .equals("ordinal") && call.method.getDeclaringClass() == Enum.class) {
+                        condition = call.owner;
 
-                    for (int i = 0; i < keys.length; i++) {
-                        keys[i]++;
+                        // See header document for details
+                        //
+                        // In Javac's implementation, there is a discrepancy between the ordinal
+                        // value of the Enum and the value of the retained index, which should be
+                        // corrected.
+                        for (int i = 0; i < keys.length; i++) {
+                            keys[i]++;
+                        }
                     }
                 }
             }
