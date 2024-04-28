@@ -22,6 +22,7 @@ import kiss.Signal;
 import reincarnation.coder.Coder;
 import reincarnation.structure.Structure;
 import reincarnation.structure.Switch;
+import reincarnation.util.GeneratedCodes;
 import reincarnation.util.MultiMap;
 
 /**
@@ -57,6 +58,21 @@ class OperandSwitch extends Operand {
      * @param defaultNode the default node
      */
     OperandSwitch(Node entrance, Operand condition, int[] keys, List<Node> caseNodes, Node defaultNode, boolean switchForString) {
+        // enum switch generates special code, we should strip them
+        // for javac
+        if (condition instanceof OperandArrayAccess access) {
+            if (access.array instanceof OperandFieldAccess field && GeneratedCodes.isEnumSwitchField(field.field)) {
+                if (access.index instanceof OperandMethodCall call && call.method.getName()
+                        .equals("ordinal") && call.method.getDeclaringClass() == Enum.class) {
+                    condition = call.owner;
+
+                    for (int i = 0; i < keys.length; i++) {
+                        keys[i]++;
+                    }
+                }
+            }
+        }
+
         this.entrance = entrance;
         this.condition = switchForString ? ((OperandMethodCall) condition).owner : condition;
         this.defaultNode = defaultNode;

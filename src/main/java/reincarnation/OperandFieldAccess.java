@@ -22,7 +22,7 @@ import reincarnation.operator.AccessMode;
 class OperandFieldAccess extends Operand {
 
     /** The field. */
-    private final Field field;
+    final Field field;
 
     /** The field context. */
     private final Operand context;

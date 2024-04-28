@@ -404,6 +404,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         }
 
         tries.disposeCopiedFinallyBlock();
+        tries.disposeEmptyTryCatchFinallyBlock();
 
         // Separate conditional operands and dispose empty node.
         for (Node node : nodes.toArray(new Node[nodes.size()])) {
@@ -593,6 +594,25 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             break;
 
         case PUTSTATIC:
+            // On Javac, enum switch generates the special byte code like the following
+            // static {
+            // 15 $SwitchMap$java$lang$annotation$RetentionPolicy = new int[ENUM.values().length];
+            // 16 try {
+            // 17 $SwitchMap$java$lang$annotation$RetentionPolicy[ENUM.VALU1.ordinal()] = 1;
+            // 18 } catch(NoSuchFieldError local0) {
+            // 19 }
+            // 20 try {
+            // 21 $SwitchMap$java$lang$annotation$RetentionPolicy[ENUM.VALUE2.ordinal()] = 2;
+            // 22 } catch(NoSuchFieldError local0) {
+            // 23 }
+            // 24 }
+            //
+            // We must remove completely.
+            if (GeneratedCodes.isEnumSwitchName(name)) {
+                current.remove(0);
+                break;
+            }
+
             // On Javac, $assertionDisabled flag field is assigined in static initializer, but that
             // field will be remove to avoid other compile error, so we must remove this assign
             // statement also.
@@ -672,7 +692,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     break;
                 }
             }
-            current.addOperand(accessClassField(owner, name), type);
+            current.addOperand(accessClassField(owner, name));
             break;
         }
     }
@@ -1207,14 +1227,35 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             break;
 
         // read array value by index
-        case AASTORE:
-        case BASTORE:
         case IASTORE:
+            // On Javac, enum switch generates the special byte code like the following
+            // static {
+            // 15 $SwitchMap$java$lang$annotation$RetentionPolicy = new int[ENUM.values().length];
+            // 16 try {
+            // 17 $SwitchMap$java$lang$annotation$RetentionPolicy[ENUM.VALU1.ordinal()] = 1;
+            // 18 } catch(NoSuchFieldError local0) {
+            // 19 }
+            // 20 try {
+            // 21 $SwitchMap$java$lang$annotation$RetentionPolicy[ENUM.VALUE2.ordinal()] = 2;
+            // 22 } catch(NoSuchFieldError local0) {
+            // 23 }
+            // 24 }
+            //
+            // We must remove completely.
+            if (current.peek(2) instanceof OperandFieldAccess field && GeneratedCodes.isEnumSwitchField(field.field)) {
+                current.remove(0);
+                current.remove(0);
+                current.remove(0);
+                break;
+            }
+
+        case BASTORE:
         case LASTORE:
         case FASTORE:
         case DASTORE:
         case CASTORE:
         case SASTORE:
+        case AASTORE:
             Operand contextMaybeArray = current.remove(2);
             Operand value = current.remove(0, false);
 
@@ -2959,6 +3000,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         }
 
         /**
+         * 
+         */
+        private void disposeEmptyTryCatchFinallyBlock() {
+            // for (TryCatchFinally block : blocks) {
+            // if (block.isEmpty()) {
+            // block.dispose();
+            // }
+            // }
+        }
+
+        /**
          * In Java 6 and later, the old jsr and ret instructions are effectively deprecated. These
          * instructions were used to build mini-subroutines inside methods. The finally node is
          * copied on all exit nodes by compiler , so we must remove it.
@@ -3173,6 +3225,29 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             addCatchOrFinallyBlock(exception, catcher);
         }
 
+        private boolean isEmpty() {
+            // check start
+            if (start != null && !start.isEmpty()) {
+                return false;
+            }
+
+            // check end
+            if (end != null && !end.isEmpty()) {
+                return false;
+            }
+
+            if (catcher != null && !catcher.isEmpty()) {
+                return false;
+            }
+
+            for (CatchOrFinally block : blocks) {
+                if (!block.isEmpty()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         /**
          * Test whether this try-catch-finally block has any catch block or not.
          * 
@@ -3241,6 +3316,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             }
         }
 
+        private void dispose() {
+            if (start != null) start.tries.remove(this);
+            if (end != null) end.tries.remove(this);
+            if (catcher != null) catcher.tries.remove(this);
+            if (exit != null) exit.tries.remove(this);
+        }
+
         /**
          * {@inheritDoc}
          */
@@ -3278,6 +3360,15 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         private boolean isFinally(Node node) {
             return exception == null && this.node == node;
+        }
+
+        /**
+         * Test whether this catch or finally block is empty or not.
+         * 
+         * @return
+         */
+        private boolean isEmpty() {
+            return node == null || node.isEmpty();
         }
     }
 

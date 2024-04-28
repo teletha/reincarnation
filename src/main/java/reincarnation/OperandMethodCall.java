@@ -29,7 +29,6 @@ import reincarnation.coder.Coder;
 import reincarnation.coder.CodingOption;
 import reincarnation.coder.DelegatableCoder;
 import reincarnation.operator.AccessMode;
-import reincarnation.util.GeneratedCodes;
 
 class OperandMethodCall extends Operand {
 
@@ -193,8 +192,6 @@ class OperandMethodCall extends Operand {
         } else if (method.equals(JavaMethodDecompiler.MakeConcatWithConstants)) {
             coder.writeStringConcatenation(params.iterator());
             return;
-        } else if (GeneratedCodes.isEnumSwitchMethod(method)) {
-            System.out.println(method + "   ");
         }
         coder.writeMethodCall(method, owner, params, mode);
         // } else {
