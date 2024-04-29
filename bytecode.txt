@@ -1,49 +1,46 @@
-reincarnation.Failuer: Compile Error
+antibug.powerassert.PowerAssertionError: reincarnation.Failuer: Invalid Decompilation
 =================================================
-/reincarnation/decompiler/flow/SwitchTest.java:16: エラー: ')'がありません
-            l0 : switch (String local2) {
-                               ^
-/reincarnation/decompiler/flow/SwitchTest.java:16: エラー: case、defaultまたは'}'がありません
-            l0 : switch (String local2) {
-                                ^
-/reincarnation/decompiler/flow/SwitchTest.java:16: エラー: case、defaultまたは'}'がありません
-            l0 : switch (String local2) {
-                                      ^
-/reincarnation/decompiler/flow/SwitchTest.java:16: エラー: case、defaultまたは'}'がありません
-            l0 : switch (String local2) {
-                                        ^
+package reincarnation.decompiler.flow;
 
--------------------------------------------------
-01    package reincarnation.decompiler.flow;
-02    
-03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.Param;
-05    import reincarnation.TestCode.TextParam;
-06    import reincarnation.decompiler.flow.SwitchTest;
-07    
-08    class SwitchTest extends CodeVerifier {
-09    
-10        class SwitchTest$63 implements TextParam {
-11    
-12            SwitchTest$63(final SwitchTest this$0) {
-13            }
-14    
-15            public String run(@Param(strings = {"a", "b", "c", "d", "e"}) String param) {
-16                l0 : switch (String local2) {
-17                    case "a":
-18                    case "b":
-19                        // 0 -> 3 break(1 of 3) 
-20                        break;
-21                }
-22                // 0 -> 3 break(2 of 3) 
-23                break l0;
-24            }
-25        }
-26    }
+import reincarnation.CodeVerifier;
+import reincarnation.TestCode.IntParam;
+import reincarnation.TestCode.Param;
+import reincarnation.decompiler.flow.SwitchTest;
+
+class SwitchTest extends CodeVerifier {
+
+    class SwitchTest$15 implements IntParam {
+
+        SwitchTest$15(final SwitchTest this$0) {
+        }
+
+        public int run(@Param(to = 5) int param) {
+            try {
+                switch (param) {
+                    case 1:
+                }
+                throw new Error();
+            } catch(Error e) {
+                return 30;
+            }
+        }
+    }
+}
+
 =================================================
-	at reincarnation.Failuer.type(Failuer.java:38)
-	at reincarnation.CodeVerifier.verify(CodeVerifier.java:183)
-	at reincarnation.decompiler.flow.SwitchTest.conditionByString(SwitchTest.java:1552)
+assert expected.equals(actual)
+┌─────────────────────────────────────────
+│expected　　　　#java.lang.Integer@7108045a
+│　　10
+├─────────────────────────────────────────
+│actual　　　　#java.lang.Integer@72814f60
+│　　30
+└─────────────────────────────────────────
+
+	at reincarnation.CodeVerifier$JavaVerifier.assertObject(CodeVerifier.java:533)
+	at reincarnation.CodeVerifier$JavaVerifier.verify(CodeVerifier.java:509)
+	at reincarnation.CodeVerifier.verify(CodeVerifier.java:197)
+	at reincarnation.decompiler.flow.SwitchTest.withThrow(SwitchTest.java:322)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at antibug.powerassert.PowerAssert.capture(PowerAssert.java:62)
 	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
@@ -52,106 +49,136 @@ reincarnation.Failuer: Compile Error
 	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
 	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
 	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
-	Suppressed: Fail compiling code.
-No solution.
 	Suppressed: reincarnation.Failuer: Fail to cross-decompile.
 -----------------------------------------------------------------------
-  Javac version - reincarnation.decompiler.flow.SwitchTest$63
+  Javac version - reincarnation.decompiler.flow.SwitchTest$15
 -----------------------------------------------------------------------
 Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(1556, label0);
-methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitVarInsn(ASTORE, 2);
-methodVisitor.visitInsn(ICONST_M1);
-methodVisitor.visitVarInsn(ISTORE, 3);
-methodVisitor.visitVarInsn(ALOAD, 2);
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "hashCode", "()I", false);
 Label label1 = new Label();
 Label label2 = new Label();
+methodVisitor.visitTryCatchBlock(label0, label1, label2, "java/lang/Error");
 Label label3 = new Label();
-methodVisitor.visitLookupSwitchInsn(label3, new int[] { 97, 98 }, new Label[] { label1, label2 });
-methodVisitor.visitLabel(label1);
-methodVisitor.visitFrame(Opcodes.F_APPEND,2, new Object[] {"java/lang/String", Opcodes.INTEGER}, 0, null);
-methodVisitor.visitVarInsn(ALOAD, 2);
-methodVisitor.visitLdcInsn("a");
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false);
-methodVisitor.visitJumpInsn(IFEQ, label3);
-methodVisitor.visitInsn(ICONST_0);
-methodVisitor.visitVarInsn(ISTORE, 3);
-methodVisitor.visitJumpInsn(GOTO, label3);
-methodVisitor.visitLabel(label2);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitVarInsn(ALOAD, 2);
-methodVisitor.visitLdcInsn("b");
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false);
-methodVisitor.visitJumpInsn(IFEQ, label3);
-methodVisitor.visitInsn(ICONST_1);
-methodVisitor.visitVarInsn(ISTORE, 3);
-methodVisitor.visitLabel(label3);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitVarInsn(ILOAD, 3);
 Label label4 = new Label();
+methodVisitor.visitTryCatchBlock(label3, label4, label2, "java/lang/Error");
 Label label5 = new Label();
+methodVisitor.visitTryCatchBlock(label5, label2, label2, "java/lang/Error");
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(327, label0);
+methodVisitor.visitVarInsn(ILOAD, 1);
 Label label6 = new Label();
-methodVisitor.visitLookupSwitchInsn(label6, new int[] { 0, 1 }, new Label[] { label4, label5 });
-methodVisitor.visitLabel(label4);
-methodVisitor.visitLineNumber(1558, label4);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitLdcInsn("A");
-methodVisitor.visitInsn(ARETURN);
-methodVisitor.visitLabel(label5);
-methodVisitor.visitLineNumber(1561, label5);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitLdcInsn("B");
-methodVisitor.visitInsn(ARETURN);
+methodVisitor.visitLookupSwitchInsn(label5, new int[] { 0, 1 }, new Label[] { label6, label3 });
 methodVisitor.visitLabel(label6);
-methodVisitor.visitLineNumber(1564, label6);
+methodVisitor.visitLineNumber(329, label6);
 methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitInsn(ARETURN);
------------------------------------------------------------------------
-  ECJ version - reincarnation.decompiler.flow.SwitchTest$63
------------------------------------------------------------------------
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(1556, label0);
-methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitInsn(DUP);
-methodVisitor.visitVarInsn(ASTORE, 2);
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "hashCode", "()I", false);
-Label label1 = new Label();
-Label label2 = new Label();
-Label label3 = new Label();
-methodVisitor.visitLookupSwitchInsn(label3, new int[] { 97, 98 }, new Label[] { label1, label2 });
+methodVisitor.visitIntInsn(BIPUSH, 10);
 methodVisitor.visitLabel(label1);
-methodVisitor.visitFrame(Opcodes.F_APPEND,1, new Object[] {"java/lang/String"}, 0, null);
-methodVisitor.visitVarInsn(ALOAD, 2);
-methodVisitor.visitLdcInsn("a");
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false);
-Label label4 = new Label();
-methodVisitor.visitJumpInsn(IFNE, label4);
-methodVisitor.visitJumpInsn(GOTO, label3);
-methodVisitor.visitLabel(label2);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitVarInsn(ALOAD, 2);
-methodVisitor.visitLdcInsn("b");
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false);
-Label label5 = new Label();
-methodVisitor.visitJumpInsn(IFNE, label5);
-methodVisitor.visitJumpInsn(GOTO, label3);
-methodVisitor.visitLabel(label4);
-methodVisitor.visitLineNumber(1558, label4);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitLdcInsn("A");
-methodVisitor.visitInsn(ARETURN);
-methodVisitor.visitLabel(label5);
-methodVisitor.visitLineNumber(1561, label5);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitLdcInsn("B");
-methodVisitor.visitInsn(ARETURN);
+methodVisitor.visitInsn(IRETURN);
 methodVisitor.visitLabel(label3);
-methodVisitor.visitLineNumber(1564, label3);
+methodVisitor.visitLineNumber(332, label3);
 methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitInsn(ARETURN);
+methodVisitor.visitIntInsn(BIPUSH, 20);
+methodVisitor.visitLabel(label4);
+methodVisitor.visitInsn(IRETURN);
+methodVisitor.visitLabel(label5);
+methodVisitor.visitLineNumber(335, label5);
+methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+methodVisitor.visitTypeInsn(NEW, "java/lang/Error");
+methodVisitor.visitInsn(DUP);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Error", "<init>", "()V", false);
+methodVisitor.visitInsn(ATHROW);
+methodVisitor.visitLabel(label2);
+methodVisitor.visitLineNumber(337, label2);
+methodVisitor.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[] {"java/lang/Error"});
+methodVisitor.visitVarInsn(ASTORE, 2);
+Label label7 = new Label();
+methodVisitor.visitLabel(label7);
+methodVisitor.visitLineNumber(338, label7);
+methodVisitor.visitIntInsn(BIPUSH, 30);
+methodVisitor.visitInsn(IRETURN);
+Label label8 = new Label();
+
+-----------------------------------------------
+  ECJ version - reincarnation.decompiler.flow.SwitchTest$15
+-----------------------------------------------------------------------
+methodVisitor.visitTryCatchBlock(label0, label1, label2, "java/lang/Error");
+Label label3 = new Label();
+methodVisitor.visitTryCatchBlock(label3, label2, label2, "java/lang/Error");
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(327, label0);
+methodVisitor.visitVarInsn(ILOAD, 1);
+Label label4 = new Label();
+methodVisitor.visitTableSwitchInsn(0, 1, label3, new Label[] { label1, label4 });
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLineNumber(329, label1);
+methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+methodVisitor.visitIntInsn(BIPUSH, 10);
+methodVisitor.visitInsn(IRETURN);
+methodVisitor.visitLabel(label4);
+methodVisitor.visitLineNumber(332, label4);
+methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+methodVisitor.visitIntInsn(BIPUSH, 20);
+methodVisitor.visitInsn(IRETURN);
+methodVisitor.visitLabel(label3);
+methodVisitor.visitLineNumber(335, label3);
+methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+methodVisitor.visitTypeInsn(NEW, "java/lang/Error");
+methodVisitor.visitInsn(DUP);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Error", "<init>", "()V", false);
+methodVisitor.visitInsn(ATHROW);
+methodVisitor.visitLabel(label2);
+methodVisitor.visitLineNumber(337, label2);
+methodVisitor.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[] {"java/lang/Error"});
+methodVisitor.visitVarInsn(ASTORE, 2);
+Label label5 = new Label();
+methodVisitor.visitLabel(label5);
+methodVisitor.visitLineNumber(338, label5);
+methodVisitor.visitIntInsn(BIPUSH, 30);
+methodVisitor.visitInsn(IRETURN);
+Label label6 = new Label();
+methodVisitor.visitLabel(label6);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/SwitchTest$15;", null, label0, label6, 0);
+methodVisitor.visitLocalVariable("param", "I", null, label0, label6, 1);
+methodVisitor.visitLocalVariable("e", "Ljava/lang/Error;", null, label5, label6, 2);
+methodVisitor.visitMaxs(2, 3);
+methodVisitor.visitEnd();
+}
+
+}
+}
+		at reincarnation.Failuer.type(Failuer.java:38)
+		at reincarnation.CodeVerifier.verify(CodeVerifier.java:226)
+		... 9 more
+Caused by: reincarnation.Failuer: Invalid Decompilation
+=================================================
+package reincarnation.decompiler.flow;
+
+import reincarnation.CodeVerifier;
+import reincarnation.TestCode.IntParam;
+import reincarnation.TestCode.Param;
+import reincarnation.decompiler.flow.SwitchTest;
+
+class SwitchTest extends CodeVerifier {
+
+    class SwitchTest$15 implements IntParam {
+
+        SwitchTest$15(final SwitchTest this$0) {
+        }
+
+        public int run(@Param(to = 5) int param) {
+            try {
+                switch (param) {
+                    case 1:
+                }
+                throw new Error();
+            } catch(Error e) {
+                return 30;
+            }
+        }
+    }
+}
+
+=================================================
+	at reincarnation.Failuer.type(Failuer.java:38)
+	at reincarnation.CodeVerifier.error(CodeVerifier.java:393)
+	... 12 more
+

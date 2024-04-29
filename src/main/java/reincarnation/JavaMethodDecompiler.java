@@ -1907,12 +1907,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         I.signal(caseNodes).startWith(defaultNode).to(current::connect);
 
         Operand switchCondition = current.remove(0);
-        OperandSwitch o = new OperandSwitch(current, switchCondition, keys, caseNodes, defaultNode);
+        OperandSwitch operand = new OperandSwitch(current, switchCondition, keys, caseNodes, defaultNode);
 
         // for ECJ
         if (match(DUP, ASTORE, INVOKEVIRTUAL, SWITCH)) {
-            o.convertToStringSwitch();
-            o.caseConverter = cases -> {
+            operand.convertToStringSwitch();
+            operand.caseConverter = cases -> {
                 MultiMap<Node, Object> renewed = new MultiMap(true);
                 cases.keys().to(oldCaseBlock -> {
                     OperandCondition condition = oldCaseBlock.child(OperandCondition.class).exact();
@@ -1935,8 +1935,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         // for Javac
         if (match(ALOAD, ASTORE, ICONST_M1, ISTORE, ALOAD, INVOKEVIRTUAL, SWITCH)) {
             if (current.peek(1) instanceof OperandAssign assign) {
-                stringSwitchForJavac = o;
-                o.convertToStringSwitch();
+                stringSwitchForJavac = operand;
+                operand.convertToStringSwitch();
 
                 OperandLocalVariable right = assign.assign().as(OperandLocalVariable.class).to().exact();
                 OperandLocalVariable left = (OperandLocalVariable) assign.left;
@@ -1961,8 +1961,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             stringSwitchForJavac = null;
         }
 
-        current.addOperand(o);
-        switches.addFirst(o);
+        current.addOperand(operand);
+        switches.addFirst(operand);
     }
 
     private OperandSwitch stringSwitchForJavac;
@@ -2193,6 +2193,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         if (nodes.contains(target)) {
             // remove actually
             nodes.remove(target);
+
+            // update case or default node on switch
+            for (OperandSwitch switche : switches) {
+                switche.replaceCase(target, target.next);
+            }
 
             link(target.previous, target.next);
 
