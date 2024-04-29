@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.UnaryOperator;
@@ -95,7 +96,7 @@ class OperandSwitch extends Operand {
     final Node entrance;
 
     /** The condition. */
-    private final Operand condition;
+    private Operand condition;
 
     /** The special case manager. */
     private MultiMap<Node, Object> cases = new MultiMap(true);
@@ -103,11 +104,14 @@ class OperandSwitch extends Operand {
     /** The default case. */
     private Node defaultNode;
 
-    /** The case post processor. */
-    private final CaseProcessor processor;
-
     /** The end node. */
     Node follower;
+
+    /** The post processor for case blocks. */
+    UnaryOperator<MultiMap<Node, Object>> caseConverter = UnaryOperator.identity();
+
+    /** The post processor for default block. */
+    UnaryOperator<Node> defaultConverter = UnaryOperator.identity();
 
     /**
      * Creates a new {@code OperandSwitch} instance.
@@ -118,7 +122,7 @@ class OperandSwitch extends Operand {
      * @param caseNodes the nodes corresponding to each case
      * @param defaultNode the default node
      */
-    OperandSwitch(Node entrance, Operand condition, int[] keys, List<Node> caseNodes, Node defaultNode, CaseProcessor processor) {
+    OperandSwitch(Node entrance, Operand condition, int[] keys, List<Node> caseNodes, Node defaultNode) {
         // enum switch generates special code, we should strip them
         if (condition instanceof OperandArrayAccess access) {
             // For ECJ
@@ -150,7 +154,6 @@ class OperandSwitch extends Operand {
         this.entrance = entrance;
         this.condition = condition;
         this.defaultNode = defaultNode;
-        this.processor = processor;
 
         for (int i = 0; i < keys.length; i++) {
             cases.put(caseNodes.get(i), keys[i]);
@@ -243,8 +246,8 @@ class OperandSwitch extends Operand {
         cases.sort();
         cases.remove(defaultNode);
 
-        this.cases = processor.processCase.apply(cases);
-        this.defaultNode = processor.processDefault.apply(defaultNode);
+        this.cases = caseConverter.apply(cases);
+        this.defaultNode = defaultConverter.apply(defaultNode);
 
         // ===============================================
         // Detect the really default node
@@ -429,6 +432,32 @@ class OperandSwitch extends Operand {
         return nodes;
     }
 
+    /**
+     * Utility method to optimize for string-switch.
+     * 
+     */
+    final void convertToStringSwitch() {
+        replaceCondition(x -> x.as(OperandMethodCall.class).exact().owner);
+    }
+
+    /**
+     * Replcase the condition on switch.
+     * 
+     * @param condition
+     */
+    final void replaceCondition(Operand condition) {
+        this.condition = Objects.requireNonNull(condition);
+    }
+
+    /**
+     * Replcase the condition on switch.
+     * 
+     * @param converter
+     */
+    final void replaceCondition(UnaryOperator<Operand> converter) {
+        replaceCondition(converter.apply(condition));
+    }
+
     void replaceCase(Node oldNode, Node newNode) {
         if (defaultNode == oldNode) {
             defaultNode = newNode;
@@ -445,12 +474,5 @@ class OperandSwitch extends Operand {
     @Override
     protected String view() {
         return "switch (" + condition.view() + ")";
-    }
-
-    static class CaseProcessor {
-
-        UnaryOperator<MultiMap<Node, Object>> processCase = UnaryOperator.identity();
-
-        UnaryOperator<Node> processDefault = UnaryOperator.identity();
     }
 }

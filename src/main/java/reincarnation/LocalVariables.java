@@ -225,10 +225,6 @@ final class LocalVariables implements Naming {
      */
     @Override
     public String name(String name) {
-        System.out.println("Find " + name + "   " + params.values()
-                .stream()
-                .map(x -> x.name + "@" + x.toString())
-                .toList() + "    " + variables.values().stream().map(x -> x.name + "@" + x.toString()).toList());
         for (OperandLocalVariable param : params.values()) {
             if (param.name.equals(name)) {
                 return param.toString();
