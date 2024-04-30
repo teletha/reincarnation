@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Disabled;
 
 import reincarnation.CodeVerifier;
 import reincarnation.CrossDecompilerTest;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class SwitchExpressionTest extends CodeVerifier {
@@ -305,7 +306,7 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    @Disabled
+    @Debuggable
     void nest() {
         verify(new TestCode.IntParam() {
 
@@ -425,6 +426,7 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    @Debuggable
     void conditionByString() {
         verify(new TestCode.TextParam() {
 

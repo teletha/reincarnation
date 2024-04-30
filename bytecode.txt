@@ -1,8 +1,8 @@
 reincarnation.Failuer: Compile Error
 =================================================
-/reincarnation/decompiler/flow/TryFinallyTest.java:21: エラー: return文が指定されていません
-        }
-        ^
+/reincarnation/decompiler/flow/SwitchExpressionTest.java:19: エラー: switch式の外側のyield
+                    yield 30;
+                    ^
 
 -------------------------------------------------
 01    package reincarnation.decompiler.flow;
@@ -10,30 +10,31 @@ reincarnation.Failuer: Compile Error
 03    import reincarnation.CodeVerifier;
 04    import reincarnation.TestCode.IntParam;
 05    import reincarnation.TestCode.Param;
-06    import reincarnation.decompiler.flow.TryFinallyTest;
+06    import reincarnation.decompiler.flow.SwitchExpressionTest;
 07    
-08    class TryFinallyTest extends CodeVerifier {
+08    class SwitchExpressionTest extends CodeVerifier {
 09    
-10        class TryFinallyTest$2 implements IntParam {
+10        class SwitchExpressionTest$16 implements IntParam {
 11    
-12            TryFinallyTest$2(final TryFinallyTest this$0) {
+12            SwitchExpressionTest$16(final SwitchExpressionTest this$0) {
 13            }
 14    
 15            public int run(@Param(to = 10) int param) {
-16                try {
-17                    ++param;
-18                } finally {
-19                    param *= 2;
-20                }
-21            }
-22        }
-23    }
+16                switch (param % 2) {
+17                    case 0:
+18                    default :
+19                        yield 30;
+20                        // C -> D break(1 of 2) 
+21                        break;
+22                }
+23            }
+24        }
+25    }
 =================================================
 	at reincarnation.Failuer.type(Failuer.java:38)
 	at reincarnation.CodeVerifier.verify(CodeVerifier.java:183)
-	at reincarnation.decompiler.flow.TryFinallyTest.normalAfter(TryFinallyTest.java:37)
+	at reincarnation.decompiler.flow.SwitchExpressionTest.nest(SwitchExpressionTest.java:311)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at antibug.powerassert.PowerAssert.capture(PowerAssert.java:62)
 	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
 	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
 	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
@@ -44,91 +45,170 @@ reincarnation.Failuer: Compile Error
 No solution.
 	Suppressed: reincarnation.Failuer: Fail to cross-decompile.
 -----------------------------------------------------------------------
-  Javac version - reincarnation.decompiler.flow.TryFinallyTest$2
+  Javac version - reincarnation.decompiler.flow.SwitchExpressionTest$16
 -----------------------------------------------------------------------
-Label label0 = new Label();
-Label label1 = new Label();
-Label label2 = new Label();
-methodVisitor.visitTryCatchBlock(label0, label1, label2, null);
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(42, label0);
-methodVisitor.visitIincInsn(1, 1);
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLineNumber(44, label1);
-methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitInsn(ICONST_2);
-methodVisitor.visitInsn(IMUL);
-methodVisitor.visitVarInsn(ISTORE, 1);
-Label label3 = new Label();
-methodVisitor.visitLabel(label3);
-methodVisitor.visitLineNumber(45, label3);
-Label label4 = new Label();
-methodVisitor.visitJumpInsn(GOTO, label4);
-methodVisitor.visitLabel(label2);
-methodVisitor.visitLineNumber(44, label2);
-methodVisitor.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[] {"java/lang/Throwable"});
-methodVisitor.visitVarInsn(ASTORE, 2);
-methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitInsn(ICONST_2);
-methodVisitor.visitInsn(IMUL);
-methodVisitor.visitVarInsn(ISTORE, 1);
-Label label5 = new Label();
-methodVisitor.visitLabel(label5);
-methodVisitor.visitLineNumber(45, label5);
-methodVisitor.visitVarInsn(ALOAD, 2);
-methodVisitor.visitInsn(ATHROW);
-methodVisitor.visitLabel(label4);
-methodVisitor.visitLineNumber(46, label4);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitInsn(IRETURN);
+public class SwitchExpressionTest$16Dump implements Opcodes {
 
------------------------------------------------------------------------
-  ECJ version - reincarnation.decompiler.flow.TryFinallyTest$2
------------------------------------------------------------------------
+public static byte[] dump () throws Exception {
+
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/flow/SwitchExpressionTest$16", null, "java/lang/Object", new String[] { "reincarnation/TestCode$IntParam" });
+
+{
+methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/flow/SwitchExpressionTest;)V", null, null);
+methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_MANDATED);
+methodVisitor.visitCode();
 Label label0 = new Label();
-Label label1 = new Label();
-methodVisitor.visitTryCatchBlock(label0, label1, label1, null);
 methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(42, label0);
-methodVisitor.visitIincInsn(1, 1);
-Label label2 = new Label();
-methodVisitor.visitLabel(label2);
-methodVisitor.visitLineNumber(43, label2);
-Label label3 = new Label();
-methodVisitor.visitJumpInsn(GOTO, label3);
+methodVisitor.visitLineNumber(311, label0);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+methodVisitor.visitInsn(RETURN);
+Label label1 = new Label();
 methodVisitor.visitLabel(label1);
-methodVisitor.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[] {"java/lang/Throwable"});
-methodVisitor.visitVarInsn(ASTORE, 2);
-Label label4 = new Label();
-methodVisitor.visitLabel(label4);
-methodVisitor.visitLineNumber(44, label4);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/SwitchExpressionTest$16;", null, label0, label1, 0);
+methodVisitor.visitLocalVariable("this$0", "Lreincarnation/decompiler/flow/SwitchExpressionTest;", null, label0, label1, 1);
+methodVisitor.visitMaxs(1, 2);
+methodVisitor.visitEnd();
+}
+{
+methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
+methodVisitor.visitAnnotableParameterCount(1, true);
+{
+annotationVisitor0 = methodVisitor.visitParameterAnnotation(0, "Lreincarnation/TestCode$Param;", true);
+annotationVisitor0.visit("from", new Integer(0));
+annotationVisitor0.visit("to", new Integer(10));
+annotationVisitor0.visitEnd();
+}
+methodVisitor.visitCode();
+Label label0 = new Label();
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(315, label0);
 methodVisitor.visitVarInsn(ILOAD, 1);
 methodVisitor.visitInsn(ICONST_2);
-methodVisitor.visitInsn(IMUL);
-methodVisitor.visitVarInsn(ISTORE, 1);
-Label label5 = new Label();
-methodVisitor.visitLabel(label5);
-methodVisitor.visitLineNumber(45, label5);
-methodVisitor.visitVarInsn(ALOAD, 2);
-methodVisitor.visitInsn(ATHROW);
-methodVisitor.visitLabel(label3);
-methodVisitor.visitLineNumber(44, label3);
+methodVisitor.visitInsn(IREM);
+Label label1 = new Label();
+Label label2 = new Label();
+methodVisitor.visitLookupSwitchInsn(label2, new int[] { 0 }, new Label[] { label1 });
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLineNumber(316, label1);
 methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
 methodVisitor.visitVarInsn(ILOAD, 1);
-methodVisitor.visitInsn(ICONST_2);
-methodVisitor.visitInsn(IMUL);
-methodVisitor.visitVarInsn(ISTORE, 1);
+Label label3 = new Label();
+Label label4 = new Label();
+methodVisitor.visitLookupSwitchInsn(label4, new int[] { 2 }, new Label[] { label3 });
+methodVisitor.visitLabel(label3);
+methodVisitor.visitLineNumber(317, label3);
+methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+methodVisitor.visitIntInsn(BIPUSH, 20);
+Label label5 = new Label();
+methodVisitor.visitJumpInsn(GOTO, label5);
+methodVisitor.visitLabel(label4);
+methodVisitor.visitLineNumber(318, label4);
+methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+methodVisitor.visitVarInsn(ILOAD, 1);
+methodVisitor.visitJumpInsn(GOTO, label5);
+methodVisitor.visitLabel(label2);
+methodVisitor.visitLineNumber(320, label2);
+methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+methodVisitor.visitIntInsn(BIPUSH, 30);
+methodVisitor.visitLabel(label5);
+methodVisitor.visitLineNumber(315, label5);
+methodVisitor.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[] {Opcodes.INTEGER});
+methodVisitor.visitInsn(IRETURN);
 Label label6 = new Label();
 methodVisitor.visitLabel(label6);
-methodVisitor.visitLineNumber(46, label6);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/SwitchExpressionTest$16;", null, label0, label6, 0);
+methodVisitor.visitLocalVariable("param", "I", null, label0, label6, 1);
+methodVisitor.visitMaxs(2, 2);
+methodVisitor.visitEnd();
+}
+
+}
+}
+-----------------------------------------------------------------------
+  ECJ version - reincarnation.decompiler.flow.SwitchExpressionTest$16
+-----------------------------------------------------------------------
+public class SwitchExpressionTest$16Dump implements Opcodes {
+
+public static byte[] dump () throws Exception {
+
+classWriter.visit(V21, ACC_SUPER, "reincarnation/decompiler/flow/SwitchExpressionTest$16", null, "java/lang/Object", new String[] { "reincarnation/TestCode$IntParam" });
+
+{
+fieldVisitor = classWriter.visitField(ACC_FINAL | ACC_SYNTHETIC, "this$0", "Lreincarnation/decompiler/flow/SwitchExpressionTest;", null, null);
+fieldVisitor.visitEnd();
+}
+{
+methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/flow/SwitchExpressionTest;)V", null, null);
+methodVisitor.visitCode();
+Label label0 = new Label();
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(311, label0);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitVarInsn(ALOAD, 1);
+methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/flow/SwitchExpressionTest$16", "this$0", "Lreincarnation/decompiler/flow/SwitchExpressionTest;");
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+methodVisitor.visitInsn(RETURN);
+Label label1 = new Label();
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/SwitchExpressionTest$16;", null, label0, label1, 0);
+methodVisitor.visitMaxs(2, 2);
+methodVisitor.visitEnd();
+}
+{
+methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
+methodVisitor.visitAnnotableParameterCount(1, true);
+{
+annotationVisitor0 = methodVisitor.visitParameterAnnotation(0, "Lreincarnation/TestCode$Param;", true);
+annotationVisitor0.visit("from", new Integer(0));
+annotationVisitor0.visit("to", new Integer(10));
+annotationVisitor0.visitEnd();
+}
+methodVisitor.visitCode();
+Label label0 = new Label();
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(315, label0);
 methodVisitor.visitVarInsn(ILOAD, 1);
+methodVisitor.visitInsn(ICONST_2);
+methodVisitor.visitInsn(IREM);
+Label label1 = new Label();
+Label label2 = new Label();
+methodVisitor.visitTableSwitchInsn(0, 0, label2, new Label[] { label1 });
+methodVisitor.visitLabel(label1);
+methodVisitor.visitLineNumber(316, label1);
+methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+methodVisitor.visitVarInsn(ILOAD, 1);
+Label label3 = new Label();
+Label label4 = new Label();
+methodVisitor.visitTableSwitchInsn(2, 2, label4, new Label[] { label3 });
+methodVisitor.visitLabel(label3);
+methodVisitor.visitLineNumber(317, label3);
+methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+methodVisitor.visitIntInsn(BIPUSH, 20);
+Label label5 = new Label();
+methodVisitor.visitJumpInsn(GOTO, label5);
+methodVisitor.visitLabel(label4);
+methodVisitor.visitLineNumber(318, label4);
+methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+methodVisitor.visitVarInsn(ILOAD, 1);
+Label label6 = new Label();
+methodVisitor.visitLabel(label6);
+methodVisitor.visitLineNumber(316, label6);
+methodVisitor.visitJumpInsn(GOTO, label5);
+methodVisitor.visitLabel(label2);
+methodVisitor.visitLineNumber(320, label2);
+methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
+methodVisitor.visitIntInsn(BIPUSH, 30);
+methodVisitor.visitLabel(label5);
+methodVisitor.visitLineNumber(315, label5);
+methodVisitor.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[] {Opcodes.INTEGER});
 methodVisitor.visitInsn(IRETURN);
 Label label7 = new Label();
 methodVisitor.visitLabel(label7);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/TryFinallyTest$2;", null, label0, label7, 0);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/SwitchExpressionTest$16;", null, label0, label7, 0);
 methodVisitor.visitLocalVariable("param", "I", null, label0, label7, 1);
-methodVisitor.visitMaxs(2, 3);
+methodVisitor.visitMaxs(4, 2);
 methodVisitor.visitEnd();
 }
 
@@ -136,5 +216,5 @@ methodVisitor.visitEnd();
 }
 		at reincarnation.Failuer.type(Failuer.java:38)
 		at reincarnation.CodeVerifier.verify(CodeVerifier.java:226)
-		... 9 more
+		... 8 more
 

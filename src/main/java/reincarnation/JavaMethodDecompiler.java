@@ -385,7 +385,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         tries.disposeEmptyTryCatchFinallyBlock();
 
         // Separate conditional operands and dispose empty node.
-        for (Node node : nodes.toArray(new Node[nodes.size()])) {
+        for (Node node : copy()) {
             if (node.disposable && node.stack.isEmpty()) {
                 dispose(node, false, false);
             } else {
@@ -413,10 +413,36 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         }
 
         // ============================================
-        // Analyze all switch block
+        // Analyze all switch expression
         // ============================================
-        try (Printable diff = debugger.diff(nodes, "Analyze switch")) {
-            new ArrayList<>(nodes).forEach(n -> n.child(OperandSwitch.class).to(op -> {
+        // for (OperandSwitch op : switches) {
+        // if (op.canBeExpression(current)) {
+        // try (Printable diff = debugger.diff(nodes, "Process switch expression")) {
+        // op.markAsExpression();
+        //
+        // List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance),
+        // nodes.indexOf(current)));
+        // analyze(sub);
+        //
+        // Node created = createNodeBefore(op.entrance, true);
+        // link(created, current);
+        // op.entrance.transferTo(created);
+        //
+        // this.nodes.removeAll(sub);
+        // }
+        // }
+        // }
+        try (Printable diff = debugger.diff(nodes, "Analyze switch expression")) {
+            I.signal(reverse()).flatMap(n -> n.children(OperandSwitch.class)).to(operand -> {
+                System.out.println(operand);
+            });
+        }
+
+        // ============================================
+        // Analyze all switch statement
+        // ============================================
+        try (Printable diff = debugger.diff(nodes, "Analyze switch statement")) {
+            copy().forEach(n -> n.child(OperandSwitch.class).to(op -> {
                 op.analyze(this);
             }));
         }
@@ -476,9 +502,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     private void optimizeImmediateReturn(List<Node> nodes) {
         // copy all nodes to avoid concurrent modification exception
-        List<Node> copied = new ArrayList(nodes);
-
-        for (Node node : copied) {
+        for (Node node : copy()) {
             node.uniqueOutgoing().flatMap(Node::throughEmpty).to(out -> {
                 out.children(OperandReturn.class, OperandLocalVariable.class).to(local -> {
                     node.children(OperandAssign.class).flatMap(o -> o.assignedTo(local)).to(value -> {
@@ -685,25 +709,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     @Override
     public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
-        if (!tries.isCatch(current) && !tries.isFinally(current)) {
-            for (OperandSwitch op : switches) {
-                if (op.canBeExpression(current)) {
-                    try (Printable diff = debugger.diff(nodes, "Process switch expression")) {
-                        op.markAsExpression();
-
-                        List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance), nodes.indexOf(current)));
-                        analyze(sub);
-
-                        Node created = createNodeBefore(op.entrance, true);
-                        link(created, current);
-                        op.entrance.transferTo(created);
-
-                        this.nodes.removeAll(sub);
-                    }
-                }
-            }
-        }
-
         switch (type) {
         case F_NEW:
             record(FRAME_NEW);
@@ -2350,6 +2355,26 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             num /= 26;
         }
         return id.toString();
+    }
+
+    /**
+     * Copy all nodes.
+     * 
+     * @return
+     */
+    private List<Node> copy() {
+        return new ArrayList(nodes);
+    }
+
+    /**
+     * Copy all nodes with reverse order.
+     * 
+     * @return
+     */
+    private List<Node> reverse() {
+        List<Node> copy = new ArrayList();
+        nodes.descendingIterator().forEachRemaining(copy::add);
+        return copy;
     }
 
     /**
