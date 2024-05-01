@@ -684,18 +684,37 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     @Override
     public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
-        for (OperandSwitch op : switches) {
+        for (OperandSwitch op : new ArrayList<>(switches)) {
             Variable<Node> dest = Node.getLowestCommondDestination(op.nodes().toList());
             if (dest.isAbsent()) {
                 System.out.println(op.view() + " end: not found");
             } else {
-                System.out.println(op.view() + " end: " + dest.v.id + " " + dest + "  current: " + current.id);
+                System.out.println(op.view() + " end: " + dest.v.id + " " + dest + " current: " + current.id + " " + op
+                        .canBeExpression(current));
+
+                op.markAsExpression();
+
+                // System.out.println(op.entrance.id + " " + current.id);
+                // List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance),
+                // nodes.indexOf(current)));
+                // debugger.print("Start sub switch");
+                // analyze(sub);
+                // debugger.print("End sub switch");
+                //
+                // op.entrance.disconnect(false, true);
+                // op.entrance.connect(dest.v);
+                //
+                // this.nodes.removeAll(sub.subList(1, sub.size()));
+                // debugger.print("Show original nodes.");
+                // debugger.print(nodes);
+                break;
             }
 
             // if (op.canBeExpression(current)) {
             // try (Printable diff = debugger.diff(nodes, "Process switch expression")) {
             // op.markAsExpression();
             //
+            // System.out.println(op.entrance.id + " " + current.id);
             // List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance),
             // nodes.indexOf(current)));
             // analyze(sub);
