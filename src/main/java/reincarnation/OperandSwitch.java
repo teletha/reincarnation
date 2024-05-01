@@ -372,11 +372,11 @@ class OperandSwitch extends Operand {
     }
 
     /**
-     * Traverse all cases.
+     * Traverse all cases and default nodes.
      * 
      * @return
      */
-    private Signal<Node> nodes() {
+    final Signal<Node> nodes() {
         return cases.keys().startWith(defaultNode).skipNull();
     }
 

@@ -314,8 +314,8 @@ class SwitchExpressionTest extends CodeVerifier {
             public int run(@Param(from = 0, to = 10) int param) {
                 return switch (param % 2) {
                 case 0 -> switch (param) {
-                case 2 -> 20;
-                default -> param;
+                /**/ case 2 -> 20;
+                /**/ default -> param;
                 };
                 default -> 30;
                 };

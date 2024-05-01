@@ -38,6 +38,7 @@ import org.objectweb.asm.Type;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.Variable;
 import reincarnation.Debugger.Printable;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -413,32 +414,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         }
 
         // ============================================
-        // Analyze all switch expression
-        // ============================================
-        // for (OperandSwitch op : switches) {
-        // if (op.canBeExpression(current)) {
-        // try (Printable diff = debugger.diff(nodes, "Process switch expression")) {
-        // op.markAsExpression();
-        //
-        // List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance),
-        // nodes.indexOf(current)));
-        // analyze(sub);
-        //
-        // Node created = createNodeBefore(op.entrance, true);
-        // link(created, current);
-        // op.entrance.transferTo(created);
-        //
-        // this.nodes.removeAll(sub);
-        // }
-        // }
-        // }
-        try (Printable diff = debugger.diff(nodes, "Analyze switch expression")) {
-            I.signal(reverse()).flatMap(n -> n.children(OperandSwitch.class)).to(operand -> {
-                System.out.println(operand);
-            });
-        }
-
-        // ============================================
         // Analyze all switch statement
         // ============================================
         try (Printable diff = debugger.diff(nodes, "Analyze switch statement")) {
@@ -709,6 +684,31 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     @Override
     public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
+        for (OperandSwitch op : switches) {
+            Variable<Node> dest = Node.getLowestCommondDestination(op.nodes().toList());
+            if (dest.isAbsent()) {
+                System.out.println(op.view() + " end: not found");
+            } else {
+                System.out.println(op.view() + " end: " + dest.v.id + " " + dest + "  current: " + current.id);
+            }
+
+            // if (op.canBeExpression(current)) {
+            // try (Printable diff = debugger.diff(nodes, "Process switch expression")) {
+            // op.markAsExpression();
+            //
+            // List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance),
+            // nodes.indexOf(current)));
+            // analyze(sub);
+            //
+            // Node created = createNodeBefore(op.entrance, true);
+            // link(created, current);
+            // op.entrance.transferTo(created);
+            //
+            // this.nodes.removeAll(sub);
+            // }
+            // }
+        }
+
         switch (type) {
         case F_NEW:
             record(FRAME_NEW);

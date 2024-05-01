@@ -727,7 +727,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     /**
-     * Find the lowest common dominator node with the specified node.
+     * Find the lowest common dominator node with the specified nodes.
      * 
      * @return
      */
@@ -746,6 +746,28 @@ public class Node implements Code<Operand>, Comparable<Node> {
             }
             return base;
         }
+    }
+
+    /**
+     * Find the lowest commond destination node with the specified nodes.
+     * 
+     * @param targets
+     * @return
+     */
+    static Variable<Node> getLowestCommondDestination(Collection<Node> targets) {
+        Node dominator = getLowestCommonDominator(targets);
+        Set<Node> excludes = new HashSet();
+        excludes.add(dominator);
+        excludes.addAll(targets);
+
+        for (Node target : targets) {
+            for (Node node : target.outgoingRecursively(excludes::contains).toList()) {
+                if (node.canBeReachedFromAll(targets)) {
+                    return Variable.of(node);
+                }
+            }
+        }
+        return Variable.empty();
     }
 
     /**
@@ -825,6 +847,106 @@ public class Node implements Code<Operand>, Comparable<Node> {
         }
 
         return false;
+    }
+
+    /**
+     * Detect whether the specified node is traversable from this node.
+     * 
+     * @param nodes A set of target nodes.
+     * @return A result.
+     */
+    final boolean canReachToAll(Iterable<Node> nodes, Node... exclusionNodes) {
+        return canReachToAll(nodes, I.set(exclusionNodes));
+    }
+
+    /**
+     * Detect whether the specified node is traversable from this node.
+     * 
+     * @param nodes A set of target nodes.
+     * @return A result.
+     */
+    final boolean canReachToAll(Iterable<Node> nodes, Collection<Node> exclusionNodes) {
+        return canReachToAll(nodes, exclusionNodes, false);
+    }
+
+    /**
+     * Detect whether the specified node is traversable from this node.
+     * 
+     * @param nodes A set of target nodes.
+     * @return A result.
+     */
+    final boolean canReachToAll(Iterable<Node> nodes, Collection<Node> exclusionNodes, boolean acceptThrow) {
+        for (Node node : nodes) {
+            if (!canReachTo(node, exclusionNodes, acceptThrow)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Detect whether the specified node is traversable to this node.
+     * 
+     * @param node A target node.
+     * @return A result.
+     */
+    final boolean canBeReachedFrom(Node node, Node... exclusionNodes) {
+        return node.canReachTo(this, exclusionNodes);
+    }
+
+    /**
+     * Detect whether the specified node is traversable to this node.
+     * 
+     * @param node A target node.
+     * @return A result.
+     */
+    final boolean canBeReachedFrom(Node node, Collection<Node> exclusionNodes) {
+        return node.canReachTo(this, exclusionNodes);
+    }
+
+    /**
+     * Detect whether the specified node is traversable to this node.
+     * 
+     * @param node A target node.
+     * @return A result.
+     */
+    final boolean canBeReachedFrom(Node node, Collection<Node> exclusionNodes, boolean acceptThrow) {
+        return node.canReachTo(this, exclusionNodes, acceptThrow);
+    }
+
+    /**
+     * Detect whether the specified node is traversable to this node.
+     * 
+     * @param nodes A set of target nodes.
+     * @return A result.
+     */
+    final boolean canBeReachedFromAll(Iterable<Node> nodes, Node... exclusionNodes) {
+        return canBeReachedFromAll(nodes, I.set(exclusionNodes));
+    }
+
+    /**
+     * Detect whether the specified node is traversable to this node.
+     * 
+     * @param nodes A set of target nodes.
+     * @return A result.
+     */
+    final boolean canBeReachedFromAll(Iterable<Node> nodes, Collection<Node> exclusionNodes) {
+        return canBeReachedFromAll(nodes, exclusionNodes, false);
+    }
+
+    /**
+     * Detect whether the specified node is traversable to this node.
+     * 
+     * @param nodes A set of target nodes.
+     * @return A result.
+     */
+    final boolean canBeReachedFromAll(Iterable<Node> nodes, Collection<Node> exclusionNodes, boolean acceptThrow) {
+        for (Node node : nodes) {
+            if (!canBeReachedFrom(node, exclusionNodes, acceptThrow)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

@@ -340,6 +340,36 @@ class SwitchTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    void after() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value = 0;
+
+                switch (param) {
+                case 0:
+                    value = param;
+                    break;
+
+                case 1:
+                    value = param * 2;
+                    break;
+
+                case 2:
+                    value = param * 3;
+                    break;
+
+                default:
+                    value = param * 4;
+                    break;
+                }
+                return value - 10;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     void nest() {
         verify(new TestCode.IntParam() {
 
