@@ -38,7 +38,6 @@ import org.objectweb.asm.Type;
 
 import kiss.I;
 import kiss.Signal;
-import kiss.Variable;
 import reincarnation.Debugger.Printable;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -386,7 +385,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         tries.disposeEmptyTryCatchFinallyBlock();
 
         // Separate conditional operands and dispose empty node.
-        for (Node node : copy()) {
+        for (Node node : nodes.toArray(new Node[nodes.size()])) {
             if (node.disposable && node.stack.isEmpty()) {
                 dispose(node, false, false);
             } else {
@@ -414,10 +413,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         }
 
         // ============================================
-        // Analyze all switch statement
+        // Analyze all switch block
         // ============================================
-        try (Printable diff = debugger.diff(nodes, "Analyze switch statement")) {
-            copy().forEach(n -> n.child(OperandSwitch.class).to(op -> {
+        try (Printable diff = debugger.diff(nodes, "Analyze switch")) {
+            new ArrayList<>(nodes).forEach(n -> n.child(OperandSwitch.class).to(op -> {
                 op.analyze(this);
             }));
         }
@@ -477,7 +476,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     private void optimizeImmediateReturn(List<Node> nodes) {
         // copy all nodes to avoid concurrent modification exception
-        for (Node node : copy()) {
+        List<Node> copied = new ArrayList(nodes);
+
+        for (Node node : copied) {
             node.uniqueOutgoing().flatMap(Node::throughEmpty).to(out -> {
                 out.children(OperandReturn.class, OperandLocalVariable.class).to(local -> {
                     node.children(OperandAssign.class).flatMap(o -> o.assignedTo(local)).to(value -> {
@@ -684,48 +685,23 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     @Override
     public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
-        for (OperandSwitch op : new ArrayList<>(switches)) {
-            Variable<Node> dest = Node.getLowestCommondDestination(op.nodes().toList());
-            if (dest.isAbsent()) {
-                System.out.println(op.view() + " end: not found");
-            } else {
-                System.out.println(op.view() + " end: " + dest.v.id + " " + dest + " current: " + current.id + " " + op
-                        .canBeExpression(current));
+        if (!tries.isCatch(current) && !tries.isFinally(current)) {
+            for (OperandSwitch op : switches) {
+                if (op.canBeExpression(current)) {
+                    try (Printable diff = debugger.diff(nodes, "Process switch expression")) {
+                        op.markAsExpression();
 
-                op.markAsExpression();
+                        List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance), nodes.indexOf(current)));
+                        analyze(sub);
 
-                // System.out.println(op.entrance.id + " " + current.id);
-                // List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance),
-                // nodes.indexOf(current)));
-                // debugger.print("Start sub switch");
-                // analyze(sub);
-                // debugger.print("End sub switch");
-                //
-                // op.entrance.disconnect(false, true);
-                // op.entrance.connect(dest.v);
-                //
-                // this.nodes.removeAll(sub.subList(1, sub.size()));
-                // debugger.print("Show original nodes.");
-                // debugger.print(nodes);
-                break;
+                        Node created = createNodeBefore(op.entrance, true);
+                        link(created, current);
+                        op.entrance.transferTo(created);
+
+                        this.nodes.removeAll(sub);
+                    }
+                }
             }
-
-            // if (op.canBeExpression(current)) {
-            // try (Printable diff = debugger.diff(nodes, "Process switch expression")) {
-            // op.markAsExpression();
-            //
-            // System.out.println(op.entrance.id + " " + current.id);
-            // List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance),
-            // nodes.indexOf(current)));
-            // analyze(sub);
-            //
-            // Node created = createNodeBefore(op.entrance, true);
-            // link(created, current);
-            // op.entrance.transferTo(created);
-            //
-            // this.nodes.removeAll(sub);
-            // }
-            // }
         }
 
         switch (type) {
@@ -2374,26 +2350,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             num /= 26;
         }
         return id.toString();
-    }
-
-    /**
-     * Copy all nodes.
-     * 
-     * @return
-     */
-    private List<Node> copy() {
-        return new ArrayList(nodes);
-    }
-
-    /**
-     * Copy all nodes with reverse order.
-     * 
-     * @return
-     */
-    private List<Node> reverse() {
-        List<Node> copy = new ArrayList();
-        nodes.descendingIterator().forEachRemaining(copy::add);
-        return copy;
     }
 
     /**

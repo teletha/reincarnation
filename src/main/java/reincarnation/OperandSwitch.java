@@ -244,7 +244,7 @@ class OperandSwitch extends Operand {
      */
     void analyze(NodeManipulator manipulator) {
         cases.sort();
-        if (defaultNode != null) cases.remove(defaultNode);
+        cases.remove(defaultNode);
 
         this.cases = caseConverter.apply(cases);
         this.defaultNode = defaultConverter.apply(defaultNode);
@@ -368,18 +368,15 @@ class OperandSwitch extends Operand {
     }
 
     private boolean hasFallThrough(Node node) {
-        if (node == null) {
-            return false;
-        }
         return nodes().skip(n -> n == node || n.isBefore(node)).any(n -> node.canReachTo(n)).to().v;
     }
 
     /**
-     * Traverse all cases and default nodes.
+     * Traverse all cases.
      * 
      * @return
      */
-    final Signal<Node> nodes() {
+    private Signal<Node> nodes() {
         return cases.keys().startWith(defaultNode).skipNull();
     }
 
