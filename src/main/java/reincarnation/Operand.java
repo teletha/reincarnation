@@ -17,6 +17,7 @@ import kiss.Signal;
 import kiss.Variable;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
+import reincarnation.coder.java.JavaCoder;
 
 public abstract class Operand implements Code<Operand> {
 
@@ -279,5 +280,15 @@ public abstract class Operand implements Code<Operand> {
         } else {
             return children().skipNull().flatMap(o -> o.find(type));
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        JavaCoder coder = new JavaCoder();
+        write(coder);
+        return coder.toString();
     }
 }

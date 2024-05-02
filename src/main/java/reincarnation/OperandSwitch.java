@@ -473,6 +473,6 @@ class OperandSwitch extends Operand {
      */
     @Override
     protected String view() {
-        return "switch (" + condition.view() + ")";
+        return "switch" + (isExpression() ? "-expression" : "") + " (" + condition.view() + ")";
     }
 }
