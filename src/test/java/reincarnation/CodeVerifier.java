@@ -44,7 +44,6 @@ import kiss.I;
 import kiss.WiseSupplier;
 import psychopath.Location;
 import psychopath.Locator;
-import reincarnation.Debugger.Printable;
 import reincarnation.TestCode.Param;
 import reincarnation.coder.java.JavaCoder;
 import reincarnation.coder.java.JavaCodingOption;
@@ -145,8 +144,8 @@ public class CodeVerifier {
         // ========================================================
         // Prepare recompile.
         // ========================================================
-        StringBuilder debugLog = debugger.replaceOutput();
-        String decompiled = "";
+        CompileInfo info = new CompileInfo(target, CompilerType.current());
+        info.decompilerDebugLog = debugger.replaceOutput();
 
         try {
             try {
@@ -165,7 +164,7 @@ public class CodeVerifier {
                 // ========================================================
                 // Decompile code.
                 // ========================================================
-                decompiled = decompile(target, debuggable != null);
+                info.decompiled = decompile(target, debuggable != null);
 
                 // ========================================================
                 // Recompile java code.
@@ -174,49 +173,35 @@ public class CodeVerifier {
                 Silent notifier = new Silent();
                 try {
                     ClassLoader loader = JavaCompiler.with(notifier)
-                            .addSource(JavaCoder.computeName(target.getEnclosingClass()), decompiled)
+                            .addSource(JavaCoder.computeName(target.getEnclosingClass()), info.decompiled)
                             .addClassPath(Locator.directory("target/test-classes"))
                             .compile();
 
                     recompiledClass = loader.loadClass(JavaCoder.computeName(target));
                     assert target != recompiledClass; // load from different classloader
                 } catch (Throwable e) {
-                    throw Failuer.type("Compile Error")
-                            .reason(e)
-                            .reason("=================================================")
-                            .reason(notifier.message)
-                            .reason("-------------------------------------------------")
-                            .reason(format(decompiled, true))
-                            .reason("=================================================");
+                    info.compilerErrorMessage.set(notifier.message.toString());
                 }
                 // ========================================================
                 // Execute recompiled code and compare result with original.
                 // ========================================================
-                JavaVerifier java = new JavaVerifier(recompiledClass, decompiled);
+                JavaVerifier java = new JavaVerifier(recompiledClass, info.decompiled);
 
                 for (int i = 0; i < inputs.size(); i++) {
                     java.verify(inputs.get(i), expecteds.get(i));
                 }
             } catch (Throwable e) {
-                if (debugLog.isEmpty() && debugged.add(target)) {
+                if (info.decompilerDebugLog.isEmpty() && debugged.add(target)) {
                     // decompile with debug mode
                     Reincarnation.cache.remove(target);
-                    decompiled = decompile(target, true);
+                    info.decompiled = decompile(target, true);
                 }
+                info.verificationErrorMessage.set(e.getMessage());
                 throw e;
             } finally {
-                if (!debugLog.isEmpty()) {
-                    for (String line : format(decompiled, true)) {
-                        debugLog.append(line).append("\r\n");
-                    }
-                    debugLog.append("\r\n");
-
-                    // compare by another decompiler
-                    if (debuggable != null && debuggable.fernflower()) {
-                        debugLog.append("Decompiled by FernFlower\r\n").append(decompileByFernFlower(target)).append("\r\n");
-                    }
-
-                    System.out.println(debugLog);
+                // compare by another decompiler
+                if (debuggable != null && debuggable.fernflower()) {
+                    info.decompilerDebugLog.append("Decompiled by FernFlower\r\n").append(decompileByFernFlower(target)).append("\r\n");
                 }
             }
         } catch (Throwable e) {
@@ -224,24 +209,14 @@ public class CodeVerifier {
                 ASM forJavac = new ASM().translate(target);
                 ASM forECJ = new ASM().translate(code.getClass());
 
-                Failuer failuer = Failuer.type("Fail to cross-decompile.").reason(Printable.unstain(debugLog.toString()));
                 Iterator<Entry<Class, String[]>> javac = forJavac.asmifiers.entrySet().iterator();
                 Iterator<Entry<Class, String[]>> ecj = forECJ.asmifiers.entrySet().iterator();
                 while (javac.hasNext() && ecj.hasNext()) {
-                    Entry<Class, String[]> codeJ = javac.next();
-                    Entry<Class, String[]> codeE = ecj.next();
-                    failuer.reason("-----------------------------------------------------------------------")
-                            .reason("  Javac version - " + codeJ.getKey().getName())
-                            .reason("-----------------------------------------------------------------------")
-                            .reason(codeJ.getValue())
-                            .reason("-----------------------------------------------------------------------")
-                            .reason("  ECJ version - " + codeE.getKey().getName())
-                            .reason("-----------------------------------------------------------------------")
-                            .reason(codeE.getValue());
+                    info.asmForJava.add(javac.next());
+                    info.asmForECJ.add(ecj.next());
                 }
-                e.addSuppressed(failuer);
             }
-            throw e;
+            throw info.buildError(e);
         }
     }
 

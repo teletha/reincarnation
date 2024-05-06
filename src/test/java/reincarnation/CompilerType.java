@@ -63,4 +63,13 @@ public enum CompilerType implements TestTemplateInvocationContext {
         });
     }
 
+    /**
+     * Get the current compiler.
+     * 
+     * @return
+     */
+    public static CompilerType current() {
+        return current.get();
+    }
+
 }
