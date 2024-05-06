@@ -289,6 +289,10 @@ class Debugger {
         private static String stain(String text, String colorCode) {
             return "[38;5;" + colorCode + "m" + text + "[0m";
         }
+
+        static String unstain(String text) {
+            return text.replaceAll("\\[38;5;\\d+m", "").replaceAll("\\[0m", "");
+        }
     }
 
     /**

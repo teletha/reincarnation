@@ -44,6 +44,7 @@ import kiss.I;
 import kiss.WiseSupplier;
 import psychopath.Location;
 import psychopath.Locator;
+import reincarnation.Debugger.Printable;
 import reincarnation.TestCode.Param;
 import reincarnation.coder.java.JavaCoder;
 import reincarnation.coder.java.JavaCodingOption;
@@ -223,7 +224,7 @@ public class CodeVerifier {
                 ASM forJavac = new ASM().translate(target);
                 ASM forECJ = new ASM().translate(code.getClass());
 
-                Failuer failuer = Failuer.type("Fail to cross-decompile.");
+                Failuer failuer = Failuer.type("Fail to cross-decompile.").reason(Printable.unstain(debugLog.toString()));
                 Iterator<Entry<Class, String[]>> javac = forJavac.asmifiers.entrySet().iterator();
                 Iterator<Entry<Class, String[]>> ecj = forECJ.asmifiers.entrySet().iterator();
                 while (javac.hasNext() && ecj.hasNext()) {
