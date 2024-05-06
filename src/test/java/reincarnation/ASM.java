@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -27,7 +28,7 @@ import kiss.I;
 public class ASM {
 
     /** The translated codes. */
-    public final Map<Class, String[]> asmifiers = new LinkedHashMap();
+    public final Map<Class, List<String>> asmifiers = new LinkedHashMap();
 
     /**
      * Traslate codes recursively.
@@ -78,7 +79,7 @@ public class ASM {
          * 
          * @return
          */
-        private String[] format() {
+        private List<String> format() {
             return I.signal(writer.toString().split("\n"))
                     .skip(line -> line.startsWith("import ") || line.startsWith("package "))
                     .skip(line -> line.startsWith("ClassWriter ") || line.startsWith("FieldVisitor ") || line
@@ -89,8 +90,7 @@ public class ASM {
                                     .startsWith("classWriter.visitOuterClass") || line.startsWith("classWriter.visitInnerClass"))
                     .skip(line -> line.startsWith("classWriter.visitEnd") || line.startsWith("return classWriter.toByteArray"))
                     .skip("", (prev, next) -> prev.isBlank() && next.isBlank())
-                    .toList()
-                    .toArray(new String[0]);
+                    .toList();
         }
 
         /**

@@ -180,7 +180,7 @@ public class CodeVerifier {
                     recompiledClass = loader.loadClass(JavaCoder.computeName(target));
                     assert target != recompiledClass; // load from different classloader
                 } catch (Throwable e) {
-                    info.compilerErrorMessage.set(notifier.message.toString());
+                    info.errorMessage.add(notifier.message.toString());
                 }
                 // ========================================================
                 // Execute recompiled code and compare result with original.
@@ -196,7 +196,7 @@ public class CodeVerifier {
                     Reincarnation.cache.remove(target);
                     info.decompiled = decompile(target, true);
                 }
-                info.verificationErrorMessage.set(e.getMessage());
+                info.errorMessage.add(e.getMessage());
                 throw e;
             } finally {
                 // compare by another decompiler
@@ -209,8 +209,8 @@ public class CodeVerifier {
                 ASM forJavac = new ASM().translate(target);
                 ASM forECJ = new ASM().translate(code.getClass());
 
-                Iterator<Entry<Class, String[]>> javac = forJavac.asmifiers.entrySet().iterator();
-                Iterator<Entry<Class, String[]>> ecj = forECJ.asmifiers.entrySet().iterator();
+                Iterator<Entry<Class, List<String>>> javac = forJavac.asmifiers.entrySet().iterator();
+                Iterator<Entry<Class, List<String>>> ecj = forECJ.asmifiers.entrySet().iterator();
                 while (javac.hasNext() && ecj.hasNext()) {
                     info.asmForJava.add(javac.next());
                     info.asmForECJ.add(ecj.next());
