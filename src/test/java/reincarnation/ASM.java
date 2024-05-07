@@ -81,15 +81,11 @@ public class ASM {
          */
         private List<String> format() {
             return I.signal(writer.toString().split("\n"))
-                    .skip(line -> line.startsWith("import ") || line.startsWith("package "))
-                    .skip(line -> line.startsWith("ClassWriter ") || line.startsWith("FieldVisitor ") || line
-                            .startsWith("RecordComponentVisitor ") || line
-                                    .startsWith("MethodVisitor ") || line.startsWith("AnnotationVisitor "))
-                    .skip(line -> line.startsWith("classWriter.visitSource") || line.startsWith("classWriter.visitNestHost") || line
-                            .startsWith("classWriter.visitNestMember") || line
-                                    .startsWith("classWriter.visitOuterClass") || line.startsWith("classWriter.visitInnerClass"))
-                    .skip(line -> line.startsWith("classWriter.visitEnd") || line.startsWith("return classWriter.toByteArray"))
-                    .skip("", (prev, next) -> prev.isBlank() && next.isBlank())
+                    .take(line -> line.startsWith("methodVisitor"))
+                    .flatMap(line -> line.startsWith("methodVisitor.") ? I.signal(line) : I.signal("", line))
+                    .skip(1)
+                    .skip(line -> line.startsWith("methodVisitor.visitCode()") || line.startsWith("methodVisitor.visitEnd()") || line
+                            .startsWith("methodVisitor.visitMax") || line.startsWith("methodVisitor.visitLineNumber"))
                     .toList();
         }
 

@@ -379,23 +379,23 @@ class Debugger {
             }
 
             format.write(String.valueOf(node.id), max);
-            format.write("  in : ");
+            format.write(" in: ");
             format.formatNode(node.incoming, incoming);
-            format.write("out : ");
+            format.write("out: ");
             format.formatNode(node.outgoing, outgoing);
-            format.write("dom : ");
+            format.write("dom: ");
             format.formatNode(list(getDominator(node)), 1);
-            format.write("doms : ");
+            format.write("doms: ");
             format.formatNode(node.dominators, node.dominators.size());
-            format.write("prev : ");
+            format.write("prev: ");
             format.formatNode(list(node.previous), 1);
-            format.write("next : ");
+            format.write("next: ");
             format.formatNode(list(node.next), 1);
-            format.write("dest : ");
+            format.write("dest: ");
             format.formatNode(list(node.destination), 1);
 
             if (backedge != 0) {
-                format.write("back : ");
+                format.write("back: ");
                 format.formatNode(node.backedges, backedge);
             }
             if (!tries.isEmpty()) {
