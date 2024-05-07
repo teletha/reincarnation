@@ -17,22 +17,13 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
-import java.util.jar.Manifest;
 
-import org.jetbrains.java.decompiler.main.Fernflower;
-import org.jetbrains.java.decompiler.main.extern.IBytecodeProvider;
-import org.jetbrains.java.decompiler.main.extern.IFernflowerLogger;
-import org.jetbrains.java.decompiler.main.extern.IFernflowerPreferences;
-import org.jetbrains.java.decompiler.main.extern.IResultSaver;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
@@ -42,7 +33,6 @@ import bee.api.Command;
 import bee.util.JavaCompiler;
 import kiss.I;
 import kiss.WiseSupplier;
-import psychopath.Location;
 import psychopath.Locator;
 import reincarnation.TestCode.Param;
 import reincarnation.coder.java.JavaCoder;
@@ -201,20 +191,12 @@ public class CodeVerifier {
             } finally {
                 // compare by another decompiler
                 if (debuggable != null && debuggable.fernflower()) {
-                    info.decompilerDebugLog.append("Decompiled by FernFlower\r\n").append(decompileByFernFlower(target)).append("\r\n");
+                    info.decompileByVineFlower();
                 }
             }
         } catch (Throwable e) {
             if (CompilerType.isJavac()) {
-                ASM forJavac = new ASM().translate(target);
-                ASM forECJ = new ASM().translate(code.getClass());
-
-                Iterator<Entry<Class, List<String>>> javac = forJavac.asmifiers.entrySet().iterator();
-                Iterator<Entry<Class, List<String>>> ecj = forECJ.asmifiers.entrySet().iterator();
-                while (javac.hasNext() && ecj.hasNext()) {
-                    info.asmForJava.add(javac.next());
-                    info.asmForECJ.add(ecj.next());
-                }
+                info.asmfier(target, code.getClass());
             }
             throw info.buildError(e);
         }
@@ -336,27 +318,6 @@ public class CodeVerifier {
             inputs.add(Array.get(array, i));
         }
         return inputs;
-    }
-
-    /**
-     * Format as line-numbered code.
-     * 
-     * @param code
-     * @return
-     */
-    private String[] format(String code, boolean enableLineNumber) {
-        String[] lines = code.split("\r\n");
-
-        if (enableLineNumber) {
-            int max = (int) (Math.log10(lines.length) + 1);
-
-            for (int i = 0; i < lines.length; i++) {
-                int number = i + 1;
-                int size = (int) (Math.log10(number) + 1);
-                lines[i] = "0".repeat(max - size) + number + "    " + lines[i];
-            }
-        }
-        return lines;
     }
 
     /**
@@ -575,95 +536,5 @@ public class CodeVerifier {
         @Override
         public void endCommand(String name, Command command) {
         }
-    }
-
-    /**
-     * Decompile by fernflower.
-     * 
-     * @param target
-     * @return
-     */
-    private static String decompileByFernFlower(Class target) {
-        Map<String, Object> options = new HashMap();
-        options.put(IFernflowerPreferences.REMOVE_SYNTHETIC, "1");
-        options.put(IFernflowerPreferences.INDENT_STRING, "\t");
-        options.put(IFernflowerPreferences.LOG_LEVEL, "WARN");
-
-        IBytecodeProvider provider = (externalPath, internalPath) -> {
-            return Locator.file(externalPath).bytes();
-        };
-
-        String[] decompiled = new String[1];
-
-        IResultSaver saver = new IResultSaver() {
-
-            @Override
-            public void saveFolder(String path) {
-            }
-
-            @Override
-            public void saveDirEntry(String path, String archiveName, String entryName) {
-            }
-
-            @Override
-            public void saveClassFile(String path, String qualifiedName, String entryName, String content, int[] mapping) {
-                decompiled[0] = content;
-            }
-
-            @Override
-            public void saveClassEntry(String path, String archiveName, String qualifiedName, String entryName, String content) {
-            }
-
-            @Override
-            public void createArchive(String path, String archiveName, Manifest manifest) {
-            }
-
-            @Override
-            public void copyFile(String source, String path, String entryName) {
-            }
-
-            @Override
-            public void copyEntry(String source, String path, String archiveName, String entry) {
-            }
-
-            @Override
-            public void closeArchive(String path, String archiveName) {
-            }
-        };
-
-        IFernflowerLogger logger = new IFernflowerLogger() {
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public void writeMessage(String message, Severity severity) {
-            }
-
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public void writeMessage(String message, Severity severity, Throwable t) {
-            }
-        };
-
-        List<Class> classes = new ArrayList();
-        classes.add(target);
-
-        Class parent = target.getEnclosingClass();
-        while (parent != null) {
-            classes.add(parent);
-            parent = parent.getEnclosingClass();
-        }
-
-        Fernflower fernflower = new Fernflower(provider, saver, options, logger);
-        for (Class clazz : classes) {
-            Location root = Locator.locate(clazz);
-            fernflower.addSource(root.asDirectory().file(clazz.getName().replace('.', '/').concat(".class")).asJavaFile());
-        }
-        fernflower.decompileContext();
-
-        return decompiled[0];
     }
 }

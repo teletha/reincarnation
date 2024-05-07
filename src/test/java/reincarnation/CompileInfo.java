@@ -11,10 +11,23 @@ package reincarnation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.jar.Manifest;
 import java.util.stream.Collectors;
 
+import org.jetbrains.java.decompiler.main.Fernflower;
+import org.jetbrains.java.decompiler.main.extern.IFernflowerLogger;
+import org.jetbrains.java.decompiler.main.extern.IFernflowerPreferences;
+import org.jetbrains.java.decompiler.main.extern.IResultSaver;
+
+import kiss.I;
+import kiss.Ⅲ;
+import psychopath.Location;
+import psychopath.Locator;
 import reincarnation.Debugger.Printable;
 
 public class CompileInfo {
@@ -34,15 +47,16 @@ public class CompileInfo {
     /** The decompiled code. */
     public String decompiled;
 
+    /** The decompiled code. */
+    private List<String> decompiledByVineFlower;
+
     /** The error message of compiler. */
     public final List<String> errorMessage = new ArrayList();
 
     /** The debug log of decompiler. */
     public StringBuilder decompilerDebugLog;
 
-    public final List<Entry<Class, List<String>>> asmForJava = new ArrayList();
-
-    public final List<Entry<Class, List<String>>> asmForECJ = new ArrayList();
+    private final List<Ⅲ<Class, List<String>, List<String>>> asmfiered = new ArrayList();
 
     private final StringBuilder builder = new StringBuilder();
 
@@ -67,18 +81,33 @@ public class CompileInfo {
         write("Decompiling Log");
         write(Printable.unstain(decompilerDebugLog.toString()));
 
-        for (int i = 0; i < asmForJava.size(); i++) {
-            Entry<Class, List<String>> javac = asmForJava.get(i);
-            Entry<Class, List<String>> ecj = asmForECJ.get(i);
+        for (Ⅲ<Class, List<String>, List<String>> asm : asmfiered) {
+            write("Javac Version Bytecode -", asm.ⅰ.getName());
+            write(asm.ⅱ);
 
-            write("Javac Version Bytecode -", javac.getKey().getName());
-            write(javac.getValue());
+            write("ECJ Version Bytecode -", asm.ⅰ.getName());
+            write(asm.ⅲ);
+        }
 
-            write("ECJ Version Bytecode -", ecj.getKey().getName());
-            write(ecj.getValue());
+        if (decompiledByVineFlower != null) {
+            write("Decompiled by VineFlower");
+            write(decompiledByVineFlower);
         }
 
         return new Error(builder.toString());
+    }
+
+    public void asmfier(Class typeForJavac, Class typeForECJ) {
+        ASM forJavac = new ASM().translate(typeForJavac);
+        ASM forECJ = new ASM().translate(typeForECJ);
+
+        Iterator<Entry<Class, List<String>>> javac = forJavac.asmifiers.entrySet().iterator();
+        Iterator<Entry<Class, List<String>>> ecj = forECJ.asmifiers.entrySet().iterator();
+        while (javac.hasNext() && ecj.hasNext()) {
+            Entry<Class, List<String>> nextJ = javac.next();
+            Entry<Class, List<String>> nextE = ecj.next();
+            asmfiered.add(I.pair(nextJ.getKey(), nextJ.getValue(), nextE.getValue()));
+        }
     }
 
     /**
@@ -125,5 +154,93 @@ public class CompileInfo {
             }
         }
         return List.of(lines);
+    }
+
+    /**
+     * Decompile by external decompiler.
+     */
+    public void decompileByVineFlower() {
+        Map<String, Object> options = new HashMap();
+        options.put(IFernflowerPreferences.REMOVE_SYNTHETIC, "1");
+        options.put(IFernflowerPreferences.INDENT_STRING, "\t");
+        options.put(IFernflowerPreferences.LOG_LEVEL, "WARN");
+
+        String[] decompiled = new String[1];
+
+        IResultSaver saver = new IResultSaver() {
+
+            @Override
+            public void saveFolder(String path) {
+            }
+
+            @Override
+            public void saveDirEntry(String path, String archiveName, String entryName) {
+            }
+
+            @Override
+            public void saveClassFile(String path, String qualifiedName, String entryName, String content, int[] mapping) {
+                decompiled[0] = content;
+            }
+
+            @Override
+            public void saveClassEntry(String path, String archiveName, String qualifiedName, String entryName, String content) {
+            }
+
+            @Override
+            public void createArchive(String path, String archiveName, Manifest manifest) {
+            }
+
+            @Override
+            public void copyFile(String source, String path, String entryName) {
+            }
+
+            @Override
+            public void copyEntry(String source, String path, String archiveName, String entry) {
+            }
+
+            @Override
+            public void closeArchive(String path, String archiveName) {
+            }
+        };
+
+        IFernflowerLogger logger = new IFernflowerLogger() {
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void writeMessage(String message, Severity severity) {
+            }
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public void writeMessage(String message, Severity severity, Throwable t) {
+            }
+        };
+
+        List<Class> classes = new ArrayList();
+        classes.add(compilingClass);
+
+        Class parent = compilingClass.getEnclosingClass();
+        while (parent != null) {
+            classes.add(parent);
+            parent = parent.getEnclosingClass();
+        }
+
+        Fernflower fernflower = new Fernflower(saver, options, logger);
+        for (Class clazz : classes) {
+            Location root = Locator.locate(clazz);
+            fernflower.addSource(root.asDirectory().file(clazz.getName().replace('.', '/').concat(".class")).asJavaFile());
+        }
+        fernflower.decompileContext();
+
+        decompiledByVineFlower = I.list(decompiled[0].split("\n"));
+
+        // format
+        decompiledByVineFlower.removeIf(line -> {
+            return line.startsWith("import ") || line.startsWith("package ");
+        });
     }
 }
