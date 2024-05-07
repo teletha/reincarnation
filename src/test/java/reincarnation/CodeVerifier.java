@@ -113,7 +113,7 @@ public class CodeVerifier {
         // Cache the original expected value. If a test containing static references is run multiple
         // times, the expected value may be different each time.
         // ========================================================
-        JavaVerifier base = new JavaVerifier(target, "Execute original test case by java.");
+        JavaVerifier base = new JavaVerifier(target);
         List inputs = prepareInputs(base.method);
         List expecteds = cache.computeIfAbsent(target, key -> {
             List list = new ArrayList();
@@ -175,7 +175,7 @@ public class CodeVerifier {
                 // ========================================================
                 // Execute recompiled code and compare result with original.
                 // ========================================================
-                JavaVerifier java = new JavaVerifier(recompiledClass, info.decompiled);
+                JavaVerifier java = new JavaVerifier(recompiledClass);
 
                 for (int i = 0; i < inputs.size(); i++) {
                     java.verify(inputs.get(i), expecteds.get(i));
@@ -320,19 +320,6 @@ public class CodeVerifier {
         return inputs;
     }
 
-    /**
-     * Throw the failure of decompilation.
-     * 
-     * @param message
-     * @return
-     */
-    private static Throwable error(String message) {
-        return Failuer.type("Invalid Decompilation")
-                .reason("=================================================")
-                .reason(message)
-                .reason("=================================================");
-    }
-
     /** The compiled class loader for Javac. */
     private static ClassLoader JavacClassLoader;
 
@@ -373,16 +360,10 @@ public class CodeVerifier {
         /** The actual verifier method. */
         private final Method method;
 
-        /** The detailed error. */
-        private final String detailError;
-
         /**
          * @param type
-         * @param detailError
          */
-        private JavaVerifier(Class clazz, String detailError) {
-            this.detailError = detailError;
-
+        private JavaVerifier(Class clazz) {
             // we smust create new instance for each parameters
             Constructor c = clazz.getDeclaredConstructors()[0];
             c.setAccessible(true);
@@ -457,7 +438,7 @@ public class CodeVerifier {
                 if (actual instanceof Throwable) {
                     ((Throwable) actual).printStackTrace();
                 }
-                assert actual == null : error(detailError);
+                assert actual == null;
             } else {
                 Class type = expected.getClass();
 
@@ -467,7 +448,7 @@ public class CodeVerifier {
                     assert type.isInstance(actual);
                     assert Objects.equals(((Throwable) expected).getMessage(), ((Throwable) actual).getMessage());
                 } else {
-                    assert expected.equals(actual) : error(detailError);
+                    assert expected.equals(actual);
                 }
             }
         }
@@ -480,7 +461,7 @@ public class CodeVerifier {
          */
         private void assertArray(Object expected, Object actual) {
             // check array size
-            assert Array.getLength(expected) == Array.getLength(actual) : error(detailError);
+            assert Array.getLength(expected) == Array.getLength(actual);
 
             // check each items
             int size = Array.getLength(expected);
