@@ -9,6 +9,7 @@
  */
 package reincarnation;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import org.jetbrains.java.decompiler.main.extern.IResultSaver;
 
 import kiss.I;
 import kiss.Ⅲ;
+import psychopath.File;
 import psychopath.Location;
 import psychopath.Locator;
 import reincarnation.Debugger.Printable;
@@ -37,6 +39,9 @@ public class CompileInfo {
 
     /** Line Separator */
     private static final String SEPARATOR = "============================================================";
+
+    /** The test method. */
+    private final Method method;
 
     /** The compiling class. */
     public final Class compilingClass;
@@ -63,7 +68,8 @@ public class CompileInfo {
     /**
      * @param target
      */
-    public CompileInfo(Class target, CompilerType type) {
+    public CompileInfo(Method method, Class target, CompilerType type) {
+        this.method = method;
         this.compilingClass = target;
         this.type = type;
     }
@@ -76,6 +82,11 @@ public class CompileInfo {
         write("");
         write(type, "fails compiling", compilingClass.getName());
         write(errorMessage);
+
+        write("Original Code");
+        write(extractOriginalTestCode());
+
+        write("Decompiled Code");
         write(format(decompiled, true));
 
         write("Decompiling Log");
@@ -94,7 +105,19 @@ public class CompileInfo {
             write(decompiledByVineFlower);
         }
 
+        extractOriginalTestCode();
+
         return new Error(builder.toString());
+    }
+
+    private List<String> extractOriginalTestCode() {
+        File source = Locator.file("src/test/java/" + method.getDeclaringClass().getName().replace('.', '/') + ".java");
+        for (String block : source.text().split("@" + CrossDecompilerTest.class.getSimpleName())) {
+            if (block.contains("void " + method.getName() + "(")) {
+                return List.of(block.strip().split(EoL));
+            }
+        }
+        return null;
     }
 
     public void asmfier(Class typeForJavac, Class typeForECJ) {

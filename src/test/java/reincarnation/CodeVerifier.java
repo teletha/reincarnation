@@ -86,8 +86,12 @@ public class CodeVerifier {
     /** The debug mode. */
     private Debuggable debuggable;
 
+    /** The test method. */
+    private Method method;
+
     @BeforeEach
     void enableDebugMode(TestInfo info) {
+        method = info.getTestMethod().orElseThrow();
         debuggable = info.getTestMethod().get().getAnnotation(Debuggable.class);
         if (debuggable == null) {
             debuggable = info.getTestClass().get().getAnnotation(Debuggable.class);
@@ -134,7 +138,7 @@ public class CodeVerifier {
         // ========================================================
         // Prepare recompile.
         // ========================================================
-        CompileInfo info = new CompileInfo(target, CompilerType.current());
+        CompileInfo info = new CompileInfo(method, target, CompilerType.current());
         info.decompilerDebugLog = debugger.replaceOutput();
 
         try {
