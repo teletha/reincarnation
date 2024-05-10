@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.Manifest;
 import java.util.stream.Collectors;
 
@@ -39,6 +40,9 @@ public class CompileInfo {
 
     /** Line Separator */
     private static final String SEPARATOR = "============================================================";
+
+    /** The source code cache. */
+    private static final Map<String, Map<String, List<String>>> sources = new ConcurrentHashMap();
 
     /** The test method. */
     private final Method method;
@@ -105,19 +109,24 @@ public class CompileInfo {
             write(decompiledByVineFlower);
         }
 
-        extractOriginalTestCode();
-
         return new Error(builder.toString());
     }
 
     private List<String> extractOriginalTestCode() {
-        File source = Locator.file("src/test/java/" + method.getDeclaringClass().getName().replace('.', '/') + ".java");
-        for (String block : source.text().split("@" + CrossDecompilerTest.class.getSimpleName())) {
-            if (block.contains("void " + method.getName() + "(")) {
-                return List.of(block.strip().split(EoL));
+        return sources.computeIfAbsent(method.getDeclaringClass().getName(), className -> {
+            Map<String, List<String>> methods = new HashMap();
+            File source = Locator.file("src/test/java/" + method.getDeclaringClass().getName().replace('.', '/') + ".java");
+            for (String block : source.text().split("@" + CrossDecompilerTest.class.getSimpleName())) {
+                int start = block.indexOf("void");
+                int end = block.indexOf("(", start);
+                if (start != -1 && end != -1) {
+                    String methodName = block.substring(start + 4, end).strip();
+                    System.out.println(methodName);
+                    methods.put(methodName, List.of(block.strip().split(EoL)));
+                }
             }
-        }
-        return null;
+            return methods;
+        }).get(method.getName());
     }
 
     public void asmfier(Class typeForJavac, Class typeForECJ) {
