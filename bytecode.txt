@@ -14,6 +14,25 @@ Javac fails compiling reincarnation.decompiler.flow.SwitchExpressionTest$23
 
 Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
 ============================================================
+Original Code
+============================================================
+@Debuggable
+    void conditionByString() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"a", "b", "c", "d", "e"}) String param) {
+                return switch (param) {
+                case "a" -> "A";
+                case "b" -> "B";
+                default -> param;
+                };
+            }
+        });
+    }
+============================================================
+Decompiled Code
+============================================================
 01    package reincarnation.decompiler.flow;
 02    
 03    import reincarnation.CodeVerifier;
@@ -44,188 +63,188 @@ Decompiling Log
 ============================================================
 //------------------------- SwitchExpressionTest#conditionByString (SwitchExpressionTest.java:431) -------------------------//
 Constructor() (SwitchExpressionTest.java:432)
-0	 in[]	out[]	dom[]	doms[]	prev[]	next[1]	dest[T]	code : java.lang.Object() [ConstructorCall] return null [Return - null]
-1	 in[]	out[]	dom[]	doms[]	prev[0]	next[]	dest[]	code : 
+0	 in: []	out: []	dom: []	doms: []	prev: []	next: [1]	dest: [T]	code : java.lang.Object() [ConstructorCall] return null [Return - null]
+1	 in: []	out: []	dom: []	doms: []	prev: [0]	next: []	dest: []	code : 
 
 Delete tail empty return (show full nodes)
-0	 in[]	out[]	dom[]	doms[]	prev[]	next[]	dest[T]	code : java.lang.Object() [ConstructorCall] return null [Return - null]
-0	 in[]	out[]	dom[]	doms[]	prev[]	next[]	dest[T]	code : java.lang.Object() [ConstructorCall]
+0	 in: []	out: []	dom: []	doms: []	prev: []	next: []	dest: [T]	code : java.lang.Object() [ConstructorCall] return null [Return - null]
+0	 in: []	out: []	dom: []	doms: []	prev: []	next: []	dest: [T]	code : java.lang.Object() [ConstructorCall]
 
-0	 in[]	out[]	dom[]	doms[]	prev[]	next[]	dest[T]	code : java.lang.Object() [ConstructorCall]
+0	 in: []	out: []	dom: []	doms: []	prev: []	next: []	dest: [T]	code : java.lang.Object() [ConstructorCall]
 
 //------------------------- SwitchExpressionTest#conditionByString (SwitchExpressionTest.java:435) -------------------------//
 Method run(String arg0) (SwitchExpressionTest.java:436)
-3	 in[0,1,2]		out[6,4,5]		dom[0]	doms[]	prev[2]	next[4]	dest[4]	code : switch-expression (local3) [Switch]
-4	 in[3]		out[7]		dom[3]	doms[]	prev[3]	next[5]	dest[7]	code : "A" [String]
-5	 in[3]		out[7]		dom[3]	doms[]	prev[4]	next[6]	dest[7]	code : "B" [String]
-6	 in[3]		out[7]		dom[3]	doms[]	prev[5]	next[7]	dest[7]	code : arg0 [LocalVariable#String]
+3	 in: [0,1,2]		out: [6,4,5]		dom: [0]	doms: []	prev: [2]	next: [4]	dest: [4]	code : switch-expression (local3) [Switch]
+4	 in: [3]		out: [7]		dom: [3]	doms: []	prev: [3]	next: [5]	dest: [7]	code : "A" [String]
+5	 in: [3]		out: [7]		dom: [3]	doms: []	prev: [4]	next: [6]	dest: [7]	code : "B" [String]
+6	 in: [3]		out: [7]		dom: [3]	doms: []	prev: [5]	next: [7]	dest: [7]	code : arg0 [LocalVariable#String]
 
 Analyze switch (show full nodes)
-3	 in[0,1,2]		out[6,4,5]		dom[0]	doms[4,5,6]	prev[2]	next[4]	dest[4]	code : switch-expression (local3) [Switch]
-4	 in[3]		out[7]		dom[3]	doms[]	prev[3]	next[5]	dest[7]	code : "A" [String]
-5	 in[3]		out[7]		dom[3]	doms[]	prev[4]	next[6]	dest[7]	code : "B" [String]
-6	 in[3]		out[7]		dom[3]	doms[]	prev[5]	next[7]	dest[7]	code : arg0 [LocalVariable#String]
-3	 in[]	out[6,4,5]		dom[]	doms[4,5,6]	prev[2]	next[4]	dest[4]	code : switch-expression (local3) [Switch#String]
-4	 in[3]	out[]		dom[3]	doms[]	prev[3]	next[5]	dest[7]	code : yield "A" [Yield#String - "A"]
-5	 in[3]	out[]		dom[3]	doms[]	prev[4]	next[6]	dest[7]	code : yield "B" [Yield#String - "B"]
-6	 in[3]	out[]		dom[3]	doms[]	prev[5]	next[A]	dest[7]	code : yield arg0 [Yield#String - arg0]
+3	 in: [0,1,2]		out: [6,4,5]		dom: [0]	doms: [4,5,6]	prev: [2]	next: [4]	dest: [4]	code : switch-expression (local3) [Switch]
+4	 in: [3]		out: [7]		dom: [3]	doms: []	prev: [3]	next: [5]	dest: [7]	code : "A" [String]
+5	 in: [3]		out: [7]		dom: [3]	doms: []	prev: [4]	next: [6]	dest: [7]	code : "B" [String]
+6	 in: [3]		out: [7]		dom: [3]	doms: []	prev: [5]	next: [7]	dest: [7]	code : arg0 [LocalVariable#String]
+3	 in: []	out: [6,4,5]		dom: []	doms: [4,5,6]	prev: [2]	next: [4]	dest: [4]	code : switch-expression (local3) [Switch#String]
+4	 in: [3]	out: []		dom: [3]	doms: []	prev: [3]	next: [5]	dest: [7]	code : yield "A" [Yield#String - "A"]
+5	 in: [3]	out: []		dom: [3]	doms: []	prev: [4]	next: [6]	dest: [7]	code : yield "B" [Yield#String - "B"]
+6	 in: [3]	out: []		dom: [3]	doms: []	prev: [5]	next: [A]	dest: [7]	code : yield arg0 [Yield#String - arg0]
 
-3	 in[]	out[6,4,5]		dom[]	doms[4,5,6]	prev[2]	next[4]	dest[4]	code : switch-expression (local3) [Switch#String]
-4	 in[3]	out[]		dom[3]	doms[]	prev[3]	next[5]	dest[7]	code : yield "A" [Yield#String - "A"]
-5	 in[3]	out[]		dom[3]	doms[]	prev[4]	next[6]	dest[7]	code : yield "B" [Yield#String - "B"]
-6	 in[3]	out[]		dom[3]	doms[]	prev[5]	next[A]	dest[7]	code : yield arg0 [Yield#String - arg0]
+3	 in: []	out: [6,4,5]		dom: []	doms: [4,5,6]	prev: [2]	next: [4]	dest: [4]	code : switch-expression (local3) [Switch#String]
+4	 in: [3]	out: []		dom: [3]	doms: []	prev: [3]	next: [5]	dest: [7]	code : yield "A" [Yield#String - "A"]
+5	 in: [3]	out: []		dom: [3]	doms: []	prev: [4]	next: [6]	dest: [7]	code : yield "B" [Yield#String - "B"]
+6	 in: [3]	out: []		dom: [3]	doms: []	prev: [5]	next: [A]	dest: [7]	code : yield arg0 [Yield#String - arg0]
 
 Process switch expression (show full nodes)
-0	 in[]		out[3,1,2]		dom[]	doms[]	prev[]	next[1]	dest[1]	code : local2 = arg0 [Assign#String] local3 = -1 [Assign] switch (local2) [Switch]
-1	 in[0]		out[3]		dom[0]	doms[]	prev[0]	next[2]	dest[3]	code : if (local2.equals("a") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 0 [Assign]
-2	 in[0]		out[3]		dom[0]	doms[]	prev[1]	next[3]	dest[3]	code : if (local2.equals("b") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 1 [Assign]
-3	 in[0,1,2]		out[6,4,5]		dom[0]	doms[]	prev[2]	next[4]	dest[4]	code : switch (local3) [Switch]
-4	 in[3]		out[7]		dom[3]	doms[]	prev[3]	next[5]	dest[7]	code : "A" [String]
-5	 in[3]		out[7]		dom[3]	doms[]	prev[4]	next[6]	dest[7]	code : "B" [String]
-6	 in[3]		out[7]		dom[3]	doms[]	prev[5]	next[7]	dest[7]	code : arg0 [LocalVariable#String]
-7	 in[4,5,6]		out[]		dom[]	doms[]	prev[6]	next[]	dest[]	code : 
-0	 in[]		out[1,2,7]		dom[]	doms[3]	prev[]	next[1]	dest[1]	code : local2 = arg0 [Assign#String] local3 = -1 [Assign] switch (local2) [Switch]
-1	 in[0]		out[7]		dom[0]	doms[]	prev[0]	next[2]	dest[3]	code : if (local2.equals("a") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 0 [Assign]
-2	 in[0]		out[7]		dom[0]	doms[]	prev[1]	next[B]	dest[3]	code : if (local2.equals("b") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 1 [Assign]
-B	 in[]		out[3]		dom[]	doms[]	prev[2]	next[7]	dest[3]	code : switch-expression (local3) [Switch#String]
-A	 in[]		out[7]		dom[]	doms[]	prev[6]	next[7]	dest[7]	code : 
-7	 in[0,1,2,A]	out[]		dom[]	doms[]	prev[B]	next[]	dest[]	code : 
+0	 in: []		out: [3,1,2]		dom: []	doms: []	prev: []	next: [1]	dest: [1]	code : local2 = arg0 [Assign#String] local3 = -1 [Assign] switch (local2) [Switch]
+1	 in: [0]		out: [3]		dom: [0]	doms: []	prev: [0]	next: [2]	dest: [3]	code : if (local2.equals("a") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 0 [Assign]
+2	 in: [0]		out: [3]		dom: [0]	doms: []	prev: [1]	next: [3]	dest: [3]	code : if (local2.equals("b") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 1 [Assign]
+3	 in: [0,1,2]		out: [6,4,5]		dom: [0]	doms: []	prev: [2]	next: [4]	dest: [4]	code : switch (local3) [Switch]
+4	 in: [3]		out: [7]		dom: [3]	doms: []	prev: [3]	next: [5]	dest: [7]	code : "A" [String]
+5	 in: [3]		out: [7]		dom: [3]	doms: []	prev: [4]	next: [6]	dest: [7]	code : "B" [String]
+6	 in: [3]		out: [7]		dom: [3]	doms: []	prev: [5]	next: [7]	dest: [7]	code : arg0 [LocalVariable#String]
+7	 in: [4,5,6]		out: []		dom: []	doms: []	prev: [6]	next: []	dest: []	code : 
+0	 in: []		out: [1,2,7]		dom: []	doms: [3]	prev: []	next: [1]	dest: [1]	code : local2 = arg0 [Assign#String] local3 = -1 [Assign] switch (local2) [Switch]
+1	 in: [0]		out: [7]		dom: [0]	doms: []	prev: [0]	next: [2]	dest: [3]	code : if (local2.equals("a") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 0 [Assign]
+2	 in: [0]		out: [7]		dom: [0]	doms: []	prev: [1]	next: [B]	dest: [3]	code : if (local2.equals("b") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 1 [Assign]
+B	 in: []		out: [3]		dom: []	doms: []	prev: [2]	next: [7]	dest: [3]	code : switch-expression (local3) [Switch#String]
+A	 in: []		out: [7]		dom: []	doms: []	prev: [6]	next: [7]	dest: [7]	code : 
+7	 in: [0,1,2,A]	out: []		dom: []	doms: []	prev: [B]	next: []	dest: []	code : 
 
 Method run(String arg0) (SwitchExpressionTest.java:436)
-0	 in[]		out[1,2,7]		dom[]	doms[3]	prev[]	next[1]	dest[1]	code : param = param [Assign#String] local3 = -1 [Assign] switch (param) [Switch]
-1	 in[0]		out[7]		dom[0]	doms[]	prev[0]	next[2]	dest[3]	code : if (param.equals("a") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 0 [Assign]
-2	 in[0]		out[7]		dom[0]	doms[]	prev[1]	next[B]	dest[3]	code : if (param.equals("b") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 1 [Assign]
-B	 in[]		out[3]		dom[]	doms[]	prev[2]	next[7]	dest[3]	code : 
-A	 in[]		out[7]		dom[]	doms[]	prev[6]	next[7]	dest[7]	code : 
-7	 in[0,1,2,A]	out[]		dom[]	doms[]	prev[B]	next[8]	dest[T]	code : return switch-expression (local3) [Return#String - Switch#String]
-8	 in[]		out[]		dom[]	doms[]	prev[7]	next[]	dest[]	code : 
+0	 in: []		out: [1,2,7]		dom: []	doms: [3]	prev: []	next: [1]	dest: [1]	code : param = param [Assign#String] local3 = -1 [Assign] switch (param) [Switch]
+1	 in: [0]		out: [7]		dom: [0]	doms: []	prev: [0]	next: [2]	dest: [3]	code : if (param.equals("a") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 0 [Assign]
+2	 in: [0]		out: [7]		dom: [0]	doms: []	prev: [1]	next: [B]	dest: [3]	code : if (param.equals("b") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 1 [Assign]
+B	 in: []		out: [3]		dom: []	doms: []	prev: [2]	next: [7]	dest: [3]	code : 
+A	 in: []		out: [7]		dom: []	doms: []	prev: [6]	next: [7]	dest: [7]	code : 
+7	 in: [0,1,2,A]	out: []		dom: []	doms: []	prev: [B]	next: [8]	dest: [T]	code : return switch-expression (local3) [Return#String - Switch#String]
+8	 in: []		out: []		dom: []	doms: []	prev: [7]	next: []	dest: []	code : 
 
-0	 in[]		out[1,2,7]		dom[]	doms[3,1,2,7]prev[]	next[1]	dest[1]	code : param = param [Assign#String] local3 = -1 [Assign] switch (param) [Switch]
-1	 in[0]		out[C]		dom[0]	doms[C]	prev[0]	next[C]	dest[3]	code : if (param.equals("a") 0) then 3 else SAME [Condition then 3 else SAME]
-C	 in[1]		out[7,3]		dom[1]	doms[]	prev[1]	next[2]	dest[]	code : local3 = 0 [Assign]
-2	 in[0]		out[D]		dom[0]	doms[D]	prev[C]	next[D]	dest[3]	code : if (param.equals("b") 0) then 3 else SAME [Condition then 3 else SAME]
-D	 in[2]		out[7,3]		dom[2]	doms[]	prev[2]	next[7]	dest[]	code : local3 = 1 [Assign]
-7	 in[0,C,D]		out[]		dom[0]	doms[]	prev[6]	next[]	dest[T]	code : return switch-expression (local3) [Return#String - Switch#String]
+0	 in: []		out: [1,2,7]		dom: []	doms: [3,1,2,7]prev: []	next: [1]	dest: [1]	code : param = param [Assign#String] local3 = -1 [Assign] switch (param) [Switch]
+1	 in: [0]		out: [C]		dom: [0]	doms: [C]	prev: [0]	next: [C]	dest: [3]	code : if (param.equals("a") 0) then 3 else SAME [Condition then 3 else SAME]
+C	 in: [1]		out: [7,3]		dom: [1]	doms: []	prev: [1]	next: [2]	dest: []	code : local3 = 0 [Assign]
+2	 in: [0]		out: [D]		dom: [0]	doms: [D]	prev: [C]	next: [D]	dest: [3]	code : if (param.equals("b") 0) then 3 else SAME [Condition then 3 else SAME]
+D	 in: [2]		out: [7,3]		dom: [2]	doms: []	prev: [2]	next: [7]	dest: []	code : local3 = 1 [Assign]
+7	 in: [0,C,D]		out: []		dom: [0]	doms: []	prev: [6]	next: []	dest: [T]	code : return switch-expression (local3) [Return#String - Switch#String]
 
 
 ============================================================
 Javac Version Bytecode - reincarnation.decompiler.flow.SwitchExpressionTest$23
 ============================================================
-methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/flow/SwitchExpressionTest;)V", null, null);
-methodVisitor.visitParameter("NoParameterName", ACC_FINAL | ACC_MANDATED);
-methodVisitor.visitLabel(label0);
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-methodVisitor.visitInsn(RETURN);
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/SwitchExpressionTest$23;", null, label0, label1, 0);
-methodVisitor.visitLocalVariable("this$0", "Lreincarnation/decompiler/flow/SwitchExpressionTest;", null, label0, label1, 1);
+visitMethod(0, "<init>", "(Lreincarnation/decompiler/flow/SwitchExpressionTest;)V", null, null);
+Parameter("NoParameterName", ACC_FINAL | ACC_MANDATED);
+Label(label0);
+VarInsn(ALOAD, 0);
+MethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+Insn(RETURN);
+Label(label1);
+LocalVariable("this", "Lreincarnation/decompiler/flow/SwitchExpressionTest$23;", null, label0, label1, 0);
+LocalVariable("this$0", "Lreincarnation/decompiler/flow/SwitchExpressionTest;", null, label0, label1, 1);
 
-methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "(Ljava/lang/String;)Ljava/lang/String;", null, null);
-methodVisitor.visitAnnotableParameterCount(1, true);
-methodVisitor.visitLabel(label0);
-methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitVarInsn(ASTORE, 2);
-methodVisitor.visitInsn(ICONST_M1);
-methodVisitor.visitVarInsn(ISTORE, 3);
-methodVisitor.visitVarInsn(ALOAD, 2);
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "hashCode", "()I", false);
-methodVisitor.visitLookupSwitchInsn(label3, new int[] { 97, 98 }, new Label[] { label1, label2 });
-methodVisitor.visitLabel(label1);
-methodVisitor.visitFrame(Opcodes.F_APPEND,2, new Object[] {"java/lang/String", Opcodes.INTEGER}, 0, null);
-methodVisitor.visitVarInsn(ALOAD, 2);
-methodVisitor.visitLdcInsn("a");
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false);
-methodVisitor.visitJumpInsn(IFEQ, label3);
-methodVisitor.visitInsn(ICONST_0);
-methodVisitor.visitVarInsn(ISTORE, 3);
-methodVisitor.visitJumpInsn(GOTO, label3);
-methodVisitor.visitLabel(label2);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitVarInsn(ALOAD, 2);
-methodVisitor.visitLdcInsn("b");
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false);
-methodVisitor.visitJumpInsn(IFEQ, label3);
-methodVisitor.visitInsn(ICONST_1);
-methodVisitor.visitVarInsn(ISTORE, 3);
-methodVisitor.visitLabel(label3);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitVarInsn(ILOAD, 3);
-methodVisitor.visitLookupSwitchInsn(label6, new int[] { 0, 1 }, new Label[] { label4, label5 });
-methodVisitor.visitLabel(label4);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitLdcInsn("A");
-methodVisitor.visitJumpInsn(GOTO, label7);
-methodVisitor.visitLabel(label5);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitLdcInsn("B");
-methodVisitor.visitJumpInsn(GOTO, label7);
-methodVisitor.visitLabel(label6);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitLabel(label7);
-methodVisitor.visitFrame(Opcodes.F_FULL, 2, new Object[] {"reincarnation/decompiler/flow/SwitchExpressionTest$23", "java/lang/String"}, 1, new Object[] {"java/lang/String"});
-methodVisitor.visitInsn(ARETURN);
-methodVisitor.visitLabel(label8);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/SwitchExpressionTest$23;", null, label0, label8, 0);
-methodVisitor.visitLocalVariable("param", "Ljava/lang/String;", null, label0, label8, 1);
+visitMethod(ACC_PUBLIC, "run", "(Ljava/lang/String;)Ljava/lang/String;", null, null);
+AnnotableParameterCount(1, true);
+Label(label0);
+VarInsn(ALOAD, 1);
+VarInsn(ASTORE, 2);
+Insn(ICONST_M1);
+VarInsn(ISTORE, 3);
+VarInsn(ALOAD, 2);
+MethodInsn(INVOKEVIRTUAL, "java/lang/String", "hashCode", "()I", false);
+LookupSwitchInsn(label3, new int[] { 97, 98 }, new Label[] { label1, label2 });
+Label(label1);
+Frame(Opcodes.F_APPEND,2, new Object[] {"java/lang/String", Opcodes.INTEGER}, 0, null);
+VarInsn(ALOAD, 2);
+LdcInsn("a");
+MethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false);
+JumpInsn(IFEQ, label3);
+Insn(ICONST_0);
+VarInsn(ISTORE, 3);
+JumpInsn(GOTO, label3);
+Label(label2);
+Frame(Opcodes.F_SAME, 0, null, 0, null);
+VarInsn(ALOAD, 2);
+LdcInsn("b");
+MethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false);
+JumpInsn(IFEQ, label3);
+Insn(ICONST_1);
+VarInsn(ISTORE, 3);
+Label(label3);
+Frame(Opcodes.F_SAME, 0, null, 0, null);
+VarInsn(ILOAD, 3);
+LookupSwitchInsn(label6, new int[] { 0, 1 }, new Label[] { label4, label5 });
+Label(label4);
+Frame(Opcodes.F_SAME, 0, null, 0, null);
+LdcInsn("A");
+JumpInsn(GOTO, label7);
+Label(label5);
+Frame(Opcodes.F_SAME, 0, null, 0, null);
+LdcInsn("B");
+JumpInsn(GOTO, label7);
+Label(label6);
+Frame(Opcodes.F_SAME, 0, null, 0, null);
+VarInsn(ALOAD, 1);
+Label(label7);
+Frame(Opcodes.F_FULL, 2, new Object[] {"reincarnation/decompiler/flow/SwitchExpressionTest$23", "java/lang/String"}, 1, new Object[] {"java/lang/String"});
+Insn(ARETURN);
+Label(label8);
+LocalVariable("this", "Lreincarnation/decompiler/flow/SwitchExpressionTest$23;", null, label0, label8, 0);
+LocalVariable("param", "Ljava/lang/String;", null, label0, label8, 1);
 ============================================================
 ECJ Version Bytecode - reincarnation.decompiler.flow.SwitchExpressionTest$23
 ============================================================
-methodVisitor = classWriter.visitMethod(0, "<init>", "(Lreincarnation/decompiler/flow/SwitchExpressionTest;)V", null, null);
-methodVisitor.visitLabel(label0);
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/flow/SwitchExpressionTest$23", "this$0", "Lreincarnation/decompiler/flow/SwitchExpressionTest;");
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-methodVisitor.visitInsn(RETURN);
-methodVisitor.visitLabel(label1);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/SwitchExpressionTest$23;", null, label0, label1, 0);
+visitMethod(0, "<init>", "(Lreincarnation/decompiler/flow/SwitchExpressionTest;)V", null, null);
+Label(label0);
+VarInsn(ALOAD, 0);
+VarInsn(ALOAD, 1);
+FieldInsn(PUTFIELD, "reincarnation/decompiler/flow/SwitchExpressionTest$23", "this$0", "Lreincarnation/decompiler/flow/SwitchExpressionTest;");
+VarInsn(ALOAD, 0);
+MethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+Insn(RETURN);
+Label(label1);
+LocalVariable("this", "Lreincarnation/decompiler/flow/SwitchExpressionTest$23;", null, label0, label1, 0);
 
-methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "(Ljava/lang/String;)Ljava/lang/String;", null, null);
-methodVisitor.visitAnnotableParameterCount(1, true);
-methodVisitor.visitLabel(label0);
-methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitInsn(DUP);
-methodVisitor.visitVarInsn(ASTORE, 2);
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "hashCode", "()I", false);
-methodVisitor.visitLookupSwitchInsn(label3, new int[] { 97, 98 }, new Label[] { label1, label2 });
-methodVisitor.visitLabel(label1);
-methodVisitor.visitFrame(Opcodes.F_APPEND,1, new Object[] {"java/lang/String"}, 0, null);
-methodVisitor.visitVarInsn(ALOAD, 2);
-methodVisitor.visitLdcInsn("a");
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false);
-methodVisitor.visitJumpInsn(IFNE, label4);
-methodVisitor.visitJumpInsn(GOTO, label3);
-methodVisitor.visitLabel(label2);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitVarInsn(ALOAD, 2);
-methodVisitor.visitLdcInsn("b");
-methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false);
-methodVisitor.visitJumpInsn(IFNE, label5);
-methodVisitor.visitJumpInsn(GOTO, label3);
-methodVisitor.visitLabel(label4);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitLdcInsn("A");
-methodVisitor.visitJumpInsn(GOTO, label6);
-methodVisitor.visitLabel(label5);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitLdcInsn("B");
-methodVisitor.visitJumpInsn(GOTO, label6);
-methodVisitor.visitLabel(label3);
-methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
-methodVisitor.visitVarInsn(ALOAD, 1);
-methodVisitor.visitLabel(label6);
-methodVisitor.visitFrame(Opcodes.F_FULL, 2, new Object[] {"reincarnation/decompiler/flow/SwitchExpressionTest$23", "java/lang/String"}, 1, new Object[] {"java/lang/String"});
-methodVisitor.visitInsn(ARETURN);
-methodVisitor.visitLabel(label7);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/flow/SwitchExpressionTest$23;", null, label0, label7, 0);
-methodVisitor.visitLocalVariable("param", "Ljava/lang/String;", null, label0, label7, 1);
+visitMethod(ACC_PUBLIC, "run", "(Ljava/lang/String;)Ljava/lang/String;", null, null);
+AnnotableParameterCount(1, true);
+Label(label0);
+VarInsn(ALOAD, 1);
+Insn(DUP);
+VarInsn(ASTORE, 2);
+MethodInsn(INVOKEVIRTUAL, "java/lang/String", "hashCode", "()I", false);
+LookupSwitchInsn(label3, new int[] { 97, 98 }, new Label[] { label1, label2 });
+Label(label1);
+Frame(Opcodes.F_APPEND,1, new Object[] {"java/lang/String"}, 0, null);
+VarInsn(ALOAD, 2);
+LdcInsn("a");
+MethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false);
+JumpInsn(IFNE, label4);
+JumpInsn(GOTO, label3);
+Label(label2);
+Frame(Opcodes.F_SAME, 0, null, 0, null);
+VarInsn(ALOAD, 2);
+LdcInsn("b");
+MethodInsn(INVOKEVIRTUAL, "java/lang/String", "equals", "(Ljava/lang/Object;)Z", false);
+JumpInsn(IFNE, label5);
+JumpInsn(GOTO, label3);
+Label(label4);
+Frame(Opcodes.F_SAME, 0, null, 0, null);
+LdcInsn("A");
+JumpInsn(GOTO, label6);
+Label(label5);
+Frame(Opcodes.F_SAME, 0, null, 0, null);
+LdcInsn("B");
+JumpInsn(GOTO, label6);
+Label(label3);
+Frame(Opcodes.F_SAME, 0, null, 0, null);
+VarInsn(ALOAD, 1);
+Label(label6);
+Frame(Opcodes.F_FULL, 2, new Object[] {"reincarnation/decompiler/flow/SwitchExpressionTest$23", "java/lang/String"}, 1, new Object[] {"java/lang/String"});
+Insn(ARETURN);
+Label(label7);
+LocalVariable("this", "Lreincarnation/decompiler/flow/SwitchExpressionTest$23;", null, label0, label7, 0);
+LocalVariable("param", "Ljava/lang/String;", null, label0, label7, 1);
 ============================================================
 
-	at reincarnation.CompileInfo.buildError(CompileInfo.java:97)
-	at reincarnation.CodeVerifier.verify(CodeVerifier.java:201)
+	at reincarnation.CompileInfo.buildError(CompileInfo.java:112)
+	at reincarnation.CodeVerifier.verify(CodeVerifier.java:205)
 	at reincarnation.decompiler.flow.SwitchExpressionTest.conditionByString(SwitchExpressionTest.java:432)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)

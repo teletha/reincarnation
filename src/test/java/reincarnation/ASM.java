@@ -86,6 +86,7 @@ public class ASM {
                     .skip(1)
                     .skip(line -> line.startsWith("methodVisitor.visitCode()") || line.startsWith("methodVisitor.visitEnd()") || line
                             .startsWith("methodVisitor.visitMax") || line.startsWith("methodVisitor.visitLineNumber"))
+                    .map(line -> line.replace("methodVisitor.visit", "").replace("methodVisitor = classWriter.", ""))
                     .toList();
         }
 

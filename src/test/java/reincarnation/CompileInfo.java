@@ -121,7 +121,6 @@ public class CompileInfo {
                 int end = block.indexOf("(", start);
                 if (start != -1 && end != -1) {
                     String methodName = block.substring(start + 4, end).strip();
-                    System.out.println(methodName);
                     methods.put(methodName, List.of(block.strip().split(EoL)));
                 }
             }
