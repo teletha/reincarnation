@@ -129,8 +129,14 @@ public class CompileInfo {
     }
 
     public void asmfier(Class typeForJavac, Class typeForECJ) {
-        ASM forJavac = new ASM().translate(typeForJavac);
-        ASM forECJ = new ASM().translate(typeForECJ);
+        boolean full = false;
+        Debuggable debug = method.getAnnotation(Debuggable.class);
+        if (debug != null) {
+            full = debug.fullBytecode();
+        }
+
+        ASM forJavac = new ASM(full).translate(typeForJavac);
+        ASM forECJ = new ASM(full).translate(typeForECJ);
 
         Iterator<Entry<Class, List<String>>> javac = forJavac.asmifiers.entrySet().iterator();
         Iterator<Entry<Class, List<String>>> ecj = forECJ.asmifiers.entrySet().iterator();

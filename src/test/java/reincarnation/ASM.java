@@ -19,6 +19,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.util.ASMifier;
 import org.objectweb.asm.util.TraceClassVisitor;
@@ -30,6 +32,15 @@ public class ASM {
     /** The translated codes. */
     public final Map<Class, List<String>> asmifiers = new LinkedHashMap();
 
+    private boolean full;
+
+    /**
+     * @param full
+     */
+    public ASM(boolean full) {
+        this.full = full;
+    }
+
     /**
      * Traslate codes recursively.
      * 
@@ -40,7 +51,7 @@ public class ASM {
         try {
             InputStream input = target.getClassLoader().getResourceAsStream(target.getName().replace('.', '/') + ".class");
             Translator translator = new Translator(target);
-            new ClassReader(input).accept(new TraceClassVisitor(null, translator, new PrintWriter(translator.writer)), 0);
+            new ClassReader(input).accept(new Filter(new TraceClassVisitor(null, translator, new PrintWriter(translator.writer))), 0);
 
             asmifiers.put(target, translator.format());
         } catch (IOException e) {
@@ -48,6 +59,28 @@ public class ASM {
         }
 
         return this;
+    }
+
+    private class Filter extends ClassVisitor {
+
+        /**
+         * @param classVisitor
+         */
+        public Filter(ClassVisitor classVisitor) {
+            super(Opcodes.ASM9, classVisitor);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+            if (!full && (name.equals("<init>") || name.equals("<cinit>"))) {
+                return null;
+            } else {
+                return super.visitMethod(access, name, descriptor, signature, exceptions);
+            }
+        }
     }
 
     /**

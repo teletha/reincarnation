@@ -130,16 +130,6 @@ D	 in: [2]		out: [7,3]		dom: [2]	doms: []	prev: [2]	next: [7]	dest: []	code : lo
 ============================================================
 Javac Version Bytecode - reincarnation.decompiler.flow.SwitchExpressionTest$23
 ============================================================
-visitMethod(0, "<init>", "(Lreincarnation/decompiler/flow/SwitchExpressionTest;)V", null, null);
-Parameter("NoParameterName", ACC_FINAL | ACC_MANDATED);
-Label(label0);
-VarInsn(ALOAD, 0);
-MethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-Insn(RETURN);
-Label(label1);
-LocalVariable("this", "Lreincarnation/decompiler/flow/SwitchExpressionTest$23;", null, label0, label1, 0);
-LocalVariable("this$0", "Lreincarnation/decompiler/flow/SwitchExpressionTest;", null, label0, label1, 1);
-
 visitMethod(ACC_PUBLIC, "run", "(Ljava/lang/String;)Ljava/lang/String;", null, null);
 AnnotableParameterCount(1, true);
 Label(label0);
@@ -191,17 +181,6 @@ LocalVariable("param", "Ljava/lang/String;", null, label0, label8, 1);
 ============================================================
 ECJ Version Bytecode - reincarnation.decompiler.flow.SwitchExpressionTest$23
 ============================================================
-visitMethod(0, "<init>", "(Lreincarnation/decompiler/flow/SwitchExpressionTest;)V", null, null);
-Label(label0);
-VarInsn(ALOAD, 0);
-VarInsn(ALOAD, 1);
-FieldInsn(PUTFIELD, "reincarnation/decompiler/flow/SwitchExpressionTest$23", "this$0", "Lreincarnation/decompiler/flow/SwitchExpressionTest;");
-VarInsn(ALOAD, 0);
-MethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-Insn(RETURN);
-Label(label1);
-LocalVariable("this", "Lreincarnation/decompiler/flow/SwitchExpressionTest$23;", null, label0, label1, 0);
-
 visitMethod(ACC_PUBLIC, "run", "(Ljava/lang/String;)Ljava/lang/String;", null, null);
 AnnotableParameterCount(1, true);
 Label(label0);
