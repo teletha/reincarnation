@@ -25,6 +25,7 @@ public class Project extends bee.api.Project {
         require("org.ow2.asm", "asm-util").atTest();
         require("com.github.javaparser", "javaparser-core").atTest();
         require("org.vineflower", "vineflower").atTest();
+        require("io.github.java-diff-utils", "java-diff-utils").atTest();
 
         // for jetbrains fernflower
         require("org.jetbrains", "annotations").atTest();

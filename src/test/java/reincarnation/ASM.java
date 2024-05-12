@@ -120,6 +120,7 @@ public class ASM {
                     .skip(line -> line.startsWith("methodVisitor.visitCode()") || line.startsWith("methodVisitor.visitEnd()") || line
                             .startsWith("methodVisitor.visitMax") || line.startsWith("methodVisitor.visitLineNumber"))
                     .map(line -> line.replace("methodVisitor.visit", "").replace("methodVisitor = classWriter.", ""))
+                    .map(line -> line.replaceAll("reincarnation/decompiler/.+/", "").replaceAll("java/lang/", "j.l."))
                     .toList();
         }
 

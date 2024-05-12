@@ -26,8 +26,10 @@ import org.jetbrains.java.decompiler.main.extern.IFernflowerLogger;
 import org.jetbrains.java.decompiler.main.extern.IFernflowerPreferences;
 import org.jetbrains.java.decompiler.main.extern.IResultSaver;
 
+import com.github.difflib.text.DiffRow;
+import com.github.difflib.text.DiffRowGenerator;
+
 import kiss.I;
-import kiss.Ⅲ;
 import psychopath.File;
 import psychopath.Location;
 import psychopath.Locator;
@@ -65,7 +67,7 @@ public class CompileInfo {
     /** The debug log of decompiler. */
     public StringBuilder decompilerDebugLog;
 
-    private final List<Ⅲ<Class, List<String>, List<String>>> asmfiered = new ArrayList();
+    private final List<ASMified> asmfied = new ArrayList();
 
     private final StringBuilder builder = new StringBuilder();
 
@@ -96,12 +98,14 @@ public class CompileInfo {
         write("Decompiling Log");
         write(Printable.unstain(decompilerDebugLog.toString()));
 
-        for (Ⅲ<Class, List<String>, List<String>> asm : asmfiered) {
-            write("Javac Version Bytecode -", asm.ⅰ.getName());
-            write(asm.ⅱ);
-
-            write("ECJ Version Bytecode -", asm.ⅰ.getName());
-            write(asm.ⅲ);
+        for (ASMified asm : asmfied) {
+            write("Bytecode Diff - ", asm.clazz.getName());
+            write(asm.diff);
+            // write("Javac Version Bytecode -", asm.clazz.getName());
+            // write(asm.javac);
+            //
+            // write("ECJ Version Bytecode -", asm.clazz.getName());
+            // write(asm.ecj);
         }
 
         if (decompiledByVineFlower != null) {
@@ -135,6 +139,14 @@ public class CompileInfo {
             full = debug.fullBytecode();
         }
 
+        DiffRowGenerator generator = DiffRowGenerator.create()
+                .showInlineDiffs(true)
+                .inlineDiffByWord(true)
+                .ignoreWhiteSpaces(true)
+                .oldTag(f -> "~")
+                .newTag(f -> "*")
+                .build();
+
         ASM forJavac = new ASM(full).translate(typeForJavac);
         ASM forECJ = new ASM(full).translate(typeForECJ);
 
@@ -143,8 +155,23 @@ public class CompileInfo {
         while (javac.hasNext() && ecj.hasNext()) {
             Entry<Class, List<String>> nextJ = javac.next();
             Entry<Class, List<String>> nextE = ecj.next();
-            asmfiered.add(I.pair(nextJ.getKey(), nextJ.getValue(), nextE.getValue()));
+
+            List<DiffRow> rows = generator.generateDiffRows(nextE.getValue(), nextJ.getValue());
+            int maxJ = nextJ.getValue().stream().mapToInt(String::length).max().getAsInt() + 4;
+            int maxE = nextE.getValue().stream().mapToInt(String::length).max().getAsInt() + 4;
+
+            List<String> diff = new ArrayList();
+            diff.add(align("ECJ", maxE) + align("Javac", maxJ));
+            for (DiffRow row : rows) {
+                diff.add(align(row.getOldLine(), maxE) + align(row.getNewLine(), maxJ));
+            }
+
+            asmfied.add(new ASMified(nextJ.getKey(), nextE.getValue(), nextJ.getValue(), diff));
         }
+    }
+
+    private String align(String text, int max) {
+        return text + "\t".repeat((max - text.length()) / 4);
     }
 
     /**
@@ -279,5 +306,8 @@ public class CompileInfo {
         decompiledByVineFlower.removeIf(line -> {
             return line.startsWith("import ") || line.startsWith("package ");
         });
+    }
+
+    private record ASMified(Class clazz, List<String> ecj, List<String> javac, List<String> diff) {
     }
 }
