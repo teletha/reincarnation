@@ -121,6 +121,7 @@ public class ASM {
                             .startsWith("methodVisitor.visitMax") || line.startsWith("methodVisitor.visitLineNumber"))
                     .map(line -> line.replace("methodVisitor.visit", "").replace("methodVisitor = classWriter.", ""))
                     .map(line -> line.replaceAll("reincarnation/decompiler/.+/", "").replaceAll("java/lang/", "j.l."))
+                    .map(line -> line.replaceAll("Opcodes\\.", ""))
                     .toList();
         }
 
