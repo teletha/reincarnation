@@ -495,87 +495,6 @@ class Debugger {
         return false;
     }
 
-    private static final class ColumnFormatter {
-
-        /** The tab length. */
-        private final int tab = 4;
-
-        private final List<List<String>> table = new ArrayList();
-
-        private List<String> row = new ArrayList();
-
-        private void write(String text) {
-            row.add(text);
-        }
-
-        private void write(String prefix, List<Node> nodes) {
-            write(nodes.stream().map(n -> String.valueOf(n.id)).collect(Collectors.joining(",", prefix + "[", "]")));
-        }
-
-        private void writeCode(String prefix, List<Operand> operands) {
-            StringBuilder builder = new StringBuilder(prefix);
-            whileDebug = true;
-            for (int i = 0; i < operands.size(); i++) {
-                Operand operand = operands.get(i);
-
-                builder.append(operand.view().strip()).append(" [").append(operand.info()).append("]");
-
-                if (i != operands.size() - 1) {
-                    builder.append(" ");
-                }
-            }
-            whileDebug = false;
-            write(builder.toString());
-        }
-
-        private void writeln() {
-            table.add(row);
-            row = new ArrayList();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String toString() {
-            int fix = 7;
-            int[] maxs = new int[fix];
-            Arrays.fill(maxs, 0);
-
-            for (List<String> row : table) {
-                for (int i = 0; i < fix; i++) {
-                    int length = row.get(i).length();
-                    int max = Math.ceilDiv(length, tab) * tab;
-                    if (max == length) {
-                        max += tab;
-                    }
-                    maxs[i] = Math.max(maxs[i], max);
-                }
-            }
-
-            StringBuilder builder = new StringBuilder();
-            for (List<String> row : table) {
-                for (int i = 0; i < row.size(); i++) {
-                    if (fix <= i) {
-                        builder.append(row.get(i));
-                    } else {
-                        builder.append(align(row.get(i), maxs[i]));
-                    }
-                }
-                builder.append("\n");
-            }
-
-            return builder.toString();
-        }
-
-        private String align(String text, int max) {
-            int remaining = max - text.length();
-            int num = Math.floorDiv(remaining + (remaining % tab == 0 ? 0 : tab), tab);
-            return text + "\t".repeat(num);
-
-        }
-    }
-
     /** The compiling route. */
     private Deque<DebugContext> route = new ArrayDeque();
 
@@ -687,6 +606,101 @@ class Debugger {
 
     private DebugContext latest() {
         return route.isEmpty() ? lastAccessed : route.peekFirst();
+    }
+
+    /** The tab size. */
+    private static final int tab = 4;
+
+    /**
+     * Calculate the max length of the given line text.
+     * 
+     * @param line
+     * @return
+     */
+    static int calculateLineLength(String line) {
+        int length = line.length();
+        int calculated = Math.ceilDiv(length, tab) * tab;
+
+        return calculated == length ? calculated + tab : calculated;
+    }
+
+    /**
+     * Align the line by tab.
+     * 
+     * @param text
+     * @param max
+     * @return
+     */
+    static String alignLine(String text, int max) {
+        int remaining = max - text.length();
+        int size = Math.floorDiv(remaining + (remaining % tab == 0 ? 0 : tab), tab);
+        return text + "\t".repeat(size);
+    }
+
+    private static final class ColumnFormatter {
+
+        private final List<List<String>> table = new ArrayList();
+
+        private List<String> row = new ArrayList();
+
+        private void write(String text) {
+            row.add(text);
+        }
+
+        private void write(String prefix, List<Node> nodes) {
+            write(nodes.stream().map(n -> String.valueOf(n.id)).collect(Collectors.joining(",", prefix + "[", "]")));
+        }
+
+        private void writeCode(String prefix, List<Operand> operands) {
+            StringBuilder builder = new StringBuilder(prefix);
+            whileDebug = true;
+            for (int i = 0; i < operands.size(); i++) {
+                Operand operand = operands.get(i);
+
+                builder.append(operand.view().strip()).append(" [").append(operand.info()).append("]");
+
+                if (i != operands.size() - 1) {
+                    builder.append(" ");
+                }
+            }
+            whileDebug = false;
+            write(builder.toString());
+        }
+
+        private void writeln() {
+            table.add(row);
+            row = new ArrayList();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String toString() {
+            int fix = 7;
+            int[] maxs = new int[fix];
+            Arrays.fill(maxs, 0);
+
+            for (List<String> row : table) {
+                for (int i = 0; i < fix; i++) {
+                    maxs[i] = Math.max(maxs[i], calculateLineLength(row.get(i)));
+                }
+            }
+
+            StringBuilder builder = new StringBuilder();
+            for (List<String> row : table) {
+                for (int i = 0; i < row.size(); i++) {
+                    if (fix <= i) {
+                        builder.append(row.get(i));
+                    } else {
+                        builder.append(alignLine(row.get(i), maxs[i]));
+                    }
+                }
+                builder.append("\n");
+            }
+
+            return builder.toString();
+        }
     }
 
     /**

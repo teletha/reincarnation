@@ -152,20 +152,16 @@ public class CompileInfo {
             Entry<Class, List<String>> nextE = ecj.next();
 
             List<DiffRow> rows = generator.generateDiffRows(nextE.getValue(), nextJ.getValue());
-            int maxE = rows.stream().mapToInt(row -> row.getOldLine().length()).max().getAsInt() + 4;
+            int maxE = rows.stream().mapToInt(row -> Debugger.calculateLineLength(row.getOldLine())).max().getAsInt();
 
             List<String> diff = new ArrayList();
-            diff.add(align("ECJ", maxE) + "Javac");
+            diff.add(Debugger.alignLine("ECJ", maxE) + "Javac");
             for (DiffRow row : rows) {
-                diff.add(align(row.getOldLine(), maxE) + row.getNewLine());
+                diff.add(Debugger.alignLine(row.getOldLine(), maxE) + row.getNewLine());
             }
 
             asmfied.add(new ASMified(nextJ.getKey(), nextE.getValue(), nextJ.getValue(), diff));
         }
-    }
-
-    private String align(String text, int max) {
-        return text + "\t".repeat((max - text.length()) / 4);
     }
 
     /**
