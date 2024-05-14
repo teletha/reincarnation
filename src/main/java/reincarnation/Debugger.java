@@ -14,6 +14,7 @@ import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
@@ -359,7 +360,7 @@ class Debugger {
             backedge = Math.max(backedge, node.backedges.size() * max + (node.backedges.size() - 1) * 2);
         }
 
-        Formatter format = new Formatter();
+        ColumnFormatter format = new ColumnFormatter();
 
         for (Node node : nodes) {
             StringBuilder tryFlow = new StringBuilder();
@@ -378,33 +379,23 @@ class Debugger {
                 }
             }
 
-            format.write(String.valueOf(node.id), max);
-            format.write(" in: ");
-            format.formatNode(node.incoming, incoming);
-            format.write("out: ");
-            format.formatNode(node.outgoing, outgoing);
-            format.write("dom: ");
-            format.formatNode(list(getDominator(node)), 1);
-            format.write("doms: ");
-            format.formatNode(node.dominators, node.dominators.size());
-            format.write("prev: ");
-            format.formatNode(list(node.previous), 1);
-            format.write("next: ");
-            format.formatNode(list(node.next), 1);
-            format.write("dest: ");
-            format.formatNode(list(node.destination), 1);
+            format.write(String.valueOf(node.id));
+            format.write("in", node.incoming);
+            format.write("out", node.outgoing);
+            format.write("dom", list(getDominator(node)));
+            format.write("doms", node.dominators);
+            format.write("side[" + (node.previous == null ? " " : node.previous.id) + "," + (node.next == null ? " " : node.next.id) + "]");
+            format.write("dest", list(node.destination));
 
-            if (backedge != 0) {
-                format.write("back: ");
-                format.formatNode(node.backedges, backedge);
+            if (!node.backedges.isEmpty()) {
+                format.write("back", node.backedges);
             }
+
             if (!tries.isEmpty()) {
-                format.write("try : ");
-                format.write(tryFlow.toString(), tries.size() * 2 + 2);
+                format.write("try" + tryFlow.toString());
             }
-            format.write("code : ");
-            format.formatCodeFragment(node.stack);
-            format.write("\r\n");
+            format.writeCode("code:", node.stack);
+            format.writeln();
         }
         return format.toString();
     }
@@ -504,80 +495,25 @@ class Debugger {
         return false;
     }
 
-    /**
-     * @version 2018/10/31 11:35:02
-     */
-    private static final class Formatter {
-
-        /** The actual buffer. */
-        private final StringBuilder builder = new StringBuilder();
+    private static final class ColumnFormatter {
 
         /** The tab length. */
-        private final int tab = 8;
+        private final int tab = 4;
 
-        /**
-         * Helper method to write message.
-         * 
-         * @param message
-         */
-        private void write(String message) {
-            builder.append(message);
+        private final List<List<String>> table = new ArrayList();
+
+        private List<String> row = new ArrayList();
+
+        private void write(String text) {
+            row.add(text);
         }
 
-        /**
-         * Helper method to write message.
-         * 
-         * @param message
-         */
-        private void write(String message, int max) {
-            builder.append(message);
-
-            // calcurate required tab
-            int requireTab = 1;
-
-            while (requireTab * tab <= max) {
-                requireTab++;
-            }
-
-            // calcurate remaining spaces
-            int remaining = requireTab * tab - message.length();
-            int actualTab = 0;
-
-            while (0 < remaining - tab * actualTab) {
-                actualTab++;
-            }
-
-            for (int i = 0; i < actualTab; i++) {
-                builder.append('\t');
-            }
+        private void write(String prefix, List<Node> nodes) {
+            write(nodes.stream().map(n -> String.valueOf(n.id)).collect(Collectors.joining(",", prefix + "[", "]")));
         }
 
-        /**
-         * Helper method to write message.
-         * 
-         * @param message
-         */
-        private void formatNode(List<Node> nodes, int max) {
-            StringBuilder builder = new StringBuilder("[");
-
-            for (int i = 0; i < nodes.size(); i++) {
-                builder.append(String.valueOf(nodes.get(i).id));
-
-                if (i != nodes.size() - 1) {
-                    builder.append(",");
-                }
-            }
-            builder.append("]");
-
-            write(builder.toString(), max + 2);
-        }
-
-        /**
-         * Helper method to format code fragment.
-         * 
-         * @param operands
-         */
-        private void formatCodeFragment(List<Operand> operands) {
+        private void writeCode(String prefix, List<Operand> operands) {
+            StringBuilder builder = new StringBuilder(prefix);
             whileDebug = true;
             for (int i = 0; i < operands.size(); i++) {
                 Operand operand = operands.get(i);
@@ -589,6 +525,12 @@ class Debugger {
                 }
             }
             whileDebug = false;
+            write(builder.toString());
+        }
+
+        private void writeln() {
+            table.add(row);
+            row = new ArrayList();
         }
 
         /**
@@ -596,7 +538,41 @@ class Debugger {
          */
         @Override
         public String toString() {
+            int fix = 7;
+            int[] maxs = new int[fix];
+            Arrays.fill(maxs, 0);
+
+            for (List<String> row : table) {
+                for (int i = 0; i < fix; i++) {
+                    int length = row.get(i).length();
+                    int max = Math.ceilDiv(length, tab) * tab;
+                    if (max == length) {
+                        max += tab;
+                    }
+                    maxs[i] = Math.max(maxs[i], max);
+                }
+            }
+
+            StringBuilder builder = new StringBuilder();
+            for (List<String> row : table) {
+                for (int i = 0; i < row.size(); i++) {
+                    if (fix <= i) {
+                        builder.append(row.get(i));
+                    } else {
+                        builder.append(align(row.get(i), maxs[i]));
+                    }
+                }
+                builder.append("\n");
+            }
+
             return builder.toString();
+        }
+
+        private String align(String text, int max) {
+            int remaining = max - text.length();
+            int num = Math.floorDiv(remaining + (remaining % tab == 0 ? 0 : tab), tab);
+            return text + "\t".repeat(num);
+
         }
     }
 

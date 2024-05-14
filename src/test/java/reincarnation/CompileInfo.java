@@ -101,11 +101,6 @@ public class CompileInfo {
         for (ASMified asm : asmfied) {
             write("Bytecode Diff - ", asm.clazz.getName());
             write(asm.diff);
-            // write("Javac Version Bytecode -", asm.clazz.getName());
-            // write(asm.javac);
-            //
-            // write("ECJ Version Bytecode -", asm.clazz.getName());
-            // write(asm.ecj);
         }
 
         if (decompiledByVineFlower != null) {
@@ -144,7 +139,7 @@ public class CompileInfo {
                 .inlineDiffByWord(true)
                 .ignoreWhiteSpaces(true)
                 .oldTag(f -> "~")
-                .newTag(f -> "*")
+                .newTag(f -> "+")
                 .build();
 
         ASM forJavac = new ASM(full).translate(typeForJavac);
@@ -157,13 +152,12 @@ public class CompileInfo {
             Entry<Class, List<String>> nextE = ecj.next();
 
             List<DiffRow> rows = generator.generateDiffRows(nextE.getValue(), nextJ.getValue());
-            int maxJ = nextJ.getValue().stream().mapToInt(String::length).max().getAsInt() + 4;
-            int maxE = nextE.getValue().stream().mapToInt(String::length).max().getAsInt() + 4;
+            int maxE = rows.stream().mapToInt(row -> row.getOldLine().length()).max().getAsInt() + 4;
 
             List<String> diff = new ArrayList();
-            diff.add(align("ECJ", maxE) + align("Javac", maxJ));
+            diff.add(align("ECJ", maxE) + "Javac");
             for (DiffRow row : rows) {
-                diff.add(align(row.getOldLine(), maxE) + align(row.getNewLine(), maxJ));
+                diff.add(align(row.getOldLine(), maxE) + row.getNewLine());
             }
 
             asmfied.add(new ASMified(nextJ.getKey(), nextE.getValue(), nextJ.getValue(), diff));
