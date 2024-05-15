@@ -392,9 +392,9 @@ class Debugger {
             }
 
             if (!tries.isEmpty()) {
-                format.write("try" + tryFlow.toString());
+                format.write("try: " + tryFlow + "\t");
             }
-            format.writeCode("code:", node.stack);
+            format.writeCode("code: ", node.stack);
             format.writeln();
         }
         return format.toString();

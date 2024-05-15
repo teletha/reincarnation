@@ -1,231 +1,254 @@
 java.lang.Error: 
 ============================================================
-Javac fails compiling reincarnation.decompiler.flow.SwitchExpressionTest$24
+Javac fails compiling reincarnation.decompiler.flow.TryFinallyTest$4
 ============================================================
-/reincarnation/decompiler/flow/SwitchExpressionTest.java:19: エラー: switch式の外側のyield
-                    yield "AB";
-                    ^
-/reincarnation/decompiler/flow/SwitchExpressionTest.java:22: エラー: switch式の外側のyield
-                    yield "CD";
-                    ^
-/reincarnation/decompiler/flow/SwitchExpressionTest.java:24: エラー: switch式の外側のyield
-            yield param;
-            ^
+/reincarnation/decompiler/flow/TryFinallyTest.java:25: エラー: return文が指定されていません
+        }
+        ^
 
 Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
 ============================================================
 Original Code
 ============================================================
-void conditionByStringMultiple() {
-        verify(new TestCode.TextParam() {
+void nodesInFinallyAfter() {
+        verify(new TestCode.IntParam() {
 
             @Override
-            public String run(@Param(strings = {"a", "b", "c", "d", "e"}) String param) {
-                return switch (param) {
-                case "a", "b" -> "AB";
-                case "c", "d" -> "CD";
-                default -> param;
-                };
+            public int run(@Param(from = 0, to = 10) int param) {
+                try {
+                    param++;
+                } finally {
+                    if (param % 2 == 0) {
+                        param *= 2;
+                    } else {
+                        param *= 5;
+                    }
+                }
+                return param;
             }
         });
     }
-}
 ============================================================
 Decompiled Code
 ============================================================
 01    package reincarnation.decompiler.flow;
 02    
 03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.Param;
-05    import reincarnation.TestCode.TextParam;
-06    import reincarnation.decompiler.flow.SwitchExpressionTest;
+04    import reincarnation.TestCode.IntParam;
+05    import reincarnation.TestCode.Param;
+06    import reincarnation.decompiler.flow.TryFinallyTest;
 07    
-08    class SwitchExpressionTest extends CodeVerifier {
+08    class TryFinallyTest extends CodeVerifier {
 09    
-10        class SwitchExpressionTest$24 implements TextParam {
+10        class TryFinallyTest$4 implements IntParam {
 11    
-12            SwitchExpressionTest$24(final SwitchExpressionTest this$0) {
+12            TryFinallyTest$4(final TryFinallyTest this$0) {
 13            }
 14    
-15            public String run(@Param(strings = {"a", "b", "c", "d", "e"}) String param) {
-16                switch (param) {
-17                    case "a":
-18                    case "b":
-19                        yield "AB";
-20                    case "c":
-21                    case "d":
-22                        yield "CD";
-23                }
-24                yield param;
+15            public int run(@Param(to = 10) int param) {
+16                try {
+17                    ++param;
+18                } finally {
+19                    if (param % 2 != 0) {
+20                        param *= 5;
+21                    } else {
+22                        param *= 2;
+23                    }
+24                }
 25            }
 26        }
 27    }
 ============================================================
 Decompiling Log
 ============================================================
-//--------------------- SwitchExpressionTest#conditionByStringMultiple (SwitchExpressionTest.java:446) ---------------------//
-Constructor() (SwitchExpressionTest.java:447)
-0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code:java.lang.Object() [ConstructorCall] return null [Return - null]
-1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code:
+//------------------------------ TryFinallyTest#nodesInFinallyAfter (TryFinallyTest.java:75) ------------------------------//
+Constructor() (TryFinallyTest.java:76)
+0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
+1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 
 Delete tail empty return (show full nodes)
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code:java.lang.Object() [ConstructorCall] return null [Return - null]
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
 
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code:java.lang.Object() [ConstructorCall]
-
-
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code:java.lang.Object() [ConstructorCall]
-
-//--------------------- SwitchExpressionTest#conditionByStringMultiple (SwitchExpressionTest.java:450) ---------------------//
-Method run(String arg0) (SwitchExpressionTest.java:451)
-5	in[0,1,2,3,4]	out[8,6,7]	dom[0]	doms[]	side[4,6]	dest[6]	code:switch-expression (local3) [Switch]
-6	in[5]			out[9]		dom[5]	doms[]	side[5,7]	dest[9]	code:"AB" [String]
-7	in[5]			out[9]		dom[5]	doms[]	side[6,8]	dest[9]	code:"CD" [String]
-8	in[5]			out[9]		dom[5]	doms[]	side[7,9]	dest[9]	code:arg0 [LocalVariable#String]
-
-Analyze switch (show full nodes)
-5	in[0,1,2,3,4]	out[8,6,7]	dom[0]	doms[6,7,8]	side[4,6]	dest[6]	code:switch-expression (local3) [Switch]
-6	in[5]			out[9]		dom[5]	doms[]		side[5,7]	dest[9]	code:"AB" [String]
-7	in[5]			out[9]		dom[5]	doms[]		side[6,8]	dest[9]	code:"CD" [String]
-8	in[5]			out[9]		dom[5]	doms[]		side[7,9]	dest[9]	code:arg0 [LocalVariable#String]
-
-5	in[]	out[8,6,7]	dom[]	doms[6,7,8]	side[4,6]	dest[6]	code:switch-expression (local3) [Switch#String]
-6	in[5]	out[]		dom[5]	doms[]		side[5,7]	dest[9]	code:yield "AB" [Yield#String - "AB"]
-7	in[5]	out[]		dom[5]	doms[]		side[6,8]	dest[9]	code:yield "CD" [Yield#String - "CD"]
-8	in[5]	out[]		dom[5]	doms[]		side[7,A]	dest[9]	code:yield arg0 [Yield#String - arg0]
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
 
 
-5	in[]	out[8,6,7]	dom[]	doms[6,7,8]	side[4,6]	dest[6]	code:switch-expression (local3) [Switch#String]
-6	in[5]	out[]		dom[5]	doms[]		side[5,7]	dest[9]	code:yield "AB" [Yield#String - "AB"]
-7	in[5]	out[]		dom[5]	doms[]		side[6,8]	dest[9]	code:yield "CD" [Yield#String - "CD"]
-8	in[5]	out[]		dom[5]	doms[]		side[7,A]	dest[9]	code:yield arg0 [Yield#String - arg0]
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
 
-Process switch expression (show full nodes)
-0	in[]			out[5,1,2,3,4]	dom[]	doms[]	side[ ,1]	dest[1]	code:local2 = arg0 [Assign#String] local3 = -1 [Assign] switch (local2) [Switch]
-1	in[0]			out[5]			dom[0]	doms[]	side[0,2]	dest[5]	code:if (local2.equals("a") 0) then 5 else SAME [Condition then 5 else SAME] local3 = 0 [Assign]
-2	in[0]			out[5]			dom[0]	doms[]	side[1,3]	dest[5]	code:if (local2.equals("b") 0) then 5 else SAME [Condition then 5 else SAME] local3 = 1 [Assign]
-3	in[0]			out[5]			dom[0]	doms[]	side[2,4]	dest[5]	code:if (local2.equals("c") 0) then 5 else SAME [Condition then 5 else SAME] local3 = 2 [Assign]
-4	in[0]			out[5]			dom[0]	doms[]	side[3,5]	dest[5]	code:if (local2.equals("d") 0) then 5 else SAME [Condition then 5 else SAME] local3 = 3 [Assign]
-5	in[0,1,2,3,4]	out[8,6,7]		dom[0]	doms[]	side[4,6]	dest[6]	code:switch (local3) [Switch]
-6	in[5]			out[9]			dom[5]	doms[]	side[5,7]	dest[9]	code:"AB" [String]
-7	in[5]			out[9]			dom[5]	doms[]	side[6,8]	dest[9]	code:"CD" [String]
-8	in[5]			out[9]			dom[5]	doms[]	side[7,9]	dest[9]	code:arg0 [LocalVariable#String]
-9	in[6,7,8]		out[]			dom[]	doms[]	side[8, ]	dest[]	code:
+//------------------------------ TryFinallyTest#nodesInFinallyAfter (TryFinallyTest.java:80) ------------------------------//
+Method run(int arg0) (TryFinallyTest.java:89)
+0	in[]	out[1]		dom[]	doms[]	side[ ,1]	dest[1]	try: s	code: ++param [Unary#int]
+1	in[0]	out[3,4]	dom[0]	doms[]	side[0,4]	dest[4]	try: e	code: if (param % 2 0) then 3 else 4 [Condition then 3 else 4]
+4	in[1]	out[5]		dom[1]	doms[]	side[1,3]	dest[5]	try:   	code: param = param * 2 [Assign#int]
+3	in[1]	out[6]		dom[1]	doms[]	side[4,6]	dest[6]	try:   	code: param = param * 5 [Assign#int]
+6	in[3]	out[5]		dom[3]	doms[]	side[3,2]	dest[5]	try:   	code: 
+2	in[]	out[7,8]	dom[]	doms[]	side[6,8]	dest[8]	try: c	code: if (param % 2 0) then 7 else 8 [Condition then 7 else 8]
+8	in[2]	out[9]		dom[2]	doms[]	side[2,7]	dest[9]	try:   	code: param = param * 2 [Assign#int]
+7	in[2]	out[9]		dom[2]	doms[]	side[8,9]	dest[9]	try:   	code: param = param * 5 [Assign#int]
+9	in[8,7]	out[]		dom[]	doms[]	side[7,5]	dest[T]	try:   	code: throw local2 [Throw]
+5	in[4,6]	out[]		dom[]	doms[]	side[9,10]	dest[T]	try:   	code: return param [Return#int - LocalVariable#int]
+10	in[]	out[]		dom[]	doms[]	side[5, ]	dest[]	try:   	code: 
 
-0	in[]			out[1,2,3,4,9]	dom[]	doms[5]	side[ ,1]	dest[1]	code:local2 = arg0 [Assign#String] local3 = -1 [Assign] switch (local2) [Switch]
-1	in[0]			out[9]			dom[0]	doms[]	side[0,2]	dest[5]	code:if (local2.equals("a") 0) then 5 else SAME [Condition then 5 else SAME] local3 = 0 [Assign]
-2	in[0]			out[9]			dom[0]	doms[]	side[1,3]	dest[5]	code:if (local2.equals("b") 0) then 5 else SAME [Condition then 5 else SAME] local3 = 1 [Assign]
-3	in[0]			out[9]			dom[0]	doms[]	side[2,4]	dest[5]	code:if (local2.equals("c") 0) then 5 else SAME [Condition then 5 else SAME] local3 = 2 [Assign]
-4	in[0]			out[9]			dom[0]	doms[]	side[3,B]	dest[5]	code:if (local2.equals("d") 0) then 5 else SAME [Condition then 5 else SAME] local3 = 3 [Assign]
-B	in[]			out[5]			dom[]	doms[]	side[4,9]	dest[5]	code:switch-expression (local3) [Switch#String]
-A	in[]			out[9]			dom[]	doms[]	side[8,9]	dest[9]	code:
-9	in[0,1,2,3,4,A]	out[]			dom[]	doms[]	side[B, ]	dest[]	code:
+Remove copied finally nodes [size: 3] from the next node of handler's [2] last tail. (show full nodes)
+0	in[]	out[1]		dom[]	doms[]	side[ ,1]	dest[1]	try: s	code: ++param [Unary#int]
+1	in[0]	out[3,4]	dom[0]	doms[]	side[0,4]	dest[4]	try: e	code: if (param % 2 0) then 3 else 4 [Condition then 3 else 4]
+4	in[1]	out[5]		dom[1]	doms[]	side[1,3]	dest[5]	try:   	code: param = param * 2 [Assign#int]
+3	in[1]	out[6]		dom[1]	doms[]	side[4,6]	dest[6]	try:   	code: param = param * 5 [Assign#int]
+6	in[3]	out[5]		dom[3]	doms[]	side[3,2]	dest[5]	try:   	code: 
+2	in[]	out[7,8]	dom[]	doms[]	side[6,8]	dest[8]	try: c	code: if (param % 2 0) then 7 else 8 [Condition then 7 else 8]
+8	in[2]	out[9]		dom[2]	doms[]	side[2,7]	dest[9]	try:   	code: param = param * 2 [Assign#int]
+7	in[2]	out[9]		dom[2]	doms[]	side[8,9]	dest[9]	try:   	code: param = param * 5 [Assign#int]
+9	in[8,7]	out[]		dom[]	doms[]	side[7,5]	dest[T]	try:   	code: throw local2 [Throw]
+5	in[4,6]	out[]		dom[]	doms[]	side[9,10]	dest[T]	try:   	code: return param [Return#int - LocalVariable#int]
+10	in[]	out[]		dom[]	doms[]	side[5, ]	dest[]	try:   	code: 
+
+0	in[]	out[1]		dom[]	doms[]	side[ ,1]	dest[1]		try: s	code: ++param [Unary#int]
+1	in[0]	out[3,4]	dom[0]	doms[]	side[0,4]	dest[4]		try: e	code: if (param % 2 0) then 3 else 4 [Condition then 3 else 4]
+4	in[1]	out[]		dom[1]	doms[]	side[1,3]	dest[10]	try:   	code: param = param * 2 [Assign#int]
+3	in[1]	out[6]		dom[1]	doms[]	side[4,6]	dest[6]		try:   	code: param = param * 5 [Assign#int]
+6	in[3]	out[]		dom[3]	doms[]	side[3,2]	dest[10]	try:   	code: 
+2	in[]	out[7,8]	dom[]	doms[]	side[6,8]	dest[8]		try: c	code: if (param % 2 0) then 7 else 8 [Condition then 7 else 8]
+8	in[2]	out[9]		dom[2]	doms[]	side[2,7]	dest[9]		try:   	code: param = param * 2 [Assign#int]
+7	in[2]	out[9]		dom[2]	doms[]	side[8,9]	dest[9]		try:   	code: param = param * 5 [Assign#int]
+9	in[8,7]	out[]		dom[]	doms[]	side[7,10]	dest[T]		try:   	code: throw local2 [Throw]
+10	in[]	out[]		dom[]	doms[]	side[9, ]	dest[]		try:   	code: 
 
 
-Method run(String arg0) (SwitchExpressionTest.java:451)
-0	in[]			out[1,2,3,4,9]	dom[]	doms[5]	side[ ,1]	dest[1]	code:param = param [Assign#String] local3 = -1 [Assign] switch (param) [Switch]
-1	in[0]			out[9]			dom[0]	doms[]	side[0,2]	dest[5]	code:if (param.equals("a") 0) then 5 else SAME [Condition then 5 else SAME] local3 = 0 [Assign]
-2	in[0]			out[9]			dom[0]	doms[]	side[1,3]	dest[5]	code:if (param.equals("b") 0) then 5 else SAME [Condition then 5 else SAME] local3 = 1 [Assign]
-3	in[0]			out[9]			dom[0]	doms[]	side[2,4]	dest[5]	code:if (param.equals("c") 0) then 5 else SAME [Condition then 5 else SAME] local3 = 2 [Assign]
-4	in[0]			out[9]			dom[0]	doms[]	side[3,B]	dest[5]	code:if (param.equals("d") 0) then 5 else SAME [Condition then 5 else SAME] local3 = 3 [Assign]
-B	in[]			out[5]			dom[]	doms[]	side[4,9]	dest[5]	code:
-A	in[]			out[9]			dom[]	doms[]	side[8,9]	dest[9]	code:
-9	in[0,1,2,3,4,A]	out[]			dom[]	doms[]	side[B,10]	dest[T]	code:return switch-expression (local3) [Return#String - Switch#String]
-10	in[]			out[]			dom[]	doms[]	side[9, ]	dest[]	code:
+Remove copied finally nodes [size: 3] from end's outgoings (show full nodes)
+0	in[]	out[1]		dom[]	doms[]	side[ ,1]	dest[1]		try: s	code: ++param [Unary#int]
+1	in[0]	out[3,4]	dom[0]	doms[]	side[0,4]	dest[4]		try: e	code: if (param % 2 0) then 3 else 4 [Condition then 3 else 4]
+4	in[1]	out[]		dom[1]	doms[]	side[1,3]	dest[10]	try:   	code: param = param * 2 [Assign#int]
+3	in[1]	out[6]		dom[1]	doms[]	side[4,6]	dest[6]		try:   	code: param = param * 5 [Assign#int]
+6	in[3]	out[]		dom[3]	doms[]	side[3,2]	dest[10]	try:   	code: 
+2	in[]	out[7,8]	dom[]	doms[]	side[6,8]	dest[8]		try: c	code: if (param % 2 0) then 7 else 8 [Condition then 7 else 8]
+8	in[2]	out[9]		dom[2]	doms[]	side[2,7]	dest[9]		try:   	code: param = param * 2 [Assign#int]
+7	in[2]	out[9]		dom[2]	doms[]	side[8,9]	dest[9]		try:   	code: param = param * 5 [Assign#int]
+9	in[8,7]	out[]		dom[]	doms[]	side[7,10]	dest[T]		try:   	code: throw local2 [Throw]
+10	in[]	out[]		dom[]	doms[]	side[9, ]	dest[]		try:   	code: 
 
-0	in[]			out[1,2,3,4,9]	dom[]	doms[5,1,2,3,4,9]	side[ ,1]	dest[1]	code:param = param [Assign#String] local3 = -1 [Assign] switch (param) [Switch]
-1	in[0]			out[C]			dom[0]	doms[C]				side[0,C]	dest[5]	code:if (param.equals("a") 0) then 5 else SAME [Condition then 5 else SAME]
-C	in[1]			out[9,5]		dom[1]	doms[]				side[1,2]	dest[]	code:local3 = 0 [Assign]
-2	in[0]			out[D]			dom[0]	doms[D]				side[C,D]	dest[5]	code:if (param.equals("b") 0) then 5 else SAME [Condition then 5 else SAME]
-D	in[2]			out[9,5]		dom[2]	doms[]				side[2,3]	dest[]	code:local3 = 1 [Assign]
-3	in[0]			out[E]			dom[0]	doms[E]				side[D,E]	dest[5]	code:if (param.equals("c") 0) then 5 else SAME [Condition then 5 else SAME]
-E	in[3]			out[9,5]		dom[3]	doms[]				side[3,4]	dest[]	code:local3 = 2 [Assign]
-4	in[0]			out[F]			dom[0]	doms[F]				side[E,F]	dest[5]	code:if (param.equals("d") 0) then 5 else SAME [Condition then 5 else SAME]
-F	in[4]			out[9,5]		dom[4]	doms[]				side[4,9]	dest[]	code:local3 = 3 [Assign]
-9	in[0,C,D,E,F]	out[]			dom[0]	doms[]				side[8, ]	dest[T]	code:return switch-expression (local3) [Return#String - Switch#String]
+0	in[]	out[6]		dom[]	doms[]	side[ ,6]	dest[10]	try: s	code: ++param [Unary#int]
+6	in[0]	out[]		dom[0]	doms[]	side[0,2]	dest[10]	try:   	code: 
+2	in[]	out[7,8]	dom[]	doms[]	side[6,8]	dest[8]		try: c	code: if (param % 2 0) then 7 else 8 [Condition then 7 else 8]
+8	in[2]	out[9]		dom[2]	doms[]	side[2,7]	dest[9]		try:   	code: param = param * 2 [Assign#int]
+7	in[2]	out[9]		dom[2]	doms[]	side[8,9]	dest[9]		try:   	code: param = param * 5 [Assign#int]
+9	in[8,7]	out[]		dom[]	doms[]	side[7,10]	dest[T]		try:   	code: throw local2 [Throw]
+10	in[]	out[]		dom[]	doms[]	side[9, ]	dest[]		try:   	code: 
+
+
+Analyze try-catch-finally (show full nodes)
+0	in[]	out[6]		dom[]	doms[6,2]	side[ ,6]	dest[10]	try: s	code: ++param [Unary#int]
+6	in[0]	out[]		dom[0]	doms[]		side[0,2]	dest[10]	try:   	code: 
+2	in[]	out[7,8]	dom[]	doms[8,7]	side[6,8]	dest[8]		try: c	code: if (param % 2 0) then 7 else 8 [Condition then 7 else 8]
+8	in[2]	out[]		dom[2]	doms[]		side[2,7]	dest[10]	try:   	code: param = param * 2 [Assign#int]
+7	in[2]	out[]		dom[2]	doms[]		side[8, ]	dest[10]	try:   	code: param = param * 5 [Assign#int]
+
+0	in[]	out[6]		dom[]	doms[6,2]	side[ ,6]	dest[10]	try: s	code: ++param [Unary#int]
+6	in[0]	out[]		dom[0]	doms[]		side[0,2]	dest[10]	try:   	code: 
+2	in[]	out[7,8]	dom[]	doms[8,7]	side[6,8]	dest[8]		try: c	code: if (param % 2 0) then 7 else 8 [Condition then 7 else 8]
+8	in[2]	out[]		dom[2]	doms[]		side[2,7]	dest[10]	try:   	code: param = param * 2 [Assign#int]
+7	in[2]	out[]		dom[2]	doms[]		side[8, ]	dest[10]	try: x	code: param = param * 5 [Assign#int]
+
+
+Build shorthand assign (show full nodes)
+0	in[]	out[6]		dom[]	doms[6,2]	side[ ,6]	dest[10]	try: s	code: ++param [Unary#int]
+6	in[0]	out[]		dom[0]	doms[]		side[0,2]	dest[10]	try:   	code: 
+2	in[]	out[7,8]	dom[]	doms[8,7]	side[6,8]	dest[8]		try: c	code: if (param % 2 0) then 7 else 8 [Condition then 7 else 8]
+8	in[2]	out[]		dom[2]	doms[]		side[2,7]	dest[10]	try:   	code: param = param * 2 [Assign#int]
+7	in[2]	out[]		dom[2]	doms[]		side[8, ]	dest[10]	try: x	code: param = param * 5 [Assign#int]
+
+0	in[]	out[6]		dom[]	doms[6,2]	side[ ,6]	dest[10]	try: s	code: ++param [Unary#int]
+6	in[0]	out[]		dom[0]	doms[]		side[0,2]	dest[10]	try:   	code: 
+2	in[]	out[7,8]	dom[]	doms[8,7]	side[6,8]	dest[8]		try: c	code: if (param % 2 0) then 7 else 8 [Condition then 7 else 8]
+8	in[2]	out[]		dom[2]	doms[]		side[2,7]	dest[10]	try:   	code: param *= 2 [Assign#int]
+7	in[2]	out[]		dom[2]	doms[]		side[8, ]	dest[10]	try: x	code: param *= 5 [Assign#int]
+
+
+Analyze nodes (show full nodes)
+0	in[]	out[6]		dom[]	doms[6,2]	side[ ,6]	dest[10]	try: s	code: ++param [Unary#int]
+6	in[0]	out[]		dom[0]	doms[]		side[0,2]	dest[10]	try:   	code: 
+2	in[]	out[7,8]	dom[]	doms[8,7]	side[6,8]	dest[8]		try: c	code: if (param % 2 0) then 7 else 8 [Condition then 7 else 8]
+8	in[2]	out[]		dom[2]	doms[]		side[2,7]	dest[10]	try:   	code: param *= 2 [Assign#int]
+7	in[2]	out[]		dom[2]	doms[]		side[8, ]	dest[10]	try: x	code: param *= 5 [Assign#int]
+
+0	in[]	out[6]		dom[]	doms[6,2]	side[ ,6]	dest[10]	code: ++param [Unary#int]
+6	in[0]	out[]		dom[0]	doms[]		side[0,2]	dest[10]	code: 
+2	in[]	out[7,8]	dom[]	doms[8,7]	side[6,8]	dest[8]		code: if (param % 2 0) then 7 else 8 [Condition then 7 else 8]
+8	in[2]	out[]		dom[2]	doms[]		side[2,7]	dest[10]	code: param *= 2 [Assign#int]
+7	in[2]	out[]		dom[2]	doms[]		side[8, ]	dest[10]	code: param *= 5 [Assign#int]
+
+
+0	in[]	out[6]		dom[]	doms[6,2]	side[ ,6]	dest[10]	code: ++param [Unary#int]
+6	in[0]	out[]		dom[0]	doms[]		side[0,2]	dest[10]	code: 
+2	in[]	out[7,8]	dom[]	doms[8,7]	side[6,8]	dest[8]		code: if (param % 2 0) then 7 else 8 [Condition then 7 else 8]
+8	in[2]	out[]		dom[2]	doms[]		side[2,7]	dest[10]	code: param *= 2 [Assign#int]
+7	in[2]	out[]		dom[2]	doms[]		side[8, ]	dest[10]	code: param *= 5 [Assign#int]
 
 
 ============================================================
-Bytecode Diff -  reincarnation.decompiler.flow.SwitchExpressionTest$24
+Bytecode Diff -  reincarnation.decompiler.flow.TryFinallyTest$4
 ============================================================
-ECJ																							Javac
-visitMethod(ACC_PUBLIC, "run", "(Lj.l.String;)Lj.l.String;", null, null);						visitMethod(ACC_PUBLIC, "run", "(Lj.l.String;)Lj.l.String;", null, null);
-AnnotableParameterCount(1, true);																AnnotableParameterCount(1, true);
-Label(L0);																						Label(L0);
-VarInsn(ALOAD, 1);																				VarInsn(ALOAD, 1);
-~Insn(DUP);~																					
-VarInsn(ASTORE, 2);																			VarInsn(ASTORE, 2);
-																								+Insn(ICONST_M1);+
-																								+VarInsn(ISTORE, 3);+
-																								+VarInsn(ALOAD, 2);+
-MethodInsn(INVOKEVIRTUAL, "j.l.String", "hashCode", "()I", false);								MethodInsn(INVOKEVIRTUAL, "j.l.String", "hashCode", "()I", false);
-~LookupSwitchInsn~(~L5, new int[] { ~97, ~98~, ~99~, ~100 }, ~new Label[] { L1, L2, L3, L4 });	+TableSwitchInsn+(97, +100+, +L5+, new Label[] { L1, L2, L3, L4 });
-Label(L1);																						Label(L1);
-Frame(F_APPEND,~1~, new Object[] {"j.l.String"}, 0, null);										Frame(F_APPEND,+2+, new Object[] {"j.l.String"+, INTEGER+}, 0, null);
-VarInsn(ALOAD, 2);																				VarInsn(ALOAD, 2);
-LdcInsn("a");																					LdcInsn("a");
-MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);					MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);
-JumpInsn(~IFNE~, ~L6~);																		JumpInsn(+IFEQ+, +L5+);
-																								+Insn(ICONST_0);+
-																								+VarInsn(ISTORE, 3);+
-JumpInsn(GOTO, L5);																			JumpInsn(GOTO, L5);
-Label(L2);																						Label(L2);
-Frame(F_SAME, 0, null, 0, null);																Frame(F_SAME, 0, null, 0, null);
-VarInsn(ALOAD, 2);																				VarInsn(ALOAD, 2);
-LdcInsn("b");																					LdcInsn("b");
-MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);					MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);
-JumpInsn(~IFNE~, ~L6~);																		JumpInsn(+IFEQ+, +L5+);
-																								+Insn(ICONST_1);+
-																								+VarInsn(ISTORE, 3);+
-JumpInsn(GOTO, L5);																			JumpInsn(GOTO, L5);
-Label(L3);																						Label(L3);
-Frame(F_SAME, 0, null, 0, null);																Frame(F_SAME, 0, null, 0, null);
-VarInsn(ALOAD, 2);																				VarInsn(ALOAD, 2);
-LdcInsn("c");																					LdcInsn("c");
-MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);					MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);
-JumpInsn(~IFNE~, ~L7~);																		JumpInsn(+IFEQ+, +L5+);
-																								+Insn(ICONST_2);+
-																								+VarInsn(ISTORE, 3);+
-JumpInsn(GOTO, L5);																			JumpInsn(GOTO, L5);
-Label(L4);																						Label(L4);
-Frame(F_SAME, 0, null, 0, null);																Frame(F_SAME, 0, null, 0, null);
-VarInsn(ALOAD, 2);																				VarInsn(ALOAD, 2);
-LdcInsn("d");																					LdcInsn("d");
-MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);					MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);
-JumpInsn(~IFNE~, ~L7~);																		JumpInsn(+IFEQ+, +L5+);
-~JumpInsn~(~GOTO, L5~);																		+Insn+(+ICONST_3+);
-																								+VarInsn(ISTORE, 3);+
-																								+Label(L5);+
-																								+Frame(F_SAME, 0, null, 0, null);+
-																								+VarInsn(ILOAD, 3);+
-																								+TableSwitchInsn(0, 3, L8, new Label[] { L6, L6, L7, L7 });+
-Label(L6);																						Label(L6);
-Frame(F_SAME, 0, null, 0, null);																Frame(F_SAME, 0, null, 0, null);
-LdcInsn("AB");																					LdcInsn("AB");
-JumpInsn(GOTO, ~L8~);																			JumpInsn(GOTO, +L9+);
-Label(L7);																						Label(L7);
-Frame(F_SAME, 0, null, 0, null);																Frame(F_SAME, 0, null, 0, null);
-LdcInsn("CD");																					LdcInsn("CD");
-JumpInsn(GOTO, ~L8~);																			JumpInsn(GOTO, +L9+);
-Label(~L5~);																					Label(+L8+);
-Frame(F_SAME, 0, null, 0, null);																Frame(F_SAME, 0, null, 0, null);
-VarInsn(ALOAD, 1);																				VarInsn(ALOAD, 1);
-Label(~L8~);																					Label(+L9+);
-Frame(F_FULL, 2, new Object[] {"String"});														Frame(F_FULL, 2, new Object[] {"String"});
-Insn(ARETURN);																					Insn(ARETURN);
-Label(~L9~);																					Label(+L10+);
-LocalVariable("this", "LSwitchExpressionTest$24;", null, L0, ~L9~, 0);							LocalVariable("this", "LSwitchExpressionTest$24;", null, L0, +L10+, 0);
-LocalVariable("param", "Lj.l.String;", null, L0, ~L9~, 1);										LocalVariable("param", "Lj.l.String;", null, L0, +L10+, 1);
+ECJ																	Javac
+visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);					visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
+AnnotableParameterCount(1, true);									AnnotableParameterCount(1, true);
+TryCatchBlock(L0, L1, ~L1~, null);									TryCatchBlock(L0, L1, +L2+, null);
+Label(L0);															Label(L0);
+IincInsn(1, 1);														IincInsn(1, 1);
+~Label(L2);~														
+~JumpInsn(GOTO, L3);~												
+Label(L1);															Label(L1);
+~Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Throwable"});~		
+~VarInsn(ASTORE, 2);~												
+~Label(L4);~														
+VarInsn(ILOAD, 1);													VarInsn(ILOAD, 1);
+Insn(ICONST_2);														Insn(ICONST_2);
+Insn(IREM);															Insn(IREM);
+JumpInsn(IFNE, ~L5~);												JumpInsn(IFNE, +L3+);
+Label(~L6~);														Label(+L4+);
+VarInsn(ILOAD, 1);													VarInsn(ILOAD, 1);
+Insn(ICONST_2);														Insn(ICONST_2);
+Insn(IMUL);															Insn(IMUL);
+VarInsn(ISTORE, 1);													VarInsn(ISTORE, 1);
+~Label(L7);~														JumpInsn(GOTO, +L5+);
+JumpInsn(GOTO, ~L8~);												Label(+L3+);
+Label(~L5~);														+Frame(F_SAME, 0, null, 0, null);+
+~Frame(F_APPEND,1, new Object[] {"j.l.Throwable"}, 0, null);~		
+VarInsn(ILOAD, 1);													VarInsn(ILOAD, 1);
+Insn(ICONST_5);														Insn(ICONST_5);
+Insn(IMUL);															Insn(IMUL);
+VarInsn(ISTORE, 1);													VarInsn(ISTORE, 1);
+Label(~L8~);														Label(+L6+);
+Frame(~F_SAME~, 0, null, ~0~, ~null~);								+JumpInsn(GOTO, L5);+
+VarInsn(~ALOAD~, 2);												+Label(L2);+
+~Insn(ATHROW);~														Frame(+F_SAME1+, 0, null, +1+, +new Object[] {"j.l.Throwable"}+);
+~Label(L3);~														VarInsn(+ASTORE+, 2);
+~Frame(F_CHOP,1, null, 0, null);~									
+VarInsn(ILOAD, 1);													VarInsn(ILOAD, 1);
+Insn(ICONST_2);														Insn(ICONST_2);
+Insn(IREM);															Insn(IREM);
+JumpInsn(IFNE, ~L9~);												JumpInsn(IFNE, +L7+);
+Label(~L10~);														Label(+L8+);
+VarInsn(ILOAD, 1);													VarInsn(ILOAD, 1);
+Insn(ICONST_2);														Insn(ICONST_2);
+Insn(IMUL);															Insn(IMUL);
+VarInsn(ISTORE, 1);													VarInsn(ISTORE, 1);
+~Label(L11);~														JumpInsn(GOTO, +L9+);
+JumpInsn(GOTO, ~L12~);												Label(+L7+);
+Label(~L9~);														+Frame(F_APPEND,1, new Object[] {"j.l.Throwable"}, 0, null);+
+~Frame(F_SAME, 0, null, 0, null);~									
+VarInsn(ILOAD, 1);													VarInsn(ILOAD, 1);
+Insn(ICONST_5);														Insn(ICONST_5);
+Insn(IMUL);															Insn(IMUL);
+VarInsn(ISTORE, 1);													VarInsn(ISTORE, 1);
+Label(~L12~);														Label(+L9+);
+Frame(F_SAME, 0, null, 0, null);									Frame(F_SAME, 0, null, 0, null);
+																	+VarInsn(ALOAD, 2);+
+																	+Insn(ATHROW);+
+																	+Label(L5);+
+																	+Frame(F_CHOP,1, null, 0, null);+
+VarInsn(ILOAD, 1);													VarInsn(ILOAD, 1);
+Insn(IRETURN);														Insn(IRETURN);
+Label(~L13~);														Label(+L10+);
+LocalVariable("this", "LTryFinallyTest$4;", null, L0, ~L13~, 0);	LocalVariable("this", "LTryFinallyTest$4;", null, L0, +L10+, 0);
+LocalVariable("param", "I", null, L0, ~L13~, 1);					LocalVariable("param", "I", null, L0, +L10+, 1);
 ============================================================
 
-	at reincarnation.CompileInfo.buildError(CompileInfo.java:111)
-	at reincarnation.CodeVerifier.verify(CodeVerifier.java:205)
-	at reincarnation.decompiler.flow.SwitchExpressionTest.conditionByStringMultiple(SwitchExpressionTest.java:447)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
-	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:387)
-	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1312)
-	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1843)
-	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1808)
-	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:188)
 

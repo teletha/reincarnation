@@ -108,7 +108,10 @@ public class CompileInfo {
             write(decompiledByVineFlower);
         }
 
-        return new Error(builder.toString());
+        Error error = new Error(builder.toString());
+        error.setStackTrace(new StackTraceElement[0]);
+
+        return error;
     }
 
     private List<String> extractOriginalTestCode() {
