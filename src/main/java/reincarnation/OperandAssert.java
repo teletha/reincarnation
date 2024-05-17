@@ -55,4 +55,16 @@ class OperandAssert extends Operand {
     protected String view() {
         return "assert " + condition.view();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandAssert other) {
+            return match(condition, other.condition) && match(message.v, other.message.v);
+        } else {
+            return false;
+        }
+    }
 }

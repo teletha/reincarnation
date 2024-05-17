@@ -10,6 +10,7 @@
 package reincarnation;
 
 import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Optional;
 
 import kiss.I;
@@ -290,5 +291,84 @@ public abstract class Operand implements Code<Operand> {
         JavaCoder coder = new JavaCoder();
         write(coder);
         return coder.toString();
+    }
+
+    /**
+     * Test whether the given operand and this operand are same code or not.
+     * 
+     * @param operand
+     * @return
+     */
+    protected abstract boolean match(Operand operand);
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj) {
+        System.out.println(getClass().getSimpleName());
+        return super.equals(obj);
+    }
+
+    /**
+     * Test the given operands are same code or not.
+     * 
+     * @param one
+     * @param other
+     * @return
+     */
+    protected static boolean match(Operand one, Operand other) {
+        if (one == null) {
+            return other == null;
+        } else if (other == null) {
+            return false;
+        } else {
+            return one.match(other);
+        }
+    }
+
+    /**
+     * Test the given operands are same code or not.
+     * 
+     * @param one
+     * @param other
+     * @return
+     */
+    protected static boolean match(Object one, Object other) {
+        if (one == null) {
+            return other == null;
+        } else if (other == null) {
+            return false;
+        } else if (one instanceof Operand o && other instanceof Operand x) {
+            return o.match(x);
+        } else {
+            return one.equals(other);
+        }
+    }
+
+    /**
+     * Test the given operands are same code or not.
+     * 
+     * @param one
+     * @param other
+     * @return
+     */
+    protected static boolean match(List<Operand> one, List<Operand> other) {
+        if (one == null) {
+            return other == null;
+        } else if (other == null) {
+            return false;
+        } else {
+            if (one.size() != other.size()) {
+                return false;
+            }
+
+            for (int i = 0; i < one.size(); i++) {
+                if (!match(one.get(i), other.get(i))) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

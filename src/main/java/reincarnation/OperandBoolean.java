@@ -84,4 +84,16 @@ class OperandBoolean extends Operand {
     protected String view() {
         return String.valueOf(value);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandBoolean other) {
+            return value == other.value;
+        } else {
+            return false;
+        }
+    }
 }

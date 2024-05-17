@@ -87,4 +87,16 @@ class OperandString extends Operand {
     protected String view() {
         return '"' + expression + '"';
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandString other) {
+            return match(expression, other.expression) && textBlock == other.textBlock;
+        } else {
+            return false;
+        }
+    }
 }

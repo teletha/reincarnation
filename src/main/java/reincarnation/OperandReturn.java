@@ -72,4 +72,16 @@ class OperandReturn extends Operand {
     protected String view() {
         return "return " + value.map(Operand::view);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandReturn other) {
+            return match(value, other.value);
+        } else {
+            return false;
+        }
+    }
 }

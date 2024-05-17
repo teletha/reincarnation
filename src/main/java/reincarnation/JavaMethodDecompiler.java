@@ -2989,6 +2989,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
          * @param exception
          */
         private void addBlock(Node start, Node end, Node catcher, Class exception) {
+            if (start == catcher) {
+                return;
+            }
+
             if (exception == null) {
                 // with finally block
                 CopiedFinally c = new CopiedFinally(start, end, catcher);
@@ -3051,48 +3055,68 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         private void disposeCopiedFinallyBlock() {
             finallyCopies.forEach((key, copies) -> {
                 if (!isDisposed(key.start)) {
-                    // calculate the size of finally block
-                    int deletableSize = key.handler.outgoingRecursively()
-                            .takeWhile(n -> !n.isThrow())
-                            .take(Node::isNotEmpty)
-                            .count()
-                            .to()
-                            .or(0L)
-                            .intValue();
+                    // capture the finally block
+                    List<Node> deletables = key.handler.outgoingRecursively().takeWhile(n -> !n.isThrow()).take(Node::isNotEmpty).toList();
 
-                    try (Printable diff = debugger
-                            .diff(nodes, "Remove copied finally nodes [size: " + deletableSize + "] from the next node of handler's [" + key.handler.id + "] last tail.")) {
+                    try (Printable diff = debugger.diff(nodes, "Remove copied finally nodes [size: " + deletables
+                            .size() + "] from the next node of handler's [" + key.handler.id + "] last tail.")) {
                         if (!match(key)) {
                             key.handler.tails()
                                     .last()
                                     .map(n -> n.next)
                                     .flatMap(Node::outgoingRecursively)
                                     .take(Node::isNotEmpty)
-                                    .take(deletableSize)
+                                    .take(deletables.size())
                                     .buffer()
+                                    .take(nodes -> match(nodes, deletables))
                                     .flatIterable(n -> n)
                                     .to(n -> dispose(n, true, true));
                         }
                     }
 
                     try (Printable diff = debugger
-                            .diff(nodes, "Remove copied finally nodes [size: " + deletableSize + "] from end's outgoings")) {
+                            .diff(nodes, "Remove copied finally nodes [size: " + deletables.size() + "] from end's outgoings")) {
                         for (CopiedFinally copy : copies) {
                             I.signal(copy)
                                     .take(c -> c.end != c.handler)
                                     .flatMap(c -> c.end.outgoingRecursively())
                                     .take(Node::isNotEmpty)
-                                    .take(deletableSize)
+                                    .take(deletables.size())
                                     .buffer()
+                                    .take(nodes -> match(nodes, deletables))
                                     .flatIterable(n -> n)
                                     .to(n -> dispose(n, true, true));
                         }
                     }
 
                     // Dispose the throw operand from the tail node in finally block.
-                    key.handler.tails().take(Node::isThrow).to(n -> dispose(n, true, true));
+                    key.handler.tails().take(Node::isThrow).to(n -> {
+                        dispose(n, true, true);
+
+                        I.signal(blocks).take(b -> b.catcher == key.handler).first().to(block -> {
+                            block.exit = n.next;
+                        });
+                    });
                 }
             });
+
+        }
+
+        private boolean match(List<Node> bases, List<Node> others) {
+            if (bases.size() != others.size()) {
+                return false;
+            }
+
+            for (int i = 0; i < bases.size(); i++) {
+                Node base = bases.get(i);
+                Node other = others.get(i);
+
+                base.equals(other);
+                if (!base.match(other)) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private boolean match(CopiedFinally copied) {
@@ -3317,6 +3341,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             if (end != null) nodes.addAll(end.outgoing); // then end node
 
             Set<Node> recorder = new HashSet<>(nodes);
+            System.out.println("Search exit from " + recorder);
 
             while (!nodes.isEmpty()) {
                 Node node = nodes.pollFirst();

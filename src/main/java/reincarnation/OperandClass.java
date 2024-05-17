@@ -49,4 +49,16 @@ class OperandClass extends Operand {
     protected String view() {
         return value.getSimpleName() + ".class";
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandClass other) {
+            return match(value, other.value);
+        } else {
+            return false;
+        }
+    }
 }

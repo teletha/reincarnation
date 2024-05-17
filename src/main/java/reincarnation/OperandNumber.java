@@ -122,4 +122,16 @@ class OperandNumber extends Operand {
     protected String view() {
         return value.toString();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandNumber other) {
+            return match(value, other.value);
+        } else {
+            return false;
+        }
+    }
 }

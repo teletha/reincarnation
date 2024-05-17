@@ -87,4 +87,16 @@ public class OperandConstructorCall extends Operand {
     protected String view() {
         return constructor.getName() + params.stream().map(Operand::view).collect(Collectors.joining(", ", "(", ")"));
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandConstructorCall other) {
+            return match(kind, other.kind) && match(constructor, other.constructor) && match(params, other.params);
+        } else {
+            return false;
+        }
+    }
 }

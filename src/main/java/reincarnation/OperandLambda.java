@@ -53,4 +53,16 @@ class OperandLambda extends Operand {
     protected String view() {
         return "Lambda$" + lambda.toGenericString();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandLambda other) {
+            return match(lambda, other.lambda) && match(context, other.context);
+        } else {
+            return false;
+        }
+    }
 }

@@ -99,4 +99,17 @@ class OperandExpression extends Operand {
     protected String view() {
         return String.valueOf(expression);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandExpression other) {
+            return match(expression, other.expression);
+        } else {
+            return false;
+        }
+    }
+
 }

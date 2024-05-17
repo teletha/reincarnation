@@ -53,4 +53,16 @@ class OperandArrayAccess extends Operand {
     protected String view() {
         return array.view() + ".[" + index.view() + "]";
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandArrayAccess other) {
+            return match(array, other.array) && match(index, other.index);
+        } else {
+            return false;
+        }
+    }
 }

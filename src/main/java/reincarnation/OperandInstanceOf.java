@@ -88,4 +88,16 @@ class OperandInstanceOf extends Operand {
     protected String view() {
         return value.view() + " instanceof " + type.getSimpleName();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandInstanceOf other) {
+            return match(value, other.value) && match(type, other.type) && match(cast, other.cast);
+        } else {
+            return false;
+        }
+    }
 }

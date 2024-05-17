@@ -291,4 +291,16 @@ class OperandCondition extends Operand {
     protected String view() {
         return "if (" + left.view() + " " + right.view() + ") then " + then.id + " else " + (elze == null ? "SAME" : elze.id);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandCondition other) {
+            return match(left, other.left) && match(right, other.right) && operator == other.operator && match(then, other.then) && match(elze, other.elze);
+        } else {
+            return false;
+        }
+    }
 }

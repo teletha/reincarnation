@@ -89,4 +89,16 @@ class OperandTernary extends OperandCondition {
     protected String view() {
         return left.view() + " " + condition.view() + " " + right.view();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof OperandTernary other) {
+            return match(left, other.left) && match(right, other.right) && match(condition, other.condition);
+        } else {
+            return false;
+        }
+    }
 }

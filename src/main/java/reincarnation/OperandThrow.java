@@ -60,4 +60,16 @@ class OperandThrow extends Operand {
     protected String view() {
         return "throw " + value.view();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandThrow other) {
+            return match(value, other.value);
+        } else {
+            return false;
+        }
+    }
 }

@@ -75,4 +75,16 @@ class OperandBinary extends Operand {
     protected String view() {
         return left.view() + " " + operator + " " + right.view();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandBinary other) {
+            return match(left, other.left) && match(right, other.right) && match(operator, other.operator);
+        } else {
+            return false;
+        }
+    }
 }

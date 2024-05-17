@@ -79,4 +79,16 @@ class OperandCast extends Operand {
     protected String view() {
         return "(" + type.getSimpleName() + ") " + value.view();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandCast other) {
+            return match(value, other.value) && match(type, other.type) && needCast == other.needCast;
+        } else {
+            return false;
+        }
+    }
 }

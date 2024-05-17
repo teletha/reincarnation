@@ -56,4 +56,16 @@ class OperandArrayLength extends Operand {
     protected String view() {
         return owner.view() + ".length";
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandArrayLength other) {
+            return match(owner, other.owner);
+        } else {
+            return false;
+        }
+    }
 }

@@ -50,4 +50,16 @@ class OperandConstructorReference extends Operand {
     protected String view() {
         return reference.getName() + "::new";
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandConstructorReference other) {
+            return match(reference, other.reference);
+        } else {
+            return false;
+        }
+    }
 }

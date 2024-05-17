@@ -206,4 +206,16 @@ class OperandArray extends Operand {
     protected String view() {
         return "new " + type.getSimpleName() + "[]";
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandArray other) {
+            return dimension == other.dimension && match(dimensions, other.dimensions) && match(items, other.items) && match(type, other.type);
+        } else {
+            return false;
+        }
+    }
 }

@@ -985,6 +985,27 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     /**
+     * @param other
+     * @return
+     */
+    boolean match(Node other) {
+        if (other == null || stack.size() != other.stack.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < stack.size(); i++) {
+            Operand base = stack.get(i);
+            Operand target = other.stack.get(i);
+
+            if (!Operand.match(base, target)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

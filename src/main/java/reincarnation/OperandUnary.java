@@ -71,4 +71,16 @@ class OperandUnary extends Operand {
     protected String view() {
         return operator + "" + value.view();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandUnary other) {
+            return match(value, other.value) && match(operator, other.operator);
+        } else {
+            return false;
+        }
+    }
 }

@@ -63,4 +63,16 @@ class OperandMethodReference extends Operand {
             return context.view() + "::" + reference.getName();
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandMethodReference other) {
+            return match(reference, other.reference) && match(context, other.context);
+        } else {
+            return false;
+        }
+    }
 }

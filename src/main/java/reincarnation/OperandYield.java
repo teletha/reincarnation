@@ -68,4 +68,16 @@ class OperandYield extends Operand {
     protected String view() {
         return "yield " + value.view();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandYield other) {
+            return match(value, other.value);
+        } else {
+            return false;
+        }
+    }
 }

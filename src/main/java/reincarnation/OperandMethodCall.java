@@ -267,6 +267,18 @@ class OperandMethodCall extends Operand {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandMethodCall other) {
+            return match(method, other.method) && match(owner, other.owner) && match(mode, other.mode) && match(params, other.params);
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * @version 2018/10/23 14:03:05
      */
     private class SyntheticMethodInliner extends DelegatableCoder<CodingOption> {

@@ -475,4 +475,16 @@ class OperandSwitch extends Operand {
     protected String view() {
         return "switch" + (isExpression() ? "-expression" : "") + " (" + condition.view() + ")";
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandSwitch other) {
+            return match(condition, other.condition);
+        } else {
+            return false;
+        }
+    }
 }

@@ -42,4 +42,16 @@ class OperandAmbiguousZeroOneTernary extends Operand {
     protected String view() {
         return condition.view() + "? 1 : 0";
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandAmbiguousZeroOneTernary other) {
+            return match(condition, other.condition);
+        } else {
+            return false;
+        }
+    }
 }

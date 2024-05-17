@@ -128,4 +128,16 @@ class OperandFieldAccess extends Operand {
     protected String view() {
         return context.view() + "." + field.getName();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean match(Operand obj) {
+        if (obj instanceof OperandFieldAccess other) {
+            return match(field, other.field) && match(context, other.context) && match(mode, other.mode);
+        } else {
+            return false;
+        }
+    }
 }
