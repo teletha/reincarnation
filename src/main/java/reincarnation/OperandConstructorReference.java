@@ -10,6 +10,7 @@
 package reincarnation;
 
 import java.lang.reflect.Constructor;
+import java.util.Objects;
 
 import reincarnation.coder.Coder;
 
@@ -55,9 +56,9 @@ class OperandConstructorReference extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandConstructorReference other) {
-            return match(reference, other.reference);
+            return Objects.equals(reference, other.reference);
         } else {
             return false;
         }

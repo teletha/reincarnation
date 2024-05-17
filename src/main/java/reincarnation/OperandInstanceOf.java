@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import java.util.Objects;
+
 import kiss.I;
 import kiss.Signal;
 import reincarnation.coder.Coder;
@@ -93,9 +95,9 @@ class OperandInstanceOf extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandInstanceOf other) {
-            return match(value, other.value) && match(type, other.type) && match(cast, other.cast);
+            return Objects.equals(value, other.value) && Objects.equals(type, other.type) && Objects.equals(cast, other.cast);
         } else {
             return false;
         }

@@ -89,7 +89,7 @@ class OperandBoolean extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandBoolean other) {
             return value == other.value;
         } else {

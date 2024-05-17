@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import java.util.Objects;
+
 import reincarnation.coder.Coder;
 
 class OperandTernary extends OperandCondition {
@@ -96,7 +98,7 @@ class OperandTernary extends OperandCondition {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof OperandTernary other) {
-            return match(left, other.left) && match(right, other.right) && match(condition, other.condition);
+            return Objects.equals(left, other.left) && Objects.equals(right, other.right) && Objects.equals(condition, other.condition);
         } else {
             return false;
         }

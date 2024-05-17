@@ -10,6 +10,7 @@
 package reincarnation;
 
 import java.lang.reflect.Type;
+import java.util.Objects;
 
 import kiss.I;
 import kiss.Signal;
@@ -296,9 +297,9 @@ class OperandCondition extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandCondition other) {
-            return match(left, other.left) && match(right, other.right) && operator == other.operator && match(then, other.then) && match(elze, other.elze);
+            return Objects.equals(left, other.left) && Objects.equals(right, other.right) && operator == other.operator;
         } else {
             return false;
         }

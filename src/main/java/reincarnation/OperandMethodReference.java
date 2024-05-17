@@ -10,6 +10,7 @@
 package reincarnation;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 import reincarnation.coder.Coder;
 
@@ -68,9 +69,9 @@ class OperandMethodReference extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandMethodReference other) {
-            return match(reference, other.reference) && match(context, other.context);
+            return Objects.equals(reference, other.reference) && Objects.equals(context, other.context);
         } else {
             return false;
         }

@@ -480,9 +480,9 @@ class OperandSwitch extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandSwitch other) {
-            return match(condition, other.condition);
+            return Objects.equals(condition, other.condition);
         } else {
             return false;
         }

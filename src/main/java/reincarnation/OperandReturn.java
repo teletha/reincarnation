@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import java.util.Objects;
+
 import kiss.I;
 import kiss.Signal;
 import kiss.Variable;
@@ -77,9 +79,9 @@ class OperandReturn extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandReturn other) {
-            return match(value, other.value);
+            return Objects.equals(value, other.value);
         } else {
             return false;
         }

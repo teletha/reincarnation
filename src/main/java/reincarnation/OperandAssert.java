@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import java.util.Objects;
+
 import kiss.I;
 import kiss.Signal;
 import kiss.Variable;
@@ -60,9 +62,9 @@ class OperandAssert extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandAssert other) {
-            return match(condition, other.condition) && match(message.v, other.message.v);
+            return Objects.equals(condition, other.condition) && Objects.equals(message.v, other.message.v);
         } else {
             return false;
         }

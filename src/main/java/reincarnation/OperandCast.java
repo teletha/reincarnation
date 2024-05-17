@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import java.util.Objects;
+
 import kiss.I;
 import kiss.Signal;
 import reincarnation.coder.Coder;
@@ -84,9 +86,9 @@ class OperandCast extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandCast other) {
-            return match(value, other.value) && match(type, other.type) && needCast == other.needCast;
+            return Objects.equals(value, other.value) && Objects.equals(type, other.type) && needCast == other.needCast;
         } else {
             return false;
         }

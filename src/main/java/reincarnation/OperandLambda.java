@@ -11,6 +11,7 @@ package reincarnation;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Objects;
 
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -58,9 +59,9 @@ class OperandLambda extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandLambda other) {
-            return match(lambda, other.lambda) && match(context, other.context);
+            return Objects.equals(lambda, other.lambda) && match(context, other.context);
         } else {
             return false;
         }

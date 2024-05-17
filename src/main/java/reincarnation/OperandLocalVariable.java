@@ -107,18 +107,6 @@ class OperandLocalVariable extends Operand {
      * {@inheritDoc}
      */
     @Override
-    protected boolean match(Operand operand) {
-        if (operand instanceof OperandLocalVariable other) {
-            return index == other.index;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String toString() {
         // don't call #write, it will throw error in debug mode.
         return original.isAbsent() ? name : original.v;

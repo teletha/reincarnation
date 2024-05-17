@@ -10,6 +10,7 @@
 package reincarnation;
 
 import java.util.List;
+import java.util.Objects;
 
 import reincarnation.coder.Coder;
 
@@ -92,9 +93,9 @@ class OperandString extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandString other) {
-            return match(expression, other.expression) && textBlock == other.textBlock;
+            return Objects.equals(expression, other.expression) && textBlock == other.textBlock;
         } else {
             return false;
         }

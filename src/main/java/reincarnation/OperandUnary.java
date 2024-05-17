@@ -76,9 +76,9 @@ class OperandUnary extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandUnary other) {
-            return match(value, other.value) && match(operator, other.operator);
+            return Objects.equals(value, other.value) && Objects.equals(operator, other.operator);
         } else {
             return false;
         }

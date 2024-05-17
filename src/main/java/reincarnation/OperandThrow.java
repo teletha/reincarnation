@@ -65,9 +65,9 @@ class OperandThrow extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandThrow other) {
-            return match(value, other.value);
+            return Objects.equals(value, other.value);
         } else {
             return false;
         }

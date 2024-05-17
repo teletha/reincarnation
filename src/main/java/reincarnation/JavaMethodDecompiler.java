@@ -3111,7 +3111,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 Node base = bases.get(i);
                 Node other = others.get(i);
 
-                base.equals(other);
                 if (!base.match(other)) {
                     return false;
                 }
@@ -3341,7 +3340,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             if (end != null) nodes.addAll(end.outgoing); // then end node
 
             Set<Node> recorder = new HashSet<>(nodes);
-            System.out.println("Search exit from " + recorder);
 
             while (!nodes.isEmpty()) {
                 Node node = nodes.pollFirst();

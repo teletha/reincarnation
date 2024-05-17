@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import java.util.Objects;
+
 import kiss.I;
 import kiss.Signal;
 import reincarnation.coder.Coder;
@@ -73,9 +75,9 @@ class OperandYield extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandYield other) {
-            return match(value, other.value);
+            return Objects.equals(value, other.value);
         } else {
             return false;
         }

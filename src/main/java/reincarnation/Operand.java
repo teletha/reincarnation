@@ -11,6 +11,7 @@ package reincarnation;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import kiss.I;
@@ -294,59 +295,6 @@ public abstract class Operand implements Code<Operand> {
     }
 
     /**
-     * Test whether the given operand and this operand are same code or not.
-     * 
-     * @param operand
-     * @return
-     */
-    protected abstract boolean match(Operand operand);
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object obj) {
-        System.out.println(getClass().getSimpleName());
-        return super.equals(obj);
-    }
-
-    /**
-     * Test the given operands are same code or not.
-     * 
-     * @param one
-     * @param other
-     * @return
-     */
-    protected static boolean match(Operand one, Operand other) {
-        if (one == null) {
-            return other == null;
-        } else if (other == null) {
-            return false;
-        } else {
-            return one.match(other);
-        }
-    }
-
-    /**
-     * Test the given operands are same code or not.
-     * 
-     * @param one
-     * @param other
-     * @return
-     */
-    protected static boolean match(Object one, Object other) {
-        if (one == null) {
-            return other == null;
-        } else if (other == null) {
-            return false;
-        } else if (one instanceof Operand o && other instanceof Operand x) {
-            return o.match(x);
-        } else {
-            return one.equals(other);
-        }
-    }
-
-    /**
      * Test the given operands are same code or not.
      * 
      * @param one
@@ -364,7 +312,7 @@ public abstract class Operand implements Code<Operand> {
             }
 
             for (int i = 0; i < one.size(); i++) {
-                if (!match(one.get(i), other.get(i))) {
+                if (!Objects.equals(one.get(i), other.get(i))) {
                     return false;
                 }
             }

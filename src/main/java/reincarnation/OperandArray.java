@@ -34,12 +34,12 @@ import reincarnation.coder.Coder;
  * mv.visitInsn(ICONST_2);
  * mv.visitLdcInsn("third");
  * mv.visitInsn(AASTORE); // Assign third value suddenly
- *</pre>
+ * </pre>
  * <p>
  * JDK Compiler generates the following bytecode.
  * </p>
  * <pre>
- * mv.visitTypeInsn(ANEWARRAY,  "java/lang/String");
+ * mv.visitTypeInsn(ANEWARRAY, "java/lang/String");
  * mv.visitInsn(DUP);
  * mv.visitInsn(ICONST_0);
  * mv.visitInsn(ACONST_NULL);
@@ -52,7 +52,7 @@ import reincarnation.coder.Coder;
  * mv.visitInsn(ICONST_2);
  * mv.visitLdcInsn("third");
  * mv.visitInsn(AASTORE); // Assign third value
- *</pre>
+ * </pre>
  */
 class OperandArray extends Operand {
 
@@ -211,9 +211,10 @@ class OperandArray extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandArray other) {
-            return dimension == other.dimension && match(dimensions, other.dimensions) && match(items, other.items) && match(type, other.type);
+            return dimension == other.dimension && match(dimensions, other.dimensions) && match(items, other.items) && Objects
+                    .equals(type, other.type);
         } else {
             return false;
         }

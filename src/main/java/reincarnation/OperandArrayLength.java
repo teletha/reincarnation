@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import java.util.Objects;
+
 import kiss.I;
 import kiss.Signal;
 import reincarnation.coder.Coder;
@@ -61,9 +63,9 @@ class OperandArrayLength extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandArrayLength other) {
-            return match(owner, other.owner);
+            return Objects.equals(owner, other.owner);
         } else {
             return false;
         }

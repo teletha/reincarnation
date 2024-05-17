@@ -11,6 +11,7 @@ package reincarnation;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import kiss.I;
@@ -92,9 +93,9 @@ public class OperandConstructorCall extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandConstructorCall other) {
-            return match(kind, other.kind) && match(constructor, other.constructor) && match(params, other.params);
+            return Objects.equals(kind, other.kind) && Objects.equals(constructor, other.constructor) && match(params, other.params);
         } else {
             return false;
         }

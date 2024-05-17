@@ -1,33 +1,29 @@
 java.lang.Error: 
 ============================================================
-Javac fails compiling reincarnation.decompiler.flow.TryFinallyTest$11
+Javac fails compiling reincarnation.decompiler.flow.TryCatchFinallyTest$9
 ============================================================
 null
 ============================================================
 Original Code
 ============================================================
-void returnInAfter() {
+void rethrow() {
         verify(new TestCode.IntParam() {
 
-            private int field = 1;
+            private int counter = 0;
 
             @Override
-            public int run(@Param(from = 0, to = 10) int param) {
-                try {
-                    field *= error(param);
-                } catch (Error e) {
-                    field -= 10;
-                }
-                return field;
+            public int run(@Param(from = 0, to = 10) int value) {
+                return count(value) + counter;
             }
 
-            private int error(int param) {
+            private int count(int value) {
                 try {
-                    param = MaybeThrow.error(param);
+                    return MaybeThrow.error(value);
+                } catch (Error e) {
+                    throw e;
                 } finally {
-                    param++;
+                    counter--;
                 }
-                return param;
             }
         });
     }
@@ -40,212 +36,197 @@ Decompiled Code
 04    import reincarnation.TestCode.IntParam;
 05    import reincarnation.TestCode.Param;
 06    import reincarnation.decompiler.flow.MaybeThrow;
-07    import reincarnation.decompiler.flow.TryFinallyTest;
+07    import reincarnation.decompiler.flow.TryCatchFinallyTest;
 08    
-09    class TryFinallyTest extends CodeVerifier {
+09    class TryCatchFinallyTest extends CodeVerifier {
 10    
-11        class TryFinallyTest$11 implements IntParam {
-12            private int field;
+11        class TryCatchFinallyTest$9 implements IntParam {
+12            private int counter;
 13    
-14            TryFinallyTest$11(final TryFinallyTest this$0) {
-15                this.field = 1;
+14            TryCatchFinallyTest$9(final TryCatchFinallyTest this$0) {
+15                this.counter = 0;
 16            }
 17    
-18            public int run(@Param(to = 10) int param) {
-19                try {
-20                    this.field = this.field * this.error(param);
-21                } catch(Error e) {
-22                    this.field = (this.field - 10);
-23                }
-24                return this.field;
-25            }
-26    
-27            private int error(int param) {
-28                try {
-29                    param = MaybeThrow.error(param);
-30                    return param;
-31                } finally {
-32                    ++param;
-33                }
-34            }
-35        }
-36    }
+18            public int run(@Param(to = 10) int value) {
+19                return this.count(value) + this.counter;
+20            }
+21    
+22            private int count(int value) {
+23                try {
+24                    return MaybeThrow.error(value);
+25                } catch(Error e) {
+26                    throw e;
+27                } finally {
+28                }
+29            }
+30        }
+31    }
 ============================================================
 Decompiling Log
 ============================================================
-//--------------------------------- TryFinallyTest#returnInAfter (TryFinallyTest.java:236) ---------------------------------//
-Constructor() (TryFinallyTest.java:239)
+//------------------------------- TryCatchFinallyTest#rethrow (TryCatchFinallyTest.java:208) -------------------------------//
+Constructor() (TryCatchFinallyTest.java:211)
 0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]	code: java.lang.Object() [ConstructorCall]
-1	in[0]	out[]	dom[0]	doms[]	side[0,2]	dest[T]	code: this.field = 1 [Assign#int] return null [Return - null]
+1	in[0]	out[]	dom[0]	doms[]	side[0,2]	dest[T]	code: this.counter = 0 [Assign#int] return null [Return - null]
 2	in[]	out[]	dom[]	doms[]	side[1, ]	dest[]	code: 
 
 Delete tail empty return (show full nodes)
 0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: java.lang.Object() [ConstructorCall]
-1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: this.field = 1 [Assign#int] return null [Return - null]
+1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: this.counter = 0 [Assign#int] return null [Return - null]
 
 0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: java.lang.Object() [ConstructorCall]
-1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: this.field = 1 [Assign#int]
+1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: this.counter = 0 [Assign#int]
 
 
 0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: java.lang.Object() [ConstructorCall]
-1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: this.field = 1 [Assign#int]
+1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: this.counter = 0 [Assign#int]
 
-//--------------------------------- TryFinallyTest#returnInAfter (TryFinallyTest.java:243) ---------------------------------//
-Method run(int arg0) (TryFinallyTest.java:248)
-0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]	try: s	code: this.field = this.field * this.error(param) [Assign#int]
-1	in[0]	out[3]	dom[0]	doms[]	side[0,2]	dest[3]	try: e	code: 
-2	in[]	out[4]	dom[]	doms[]	side[1,4]	dest[4]	try: c	code: 
-4	in[2]	out[3]	dom[2]	doms[]	side[2,3]	dest[3]	try:   	code: this.field = this.field - 10 [Assign#int]
-3	in[1,4]	out[]	dom[]	doms[]	side[4,5]	dest[T]	try:   	code: return this.field [Return#int - FieldAccess#int]
-5	in[]	out[]	dom[]	doms[]	side[3, ]	dest[]	try:   	code: 
+//------------------------------- TryCatchFinallyTest#rethrow (TryCatchFinallyTest.java:214) -------------------------------//
+Method run(int arg0) (TryCatchFinallyTest.java:215)
+0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: return this.count(value) + this.counter [Return#int - Binary#int]
+1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 
-Analyze try-catch-finally (show full nodes)
-0	in[]	out[1]	dom[]	doms[1,2,3]	side[ ,1]	dest[1]	try: s	code: this.field = this.field * this.error(param) [Assign#int]
-1	in[0]	out[3]	dom[0]	doms[]		side[0,2]	dest[3]	try: e	code: 
-2	in[]	out[4]	dom[]	doms[4]		side[1,4]	dest[4]	try: c	code: 
-4	in[2]	out[3]	dom[2]	doms[]		side[2,3]	dest[3]	try:   	code: this.field = this.field - 10 [Assign#int]
-3	in[1,4]	out[]	dom[]	doms[]		side[4, ]	dest[T]	try:   	code: return this.field [Return#int - FieldAccess#int]
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: return this.count(value) + this.counter [Return#int - Binary#int]
 
-0	in[]	out[1]	dom[]	doms[1,2,3]	side[ ,1]	dest[1]	try: s	code: this.field = this.field * this.error(param) [Assign#int]
-1	in[0]	out[3]	dom[0]	doms[]		side[0,2]	dest[3]	try: e	code: 
-2	in[]	out[4]	dom[]	doms[4]		side[1,4]	dest[4]	try: c	code: 
-4	in[2]	out[3]	dom[2]	doms[]		side[2,3]	dest[3]	try:   	code: this.field = this.field - 10 [Assign#int]
-3	in[1,4]	out[]	dom[]	doms[]		side[4, ]	dest[T]	try: x	code: return this.field [Return#int - FieldAccess#int]
-
-
-Analyze nodes (show full nodes)
-0	in[]	out[1]	dom[]	doms[1,2,3]	side[ ,1]	dest[1]	try: s	code: this.field = this.field * this.error(param) [Assign#int]
-1	in[0]	out[3]	dom[0]	doms[]		side[0,2]	dest[3]	try: e	code: 
-2	in[]	out[4]	dom[]	doms[4]		side[1,4]	dest[4]	try: c	code: 
-4	in[2]	out[3]	dom[2]	doms[]		side[2,3]	dest[3]	try:   	code: this.field = this.field - 10 [Assign#int]
-3	in[1,4]	out[]	dom[]	doms[]		side[4, ]	dest[T]	try: x	code: return this.field [Return#int - FieldAccess#int]
-
-0	in[]	out[1]	dom[]	doms[1,2,3]	side[ ,1]	dest[1]	code: this.field = this.field * this.error(param) [Assign#int]
-1	in[0]	out[3]	dom[0]	doms[]		side[0,2]	dest[3]	code: 
-2	in[]	out[4]	dom[]	doms[4]		side[1,4]	dest[4]	code: 
-4	in[2]	out[3]	dom[2]	doms[]		side[2,3]	dest[3]	code: this.field = this.field - 10 [Assign#int]
-3	in[1,4]	out[]	dom[]	doms[]		side[4, ]	dest[T]	code: return this.field [Return#int - FieldAccess#int]
-
-
-0	in[]	out[1]	dom[]	doms[1,2,3]	side[ ,1]	dest[1]	code: this.field = this.field * this.error(param) [Assign#int]
-1	in[0]	out[3]	dom[0]	doms[]		side[0,2]	dest[3]	code: 
-2	in[]	out[4]	dom[]	doms[4]		side[1,4]	dest[4]	code: 
-4	in[2]	out[3]	dom[2]	doms[]		side[2,3]	dest[3]	code: this.field = this.field - 10 [Assign#int]
-3	in[1,4]	out[]	dom[]	doms[]		side[4, ]	dest[T]	code: return this.field [Return#int - FieldAccess#int]
-
-//--------------------------------- TryFinallyTest#returnInAfter (TryFinallyTest.java:252) ---------------------------------//
-Method error(int arg0) (TryFinallyTest.java:257)
-0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]	try: s	code: param = MaybeThrow.error(param) [Assign#int]
-1	in[0]	out[3]	dom[0]	doms[]	side[0,3]	dest[3]	try: e	code: ++param [Unary#int]
-3	in[1]	out[4]	dom[1]	doms[]	side[1,2]	dest[4]	try:   	code: 
-2	in[]	out[5]	dom[]	doms[]	side[3,5]	dest[5]	try: c	code: ++param [Unary#int]
-5	in[2]	out[]	dom[2]	doms[]	side[2,4]	dest[T]	try:   	code: throw local2 [Throw]
-4	in[3]	out[]	dom[3]	doms[]	side[5,6]	dest[T]	try:   	code: return param [Return#int - LocalVariable#int]
-6	in[]	out[]	dom[]	doms[]	side[4, ]	dest[]	try:   	code: 
+//------------------------------- TryCatchFinallyTest#rethrow (TryCatchFinallyTest.java:219) -------------------------------//
+Method count(int arg0) (TryCatchFinallyTest.java:225)
+0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]	try: s	code: e = MaybeThrow.error(value) [Assign#int]
+1	in[0]	out[5]	dom[0]	doms[]	side[0,5]	dest[5]	try: e	code: this.counter = this.counter - 1 [Assign#int]
+5	in[1]	out[]	dom[1]	doms[]	side[1,2]	dest[T]	try:   	code: return e [Return#int - LocalVariable#int]
+2	in[]	out[6]	dom[]	doms[]	side[5,6]	dest[6]	try: c	code: 
+6	in[2]	out[]	dom[2]	doms[]	side[2,3]	dest[T]	try:   	code: throw e [Throw]
+3	in[]	out[4]	dom[]	doms[]	side[6,4]	dest[4]	try:   	code: 
+4	in[3]	out[7]	dom[3]	doms[]	side[3,7]	dest[7]	try:   	code: this.counter = this.counter - 1 [Assign#int]
+7	in[4]	out[]	dom[4]	doms[]	side[4,8]	dest[T]	try:   	code: throw local3 [Throw]
+8	in[]	out[]	dom[]	doms[]	side[7, ]	dest[]	try:   	code: 
 
 Remove copied finally nodes [size: 1] from end's outgoings (show full nodes)
-0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]	try: s	code: param = MaybeThrow.error(param) [Assign#int]
-1	in[0]	out[3]	dom[0]	doms[]	side[0,3]	dest[3]	try: e	code: ++param [Unary#int]
-3	in[1]	out[4]	dom[1]	doms[]	side[1,2]	dest[4]	try:   	code: 
-2	in[]	out[5]	dom[]	doms[]	side[3,5]	dest[5]	try: c	code: ++param [Unary#int]
-5	in[2]	out[]	dom[2]	doms[]	side[2,4]	dest[T]	try:   	code: throw local2 [Throw]
-4	in[3]	out[]	dom[3]	doms[]	side[5,6]	dest[T]	try:   	code: return param [Return#int - LocalVariable#int]
-6	in[]	out[]	dom[]	doms[]	side[4, ]	dest[]	try:   	code: 
+0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]	try: s	code: e = MaybeThrow.error(value) [Assign#int]
+1	in[0]	out[5]	dom[0]	doms[]	side[0,5]	dest[5]	try: e	code: this.counter = this.counter - 1 [Assign#int]
+5	in[1]	out[]	dom[1]	doms[]	side[1,2]	dest[T]	try:   	code: return e [Return#int - LocalVariable#int]
+2	in[]	out[6]	dom[]	doms[]	side[5,6]	dest[6]	try: c	code: 
+6	in[2]	out[]	dom[2]	doms[]	side[2,3]	dest[T]	try:   	code: throw e [Throw]
+3	in[]	out[4]	dom[]	doms[]	side[6,4]	dest[4]	try:   	code: 
+4	in[3]	out[7]	dom[3]	doms[]	side[3,7]	dest[7]	try:   	code: this.counter = this.counter - 1 [Assign#int]
+7	in[4]	out[]	dom[4]	doms[]	side[4,8]	dest[T]	try:   	code: throw local3 [Throw]
+8	in[]	out[]	dom[]	doms[]	side[7, ]	dest[]	try:   	code: 
 
-0	in[]	out[3]	dom[]	doms[]	side[ ,3]	dest[3]	try: s	code: param = MaybeThrow.error(param) [Assign#int]
-3	in[0]	out[4]	dom[0]	doms[]	side[0,2]	dest[4]	try:   	code: 
-2	in[]	out[5]	dom[]	doms[]	side[3,5]	dest[5]	try: c	code: ++param [Unary#int]
-5	in[2]	out[]	dom[2]	doms[]	side[2,4]	dest[T]	try:   	code: throw local2 [Throw]
-4	in[3]	out[]	dom[3]	doms[]	side[5,6]	dest[T]	try:   	code: return param [Return#int - LocalVariable#int]
-6	in[]	out[]	dom[]	doms[]	side[4, ]	dest[]	try:   	code: 
+0	in[]	out[5]	dom[]	doms[]	side[ ,5]	dest[5]	try: s	code: e = MaybeThrow.error(value) [Assign#int]
+5	in[0]	out[]	dom[0]	doms[]	side[0,2]	dest[T]	try:   	code: return e [Return#int - LocalVariable#int]
+2	in[]	out[6]	dom[]	doms[]	side[5,6]	dest[6]	try: c	code: 
+6	in[2]	out[]	dom[2]	doms[]	side[2,3]	dest[T]	try:   	code: throw e [Throw]
+3	in[]	out[7]	dom[]	doms[]	side[6,7]	dest[7]	try:   	code: 
+7	in[3]	out[]	dom[3]	doms[]	side[3,8]	dest[T]	try:   	code: throw local3 [Throw]
+8	in[]	out[]	dom[]	doms[]	side[7, ]	dest[]	try:   	code: 
+
+
+Analyze try-catch-finally (show full nodes)
+0	in[]	out[5]	dom[]	doms[5,2,3]	side[ ,5]	dest[5]	try: s	code: e = MaybeThrow.error(value) [Assign#int]
+5	in[0]	out[]	dom[0]	doms[]		side[0,2]	dest[T]	try:   	code: return e [Return#int - LocalVariable#int]
+2	in[]	out[6]	dom[]	doms[6]		side[5,6]	dest[6]	try: c	code: 
+6	in[2]	out[]	dom[2]	doms[]		side[2,3]	dest[T]	try:   	code: throw e [Throw]
+3	in[]	out[]	dom[]	doms[]		side[6, ]	dest[8]	try:   	code: 
+
+0	in[]	out[5]	dom[]	doms[5,2,3]	side[ ,5]	dest[5]	try: s	code: e = MaybeThrow.error(value) [Assign#int]
+5	in[0]	out[]	dom[0]	doms[]		side[0,2]	dest[T]	try:   	code: return e [Return#int - LocalVariable#int]
+2	in[]	out[6]	dom[]	doms[6]		side[5,6]	dest[6]	try: c	code: 
+6	in[2]	out[]	dom[2]	doms[]		side[2,3]	dest[T]	try:   	code: throw e [Throw]
+3	in[]	out[]	dom[]	doms[]		side[6, ]	dest[8]	try: x	code: 
+
+
+Merge immediate return (show full nodes)
+0	in[]	out[5]	dom[]	doms[5,2,3]	side[ ,5]	dest[5]	try: s	code: e = MaybeThrow.error(value) [Assign#int]
+5	in[0]	out[]	dom[0]	doms[]		side[0,2]	dest[T]	try:   	code: return e [Return#int - LocalVariable#int]
+2	in[]	out[6]	dom[]	doms[6]		side[5,6]	dest[6]	try: c	code: 
+6	in[2]	out[]	dom[2]	doms[]		side[2,3]	dest[T]	try:   	code: throw e [Throw]
+3	in[]	out[]	dom[]	doms[]		side[6, ]	dest[8]	try: x	code: 
+
+0	in[]	out[]	dom[]	doms[5,2,3]	side[ ,2]	dest[2]	try: s	code: return MaybeThrow.error(value) [Return#int - MethodCall#int]
+2	in[]	out[6]	dom[]	doms[6]		side[0,6]	dest[6]	try: c	code: 
+6	in[2]	out[]	dom[2]	doms[]		side[2,3]	dest[T]	try:   	code: throw e [Throw]
+3	in[]	out[]	dom[]	doms[]		side[6, ]	dest[8]	try: x	code: 
 
 
 Analyze nodes (show full nodes)
-0	in[]	out[3]	dom[]	doms[3,2]	side[ ,3]	dest[3]	try: s	code: param = MaybeThrow.error(param) [Assign#int]
-3	in[0]	out[4]	dom[0]	doms[4]		side[0,2]	dest[4]	try:   	code: 
-2	in[]	out[]	dom[]	doms[]		side[3,4]	dest[4]	try: c	code: ++param [Unary#int]
-4	in[3]	out[]	dom[3]	doms[]		side[2, ]	dest[T]	try:   	code: return param [Return#int - LocalVariable#int]
+0	in[]	out[]	dom[]	doms[5,2,3]	side[ ,2]	dest[2]	try: s	code: return MaybeThrow.error(value) [Return#int - MethodCall#int]
+2	in[]	out[6]	dom[]	doms[6]		side[0,6]	dest[6]	try: c	code: 
+6	in[2]	out[]	dom[2]	doms[]		side[2,3]	dest[T]	try:   	code: throw e [Throw]
+3	in[]	out[]	dom[]	doms[]		side[6, ]	dest[8]	try: x	code: 
 
-0	in[]	out[3]	dom[]	doms[3,2]	side[ ,3]	dest[3]	code: param = MaybeThrow.error(param) [Assign#int]
-3	in[0]	out[4]	dom[0]	doms[4]		side[0,2]	dest[4]	code: 
-2	in[]	out[]	dom[]	doms[]		side[3,4]	dest[4]	code: ++param [Unary#int]
-4	in[3]	out[]	dom[3]	doms[]		side[2, ]	dest[T]	code: return param [Return#int - LocalVariable#int]
+0	in[]	out[]	dom[]	doms[5,2,3]	side[ ,2]	dest[2]	code: return MaybeThrow.error(value) [Return#int - MethodCall#int]
+2	in[]	out[6]	dom[]	doms[6]		side[0,6]	dest[6]	code: 
+6	in[2]	out[]	dom[2]	doms[]		side[2,3]	dest[T]	code: throw e [Throw]
+3	in[]	out[]	dom[]	doms[]		side[6, ]	dest[8]	code: 
 
 
-0	in[]	out[3]	dom[]	doms[3,2]	side[ ,3]	dest[3]	code: param = MaybeThrow.error(param) [Assign#int]
-3	in[0]	out[4]	dom[0]	doms[4]		side[0,2]	dest[4]	code: 
-2	in[]	out[]	dom[]	doms[]		side[3,4]	dest[4]	code: ++param [Unary#int]
-4	in[3]	out[]	dom[3]	doms[]		side[2, ]	dest[T]	code: return param [Return#int - LocalVariable#int]
+0	in[]	out[]	dom[]	doms[5,2,3]	side[ ,2]	dest[2]	code: return MaybeThrow.error(value) [Return#int - MethodCall#int]
+2	in[]	out[6]	dom[]	doms[6]		side[0,6]	dest[6]	code: 
+6	in[2]	out[]	dom[2]	doms[]		side[2,3]	dest[T]	code: throw e [Throw]
+3	in[]	out[]	dom[]	doms[]		side[6, ]	dest[8]	code: 
 
 
 ============================================================
-Bytecode Diff -  reincarnation.decompiler.flow.TryFinallyTest$11
+Bytecode Diff -  reincarnation.decompiler.flow.TryCatchFinallyTest$9
 ============================================================
-ECJ																		Javac
-visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);						visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
-AnnotableParameterCount(1, true);										AnnotableParameterCount(1, true);
-TryCatchBlock(L0, L1, L2, "j.l.Error");									TryCatchBlock(L0, L1, L2, "j.l.Error");
-Label(L0);																Label(L0);
-VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
-Insn(DUP);																Insn(DUP);
-FieldInsn(GETFIELD, "TryFinallyTest$11", "field", "I");					FieldInsn(GETFIELD, "TryFinallyTest$11", "field", "I");
-VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-MethodInsn(INVOKEVIRTUAL, "TryFinallyTest$11", "error", "(I)I", false);	MethodInsn(INVOKEVIRTUAL, "TryFinallyTest$11", "error", "(I)I", false);
-Insn(IMUL);																Insn(IMUL);
-FieldInsn(PUTFIELD, "TryFinallyTest$11", "field", "I");					FieldInsn(PUTFIELD, "TryFinallyTest$11", "field", "I");
-Label(L1);																Label(L1);
-JumpInsn(GOTO, L3);														JumpInsn(GOTO, L3);
-Label(L2);																Label(L2);
-Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Error"});					Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Error"});
-VarInsn(ASTORE, 2);														VarInsn(ASTORE, 2);
-Label(L4);																Label(L4);
-VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
-Insn(DUP);																Insn(DUP);
-FieldInsn(GETFIELD, "TryFinallyTest$11", "field", "I");					FieldInsn(GETFIELD, "TryFinallyTest$11", "field", "I");
-IntInsn(BIPUSH, 10);													IntInsn(BIPUSH, 10);
-Insn(ISUB);																Insn(ISUB);
-FieldInsn(PUTFIELD, "TryFinallyTest$11", "field", "I");					FieldInsn(PUTFIELD, "TryFinallyTest$11", "field", "I");
-Label(L3);																Label(L3);
-Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
-VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
-FieldInsn(GETFIELD, "TryFinallyTest$11", "field", "I");					FieldInsn(GETFIELD, "TryFinallyTest$11", "field", "I");
-Insn(IRETURN);															Insn(IRETURN);
-Label(L5);																Label(L5);
-																		+LocalVariable("e", "Lj.l.Error;", null, L4, L3, 2);+
-LocalVariable("this", "LTryFinallyTest$11;", null, L0, L5, 0);			LocalVariable("this", "LTryFinallyTest$11;", null, L0, L5, 0);
-LocalVariable("param", "I", null, L0, L5, 1);							LocalVariable("param", "I", null, L0, L5, 1);
-~LocalVariable("e", "Lj.l.Error;", null, L4, L3, 2);~					
-																		
-visitMethod(ACC_PRIVATE, "error", "(I)I", null, null);					visitMethod(ACC_PRIVATE, "error", "(I)I", null, null);
-TryCatchBlock(L0, L1, ~L1~, null);										TryCatchBlock(L0, L1, +L2+, null);
-Label(L0);																Label(L0);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-MethodInsn(INVOKESTATIC, "MaybeThrow", "error", "(I)I", false);			MethodInsn(INVOKESTATIC, "MaybeThrow", "error", "(I)I", false);
-VarInsn(ISTORE, 1);														VarInsn(ISTORE, 1);
-~Label(L2);~															
-~JumpInsn(GOTO, L3);~													
-Label(L1);																Label(L1);
-																		+IincInsn(1, 1);+
-																		+Label(L3);+
-																		+JumpInsn(GOTO, L4);+
-																		+Label(L2);+
-Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Throwable"});				Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Throwable"});
-VarInsn(ASTORE, 2);														VarInsn(ASTORE, 2);
-~Label(L4);~															
-IincInsn(1, 1);															IincInsn(1, 1);
-Label(L5);																Label(L5);
-VarInsn(ALOAD, 2);														VarInsn(ALOAD, 2);
-Insn(ATHROW);															Insn(ATHROW);
-Label(~L3~);															Label(+L4+);
-Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
-~IincInsn(1, 1);~														
-~Label(L6);~															
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-Insn(IRETURN);															Insn(IRETURN);
-Label(~L7~);															Label(+L6+);
-LocalVariable("this", "LTryFinallyTest$11;", null, L0, ~L7~, 0);		LocalVariable("this", "LTryFinallyTest$11;", null, L0, +L6+, 0);
-LocalVariable("param", "I", null, L0, ~L7~, 1);							LocalVariable("param", "I", null, L0, +L6+, 1);
+ECJ																			Javac
+visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);							visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
+~Parameter("value", 0);~													
+AnnotableParameterCount(1, true);											AnnotableParameterCount(1, true);
+Label(L0);																	Label(L0);
+VarInsn(ALOAD, 0);															VarInsn(ALOAD, 0);
+VarInsn(ILOAD, 1);															VarInsn(ILOAD, 1);
+MethodInsn(INVOKEVIRTUAL, "TryCatchFinallyTest$9", "count", "(I)I", false);	MethodInsn(INVOKEVIRTUAL, "TryCatchFinallyTest$9", "count", "(I)I", false);
+VarInsn(ALOAD, 0);															VarInsn(ALOAD, 0);
+FieldInsn(GETFIELD, "TryCatchFinallyTest$9", "counter", "I");				FieldInsn(GETFIELD, "TryCatchFinallyTest$9", "counter", "I");
+Insn(IADD);																	Insn(IADD);
+Insn(IRETURN);																Insn(IRETURN);
+Label(L1);																	Label(L1);
+LocalVariable("this", "LTryCatchFinallyTest$9;", null, L0, L1, 0);			LocalVariable("this", "LTryCatchFinallyTest$9;", null, L0, L1, 0);
+LocalVariable("value", "I", null, L0, L1, 1);								LocalVariable("value", "I", null, L0, L1, 1);
+																			
+visitMethod(ACC_PRIVATE, "count", "(I)I", null, null);						visitMethod(ACC_PRIVATE, "count", "(I)I", null, null);
+~Parameter("value", 0);~													
+TryCatchBlock(L0, L1, L2, "j.l.Error");										TryCatchBlock(L0, L1, L2, "j.l.Error");
+TryCatchBlock(L0, L1, L3, null);											TryCatchBlock(L0, L1, L3, null);
+TryCatchBlock(L2, ~L3~, L3, null);											TryCatchBlock(L2, +L4+, L3, null);
+Label(L0);																	Label(L0);
+VarInsn(ILOAD, 1);															VarInsn(ILOAD, 1);
+MethodInsn(INVOKESTATIC, "MaybeThrow", "error", "(I)I", false);				MethodInsn(INVOKESTATIC, "MaybeThrow", "error", "(I)I", false);
+VarInsn(ISTORE, ~4~);														VarInsn(ISTORE, +2+);
+Label(L1);																	Label(L1);
+VarInsn(ALOAD, 0);															VarInsn(ALOAD, 0);
+Insn(DUP);																	Insn(DUP);
+FieldInsn(GETFIELD, "TryCatchFinallyTest$9", "counter", "I");				FieldInsn(GETFIELD, "TryCatchFinallyTest$9", "counter", "I");
+Insn(ICONST_1);																Insn(ICONST_1);
+Insn(ISUB);																	Insn(ISUB);
+FieldInsn(PUTFIELD, "TryCatchFinallyTest$9", "counter", "I");				FieldInsn(PUTFIELD, "TryCatchFinallyTest$9", "counter", "I");
+Label(~L4~);																Label(+L5+);
+VarInsn(ILOAD, ~4~);														VarInsn(ILOAD, +2+);
+Insn(IRETURN);																Insn(IRETURN);
+Label(L2);																	Label(L2);
+Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Error"});						Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Error"});
+VarInsn(ASTORE, 2);															VarInsn(ASTORE, 2);
+Label(~L5~);																Label(+L6+);
+VarInsn(ALOAD, 2);															VarInsn(ALOAD, 2);
+Insn(ATHROW);																Insn(ATHROW);
+Label(L3);																	Label(L3);
+Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Throwable"});					Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Throwable"});
+VarInsn(ASTORE, 3);															VarInsn(ASTORE, 3);
+Label(~L6~);																Label(+L4+);
+VarInsn(ALOAD, 0);															VarInsn(ALOAD, 0);
+Insn(DUP);																	Insn(DUP);
+FieldInsn(GETFIELD, "TryCatchFinallyTest$9", "counter", "I");				FieldInsn(GETFIELD, "TryCatchFinallyTest$9", "counter", "I");
+Insn(ICONST_1);																Insn(ICONST_1);
+Insn(ISUB);																	Insn(ISUB);
+FieldInsn(PUTFIELD, "TryCatchFinallyTest$9", "counter", "I");				FieldInsn(PUTFIELD, "TryCatchFinallyTest$9", "counter", "I");
+Label(L7);																	Label(L7);
+VarInsn(ALOAD, 3);															VarInsn(ALOAD, 3);
+Insn(ATHROW);																Insn(ATHROW);
+Label(L8);																	Label(L8);
+																			+LocalVariable("e", "Lj.l.Error;", null, L6, L3, 2);+
+LocalVariable("this", "LTryCatchFinallyTest$9;", null, L0, L8, 0);			LocalVariable("this", "LTryCatchFinallyTest$9;", null, L0, L8, 0);
+LocalVariable("value", "I", null, L0, L8, 1);								LocalVariable("value", "I", null, L0, L8, 1);
+~LocalVariable("e", "Lj.l.Error;", null, L5, L3, 2);~						
 ============================================================
 
 

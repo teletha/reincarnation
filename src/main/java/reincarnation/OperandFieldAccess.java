@@ -133,9 +133,9 @@ class OperandFieldAccess extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandFieldAccess other) {
-            return match(field, other.field) && match(context, other.context) && match(mode, other.mode);
+            return Objects.equals(field, other.field) && Objects.equals(context, other.context) && Objects.equals(mode, other.mode);
         } else {
             return false;
         }

@@ -16,6 +16,7 @@ import java.lang.reflect.Parameter;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -270,9 +271,10 @@ class OperandMethodCall extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandMethodCall other) {
-            return match(method, other.method) && match(owner, other.owner) && match(mode, other.mode) && match(params, other.params);
+            return Objects.equals(method, other.method) && Objects.equals(owner, other.owner) && Objects
+                    .equals(mode, other.mode) && match(params, other.params);
         } else {
             return false;
         }

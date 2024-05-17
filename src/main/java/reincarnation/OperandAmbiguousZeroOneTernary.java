@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import java.util.Objects;
+
 import reincarnation.coder.Coder;
 
 class OperandAmbiguousZeroOneTernary extends Operand {
@@ -47,9 +49,9 @@ class OperandAmbiguousZeroOneTernary extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandAmbiguousZeroOneTernary other) {
-            return match(condition, other.condition);
+            return Objects.equals(condition, other.condition);
         } else {
             return false;
         }

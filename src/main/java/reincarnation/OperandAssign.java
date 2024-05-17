@@ -127,9 +127,9 @@ class OperandAssign extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandAssign other) {
-            return match(left, other.left) && match(right, other.right) && match(operator, other.operator);
+            return Objects.equals(left, other.left) && Objects.equals(right, other.right) && Objects.equals(operator, other.operator);
         } else {
             return false;
         }

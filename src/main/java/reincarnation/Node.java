@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
@@ -997,7 +998,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
             Operand base = stack.get(i);
             Operand target = other.stack.get(i);
 
-            if (!Operand.match(base, target)) {
+            if (!Objects.equals(base, target)) {
                 return false;
             }
         }

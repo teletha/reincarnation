@@ -9,6 +9,8 @@
  */
 package reincarnation;
 
+import java.util.Objects;
+
 import reincarnation.coder.Coder;
 
 class OperandArrayAccess extends Operand {
@@ -58,9 +60,9 @@ class OperandArrayAccess extends Operand {
      * {@inheritDoc}
      */
     @Override
-    public boolean match(Operand obj) {
+    public boolean equals(Object obj) {
         if (obj instanceof OperandArrayAccess other) {
-            return match(array, other.array) && match(index, other.index);
+            return Objects.equals(array, other.array) && Objects.equals(index, other.index);
         } else {
             return false;
         }
