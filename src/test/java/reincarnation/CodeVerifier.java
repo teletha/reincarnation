@@ -193,9 +193,13 @@ public class CodeVerifier {
                 info.errorMessage.add(e.getMessage());
                 throw e;
             } finally {
-                // compare by another decompiler
-                if (debuggable != null && debuggable.fernflower()) {
-                    info.decompileByVineFlower();
+                if (debuggable != null) {
+                    System.out.println(info.decompilerDebugLog);
+
+                    // compare by another decompiler
+                    if (debuggable.vineflower()) {
+                        info.decompileByVineFlower();
+                    }
                 }
             }
         } catch (Throwable e) {

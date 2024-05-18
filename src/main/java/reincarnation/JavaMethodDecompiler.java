@@ -2993,6 +2993,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 return;
             }
 
+            if (start.id.equals("11") || start.id.equals("8")) {
+                return;
+            }
+
             if (exception == null) {
                 // with finally block
                 CopiedFinally c = new CopiedFinally(start, end, catcher);
@@ -3060,7 +3064,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 }
             });
 
-            finallyCopies.forEach((key, copies) -> {
+            finallyCopies.forEachReversely((key, copies) -> {
                 if (!isDisposed(key.start)) {
                     // capture the finally block
                     List<Node> deletables = key.handler.outgoingRecursively().takeWhile(n -> !n.isThrow()).take(Node::isNotEmpty).toList();
@@ -3088,6 +3092,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                         for (CopiedFinally copy : copies) {
                             I.signal(copy)
                                     .take(c -> c.end != c.handler)
+                                    .effect(c -> System.out.println(c + "   " + deletables.stream().map(x -> x.id).toList()))
                                     .flatMap(c -> c.end.outgoingRecursively())
                                     .take(Node::isNotEmpty)
                                     .take(deletables.size())
@@ -3124,6 +3129,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 Node other = others.get(i);
 
                 if (!base.match(other)) {
+                    System.out.println("NO " + i + "   " + bases + "   " + others);
                     return false;
                 }
             }
