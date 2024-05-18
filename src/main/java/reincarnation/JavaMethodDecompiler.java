@@ -479,7 +479,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         List<Node> copied = new ArrayList(nodes);
 
         for (Node node : copied) {
-            node.uniqueOutgoing().flatMap(Node::throughEmpty).to(out -> {
+            node.uniqueOutgoing().flatMap(Node::throughEmpty).skip(tries::isExit).to(out -> {
                 out.children(OperandReturn.class, OperandLocalVariable.class).to(local -> {
                     node.children(OperandAssign.class).flatMap(o -> o.assignedTo(local)).to(value -> {
                         node.clear().addOperand(new OperandReturn(value));
@@ -2186,10 +2186,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      * @param target A target node to dipose.
      * @param clearStack true will clear all operands in target node, false will transfer them into
      *            the previous node.
-     * @param recursive true will dispose the previous node if it is empty.
+     * @param previousRecursively true will dispose the previous node if it is empty.
      */
     @Override
-    public final void dispose(Node target, boolean clearStack, boolean recursive) {
+    public final void dispose(Node target, boolean clearStack, boolean previousRecursively) {
         if (nodes.contains(target)) {
             // remove actually
             nodes.remove(target);
@@ -2250,9 +2250,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             }
 
             // dispose empty node recursively
-            if (recursive && target.previous != null) {
+            if (previousRecursively && target.previous != null) {
                 if (target.previous.stack.isEmpty() && !target.previous.incoming.isEmpty()) {
-                    dispose(target.previous, clearStack, recursive);
+                    dispose(target.previous, clearStack, previousRecursively);
                 }
             }
         }
@@ -3053,6 +3053,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
          * copied on all exit nodes by compiler , so we must remove it.
          */
         private void disposeCopiedFinallyBlock() {
+            // fix end node
+            finallyCopies.values().flatIterable(x -> x).to(cof -> {
+                if (cof.end.hasDominator(cof.handler)) {
+                    cof.end = cof.handler;
+                }
+            });
+
             finallyCopies.forEach((key, copies) -> {
                 if (!isDisposed(key.start)) {
                     // capture the finally block
@@ -3070,7 +3077,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                                     .buffer()
                                     .take(nodes -> match(nodes, deletables))
                                     .flatIterable(n -> n)
-                                    .to(n -> dispose(n, true, true));
+                                    .to(n -> {
+                                        dispose(n, true, true);
+                                    });
                         }
                     }
 
@@ -3085,7 +3094,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                                     .buffer()
                                     .take(nodes -> match(nodes, deletables))
                                     .flatIterable(n -> n)
-                                    .to(n -> dispose(n, true, true));
+                                    .to(n -> {
+                                        n.uniqueOutgoing().take(Node::isEmpty).to(node -> dispose(node));
+                                        dispose(n, true, true);
+                                    });
                         }
                     }
 
@@ -3155,6 +3167,16 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
          */
         private boolean isFinally(Node node) {
             return blocks.stream().flatMap(x -> x.blocks.stream()).anyMatch(x -> x.isFinally(node));
+        }
+
+        /**
+         * Test whether the given node is exit node or not.
+         * 
+         * @param node
+         * @return
+         */
+        private boolean isExit(Node node) {
+            return blocks.stream().anyMatch(x -> x.exit == node);
         }
 
         /**
@@ -3433,9 +3455,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     private static class CopiedFinally {
 
-        private final Node start;
+        private Node start;
 
-        private final Node end;
+        private Node end;
 
         private final Node handler;
 
@@ -3462,6 +3484,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         @Override
         public boolean equals(Object obj) {
             return obj instanceof CopiedFinally other ? Objects.equals(handler, other.handler) : false;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String toString() {
+            return "CopiedFinally [start=" + start.id + ", end=" + end.id + ", handler=" + handler.id + "]";
         }
     }
 }

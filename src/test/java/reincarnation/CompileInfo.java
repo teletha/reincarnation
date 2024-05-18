@@ -199,6 +199,10 @@ public class CompileInfo {
      * @return
      */
     private List<String> format(String code, boolean enableLineNumber) {
+        if (code == null) {
+            return List.of();
+        }
+
         String[] lines = code.split(EoL);
 
         if (enableLineNumber) {
