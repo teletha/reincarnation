@@ -194,6 +194,7 @@ public class CodeVerifier {
                 throw e;
             } finally {
                 if (debuggable != null) {
+                    System.out.println(info.decompiled);
                     System.out.println(info.decompilerDebugLog);
 
                     // compare by another decompiler

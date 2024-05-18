@@ -2989,14 +2989,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
          * @param exception
          */
         private void addBlock(Node start, Node end, Node catcher, Class exception) {
-            if (start == catcher) {
-                return;
-            }
-
-            if (start.id.equals("11") || start.id.equals("8")) {
-                return;
-            }
-
             if (exception == null) {
                 // with finally block
                 CopiedFinally c = new CopiedFinally(start, end, catcher);

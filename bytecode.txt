@@ -1,533 +1,459 @@
-//--------------------- TryFinallyTest#tryFinallyWithHeadNodeInTryAndFinally (TryFinallyTest.java:289) ---------------------//
-[38;5;21mConstructor()[0m (TryFinallyTest.java:290)
-0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: this.this$0 = arg0 [Assign#TryFinallyTest] java.lang.Object() [ConstructorCall] return null [Return - null]
-1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
+java.lang.Error: 
+============================================================
+Javac fails compiling reincarnation.decompiler.flow.TryFinallyTest$12
+============================================================
+null
+============================================================
+Original Code
+============================================================
+@Debuggable
+    void tryFinallyInTryAndFinally() {
+        verify(new TestCode.IntParam() {
 
-Delete tail empty return (show full nodes)
-[38;5;9m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#TryFinallyTest] java.lang.Object() [ConstructorCall] return null [Return - null]
-[0m
-[38;5;78m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#TryFinallyTest] java.lang.Object() [ConstructorCall]
-[0m
-
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#TryFinallyTest] java.lang.Object() [ConstructorCall]
-
-//--------------------- TryFinallyTest#tryFinallyWithHeadNodeInTryAndFinally (TryFinallyTest.java:294) ---------------------//
-[38;5;21mMethod run(int arg0)[0m (TryFinallyTest.java:311)
-2	in[]	out[0]	dom[]	doms[]	side[ ,0]	dest[0]		try: s      	code: --value [Unary#int]
-0	in[2]	out[8]	dom[2]	doms[]	side[2,8]	dest[8]		try:   s    	code: value += 2 [Assign#int]
-8	in[0]	out[9]	dom[0]	doms[]	side[0,1]	dest[9]		try:         	code: 
-1	in[]	out[10]	dom[]	doms[]	side[8,10]	dest[10]	try:   e    	code: 
-10	in[1]	out[11]	dom[1]	doms[]	side[1,11]	dest[11]	try:         	code: value = value * 3 [Assign#int]
-11	in[10]	out[]	dom[10]	doms[]	side[10,9]	dest[T]		try:         	code: throw local2 [Throw]
-9	in[8]	out[12]	dom[8]	doms[]	side[11,12]	dest[12]	try:         	code: value = value * 3 [Assign#int]
-12	in[9]	out[13]	dom[9]	doms[]	side[9,3]	dest[13]	try:         	code: 
-3	in[]	out[14]	dom[]	doms[]	side[12,14]	dest[14]	try: e      	code: 
-14	in[3]	out[4]	dom[3]	doms[]	side[3,4]	dest[4]		try:         	code: value += -4 [Assign#int]
-4	in[14]	out[15]	dom[14]	doms[]	side[14,15]	dest[15]	try:     s  	code: value += 5 [Assign#int]
-15	in[4]	out[16]	dom[4]	doms[]	side[4,5]	dest[16]	try:         	code: 
-5	in[]	out[17]	dom[]	doms[]	side[15,17]	dest[17]	try:     e  	code: 
-17	in[5]	out[18]	dom[5]	doms[]	side[5,18]	dest[18]	try:         	code: value = value * 6 [Assign#int]
-18	in[17]	out[]	dom[17]	doms[]	side[17,16]	dest[T]		try:         	code: throw local4 [Throw]
-16	in[15]	out[19]	dom[15]	doms[]	side[18,19]	dest[19]	try:         	code: value = value * 6 [Assign#int]
-19	in[16]	out[]	dom[16]	doms[]	side[16,13]	dest[T]		try:         	code: throw local3 [Throw]
-13	in[12]	out[6]	dom[12]	doms[]	side[19,6]	dest[6]		try:         	code: value += -4 [Assign#int]
-6	in[13]	out[20]	dom[13]	doms[]	side[13,20]	dest[20]	try:       s	code: value += 5 [Assign#int]
-20	in[6]	out[21]	dom[6]	doms[]	side[6,7]	dest[21]	try:         	code: 
-7	in[]	out[22]	dom[]	doms[]	side[20,22]	dest[22]	try:       e	code: 
-22	in[7]	out[23]	dom[7]	doms[]	side[7,23]	dest[23]	try:         	code: value = value * 6 [Assign#int]
-23	in[22]	out[]	dom[22]	doms[]	side[22,21]	dest[T]		try:         	code: throw local4 [Throw]
-21	in[20]	out[24]	dom[20]	doms[]	side[23,24]	dest[24]	try:         	code: value = value * 6 [Assign#int]
-24	in[21]	out[]	dom[21]	doms[]	side[21,25]	dest[T]		try:         	code: return value [Return#int - LocalVariable#int]
-25	in[]	out[]	dom[]	doms[]	side[24, ]	dest[]		try:         	code: 
-
-Remove copied finally nodes [size: 1] from the next node of handler's [1] last tail. (show full nodes)
-[38;5;9m2	in[]	out[0]	dom[]	doms[]	side[ ,0]	dest[0]		try: s      	code: --value [Unary#int]
-0	in[2]	out[8]	dom[2]	doms[]	side[2,8]	dest[8]		try:   s    	code: value += 2 [Assign#int]
-8	in[0]	out[9]	dom[0]	doms[]	side[0,1]	dest[9]		try:         	code: 
-1	in[]	out[10]	dom[]	doms[]	side[8,10]	dest[10]	try:   e    	code: 
-10	in[1]	out[11]	dom[1]	doms[]	side[1,11]	dest[11]	try:         	code: value = value * 3 [Assign#int]
-11	in[10]	out[]	dom[10]	doms[]	side[10,9]	dest[T]		try:         	code: throw local2 [Throw]
-9	in[8]	out[12]	dom[8]	doms[]	side[11,12]	dest[12]	try:         	code: value = value * 3 [Assign#int]
-12	in[9]	out[13]	dom[9]	doms[]	side[9,3]	dest[13]	try:         	code: 
-3	in[]	out[14]	dom[]	doms[]	side[12,14]	dest[14]	try: e      	code: 
-14	in[3]	out[4]	dom[3]	doms[]	side[3,4]	dest[4]		try:         	code: value += -4 [Assign#int]
-4	in[14]	out[15]	dom[14]	doms[]	side[14,15]	dest[15]	try:     s  	code: value += 5 [Assign#int]
-15	in[4]	out[16]	dom[4]	doms[]	side[4,5]	dest[16]	try:         	code: 
-5	in[]	out[17]	dom[]	doms[]	side[15,17]	dest[17]	try:     e  	code: 
-17	in[5]	out[18]	dom[5]	doms[]	side[5,18]	dest[18]	try:         	code: value = value * 6 [Assign#int]
-18	in[17]	out[]	dom[17]	doms[]	side[17,16]	dest[T]		try:         	code: throw local4 [Throw]
-16	in[15]	out[19]	dom[15]	doms[]	side[18,19]	dest[19]	try:         	code: value = value * 6 [Assign#int]
-19	in[16]	out[]	dom[16]	doms[]	side[16,13]	dest[T]		try:         	code: throw local3 [Throw]
-13	in[12]	out[6]	dom[12]	doms[]	side[19,6]	dest[6]		try:         	code: value += -4 [Assign#int]
-6	in[13]	out[20]	dom[13]	doms[]	side[13,20]	dest[20]	try:       s	code: value += 5 [Assign#int]
-20	in[6]	out[21]	dom[6]	doms[]	side[6,7]	dest[21]	try:         	code: 
-7	in[]	out[22]	dom[]	doms[]	side[20,22]	dest[22]	try:       e	code: 
-22	in[7]	out[23]	dom[7]	doms[]	side[7,23]	dest[23]	try:         	code: value = value * 6 [Assign#int]
-23	in[22]	out[]	dom[22]	doms[]	side[22,21]	dest[T]		try:         	code: throw local4 [Throw]
-21	in[20]	out[24]	dom[20]	doms[]	side[23,24]	dest[24]	try:         	code: value = value * 6 [Assign#int]
-24	in[21]	out[]	dom[21]	doms[]	side[21,25]	dest[T]		try:         	code: return value [Return#int - LocalVariable#int]
-25	in[]	out[]	dom[]	doms[]	side[24, ]	dest[]		try:         	code: 
-[0m
-[38;5;78m2	in[]	out[0]	dom[]	doms[]	side[ ,0]	dest[0]		try: s      	code: --value [Unary#int]
-0	in[2]	out[8]	dom[2]	doms[]	side[2,8]	dest[8]		try:   s    	code: value += 2 [Assign#int]
-8	in[0]	out[12]	dom[0]	doms[]	side[0,1]	dest[12]	try:         	code: 
-1	in[]	out[10]	dom[]	doms[]	side[8,10]	dest[10]	try:   e    	code: 
-10	in[1]	out[11]	dom[1]	doms[]	side[1,11]	dest[11]	try:         	code: value = value * 3 [Assign#int]
-11	in[10]	out[]	dom[10]	doms[]	side[10,12]	dest[T]		try:         	code: throw local2 [Throw]
-12	in[8]	out[13]	dom[8]	doms[]	side[11,3]	dest[13]	try:         	code: 
-3	in[]	out[14]	dom[]	doms[]	side[12,14]	dest[14]	try: e      	code: 
-14	in[3]	out[4]	dom[3]	doms[]	side[3,4]	dest[4]		try:         	code: value += -4 [Assign#int]
-4	in[14]	out[15]	dom[14]	doms[]	side[14,15]	dest[15]	try:     s  	code: value += 5 [Assign#int]
-15	in[4]	out[16]	dom[4]	doms[]	side[4,5]	dest[16]	try:         	code: 
-5	in[]	out[17]	dom[]	doms[]	side[15,17]	dest[17]	try:     e  	code: 
-17	in[5]	out[18]	dom[5]	doms[]	side[5,18]	dest[18]	try:         	code: value = value * 6 [Assign#int]
-18	in[17]	out[]	dom[17]	doms[]	side[17,16]	dest[T]		try:         	code: throw local4 [Throw]
-16	in[15]	out[19]	dom[15]	doms[]	side[18,19]	dest[19]	try:         	code: value = value * 6 [Assign#int]
-19	in[16]	out[]	dom[16]	doms[]	side[16,13]	dest[T]		try:         	code: throw local3 [Throw]
-13	in[12]	out[6]	dom[12]	doms[]	side[19,6]	dest[6]		try:         	code: value += -4 [Assign#int]
-6	in[13]	out[20]	dom[13]	doms[]	side[13,20]	dest[20]	try:       s	code: value += 5 [Assign#int]
-20	in[6]	out[21]	dom[6]	doms[]	side[6,7]	dest[21]	try:         	code: 
-7	in[]	out[22]	dom[]	doms[]	side[20,22]	dest[22]	try:       e	code: 
-22	in[7]	out[23]	dom[7]	doms[]	side[7,23]	dest[23]	try:         	code: value = value * 6 [Assign#int]
-23	in[22]	out[]	dom[22]	doms[]	side[22,21]	dest[T]		try:         	code: throw local4 [Throw]
-21	in[20]	out[24]	dom[20]	doms[]	side[23,24]	dest[24]	try:         	code: value = value * 6 [Assign#int]
-24	in[21]	out[]	dom[21]	doms[]	side[21,25]	dest[T]		try:         	code: return value [Return#int - LocalVariable#int]
-25	in[]	out[]	dom[]	doms[]	side[24, ]	dest[]		try:         	code: 
-[0m
-
-Remove copied finally nodes [size: 3] from the next node of handler's [3] last tail. (show full nodes)
-[38;5;9m2	in[]	out[0]	dom[]	doms[]	side[ ,0]	dest[0]		try: s      	code: --value [Unary#int]
-0	in[2]	out[8]	dom[2]	doms[]	side[2,8]	dest[8]		try:   s    	code: value += 2 [Assign#int]
-8	in[0]	out[12]	dom[0]	doms[]	side[0,1]	dest[12]	try:         	code: 
-1	in[]	out[10]	dom[]	doms[]	side[8,10]	dest[10]	try:   e    	code: 
-10	in[1]	out[]	dom[1]	doms[]	side[1,12]	dest[12]	try:         	code: value = value * 3 [Assign#int]
-12	in[8]	out[13]	dom[8]	doms[]	side[10,3]	dest[13]	try:   x    	code: 
-3	in[]	out[14]	dom[]	doms[]	side[12,14]	dest[14]	try: e      	code: 
-14	in[3]	out[4]	dom[3]	doms[]	side[3,4]	dest[4]		try:         	code: value += -4 [Assign#int]
-4	in[14]	out[15]	dom[14]	doms[]	side[14,15]	dest[15]	try:     s  	code: value += 5 [Assign#int]
-15	in[4]	out[16]	dom[4]	doms[]	side[4,5]	dest[16]	try:         	code: 
-5	in[]	out[17]	dom[]	doms[]	side[15,17]	dest[17]	try:     e  	code: 
-17	in[5]	out[18]	dom[5]	doms[]	side[5,18]	dest[18]	try:         	code: value = value * 6 [Assign#int]
-18	in[17]	out[]	dom[17]	doms[]	side[17,16]	dest[T]		try:         	code: throw local4 [Throw]
-16	in[15]	out[19]	dom[15]	doms[]	side[18,19]	dest[19]	try:         	code: value = value * 6 [Assign#int]
-19	in[16]	out[]	dom[16]	doms[]	side[16,13]	dest[T]		try:         	code: throw local3 [Throw]
-13	in[12]	out[6]	dom[12]	doms[]	side[19,6]	dest[6]		try:         	code: value += -4 [Assign#int]
-6	in[13]	out[20]	dom[13]	doms[]	side[13,20]	dest[20]	try:       s	code: value += 5 [Assign#int]
-20	in[6]	out[21]	dom[6]	doms[]	side[6,7]	dest[21]	try:         	code: 
-7	in[]	out[22]	dom[]	doms[]	side[20,22]	dest[22]	try:       e	code: 
-22	in[7]	out[23]	dom[7]	doms[]	side[7,23]	dest[23]	try:         	code: value = value * 6 [Assign#int]
-23	in[22]	out[]	dom[22]	doms[]	side[22,21]	dest[T]		try:         	code: throw local4 [Throw]
-21	in[20]	out[24]	dom[20]	doms[]	side[23,24]	dest[24]	try:         	code: value = value * 6 [Assign#int]
-24	in[21]	out[]	dom[21]	doms[]	side[21,25]	dest[T]		try:         	code: return value [Return#int - LocalVariable#int]
-25	in[]	out[]	dom[]	doms[]	side[24, ]	dest[]		try:         	code: 
-[0m
-[38;5;78m2	in[]	out[0]	dom[]	doms[]	side[ ,0]	dest[0]		try: s    	code: --value [Unary#int]
-0	in[2]	out[8]	dom[2]	doms[]	side[2,8]	dest[8]		try:   s  	code: value += 2 [Assign#int]
-8	in[0]	out[12]	dom[0]	doms[]	side[0,1]	dest[12]	try:       	code: 
-1	in[]	out[10]	dom[]	doms[]	side[8,10]	dest[10]	try:   e  	code: 
-10	in[1]	out[]	dom[1]	doms[]	side[1,12]	dest[12]	try:       	code: value = value * 3 [Assign#int]
-12	in[8]	out[20]	dom[8]	doms[]	side[10,3]	dest[20]	try:   x  	code: 
-3	in[]	out[14]	dom[]	doms[]	side[12,14]	dest[14]	try: e    	code: 
-14	in[3]	out[4]	dom[3]	doms[]	side[3,4]	dest[4]		try:       	code: value += -4 [Assign#int]
-4	in[14]	out[15]	dom[14]	doms[]	side[14,15]	dest[15]	try:     s	code: value += 5 [Assign#int]
-15	in[4]	out[16]	dom[4]	doms[]	side[4,5]	dest[16]	try:       	code: 
-5	in[]	out[17]	dom[]	doms[]	side[15,17]	dest[17]	try:     e	code: 
-17	in[5]	out[18]	dom[5]	doms[]	side[5,18]	dest[18]	try:       	code: value = value * 6 [Assign#int]
-18	in[17]	out[]	dom[17]	doms[]	side[17,16]	dest[T]		try:       	code: throw local4 [Throw]
-16	in[15]	out[19]	dom[15]	doms[]	side[18,19]	dest[19]	try:       	code: value = value * 6 [Assign#int]
-19	in[16]	out[]	dom[16]	doms[]	side[16,20]	dest[T]		try:       	code: throw local3 [Throw]
-20	in[12]	out[24]	dom[12]	doms[]	side[19,7]	dest[24]	try:       	code: 
-7	in[]	out[22]	dom[]	doms[]	side[20,22]	dest[22]	try:       	code: 
-22	in[7]	out[23]	dom[7]	doms[]	side[7,23]	dest[23]	try:       	code: value = value * 6 [Assign#int]
-23	in[22]	out[]	dom[22]	doms[]	side[22,24]	dest[T]		try:       	code: throw local4 [Throw]
-24	in[20]	out[]	dom[20]	doms[]	side[23,25]	dest[T]		try:       	code: return value [Return#int - LocalVariable#int]
-25	in[]	out[]	dom[]	doms[]	side[24, ]	dest[]		try:       	code: 
-[0m
-
-Remove copied finally nodes [size: 1] from the next node of handler's [5] last tail. (show full nodes)
-[38;5;9m2	in[]	out[0]	dom[]	doms[]	side[ ,0]	dest[0]		try: s    	code: --value [Unary#int]
-0	in[2]	out[8]	dom[2]	doms[]	side[2,8]	dest[8]		try:   s  	code: value += 2 [Assign#int]
-8	in[0]	out[12]	dom[0]	doms[]	side[0,1]	dest[12]	try:       	code: 
-1	in[]	out[10]	dom[]	doms[]	side[8,10]	dest[10]	try:   e  	code: 
-10	in[1]	out[]	dom[1]	doms[]	side[1,12]	dest[12]	try:       	code: value = value * 3 [Assign#int]
-12	in[8]	out[20]	dom[8]	doms[]	side[10,3]	dest[20]	try:   x  	code: 
-3	in[]	out[14]	dom[]	doms[]	side[12,14]	dest[14]	try: e    	code: 
-14	in[3]	out[4]	dom[3]	doms[]	side[3,4]	dest[4]		try:       	code: value += -4 [Assign#int]
-4	in[14]	out[15]	dom[14]	doms[]	side[14,15]	dest[15]	try:     s	code: value += 5 [Assign#int]
-15	in[4]	out[16]	dom[4]	doms[]	side[4,5]	dest[16]	try:       	code: 
-5	in[]	out[17]	dom[]	doms[]	side[15,17]	dest[17]	try:     e	code: 
-17	in[5]	out[18]	dom[5]	doms[]	side[5,18]	dest[18]	try:       	code: value = value * 6 [Assign#int]
-18	in[17]	out[]	dom[17]	doms[]	side[17,16]	dest[T]		try:       	code: throw local4 [Throw]
-16	in[15]	out[]	dom[15]	doms[]	side[18,20]	dest[20]	try:       	code: value = value * 6 [Assign#int]
-20	in[12]	out[24]	dom[12]	doms[]	side[16,7]	dest[24]	try: x    	code: 
-7	in[]	out[22]	dom[]	doms[]	side[20,22]	dest[22]	try:       	code: 
-22	in[7]	out[23]	dom[7]	doms[]	side[7,23]	dest[23]	try:       	code: value = value * 6 [Assign#int]
-23	in[22]	out[]	dom[22]	doms[]	side[22,24]	dest[T]		try:       	code: throw local4 [Throw]
-24	in[20]	out[]	dom[20]	doms[]	side[23,25]	dest[T]		try:       	code: return value [Return#int - LocalVariable#int]
-25	in[]	out[]	dom[]	doms[]	side[24, ]	dest[]		try:       	code: 
-[0m
-[38;5;78m2	in[]	out[0]	dom[]	doms[]	side[ ,0]	dest[0]		try: s    	code: --value [Unary#int]
-0	in[2]	out[8]	dom[2]	doms[]	side[2,8]	dest[8]		try:   s  	code: value += 2 [Assign#int]
-8	in[0]	out[12]	dom[0]	doms[]	side[0,1]	dest[12]	try:       	code: 
-1	in[]	out[10]	dom[]	doms[]	side[8,10]	dest[10]	try:   e  	code: 
-10	in[1]	out[]	dom[1]	doms[]	side[1,12]	dest[12]	try:       	code: value = value * 3 [Assign#int]
-12	in[8]	out[20]	dom[8]	doms[]	side[10,3]	dest[20]	try:   x  	code: 
-3	in[]	out[14]	dom[]	doms[]	side[12,14]	dest[14]	try: e    	code: 
-14	in[3]	out[4]	dom[3]	doms[]	side[3,4]	dest[4]		try:       	code: value += -4 [Assign#int]
-4	in[14]	out[15]	dom[14]	doms[]	side[14,15]	dest[15]	try:     s	code: value += 5 [Assign#int]
-15	in[4]	out[]	dom[4]	doms[]	side[4,5]	dest[20]	try:       	code: 
-5	in[]	out[17]	dom[]	doms[]	side[15,17]	dest[17]	try:     e	code: 
-17	in[5]	out[18]	dom[5]	doms[]	side[5,18]	dest[18]	try:       	code: value = value * 6 [Assign#int]
-18	in[17]	out[]	dom[17]	doms[]	side[17,20]	dest[T]		try:       	code: throw local4 [Throw]
-20	in[12]	out[24]	dom[12]	doms[]	side[18,7]	dest[24]	try: x    	code: 
-7	in[]	out[22]	dom[]	doms[]	side[20,22]	dest[22]	try:       	code: 
-22	in[7]	out[23]	dom[7]	doms[]	side[7,23]	dest[23]	try:       	code: value = value * 6 [Assign#int]
-23	in[22]	out[]	dom[22]	doms[]	side[22,24]	dest[T]		try:       	code: throw local4 [Throw]
-24	in[20]	out[]	dom[20]	doms[]	side[23,25]	dest[T]		try:       	code: return value [Return#int - LocalVariable#int]
-25	in[]	out[]	dom[]	doms[]	side[24, ]	dest[]		try:       	code: 
-[0m
-
-Build shorthand assign (show full nodes)
-[38;5;9m2	in[]	out[0]	dom[]	doms[0,3]	side[ ,0]	dest[0]		try: s    	code: --value [Unary#int]
-0	in[2]	out[8]	dom[2]	doms[8,1]	side[2,8]	dest[8]		try:   s  	code: value += 2 [Assign#int]
-8	in[0]	out[12]	dom[0]	doms[12]	side[0,1]	dest[12]	try:       	code: 
-1	in[]	out[10]	dom[]	doms[10]	side[8,10]	dest[10]	try:   e  	code: 
-10	in[1]	out[]	dom[1]	doms[]		side[1,12]	dest[12]	try:       	code: value = value * 3 [Assign#int]
-12	in[8]	out[20]	dom[8]	doms[20]	side[10,3]	dest[20]	try:   x  	code: 
-3	in[]	out[14]	dom[]	doms[14]	side[12,14]	dest[14]	try: e    	code: 
-14	in[3]	out[4]	dom[3]	doms[4]		side[3,4]	dest[4]		try:       	code: value += -4 [Assign#int]
-4	in[14]	out[15]	dom[14]	doms[15,5]	side[14,15]	dest[15]	try:     s	code: value += 5 [Assign#int]
-15	in[4]	out[]	dom[4]	doms[]		side[4,5]	dest[20]	try:       	code: 
-5	in[]	out[17]	dom[]	doms[17]	side[15,17]	dest[17]	try:     e	code: 
-17	in[5]	out[]	dom[5]	doms[]		side[5,20]	dest[20]	try:       	code: value = value * 6 [Assign#int]
-20	in[12]	out[24]	dom[12]	doms[24]	side[17,7]	dest[24]	try: x  x	code: 
-7	in[]	out[22]	dom[]	doms[22]	side[20,22]	dest[22]	try:       	code: 
-22	in[7]	out[23]	dom[7]	doms[23]	side[7,23]	dest[23]	try:       	code: value = value * 6 [Assign#int]
-23	in[22]	out[]	dom[22]	doms[]		side[22,24]	dest[T]		try:       	code: throw local4 [Throw]
-24	in[20]	out[]	dom[20]	doms[]		side[23, ]	dest[T]		try:       	code: return value [Return#int - LocalVariable#int]
-[0m
-[38;5;78m2	in[]	out[0]	dom[]	doms[0,3]	side[ ,0]	dest[0]		try: s    	code: --value [Unary#int]
-0	in[2]	out[8]	dom[2]	doms[8,1]	side[2,8]	dest[8]		try:   s  	code: value += 2 [Assign#int]
-8	in[0]	out[12]	dom[0]	doms[12]	side[0,1]	dest[12]	try:       	code: 
-1	in[]	out[10]	dom[]	doms[10]	side[8,10]	dest[10]	try:   e  	code: 
-10	in[1]	out[]	dom[1]	doms[]		side[1,12]	dest[12]	try:       	code: value *= 3 [Assign#int]
-12	in[8]	out[20]	dom[8]	doms[20]	side[10,3]	dest[20]	try:   x  	code: 
-3	in[]	out[14]	dom[]	doms[14]	side[12,14]	dest[14]	try: e    	code: 
-14	in[3]	out[4]	dom[3]	doms[4]		side[3,4]	dest[4]		try:       	code: value -= 4 [Assign#int]
-4	in[14]	out[15]	dom[14]	doms[15,5]	side[14,15]	dest[15]	try:     s	code: value += 5 [Assign#int]
-15	in[4]	out[]	dom[4]	doms[]		side[4,5]	dest[20]	try:       	code: 
-5	in[]	out[17]	dom[]	doms[17]	side[15,17]	dest[17]	try:     e	code: 
-17	in[5]	out[]	dom[5]	doms[]		side[5,20]	dest[20]	try:       	code: value *= 6 [Assign#int]
-20	in[12]	out[24]	dom[12]	doms[24]	side[17,7]	dest[24]	try: x  x	code: 
-7	in[]	out[22]	dom[]	doms[22]	side[20,22]	dest[22]	try:       	code: 
-22	in[7]	out[23]	dom[7]	doms[23]	side[7,23]	dest[23]	try:       	code: value *= 6 [Assign#int]
-23	in[22]	out[]	dom[22]	doms[]		side[22,24]	dest[T]		try:       	code: throw local4 [Throw]
-24	in[20]	out[]	dom[20]	doms[]		side[23, ]	dest[T]		try:       	code: return value [Return#int - LocalVariable#int]
-[0m
-
-Analyze nodes (show full nodes)
-[38;5;9m2	in[]	out[0]	dom[]	doms[0,3]	side[ ,0]	dest[0]		try: s    	code: --value [Unary#int]
-0	in[2]	out[8]	dom[2]	doms[8,1]	side[2,8]	dest[8]		try:   s  	code: value += 2 [Assign#int]
-8	in[0]	out[12]	dom[0]	doms[12]	side[0,1]	dest[12]	try:       	code: 
-1	in[]	out[10]	dom[]	doms[10]	side[8,10]	dest[10]	try:   e  	code: 
-10	in[1]	out[]	dom[1]	doms[]		side[1,12]	dest[12]	try:       	code: value *= 3 [Assign#int]
-12	in[8]	out[20]	dom[8]	doms[20]	side[10,3]	dest[20]	try:   x  	code: 
-3	in[]	out[14]	dom[]	doms[14]	side[12,14]	dest[14]	try: e    	code: 
-14	in[3]	out[4]	dom[3]	doms[4]		side[3,4]	dest[4]		try:       	code: value -= 4 [Assign#int]
-4	in[14]	out[15]	dom[14]	doms[15,5]	side[14,15]	dest[15]	try:     s	code: value += 5 [Assign#int]
-15	in[4]	out[]	dom[4]	doms[]		side[4,5]	dest[20]	try:       	code: 
-5	in[]	out[17]	dom[]	doms[17]	side[15,17]	dest[17]	try:     e	code: 
-17	in[5]	out[]	dom[5]	doms[]		side[5,20]	dest[20]	try:       	code: value *= 6 [Assign#int]
-20	in[12]	out[24]	dom[12]	doms[24]	side[17,7]	dest[24]	try: x  x	code: 
-7	in[]	out[22]	dom[]	doms[22]	side[20,22]	dest[22]	try:       	code: 
-22	in[7]	out[23]	dom[7]	doms[23]	side[7,23]	dest[23]	try:       	code: value *= 6 [Assign#int]
-23	in[22]	out[]	dom[22]	doms[]		side[22,24]	dest[T]		try:       	code: throw local4 [Throw]
-24	in[20]	out[]	dom[20]	doms[]		side[23, ]	dest[T]		try:       	code: return value [Return#int - LocalVariable#int]
-[0m
-[38;5;78m2	in[]	out[0]	dom[]	doms[0,3]	side[ ,0]	dest[0]		code: --value [Unary#int]
-0	in[2]	out[8]	dom[2]	doms[8,1]	side[2,8]	dest[8]		code: value += 2 [Assign#int]
-8	in[0]	out[12]	dom[0]	doms[12]	side[0,1]	dest[12]	code: 
-1	in[]	out[10]	dom[]	doms[10]	side[8,10]	dest[10]	code: 
-10	in[1]	out[]	dom[1]	doms[]		side[1,12]	dest[12]	code: value *= 3 [Assign#int]
-12	in[8]	out[20]	dom[8]	doms[20]	side[10,3]	dest[20]	code: 
-3	in[]	out[14]	dom[]	doms[14]	side[12,14]	dest[14]	code: 
-14	in[3]	out[4]	dom[3]	doms[4]		side[3,4]	dest[4]		code: value -= 4 [Assign#int]
-4	in[14]	out[15]	dom[14]	doms[15,5]	side[14,15]	dest[15]	code: value += 5 [Assign#int]
-15	in[4]	out[]	dom[4]	doms[]		side[4,5]	dest[20]	code: 
-5	in[]	out[17]	dom[]	doms[17]	side[15,17]	dest[17]	code: 
-17	in[5]	out[]	dom[5]	doms[]		side[5,20]	dest[20]	code: value *= 6 [Assign#int]
-20	in[12]	out[24]	dom[12]	doms[24]	side[17,7]	dest[24]	code: 
-7	in[]	out[22]	dom[]	doms[22]	side[20,22]	dest[22]	code: 
-22	in[7]	out[23]	dom[7]	doms[23]	side[7,23]	dest[23]	code: value *= 6 [Assign#int]
-23	in[22]	out[]	dom[22]	doms[]		side[22,24]	dest[T]		code: throw local4 [Throw]
-24	in[20]	out[]	dom[20]	doms[]		side[23, ]	dest[T]		code: return value [Return#int - LocalVariable#int]
-[0m
-
-2	in[]	out[0]	dom[]	doms[0,3]	side[ ,0]	dest[0]		code: --value [Unary#int]
-0	in[2]	out[8]	dom[2]	doms[8,1]	side[2,8]	dest[8]		code: value += 2 [Assign#int]
-8	in[0]	out[12]	dom[0]	doms[12]	side[0,1]	dest[12]	code: 
-1	in[]	out[10]	dom[]	doms[10]	side[8,10]	dest[10]	code: 
-10	in[1]	out[]	dom[1]	doms[]		side[1,12]	dest[12]	code: value *= 3 [Assign#int]
-12	in[8]	out[20]	dom[8]	doms[20]	side[10,3]	dest[20]	code: 
-3	in[]	out[14]	dom[]	doms[14]	side[12,14]	dest[14]	code: 
-14	in[3]	out[4]	dom[3]	doms[4]		side[3,4]	dest[4]		code: value -= 4 [Assign#int]
-4	in[14]	out[15]	dom[14]	doms[15,5]	side[14,15]	dest[15]	code: value += 5 [Assign#int]
-15	in[4]	out[]	dom[4]	doms[]		side[4,5]	dest[20]	code: 
-5	in[]	out[17]	dom[]	doms[17]	side[15,17]	dest[17]	code: 
-17	in[5]	out[]	dom[5]	doms[]		side[5,20]	dest[20]	code: value *= 6 [Assign#int]
-20	in[12]	out[24]	dom[12]	doms[24]	side[17,7]	dest[24]	code: 
-7	in[]	out[22]	dom[]	doms[22]	side[20,22]	dest[22]	code: 
-22	in[7]	out[23]	dom[7]	doms[23]	side[7,23]	dest[23]	code: value *= 6 [Assign#int]
-23	in[22]	out[]	dom[22]	doms[]		side[22,24]	dest[T]		code: throw local4 [Throw]
-24	in[20]	out[]	dom[20]	doms[]		side[23, ]	dest[T]		code: return value [Return#int - LocalVariable#int]
-
-
-//--------------------- TryFinallyTest#tryFinallyWithHeadNodeInTryAndFinally (TryFinallyTest.java:289) ---------------------//
-[38;5;21mConstructor()[0m (TryFinallyTest.java:290)
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                try {
+                    try {
+                        value += 1;
+                    } finally {
+                        value *= 2;
+                    }
+                } finally {
+                    try {
+                        value += 3;
+                    } finally {
+                        value *= 4;
+                    }
+                }
+                return value;
+            }
+        });
+    }
+============================================================
+Decompiled Code
+============================================================
+01    package reincarnation.decompiler.flow;
+02    
+03    import reincarnation.CodeVerifier;
+04    import reincarnation.TestCode.IntParam;
+05    import reincarnation.TestCode.Param;
+06    import reincarnation.decompiler.flow.TryFinallyTest;
+07    
+08    class TryFinallyTest extends CodeVerifier {
+09    
+10        class TryFinallyTest$12 implements IntParam {
+11    
+12            TryFinallyTest$12(final TryFinallyTest this$0) {
+13            }
+14    
+15            public int run(@Param(to = 10) int value) {
+16                try {
+17                    ++value;
+18                } finally {
+19                    value *= 2;
+20                }
+21                return value;
+22            }
+23        }
+24    }
+============================================================
+Decompiling Log
+============================================================
+//--------------------------- TryFinallyTest#tryFinallyInTryAndFinally (TryFinallyTest.java:265) ---------------------------//
+Constructor() (TryFinallyTest.java:266)
 0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
 1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 
 Delete tail empty return (show full nodes)
-[38;5;9m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
-[0m
-[38;5;78m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
-[0m
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
 
 0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
 
-//--------------------- TryFinallyTest#tryFinallyWithHeadNodeInTryAndFinally (TryFinallyTest.java:294) ---------------------//
-[38;5;21mMethod run(int arg0)[0m (TryFinallyTest.java:311)
-6	in[]	out[0]	dom[]	doms[]	side[ ,0]	dest[0]		try: s      	code: --value [Unary#int]
-0	in[6]	out[1]	dom[6]	doms[]	side[6,1]	dest[1]		try:   s    	code: value += 2 [Assign#int]
-1	in[0]	out[14]	dom[0]	doms[]	side[0,14]	dest[14]	try:   e    	code: value = value * 3 [Assign#int]
-14	in[1]	out[7]	dom[1]	doms[]	side[1,2]	dest[7]		try:         	code: 
-2	in[]	out[15]	dom[]	doms[]	side[14,15]	dest[15]	try:   c    	code: value = value * 3 [Assign#int]
-15	in[2]	out[]	dom[2]	doms[]	side[2,7]	dest[T]		try:         	code: throw local2 [Throw]
-7	in[14]	out[3]	dom[14]	doms[]	side[15,3]	dest[3]		try: e      	code: value += -4 [Assign#int]
-3	in[7]	out[4]	dom[7]	doms[]	side[7,4]	dest[4]		try:     s  	code: value += 5 [Assign#int]
-4	in[3]	out[16]	dom[3]	doms[]	side[3,16]	dest[16]	try:     e  	code: value = value * 6 [Assign#int]
-16	in[4]	out[17]	dom[4]	doms[]	side[4,5]	dest[17]	try:         	code: 
-5	in[]	out[18]	dom[]	doms[]	side[16,18]	dest[18]	try:     c  	code: value = value * 6 [Assign#int]
-18	in[5]	out[]	dom[5]	doms[]	side[5,17]	dest[T]		try:         	code: throw local3 [Throw]
-17	in[16]	out[19]	dom[16]	doms[]	side[18,8]	dest[19]	try:         	code: 
-8	in[]	out[13]	dom[]	doms[]	side[17,13]	dest[13]	try: c      	code: 
-13	in[8]	out[9]	dom[8]	doms[]	side[8,9]	dest[9]		try:         	code: value += -4 [Assign#int]
-9	in[13]	out[10]	dom[13]	doms[]	side[13,10]	dest[10]	try:       s	code: value += 5 [Assign#int]
-10	in[9]	out[20]	dom[9]	doms[]	side[9,20]	dest[20]	try:       e	code: value = value * 6 [Assign#int]
-20	in[10]	out[21]	dom[10]	doms[]	side[10,11]	dest[21]	try:         	code: 
-11	in[]	out[12]	dom[]	doms[]	side[20,12]	dest[12]	try:       c	code: 
-12	in[11]	out[22]	dom[11]	doms[]	side[11,22]	dest[22]	try:         	code: value = value * 6 [Assign#int]
-22	in[12]	out[]	dom[12]	doms[]	side[12,21]	dest[T]		try:         	code: throw local5 [Throw]
-21	in[20]	out[]	dom[20]	doms[]	side[22,19]	dest[T]		try:         	code: throw local4 [Throw]
-19	in[17]	out[]	dom[17]	doms[]	side[21,23]	dest[T]		try:         	code: return value [Return#int - LocalVariable#int]
-23	in[]	out[]	dom[]	doms[]	side[19, ]	dest[]		try:         	code: 
+
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
+
+//--------------------------- TryFinallyTest#tryFinallyInTryAndFinally (TryFinallyTest.java:271) ---------------------------//
+Method run(int arg0) (TryFinallyTest.java:283)
+0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]		try: s    	code: ++value [Unary#int]
+1	in[0]	out[11]	dom[0]	doms[]	side[0,11]	dest[11]	try: e    	code: value = value * 2 [Assign#int]
+11	in[1]	out[3]	dom[1]	doms[]	side[1,2]	dest[3]		try:       	code: 
+2	in[]	out[12]	dom[]	doms[]	side[11,12]	dest[12]	try: c    	code: value = value * 2 [Assign#int]
+12	in[2]	out[]	dom[2]	doms[]	side[2,3]	dest[T]		try:       	code: throw local2 [Throw]
+3	in[11]	out[4]	dom[11]	doms[]	side[12,4]	dest[4]		try:   s  	code: value += 3 [Assign#int]
+4	in[3]	out[13]	dom[3]	doms[]	side[3,13]	dest[13]	try:   e  	code: value = value * 4 [Assign#int]
+13	in[4]	out[14]	dom[4]	doms[]	side[4,5]	dest[14]	try:       	code: 
+5	in[]	out[15]	dom[]	doms[]	side[13,15]	dest[15]	try:   c  	code: value = value * 4 [Assign#int]
+15	in[5]	out[]	dom[5]	doms[]	side[5,14]	dest[T]		try:       	code: throw local3 [Throw]
+14	in[13]	out[16]	dom[13]	doms[]	side[15,6]	dest[16]	try:       	code: 
+6	in[]	out[7]	dom[]	doms[]	side[14,7]	dest[7]		try:       	code: 
+7	in[6]	out[8]	dom[6]	doms[]	side[6,8]	dest[8]		try:     s	code: value += 3 [Assign#int]
+8	in[7]	out[17]	dom[7]	doms[]	side[7,17]	dest[17]	try:     e	code: value = value * 4 [Assign#int]
+17	in[8]	out[18]	dom[8]	doms[]	side[8,9]	dest[18]	try:       	code: 
+9	in[]	out[10]	dom[]	doms[]	side[17,10]	dest[10]	try:     c	code: 
+10	in[9]	out[19]	dom[9]	doms[]	side[9,19]	dest[19]	try:       	code: value = value * 4 [Assign#int]
+19	in[10]	out[]	dom[10]	doms[]	side[10,18]	dest[T]		try:       	code: throw local5 [Throw]
+18	in[17]	out[]	dom[17]	doms[]	side[19,16]	dest[T]		try:       	code: throw local4 [Throw]
+16	in[14]	out[]	dom[14]	doms[]	side[18,20]	dest[T]		try:       	code: return value [Return#int - LocalVariable#int]
+20	in[]	out[]	dom[]	doms[]	side[16, ]	dest[]		try:       	code: 
 
 Remove copied finally nodes [size: 1] from end's outgoings (show full nodes)
-[38;5;9m6	in[]	out[0]	dom[]	doms[]	side[ ,0]	dest[0]		try: s      	code: --value [Unary#int]
-0	in[6]	out[1]	dom[6]	doms[]	side[6,1]	dest[1]		try:   s    	code: value += 2 [Assign#int]
-1	in[0]	out[14]	dom[0]	doms[]	side[0,14]	dest[14]	try:   e    	code: value = value * 3 [Assign#int]
-14	in[1]	out[7]	dom[1]	doms[]	side[1,2]	dest[7]		try:         	code: 
-2	in[]	out[15]	dom[]	doms[]	side[14,15]	dest[15]	try:   c    	code: value = value * 3 [Assign#int]
-15	in[2]	out[]	dom[2]	doms[]	side[2,7]	dest[T]		try:         	code: throw local2 [Throw]
-7	in[14]	out[3]	dom[14]	doms[]	side[15,3]	dest[3]		try: e      	code: value += -4 [Assign#int]
-3	in[7]	out[4]	dom[7]	doms[]	side[7,4]	dest[4]		try:     s  	code: value += 5 [Assign#int]
-4	in[3]	out[16]	dom[3]	doms[]	side[3,16]	dest[16]	try:     e  	code: value = value * 6 [Assign#int]
-16	in[4]	out[17]	dom[4]	doms[]	side[4,5]	dest[17]	try:         	code: 
-5	in[]	out[18]	dom[]	doms[]	side[16,18]	dest[18]	try:     c  	code: value = value * 6 [Assign#int]
-18	in[5]	out[]	dom[5]	doms[]	side[5,17]	dest[T]		try:         	code: throw local3 [Throw]
-17	in[16]	out[19]	dom[16]	doms[]	side[18,8]	dest[19]	try:         	code: 
-8	in[]	out[13]	dom[]	doms[]	side[17,13]	dest[13]	try: c      	code: 
-13	in[8]	out[9]	dom[8]	doms[]	side[8,9]	dest[9]		try:         	code: value += -4 [Assign#int]
-9	in[13]	out[10]	dom[13]	doms[]	side[13,10]	dest[10]	try:       s	code: value += 5 [Assign#int]
-10	in[9]	out[20]	dom[9]	doms[]	side[9,20]	dest[20]	try:       e	code: value = value * 6 [Assign#int]
-20	in[10]	out[21]	dom[10]	doms[]	side[10,11]	dest[21]	try:         	code: 
-11	in[]	out[12]	dom[]	doms[]	side[20,12]	dest[12]	try:       c	code: 
-12	in[11]	out[22]	dom[11]	doms[]	side[11,22]	dest[22]	try:         	code: value = value * 6 [Assign#int]
-22	in[12]	out[]	dom[12]	doms[]	side[12,21]	dest[T]		try:         	code: throw local5 [Throw]
-21	in[20]	out[]	dom[20]	doms[]	side[22,19]	dest[T]		try:         	code: throw local4 [Throw]
-19	in[17]	out[]	dom[17]	doms[]	side[21,23]	dest[T]		try:         	code: return value [Return#int - LocalVariable#int]
-23	in[]	out[]	dom[]	doms[]	side[19, ]	dest[]		try:         	code: 
-[0m
-[38;5;78m6	in[]	out[0]	dom[]	doms[]	side[ ,0]	dest[0]		try: s      	code: --value [Unary#int]
-0	in[6]	out[7]	dom[6]	doms[]	side[6,2]	dest[7]		try:   s    	code: value += 2 [Assign#int]
-2	in[]	out[15]	dom[]	doms[]	side[0,15]	dest[15]	try:   c    	code: value = value * 3 [Assign#int]
-15	in[2]	out[]	dom[2]	doms[]	side[2,7]	dest[T]		try:         	code: throw local2 [Throw]
-7	in[0]	out[3]	dom[0]	doms[]	side[15,3]	dest[3]		try: e      	code: value += -4 [Assign#int]
-3	in[7]	out[4]	dom[7]	doms[]	side[7,4]	dest[4]		try:     s  	code: value += 5 [Assign#int]
-4	in[3]	out[16]	dom[3]	doms[]	side[3,16]	dest[16]	try:     e  	code: value = value * 6 [Assign#int]
-16	in[4]	out[17]	dom[4]	doms[]	side[4,5]	dest[17]	try:         	code: 
-5	in[]	out[18]	dom[]	doms[]	side[16,18]	dest[18]	try:     c  	code: value = value * 6 [Assign#int]
-18	in[5]	out[]	dom[5]	doms[]	side[5,17]	dest[T]		try:         	code: throw local3 [Throw]
-17	in[16]	out[19]	dom[16]	doms[]	side[18,8]	dest[19]	try:         	code: 
-8	in[]	out[13]	dom[]	doms[]	side[17,13]	dest[13]	try: c      	code: 
-13	in[8]	out[9]	dom[8]	doms[]	side[8,9]	dest[9]		try:         	code: value += -4 [Assign#int]
-9	in[13]	out[10]	dom[13]	doms[]	side[13,10]	dest[10]	try:       s	code: value += 5 [Assign#int]
-10	in[9]	out[20]	dom[9]	doms[]	side[9,20]	dest[20]	try:       e	code: value = value * 6 [Assign#int]
-20	in[10]	out[21]	dom[10]	doms[]	side[10,11]	dest[21]	try:         	code: 
-11	in[]	out[12]	dom[]	doms[]	side[20,12]	dest[12]	try:       c	code: 
-12	in[11]	out[22]	dom[11]	doms[]	side[11,22]	dest[22]	try:         	code: value = value * 6 [Assign#int]
-22	in[12]	out[]	dom[12]	doms[]	side[12,21]	dest[T]		try:         	code: throw local5 [Throw]
-21	in[20]	out[]	dom[20]	doms[]	side[22,19]	dest[T]		try:         	code: throw local4 [Throw]
-19	in[17]	out[]	dom[17]	doms[]	side[21,23]	dest[T]		try:         	code: return value [Return#int - LocalVariable#int]
-23	in[]	out[]	dom[]	doms[]	side[19, ]	dest[]		try:         	code: 
-[0m
+0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]		try: s    	code: ++value [Unary#int]
+1	in[0]	out[11]	dom[0]	doms[]	side[0,11]	dest[11]	try: e    	code: value = value * 2 [Assign#int]
+11	in[1]	out[3]	dom[1]	doms[]	side[1,2]	dest[3]		try:       	code: 
+2	in[]	out[12]	dom[]	doms[]	side[11,12]	dest[12]	try: c    	code: value = value * 2 [Assign#int]
+12	in[2]	out[]	dom[2]	doms[]	side[2,3]	dest[T]		try:       	code: throw local2 [Throw]
+3	in[11]	out[4]	dom[11]	doms[]	side[12,4]	dest[4]		try:   s  	code: value += 3 [Assign#int]
+4	in[3]	out[13]	dom[3]	doms[]	side[3,13]	dest[13]	try:   e  	code: value = value * 4 [Assign#int]
+13	in[4]	out[14]	dom[4]	doms[]	side[4,5]	dest[14]	try:       	code: 
+5	in[]	out[15]	dom[]	doms[]	side[13,15]	dest[15]	try:   c  	code: value = value * 4 [Assign#int]
+15	in[5]	out[]	dom[5]	doms[]	side[5,14]	dest[T]		try:       	code: throw local3 [Throw]
+14	in[13]	out[16]	dom[13]	doms[]	side[15,6]	dest[16]	try:       	code: 
+6	in[]	out[7]	dom[]	doms[]	side[14,7]	dest[7]		try:       	code: 
+7	in[6]	out[8]	dom[6]	doms[]	side[6,8]	dest[8]		try:     s	code: value += 3 [Assign#int]
+8	in[7]	out[17]	dom[7]	doms[]	side[7,17]	dest[17]	try:     e	code: value = value * 4 [Assign#int]
+17	in[8]	out[18]	dom[8]	doms[]	side[8,9]	dest[18]	try:       	code: 
+9	in[]	out[10]	dom[]	doms[]	side[17,10]	dest[10]	try:     c	code: 
+10	in[9]	out[19]	dom[9]	doms[]	side[9,19]	dest[19]	try:       	code: value = value * 4 [Assign#int]
+19	in[10]	out[]	dom[10]	doms[]	side[10,18]	dest[T]		try:       	code: throw local5 [Throw]
+18	in[17]	out[]	dom[17]	doms[]	side[19,16]	dest[T]		try:       	code: throw local4 [Throw]
+16	in[14]	out[]	dom[14]	doms[]	side[18,20]	dest[T]		try:       	code: return value [Return#int - LocalVariable#int]
+20	in[]	out[]	dom[]	doms[]	side[16, ]	dest[]		try:       	code: 
+
+0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]		try: s    	code: ++value [Unary#int]
+1	in[0]	out[11]	dom[0]	doms[]	side[0,11]	dest[11]	try: e    	code: value = value * 2 [Assign#int]
+11	in[1]	out[3]	dom[1]	doms[]	side[1,2]	dest[3]		try:       	code: 
+2	in[]	out[12]	dom[]	doms[]	side[11,12]	dest[12]	try: c    	code: value = value * 2 [Assign#int]
+12	in[2]	out[]	dom[2]	doms[]	side[2,3]	dest[T]		try:       	code: throw local2 [Throw]
+3	in[11]	out[4]	dom[11]	doms[]	side[12,4]	dest[4]		try:   s  	code: value += 3 [Assign#int]
+4	in[3]	out[13]	dom[3]	doms[]	side[3,13]	dest[13]	try:   e  	code: value = value * 4 [Assign#int]
+13	in[4]	out[14]	dom[4]	doms[]	side[4,5]	dest[14]	try:       	code: 
+5	in[]	out[15]	dom[]	doms[]	side[13,15]	dest[15]	try:   c  	code: value = value * 4 [Assign#int]
+15	in[5]	out[]	dom[5]	doms[]	side[5,14]	dest[T]		try:       	code: throw local3 [Throw]
+14	in[13]	out[16]	dom[13]	doms[]	side[15,6]	dest[16]	try:       	code: 
+6	in[]	out[7]	dom[]	doms[]	side[14,7]	dest[7]		try:       	code: 
+7	in[6]	out[17]	dom[6]	doms[]	side[6,17]	dest[17]	try:     s	code: value += 3 [Assign#int]
+17	in[7]	out[18]	dom[7]	doms[]	side[7,9]	dest[18]	try:       	code: 
+9	in[]	out[10]	dom[]	doms[]	side[17,10]	dest[10]	try:     c	code: 
+10	in[9]	out[19]	dom[9]	doms[]	side[9,19]	dest[19]	try:       	code: value = value * 4 [Assign#int]
+19	in[10]	out[]	dom[10]	doms[]	side[10,18]	dest[T]		try:       	code: throw local5 [Throw]
+18	in[17]	out[]	dom[17]	doms[]	side[19,16]	dest[T]		try:       	code: throw local4 [Throw]
+16	in[14]	out[]	dom[14]	doms[]	side[18,20]	dest[T]		try:       	code: return value [Return#int - LocalVariable#int]
+20	in[]	out[]	dom[]	doms[]	side[16, ]	dest[]		try:       	code: 
+
 
 Remove copied finally nodes [size: 1] from end's outgoings (show full nodes)
-[38;5;9m6	in[]	out[0]	dom[]	doms[]	side[ ,0]	dest[0]		try: s      	code: --value [Unary#int]
-0	in[6]	out[7]	dom[6]	doms[]	side[6,2]	dest[7]		try:   s    	code: value += 2 [Assign#int]
-2	in[]	out[]	dom[]	doms[]	side[0,7]	dest[7]		try:   c    	code: value = value * 3 [Assign#int]
-7	in[0]	out[3]	dom[0]	doms[]	side[2,3]	dest[3]		try: ex    	code: value += -4 [Assign#int]
-3	in[7]	out[4]	dom[7]	doms[]	side[7,4]	dest[4]		try:     s  	code: value += 5 [Assign#int]
-4	in[3]	out[16]	dom[3]	doms[]	side[3,16]	dest[16]	try:     e  	code: value = value * 6 [Assign#int]
-16	in[4]	out[17]	dom[4]	doms[]	side[4,5]	dest[17]	try:         	code: 
-5	in[]	out[18]	dom[]	doms[]	side[16,18]	dest[18]	try:     c  	code: value = value * 6 [Assign#int]
-18	in[5]	out[]	dom[5]	doms[]	side[5,17]	dest[T]		try:         	code: throw local3 [Throw]
-17	in[16]	out[19]	dom[16]	doms[]	side[18,8]	dest[19]	try:         	code: 
-8	in[]	out[13]	dom[]	doms[]	side[17,13]	dest[13]	try: c      	code: 
-13	in[8]	out[9]	dom[8]	doms[]	side[8,9]	dest[9]		try:         	code: value += -4 [Assign#int]
-9	in[13]	out[10]	dom[13]	doms[]	side[13,10]	dest[10]	try:       s	code: value += 5 [Assign#int]
-10	in[9]	out[20]	dom[9]	doms[]	side[9,20]	dest[20]	try:       e	code: value = value * 6 [Assign#int]
-20	in[10]	out[21]	dom[10]	doms[]	side[10,11]	dest[21]	try:         	code: 
-11	in[]	out[12]	dom[]	doms[]	side[20,12]	dest[12]	try:       c	code: 
-12	in[11]	out[22]	dom[11]	doms[]	side[11,22]	dest[22]	try:         	code: value = value * 6 [Assign#int]
-22	in[12]	out[]	dom[12]	doms[]	side[12,21]	dest[T]		try:         	code: throw local5 [Throw]
-21	in[20]	out[]	dom[20]	doms[]	side[22,19]	dest[T]		try:         	code: throw local4 [Throw]
-19	in[17]	out[]	dom[17]	doms[]	side[21,23]	dest[T]		try:         	code: return value [Return#int - LocalVariable#int]
-23	in[]	out[]	dom[]	doms[]	side[19, ]	dest[]		try:         	code: 
-[0m
-[38;5;78m6	in[]	out[0]	dom[]	doms[]	side[ ,0]	dest[0]		try: s      	code: --value [Unary#int]
-0	in[6]	out[7]	dom[6]	doms[]	side[6,2]	dest[7]		try:   s    	code: value += 2 [Assign#int]
-2	in[]	out[]	dom[]	doms[]	side[0,7]	dest[7]		try:   c    	code: value = value * 3 [Assign#int]
-7	in[0]	out[3]	dom[0]	doms[]	side[2,3]	dest[3]		try: ex    	code: value += -4 [Assign#int]
-3	in[7]	out[17]	dom[7]	doms[]	side[7,5]	dest[17]	try:     s  	code: value += 5 [Assign#int]
-5	in[]	out[18]	dom[]	doms[]	side[3,18]	dest[18]	try:     c  	code: value = value * 6 [Assign#int]
-18	in[5]	out[]	dom[5]	doms[]	side[5,17]	dest[T]		try:         	code: throw local3 [Throw]
-17	in[3]	out[19]	dom[3]	doms[]	side[18,8]	dest[19]	try:         	code: 
-8	in[]	out[13]	dom[]	doms[]	side[17,13]	dest[13]	try: c      	code: 
-13	in[8]	out[9]	dom[8]	doms[]	side[8,9]	dest[9]		try:         	code: value += -4 [Assign#int]
-9	in[13]	out[10]	dom[13]	doms[]	side[13,10]	dest[10]	try:       s	code: value += 5 [Assign#int]
-10	in[9]	out[20]	dom[9]	doms[]	side[9,20]	dest[20]	try:       e	code: value = value * 6 [Assign#int]
-20	in[10]	out[21]	dom[10]	doms[]	side[10,11]	dest[21]	try:         	code: 
-11	in[]	out[12]	dom[]	doms[]	side[20,12]	dest[12]	try:       c	code: 
-12	in[11]	out[22]	dom[11]	doms[]	side[11,22]	dest[22]	try:         	code: value = value * 6 [Assign#int]
-22	in[12]	out[]	dom[12]	doms[]	side[12,21]	dest[T]		try:         	code: throw local5 [Throw]
-21	in[20]	out[]	dom[20]	doms[]	side[22,19]	dest[T]		try:         	code: throw local4 [Throw]
-19	in[17]	out[]	dom[17]	doms[]	side[21,23]	dest[T]		try:         	code: return value [Return#int - LocalVariable#int]
-23	in[]	out[]	dom[]	doms[]	side[19, ]	dest[]		try:         	code: 
-[0m
+0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]		try: s    	code: ++value [Unary#int]
+1	in[0]	out[11]	dom[0]	doms[]	side[0,11]	dest[11]	try: e    	code: value = value * 2 [Assign#int]
+11	in[1]	out[3]	dom[1]	doms[]	side[1,2]	dest[3]		try:       	code: 
+2	in[]	out[12]	dom[]	doms[]	side[11,12]	dest[12]	try: c    	code: value = value * 2 [Assign#int]
+12	in[2]	out[]	dom[2]	doms[]	side[2,3]	dest[T]		try:       	code: throw local2 [Throw]
+3	in[11]	out[4]	dom[11]	doms[]	side[12,4]	dest[4]		try:   s  	code: value += 3 [Assign#int]
+4	in[3]	out[13]	dom[3]	doms[]	side[3,13]	dest[13]	try:   e  	code: value = value * 4 [Assign#int]
+13	in[4]	out[14]	dom[4]	doms[]	side[4,5]	dest[14]	try:       	code: 
+5	in[]	out[15]	dom[]	doms[]	side[13,15]	dest[15]	try:   c  	code: value = value * 4 [Assign#int]
+15	in[5]	out[]	dom[5]	doms[]	side[5,14]	dest[T]		try:       	code: throw local3 [Throw]
+14	in[13]	out[16]	dom[13]	doms[]	side[15,6]	dest[16]	try:       	code: 
+6	in[]	out[7]	dom[]	doms[]	side[14,7]	dest[7]		try:       	code: 
+7	in[6]	out[17]	dom[6]	doms[]	side[6,17]	dest[17]	try:     s	code: value += 3 [Assign#int]
+17	in[7]	out[18]	dom[7]	doms[]	side[7,9]	dest[18]	try:       	code: 
+9	in[]	out[10]	dom[]	doms[]	side[17,10]	dest[10]	try:     c	code: 
+10	in[9]	out[]	dom[9]	doms[]	side[9,18]	dest[18]	try:       	code: value = value * 4 [Assign#int]
+18	in[17]	out[]	dom[17]	doms[]	side[10,16]	dest[T]		try:     x	code: throw local4 [Throw]
+16	in[14]	out[]	dom[14]	doms[]	side[18,20]	dest[T]		try:       	code: return value [Return#int - LocalVariable#int]
+20	in[]	out[]	dom[]	doms[]	side[16, ]	dest[]		try:       	code: 
+
+0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]		try: s  	code: ++value [Unary#int]
+1	in[0]	out[11]	dom[0]	doms[]	side[0,11]	dest[11]	try: e  	code: value = value * 2 [Assign#int]
+11	in[1]	out[4]	dom[1]	doms[]	side[1,2]	dest[4]		try:     	code: 
+2	in[]	out[12]	dom[]	doms[]	side[11,12]	dest[12]	try: c  	code: value = value * 2 [Assign#int]
+12	in[2]	out[]	dom[2]	doms[]	side[2,4]	dest[T]		try:     	code: throw local2 [Throw]
+4	in[11]	out[13]	dom[11]	doms[]	side[12,13]	dest[13]	try:     	code: value = value * 4 [Assign#int]
+13	in[4]	out[14]	dom[4]	doms[]	side[4,5]	dest[14]	try:     	code: 
+5	in[]	out[15]	dom[]	doms[]	side[13,15]	dest[15]	try:     	code: value = value * 4 [Assign#int]
+15	in[5]	out[]	dom[5]	doms[]	side[5,14]	dest[T]		try:     	code: throw local3 [Throw]
+14	in[13]	out[16]	dom[13]	doms[]	side[15,6]	dest[16]	try:     	code: 
+6	in[]	out[7]	dom[]	doms[]	side[14,7]	dest[7]		try:     	code: 
+7	in[6]	out[17]	dom[6]	doms[]	side[6,17]	dest[17]	try:   s	code: value += 3 [Assign#int]
+17	in[7]	out[18]	dom[7]	doms[]	side[7,9]	dest[18]	try:     	code: 
+9	in[]	out[10]	dom[]	doms[]	side[17,10]	dest[10]	try:   c	code: 
+10	in[9]	out[]	dom[9]	doms[]	side[9,18]	dest[18]	try:     	code: value = value * 4 [Assign#int]
+18	in[17]	out[]	dom[17]	doms[]	side[10,16]	dest[T]		try:   x	code: throw local4 [Throw]
+16	in[14]	out[]	dom[14]	doms[]	side[18,20]	dest[T]		try:     	code: return value [Return#int - LocalVariable#int]
+20	in[]	out[]	dom[]	doms[]	side[16, ]	dest[]		try:     	code: 
+
 
 Remove copied finally nodes [size: 1] from end's outgoings (show full nodes)
-[38;5;9m6	in[]	out[0]	dom[]	doms[]	side[ ,0]	dest[0]		try: s      	code: --value [Unary#int]
-0	in[6]	out[7]	dom[6]	doms[]	side[6,2]	dest[7]		try:   s    	code: value += 2 [Assign#int]
-2	in[]	out[]	dom[]	doms[]	side[0,7]	dest[7]		try:   c    	code: value = value * 3 [Assign#int]
-7	in[0]	out[3]	dom[0]	doms[]	side[2,3]	dest[3]		try: ex    	code: value += -4 [Assign#int]
-3	in[7]	out[17]	dom[7]	doms[]	side[7,5]	dest[17]	try:     s  	code: value += 5 [Assign#int]
-5	in[]	out[]	dom[]	doms[]	side[3,17]	dest[17]	try:     c  	code: value = value * 6 [Assign#int]
-17	in[3]	out[19]	dom[3]	doms[]	side[5,8]	dest[19]	try:     x  	code: 
-8	in[]	out[13]	dom[]	doms[]	side[17,13]	dest[13]	try: c      	code: 
-13	in[8]	out[9]	dom[8]	doms[]	side[8,9]	dest[9]		try:         	code: value += -4 [Assign#int]
-9	in[13]	out[10]	dom[13]	doms[]	side[13,10]	dest[10]	try:       s	code: value += 5 [Assign#int]
-10	in[9]	out[20]	dom[9]	doms[]	side[9,20]	dest[20]	try:       e	code: value = value * 6 [Assign#int]
-20	in[10]	out[]	dom[10]	doms[]	side[10,11]	dest[19]	try:         	code: 
-11	in[]	out[12]	dom[]	doms[]	side[20,12]	dest[12]	try:       c	code: 
-12	in[11]	out[22]	dom[11]	doms[]	side[11,22]	dest[22]	try:         	code: value = value * 6 [Assign#int]
-22	in[12]	out[]	dom[12]	doms[]	side[12,19]	dest[T]		try:         	code: throw local5 [Throw]
-19	in[17]	out[]	dom[17]	doms[]	side[22,23]	dest[T]		try: x      	code: return value [Return#int - LocalVariable#int]
-23	in[]	out[]	dom[]	doms[]	side[19, ]	dest[]		try:         	code: 
-[0m
-[38;5;78m6	in[]	out[0]	dom[]	doms[]	side[ ,0]	dest[0]		try: s      	code: --value [Unary#int]
-0	in[6]	out[7]	dom[6]	doms[]	side[6,2]	dest[7]		try:   s    	code: value += 2 [Assign#int]
-2	in[]	out[]	dom[]	doms[]	side[0,7]	dest[7]		try:   c    	code: value = value * 3 [Assign#int]
-7	in[0]	out[3]	dom[0]	doms[]	side[2,3]	dest[3]		try: ex    	code: value += -4 [Assign#int]
-3	in[7]	out[17]	dom[7]	doms[]	side[7,5]	dest[17]	try:     s  	code: value += 5 [Assign#int]
-5	in[]	out[]	dom[]	doms[]	side[3,17]	dest[17]	try:     c  	code: value = value * 6 [Assign#int]
-17	in[3]	out[19]	dom[3]	doms[]	side[5,8]	dest[19]	try:     x  	code: 
-8	in[]	out[13]	dom[]	doms[]	side[17,13]	dest[13]	try: c      	code: 
-13	in[8]	out[9]	dom[8]	doms[]	side[8,9]	dest[9]		try:         	code: value += -4 [Assign#int]
-9	in[13]	out[]	dom[13]	doms[]	side[13,11]	dest[19]	try:       s	code: value += 5 [Assign#int]
-11	in[]	out[12]	dom[]	doms[]	side[9,12]	dest[12]	try:       c	code: 
-12	in[11]	out[22]	dom[11]	doms[]	side[11,22]	dest[22]	try:         	code: value = value * 6 [Assign#int]
-22	in[12]	out[]	dom[12]	doms[]	side[12,19]	dest[T]		try:         	code: throw local5 [Throw]
-19	in[17]	out[]	dom[17]	doms[]	side[22,23]	dest[T]		try: x      	code: return value [Return#int - LocalVariable#int]
-23	in[]	out[]	dom[]	doms[]	side[19, ]	dest[]		try:         	code: 
-[0m
+0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]		try: s  	code: ++value [Unary#int]
+1	in[0]	out[11]	dom[0]	doms[]	side[0,11]	dest[11]	try: e  	code: value = value * 2 [Assign#int]
+11	in[1]	out[4]	dom[1]	doms[]	side[1,2]	dest[4]		try:     	code: 
+2	in[]	out[12]	dom[]	doms[]	side[11,12]	dest[12]	try: c  	code: value = value * 2 [Assign#int]
+12	in[2]	out[]	dom[2]	doms[]	side[2,4]	dest[T]		try:     	code: throw local2 [Throw]
+4	in[11]	out[13]	dom[11]	doms[]	side[12,13]	dest[13]	try:     	code: value = value * 4 [Assign#int]
+13	in[4]	out[14]	dom[4]	doms[]	side[4,5]	dest[14]	try:     	code: 
+5	in[]	out[15]	dom[]	doms[]	side[13,15]	dest[15]	try:     	code: value = value * 4 [Assign#int]
+15	in[5]	out[]	dom[5]	doms[]	side[5,14]	dest[T]		try:     	code: throw local3 [Throw]
+14	in[13]	out[16]	dom[13]	doms[]	side[15,6]	dest[16]	try:     	code: 
+6	in[]	out[7]	dom[]	doms[]	side[14,7]	dest[7]		try:     	code: 
+7	in[6]	out[17]	dom[6]	doms[]	side[6,17]	dest[17]	try:   s	code: value += 3 [Assign#int]
+17	in[7]	out[]	dom[7]	doms[]	side[7,9]	dest[16]	try:     	code: 
+9	in[]	out[10]	dom[]	doms[]	side[17,10]	dest[10]	try:   c	code: 
+10	in[9]	out[]	dom[9]	doms[]	side[9,16]	dest[18]	try:     	code: value = value * 4 [Assign#int]
+16	in[14]	out[]	dom[14]	doms[]	side[10,20]	dest[T]		try:     	code: return value [Return#int - LocalVariable#int]
+20	in[]	out[]	dom[]	doms[]	side[16, ]	dest[]		try:     	code: 
+
+0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]		try: s  	code: ++value [Unary#int]
+1	in[0]	out[11]	dom[0]	doms[]	side[0,11]	dest[11]	try: e  	code: value = value * 2 [Assign#int]
+11	in[1]	out[13]	dom[1]	doms[]	side[1,2]	dest[13]	try:     	code: 
+2	in[]	out[12]	dom[]	doms[]	side[11,12]	dest[12]	try: c  	code: value = value * 2 [Assign#int]
+12	in[2]	out[]	dom[2]	doms[]	side[2,13]	dest[T]		try:     	code: throw local2 [Throw]
+13	in[11]	out[14]	dom[11]	doms[]	side[12,5]	dest[14]	try:     	code: 
+5	in[]	out[15]	dom[]	doms[]	side[13,15]	dest[15]	try:     	code: value = value * 4 [Assign#int]
+15	in[5]	out[]	dom[5]	doms[]	side[5,14]	dest[T]		try:     	code: throw local3 [Throw]
+14	in[13]	out[16]	dom[13]	doms[]	side[15,6]	dest[16]	try:     	code: 
+6	in[]	out[7]	dom[]	doms[]	side[14,7]	dest[7]		try:     	code: 
+7	in[6]	out[17]	dom[6]	doms[]	side[6,17]	dest[17]	try:   s	code: value += 3 [Assign#int]
+17	in[7]	out[]	dom[7]	doms[]	side[7,9]	dest[16]	try:     	code: 
+9	in[]	out[10]	dom[]	doms[]	side[17,10]	dest[10]	try:   c	code: 
+10	in[9]	out[]	dom[9]	doms[]	side[9,16]	dest[18]	try:     	code: value = value * 4 [Assign#int]
+16	in[14]	out[]	dom[14]	doms[]	side[10,20]	dest[T]		try:     	code: return value [Return#int - LocalVariable#int]
+20	in[]	out[]	dom[]	doms[]	side[16, ]	dest[]		try:     	code: 
+
+
+Remove copied finally nodes [size: 1] from end's outgoings (show full nodes)
+0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]		try: s  	code: ++value [Unary#int]
+1	in[0]	out[11]	dom[0]	doms[]	side[0,11]	dest[11]	try: e  	code: value = value * 2 [Assign#int]
+11	in[1]	out[13]	dom[1]	doms[]	side[1,2]	dest[13]	try:     	code: 
+2	in[]	out[12]	dom[]	doms[]	side[11,12]	dest[12]	try: c  	code: value = value * 2 [Assign#int]
+12	in[2]	out[]	dom[2]	doms[]	side[2,13]	dest[T]		try:     	code: throw local2 [Throw]
+13	in[11]	out[14]	dom[11]	doms[]	side[12,5]	dest[14]	try:     	code: 
+5	in[]	out[]	dom[]	doms[]	side[13,14]	dest[14]	try:     	code: value = value * 4 [Assign#int]
+14	in[13]	out[16]	dom[13]	doms[]	side[5,6]	dest[16]	try:     	code: 
+6	in[]	out[7]	dom[]	doms[]	side[14,7]	dest[7]		try:     	code: 
+7	in[6]	out[17]	dom[6]	doms[]	side[6,17]	dest[17]	try:   s	code: value += 3 [Assign#int]
+17	in[7]	out[]	dom[7]	doms[]	side[7,9]	dest[16]	try:     	code: 
+9	in[]	out[10]	dom[]	doms[]	side[17,10]	dest[10]	try:   c	code: 
+10	in[9]	out[]	dom[9]	doms[]	side[9,16]	dest[18]	try:     	code: value = value * 4 [Assign#int]
+16	in[14]	out[]	dom[14]	doms[]	side[10,20]	dest[T]		try:     	code: return value [Return#int - LocalVariable#int]
+20	in[]	out[]	dom[]	doms[]	side[16, ]	dest[]		try:     	code: 
+
+0	in[]	out[11]	dom[]	doms[]	side[ ,11]	dest[11]	try: s  	code: ++value [Unary#int]
+11	in[0]	out[13]	dom[0]	doms[]	side[0,2]	dest[13]	try:     	code: 
+2	in[]	out[12]	dom[]	doms[]	side[11,12]	dest[12]	try: c  	code: value = value * 2 [Assign#int]
+12	in[2]	out[]	dom[2]	doms[]	side[2,13]	dest[T]		try:     	code: throw local2 [Throw]
+13	in[11]	out[14]	dom[11]	doms[]	side[12,5]	dest[14]	try:     	code: 
+5	in[]	out[]	dom[]	doms[]	side[13,14]	dest[14]	try:     	code: value = value * 4 [Assign#int]
+14	in[13]	out[16]	dom[13]	doms[]	side[5,6]	dest[16]	try:     	code: 
+6	in[]	out[7]	dom[]	doms[]	side[14,7]	dest[7]		try:     	code: 
+7	in[6]	out[17]	dom[6]	doms[]	side[6,17]	dest[17]	try:   s	code: value += 3 [Assign#int]
+17	in[7]	out[]	dom[7]	doms[]	side[7,9]	dest[16]	try:     	code: 
+9	in[]	out[10]	dom[]	doms[]	side[17,10]	dest[10]	try:   c	code: 
+10	in[9]	out[]	dom[9]	doms[]	side[9,16]	dest[18]	try:     	code: value = value * 4 [Assign#int]
+16	in[14]	out[]	dom[14]	doms[]	side[10,20]	dest[T]		try:     	code: return value [Return#int - LocalVariable#int]
+20	in[]	out[]	dom[]	doms[]	side[16, ]	dest[]		try:     	code: 
+
+
+Analyze try-catch-finally (show full nodes)
+0	in[]	out[11]	dom[]	doms[2]		side[ ,11]	dest[11]	try: s  	code: ++value [Unary#int]
+11	in[0]	out[13]	dom[0]	doms[13]	side[0,2]	dest[13]	try:     	code: 
+2	in[]	out[]	dom[]	doms[]		side[11,13]	dest[13]	try: c  	code: value = value * 2 [Assign#int]
+13	in[11]	out[14]	dom[11]	doms[14]	side[2,5]	dest[14]	try: x  	code: 
+5	in[]	out[]	dom[]	doms[]		side[13,14]	dest[14]	try:     	code: value = value * 4 [Assign#int]
+14	in[13]	out[16]	dom[13]	doms[16]	side[5,7]	dest[16]	try:     	code: 
+7	in[]	out[17]	dom[]	doms[17,9]	side[14,17]	dest[17]	try:   s	code: value += 3 [Assign#int]
+17	in[7]	out[]	dom[7]	doms[]		side[7,9]	dest[16]	try:     	code: 
+9	in[]	out[10]	dom[]	doms[10]	side[17,10]	dest[10]	try:   c	code: 
+10	in[9]	out[]	dom[9]	doms[]		side[9,16]	dest[18]	try:     	code: value = value * 4 [Assign#int]
+16	in[14]	out[]	dom[14]	doms[]		side[10, ]	dest[T]		try:     	code: return value [Return#int - LocalVariable#int]
+
+0	in[]	out[11]	dom[]	doms[2]		side[ ,11]	dest[11]	try: s  	code: ++value [Unary#int]
+11	in[0]	out[13]	dom[0]	doms[13]	side[0,2]	dest[13]	try:     	code: 
+2	in[]	out[]	dom[]	doms[]		side[11,13]	dest[13]	try: c  	code: value = value * 2 [Assign#int]
+13	in[11]	out[14]	dom[11]	doms[14]	side[2,5]	dest[14]	try: x  	code: 
+5	in[]	out[]	dom[]	doms[]		side[13,14]	dest[14]	try:     	code: value = value * 4 [Assign#int]
+14	in[13]	out[16]	dom[13]	doms[16]	side[5,7]	dest[16]	try:     	code: 
+7	in[]	out[17]	dom[]	doms[17,9]	side[14,17]	dest[17]	try:   s	code: value += 3 [Assign#int]
+17	in[7]	out[]	dom[7]	doms[]		side[7,9]	dest[16]	try:     	code: 
+9	in[]	out[10]	dom[]	doms[10]	side[17,10]	dest[10]	try:   c	code: 
+10	in[9]	out[]	dom[9]	doms[]		side[9,16]	dest[18]	try:     	code: value = value * 4 [Assign#int]
+16	in[14]	out[]	dom[14]	doms[]		side[10, ]	dest[T]		try:   x	code: return value [Return#int - LocalVariable#int]
+
 
 Build shorthand assign (show full nodes)
-[38;5;9m6	in[]	out[0]	dom[]	doms[0,8]	side[ ,0]	dest[0]		try: s      	code: --value [Unary#int]
-0	in[6]	out[7]	dom[6]	doms[2]		side[6,2]	dest[7]		try:   s    	code: value += 2 [Assign#int]
-2	in[]	out[]	dom[]	doms[]		side[0,7]	dest[7]		try:   c    	code: value = value * 3 [Assign#int]
-7	in[0]	out[3]	dom[0]	doms[3]		side[2,3]	dest[3]		try: ex    	code: value += -4 [Assign#int]
-3	in[7]	out[17]	dom[7]	doms[5,17]	side[7,5]	dest[17]	try:     s  	code: value += 5 [Assign#int]
-5	in[]	out[]	dom[]	doms[]		side[3,17]	dest[17]	try:     c  	code: value = value * 6 [Assign#int]
-17	in[3]	out[19]	dom[3]	doms[19]	side[5,8]	dest[19]	try:     x  	code: 
-8	in[]	out[13]	dom[]	doms[13]	side[17,13]	dest[13]	try: c      	code: 
-13	in[8]	out[9]	dom[8]	doms[9]		side[8,9]	dest[9]		try:         	code: value += -4 [Assign#int]
-9	in[13]	out[]	dom[13]	doms[11]	side[13,11]	dest[19]	try:       s	code: value += 5 [Assign#int]
-11	in[]	out[12]	dom[]	doms[12]	side[9,12]	dest[12]	try:       c	code: 
-12	in[11]	out[]	dom[11]	doms[]		side[11,19]	dest[19]	try:         	code: value = value * 6 [Assign#int]
-19	in[17]	out[]	dom[17]	doms[]		side[12, ]	dest[T]		try: x    x	code: return value [Return#int - LocalVariable#int]
-[0m
-[38;5;78m6	in[]	out[0]	dom[]	doms[0,8]	side[ ,0]	dest[0]		try: s      	code: --value [Unary#int]
-0	in[6]	out[7]	dom[6]	doms[2]		side[6,2]	dest[7]		try:   s    	code: value += 2 [Assign#int]
-2	in[]	out[]	dom[]	doms[]		side[0,7]	dest[7]		try:   c    	code: value *= 3 [Assign#int]
-7	in[0]	out[3]	dom[0]	doms[3]		side[2,3]	dest[3]		try: ex    	code: value -= 4 [Assign#int]
-3	in[7]	out[17]	dom[7]	doms[5,17]	side[7,5]	dest[17]	try:     s  	code: value += 5 [Assign#int]
-5	in[]	out[]	dom[]	doms[]		side[3,17]	dest[17]	try:     c  	code: value *= 6 [Assign#int]
-17	in[3]	out[19]	dom[3]	doms[19]	side[5,8]	dest[19]	try:     x  	code: 
-8	in[]	out[13]	dom[]	doms[13]	side[17,13]	dest[13]	try: c      	code: 
-13	in[8]	out[9]	dom[8]	doms[9]		side[8,9]	dest[9]		try:         	code: value -= 4 [Assign#int]
-9	in[13]	out[]	dom[13]	doms[11]	side[13,11]	dest[19]	try:       s	code: value += 5 [Assign#int]
-11	in[]	out[12]	dom[]	doms[12]	side[9,12]	dest[12]	try:       c	code: 
-12	in[11]	out[]	dom[11]	doms[]		side[11,19]	dest[19]	try:         	code: value *= 6 [Assign#int]
-19	in[17]	out[]	dom[17]	doms[]		side[12, ]	dest[T]		try: x    x	code: return value [Return#int - LocalVariable#int]
-[0m
+0	in[]	out[11]	dom[]	doms[2]		side[ ,11]	dest[11]	try: s  	code: ++value [Unary#int]
+11	in[0]	out[13]	dom[0]	doms[13]	side[0,2]	dest[13]	try:     	code: 
+2	in[]	out[]	dom[]	doms[]		side[11,13]	dest[13]	try: c  	code: value = value * 2 [Assign#int]
+13	in[11]	out[14]	dom[11]	doms[14]	side[2,5]	dest[14]	try: x  	code: 
+5	in[]	out[]	dom[]	doms[]		side[13,14]	dest[14]	try:     	code: value = value * 4 [Assign#int]
+14	in[13]	out[16]	dom[13]	doms[16]	side[5,7]	dest[16]	try:     	code: 
+7	in[]	out[17]	dom[]	doms[17,9]	side[14,17]	dest[17]	try:   s	code: value += 3 [Assign#int]
+17	in[7]	out[]	dom[7]	doms[]		side[7,9]	dest[16]	try:     	code: 
+9	in[]	out[10]	dom[]	doms[10]	side[17,10]	dest[10]	try:   c	code: 
+10	in[9]	out[]	dom[9]	doms[]		side[9,16]	dest[18]	try:     	code: value = value * 4 [Assign#int]
+16	in[14]	out[]	dom[14]	doms[]		side[10, ]	dest[T]		try:   x	code: return value [Return#int - LocalVariable#int]
+
+0	in[]	out[11]	dom[]	doms[2]		side[ ,11]	dest[11]	try: s  	code: ++value [Unary#int]
+11	in[0]	out[13]	dom[0]	doms[13]	side[0,2]	dest[13]	try:     	code: 
+2	in[]	out[]	dom[]	doms[]		side[11,13]	dest[13]	try: c  	code: value *= 2 [Assign#int]
+13	in[11]	out[14]	dom[11]	doms[14]	side[2,5]	dest[14]	try: x  	code: 
+5	in[]	out[]	dom[]	doms[]		side[13,14]	dest[14]	try:     	code: value *= 4 [Assign#int]
+14	in[13]	out[16]	dom[13]	doms[16]	side[5,7]	dest[16]	try:     	code: 
+7	in[]	out[17]	dom[]	doms[17,9]	side[14,17]	dest[17]	try:   s	code: value += 3 [Assign#int]
+17	in[7]	out[]	dom[7]	doms[]		side[7,9]	dest[16]	try:     	code: 
+9	in[]	out[10]	dom[]	doms[10]	side[17,10]	dest[10]	try:   c	code: 
+10	in[9]	out[]	dom[9]	doms[]		side[9,16]	dest[18]	try:     	code: value *= 4 [Assign#int]
+16	in[14]	out[]	dom[14]	doms[]		side[10, ]	dest[T]		try:   x	code: return value [Return#int - LocalVariable#int]
+
 
 Analyze nodes (show full nodes)
-[38;5;9m6	in[]	out[0]	dom[]	doms[0,8]	side[ ,0]	dest[0]		try: s      	code: --value [Unary#int]
-0	in[6]	out[7]	dom[6]	doms[2]		side[6,2]	dest[7]		try:   s    	code: value += 2 [Assign#int]
-2	in[]	out[]	dom[]	doms[]		side[0,7]	dest[7]		try:   c    	code: value *= 3 [Assign#int]
-7	in[0]	out[3]	dom[0]	doms[3]		side[2,3]	dest[3]		try: ex    	code: value -= 4 [Assign#int]
-3	in[7]	out[17]	dom[7]	doms[5,17]	side[7,5]	dest[17]	try:     s  	code: value += 5 [Assign#int]
-5	in[]	out[]	dom[]	doms[]		side[3,17]	dest[17]	try:     c  	code: value *= 6 [Assign#int]
-17	in[3]	out[19]	dom[3]	doms[19]	side[5,8]	dest[19]	try:     x  	code: 
-8	in[]	out[13]	dom[]	doms[13]	side[17,13]	dest[13]	try: c      	code: 
-13	in[8]	out[9]	dom[8]	doms[9]		side[8,9]	dest[9]		try:         	code: value -= 4 [Assign#int]
-9	in[13]	out[]	dom[13]	doms[11]	side[13,11]	dest[19]	try:       s	code: value += 5 [Assign#int]
-11	in[]	out[12]	dom[]	doms[12]	side[9,12]	dest[12]	try:       c	code: 
-12	in[11]	out[]	dom[11]	doms[]		side[11,19]	dest[19]	try:         	code: value *= 6 [Assign#int]
-19	in[17]	out[]	dom[17]	doms[]		side[12, ]	dest[T]		try: x    x	code: return value [Return#int - LocalVariable#int]
-[0m
-[38;5;78m6	in[]	out[0]	dom[]	doms[0,8]	side[ ,0]	dest[0]		code: --value [Unary#int]
-0	in[6]	out[7]	dom[6]	doms[2]		side[6,2]	dest[7]		code: value += 2 [Assign#int]
-2	in[]	out[]	dom[]	doms[]		side[0,7]	dest[7]		code: value *= 3 [Assign#int]
-7	in[0]	out[3]	dom[0]	doms[3]		side[2,3]	dest[3]		code: value -= 4 [Assign#int]
-3	in[7]	out[17]	dom[7]	doms[5,17]	side[7,5]	dest[17]	code: value += 5 [Assign#int]
-5	in[]	out[]	dom[]	doms[]		side[3,17]	dest[17]	code: value *= 6 [Assign#int]
-17	in[3]	out[19]	dom[3]	doms[19]	side[5,8]	dest[19]	code: 
-8	in[]	out[13]	dom[]	doms[13]	side[17,13]	dest[13]	code: 
-13	in[8]	out[9]	dom[8]	doms[9]		side[8,9]	dest[9]		code: value -= 4 [Assign#int]
-9	in[13]	out[]	dom[13]	doms[11]	side[13,11]	dest[19]	code: value += 5 [Assign#int]
-11	in[]	out[12]	dom[]	doms[12]	side[9,12]	dest[12]	code: 
-12	in[11]	out[]	dom[11]	doms[]		side[11,19]	dest[19]	code: value *= 6 [Assign#int]
-19	in[17]	out[]	dom[17]	doms[]		side[12, ]	dest[T]		code: return value [Return#int - LocalVariable#int]
-[0m
+0	in[]	out[11]	dom[]	doms[2]		side[ ,11]	dest[11]	try: s  	code: ++value [Unary#int]
+11	in[0]	out[13]	dom[0]	doms[13]	side[0,2]	dest[13]	try:     	code: 
+2	in[]	out[]	dom[]	doms[]		side[11,13]	dest[13]	try: c  	code: value *= 2 [Assign#int]
+13	in[11]	out[14]	dom[11]	doms[14]	side[2,5]	dest[14]	try: x  	code: 
+5	in[]	out[]	dom[]	doms[]		side[13,14]	dest[14]	try:     	code: value *= 4 [Assign#int]
+14	in[13]	out[16]	dom[13]	doms[16]	side[5,7]	dest[16]	try:     	code: 
+7	in[]	out[17]	dom[]	doms[17,9]	side[14,17]	dest[17]	try:   s	code: value += 3 [Assign#int]
+17	in[7]	out[]	dom[7]	doms[]		side[7,9]	dest[16]	try:     	code: 
+9	in[]	out[10]	dom[]	doms[10]	side[17,10]	dest[10]	try:   c	code: 
+10	in[9]	out[]	dom[9]	doms[]		side[9,16]	dest[18]	try:     	code: value *= 4 [Assign#int]
+16	in[14]	out[]	dom[14]	doms[]		side[10, ]	dest[T]		try:   x	code: return value [Return#int - LocalVariable#int]
 
-6	in[]	out[0]	dom[]	doms[0,8]	side[ ,0]	dest[0]		code: --value [Unary#int]
-0	in[6]	out[7]	dom[6]	doms[2]		side[6,2]	dest[7]		code: value += 2 [Assign#int]
-2	in[]	out[]	dom[]	doms[]		side[0,7]	dest[7]		code: value *= 3 [Assign#int]
-7	in[0]	out[3]	dom[0]	doms[3]		side[2,3]	dest[3]		code: value -= 4 [Assign#int]
-3	in[7]	out[17]	dom[7]	doms[5,17]	side[7,5]	dest[17]	code: value += 5 [Assign#int]
-5	in[]	out[]	dom[]	doms[]		side[3,17]	dest[17]	code: value *= 6 [Assign#int]
-17	in[3]	out[19]	dom[3]	doms[19]	side[5,8]	dest[19]	code: 
-8	in[]	out[13]	dom[]	doms[13]	side[17,13]	dest[13]	code: 
-13	in[8]	out[9]	dom[8]	doms[9]		side[8,9]	dest[9]		code: value -= 4 [Assign#int]
-9	in[13]	out[]	dom[13]	doms[11]	side[13,11]	dest[19]	code: value += 5 [Assign#int]
-11	in[]	out[12]	dom[]	doms[12]	side[9,12]	dest[12]	code: 
-12	in[11]	out[]	dom[11]	doms[]		side[11,19]	dest[19]	code: value *= 6 [Assign#int]
-19	in[17]	out[]	dom[17]	doms[]		side[12, ]	dest[T]		code: return value [Return#int - LocalVariable#int]
+0	in[]	out[11]	dom[]	doms[2]		side[ ,11]	dest[11]	try:   	code: ++value [Unary#int]
+11	in[0]	out[13]	dom[0]	doms[13]	side[0,2]	dest[13]	try:   	code: 
+2	in[]	out[]	dom[]	doms[]		side[11,13]	dest[13]	try:   	code: value *= 2 [Assign#int]
+13	in[11]	out[14]	dom[11]	doms[14]	side[2,5]	dest[14]	try:   	code: 
+5	in[]	out[]	dom[]	doms[]		side[13,14]	dest[14]	try:   	code: value *= 4 [Assign#int]
+14	in[13]	out[16]	dom[13]	doms[16]	side[5,7]	dest[16]	try:   	code: 
+7	in[]	out[17]	dom[]	doms[17,9]	side[14,17]	dest[17]	try: s	code: value += 3 [Assign#int]
+17	in[7]	out[]	dom[7]	doms[]		side[7,9]	dest[16]	try:   	code: 
+9	in[]	out[10]	dom[]	doms[10]	side[17,10]	dest[10]	try: c	code: 
+10	in[9]	out[]	dom[9]	doms[]		side[9,16]	dest[18]	try:   	code: value *= 4 [Assign#int]
+16	in[14]	out[]	dom[14]	doms[]		side[10, ]	dest[T]		try: x	code: return value [Return#int - LocalVariable#int]
 
 
-WARNING: A Java agent has been loaded dynamically (C:\Users\minam\AppData\Local\Temp\antibug6749165865780360079agent.jar)
-WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
-WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
-WARNING: Dynamic loading of agents will be disallowed by default in a future release
+0	in[]	out[11]	dom[]	doms[2]		side[ ,11]	dest[11]	try:   	code: ++value [Unary#int]
+11	in[0]	out[13]	dom[0]	doms[13]	side[0,2]	dest[13]	try:   	code: 
+2	in[]	out[]	dom[]	doms[]		side[11,13]	dest[13]	try:   	code: value *= 2 [Assign#int]
+13	in[11]	out[14]	dom[11]	doms[14]	side[2,5]	dest[14]	try:   	code: 
+5	in[]	out[]	dom[]	doms[]		side[13,14]	dest[14]	try:   	code: value *= 4 [Assign#int]
+14	in[13]	out[16]	dom[13]	doms[16]	side[5,7]	dest[16]	try:   	code: 
+7	in[]	out[17]	dom[]	doms[17,9]	side[14,17]	dest[17]	try: s	code: value += 3 [Assign#int]
+17	in[7]	out[]	dom[7]	doms[]		side[7,9]	dest[16]	try:   	code: 
+9	in[]	out[10]	dom[]	doms[10]	side[17,10]	dest[10]	try: c	code: 
+10	in[9]	out[]	dom[9]	doms[]		side[9,16]	dest[18]	try:   	code: value *= 4 [Assign#int]
+16	in[14]	out[]	dom[14]	doms[]		side[10, ]	dest[T]		try: x	code: return value [Return#int - LocalVariable#int]
+
+
+============================================================
+Bytecode Diff -  reincarnation.decompiler.flow.TryFinallyTest$12
+============================================================
+ECJ																						Javac
+visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);										visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
+~Parameter("value", 0);~																
+AnnotableParameterCount(1, true);														AnnotableParameterCount(1, true);
+TryCatchBlock(L0, L1, ~L1~, null);														TryCatchBlock(L0, L1, +L2+, null);
+TryCatchBlock(~L0~, ~L2~, ~L2~, null);													TryCatchBlock(+L3+, +L4+, +L5+, null);
+TryCatchBlock(~L3~, ~L4~, ~L4~, null);													TryCatchBlock(+L0+, +L3+, +L6+, null);
+TryCatchBlock(~L5~, ~L6~, ~L6~, null);													TryCatchBlock(+L7+, +L8+, +L9+, null);
+																						+TryCatchBlock(L9, L10, L9, null);+
+																						+TryCatchBlock(L6, L7, L6, null);+
+Label(L0);																				Label(L0);
+IincInsn(1, 1);																			IincInsn(1, 1);
+~Label(L7);~																			
+~JumpInsn(GOTO, L8);~																	
+Label(L1);																				Label(L1);
+																						+VarInsn(ILOAD, 1);+
+																						+Insn(ICONST_2);+
+																						+Insn(IMUL);+
+																						+VarInsn(ISTORE, 1);+
+																						+Label(L11);+
+																						+JumpInsn(GOTO, L3);+
+																						+Label(L2);+
+Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Throwable"});								Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Throwable"});
+VarInsn(ASTORE, 2);																		VarInsn(ASTORE, 2);
+~Label(L9);~																			
+VarInsn(ILOAD, 1);																		VarInsn(ILOAD, 1);
+Insn(ICONST_2);																			Insn(ICONST_2);
+Insn(IMUL);																				Insn(IMUL);
+VarInsn(ISTORE, 1);																		VarInsn(ISTORE, 1);
+Label(~L10~);																			Label(+L12+);
+VarInsn(ALOAD, 2);																		VarInsn(ALOAD, 2);
+Insn(ATHROW);																			Insn(ATHROW);
+Label(~L8~);																			Label(+L3+);
+Frame(F_SAME, 0, null, 0, null);														Frame(F_SAME, 0, null, 0, null);
+																						+IincInsn(1, 3);+
+																						+Label(L4);+
+VarInsn(ILOAD, 1);																		VarInsn(ILOAD, 1);
+Insn(~ICONST_2~);																		Insn(+ICONST_4+);
+Insn(IMUL);																				Insn(IMUL);
+VarInsn(ISTORE, 1);																		VarInsn(ISTORE, 1);
+Label(~L11~);																			Label(+L13+);
+JumpInsn(GOTO, ~L5~);																	JumpInsn(GOTO, +L14+);
+Label(~L2~);																			Label(+L5+);
+Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Throwable"});								Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Throwable"});
+VarInsn(ASTORE, 3);																		VarInsn(ASTORE, 3);
+~Label(L3);~																			
+~IincInsn(1, 3);~																		
+~Label(L12);~																			
+~JumpInsn(GOTO, L13);~																	
+~Label(L4);~																			
+~Frame(F_FULL, 4, new Object[] {"Throwable"});~											
+~VarInsn(ASTORE, 4);~																	
+~Label(L14);~																			
+VarInsn(ILOAD, 1);																		VarInsn(ILOAD, 1);
+Insn(ICONST_4);																			Insn(ICONST_4);
+Insn(IMUL);																				Insn(IMUL);
+VarInsn(ISTORE, 1);																		VarInsn(ISTORE, 1);
+Label(L15);																				Label(L15);
+VarInsn(ALOAD, ~4~);																	VarInsn(ALOAD, +3+);
+Insn(ATHROW);																			Insn(ATHROW);
+Label(~L13~);																			Label(+L14+);
+Frame(F_SAME, 0, null, 0, null);														Frame(F_SAME, 0, null, 0, null);
+																						+JumpInsn(GOTO, L16);+
+																						+Label(L6);+
+																						+Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Throwable"});+
+																						+VarInsn(ASTORE, 4);+
+																						+Label(L7);+
+																						+IincInsn(1, 3);+
+																						+Label(L8);+
+VarInsn(ILOAD, 1);																		VarInsn(ILOAD, 1);
+Insn(ICONST_4);																			Insn(ICONST_4);
+Insn(IMUL);																				Insn(IMUL);
+VarInsn(ISTORE, 1);																		VarInsn(ISTORE, 1);
+~Label(L16);~																			
+~VarInsn(ALOAD, 3);~																	
+~Insn(ATHROW);~																			
+~Label(L5);~																			
+~Frame(F_FULL, 2, new Object[] {"TryFinallyTest$12", INTEGER}, 0, new Object[] {});~	
+~IincInsn(1, 3);~																		
+Label(L17);																				Label(L17);
+JumpInsn(GOTO, L18);																	JumpInsn(GOTO, L18);
+Label(~L6~);																			Label(+L9+);
+Frame(~F_SAME1~, ~0~, ~null, 1, ~new Object[] {~"j.l.Throwable"~});						Frame(+F_FULL+, +5+, new Object[] {+"Throwable"+});
+VarInsn(ASTORE, ~4~);																	VarInsn(ASTORE, +5+);
+Label(~L19~);																			Label(+L10+);
+VarInsn(ILOAD, 1);																		VarInsn(ILOAD, 1);
+Insn(ICONST_4);																			Insn(ICONST_4);
+Insn(IMUL);																				Insn(IMUL);
+VarInsn(ISTORE, 1);																		VarInsn(ISTORE, 1);
+Label(~L20~);																			Label(+L19+);
+VarInsn(ALOAD, ~4~);																	VarInsn(ALOAD, +5+);
+Insn(ATHROW);																			Insn(ATHROW);
+Label(L18);																				Label(L18);
+Frame(F_SAME, 0, null, 0, null);														Frame(F_SAME, 0, null, 0, null);
+																						+VarInsn(ALOAD, 4);+
+																						+Insn(ATHROW);+
+																						+Label(L16);+
+																						+Frame(F_CHOP,3, null, 0, null);+
+VarInsn(ILOAD, 1);																		VarInsn(ILOAD, 1);
+~Insn(ICONST_4);~																		
+~Insn(IMUL);~																			
+~VarInsn(ISTORE, 1);~																	
+~Label(L21);~																			
+~VarInsn(ILOAD, 1);~																	
+Insn(IRETURN);																			Insn(IRETURN);
+Label(~L22~);																			Label(+L20+);
+LocalVariable("this", "LTryFinallyTest$12;", null, L0, ~L22~, 0);						LocalVariable("this", "LTryFinallyTest$12;", null, L0, +L20+, 0);
+LocalVariable("value", "I", null, L0, ~L22~, 1);										LocalVariable("value", "I", null, L0, +L20+, 1);
+============================================================
+
+
