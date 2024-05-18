@@ -13,8 +13,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -223,10 +225,10 @@ public class MultiMap<K, V> {
      * @param handler The action to be performed for each key-value pair.
      */
     public void forEachReversely(BiConsumer<K, List<V>> handler) {
-        if (map instanceof LinkedHashMap link) {
-            link.reversed().forEach(handler);
-        } else {
-            throw new Error();
-        }
+        List<Entry<K, List<V>>> entries = new LinkedList();
+        map.entrySet().forEach(entries::addFirst);
+        entries.forEach(entry -> {
+            handler.accept(entry.getKey(), entry.getValue());
+        });
     }
 }
