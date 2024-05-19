@@ -2999,12 +2999,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                         return;
                     }
 
-                    // The try-catch-finally block which indicates the same start and end nodes
-                    // means multiple catches.
-                    if (block.start == start && end != catcher) {
-                        block.addCatchOrFinallyBlock(exception, catcher);
-                        return;
-                    }
+                    // // The try-catch-finally block which indicates the same start and end nodes
+                    // // means multiple catches.
+                    // if (block.start == start && end != catcher) {
+                    // block.addCatchOrFinallyBlock(exception, catcher);
+                    // return;
+                    // }
 
                     for (CatchOrFinally cof : block.blocks) {
                         if (cof.node == catcher) {

@@ -13,6 +13,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import reincarnation.CodeVerifier;
 import reincarnation.CrossDecompilerTest;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class SwitchTest extends CodeVerifier {
@@ -951,6 +952,7 @@ class SwitchTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    @Debuggable(vineflower = true)
     void breakTryCatchFinally() {
         verify(new TestCode.IntParam() {
 
@@ -966,11 +968,11 @@ class SwitchTest extends CodeVerifier {
                     } finally {
                         param += 2;
                     }
-                    param += 3;
+                    param *= 3;
                     break;
 
                 default:
-                    param += 4;
+                    param *= 4;
                     break;
                 }
                 return param + 10;
