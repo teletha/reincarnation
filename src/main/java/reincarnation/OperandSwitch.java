@@ -300,7 +300,10 @@ class OperandSwitch extends Operand {
             }
 
             // create splitter node for each cases
-            Set<Node> incomings = group.values().map(nodes -> manipulator.createSplitterNodeBefore(follower, nodes)).toSet();
+            Set<Node> incomings = group.values()
+                    .map(nodes -> manipulator.createSplitterNodeBefore(follower, nodes))
+                    .effect(node -> node.generationType = GeneratedNodeType.SwitchCaseEndPoint)
+                    .toSet();
 
             // create splitter node for this switch
             follower = manipulator.createSplitterNodeBefore(follower, incomings);

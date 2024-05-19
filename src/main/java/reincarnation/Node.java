@@ -105,6 +105,8 @@ public class Node implements Code<Operand>, Comparable<Node> {
     /** The number of current write calls. */
     private int currentCalls = 0;
 
+    GeneratedNodeType generationType;
+
     /** The relationship with loop structure header. */
     public final Variable<Loopable> loopHeader = Variable.empty();
 
@@ -176,6 +178,15 @@ public class Node implements Code<Operand>, Comparable<Node> {
      */
     final boolean isSwitchExpression() {
         return child(OperandSwitch.class).map(OperandSwitch::isExpression).or(Boolean.FALSE);
+    }
+
+    /**
+     * Check node type.
+     * 
+     * @return
+     */
+    final boolean isSwitchCaseEndPoint() {
+        return generationType == GeneratedNodeType.SwitchCaseEndPoint;
     }
 
     /**
@@ -1346,6 +1357,10 @@ public class Node implements Code<Operand>, Comparable<Node> {
                         }
                         return breaker;
                     }
+                }
+
+                if (next.isSwitchCaseEndPoint()) {
+                    System.out.println(id + "  " + next.id);
                 }
             }
 
