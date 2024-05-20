@@ -1356,11 +1356,11 @@ public class Node implements Code<Operand>, Comparable<Node> {
                             breaker.comment(id + " -> " + next.id + " break" + "(" + next.currentCalls + " of " + requiredCalls + ") ");
                         }
                         return breaker;
+                    } else {
+                        System.out.println(id + "  " + next.id + "   " + requiredCalls + "  " + next.currentCalls);
                     }
-                }
-
-                if (next.isSwitchCaseEndPoint()) {
-                    System.out.println(id + "  " + next.id);
+                } else {
+                    System.out.println("NO loop exit " + id + "  " + next.id);
                 }
             }
 

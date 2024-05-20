@@ -13,6 +13,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import reincarnation.CodeVerifier;
 import reincarnation.CrossDecompilerTest;
+import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class SwitchTest extends CodeVerifier {
@@ -951,6 +952,7 @@ class SwitchTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    @Debuggable
     void breakTryCatchFinally() {
         verify(new TestCode.IntParam() {
 
