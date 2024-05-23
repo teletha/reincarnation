@@ -1351,16 +1351,21 @@ public class Node implements Code<Operand>, Comparable<Node> {
                             return Structure.Empty;
                         }
                     } else if (requiredCalls != next.currentCalls && outgoing.contains(next)) {
+                        System.out.println(id + "    " + next.id + "      " + breakable + "  " + next.incoming.stream()
+                                .map(x -> x.id)
+                                .toList() + "  " + next.incoming.stream().allMatch(x -> breakable.isSame(x.loopExit.v)));
+
+                        // if (next.incoming.stream().allMatch(x -> breakable.isSame(x.loopExit.v)))
+                        // {
+                        // return Structure.Empty;
+                        // }
+
                         Break breaker = new Break(this, breakable);
                         if (Debugger.current().isEnable()) {
                             breaker.comment(id + " -> " + next.id + " break" + "(" + next.currentCalls + " of " + requiredCalls + ") ");
                         }
                         return breaker;
-                    } else {
-                        System.out.println(id + "  " + next.id + "   " + requiredCalls + "  " + next.currentCalls);
                     }
-                } else {
-                    System.out.println("NO loop exit " + id + "  " + next.id);
                 }
             }
 

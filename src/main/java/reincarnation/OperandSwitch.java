@@ -22,6 +22,7 @@ import java.util.function.UnaryOperator;
 import kiss.I;
 import kiss.Signal;
 import reincarnation.coder.Coder;
+import reincarnation.structure.Breakable;
 import reincarnation.structure.Structure;
 import reincarnation.structure.Switch;
 import reincarnation.util.GeneratedCodes;
@@ -194,11 +195,16 @@ class OperandSwitch extends Operand {
         }
     }
 
+    private Switch cache;
+
     /**
      * @return
      */
-    public Structure structurize() {
-        return new Switch(entrance, condition, cases, follower);
+    public Switch structurize() {
+        if (cache == null) {
+            cache = new Switch(entrance, condition, cases, follower);
+        }
+        return cache;
     }
 
     /**
@@ -300,11 +306,48 @@ class OperandSwitch extends Operand {
             }
 
             // create splitter node for each cases
-            Set<Node> incomings = group.values().map(nodes -> manipulator.createSplitterNodeBefore(follower, nodes)).toSet();
+            Set<Node> incomings = group.values()
+                    .map(nodes -> manipulator.createSplitterNodeBefore(follower, nodes))
+                    .effect(node -> node.loopExit.set(new DelayedBreak(node)))
+                    .toSet();
 
             // create splitter node for this switch
             follower = manipulator.createSplitterNodeBefore(follower, incomings);
             follower.additionalCall++;
+        }
+    }
+
+    private class DelayedBreak extends Breakable {
+
+        /**
+         * @param that
+         */
+        public DelayedBreak(Node that) {
+            super(that, that);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected void writeCode(Coder coder) {
+            OperandSwitch.this.structurize().write(coder);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Optional<String> label() {
+            return OperandSwitch.this.structurize().label();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isSame(Breakable breakable) {
+            return super.isSame(breakable);
         }
     }
 
