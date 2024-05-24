@@ -81,12 +81,15 @@ public class CompileInfo {
     }
 
     /**
-     * @param e
+     * Build the detailed decompiler log.
+     * 
      * @return
      */
-    public Error buildError(Throwable e) {
+    public String buildMessage(boolean enableANCI) {
+        builder.delete(0, builder.length());
+
         write("");
-        write(type, "fails compiling", compilingClass.getName());
+        write(type, "compiles", compilingClass.getName());
         write(errorMessage);
 
         write("Original Code");
@@ -96,7 +99,7 @@ public class CompileInfo {
         write(format(decompiled, true));
 
         write("Decompiling Log");
-        write(Printable.unstain(decompilerDebugLog.toString()));
+        write(enableANCI ? decompilerDebugLog.toString() : Printable.unstain(decompilerDebugLog.toString()));
 
         for (ASMified asm : asmfied) {
             write("Bytecode Diff - ", asm.clazz.getName());
@@ -108,9 +111,17 @@ public class CompileInfo {
             write(decompiledByVineFlower);
         }
 
-        Error error = new Error(builder.toString());
-        error.setStackTrace(new StackTraceElement[0]);
+        return builder.toString();
+    }
 
+    /**
+     * Build error with detailed message.
+     * 
+     * @return
+     */
+    public Error buildError() {
+        Error error = new Error(buildMessage(false));
+        error.setStackTrace(new StackTraceElement[0]);
         return error;
     }
 

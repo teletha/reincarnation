@@ -80,6 +80,14 @@ public class Switch extends Breakable {
      * {@inheritDoc}
      */
     @Override
+    public Object id() {
+        return condition;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public String toString() {
         return "switch(" + condition + ")";
     }

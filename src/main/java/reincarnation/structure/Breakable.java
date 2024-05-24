@@ -10,7 +10,6 @@
 package reincarnation.structure;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -60,10 +59,7 @@ public abstract class Breakable extends Structure {
         return label;
     }
 
-    public boolean isSame(Breakable breakable) {
-        if (Objects.equals(this, breakable)) {
-            return true;
-        }
-        return false; // Objects.equals(label().get(), breakable.label().get());
+    public Object id() {
+        return associated;
     }
 }

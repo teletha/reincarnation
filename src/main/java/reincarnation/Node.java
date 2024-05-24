@@ -1351,14 +1351,15 @@ public class Node implements Code<Operand>, Comparable<Node> {
                             return Structure.Empty;
                         }
                     } else if (requiredCalls != next.currentCalls && outgoing.contains(next)) {
-                        System.out.println(id + "    " + next.id + "      " + breakable + "  " + next.incoming.stream()
-                                .map(x -> x.id)
-                                .toList() + "  " + next.incoming.stream().allMatch(x -> breakable.isSame(x.loopExit.v)));
-
-                        // if (next.incoming.stream().allMatch(x -> breakable.isSame(x.loopExit.v)))
-                        // {
-                        // return Structure.Empty;
-                        // }
+                        if (next.incoming.stream()
+                                .allMatch(n -> n.loopExit.isPresent() && Objects.equals(n.loopExit.v.id(), loopExit.v.id()))) {
+                            // // normal process
+                            // if (requiredCalls <= next.currentCalls) {
+                            // return next.analyze();
+                            // } else {
+                            // return Structure.Empty;
+                            // }
+                        }
 
                         Break breaker = new Break(this, breakable);
                         if (Debugger.current().isEnable()) {

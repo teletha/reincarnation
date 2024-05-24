@@ -346,8 +346,8 @@ class OperandSwitch extends Operand {
          * {@inheritDoc}
          */
         @Override
-        public boolean isSame(Breakable breakable) {
-            return super.isSame(breakable);
+        public Object id() {
+            return condition;
         }
     }
 

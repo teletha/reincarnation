@@ -192,22 +192,24 @@ public class CodeVerifier {
                 }
                 info.errorMessage.add(e.getMessage());
                 throw e;
-            } finally {
-                if (debuggable != null) {
-                    System.out.println(info.decompiled);
-                    System.out.println(info.decompilerDebugLog);
-
-                    // compare by another decompiler
-                    if (debuggable.vineflower()) {
-                        info.decompileByVineFlower();
-                    }
-                }
             }
         } catch (Throwable e) {
             if (CompilerType.isJavac()) {
                 info.asmfier(target, code.getClass());
             }
-            throw info.buildError(e);
+            throw info.buildError();
+        } finally {
+            if (debuggable != null) {
+                if (CompilerType.isJavac()) {
+                    info.asmfier(target, code.getClass());
+                }
+
+                // compare by another decompiler
+                if (debuggable.vineflower()) {
+                    info.decompileByVineFlower();
+                }
+                System.out.println(info.buildMessage(true));
+            }
         }
     }
 
