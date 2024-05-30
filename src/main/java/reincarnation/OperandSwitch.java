@@ -296,24 +296,32 @@ class OperandSwitch extends Operand {
             List<Node> cases = nodes().toList();
 
             // group incomings by cases
+            Set<Node> breakers = new HashSet();
             MultiMap<Node, Node> group = new MultiMap(true);
             for (Node in : follower.getPureIncoming()) {
-                for (Node node : cases) {
-                    if (in.hasDominator(node)) {
-                        group.put(node, in);
+                if (entrance.canReachTo(in)) {
+                    for (Node node : cases) {
+                        if (in.hasDominator(node)) {
+                            group.put(node, in);
+                        }
                     }
+                } else {
+                    breakers.add(in);
                 }
             }
 
             // create splitter node for each cases
             Set<Node> incomings = group.values()
                     .map(nodes -> manipulator.createSplitterNodeBefore(follower, nodes))
-                    .effect(node -> node.loopExit.set(new DelayedBreak(node)))
+                    // .effect(node -> node.loopExit.set(new DelayedBreak(node)))
                     .toSet();
 
             // create splitter node for this switch
             follower = manipulator.createSplitterNodeBefore(follower, incomings);
             follower.additionalCall++;
+
+            // Node created = manipulator.createSplitterNodeBefore(originalFollower, breakers);
+            // created.loopExit.set(new DelayedBreak(created));
         }
     }
 

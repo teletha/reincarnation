@@ -624,7 +624,6 @@ class SwitchTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    @Debuggable
     void breakNatural() {
         verify(new TestCode.IntParam() {
 
@@ -953,7 +952,6 @@ class SwitchTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    @Debuggable
     void breakTryCatchFinally() {
         verify(new TestCode.IntParam() {
 
