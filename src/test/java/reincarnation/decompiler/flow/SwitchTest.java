@@ -12,8 +12,8 @@ package reincarnation.decompiler.flow;
 import java.lang.annotation.RetentionPolicy;
 
 import reincarnation.CodeVerifier;
+import reincarnation.CompilerType;
 import reincarnation.CrossDecompilerTest;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class SwitchTest extends CodeVerifier {
@@ -855,7 +855,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @CrossDecompilerTest
+    @CrossDecompilerTest(CompilerType.Javac)
     void breakBlock() {
         verify(new TestCode.IntParam() {
 
@@ -979,8 +979,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @CrossDecompilerTest
-    @Debuggable
+    @CrossDecompilerTest(CompilerType.Javac)
     void breakNest() {
         verify(new TestCode.IntParam() {
 

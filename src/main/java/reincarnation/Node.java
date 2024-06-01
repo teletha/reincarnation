@@ -1316,7 +1316,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
      * @return An analyzed {@link Structure}.
      */
     public Structure process(Node next) {
-        System.out.println("Start process  " + id);
         if (next != null) {
             // count a number of required write call
             int requiredCalls = next.incoming.size() - next.backedges.size() + next.additionalCall;
@@ -1362,24 +1361,24 @@ public class Node implements Code<Operand>, Comparable<Node> {
                             return Structure.Empty;
                         }
                     } else if (requiredCalls != next.currentCalls && outgoing.contains(next)) {
+                        if (next.incoming.stream().allMatch(x -> x.loopExit.isPresent())) {
+                            if (loopExit.v.id().equals(next.loopExit.v.id())) {
+                                System.out.println(id + " -> " + next.id + "   " + loopExit.v.id() + "   " + next.loopExit.v
+                                        .id() + "   " + next.incoming.size());
+                                // return Structure.Empty;
+                            }
+                        }
                         Break breaker = new Break(this, breakable);
                         if (Debugger.current().isEnable()) {
                             breaker.comment(id + " -> " + next.id + " break" + "(" + next.currentCalls + " of " + requiredCalls + ") ");
                         }
                         return breaker;
-                    } else {
-                        System.out.println(id + "  " + next.id);
                     }
-                } else {
-                    System.out.println(id + " no loopexit");
                 }
-            } else {
-                System.out.println(id + " no next");
             }
 
             // normal process
             if (requiredCalls <= next.currentCalls) {
-                System.out.println("end " + id + "  " + next.id);
                 return next.analyze();
             }
         }

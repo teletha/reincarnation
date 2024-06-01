@@ -1,34 +1,43 @@
 java.lang.Error: 
 ============================================================
-Javac compiles reincarnation.decompiler.flow.SwitchTest$41
+Javac compiles reincarnation.decompiler.flow.SwitchTest$37
 ============================================================
-null
+/reincarnation/decompiler/flow/SwitchTest.java:26: エラー: この文に制御が移ることはありません
+                    break;
+                    ^
+/reincarnation/decompiler/flow/SwitchTest.java:35: エラー: この文に制御が移ることはありません
+                    break;
+                    ^
+
+Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
 ============================================================
 Original Code
 ============================================================
-void breakTryCatchFinally() {
+(CompilerType.Javac)
+    void breakBlock() {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 5) int param) {
-                switch (param) {
-                case 0, 1:
-                    try {
-                        param = MaybeThrow.error(param);
-                    } catch (Error e) {
-                        param = param + 1;
-                        break;
-                    } finally {
-                        param += 2;
+            public int run(@Param(from = 0, to = 10) int param) {
+                int value = 0;
+                switch (param % 2) {
+                case 0:
+                    if (param % 3 == 0) {
+                        value = 3;
+                    } else {
+                        value = 4;
                     }
-                    param *= 3;
                     break;
 
                 default:
-                    param *= 4;
+                    if (param % 5 == 0) {
+                        value = 5;
+                    } else {
+                        value = 1;
+                    }
                     break;
                 }
-                return param + 10;
+                return value;
             }
         });
     }
@@ -40,46 +49,52 @@ Decompiled Code
 03    import reincarnation.CodeVerifier;
 04    import reincarnation.TestCode.IntParam;
 05    import reincarnation.TestCode.Param;
-06    import reincarnation.decompiler.flow.MaybeThrow;
-07    import reincarnation.decompiler.flow.SwitchTest;
-08    
-09    class SwitchTest extends CodeVerifier {
-10    
-11        class SwitchTest$41 implements IntParam {
-12    
-13            SwitchTest$41(final SwitchTest this$0) {
-14            }
-15    
-16            public int run(@Param(to = 5) int param) {
-17                switch (param) {
+06    import reincarnation.decompiler.flow.SwitchTest;
+07    
+08    class SwitchTest extends CodeVerifier {
+09    
+10        class SwitchTest$37 implements IntParam {
+11    
+12            SwitchTest$37(final SwitchTest this$0) {
+13            }
+14    
+15            public int run(@Param(to = 10) int param) {
+16                int value = 0;
+17                switch (param % 2) {
 18                    case 0:
-19                    case 1:
-20                        try {
-21                            try {
-22                                param = MaybeThrow.error(param);
-23                            } catch(Error e) {
-24                                param += 1;
-25                            }
-26                        } finally {
-27                            param += 2;
-28                        }
-29                        param *= 3;
-30                        // B -> C break(1 of 3) 
-31                        break;
-32                    default :
-33                        param *= 4;
-34                        // A -> C break(2 of 3) 
-35                        break;
-36                }
-37                return param + 10;
-38            }
-39        }
-40    }
+19                        if (param % 3 != 0) {
+20                            value = 4;
+21                            // 7 -> A break(1 of 3) 
+22                            break;
+23                        } else {
+24                            value = 3;
+25                            // 5 -> A break(2 of 3) 
+26                            break;
+27                        }
+28                        // A -> C break(1 of 3) 
+29                        break;
+30                    default :
+31                        if (param % 5 != 0) {
+32                            value = 1;
+33                            // 8 -> B break(1 of 3) 
+34                            break;
+35                        } else {
+36                            value = 5;
+37                            // 9 -> B break(2 of 3) 
+38                            break;
+39                        }
+40                        // B -> C break(2 of 3) 
+41                        break;
+42                }
+43                return value;
+44            }
+45        }
+46    }
 ============================================================
 Decompiling Log
 ============================================================
-//--------------------------------- SwitchTest#breakTryCatchFinally (SwitchTest.java:955) ---------------------------------//
-Constructor() (SwitchTest.java:956)
+//-------------------------------------- SwitchTest#breakBlock (SwitchTest.java:860) --------------------------------------//
+Constructor() (SwitchTest.java:861)
 0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
 1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 
@@ -91,257 +106,116 @@ Delete tail empty return (show full nodes)
 
 0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
 
-//--------------------------------- SwitchTest#breakTryCatchFinally (SwitchTest.java:959) ---------------------------------//
-Method run(int arg0) (SwitchTest.java:977)
-5	in[]		out[6,0]	dom[]	doms[]	side[ ,0]	dest[0]		try:     	code: switch (param) [Switch]
-0	in[5]		out[1]		dom[5]	doms[]	side[5,1]	dest[1]		try: ss	code: param = MaybeThrow.error(param) [Assign#int]
-1	in[0]		out[7]		dom[0]	doms[]	side[0,7]	dest[7]		try: ee	code: param += 2 [Assign#int]
-7	in[1]		out[8]		dom[1]	doms[]	side[1,2]	dest[8]		try:     	code: 
-2	in[]		out[9]		dom[]	doms[]	side[7,9]	dest[9]		try:   c	code: 
-9	in[2]		out[4]		dom[2]	doms[]	side[2,4]	dest[4]		try:     	code: param = param + 1 [Assign#int]
-4	in[9]		out[10]		dom[9]	doms[]	side[9,10]	dest[10]	try:     	code: param += 2 [Assign#int]
-10	in[4]		out[11]		dom[4]	doms[]	side[4,3]	dest[11]	try:     	code: 
-3	in[]		out[12]		dom[]	doms[]	side[10,12]	dest[12]	try: c  	code: param += 2 [Assign#int]
-12	in[3]		out[]		dom[3]	doms[]	side[3,8]	dest[T]		try:     	code: throw local3 [Throw]
-8	in[7]		out[13]		dom[7]	doms[]	side[12,13]	dest[13]	try:     	code: param = param * 3 [Assign#int]
-13	in[8]		out[11]		dom[8]	doms[]	side[8,6]	dest[11]	try:     	code: 
-6	in[5]		out[11]		dom[5]	doms[]	side[13,11]	dest[11]	try:     	code: param = param * 4 [Assign#int]
-11	in[10,13,6]	out[]		dom[]	doms[]	side[6,14]	dest[T]		try:     	code: return param + 10 [Return#int - Binary#int]
-14	in[]		out[]		dom[]	doms[]	side[11, ]	dest[]		try:     	code: 
-
-Remove copied finally nodes [size: 1] from end's outgoings (show full nodes)
-5	in[]		out[6,0]	dom[]	doms[]	side[ ,0]	dest[0]		try:     	code: switch (param) [Switch]
-0	in[5]		out[1]		dom[5]	doms[]	side[5,1]	dest[1]		try: ss	code: param = MaybeThrow.error(param) [Assign#int]
-1	in[0]		out[7]		dom[0]	doms[]	side[0,7]	dest[7]		try: ee	code: param += 2 [Assign#int]
-7	in[1]		out[8]		dom[1]	doms[]	side[1,2]	dest[8]		try:     	code: 
-2	in[]		out[9]		dom[]	doms[]	side[7,9]	dest[9]		try:   c	code: 
-9	in[2]		out[4]		dom[2]	doms[]	side[2,4]	dest[4]		try:     	code: param = param + 1 [Assign#int]
-4	in[9]		out[10]		dom[9]	doms[]	side[9,10]	dest[10]	try:     	code: param += 2 [Assign#int]
-10	in[4]		out[11]		dom[4]	doms[]	side[4,3]	dest[11]	try:     	code: 
-3	in[]		out[12]		dom[]	doms[]	side[10,12]	dest[12]	try: c  	code: param += 2 [Assign#int]
-12	in[3]		out[]		dom[3]	doms[]	side[3,8]	dest[T]		try:     	code: throw local3 [Throw]
-8	in[7]		out[13]		dom[7]	doms[]	side[12,13]	dest[13]	try:     	code: param = param * 3 [Assign#int]
-13	in[8]		out[11]		dom[8]	doms[]	side[8,6]	dest[11]	try:     	code: 
-6	in[5]		out[11]		dom[5]	doms[]	side[13,11]	dest[11]	try:     	code: param = param * 4 [Assign#int]
-11	in[10,13,6]	out[]		dom[]	doms[]	side[6,14]	dest[T]		try:     	code: return param + 10 [Return#int - Binary#int]
-14	in[]		out[]		dom[]	doms[]	side[11, ]	dest[]		try:     	code: 
-
-5	in[]		out[6,0]	dom[]	doms[]	side[ ,0]	dest[0]		try:     	code: switch (param) [Switch]
-0	in[5]		out[8]		dom[5]	doms[]	side[5,2]	dest[8]		try: ss	code: param = MaybeThrow.error(param) [Assign#int]
-2	in[]		out[9]		dom[]	doms[]	side[0,9]	dest[9]		try:   c	code: 
-9	in[2]		out[11]		dom[2]	doms[]	side[2,3]	dest[11]	try:     	code: param = param + 1 [Assign#int]
-3	in[]		out[12]		dom[]	doms[]	side[9,12]	dest[12]	try: c  	code: param += 2 [Assign#int]
-12	in[3]		out[]		dom[3]	doms[]	side[3,8]	dest[T]		try:     	code: throw local3 [Throw]
-8	in[0]		out[13]		dom[0]	doms[]	side[12,13]	dest[13]	try:     	code: param = param * 3 [Assign#int]
-13	in[8]		out[11]		dom[8]	doms[]	side[8,6]	dest[11]	try:     	code: 
-6	in[5]		out[11]		dom[5]	doms[]	side[13,11]	dest[11]	try:     	code: param = param * 4 [Assign#int]
-11	in[13,6,9]	out[]		dom[]	doms[]	side[6,14]	dest[T]		try:     	code: return param + 10 [Return#int - Binary#int]
-14	in[]		out[]		dom[]	doms[]	side[11, ]	dest[]		try:     	code: 
-
+//-------------------------------------- SwitchTest#breakBlock (SwitchTest.java:864) --------------------------------------//
+Method run(int arg0) (SwitchTest.java:883)
+0	in[]		out[1]		dom[]	doms[]	side[ ,1]	dest[1]	code: value = 0 [Assign]
+1	in[0]		out[3,2]	dom[0]	doms[]	side[0,2]	dest[2]	code: switch (param % 2) [Switch]
+2	in[1]		out[4,5]	dom[1]	doms[]	side[1,5]	dest[5]	code: if (param % 3 0) then 4 else 5 [Condition then 4 else 5]
+5	in[2]		out[6]		dom[2]	doms[]	side[2,4]	dest[6]	code: value = 3 [Assign]
+4	in[2]		out[7]		dom[2]	doms[]	side[5,7]	dest[7]	code: value = 4 [Assign]
+7	in[4]		out[6]		dom[4]	doms[]	side[4,3]	dest[6]	code: 
+3	in[1]		out[8,9]	dom[1]	doms[]	side[7,9]	dest[9]	code: if (param % 5 0) then 8 else 9 [Condition then 8 else 9]
+9	in[3]		out[6]		dom[3]	doms[]	side[3,8]	dest[6]	code: value = 5 [Assign]
+8	in[3]		out[6]		dom[3]	doms[]	side[9,6]	dest[6]	code: value = 1 [Assign]
+6	in[5,7,9,8]	out[]		dom[]	doms[]	side[8,10]	dest[T]	code: return value [Return#int - LocalVariable#int]
+10	in[]		out[]		dom[]	doms[]	side[6, ]	dest[]	code: 
 
 Analyze switch (show full nodes)
-5	in[]		out[6,0]	dom[]	doms[0,6,11]	side[ ,0]	dest[0]		try:     	code: switch (param) [Switch]
-0	in[5]		out[8]		dom[5]	doms[2,3,8]		side[5,2]	dest[8]		try: ss	code: param = MaybeThrow.error(param) [Assign#int]
-2	in[]		out[9]		dom[]	doms[9]			side[0,9]	dest[9]		try:   c	code: 
-9	in[2]		out[11]		dom[2]	doms[]			side[2,3]	dest[11]	try:     	code: param = param + 1 [Assign#int]
-3	in[]		out[]		dom[]	doms[]			side[9,8]	dest[8]		try: c  	code: param += 2 [Assign#int]
-8	in[0]		out[13]		dom[0]	doms[13]		side[3,13]	dest[13]	try: x  	code: param = param * 3 [Assign#int]
-13	in[8]		out[11]		dom[8]	doms[]			side[8,6]	dest[11]	try:     	code: 
-6	in[5]		out[11]		dom[5]	doms[]			side[13,11]	dest[11]	try:     	code: param = param * 4 [Assign#int]
-11	in[13,6,9]	out[]		dom[]	doms[]			side[6, ]	dest[T]		try:     	code: return param + 10 [Return#int - Binary#int]
+0	in[]		out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: value = 0 [Assign]
+1	in[0]		out[3,2]	dom[0]	doms[2,3,6]	side[0,2]	dest[2]	code: switch (param % 2) [Switch]
+2	in[1]		out[4,5]	dom[1]	doms[5,4]	side[1,5]	dest[5]	code: if (param % 3 0) then 4 else 5 [Condition then 4 else 5]
+5	in[2]		out[6]		dom[2]	doms[]		side[2,4]	dest[6]	code: value = 3 [Assign]
+4	in[2]		out[7]		dom[2]	doms[7]		side[5,7]	dest[7]	code: value = 4 [Assign]
+7	in[4]		out[6]		dom[4]	doms[]		side[4,3]	dest[6]	code: 
+3	in[1]		out[8,9]	dom[1]	doms[9,8]	side[7,9]	dest[9]	code: if (param % 5 0) then 8 else 9 [Condition then 8 else 9]
+9	in[3]		out[6]		dom[3]	doms[]		side[3,8]	dest[6]	code: value = 5 [Assign]
+8	in[3]		out[6]		dom[3]	doms[]		side[9,6]	dest[6]	code: value = 1 [Assign]
+6	in[5,7,9,8]	out[]		dom[]	doms[]		side[8, ]	dest[T]	code: return value [Return#int - LocalVariable#int]
 
-5	in[]	out[6,0]	dom[]	doms[0,6,11]	side[ ,0]	dest[0]		try:     	code: switch (param) [Switch]
-0	in[5]	out[8]		dom[5]	doms[2,3,8]		side[5,2]	dest[8]		try: ss	code: param = MaybeThrow.error(param) [Assign#int]
-2	in[]	out[9]		dom[]	doms[9]			side[0,9]	dest[9]		try:   c	code: 
-9	in[2]	out[D]		dom[2]	doms[]			side[2,3]	dest[11]	try:     	code: param = param + 1 [Assign#int]
-3	in[]	out[]		dom[]	doms[]			side[9,8]	dest[8]		try: c  	code: param += 2 [Assign#int]
-8	in[0]	out[13]		dom[0]	doms[13]		side[3,13]	dest[13]	try: x  	code: param = param * 3 [Assign#int]
-13	in[8]	out[B]		dom[8]	doms[]			side[8,6]	dest[11]	try:     	code: 
-6	in[5]	out[A]		dom[5]	doms[]			side[13,A]	dest[11]	try:     	code: param = param * 4 [Assign#int]
-A	in[6]	out[C]		dom[6]	doms[]			side[6,B]	dest[11]	try:     	code: 
-B	in[13]	out[C]		dom[13]	doms[]			side[A,C]	dest[11]	try:     	code: 
-C	in[B,A]	out[11]		dom[]	doms[]			side[B,D]	dest[11]	try:     	code: 
-D	in[9]	out[11]		dom[9]	doms[]			side[C,11]	dest[11]	try:     	code: 
-11	in[C,D]	out[]		dom[]	doms[]			side[D, ]	dest[T]		try:     	code: return param + 10 [Return#int - Binary#int]
-
-
-Analyze try-catch-finally (show full nodes)
-5	in[]	out[6,0]	dom[]	doms[0,6,11]	side[ ,0]	dest[0]		try:     	code: switch (param) [Switch]
-0	in[5]	out[8]		dom[5]	doms[2,3,8]		side[5,2]	dest[8]		try: ss	code: param = MaybeThrow.error(param) [Assign#int]
-2	in[]	out[9]		dom[]	doms[9]			side[0,9]	dest[9]		try:   c	code: 
-9	in[2]	out[D]		dom[2]	doms[]			side[2,3]	dest[11]	try:     	code: param = param + 1 [Assign#int]
-3	in[]	out[]		dom[]	doms[]			side[9,8]	dest[8]		try: c  	code: param += 2 [Assign#int]
-8	in[0]	out[13]		dom[0]	doms[13]		side[3,13]	dest[13]	try: x  	code: param = param * 3 [Assign#int]
-13	in[8]	out[B]		dom[8]	doms[]			side[8,6]	dest[11]	try:     	code: 
-6	in[5]	out[A]		dom[5]	doms[]			side[13,A]	dest[11]	try:     	code: param = param * 4 [Assign#int]
-A	in[6]	out[C]		dom[6]	doms[]			side[6,B]	dest[11]	try:     	code: 
-B	in[13]	out[C]		dom[13]	doms[]			side[A,C]	dest[11]	try:     	code: 
-C	in[B,A]	out[11]		dom[]	doms[]			side[B,D]	dest[11]	try:     	code: 
-D	in[9]	out[11]		dom[9]	doms[]			side[C,11]	dest[11]	try:     	code: 
-11	in[C,D]	out[]		dom[]	doms[]			side[D, ]	dest[T]		try:     	code: return param + 10 [Return#int - Binary#int]
-
-5	in[]	out[6,0]	dom[]	doms[0,6,11]	side[ ,0]	dest[0]		try:     	code: switch (param) [Switch]
-0	in[5]	out[8]		dom[5]	doms[2,3,8]		side[5,2]	dest[8]		try: ss	code: param = MaybeThrow.error(param) [Assign#int]
-2	in[]	out[9]		dom[]	doms[9]			side[0,9]	dest[9]		try:   c	code: 
-9	in[2]	out[D]		dom[2]	doms[]			side[2,3]	dest[11]	try:     	code: param = param + 1 [Assign#int]
-3	in[]	out[]		dom[]	doms[]			side[9,8]	dest[8]		try: c  	code: param += 2 [Assign#int]
-8	in[0]	out[13]		dom[0]	doms[13]		side[3,13]	dest[13]	try: x  	code: param = param * 3 [Assign#int]
-13	in[8]	out[B]		dom[8]	doms[]			side[8,6]	dest[11]	try:     	code: 
-6	in[5]	out[A]		dom[5]	doms[]			side[13,A]	dest[11]	try:     	code: param = param * 4 [Assign#int]
-A	in[6]	out[C]		dom[6]	doms[]			side[6,B]	dest[11]	try:     	code: 
-B	in[13]	out[C]		dom[13]	doms[]			side[A,C]	dest[11]	try:     	code: 
-C	in[B,A]	out[11]		dom[]	doms[]			side[B,D]	dest[11]	try:     	code: 
-D	in[9]	out[]		dom[9]	doms[]			side[C,11]	dest[11]	try:     	code: 
-11	in[C]	out[]		dom[C]	doms[]			side[D, ]	dest[T]		try:     	code: return param + 10 [Return#int - Binary#int]
+0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: value = 0 [Assign]
+1	in[0]	out[3,2]	dom[0]	doms[2,3,6]	side[0,2]	dest[2]	code: switch (param % 2) [Switch]
+2	in[1]	out[4,5]	dom[1]	doms[5,4]	side[1,5]	dest[5]	code: if (param % 3 0) then 4 else 5 [Condition then 4 else 5]
+5	in[2]	out[A]		dom[2]	doms[]		side[2,4]	dest[6]	code: value = 3 [Assign]
+4	in[2]	out[7]		dom[2]	doms[7]		side[5,7]	dest[7]	code: value = 4 [Assign]
+7	in[4]	out[A]		dom[4]	doms[]		side[4,3]	dest[6]	code: 
+3	in[1]	out[8,9]	dom[1]	doms[9,8]	side[7,9]	dest[9]	code: if (param % 5 0) then 8 else 9 [Condition then 8 else 9]
+9	in[3]	out[B]		dom[3]	doms[]		side[3,8]	dest[6]	code: value = 5 [Assign]
+8	in[3]	out[B]		dom[3]	doms[]		side[9,A]	dest[6]	code: value = 1 [Assign]
+A	in[5,7]	out[C]		dom[]	doms[]		side[8,B]	dest[6]	code: 
+B	in[9,8]	out[C]		dom[]	doms[]		side[A,C]	dest[6]	code: 
+C	in[B,A]	out[6]		dom[]	doms[]		side[B,6]	dest[6]	code: 
+6	in[C]	out[]		dom[C]	doms[]		side[C, ]	dest[T]	code: return value [Return#int - LocalVariable#int]
 
 
-Build shorthand assign (show full nodes)
-5	in[]	out[6,0]	dom[]	doms[0,6,11]	side[ ,0]	dest[0]		try:     	code: switch (param) [Switch]
-0	in[5]	out[8]		dom[5]	doms[2,3,8]		side[5,2]	dest[8]		try: ss	code: param = MaybeThrow.error(param) [Assign#int]
-2	in[]	out[9]		dom[]	doms[9]			side[0,9]	dest[9]		try:   c	code: 
-9	in[2]	out[D]		dom[2]	doms[]			side[2,3]	dest[11]	try:     	code: param = param + 1 [Assign#int]
-3	in[]	out[]		dom[]	doms[]			side[9,8]	dest[8]		try: c  	code: param += 2 [Assign#int]
-8	in[0]	out[13]		dom[0]	doms[13]		side[3,13]	dest[13]	try: x  	code: param = param * 3 [Assign#int]
-13	in[8]	out[B]		dom[8]	doms[]			side[8,6]	dest[11]	try:     	code: 
-6	in[5]	out[A]		dom[5]	doms[]			side[13,A]	dest[11]	try:     	code: param = param * 4 [Assign#int]
-A	in[6]	out[C]		dom[6]	doms[]			side[6,B]	dest[11]	try:     	code: 
-B	in[13]	out[C]		dom[13]	doms[]			side[A,C]	dest[11]	try:     	code: 
-C	in[B,A]	out[11]		dom[]	doms[]			side[B,D]	dest[11]	try:     	code: 
-D	in[9]	out[]		dom[9]	doms[]			side[C,11]	dest[11]	try:     	code: 
-11	in[C]	out[]		dom[C]	doms[]			side[D, ]	dest[T]		try:     	code: return param + 10 [Return#int - Binary#int]
-
-5	in[]	out[6,0]	dom[]	doms[0,6,11]	side[ ,0]	dest[0]		try:     	code: switch (param) [Switch]
-0	in[5]	out[8]		dom[5]	doms[2,3,8]		side[5,2]	dest[8]		try: ss	code: param = MaybeThrow.error(param) [Assign#int]
-2	in[]	out[9]		dom[]	doms[9]			side[0,9]	dest[9]		try:   c	code: 
-9	in[2]	out[D]		dom[2]	doms[]			side[2,3]	dest[11]	try:     	code: param += 1 [Assign#int]
-3	in[]	out[]		dom[]	doms[]			side[9,8]	dest[8]		try: c  	code: param += 2 [Assign#int]
-8	in[0]	out[13]		dom[0]	doms[13]		side[3,13]	dest[13]	try: x  	code: param *= 3 [Assign#int]
-13	in[8]	out[B]		dom[8]	doms[]			side[8,6]	dest[11]	try:     	code: 
-6	in[5]	out[A]		dom[5]	doms[]			side[13,A]	dest[11]	try:     	code: param *= 4 [Assign#int]
-A	in[6]	out[C]		dom[6]	doms[]			side[6,B]	dest[11]	try:     	code: 
-B	in[13]	out[C]		dom[13]	doms[]			side[A,C]	dest[11]	try:     	code: 
-C	in[B,A]	out[11]		dom[]	doms[]			side[B,D]	dest[11]	try:     	code: 
-D	in[9]	out[]		dom[9]	doms[]			side[C,11]	dest[11]	try:     	code: 
-11	in[C]	out[]		dom[C]	doms[]			side[D, ]	dest[T]		try:     	code: return param + 10 [Return#int - Binary#int]
-
-
-Analyze nodes (show full nodes)
-5	in[]	out[6,0]	dom[]	doms[0,6,11]	side[ ,0]	dest[0]		try:     	code: switch (param) [Switch]
-0	in[5]	out[8]		dom[5]	doms[2,3,8]		side[5,2]	dest[8]		try: ss	code: param = MaybeThrow.error(param) [Assign#int]
-2	in[]	out[9]		dom[]	doms[9]			side[0,9]	dest[9]		try:   c	code: 
-9	in[2]	out[D]		dom[2]	doms[]			side[2,3]	dest[11]	try:     	code: param += 1 [Assign#int]
-3	in[]	out[]		dom[]	doms[]			side[9,8]	dest[8]		try: c  	code: param += 2 [Assign#int]
-8	in[0]	out[13]		dom[0]	doms[13]		side[3,13]	dest[13]	try: x  	code: param *= 3 [Assign#int]
-13	in[8]	out[B]		dom[8]	doms[]			side[8,6]	dest[11]	try:     	code: 
-6	in[5]	out[A]		dom[5]	doms[]			side[13,A]	dest[11]	try:     	code: param *= 4 [Assign#int]
-A	in[6]	out[C]		dom[6]	doms[]			side[6,B]	dest[11]	try:     	code: 
-B	in[13]	out[C]		dom[13]	doms[]			side[A,C]	dest[11]	try:     	code: 
-C	in[B,A]	out[11]		dom[]	doms[]			side[B,D]	dest[11]	try:     	code: 
-D	in[9]	out[]		dom[9]	doms[]			side[C,11]	dest[11]	try:     	code: 
-11	in[C]	out[]		dom[C]	doms[]			side[D, ]	dest[T]		try:     	code: return param + 10 [Return#int - Binary#int]
-
-5	in[]	out[6,0]	dom[]	doms[0,6,11]	side[ ,0]	dest[0]		code: switch (param) [Switch]
-0	in[5]	out[8]		dom[5]	doms[2,3,8]		side[5,2]	dest[8]		code: param = MaybeThrow.error(param) [Assign#int]
-2	in[]	out[9]		dom[]	doms[9]			side[0,9]	dest[9]		code: 
-9	in[2]	out[D]		dom[2]	doms[]			side[2,3]	dest[11]	code: param += 1 [Assign#int]
-3	in[]	out[]		dom[]	doms[]			side[9,8]	dest[8]		code: param += 2 [Assign#int]
-8	in[0]	out[13]		dom[0]	doms[13]		side[3,13]	dest[13]	code: param *= 3 [Assign#int]
-13	in[8]	out[B]		dom[8]	doms[]			side[8,6]	dest[11]	code: 
-6	in[5]	out[A]		dom[5]	doms[]			side[13,A]	dest[11]	code: param *= 4 [Assign#int]
-A	in[6]	out[C]		dom[6]	doms[]			side[6,B]	dest[11]	code: 
-B	in[13]	out[C]		dom[13]	doms[]			side[A,C]	dest[11]	code: 
-C	in[B,A]	out[11]		dom[]	doms[]			side[B,D]	dest[11]	code: 
-D	in[9]	out[]		dom[9]	doms[]			side[C,11]	dest[11]	code: 
-11	in[C]	out[]		dom[C]	doms[]			side[D, ]	dest[T]		code: return param + 10 [Return#int - Binary#int]
-
-
-5	in[]	out[6,0]	dom[]	doms[0,6,11]	side[ ,0]	dest[0]		code: switch (param) [Switch]
-0	in[5]	out[8]		dom[5]	doms[2,3,8]		side[5,2]	dest[8]		code: param = MaybeThrow.error(param) [Assign#int]
-2	in[]	out[9]		dom[]	doms[9]			side[0,9]	dest[9]		code: 
-9	in[2]	out[D]		dom[2]	doms[]			side[2,3]	dest[11]	code: param += 1 [Assign#int]
-3	in[]	out[]		dom[]	doms[]			side[9,8]	dest[8]		code: param += 2 [Assign#int]
-8	in[0]	out[13]		dom[0]	doms[13]		side[3,13]	dest[13]	code: param *= 3 [Assign#int]
-13	in[8]	out[B]		dom[8]	doms[]			side[8,6]	dest[11]	code: 
-6	in[5]	out[A]		dom[5]	doms[]			side[13,A]	dest[11]	code: param *= 4 [Assign#int]
-A	in[6]	out[C]		dom[6]	doms[]			side[6,B]	dest[11]	code: 
-B	in[13]	out[C]		dom[13]	doms[]			side[A,C]	dest[11]	code: 
-C	in[B,A]	out[11]		dom[]	doms[]			side[B,D]	dest[11]	code: 
-D	in[9]	out[]		dom[9]	doms[]			side[C,11]	dest[11]	code: 
-11	in[C]	out[]		dom[C]	doms[]			side[D, ]	dest[T]		code: return param + 10 [Return#int - Binary#int]
+0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: value = 0 [Assign]
+1	in[0]	out[3,2]	dom[0]	doms[2,3,6]	side[0,2]	dest[2]	code: switch (param % 2) [Switch]
+2	in[1]	out[4,5]	dom[1]	doms[5,4]	side[1,5]	dest[5]	code: if (param % 3 0) then 4 else 5 [Condition then 4 else 5]
+5	in[2]	out[A]		dom[2]	doms[]		side[2,4]	dest[6]	code: value = 3 [Assign]
+4	in[2]	out[7]		dom[2]	doms[7]		side[5,7]	dest[7]	code: value = 4 [Assign]
+7	in[4]	out[A]		dom[4]	doms[]		side[4,3]	dest[6]	code: 
+3	in[1]	out[8,9]	dom[1]	doms[9,8]	side[7,9]	dest[9]	code: if (param % 5 0) then 8 else 9 [Condition then 8 else 9]
+9	in[3]	out[B]		dom[3]	doms[]		side[3,8]	dest[6]	code: value = 5 [Assign]
+8	in[3]	out[B]		dom[3]	doms[]		side[9,A]	dest[6]	code: value = 1 [Assign]
+A	in[5,7]	out[C]		dom[]	doms[]		side[8,B]	dest[6]	code: 
+B	in[9,8]	out[C]		dom[]	doms[]		side[A,C]	dest[6]	code: 
+C	in[B,A]	out[6]		dom[]	doms[]		side[B,6]	dest[6]	code: 
+6	in[C]	out[]		dom[C]	doms[]		side[C, ]	dest[T]	code: return value [Return#int - LocalVariable#int]
 
 
 ============================================================
-Bytecode Diff -  reincarnation.decompiler.flow.SwitchTest$41
+Bytecode Diff -  reincarnation.decompiler.flow.SwitchTest$37
 ============================================================
-ECJ																		Javac
-visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);						visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
-AnnotableParameterCount(1, true);										AnnotableParameterCount(1, true);
-TryCatchBlock(L0, L1, L2, "j.l.Error");									TryCatchBlock(L0, L1, L2, "j.l.Error");
-TryCatchBlock(L0, ~L3~, ~L4~, null);									TryCatchBlock(L0, +L1+, +L3+, null);
-																		+TryCatchBlock(L2, L4, L3, null);+
-Label(L5);																Label(L5);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-~TableSwitchInsn~(0, 1~,~ ~L6~, new Label[] { L0, L0 });				+LookupSwitchInsn+(+L6, new int[] { +0, 1 +}+, new Label[] { L0, L0 });
-Label(L0);																Label(L0);
-Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-MethodInsn(INVOKESTATIC, "MaybeThrow", "error", "(I)I", false);			MethodInsn(INVOKESTATIC, "MaybeThrow", "error", "(I)I", false);
-VarInsn(ISTORE, 1);														VarInsn(ISTORE, 1);
-Label(L1);																Label(L1);
-~JumpInsn~(~GOTO~, ~L7~);												+IincInsn+(+1+, +2+);
-																		+Label(L7);+
-																		+JumpInsn(GOTO, L8);+
-Label(L2);																Label(L2);
-Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Error"});					Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Error"});
-VarInsn(ASTORE, 2);														VarInsn(ASTORE, 2);
-~Label(L8);~															
-~IincInsn(1, 1);~														
-~Label(L3);~															
-~IincInsn(1, 2);~														
-Label(L9);																Label(L9);
-~JumpInsn~(~GOTO~, ~L10~);												+VarInsn+(+ILOAD+, +1+);
-																		+Insn(ICONST_1);+
-																		+Insn(IADD);+
-																		+VarInsn(ISTORE, 1);+
-Label(L4);																Label(L4);
-																		+IincInsn(1, 2);+
-																		+Label(L10);+
-																		+JumpInsn(GOTO, L11);+
-																		+Label(L3);+
-Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Throwable"});				Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Throwable"});
-VarInsn(ASTORE, 3);														VarInsn(ASTORE, 3);
-~Label(L11);~															
-IincInsn(1, 2);															IincInsn(1, 2);
-Label(L12);																Label(L12);
-VarInsn(ALOAD, 3);														VarInsn(ALOAD, 3);
-Insn(ATHROW);															Insn(ATHROW);
-Label(~L7~);															Label(+L8+);
-Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
-~IincInsn(1, 2);~														
-~Label(L13);~															
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-~Label(L14);~															
-Insn(ICONST_3);															Insn(ICONST_3);
-Insn(IMUL);																Insn(IMUL);
-VarInsn(ISTORE, 1);														VarInsn(ISTORE, 1);
-Label(~L15~);															Label(+L13+);
-JumpInsn(GOTO, ~L10~);													JumpInsn(GOTO, +L11+);
-Label(L6);																Label(L6);
-Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-Insn(ICONST_4);															Insn(ICONST_4);
-Insn(IMUL);																Insn(IMUL);
-VarInsn(ISTORE, 1);														VarInsn(ISTORE, 1);
-Label(~L10~);															Label(+L11+);
-Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-IntInsn(BIPUSH, 10);													IntInsn(BIPUSH, 10);
-Insn(IADD);																Insn(IADD);
-Insn(IRETURN);															Insn(IRETURN);
-Label(~L16~);															Label(+L14+);
-LocalVariable(~"this"~, ~"LSwitchTest$41;"~, null, ~L5~, ~L16~, ~0~);	LocalVariable(+"e"+, +"Lj.l.Error;"+, null, +L9+, +L3+, +2+);
-LocalVariable(~"param"~, ~"I"~, null, L5, ~L16~, ~1~);					LocalVariable(+"this"+, +"LSwitchTest$41;"+, null, L5, +L14+, +0+);
-LocalVariable(~"e"~, ~"Lj.l.Error;"~, null, ~L8~, ~L4~, ~2~);			LocalVariable(+"param"+, +"I"+, null, +L5+, +L14+, +1+);
+ECJ																Javac
+visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);				visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
+AnnotableParameterCount(1, true);								AnnotableParameterCount(1, true);
+Label(L0);														Label(L0);
+Insn(ICONST_0);													Insn(ICONST_0);
+VarInsn(ISTORE, 2);												VarInsn(ISTORE, 2);
+Label(L1);														Label(L1);
+VarInsn(ILOAD, 1);												VarInsn(ILOAD, 1);
+Insn(ICONST_2);													Insn(ICONST_2);
+Insn(IREM);														Insn(IREM);
+~TableSwitchInsn~(~0~, 0~,~ ~L3~, new Label[] { L2 });			+LookupSwitchInsn+(+L3+, +new int[] { +0 +}+, new Label[] { L2 });
+Label(L2);														Label(L2);
+Frame(F_APPEND,1, new Object[] {INTEGER}, 0, null);				Frame(F_APPEND,1, new Object[] {INTEGER}, 0, null);
+VarInsn(ILOAD, 1);												VarInsn(ILOAD, 1);
+Insn(ICONST_3);													Insn(ICONST_3);
+Insn(IREM);														Insn(IREM);
+JumpInsn(IFNE, L4);												JumpInsn(IFNE, L4);
+Label(L5);														Label(L5);
+Insn(ICONST_3);													Insn(ICONST_3);
+VarInsn(ISTORE, 2);												VarInsn(ISTORE, 2);
+~Label~(L6);													+JumpInsn+(+GOTO, +L6);
+~JumpInsn(GOTO, L7);~											
+Label(L4);														Label(L4);
+Frame(F_SAME, 0, null, 0, null);								Frame(F_SAME, 0, null, 0, null);
+Insn(ICONST_4);													Insn(ICONST_4);
+VarInsn(ISTORE, 2);												VarInsn(ISTORE, 2);
+Label(~L8~);													Label(+L7+);
+JumpInsn(GOTO, ~L7~);											JumpInsn(GOTO, +L6+);
+Label(L3);														Label(L3);
+Frame(F_SAME, 0, null, 0, null);								Frame(F_SAME, 0, null, 0, null);
+VarInsn(ILOAD, 1);												VarInsn(ILOAD, 1);
+Insn(ICONST_5);													Insn(ICONST_5);
+Insn(IREM);														Insn(IREM);
+JumpInsn(IFNE, ~L9~);											JumpInsn(IFNE, +L8+);
+Label(~L10~);													Label(+L9+);
+Insn(ICONST_5);													Insn(ICONST_5);
+VarInsn(ISTORE, 2);												VarInsn(ISTORE, 2);
+~Label(L11);~													JumpInsn(GOTO, +L6+);
+JumpInsn(GOTO, ~L7~);											+Label(L8);+
+~Label(L9);~													
+Frame(F_SAME, 0, null, 0, null);								Frame(F_SAME, 0, null, 0, null);
+Insn(ICONST_1);													Insn(ICONST_1);
+VarInsn(ISTORE, 2);												VarInsn(ISTORE, 2);
+Label(~L7~);													Label(+L6+);
+Frame(F_SAME, 0, null, 0, null);								Frame(F_SAME, 0, null, 0, null);
+VarInsn(ILOAD, 2);												VarInsn(ILOAD, 2);
+Insn(IRETURN);													Insn(IRETURN);
+Label(~L12~);													Label(+L10+);
+LocalVariable("this", "LSwitchTest$37;", null, L0, ~L12~, 0);	LocalVariable("this", "LSwitchTest$37;", null, L0, +L10+, 0);
+LocalVariable("param", "I", null, L0, ~L12~, 1);				LocalVariable("param", "I", null, L0, +L10+, 1);
+LocalVariable("value", "I", null, L1, ~L12~, 2);				LocalVariable("value", "I", null, L1, +L10+, 2);
 ============================================================
 
 
