@@ -907,6 +907,41 @@ public class Node implements Code<Operand>, Comparable<Node> {
     }
 
     /**
+     * Detect whether the specified node is traversable from this node.
+     * 
+     * @param nodes A set of target nodes.
+     * @return A result.
+     */
+    final boolean canReachToAny(Iterable<Node> nodes, Node... exclusionNodes) {
+        return canReachToAny(nodes, I.set(exclusionNodes));
+    }
+
+    /**
+     * Detect whether the specified node is traversable from this node.
+     * 
+     * @param nodes A set of target nodes.
+     * @return A result.
+     */
+    final boolean canReachToAny(Iterable<Node> nodes, Collection<Node> exclusionNodes) {
+        return canReachToAny(nodes, exclusionNodes, false);
+    }
+
+    /**
+     * Detect whether the specified node is traversable from this node.
+     * 
+     * @param nodes A set of target nodes.
+     * @return A result.
+     */
+    final boolean canReachToAny(Iterable<Node> nodes, Collection<Node> exclusionNodes, boolean acceptThrow) {
+        for (Node node : nodes) {
+            if (canReachTo(node, exclusionNodes, acceptThrow)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Detect whether the specified node is traversable to this node.
      * 
      * @param node A target node.
@@ -969,6 +1004,41 @@ public class Node implements Code<Operand>, Comparable<Node> {
             }
         }
         return true;
+    }
+
+    /**
+     * Detect whether the specified node is traversable to this node.
+     * 
+     * @param nodes A set of target nodes.
+     * @return A result.
+     */
+    final boolean canBeReachedFromAny(Iterable<Node> nodes, Node... exclusionNodes) {
+        return canBeReachedFromAny(nodes, I.set(exclusionNodes));
+    }
+
+    /**
+     * Detect whether the specified node is traversable to this node.
+     * 
+     * @param nodes A set of target nodes.
+     * @return A result.
+     */
+    final boolean canBeReachedFromAny(Iterable<Node> nodes, Collection<Node> exclusionNodes) {
+        return canBeReachedFromAny(nodes, exclusionNodes, false);
+    }
+
+    /**
+     * Detect whether the specified node is traversable to this node.
+     * 
+     * @param nodes A set of target nodes.
+     * @return A result.
+     */
+    final boolean canBeReachedFromAny(Iterable<Node> nodes, Collection<Node> exclusionNodes, boolean acceptThrow) {
+        for (Node node : nodes) {
+            if (canBeReachedFrom(node, exclusionNodes, acceptThrow)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -1361,13 +1431,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
                             return Structure.Empty;
                         }
                     } else if (requiredCalls != next.currentCalls && outgoing.contains(next)) {
-                        if (next.incoming.stream().allMatch(x -> x.loopExit.isPresent())) {
-                            if (loopExit.v.id().equals(next.loopExit.v.id())) {
-                                System.out.println(id + " -> " + next.id + "   " + loopExit.v.id() + "   " + next.loopExit.v
-                                        .id() + "   " + next.incoming.size());
-                                // return Structure.Empty;
-                            }
-                        }
                         Break breaker = new Break(this, breakable);
                         if (Debugger.current().isEnable()) {
                             breaker.comment(id + " -> " + next.id + " break" + "(" + next.currentCalls + " of " + requiredCalls + ") ");
