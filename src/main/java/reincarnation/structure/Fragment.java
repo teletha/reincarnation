@@ -57,13 +57,6 @@ public class Fragment extends Structure {
      * {@inheritDoc}
      */
     @Override
-    protected void analyze() {
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Signal<Structure> follower() {
         return I.signal(follow).skipNull();
     }

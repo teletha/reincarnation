@@ -531,6 +531,7 @@ class Debugger {
         if (executable != null) {
             DebugContext context = route.peekFirst();
             context.executable = executable;
+            context.testMethod = executable.getDeclaringClass() == null ? null : executable.getDeclaringClass().getEnclosingMethod();
             context.signature = executable.toString();
             context.line = 1;
         }
@@ -574,7 +575,8 @@ class Debugger {
      * @return The current compiling member.
      */
     Executable getExecutable() {
-        return latest().executable;
+        Method test = latest().testMethod;
+        return test != null ? test : latest().executable;
     }
 
     /**
@@ -583,7 +585,8 @@ class Debugger {
      * @return The current compiling class.
      */
     String getMethodName() {
-        return latest().signature;
+        Method test = latest().testMethod;
+        return test != null ? test.toString() : latest().signature;
     }
 
     /**
@@ -722,6 +725,9 @@ class Debugger {
 
         /** The current compiling line position. */
         private int lineNow = 1;
+
+        /** The current test method. */
+        private Method testMethod;
 
         /**
          * @param clazz An associated clazz.

@@ -43,7 +43,6 @@ public abstract class Jumpable<B extends Breakable> extends Structure {
     @Override
     protected void analyze() {
         LinkedList<Structure> ancestors = ancestor().takeUntil(s -> s instanceof Loopable).toCollection(new LinkedList());
-
         I.signal(ancestors).skip(breakable).flatMap(Structure::follower).skip(Structure::isEmpty).isEmitted().to(hasFollowers);
         I.signal(ancestors).as(Breakable.class).first().is(s -> s == breakable).to(omitLabel);
     }

@@ -1431,6 +1431,13 @@ public class Node implements Code<Operand>, Comparable<Node> {
                             return Structure.Empty;
                         }
                     } else if (requiredCalls != next.currentCalls && outgoing.contains(next)) {
+                        if (loopExit.isPresent()) {
+                            if (Objects.equals(loopExit.v.id(), breakable.id())) {
+                                System.out.println(Debugger.current()
+                                        .getMethodName() + " " + id + "(" + loopExit.v + ")  " + next.id + "(" + breakable + ")");
+                            }
+                        }
+
                         Break breaker = new Break(this, breakable);
                         if (Debugger.current().isEnable()) {
                             breaker.comment(id + " -> " + next.id + " break" + "(" + next.currentCalls + " of " + requiredCalls + ") ");
