@@ -728,6 +728,70 @@ class SwitchTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    void breakMixWithSingleBlock1() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value = 0;
+                switch (param) {
+                case 3:
+                    value = 2;
+                    break;
+
+                case 0:
+                    value = 10;
+                    break;
+
+                case 4:
+                    value = 11;
+                    break;
+
+                default:
+                    if (param == 2) {
+                        value = -1;
+                    }
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void breakMixWithSingleBlock2() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int value;
+                switch (param) {
+                case 3:
+                    value = 2;
+                    break;
+
+                case 0:
+                    value = 10;
+                    break;
+
+                case 4:
+                    value = 11;
+                    break;
+
+                default:
+                    if (param == 2) {
+                        value = -1;
+                    } else {
+                        value = -2;
+                    }
+                    break;
+                }
+                return value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     void breakGap() {
         verify(new TestCode.IntParam() {
 
