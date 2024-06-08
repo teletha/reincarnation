@@ -947,7 +947,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
-    @CrossDecompilerTest(CompilerType.Javac)
+    @CrossDecompilerTest
     void breakBlock() {
         verify(new TestCode.IntParam() {
 
