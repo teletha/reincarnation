@@ -1302,10 +1302,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
         Node one = outgoing.get(0);
         Node other = outgoing.get(1);
 
-        if (condition.then == other) {
-            condition.invert();
-        }
-
         if (one.getPureIncoming().size() != 1) {
             /**
              * no else <pre>
@@ -1315,8 +1311,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
              * one
              * </pre>
              */
-            condition.invert();
-
             then = other;
             follow = one;
         } else if (other.getPureIncoming().size() != 1) {
@@ -1349,7 +1343,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
                  * }
                  * </pre>
                  */
-                condition = condition.invert();
                 then = other;
                 follow = one;
             } else {
@@ -1375,6 +1368,10 @@ public class Node implements Code<Operand>, Comparable<Node> {
                     follow.additionalCall++;
                 }
             }
+        }
+
+        if (condition.then != then) {
+            condition = condition.invert();
         }
         return new If(this, condition, then, elze, follow);
     }
