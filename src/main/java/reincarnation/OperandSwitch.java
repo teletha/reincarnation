@@ -308,7 +308,7 @@ class OperandSwitch extends Operand {
             // create splitter node for each cases
             Set<Node> incomings = group.values()
                     .map(nodes -> manipulator.createSplitterNodeBefore(follower, nodes))
-                    .effect(node -> node.loopExit.set(new DelayedBreak(node)))
+                    // .effect(node -> node.loopExit.set(new DelayedBreak(node)))
                     .toSet();
 
             // create splitter node for this switch
