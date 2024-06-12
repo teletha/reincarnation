@@ -204,8 +204,8 @@ class LogicalExpressionInControlStructureTest extends CodeVerifier {
             @Override
             public int run(@Param(from = 0, to = 10) int value) {
                 if (1 < value && value <= 10) {
-                    while (value % 3 != 0 || value % 2 != 0) {
-                        if (value == 5 || value == 7) {
+                    while (value % 2 != 0 || value % 3 != 0) {
+                        if (value == 4 || value == 5) {
                             return 100;
                         }
                         value++;

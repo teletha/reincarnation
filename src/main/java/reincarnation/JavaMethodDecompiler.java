@@ -2415,6 +2415,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 Operand operand = node.previous.peek(0);
 
                 if (operand instanceof OperandCondition condition) {
+                    System.out.println("this:" + node + "\tcondition:" + condition + "\tright:" + right + "\tleft:" + left);
                     if (info.canMerge(condition, right) && condition.elze == node) {
                         dispose(node);
 
@@ -2949,23 +2950,23 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             // after.connect(condition.elze);
             // }
         }
-    }
 
-    private int searchSplittableIndex(Node node) {
-        Set<Node> outgoings = new HashSet();
+        private int searchSplittableIndex(Node node) {
+            Set<Node> outgoings = new HashSet();
 
-        for (int i = 0; i < node.stack.size(); i++) {
-            Operand operand = node.stack.get(i);
-            if (operand instanceof OperandCondition condition) {
-                if (condition.then != node) outgoings.add(condition.then);
-                if (condition.elze != node) outgoings.add(condition.elze);
+            for (int i = 0; i < node.stack.size(); i++) {
+                Operand operand = node.stack.get(i);
+                if (operand instanceof OperandCondition condition) {
+                    if (condition.then != node) outgoings.add(condition.then);
+                    if (condition.elze != node) outgoings.add(condition.elze);
+                }
+
+                if (2 < outgoings.size()) {
+                    return i;
+                }
             }
-
-            if (2 < outgoings.size()) {
-                return i;
-            }
+            return -1;
         }
-        return -1;
     }
 
     /**
