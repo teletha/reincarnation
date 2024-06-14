@@ -1,14 +1,11 @@
-[int arg0 > 10, 1 >= int arg0]
-[int arg0 != 5, int arg0 == 4]
-4 2 @ (int arg0 != 4 && int arg0 != 5) @ (1 >= int arg0 || int arg0 > 10)
-3
-[(int arg0 != 4 && int arg0 != 5)]
-4 2 @ (int arg0 != 4 && int arg0 != 5) @ (1 >= int arg0 || int arg0 > 10)
-3
-[int arg0 % 3 != 0, int arg0 % 2 != 0]
-3 6 @ (int arg0 % 2 != 0 || int arg0 % 3 != 0) @ ++int arg0
-[(int arg0 % 2 != 0 || int arg0 % 3 != 0)]
-3 6 @ (int arg0 % 2 != 0 || int arg0 % 3 != 0) @ ++int arg0
+this:(int arg0 != 4 && int arg0 != 5)	condition:(1 >= int arg0 || int arg0 > 10)	right:(int arg0 != 4 && int arg0 != 5)	left:int arg0 != 4
+this:(int arg0 != 4 && int arg0 != 5)	condition:(1 >= int arg0 || int arg0 > 10)	right:(int arg0 != 4 && int arg0 != 5)	left:null
+
+
+
+0  if((1 >= int arg0 || int arg0 > 10)) 1 else 2        2  if((int arg0 % 2 == 0 && int arg0 % 3 == 0)) 1 else 3
+0  if(((1 >= int arg0 || int arg0 > 10) || (int arg0 % 2 == 0 && int arg0 % 3 == 0))) 1 else 3        3  if((int arg0 != 4 && int arg0 != 5)) 5 else 4
+0  if(((1 >= int arg0 || int arg0 > 10) || (int arg0 % 2 == 0 && int arg0 % 3 == 0))) 1 else 3        3  if((int arg0 != 4 && int arg0 != 5)) 5 else 4
 
 ============================================================
 ECJ compiles reincarnation.decompiler.flow.LogicalExpressionInControlStructureTest$13
@@ -144,20 +141,9 @@ Merging logical condition (show full nodes)
 
 ============================================================
 
-[int arg0 > 10, 1 >= int arg0]
-[(1 >= int arg0 || int arg0 > 10)]
-[int arg0 % 3 == 0, int arg0 % 2 != 0]
-2 0 @ (int arg0 % 2 == 0 && int arg0 % 3 == 0) @ (1 >= int arg0 || int arg0 > 10)
-3
-4
-[(int arg0 % 2 == 0 && int arg0 % 3 == 0), (1 >= int arg0 || int arg0 > 10)]
-[((1 >= int arg0 || int arg0 > 10) || (int arg0 % 2 == 0 && int arg0 % 3 == 0))]
-[int arg0 != 5, int arg0 == 4]
-3 0 @ (int arg0 != 4 && int arg0 != 5) @ ((1 >= int arg0 || int arg0 > 10) || (int arg0 % 2 == 0 && int arg0 % 3 == 0))
-3
-[(int arg0 != 4 && int arg0 != 5)]
-3 0 @ (int arg0 != 4 && int arg0 != 5) @ ((1 >= int arg0 || int arg0 > 10) || (int arg0 % 2 == 0 && int arg0 % 3 == 0))
-3
+this:(int arg0 % 2 == 0 && int arg0 % 3 == 0)	condition:(1 >= int arg0 || int arg0 > 10)	right:(int arg0 % 2 == 0 && int arg0 % 3 == 0)	left:int arg0 % 2 == 0
+this:(int arg0 != 4 && int arg0 != 5)	condition:((1 >= int arg0 || int arg0 > 10) || (int arg0 % 2 == 0 && int arg0 % 3 == 0))	right:(int arg0 != 4 && int arg0 != 5)	left:int arg0 != 4
+this:(int arg0 != 4 && int arg0 != 5)	condition:((1 >= int arg0 || int arg0 > 10) || (int arg0 % 2 == 0 && int arg0 % 3 == 0))	right:(int arg0 != 4 && int arg0 != 5)	left:null
 
 ============================================================
 Javac compiles reincarnation.decompiler.flow.LogicalExpressionInControlStructureTest$13
@@ -403,7 +389,7 @@ LocalVariable("this", "LLogicalExpressionInControlStructureTest$13;", null, L0, 
 LocalVariable("value", "I", null, L0, ~L7~, 1);												LocalVariable("value", "I", null, L0, +L6+, 1);
 ============================================================
 
-WARNING: A Java agent has been loaded dynamically (C:\Users\minam\AppData\Local\Temp\antibug7658398209671177687agent.jar)
+WARNING: A Java agent has been loaded dynamically (C:\Users\minam\AppData\Local\Temp\antibug5484306675571623563agent.jar)
 WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
 WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
 WARNING: Dynamic loading of agents will be disallowed by default in a future release

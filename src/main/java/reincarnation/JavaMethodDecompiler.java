@@ -2412,10 +2412,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     return;
                 }
 
-                Operand operand = node.previous.peek(0);
-
-                if (operand instanceof OperandCondition condition) {
-                    System.out.println("this:" + node + "\tcondition:" + condition + "\tright:" + right + "\tleft:" + left);
+                if (node.previous.peek(0) instanceof OperandCondition condition) {
+                    try {
+                        System.out
+                                .println(node.previous.id + " if(" + condition + ") " + condition.then.id + " else " + condition.elze.id + " " + node.id + " if(" + right + ") " + right.then.id + " else " + right.elze.id);
+                    } catch (Throwable e) {
+                        //
+                    }
                     if (info.canMerge(condition, right) && condition.elze == node) {
                         dispose(node);
 
