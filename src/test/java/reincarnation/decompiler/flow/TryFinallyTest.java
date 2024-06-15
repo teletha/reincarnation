@@ -11,7 +11,6 @@ package reincarnation.decompiler.flow;
 
 import reincarnation.CodeVerifier;
 import reincarnation.CrossDecompilerTest;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class TryFinallyTest extends CodeVerifier {
@@ -261,7 +260,6 @@ class TryFinallyTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    @Debuggable
     void tryFinallyInTryAndFinally() {
         verify(new TestCode.IntParam() {
 

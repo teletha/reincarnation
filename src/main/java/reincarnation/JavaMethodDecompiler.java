@@ -1575,6 +1575,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         // search node
         Node node = getNode(label);
+        current.jumping.add(node);
 
         switch (opcode) {
         case GOTO:
@@ -2406,25 +2407,15 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
             // If the previous node is terminated by conditional operand and the target node is
             // started by conditional operand, we should try to merge them.
-            if (info.conditionalHead && node.previous != null) {
-                // The direct self-backedge node is not mergeable
-                if (node.incoming.contains(node)) {
-                    return;
-                }
+            if (info.conditionalHead && node.previous != null && node.previous.peek(0) instanceof OperandCondition condition) {
+                if (info.canMerge(condition, right) && condition.elze == node && node.previous.jumping.contains(node)) {
+                    node.previous.jumping.addAll(node.jumping);
+                    node.jumping.clear();
 
-                if (node.previous.peek(0) instanceof OperandCondition condition) {
-                    try {
-                        System.out
-                                .println(node.previous.id + " if(" + condition + ") " + condition.then.id + " else " + condition.elze.id + " " + node.id + " if(" + right + ") " + right.then.id + " else " + right.elze.id);
-                    } catch (Throwable e) {
-                        //
-                    }
-                    if (info.canMerge(condition, right) && condition.elze == node) {
-                        dispose(node);
+                    dispose(node);
 
-                        // Merge recursively
-                        merge(node.previous);
-                    }
+                    // Merge recursively
+                    merge(node.previous);
                 }
             }
         }

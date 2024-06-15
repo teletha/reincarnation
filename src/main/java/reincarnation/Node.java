@@ -69,6 +69,9 @@ public class Node implements Code<Operand>, Comparable<Node> {
     /** The node list. */
     final CopyOnWriteArrayList<Node> backedges = new CopyOnWriteArrayList<>();
 
+    /** The set of only nodes that jump directly from this node. */
+    final Set<Node> jumping = new HashSet();
+
     /** The try-catch-finally starting node list. */
     final List<TryCatchFinally> tries = new CopyOnWriteArrayList<>();
 

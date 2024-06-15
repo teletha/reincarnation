@@ -11,7 +11,6 @@ package reincarnation.decompiler.flow;
 
 import reincarnation.CodeVerifier;
 import reincarnation.CrossDecompilerTest;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class LogicalExpressionInControlStructureTest extends CodeVerifier {
@@ -197,7 +196,6 @@ class LogicalExpressionInControlStructureTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    @Debuggable
     void nest() {
         verify(new TestCode.IntParam() {
 
