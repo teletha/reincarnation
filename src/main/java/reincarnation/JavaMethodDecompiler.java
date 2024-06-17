@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -3051,7 +3052,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 }
             });
 
-            finallyCopies.forEachReversely((key, copies) -> {
+            // finallyCopies.forEachReversely((key, copies) -> {
+            finallyCopies.forEach(Comparator.<CopiedFinally, Node> comparing(x -> x.start).reversed(), (key, copies) -> {
                 // capture the finally block
                 List<Node> deletables = key.handler.outgoingRecursively().takeWhile(n -> !n.isThrow()).take(Node::isNotEmpty).toList();
 
@@ -3095,17 +3097,20 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 try (Printable diff = debugger
                         .diff(nodes, "Remove copied finally nodes [size: " + deletables.size() + "] from end's outgoings")) {
                     for (CopiedFinally copy : copies) {
+                        System.out.println(key + " REND " + copy);
                         I.signal(copy)
                                 .take(c -> c.end != c.handler)
                                 .flatMap(c -> c.end.outgoingRecursively())
                                 .take(Node::isNotEmpty)
                                 .take(deletables.size())
                                 .buffer()
+                                .effect(s -> System.out.println(s + "     @@    " + deletables))
                                 .take(nodes -> match(nodes, deletables))
                                 .flatIterable(n -> n)
                                 .to(n -> {
                                     n.uniqueOutgoing().take(Node::isEmpty).to(node -> dispose(node));
                                     dispose(n, true, true);
+                                    System.out.println("END REMOVE " + key + "   " + copy);
                                 });
                     }
                 }

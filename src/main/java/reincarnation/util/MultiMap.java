@@ -224,6 +224,20 @@ public class MultiMap<K, V> {
      * 
      * @param handler The action to be performed for each key-value pair.
      */
+    public void forEach(Comparator<K> comparator, BiConsumer<K, List<V>> handler) {
+        List<Entry<K, List<V>>> entries = new LinkedList(map.entrySet());
+        Collections.sort(entries, (x, y) -> comparator.compare(x.getKey(), y.getKey()));
+        entries.forEach(entry -> {
+            handler.accept(entry.getKey(), entry.getValue());
+        });
+    }
+
+    /**
+     * Performs the given action for each key-value pair in this map until all pairs have been
+     * processed or the action throws an exception.
+     * 
+     * @param handler The action to be performed for each key-value pair.
+     */
     public void forEachReversely(BiConsumer<K, List<V>> handler) {
         List<Entry<K, List<V>>> entries = new LinkedList();
         map.entrySet().forEach(entries::addFirst);
