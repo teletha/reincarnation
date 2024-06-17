@@ -1,22 +1,43 @@
-java.lang.Error: 
-============================================================
-Javac compiles reincarnation.decompiler.flow.LogicalExpressionTest$33
-============================================================
-/reincarnation/decompiler/flow/LogicalExpressionTest.java:18: ÉGÉâÅ[: ï∂Ç≈ÇÕÇ†ÇËÇ‹ÇπÇÒ
-                    1;
-                    ^
+CopiedFinally [start=0, end=1, handler=2]
+CopiedFinally [start=3, end=4, handler=2]
+CopiedFinally [start=5, end=6, handler=2]
 
-Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
+============================================================
+ECJ compiles reincarnation.decompiler.flow.TryFinallyTest$7
 ============================================================
 Original Code
 ============================================================
 @Debuggable
-    void Complex22() {
-        verify(new TestCode.IntParamBoolean() {
+    void multipleReturnInTry() {
+        verify(new TestCode.IntParam() {
+
+            private int field = 0;
 
             @Override
-            public boolean run(@Param(from = 1, to = 48) int value) {
-                return (value % 3 == 0 || value % 4 == 0) && (value % 5 == 0 || value % 6 == 0) && value % 2 == 0;
+            public int run(@Param(from = 0, to = 10) int param) {
+                return count(param) + field;
+            }
+
+            private int count(int param) {
+                try {
+                    if (param % 2 == 0) {
+                        return param - 20;
+                    }
+                    param += 1;
+
+                    if (param % 3 == 0) {
+                        return param - 30;
+                    }
+
+                    param += 2;
+
+                    if (param % 5 == 0) {
+                        return param - 50;
+                    }
+                } finally {
+                    field += 10;
+                }
+                return param;
             }
         });
     }
@@ -26,126 +47,830 @@ Decompiled Code
 01    package reincarnation.decompiler.flow;
 02    
 03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.IntParamBoolean;
+04    import reincarnation.TestCode.IntParam;
 05    import reincarnation.TestCode.Param;
-06    import reincarnation.decompiler.flow.LogicalExpressionTest;
+06    import reincarnation.decompiler.flow.TryFinallyTest;
 07    
-08    class LogicalExpressionTest extends CodeVerifier {
+08    class TryFinallyTest extends CodeVerifier {
 09    
-10        class LogicalExpressionTest$33 implements IntParamBoolean {
-11    
-12            LogicalExpressionTest$33(final LogicalExpressionTest this$0) {
-13            }
-14    
-15            public boolean run(@Param(from = 1, to = 48) int value) {
-16                if (((value % 3 == 0 || value % 4 == 0) && (value % 5 == 0 || value % 6 == 0))) {
-17                    if (value % 2 == 0) {
-18                        1;
-19                    }
-20                }
-21                return false;
-22            }
-23        }
-24    }
+10        class TryFinallyTest$7 implements IntParam {
+11            private int field;
+12            final TryFinallyTest this$0;
+13    
+14            TryFinallyTest$7(TryFinallyTest arg0) {
+15                this.this$0 = arg0;
+16                this.field = 0;
+17            }
+18    
+19            public int run(@Param(to = 10) int param) {
+20                return this.count(param) + this.field;
+21            }
+22    
+23            private int count(int param) {
+24                int local3;
+25                try {
+26                    if (param % 2 != 0) {
+27                        ++param;
+28                        if (param % 3 != 0) {
+29                            param += 2;
+30                            if (param % 5 == 0) {
+31                                return param - 50;
+32                            }
+33                        } else {
+34                            return param - 30;
+35                        }
+36                    } else {
+37                        return param - 20;
+38                    }
+39                } finally {
+40                    this.field = (this.field + 10);
+41                }
+42                return param;
+43            }
+44        }
+45    }
 ============================================================
 Decompiling Log
 ============================================================
-//---------------------------- LogicalExpressionTest#Complex22 (LogicalExpressionTest.java:376) ----------------------------//
-Method Complex22() (LogicalExpressionTest.java:377)
-0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
-1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
+//------------------------------ TryFinallyTest#multipleReturnInTry (TryFinallyTest.java:145) ------------------------------//
+[38;5;21mMethod multipleReturnInTry()[0m (TryFinallyTest.java:146)
+0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]	code: this.this$0 = arg0 [Assign#TryFinallyTest] java.lang.Object() [ConstructorCall]
+1	in[0]	out[2]	dom[0]	doms[]	side[0,2]	dest[2]	code: this.field = 0 [Assign#int]
+2	in[1]	out[]	dom[1]	doms[]	side[1,3]	dest[T]	code: return null [Return - null]
+3	in[]	out[]	dom[]	doms[]	side[2, ]	dest[]	code: 
 
 Delete tail empty return (show full nodes)
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
+[38;5;9m0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: this.this$0 = arg0 [Assign#TryFinallyTest] java.lang.Object() [ConstructorCall]
+1	in[0]	out[2]	dom[0]	doms[2]	side[0,2]	dest[2]	code: this.field = 0 [Assign#int]
+2	in[1]	out[]	dom[1]	doms[]	side[1, ]	dest[T]	code: return null [Return - null]
+[0m
+[38;5;78m0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: this.this$0 = arg0 [Assign#TryFinallyTest] java.lang.Object() [ConstructorCall]
+1	in[0]	out[2]	dom[0]	doms[2]	side[0,2]	dest[2]	code: this.field = 0 [Assign#int]
+2	in[1]	out[]	dom[1]	doms[]	side[1, ]	dest[T]	code: 
+[0m
 
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
+0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: this.this$0 = arg0 [Assign#TryFinallyTest] java.lang.Object() [ConstructorCall]
+1	in[0]	out[2]	dom[0]	doms[2]	side[0,2]	dest[2]	code: this.field = 0 [Assign#int]
+2	in[1]	out[]	dom[1]	doms[]	side[1, ]	dest[T]	code: 
 
+//------------------------------ TryFinallyTest#multipleReturnInTry (TryFinallyTest.java:151) ------------------------------//
+[38;5;21mMethod multipleReturnInTry()[0m (TryFinallyTest.java:152)
+0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: return this.count(param) + this.field [Return#int - Binary#int]
+1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: return this.count(param) + this.field [Return#int - Binary#int]
 
-//---------------------------- LogicalExpressionTest#Complex22 (LogicalExpressionTest.java:380) ----------------------------//
-Merging logical condition (show full nodes)
-0	in[]	out[1,2]	dom[]	doms[]	side[ ,1]	dest[1]	code: if (arg0 % 3 0) then 1 else SAME [Condition then 1 else SAME] if (arg0 % 4 0) then 2 else 1 [Condition then 2 else 1]
-1	in[0]	out[]		dom[0]	doms[]	side[0, ]	dest[]	code: 
+//------------------------------ TryFinallyTest#multipleReturnInTry (TryFinallyTest.java:156) ------------------------------//
+[38;5;21mMethod multipleReturnInTry()[0m (TryFinallyTest.java:174)
+0	in[]	out[3,7]	dom[]	doms[]	side[ ,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[1]		dom[0]	doms[]	side[0,1]	dest[1]		try:   	code: local3 = param - 20 [Assign#int]
+1	in[7]	out[8]		dom[7]	doms[]	side[7,8]	dest[8]		try: e	code: this.field = this.field + 10 [Assign#int]
+8	in[1]	out[]		dom[1]	doms[]	side[1,3]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+3	in[0]	out[9]		dom[0]	doms[]	side[8,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[4]		dom[9]	doms[]	side[9,4]	dest[4]		try:   	code: local3 = param - 30 [Assign#int]
+4	in[10]	out[11]		dom[10]	doms[]	side[10,11]	dest[11]	try:   	code: this.field = this.field + 10 [Assign#int]
+11	in[4]	out[]		dom[4]	doms[]	side[4,5]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+5	in[9]	out[12]		dom[9]	doms[]	side[11,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[13,14]	dom[5]	doms[]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 13 else 14 [Condition then 13 else 14]
+14	in[12]	out[6]		dom[12]	doms[]	side[12,6]	dest[6]		try:   	code: local3 = param - 50 [Assign#int]
+6	in[14]	out[15]		dom[14]	doms[]	side[14,15]	dest[15]	try:   	code: this.field = this.field + 10 [Assign#int]
+15	in[6]	out[]		dom[6]	doms[]	side[6,2]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+2	in[]	out[16]		dom[]	doms[]	side[15,16]	dest[16]	try: c	code: 
+16	in[2]	out[17]		dom[2]	doms[]	side[2,17]	dest[17]	try:   	code: this.field = this.field + 10 [Assign#int]
+17	in[16]	out[]		dom[16]	doms[]	side[16,13]	dest[T]		try:   	code: throw local2 [Throw]
+13	in[12]	out[18]		dom[12]	doms[]	side[17,18]	dest[18]	try:   	code: this.field = this.field + 10 [Assign#int]
+18	in[13]	out[]		dom[13]	doms[]	side[13,19]	dest[T]		try:   	code: return param [Return#int - LocalVariable#int]
+19	in[]	out[]		dom[]	doms[]	side[18, ]	dest[]		try:   	code: 
 
-0	in[]	out[1,2]	dom[]	doms[]	side[ ,1]	dest[1]	code: if (if (arg0 % 3 0) then 1 else SAME if (arg0 % 4 0) then 2 else 1) then 2 else 1 [Condition then 2 else 1]
-1	in[0]	out[]		dom[0]	doms[]	side[0, ]	dest[]	code: 
+Remove copied finally nodes [size: 1] from the next node of handler's [2] last tail. (show full nodes)
+[38;5;9m0	in[]	out[3,7]	dom[]	doms[]	side[ ,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[1]		dom[0]	doms[]	side[0,1]	dest[1]		try:   	code: local3 = param - 20 [Assign#int]
+1	in[7]	out[8]		dom[7]	doms[]	side[7,8]	dest[8]		try: e	code: this.field = this.field + 10 [Assign#int]
+8	in[1]	out[]		dom[1]	doms[]	side[1,3]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+3	in[0]	out[9]		dom[0]	doms[]	side[8,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[4]		dom[9]	doms[]	side[9,4]	dest[4]		try:   	code: local3 = param - 30 [Assign#int]
+4	in[10]	out[11]		dom[10]	doms[]	side[10,11]	dest[11]	try:   	code: this.field = this.field + 10 [Assign#int]
+11	in[4]	out[]		dom[4]	doms[]	side[4,5]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+5	in[9]	out[12]		dom[9]	doms[]	side[11,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[13,14]	dom[5]	doms[]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 13 else 14 [Condition then 13 else 14]
+14	in[12]	out[6]		dom[12]	doms[]	side[12,6]	dest[6]		try:   	code: local3 = param - 50 [Assign#int]
+6	in[14]	out[15]		dom[14]	doms[]	side[14,15]	dest[15]	try:   	code: this.field = this.field + 10 [Assign#int]
+15	in[6]	out[]		dom[6]	doms[]	side[6,2]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+2	in[]	out[16]		dom[]	doms[]	side[15,16]	dest[16]	try: c	code: 
+16	in[2]	out[17]		dom[2]	doms[]	side[2,17]	dest[17]	try:   	code: this.field = this.field + 10 [Assign#int]
+17	in[16]	out[]		dom[16]	doms[]	side[16,13]	dest[T]		try:   	code: throw local2 [Throw]
+13	in[12]	out[18]		dom[12]	doms[]	side[17,18]	dest[18]	try:   	code: this.field = this.field + 10 [Assign#int]
+18	in[13]	out[]		dom[13]	doms[]	side[13,19]	dest[T]		try:   	code: return param [Return#int - LocalVariable#int]
+19	in[]	out[]		dom[]	doms[]	side[18, ]	dest[]		try:   	code: 
+[0m
+[38;5;78m0	in[]	out[3,7]	dom[]	doms[]	side[ ,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[1]		dom[0]	doms[]	side[0,1]	dest[1]		try:   	code: local3 = param - 20 [Assign#int]
+1	in[7]	out[8]		dom[7]	doms[]	side[7,8]	dest[8]		try: e	code: this.field = this.field + 10 [Assign#int]
+8	in[1]	out[]		dom[1]	doms[]	side[1,3]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+3	in[0]	out[9]		dom[0]	doms[]	side[8,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[4]		dom[9]	doms[]	side[9,4]	dest[4]		try:   	code: local3 = param - 30 [Assign#int]
+4	in[10]	out[11]		dom[10]	doms[]	side[10,11]	dest[11]	try:   	code: this.field = this.field + 10 [Assign#int]
+11	in[4]	out[]		dom[4]	doms[]	side[4,5]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+5	in[9]	out[12]		dom[9]	doms[]	side[11,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[14,18]	dom[5]	doms[]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 18 else 14 [Condition then 18 else 14]
+14	in[12]	out[6]		dom[12]	doms[]	side[12,6]	dest[6]		try:   	code: local3 = param - 50 [Assign#int]
+6	in[14]	out[15]		dom[14]	doms[]	side[14,15]	dest[15]	try:   	code: this.field = this.field + 10 [Assign#int]
+15	in[6]	out[]		dom[6]	doms[]	side[6,2]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+2	in[]	out[16]		dom[]	doms[]	side[15,16]	dest[16]	try: c	code: 
+16	in[2]	out[17]		dom[2]	doms[]	side[2,17]	dest[17]	try:   	code: this.field = this.field + 10 [Assign#int]
+17	in[16]	out[]		dom[16]	doms[]	side[16,18]	dest[T]		try:   	code: throw local2 [Throw]
+18	in[12]	out[]		dom[12]	doms[]	side[17,19]	dest[T]		try:   	code: return param [Return#int - LocalVariable#int]
+19	in[]	out[]		dom[]	doms[]	side[18, ]	dest[]		try:   	code: 
+[0m
 
+Remove copied finally nodes [size: 1] from end's outgoings (show full nodes)
+[38;5;9m0	in[]	out[3,7]	dom[]	doms[]	side[ ,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[1]		dom[0]	doms[]	side[0,1]	dest[1]		try:   	code: local3 = param - 20 [Assign#int]
+1	in[7]	out[8]		dom[7]	doms[]	side[7,8]	dest[8]		try: e	code: this.field = this.field + 10 [Assign#int]
+8	in[1]	out[]		dom[1]	doms[]	side[1,3]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+3	in[0]	out[9]		dom[0]	doms[]	side[8,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[4]		dom[9]	doms[]	side[9,4]	dest[4]		try:   	code: local3 = param - 30 [Assign#int]
+4	in[10]	out[11]		dom[10]	doms[]	side[10,11]	dest[11]	try:   	code: this.field = this.field + 10 [Assign#int]
+11	in[4]	out[]		dom[4]	doms[]	side[4,5]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+5	in[9]	out[12]		dom[9]	doms[]	side[11,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[14,18]	dom[5]	doms[]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 18 else 14 [Condition then 18 else 14]
+14	in[12]	out[6]		dom[12]	doms[]	side[12,6]	dest[6]		try:   	code: local3 = param - 50 [Assign#int]
+6	in[14]	out[15]		dom[14]	doms[]	side[14,15]	dest[15]	try:   	code: this.field = this.field + 10 [Assign#int]
+15	in[6]	out[]		dom[6]	doms[]	side[6,2]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+2	in[]	out[16]		dom[]	doms[]	side[15,16]	dest[16]	try: c	code: 
+16	in[2]	out[17]		dom[2]	doms[]	side[2,17]	dest[17]	try:   	code: this.field = this.field + 10 [Assign#int]
+17	in[16]	out[]		dom[16]	doms[]	side[16,18]	dest[T]		try:   	code: throw local2 [Throw]
+18	in[12]	out[]		dom[12]	doms[]	side[17,19]	dest[T]		try:   	code: return param [Return#int - LocalVariable#int]
+19	in[]	out[]		dom[]	doms[]	side[18, ]	dest[]		try:   	code: 
+[0m
+[38;5;78m0	in[]	out[3,7]	dom[]	doms[]	side[ ,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[8]		dom[0]	doms[]	side[0,8]	dest[8]		try:   	code: local3 = param - 20 [Assign#int]
+8	in[7]	out[]		dom[7]	doms[]	side[7,3]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+3	in[0]	out[9]		dom[0]	doms[]	side[8,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[11]		dom[9]	doms[]	side[9,11]	dest[11]	try:   	code: local3 = param - 30 [Assign#int]
+11	in[10]	out[]		dom[10]	doms[]	side[10,5]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+5	in[9]	out[12]		dom[9]	doms[]	side[11,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[14,18]	dom[5]	doms[]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 18 else 14 [Condition then 18 else 14]
+14	in[12]	out[15]		dom[12]	doms[]	side[12,15]	dest[15]	try:   	code: local3 = param - 50 [Assign#int]
+15	in[14]	out[]		dom[14]	doms[]	side[14,2]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+2	in[]	out[16]		dom[]	doms[]	side[15,16]	dest[16]	try: c	code: 
+16	in[2]	out[17]		dom[2]	doms[]	side[2,17]	dest[17]	try:   	code: this.field = this.field + 10 [Assign#int]
+17	in[16]	out[]		dom[16]	doms[]	side[16,18]	dest[T]		try:   	code: throw local2 [Throw]
+18	in[12]	out[]		dom[12]	doms[]	side[17,19]	dest[T]		try:   	code: return param [Return#int - LocalVariable#int]
+19	in[]	out[]		dom[]	doms[]	side[18, ]	dest[]		try:   	code: 
+[0m
 
-Merging logical condition (show full nodes)
-0	in[]	out[2,3]	dom[]	doms[]	side[ ,3]	dest[3]	code: if (if (arg0 % 3 0) then 1 else SAME if (arg0 % 4 0) then 2 else 1) then 2 else 3 [Condition then 2 else 3] if (if (arg0 % 5 0) then 3 else SAME if (arg0 % 6 0) then 2 else 3) then 2 else 3 [Condition then 2 else 3]
-3	in[0]	out[]		dom[0]	doms[]	side[0, ]	dest[]	code: 
+Analyze variable declaration (show full nodes)
+[38;5;9m0	in[]	out[3,7]	dom[]	doms[]	side[ ,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[8]		dom[0]	doms[]	side[0,8]	dest[8]		try:   	code: local3 = param - 20 [Assign#int]
+8	in[7]	out[]		dom[7]	doms[]	side[7,3]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+3	in[0]	out[9]		dom[0]	doms[]	side[8,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[11]		dom[9]	doms[]	side[9,11]	dest[11]	try:   	code: local3 = param - 30 [Assign#int]
+11	in[10]	out[]		dom[10]	doms[]	side[10,5]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+5	in[9]	out[12]		dom[9]	doms[]	side[11,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[14,18]	dom[5]	doms[]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 18 else 14 [Condition then 18 else 14]
+14	in[12]	out[15]		dom[12]	doms[]	side[12,15]	dest[15]	try:   	code: local3 = param - 50 [Assign#int]
+15	in[14]	out[]		dom[14]	doms[]	side[14,2]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+2	in[]	out[16]		dom[]	doms[]	side[15,16]	dest[16]	try: c	code: 
+16	in[2]	out[]		dom[2]	doms[]	side[2,18]	dest[18]	try:   	code: this.field = this.field + 10 [Assign#int]
+18	in[12]	out[]		dom[12]	doms[]	side[16, ]	dest[T]		try: x	code: return param [Return#int - LocalVariable#int]
+[0m
+[38;5;78mA	in[]	out[0]		dom[]	doms[]	side[ ,0]	dest[0]		try:   	code: local3 [LocalVariable#int]
+0	in[A]	out[3,7]	dom[A]	doms[]	side[A,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[8]		dom[0]	doms[]	side[0,8]	dest[8]		try:   	code: local3 = param - 20 [Assign#int]
+8	in[7]	out[]		dom[7]	doms[]	side[7,3]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+3	in[0]	out[9]		dom[0]	doms[]	side[8,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[11]		dom[9]	doms[]	side[9,11]	dest[11]	try:   	code: local3 = param - 30 [Assign#int]
+11	in[10]	out[]		dom[10]	doms[]	side[10,5]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+5	in[9]	out[12]		dom[9]	doms[]	side[11,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[14,18]	dom[5]	doms[]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 18 else 14 [Condition then 18 else 14]
+14	in[12]	out[15]		dom[12]	doms[]	side[12,15]	dest[15]	try:   	code: local3 = param - 50 [Assign#int]
+15	in[14]	out[]		dom[14]	doms[]	side[14,2]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+2	in[]	out[16]		dom[]	doms[]	side[15,16]	dest[16]	try: c	code: 
+16	in[2]	out[]		dom[2]	doms[]	side[2,18]	dest[18]	try:   	code: this.field = this.field + 10 [Assign#int]
+18	in[12]	out[]		dom[12]	doms[]	side[16, ]	dest[T]		try: x	code: return param [Return#int - LocalVariable#int]
+[0m
 
-0	in[]	out[2,3]	dom[]	doms[]	side[ ,3]	dest[3]	code: if (if (if (arg0 % 3 0) then 1 else SAME if (arg0 % 4 0) then 2 else 1) then 2 else 3 if (if (arg0 % 5 0) then 3 else SAME if (arg0 % 6 0) then 2 else 3) then 2 else 3) then 2 else 3 [Condition then 2 else 3]
-3	in[0]	out[]		dom[0]	doms[]	side[0, ]	dest[]	code: 
+Merge immediate return (show full nodes)
+[38;5;9mA	in[]	out[0]		dom[]	doms[0]		side[ ,0]	dest[0]		try:   	code: local3 [LocalVariable#int]
+0	in[A]	out[3,7]	dom[A]	doms[7,3,2]	side[A,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[8]		dom[0]	doms[8]		side[0,8]	dest[8]		try:   	code: local3 = param - 20 [Assign#int]
+8	in[7]	out[]		dom[7]	doms[]		side[7,3]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+3	in[0]	out[9]		dom[0]	doms[9]		side[8,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[10,5]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[11]		dom[9]	doms[11]	side[9,11]	dest[11]	try:   	code: local3 = param - 30 [Assign#int]
+11	in[10]	out[]		dom[10]	doms[]		side[10,5]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+5	in[9]	out[12]		dom[9]	doms[12]	side[11,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[14,18]	dom[5]	doms[14,18]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 18 else 14 [Condition then 18 else 14]
+14	in[12]	out[15]		dom[12]	doms[15]	side[12,15]	dest[15]	try:   	code: local3 = param - 50 [Assign#int]
+15	in[14]	out[]		dom[14]	doms[]		side[14,2]	dest[T]		try:   	code: return local3 [Return#int - LocalVariable#int]
+2	in[]	out[16]		dom[]	doms[16]	side[15,16]	dest[16]	try: c	code: 
+16	in[2]	out[]		dom[2]	doms[]		side[2,18]	dest[18]	try:   	code: this.field = this.field + 10 [Assign#int]
+18	in[12]	out[]		dom[12]	doms[]		side[16, ]	dest[T]		try: x	code: return param [Return#int - LocalVariable#int]
+[0m
+[38;5;78mA	in[]	out[0]		dom[]	doms[0]		side[ ,0]	dest[0]		try:   	code: local3 [LocalVariable#int]
+0	in[A]	out[3,7]	dom[A]	doms[7,3,2]	side[A,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[]		dom[0]	doms[8]		side[0,3]	dest[3]		try:   	code: return param - 20 [Return#int - Binary#int]
+3	in[0]	out[9]		dom[0]	doms[9]		side[7,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[10,5]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[]		dom[9]	doms[11]	side[9,5]	dest[5]		try:   	code: return param - 30 [Return#int - Binary#int]
+5	in[9]	out[12]		dom[9]	doms[12]	side[10,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[14,18]	dom[5]	doms[14,18]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 18 else 14 [Condition then 18 else 14]
+14	in[12]	out[]		dom[12]	doms[15]	side[12,2]	dest[2]		try:   	code: return param - 50 [Return#int - Binary#int]
+2	in[]	out[16]		dom[]	doms[16]	side[14,16]	dest[16]	try: c	code: 
+16	in[2]	out[]		dom[2]	doms[]		side[2,18]	dest[18]	try:   	code: this.field = this.field + 10 [Assign#int]
+18	in[12]	out[]		dom[12]	doms[]		side[16, ]	dest[T]		try: x	code: return param [Return#int - LocalVariable#int]
+[0m
 
+Analyze nodes (show full nodes)
+[38;5;9mA	in[]	out[0]		dom[]	doms[0]		side[ ,0]	dest[0]		try:   	code: local3 [LocalVariable#int]
+0	in[A]	out[3,7]	dom[A]	doms[7,3,2]	side[A,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[]		dom[0]	doms[8]		side[0,3]	dest[3]		try:   	code: return param - 20 [Return#int - Binary#int]
+3	in[0]	out[9]		dom[0]	doms[9]		side[7,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[10,5]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[]		dom[9]	doms[11]	side[9,5]	dest[5]		try:   	code: return param - 30 [Return#int - Binary#int]
+5	in[9]	out[12]		dom[9]	doms[12]	side[10,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[14,18]	dom[5]	doms[14,18]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 18 else 14 [Condition then 18 else 14]
+14	in[12]	out[]		dom[12]	doms[15]	side[12,2]	dest[2]		try:   	code: return param - 50 [Return#int - Binary#int]
+2	in[]	out[16]		dom[]	doms[16]	side[14,16]	dest[16]	try: c	code: 
+16	in[2]	out[]		dom[2]	doms[]		side[2,18]	dest[18]	try:   	code: this.field = this.field + 10 [Assign#int]
+18	in[12]	out[]		dom[12]	doms[]		side[16, ]	dest[T]		try: x	code: return param [Return#int - LocalVariable#int]
+[0m
+[38;5;78mA	in[]	out[0]		dom[]	doms[0]		side[ ,0]	dest[0]		code: local3 [LocalVariable#int]
+0	in[A]	out[3,7]	dom[A]	doms[7,3,2]	side[A,7]	dest[7]		code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[]		dom[0]	doms[8]		side[0,3]	dest[3]		code: return param - 20 [Return#int - Binary#int]
+3	in[0]	out[9]		dom[0]	doms[9]		side[7,9]	dest[9]		code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[10,5]	side[3,10]	dest[10]	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[]		dom[9]	doms[11]	side[9,5]	dest[5]		code: return param - 30 [Return#int - Binary#int]
+5	in[9]	out[12]		dom[9]	doms[12]	side[10,12]	dest[12]	code: param += 2 [Assign#int]
+12	in[5]	out[14,18]	dom[5]	doms[14,18]	side[5,14]	dest[14]	code: if (param % 5 0) then 18 else 14 [Condition then 18 else 14]
+14	in[12]	out[]		dom[12]	doms[15]	side[12,2]	dest[2]		code: return param - 50 [Return#int - Binary#int]
+2	in[]	out[16]		dom[]	doms[16]	side[14,16]	dest[16]	code: 
+16	in[2]	out[]		dom[2]	doms[]		side[2,18]	dest[18]	code: this.field = this.field + 10 [Assign#int]
+18	in[12]	out[]		dom[12]	doms[]		side[16, ]	dest[T]		code: return param [Return#int - LocalVariable#int]
+[0m
 
-Merging logical condition (show full nodes)
-0	in[]	out[1,2]	dom[]	doms[]	side[ ,1]	dest[1]	code: if (if (arg0 % 3 0) then 1 else SAME if (arg0 % 4 0) then 2 else 1) then 2 else 1 [Condition then 2 else 1]
-1	in[0]	out[3,2]	dom[0]	doms[]	side[0,3]	dest[3]	code: if (arg0 % 5 0) then 3 else SAME [Condition then 3 else SAME] if (arg0 % 6 0) then 2 else 3 [Condition then 2 else 3]
-3	in[1]	out[]		dom[1]	doms[]	side[1, ]	dest[]	code: 
-
-0	in[]	out[2,3]	dom[]	doms[]	side[ ,3]	dest[3]	code: if (if (if (arg0 % 3 0) then 1 else SAME if (arg0 % 4 0) then 2 else 1) then 2 else 3 if (if (arg0 % 5 0) then 3 else SAME if (arg0 % 6 0) then 2 else 3) then 2 else 3) then 2 else 3 [Condition then 2 else 3]
-3	in[0]	out[]		dom[0]	doms[]	side[0, ]	dest[]	code: 
-
-
-Method Complex22() (LogicalExpressionTest.java:381)
-0	in[]	out[2,3]	dom[]	doms[]	side[ ,3]	dest[3]	code: if (if (if (value % 3 0) then 1 else SAME if (value % 4 0) then 2 else 1) then 2 else 3 if (if (value % 5 0) then 3 else SAME if (value % 6 0) then 2 else 3) then 2 else 3) then 2 else 3 [Condition then 2 else 3]
-3	in[0]	out[2,4]	dom[0]	doms[]	side[0,2]	dest[4]	code: if (value % 2 0) then 2 else 4 [Condition then 2 else 4] 1 [Number]
-2	in[0,3]	out[4]		dom[0]	doms[]	side[3,4]	dest[4]	code: 
-4	in[3,2]	out[]		dom[]	doms[]	side[2,5]	dest[T]	code: return 0 [Return#boolean - Number#boolean]
-5	in[]	out[]		dom[]	doms[]	side[4, ]	dest[]	code: 
-
-0	in[]		out[3,4]	dom[]	doms[3,4]	side[ ,3]	dest[3]	code: if (if (if (value % 3 0) then 1 else SAME if (value % 4 0) then 2 else 1) then 2 else 3 if (if (value % 5 0) then 3 else SAME if (value % 6 0) then 2 else 3) then 2 else 3) then 4 else 3 [Condition then 4 else 3]
-3	in[0]		out[A,4]	dom[0]	doms[A]		side[0,A]	dest[4]	code: if (value % 2 0) then 4 else 4 [Condition then 4 else 4]
-A	in[3]		out[4]		dom[3]	doms[]		side[3,4]	dest[]	code: 1 [Number]
-4	in[A,0,3]	out[]		dom[]	doms[]		side[A, ]	dest[T]	code: return 0 [Return#boolean - Number#boolean]
+A	in[]	out[0]		dom[]	doms[0]		side[ ,0]	dest[0]		code: local3 [LocalVariable#int]
+0	in[A]	out[3,7]	dom[A]	doms[7,3,2]	side[A,7]	dest[7]		code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[]		dom[0]	doms[8]		side[0,3]	dest[3]		code: return param - 20 [Return#int - Binary#int]
+3	in[0]	out[9]		dom[0]	doms[9]		side[7,9]	dest[9]		code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[10,5]	side[3,10]	dest[10]	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[]		dom[9]	doms[11]	side[9,5]	dest[5]		code: return param - 30 [Return#int - Binary#int]
+5	in[9]	out[12]		dom[9]	doms[12]	side[10,12]	dest[12]	code: param += 2 [Assign#int]
+12	in[5]	out[14,18]	dom[5]	doms[14,18]	side[5,14]	dest[14]	code: if (param % 5 0) then 18 else 14 [Condition then 18 else 14]
+14	in[12]	out[]		dom[12]	doms[15]	side[12,2]	dest[2]		code: return param - 50 [Return#int - Binary#int]
+2	in[]	out[16]		dom[]	doms[16]	side[14,16]	dest[16]	code: 
+16	in[2]	out[]		dom[2]	doms[]		side[2,18]	dest[18]	code: this.field = this.field + 10 [Assign#int]
+18	in[12]	out[]		dom[12]	doms[]		side[16, ]	dest[T]		code: return param [Return#int - LocalVariable#int]
 
 
 ============================================================
-Bytecode Diff -  reincarnation.decompiler.flow.LogicalExpressionTest$33
+
+CopiedFinally [start=0, end=1, handler=2]
+CopiedFinally [start=3, end=4, handler=2]
+CopiedFinally [start=5, end=6, handler=2]
+
 ============================================================
-ECJ																					Javac
-visitMethod(ACC_PUBLIC, "run", "(I)Z", null, null);									visitMethod(ACC_PUBLIC, "run", "(I)Z", null, null);
-~Parameter("value", 0);~															
-AnnotableParameterCount(1, true);													AnnotableParameterCount(1, true);
-Label(L0);																			Label(L0);
-VarInsn(ILOAD, 1);																	VarInsn(ILOAD, 1);
-Insn(ICONST_3);																		Insn(ICONST_3);
-Insn(IREM);																			Insn(IREM);
-JumpInsn(IFEQ, L1);																	JumpInsn(IFEQ, L1);
-VarInsn(ILOAD, 1);																	VarInsn(ILOAD, 1);
-Insn(ICONST_4);																		Insn(ICONST_4);
-Insn(IREM);																			Insn(IREM);
-JumpInsn(IFNE, L2);																	JumpInsn(IFNE, L2);
-Label(L1);																			Label(L1);
-Frame(F_SAME, 0, null, 0, null);													Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);																	VarInsn(ILOAD, 1);
-Insn(ICONST_5);																		Insn(ICONST_5);
-Insn(IREM);																			Insn(IREM);
-JumpInsn(IFEQ, L3);																	JumpInsn(IFEQ, L3);
-VarInsn(ILOAD, 1);																	VarInsn(ILOAD, 1);
-IntInsn(BIPUSH, 6);																	IntInsn(BIPUSH, 6);
-Insn(IREM);																			Insn(IREM);
-JumpInsn(IFNE, L2);																	JumpInsn(IFNE, L2);
-Label(L3);																			Label(L3);
-Frame(F_SAME, 0, null, 0, null);													Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);																	VarInsn(ILOAD, 1);
-Insn(ICONST_2);																		Insn(ICONST_2);
-Insn(IREM);																			Insn(IREM);
-JumpInsn(IFNE, L2);																	JumpInsn(IFNE, L2);
-Insn(ICONST_1);																		Insn(ICONST_1);
-~Insn~(~IRETURN~);																	+JumpInsn+(+GOTO, L4+);
-Label(L2);																			Label(L2);
-Frame(F_SAME, 0, null, 0, null);													Frame(F_SAME, 0, null, 0, null);
-Insn(ICONST_0);																		Insn(ICONST_0);
-~Insn(IRETURN);~																	
-Label(L4);																			Label(L4);
-~LocalVariable~(~"this"~, ~"LLogicalExpressionTest$33;"~, null, ~L0~, ~L4,~ ~0~);	+Frame+(+F_SAME1+, +0+, null, +1+, +new+ +Object[] {INTEGER}+);
-~LocalVariable~(~"value", "I", null, L0, L4, 1~);									+Insn+(+IRETURN+);
-																					+Label(L5);+
-																					+LocalVariable("this", "LLogicalExpressionTest$33;", null, L0, L5, 0);+
-																					+LocalVariable("value", "I", null, L0, L5, 1);+
+Javac compiles reincarnation.decompiler.flow.TryFinallyTest$7
 ============================================================
+null
+============================================================
+Original Code
+============================================================
+@Debuggable
+    void multipleReturnInTry() {
+        verify(new TestCode.IntParam() {
+
+            private int field = 0;
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                return count(param) + field;
+            }
+
+            private int count(int param) {
+                try {
+                    if (param % 2 == 0) {
+                        return param - 20;
+                    }
+                    param += 1;
+
+                    if (param % 3 == 0) {
+                        return param - 30;
+                    }
+
+                    param += 2;
+
+                    if (param % 5 == 0) {
+                        return param - 50;
+                    }
+                } finally {
+                    field += 10;
+                }
+                return param;
+            }
+        });
+    }
+============================================================
+Decompiled Code
+============================================================
+01    package reincarnation.decompiler.flow;
+02    
+03    import reincarnation.CodeVerifier;
+04    import reincarnation.TestCode.IntParam;
+05    import reincarnation.TestCode.Param;
+06    import reincarnation.decompiler.flow.TryFinallyTest;
+07    
+08    class TryFinallyTest extends CodeVerifier {
+09    
+10        class TryFinallyTest$7 implements IntParam {
+11            private int field;
+12    
+13            TryFinallyTest$7(final TryFinallyTest this$0) {
+14                this.field = 0;
+15            }
+16    
+17            public int run(@Param(to = 10) int param) {
+18                return this.count(param) + this.field;
+19            }
+20    
+21            private int count(int param) {
+22                int local2;
+23                try {
+24                    if (param % 2 != 0) {
+25                        ++param;
+26                        if (param % 3 != 0) {
+27                            param += 2;
+28                            if (param % 5 != 0) {
+29                                this.field = (this.field + 10);
+30                            } else {
+31                                return param - 50;
+32                            }
+33                        } else {
+34                            return param - 30;
+35                        }
+36                    } else {
+37                        return param - 20;
+38                    }
+39                } finally {
+40                    this.field = (this.field + 10);
+41                }
+42                return param;
+43            }
+44        }
+45    }
+============================================================
+Decompiling Log
+============================================================
+//------------------------------ TryFinallyTest#multipleReturnInTry (TryFinallyTest.java:145) ------------------------------//
+[38;5;21mMethod multipleReturnInTry()[0m (TryFinallyTest.java:148)
+0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]	code: java.lang.Object() [ConstructorCall]
+1	in[0]	out[]	dom[0]	doms[]	side[0,2]	dest[T]	code: this.field = 0 [Assign#int] return null [Return - null]
+2	in[]	out[]	dom[]	doms[]	side[1, ]	dest[]	code: 
+
+Delete tail empty return (show full nodes)
+[38;5;9m0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: java.lang.Object() [ConstructorCall]
+1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: this.field = 0 [Assign#int] return null [Return - null]
+[0m
+[38;5;78m0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: java.lang.Object() [ConstructorCall]
+1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: this.field = 0 [Assign#int]
+[0m
+
+0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: java.lang.Object() [ConstructorCall]
+1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: this.field = 0 [Assign#int]
+
+//------------------------------ TryFinallyTest#multipleReturnInTry (TryFinallyTest.java:151) ------------------------------//
+[38;5;21mMethod multipleReturnInTry()[0m (TryFinallyTest.java:152)
+0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: return this.count(param) + this.field [Return#int - Binary#int]
+1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
+
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: return this.count(param) + this.field [Return#int - Binary#int]
+
+//------------------------------ TryFinallyTest#multipleReturnInTry (TryFinallyTest.java:156) ------------------------------//
+[38;5;21mMethod multipleReturnInTry()[0m (TryFinallyTest.java:174)
+0	in[]	out[3,7]	dom[]	doms[]	side[ ,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[1]		dom[0]	doms[]	side[0,1]	dest[1]		try:   	code: local2 = param - 20 [Assign#int]
+1	in[7]	out[8]		dom[7]	doms[]	side[7,8]	dest[8]		try: e	code: this.field = this.field + 10 [Assign#int]
+8	in[1]	out[]		dom[1]	doms[]	side[1,3]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+3	in[0]	out[9]		dom[0]	doms[]	side[8,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[4]		dom[9]	doms[]	side[9,4]	dest[4]		try:   	code: local2 = param - 30 [Assign#int]
+4	in[10]	out[11]		dom[10]	doms[]	side[10,11]	dest[11]	try:   	code: this.field = this.field + 10 [Assign#int]
+11	in[4]	out[]		dom[4]	doms[]	side[4,5]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+5	in[9]	out[12]		dom[9]	doms[]	side[11,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[13,14]	dom[5]	doms[]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 13 else 14 [Condition then 13 else 14]
+14	in[12]	out[6]		dom[12]	doms[]	side[12,6]	dest[6]		try:   	code: local2 = param - 50 [Assign#int]
+6	in[14]	out[15]		dom[14]	doms[]	side[14,15]	dest[15]	try:   	code: this.field = this.field + 10 [Assign#int]
+15	in[6]	out[]		dom[6]	doms[]	side[6,13]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+13	in[12]	out[16]		dom[12]	doms[]	side[15,16]	dest[16]	try:   	code: this.field = this.field + 10 [Assign#int]
+16	in[13]	out[17]		dom[13]	doms[]	side[13,2]	dest[17]	try:   	code: 
+2	in[]	out[18]		dom[]	doms[]	side[16,18]	dest[18]	try: c	code: this.field = this.field + 10 [Assign#int]
+18	in[2]	out[]		dom[2]	doms[]	side[2,17]	dest[T]		try:   	code: throw local3 [Throw]
+17	in[16]	out[]		dom[16]	doms[]	side[18,19]	dest[T]		try:   	code: return param [Return#int - LocalVariable#int]
+19	in[]	out[]		dom[]	doms[]	side[17, ]	dest[]		try:   	code: 
+
+Remove copied finally nodes [size: 1] from end's outgoings (show full nodes)
+[38;5;9m0	in[]	out[3,7]	dom[]	doms[]	side[ ,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[1]		dom[0]	doms[]	side[0,1]	dest[1]		try:   	code: local2 = param - 20 [Assign#int]
+1	in[7]	out[8]		dom[7]	doms[]	side[7,8]	dest[8]		try: e	code: this.field = this.field + 10 [Assign#int]
+8	in[1]	out[]		dom[1]	doms[]	side[1,3]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+3	in[0]	out[9]		dom[0]	doms[]	side[8,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[4]		dom[9]	doms[]	side[9,4]	dest[4]		try:   	code: local2 = param - 30 [Assign#int]
+4	in[10]	out[11]		dom[10]	doms[]	side[10,11]	dest[11]	try:   	code: this.field = this.field + 10 [Assign#int]
+11	in[4]	out[]		dom[4]	doms[]	side[4,5]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+5	in[9]	out[12]		dom[9]	doms[]	side[11,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[13,14]	dom[5]	doms[]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 13 else 14 [Condition then 13 else 14]
+14	in[12]	out[6]		dom[12]	doms[]	side[12,6]	dest[6]		try:   	code: local2 = param - 50 [Assign#int]
+6	in[14]	out[15]		dom[14]	doms[]	side[14,15]	dest[15]	try:   	code: this.field = this.field + 10 [Assign#int]
+15	in[6]	out[]		dom[6]	doms[]	side[6,13]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+13	in[12]	out[16]		dom[12]	doms[]	side[15,16]	dest[16]	try:   	code: this.field = this.field + 10 [Assign#int]
+16	in[13]	out[17]		dom[13]	doms[]	side[13,2]	dest[17]	try:   	code: 
+2	in[]	out[18]		dom[]	doms[]	side[16,18]	dest[18]	try: c	code: this.field = this.field + 10 [Assign#int]
+18	in[2]	out[]		dom[2]	doms[]	side[2,17]	dest[T]		try:   	code: throw local3 [Throw]
+17	in[16]	out[]		dom[16]	doms[]	side[18,19]	dest[T]		try:   	code: return param [Return#int - LocalVariable#int]
+19	in[]	out[]		dom[]	doms[]	side[17, ]	dest[]		try:   	code: 
+[0m
+[38;5;78m0	in[]	out[3,7]	dom[]	doms[]	side[ ,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[8]		dom[0]	doms[]	side[0,8]	dest[8]		try:   	code: local2 = param - 20 [Assign#int]
+8	in[7]	out[]		dom[7]	doms[]	side[7,3]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+3	in[0]	out[9]		dom[0]	doms[]	side[8,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[11]		dom[9]	doms[]	side[9,11]	dest[11]	try:   	code: local2 = param - 30 [Assign#int]
+11	in[10]	out[]		dom[10]	doms[]	side[10,5]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+5	in[9]	out[12]		dom[9]	doms[]	side[11,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[13,14]	dom[5]	doms[]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 13 else 14 [Condition then 13 else 14]
+14	in[12]	out[15]		dom[12]	doms[]	side[12,15]	dest[15]	try:   	code: local2 = param - 50 [Assign#int]
+15	in[14]	out[]		dom[14]	doms[]	side[14,13]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+13	in[12]	out[16]		dom[12]	doms[]	side[15,16]	dest[16]	try:   	code: this.field = this.field + 10 [Assign#int]
+16	in[13]	out[17]		dom[13]	doms[]	side[13,2]	dest[17]	try:   	code: 
+2	in[]	out[18]		dom[]	doms[]	side[16,18]	dest[18]	try: c	code: this.field = this.field + 10 [Assign#int]
+18	in[2]	out[]		dom[2]	doms[]	side[2,17]	dest[T]		try:   	code: throw local3 [Throw]
+17	in[16]	out[]		dom[16]	doms[]	side[18,19]	dest[T]		try:   	code: return param [Return#int - LocalVariable#int]
+19	in[]	out[]		dom[]	doms[]	side[17, ]	dest[]		try:   	code: 
+[0m
+
+Analyze variable declaration (show full nodes)
+[38;5;9m0	in[]	out[3,7]	dom[]	doms[]	side[ ,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[8]		dom[0]	doms[]	side[0,8]	dest[8]		try:   	code: local2 = param - 20 [Assign#int]
+8	in[7]	out[]		dom[7]	doms[]	side[7,3]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+3	in[0]	out[9]		dom[0]	doms[]	side[8,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[11]		dom[9]	doms[]	side[9,11]	dest[11]	try:   	code: local2 = param - 30 [Assign#int]
+11	in[10]	out[]		dom[10]	doms[]	side[10,5]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+5	in[9]	out[12]		dom[9]	doms[]	side[11,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[13,14]	dom[5]	doms[]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 13 else 14 [Condition then 13 else 14]
+14	in[12]	out[15]		dom[12]	doms[]	side[12,15]	dest[15]	try:   	code: local2 = param - 50 [Assign#int]
+15	in[14]	out[]		dom[14]	doms[]	side[14,13]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+13	in[12]	out[16]		dom[12]	doms[]	side[15,16]	dest[16]	try:   	code: this.field = this.field + 10 [Assign#int]
+16	in[13]	out[17]		dom[13]	doms[]	side[13,2]	dest[17]	try:   	code: 
+2	in[]	out[]		dom[]	doms[]	side[16,17]	dest[17]	try: c	code: this.field = this.field + 10 [Assign#int]
+17	in[16]	out[]		dom[16]	doms[]	side[2, ]	dest[T]		try: x	code: return param [Return#int - LocalVariable#int]
+[0m
+[38;5;78mA	in[]	out[0]		dom[]	doms[]	side[ ,0]	dest[0]		try:   	code: local2 [LocalVariable#int]
+0	in[A]	out[3,7]	dom[A]	doms[]	side[A,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[8]		dom[0]	doms[]	side[0,8]	dest[8]		try:   	code: local2 = param - 20 [Assign#int]
+8	in[7]	out[]		dom[7]	doms[]	side[7,3]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+3	in[0]	out[9]		dom[0]	doms[]	side[8,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[11]		dom[9]	doms[]	side[9,11]	dest[11]	try:   	code: local2 = param - 30 [Assign#int]
+11	in[10]	out[]		dom[10]	doms[]	side[10,5]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+5	in[9]	out[12]		dom[9]	doms[]	side[11,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[13,14]	dom[5]	doms[]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 13 else 14 [Condition then 13 else 14]
+14	in[12]	out[15]		dom[12]	doms[]	side[12,15]	dest[15]	try:   	code: local2 = param - 50 [Assign#int]
+15	in[14]	out[]		dom[14]	doms[]	side[14,13]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+13	in[12]	out[16]		dom[12]	doms[]	side[15,16]	dest[16]	try:   	code: this.field = this.field + 10 [Assign#int]
+16	in[13]	out[17]		dom[13]	doms[]	side[13,2]	dest[17]	try:   	code: 
+2	in[]	out[]		dom[]	doms[]	side[16,17]	dest[17]	try: c	code: this.field = this.field + 10 [Assign#int]
+17	in[16]	out[]		dom[16]	doms[]	side[2, ]	dest[T]		try: x	code: return param [Return#int - LocalVariable#int]
+[0m
+
+Merge immediate return (show full nodes)
+[38;5;9mA	in[]	out[0]		dom[]	doms[0]		side[ ,0]	dest[0]		try:   	code: local2 [LocalVariable#int]
+0	in[A]	out[3,7]	dom[A]	doms[7,3,2]	side[A,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[8]		dom[0]	doms[8]		side[0,8]	dest[8]		try:   	code: local2 = param - 20 [Assign#int]
+8	in[7]	out[]		dom[7]	doms[]		side[7,3]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+3	in[0]	out[9]		dom[0]	doms[9]		side[8,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[10,5]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[11]		dom[9]	doms[11]	side[9,11]	dest[11]	try:   	code: local2 = param - 30 [Assign#int]
+11	in[10]	out[]		dom[10]	doms[]		side[10,5]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+5	in[9]	out[12]		dom[9]	doms[12]	side[11,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[13,14]	dom[5]	doms[14,13]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 13 else 14 [Condition then 13 else 14]
+14	in[12]	out[15]		dom[12]	doms[15]	side[12,15]	dest[15]	try:   	code: local2 = param - 50 [Assign#int]
+15	in[14]	out[]		dom[14]	doms[]		side[14,13]	dest[T]		try:   	code: return local2 [Return#int - LocalVariable#int]
+13	in[12]	out[16]		dom[12]	doms[16]	side[15,16]	dest[16]	try:   	code: this.field = this.field + 10 [Assign#int]
+16	in[13]	out[17]		dom[13]	doms[17]	side[13,2]	dest[17]	try:   	code: 
+2	in[]	out[]		dom[]	doms[]		side[16,17]	dest[17]	try: c	code: this.field = this.field + 10 [Assign#int]
+17	in[16]	out[]		dom[16]	doms[]		side[2, ]	dest[T]		try: x	code: return param [Return#int - LocalVariable#int]
+[0m
+[38;5;78mA	in[]	out[0]		dom[]	doms[0]		side[ ,0]	dest[0]		try:   	code: local2 [LocalVariable#int]
+0	in[A]	out[3,7]	dom[A]	doms[7,3,2]	side[A,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[]		dom[0]	doms[8]		side[0,3]	dest[3]		try:   	code: return param - 20 [Return#int - Binary#int]
+3	in[0]	out[9]		dom[0]	doms[9]		side[7,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[10,5]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[]		dom[9]	doms[11]	side[9,5]	dest[5]		try:   	code: return param - 30 [Return#int - Binary#int]
+5	in[9]	out[12]		dom[9]	doms[12]	side[10,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[13,14]	dom[5]	doms[14,13]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 13 else 14 [Condition then 13 else 14]
+14	in[12]	out[]		dom[12]	doms[15]	side[12,13]	dest[13]	try:   	code: return param - 50 [Return#int - Binary#int]
+13	in[12]	out[16]		dom[12]	doms[16]	side[14,16]	dest[16]	try:   	code: this.field = this.field + 10 [Assign#int]
+16	in[13]	out[17]		dom[13]	doms[17]	side[13,2]	dest[17]	try:   	code: 
+2	in[]	out[]		dom[]	doms[]		side[16,17]	dest[17]	try: c	code: this.field = this.field + 10 [Assign#int]
+17	in[16]	out[]		dom[16]	doms[]		side[2, ]	dest[T]		try: x	code: return param [Return#int - LocalVariable#int]
+[0m
+
+Analyze nodes (show full nodes)
+[38;5;9mA	in[]	out[0]		dom[]	doms[0]		side[ ,0]	dest[0]		try:   	code: local2 [LocalVariable#int]
+0	in[A]	out[3,7]	dom[A]	doms[7,3,2]	side[A,7]	dest[7]		try: s	code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[]		dom[0]	doms[8]		side[0,3]	dest[3]		try:   	code: return param - 20 [Return#int - Binary#int]
+3	in[0]	out[9]		dom[0]	doms[9]		side[7,9]	dest[9]		try:   	code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[10,5]	side[3,10]	dest[10]	try:   	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[]		dom[9]	doms[11]	side[9,5]	dest[5]		try:   	code: return param - 30 [Return#int - Binary#int]
+5	in[9]	out[12]		dom[9]	doms[12]	side[10,12]	dest[12]	try:   	code: param += 2 [Assign#int]
+12	in[5]	out[13,14]	dom[5]	doms[14,13]	side[5,14]	dest[14]	try:   	code: if (param % 5 0) then 13 else 14 [Condition then 13 else 14]
+14	in[12]	out[]		dom[12]	doms[15]	side[12,13]	dest[13]	try:   	code: return param - 50 [Return#int - Binary#int]
+13	in[12]	out[16]		dom[12]	doms[16]	side[14,16]	dest[16]	try:   	code: this.field = this.field + 10 [Assign#int]
+16	in[13]	out[17]		dom[13]	doms[17]	side[13,2]	dest[17]	try:   	code: 
+2	in[]	out[]		dom[]	doms[]		side[16,17]	dest[17]	try: c	code: this.field = this.field + 10 [Assign#int]
+17	in[16]	out[]		dom[16]	doms[]		side[2, ]	dest[T]		try: x	code: return param [Return#int - LocalVariable#int]
+[0m
+[38;5;78mA	in[]	out[0]		dom[]	doms[0]		side[ ,0]	dest[0]		code: local2 [LocalVariable#int]
+0	in[A]	out[3,7]	dom[A]	doms[7,3,2]	side[A,7]	dest[7]		code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[]		dom[0]	doms[8]		side[0,3]	dest[3]		code: return param - 20 [Return#int - Binary#int]
+3	in[0]	out[9]		dom[0]	doms[9]		side[7,9]	dest[9]		code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[10,5]	side[3,10]	dest[10]	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[]		dom[9]	doms[11]	side[9,5]	dest[5]		code: return param - 30 [Return#int - Binary#int]
+5	in[9]	out[12]		dom[9]	doms[12]	side[10,12]	dest[12]	code: param += 2 [Assign#int]
+12	in[5]	out[13,14]	dom[5]	doms[14,13]	side[5,14]	dest[14]	code: if (param % 5 0) then 13 else 14 [Condition then 13 else 14]
+14	in[12]	out[]		dom[12]	doms[15]	side[12,13]	dest[13]	code: return param - 50 [Return#int - Binary#int]
+13	in[12]	out[16]		dom[12]	doms[16]	side[14,16]	dest[16]	code: this.field = this.field + 10 [Assign#int]
+16	in[13]	out[17]		dom[13]	doms[17]	side[13,2]	dest[17]	code: 
+2	in[]	out[]		dom[]	doms[]		side[16,17]	dest[17]	code: this.field = this.field + 10 [Assign#int]
+17	in[16]	out[]		dom[16]	doms[]		side[2, ]	dest[T]		code: return param [Return#int - LocalVariable#int]
+[0m
+
+A	in[]	out[0]		dom[]	doms[0]		side[ ,0]	dest[0]		code: local2 [LocalVariable#int]
+0	in[A]	out[3,7]	dom[A]	doms[7,3,2]	side[A,7]	dest[7]		code: if (param % 2 0) then 3 else 7 [Condition then 3 else 7]
+7	in[0]	out[]		dom[0]	doms[8]		side[0,3]	dest[3]		code: return param - 20 [Return#int - Binary#int]
+3	in[0]	out[9]		dom[0]	doms[9]		side[7,9]	dest[9]		code: ++param [Unary#int]
+9	in[3]	out[5,10]	dom[3]	doms[10,5]	side[3,10]	dest[10]	code: if (param % 3 0) then 5 else 10 [Condition then 5 else 10]
+10	in[9]	out[]		dom[9]	doms[11]	side[9,5]	dest[5]		code: return param - 30 [Return#int - Binary#int]
+5	in[9]	out[12]		dom[9]	doms[12]	side[10,12]	dest[12]	code: param += 2 [Assign#int]
+12	in[5]	out[13,14]	dom[5]	doms[14,13]	side[5,14]	dest[14]	code: if (param % 5 0) then 13 else 14 [Condition then 13 else 14]
+14	in[12]	out[]		dom[12]	doms[15]	side[12,13]	dest[13]	code: return param - 50 [Return#int - Binary#int]
+13	in[12]	out[16]		dom[12]	doms[16]	side[14,16]	dest[16]	code: this.field = this.field + 10 [Assign#int]
+16	in[13]	out[17]		dom[13]	doms[17]	side[13,2]	dest[17]	code: 
+2	in[]	out[]		dom[]	doms[]		side[16,17]	dest[17]	code: this.field = this.field + 10 [Assign#int]
+17	in[16]	out[]		dom[16]	doms[]		side[2, ]	dest[T]		code: return param [Return#int - LocalVariable#int]
 
 
+============================================================
+Bytecode Diff -  reincarnation.decompiler.flow.TryFinallyTest$7
+============================================================
+ECJ																		Javac
+visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);						visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
+AnnotableParameterCount(1, true);										AnnotableParameterCount(1, true);
+Label(L0);																Label(L0);
+VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+MethodInsn(INVOKEVIRTUAL, "TryFinallyTest$7", "count", "(I)I", false);	MethodInsn(INVOKEVIRTUAL, "TryFinallyTest$7", "count", "(I)I", false);
+VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
+FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");
+Insn(IADD);																Insn(IADD);
+Insn(IRETURN);															Insn(IRETURN);
+Label(L1);																Label(L1);
+LocalVariable("this", "LTryFinallyTest$7;", null, L0, L1, 0);			LocalVariable("this", "LTryFinallyTest$7;", null, L0, L1, 0);
+LocalVariable("param", "I", null, L0, L1, 1);							LocalVariable("param", "I", null, L0, L1, 1);
+																		
+visitMethod(ACC_PRIVATE, "count", "(I)I", null, null);					visitMethod(ACC_PRIVATE, "count", "(I)I", null, null);
+TryCatchBlock(L0, L1, L2, null);										TryCatchBlock(L0, L1, L2, null);
+TryCatchBlock(L3, L4, L2, null);										TryCatchBlock(L3, L4, L2, null);
+TryCatchBlock(L5, L6, L2, null);										TryCatchBlock(L5, L6, L2, null);
+Label(L0);																Label(L0);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+Insn(ICONST_2);															Insn(ICONST_2);
+Insn(IREM);																Insn(IREM);
+JumpInsn(IFNE, L3);														JumpInsn(IFNE, L3);
+Label(L7);																Label(L7);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+IntInsn(BIPUSH, 20);													IntInsn(BIPUSH, 20);
+Insn(ISUB);																Insn(ISUB);
+VarInsn(ISTORE, ~3~);													VarInsn(ISTORE, +2+);
+Label(L1);																Label(L1);
+VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
+Insn(DUP);																Insn(DUP);
+FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");
+IntInsn(BIPUSH, 10);													IntInsn(BIPUSH, 10);
+Insn(IADD);																Insn(IADD);
+FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");
+Label(L8);																Label(L8);
+VarInsn(ILOAD, ~3~);													VarInsn(ILOAD, +2+);
+Insn(IRETURN);															Insn(IRETURN);
+Label(L3);																Label(L3);
+Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
+IincInsn(1, 1);															IincInsn(1, 1);
+Label(L9);																Label(L9);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+Insn(ICONST_3);															Insn(ICONST_3);
+Insn(IREM);																Insn(IREM);
+JumpInsn(IFNE, L5);														JumpInsn(IFNE, L5);
+Label(L10);																Label(L10);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+IntInsn(BIPUSH, 30);													IntInsn(BIPUSH, 30);
+Insn(ISUB);																Insn(ISUB);
+VarInsn(ISTORE, ~3~);													VarInsn(ISTORE, +2+);
+Label(L4);																Label(L4);
+VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
+Insn(DUP);																Insn(DUP);
+FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");
+IntInsn(BIPUSH, 10);													IntInsn(BIPUSH, 10);
+Insn(IADD);																Insn(IADD);
+FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");
+Label(L11);																Label(L11);
+VarInsn(ILOAD, ~3~);													VarInsn(ILOAD, +2+);
+Insn(IRETURN);															Insn(IRETURN);
+Label(L5);																Label(L5);
+Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
+IincInsn(1, 2);															IincInsn(1, 2);
+Label(L12);																Label(L12);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+Insn(ICONST_5);															Insn(ICONST_5);
+Insn(IREM);																Insn(IREM);
+JumpInsn(IFNE, L13);													JumpInsn(IFNE, L13);
+Label(L14);																Label(L14);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+IntInsn(BIPUSH, 50);													IntInsn(BIPUSH, 50);
+Insn(ISUB);																Insn(ISUB);
+VarInsn(ISTORE, ~3~);													VarInsn(ISTORE, +2+);
+Label(L6);																Label(L6);
+VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
+Insn(DUP);																Insn(DUP);
+FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");
+IntInsn(BIPUSH, 10);													IntInsn(BIPUSH, 10);
+Insn(IADD);																Insn(IADD);
+FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");
+Label(L15);																Label(L15);
+VarInsn(ILOAD, ~3~);													VarInsn(ILOAD, +2+);
+Insn(IRETURN);															Insn(IRETURN);
+Label(~L2~);															Label(+L13+);
+Frame(~F_SAME1~, 0, null, ~1~, ~new Object[] {"j.l.Throwable"}~);		Frame(+F_SAME+, 0, null, +0+, +null+);
+~VarInsn(ASTORE, 2);~													
+~Label(L16);~															
+VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
+Insn(DUP);																Insn(DUP);
+FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");
+IntInsn(BIPUSH, 10);													IntInsn(BIPUSH, 10);
+Insn(IADD);																Insn(IADD);
+FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");
+Label(~L17~);															Label(+L16+);
+~VarInsn~(~ALOAD~, ~2~);												+JumpInsn+(+GOTO+, +L17+);
+~Insn(ATHROW);~															Label(+L2+);
+Label(~L13~);															Frame(+F_SAME1+, 0, null, +1+, +new Object[] {"j.l.Throwable"}+);
+Frame(~F_SAME~, 0, null, ~0~, ~null~);									+VarInsn(ASTORE, 3);+
+VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
+Insn(DUP);																Insn(DUP);
+FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");
+IntInsn(BIPUSH, 10);													IntInsn(BIPUSH, 10);
+Insn(IADD);																Insn(IADD);
+FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");
+Label(L18);																Label(L18);
+																		+VarInsn(ALOAD, 3);+
+																		+Insn(ATHROW);+
+																		+Label(L17);+
+																		+Frame(F_SAME, 0, null, 0, null);+
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+Insn(IRETURN);															Insn(IRETURN);
+Label(L19);																Label(L19);
+LocalVariable("this", "LTryFinallyTest$7;", null, L0, L19, 0);			LocalVariable("this", "LTryFinallyTest$7;", null, L0, L19, 0);
+LocalVariable("param", "I", null, L0, L19, 1);							LocalVariable("param", "I", null, L0, L19, 1);
+============================================================
+Bytecode Diff -  reincarnation.decompiler.flow.TryFinallyTest$7
+============================================================
+ECJ																		Javac
+visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);						visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
+AnnotableParameterCount(1, true);										AnnotableParameterCount(1, true);
+Label(L0);																Label(L0);
+VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+MethodInsn(INVOKEVIRTUAL, "TryFinallyTest$7", "count", "(I)I", false);	MethodInsn(INVOKEVIRTUAL, "TryFinallyTest$7", "count", "(I)I", false);
+VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
+FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");
+Insn(IADD);																Insn(IADD);
+Insn(IRETURN);															Insn(IRETURN);
+Label(L1);																Label(L1);
+LocalVariable("this", "LTryFinallyTest$7;", null, L0, L1, 0);			LocalVariable("this", "LTryFinallyTest$7;", null, L0, L1, 0);
+LocalVariable("param", "I", null, L0, L1, 1);							LocalVariable("param", "I", null, L0, L1, 1);
+																		
+visitMethod(ACC_PRIVATE, "count", "(I)I", null, null);					visitMethod(ACC_PRIVATE, "count", "(I)I", null, null);
+TryCatchBlock(L0, L1, L2, null);										TryCatchBlock(L0, L1, L2, null);
+TryCatchBlock(L3, L4, L2, null);										TryCatchBlock(L3, L4, L2, null);
+TryCatchBlock(L5, L6, L2, null);										TryCatchBlock(L5, L6, L2, null);
+Label(L0);																Label(L0);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+Insn(ICONST_2);															Insn(ICONST_2);
+Insn(IREM);																Insn(IREM);
+JumpInsn(IFNE, L3);														JumpInsn(IFNE, L3);
+Label(L7);																Label(L7);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+IntInsn(BIPUSH, 20);													IntInsn(BIPUSH, 20);
+Insn(ISUB);																Insn(ISUB);
+VarInsn(ISTORE, ~3~);													VarInsn(ISTORE, +2+);
+Label(L1);																Label(L1);
+VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
+Insn(DUP);																Insn(DUP);
+FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");
+IntInsn(BIPUSH, 10);													IntInsn(BIPUSH, 10);
+Insn(IADD);																Insn(IADD);
+FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");
+Label(L8);																Label(L8);
+VarInsn(ILOAD, ~3~);													VarInsn(ILOAD, +2+);
+Insn(IRETURN);															Insn(IRETURN);
+Label(L3);																Label(L3);
+Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
+IincInsn(1, 1);															IincInsn(1, 1);
+Label(L9);																Label(L9);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+Insn(ICONST_3);															Insn(ICONST_3);
+Insn(IREM);																Insn(IREM);
+JumpInsn(IFNE, L5);														JumpInsn(IFNE, L5);
+Label(L10);																Label(L10);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+IntInsn(BIPUSH, 30);													IntInsn(BIPUSH, 30);
+Insn(ISUB);																Insn(ISUB);
+VarInsn(ISTORE, ~3~);													VarInsn(ISTORE, +2+);
+Label(L4);																Label(L4);
+VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
+Insn(DUP);																Insn(DUP);
+FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");
+IntInsn(BIPUSH, 10);													IntInsn(BIPUSH, 10);
+Insn(IADD);																Insn(IADD);
+FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");
+Label(L11);																Label(L11);
+VarInsn(ILOAD, ~3~);													VarInsn(ILOAD, +2+);
+Insn(IRETURN);															Insn(IRETURN);
+Label(L5);																Label(L5);
+Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
+IincInsn(1, 2);															IincInsn(1, 2);
+Label(L12);																Label(L12);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+Insn(ICONST_5);															Insn(ICONST_5);
+Insn(IREM);																Insn(IREM);
+JumpInsn(IFNE, L13);													JumpInsn(IFNE, L13);
+Label(L14);																Label(L14);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+IntInsn(BIPUSH, 50);													IntInsn(BIPUSH, 50);
+Insn(ISUB);																Insn(ISUB);
+VarInsn(ISTORE, ~3~);													VarInsn(ISTORE, +2+);
+Label(L6);																Label(L6);
+VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
+Insn(DUP);																Insn(DUP);
+FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");
+IntInsn(BIPUSH, 10);													IntInsn(BIPUSH, 10);
+Insn(IADD);																Insn(IADD);
+FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");
+Label(L15);																Label(L15);
+VarInsn(ILOAD, ~3~);													VarInsn(ILOAD, +2+);
+Insn(IRETURN);															Insn(IRETURN);
+Label(~L2~);															Label(+L13+);
+Frame(~F_SAME1~, 0, null, ~1~, ~new Object[] {"j.l.Throwable"}~);		Frame(+F_SAME+, 0, null, +0+, +null+);
+~VarInsn(ASTORE, 2);~													
+~Label(L16);~															
+VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
+Insn(DUP);																Insn(DUP);
+FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");
+IntInsn(BIPUSH, 10);													IntInsn(BIPUSH, 10);
+Insn(IADD);																Insn(IADD);
+FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");
+Label(~L17~);															Label(+L16+);
+~VarInsn~(~ALOAD~, ~2~);												+JumpInsn+(+GOTO+, +L17+);
+~Insn(ATHROW);~															Label(+L2+);
+Label(~L13~);															Frame(+F_SAME1+, 0, null, +1+, +new Object[] {"j.l.Throwable"}+);
+Frame(~F_SAME~, 0, null, ~0~, ~null~);									+VarInsn(ASTORE, 3);+
+VarInsn(ALOAD, 0);														VarInsn(ALOAD, 0);
+Insn(DUP);																Insn(DUP);
+FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(GETFIELD, "TryFinallyTest$7", "field", "I");
+IntInsn(BIPUSH, 10);													IntInsn(BIPUSH, 10);
+Insn(IADD);																Insn(IADD);
+FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");					FieldInsn(PUTFIELD, "TryFinallyTest$7", "field", "I");
+Label(L18);																Label(L18);
+																		+VarInsn(ALOAD, 3);+
+																		+Insn(ATHROW);+
+																		+Label(L17);+
+																		+Frame(F_SAME, 0, null, 0, null);+
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+Insn(IRETURN);															Insn(IRETURN);
+Label(L19);																Label(L19);
+LocalVariable("this", "LTryFinallyTest$7;", null, L0, L19, 0);			LocalVariable("this", "LTryFinallyTest$7;", null, L0, L19, 0);
+LocalVariable("param", "I", null, L0, L19, 1);							LocalVariable("param", "I", null, L0, L19, 1);
+============================================================
+
+WARNING: A Java agent has been loaded dynamically (C:\Users\minam\AppData\Local\Temp\antibug3319281596712958266agent.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release

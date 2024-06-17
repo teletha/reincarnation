@@ -3055,6 +3055,25 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 // capture the finally block
                 List<Node> deletables = key.handler.outgoingRecursively().takeWhile(n -> !n.isThrow()).take(Node::isNotEmpty).toList();
 
+                // For Javac
+                try (Printable diff = debugger.diff(nodes, "Remove copied finally nodes [size: " + deletables
+                        .size() + "] from the previous node of handler [" + key.handler.id + "].")) {
+                    if (!match(key)) {
+                        I.signal(key.handler.previous)
+                                .recurseMap(n -> n.map(x -> x.previous).skipNull())
+                                .skip(Node::isEmpty)
+                                .take(deletables.size())
+                                .reverse()
+                                .buffer()
+                                .take(nodes -> match(nodes, deletables))
+                                .flatIterable(n -> n)
+                                .to(n -> {
+                                    dispose(n, true, true);
+                                });
+                    }
+                }
+
+                // For ECJ
                 try (Printable diff = debugger.diff(nodes, "Remove copied finally nodes [size: " + deletables
                         .size() + "] from the next node of handler's [" + key.handler.id + "] last tail.")) {
                     if (!match(key)) {
@@ -3435,6 +3454,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
          */
         private boolean isEmpty() {
             return node == null || node.isEmpty();
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public String toString() {
+            return "CatcheOrFinally [" + (exception == null ? "FINALLY" : exception.getSimpleName()) + "@" + node.id + "]";
         }
     }
 
