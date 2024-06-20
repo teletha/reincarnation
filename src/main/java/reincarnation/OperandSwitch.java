@@ -426,6 +426,10 @@ class OperandSwitch extends Operand {
         return cases.keys().startWith(defaultNode).skipNull();
     }
 
+    boolean canBeExpression() {
+        return canBeExpression(follower);
+    }
+
     boolean canBeExpression(Node follow) {
         if (isExpression()) {
             return false;

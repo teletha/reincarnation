@@ -416,7 +416,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         // ============================================
         // Analyze all switch block
         // ============================================
-        try (Printable diff = debugger.diff(nodes, "Analyze switch")) {
+        try (Printable diff = debugger.diff(nodes, "Analyze switch [Range " + nodes.getFirst().id + " - " + nodes.getLast().id + "]")) {
             new ArrayList<>(nodes).forEach(n -> n.child(OperandSwitch.class).to(op -> {
                 op.analyze(this);
             }));
@@ -686,25 +686,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     @Override
     public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
-        if (!tries.isCatch(current) && !tries.isFinally(current)) {
-            for (OperandSwitch op : switches) {
-                if (op.canBeExpression(current)) {
-                    try (Printable diff = debugger.diff(nodes, "Process switch expression")) {
-                        op.markAsExpression();
-
-                        List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance), nodes.indexOf(current)));
-                        analyze(sub);
-
-                        Node created = createNodeBefore(op.entrance, true);
-                        link(created, current);
-                        op.entrance.transferTo(created);
-
-                        this.nodes.removeAll(sub);
-                    }
-                }
-            }
-        }
-
         switch (type) {
         case F_NEW:
             record(FRAME_NEW);
@@ -740,6 +721,33 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 processTernaryOperator();
             }
             break;
+        }
+
+        if (!tries.isCatch(current) && !tries.isFinally(current)) {
+            for (OperandSwitch op : switches) {
+                if (op.canBeExpression(current)) {
+                    Node end = I.signal(current.incoming)
+                            .take(op.entrance::canReachTo)
+                            .sort(Comparator.naturalOrder())
+                            .last()
+                            .to()
+                            .exact().next;
+
+                    try (Printable diff = debugger
+                            .diff(nodes, "Transform switch expression [Range " + op.entrance.id + " - " + end.id + "]")) {
+                        op.markAsExpression();
+
+                        List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance), nodes.indexOf(end)));
+                        analyze(sub);
+
+                        Node created = createNodeBefore(op.entrance, true, true);
+                        created.connect(current);
+                        // link(created, current);
+
+                        this.nodes.removeAll(sub);
+                    }
+                }
+            }
         }
     }
 

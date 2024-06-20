@@ -1,27 +1,23 @@
-
+java.lang.Error: 
 ============================================================
-ECJ compiles reincarnation.decompiler.flow.SwitchExpressionTest$14
+Javac compiles reincarnation.decompiler.flow.SwitchExpressionTest$16
+============================================================
+Cannot invoke "reincarnation.Operand.fix(java.lang.reflect.Type)" because "operand" is null
 ============================================================
 Original Code
 ============================================================
 @Debuggable
-    void tryCatchFinally() {
+    void nest() {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 5) int param) {
-                return switch (param) {
-                case 0, 1, 2 -> {
-                    try {
-                        param = MaybeThrow.error(param);
-                    } catch (Error e) {
-                        param = param + 1;
-                    } finally {
-                        param += 2;
-                    }
-                    yield param;
-                }
+            public int run(@Param(from = 0, to = 10) int param) {
+                return switch (param % 2) {
+                case 0 -> switch (param) {
+                case 2 -> 20;
                 default -> param;
+                };
+                default -> 30;
                 };
             }
         });
@@ -29,710 +25,90 @@ Original Code
 ============================================================
 Decompiled Code
 ============================================================
-01    package reincarnation.decompiler.flow;
-02    
-03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.IntParam;
-05    import reincarnation.TestCode.Param;
-06    import reincarnation.decompiler.flow.MaybeThrow;
-07    import reincarnation.decompiler.flow.SwitchExpressionTest;
-08    
-09    class SwitchExpressionTest extends CodeVerifier {
-10    
-11        class SwitchExpressionTest$14 implements IntParam {
-12            final SwitchExpressionTest this$0;
-13    
-14            SwitchExpressionTest$14(SwitchExpressionTest arg0) {
-15                this.this$0 = arg0;
-16            }
-17    
-18            public int run(@Param(to = 5) int param) {
-19                return switch (param) {
-20                    case 0, 1, 2 -> {
-21                        try {
-22                            try {
-23                                param = MaybeThrow.error(param);
-24                            } catch(Error e) {
-25                                ++param;
-26                            }
-27                        } finally {
-28                            param += 2;
-29                        }
-30                        yield param;
-31                    }
-32                    default -> param;
-33                };
-34            }
-35        }
-36    }
-============================================================
 Decompiling Log
 ============================================================
-//-------------------------- SwitchExpressionTest#tryCatchFinally (SwitchExpressionTest.java:264) --------------------------//
-[38;5;21mMethod tryCatchFinally()[0m (SwitchExpressionTest.java:265)
-0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: this.this$0 = arg0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall] return null [Return - null]
-1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
-
-Delete tail empty return (show full nodes)
-[38;5;9m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall] return null [Return - null]
-[0m
-[38;5;78m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall]
-[0m
-
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall]
-
-//-------------------------- SwitchExpressionTest#tryCatchFinally (SwitchExpressionTest.java:268) --------------------------//
-[38;5;21mMethod tryCatchFinally()[0m (SwitchExpressionTest.java:269)
-5	in[]	out[6,0]	dom[]	doms[]	side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch]
-0	in[5]	out[1]		dom[5]	doms[]	side[5,1]	dest[1]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[7]		dom[0]	doms[]	side[0,2]	dest[7]		try:   e	code: 
-2	in[]	out[8]		dom[]	doms[]	side[1,8]	dest[8]		try:   c	code: 
-8	in[2]	out[3]		dom[2]	doms[]	side[2,3]	dest[3]		try:     	code: ++arg0 [Unary#int]
-3	in[8]	out[9]		dom[8]	doms[]	side[8,4]	dest[9]		try: e  	code: arg0 += 2 [Assign#int]
-4	in[]	out[10]		dom[]	doms[]	side[3,10]	dest[10]	try: c  	code: 
-10	in[4]	out[11]		dom[4]	doms[]	side[4,11]	dest[11]	try:     	code: arg0 += 2 [Assign#int]
-11	in[10]	out[]		dom[10]	doms[]	side[10,7]	dest[T]		try:     	code: throw local4 [Throw]
-7	in[1]	out[9]		dom[1]	doms[]	side[11,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-9	in[3,7]	out[12]		dom[]	doms[]	side[7,12]	dest[12]	try:     	code: local2 = arg0 [Assign#int]
-12	in[9]	out[13]		dom[9]	doms[]	side[9,13]	dest[13]	try:     	code: local2 [LocalVariable#int]
-13	in[12]	out[14]		dom[12]	doms[]	side[12,6]	dest[14]	try:     	code: 
-6	in[5]	out[15]		dom[5]	doms[]	side[13,15]	dest[15]	try:     	code: local2 = arg0 [Assign#int]
-15	in[6]	out[14]		dom[6]	doms[]	side[6,14]	dest[14]	try:     	code: local2 [LocalVariable#int]
-
-Remove copied finally nodes [size: 1] from end's outgoings (show full nodes)
-[38;5;9m5	in[]		out[6,0]	dom[]	doms[]	side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch]
-0	in[5]		out[1]		dom[5]	doms[]	side[5,1]	dest[1]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]		out[7]		dom[0]	doms[]	side[0,2]	dest[7]		try:   e	code: 
-2	in[]		out[8]		dom[]	doms[]	side[1,8]	dest[8]		try:   c	code: 
-8	in[2]		out[3]		dom[2]	doms[]	side[2,3]	dest[3]		try:     	code: ++arg0 [Unary#int]
-3	in[8]		out[9]		dom[8]	doms[]	side[8,4]	dest[9]		try: e  	code: arg0 += 2 [Assign#int]
-4	in[]		out[10]		dom[]	doms[]	side[3,10]	dest[10]	try: c  	code: 
-10	in[4]		out[11]		dom[4]	doms[]	side[4,11]	dest[11]	try:     	code: arg0 += 2 [Assign#int]
-11	in[10]		out[]		dom[10]	doms[]	side[10,7]	dest[T]		try:     	code: throw local4 [Throw]
-7	in[1]		out[9]		dom[1]	doms[]	side[11,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-9	in[3,7]		out[12]		dom[]	doms[]	side[7,12]	dest[12]	try:     	code: local2 = arg0 [Assign#int]
-12	in[9]		out[13]		dom[9]	doms[]	side[9,13]	dest[13]	try:     	code: local2 [LocalVariable#int]
-13	in[12]		out[14]		dom[12]	doms[]	side[12,6]	dest[14]	try:     	code: 
-6	in[5]		out[15]		dom[5]	doms[]	side[13,15]	dest[15]	try:     	code: local2 = arg0 [Assign#int]
-15	in[6]		out[14]		dom[6]	doms[]	side[6,14]	dest[14]	try:     	code: local2 [LocalVariable#int]
-14	in[13,15]	out[]		dom[]	doms[]	side[15, ]	dest[]		try:     	code: 
-[0m
-[38;5;78m5	in[]		out[6,0]	dom[]	doms[]	side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch]
-0	in[5]		out[1]		dom[5]	doms[]	side[5,1]	dest[1]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]		out[7]		dom[0]	doms[]	side[0,2]	dest[7]		try:   e	code: 
-2	in[]		out[8]		dom[]	doms[]	side[1,8]	dest[8]		try:   c	code: 
-8	in[2]		out[9]		dom[2]	doms[]	side[2,4]	dest[9]		try:     	code: ++arg0 [Unary#int]
-4	in[]		out[10]		dom[]	doms[]	side[8,10]	dest[10]	try: c  	code: 
-10	in[4]		out[11]		dom[4]	doms[]	side[4,11]	dest[11]	try:     	code: arg0 += 2 [Assign#int]
-11	in[10]		out[]		dom[10]	doms[]	side[10,7]	dest[T]		try:     	code: throw local4 [Throw]
-7	in[1]		out[9]		dom[1]	doms[]	side[11,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-9	in[7,8]		out[12]		dom[]	doms[]	side[7,12]	dest[12]	try:     	code: local2 = arg0 [Assign#int]
-12	in[9]		out[13]		dom[9]	doms[]	side[9,13]	dest[13]	try:     	code: local2 [LocalVariable#int]
-13	in[12]		out[14]		dom[12]	doms[]	side[12,6]	dest[14]	try:     	code: 
-6	in[5]		out[15]		dom[5]	doms[]	side[13,15]	dest[15]	try:     	code: local2 = arg0 [Assign#int]
-15	in[6]		out[14]		dom[6]	doms[]	side[6,14]	dest[14]	try:     	code: local2 [LocalVariable#int]
-14	in[13,15]	out[]		dom[]	doms[]	side[15, ]	dest[]		try:     	code: 
-[0m
-
-Remove copied finally nodes [size: 1] from the next node of handler's [4] last tail. (show full nodes)
-[38;5;9m5	in[]		out[6,0]	dom[]	doms[]	side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch]
-0	in[5]		out[1]		dom[5]	doms[]	side[5,1]	dest[1]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]		out[7]		dom[0]	doms[]	side[0,2]	dest[7]		try:   e	code: 
-2	in[]		out[8]		dom[]	doms[]	side[1,8]	dest[8]		try:   c	code: 
-8	in[2]		out[9]		dom[2]	doms[]	side[2,4]	dest[9]		try:     	code: ++arg0 [Unary#int]
-4	in[]		out[10]		dom[]	doms[]	side[8,10]	dest[10]	try: c  	code: 
-10	in[4]		out[11]		dom[4]	doms[]	side[4,11]	dest[11]	try:     	code: arg0 += 2 [Assign#int]
-11	in[10]		out[]		dom[10]	doms[]	side[10,7]	dest[T]		try:     	code: throw local4 [Throw]
-7	in[1]		out[9]		dom[1]	doms[]	side[11,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-9	in[7,8]		out[12]		dom[]	doms[]	side[7,12]	dest[12]	try:     	code: local2 = arg0 [Assign#int]
-12	in[9]		out[13]		dom[9]	doms[]	side[9,13]	dest[13]	try:     	code: local2 [LocalVariable#int]
-13	in[12]		out[14]		dom[12]	doms[]	side[12,6]	dest[14]	try:     	code: 
-6	in[5]		out[15]		dom[5]	doms[]	side[13,15]	dest[15]	try:     	code: local2 = arg0 [Assign#int]
-15	in[6]		out[14]		dom[6]	doms[]	side[6,14]	dest[14]	try:     	code: local2 [LocalVariable#int]
-14	in[13,15]	out[]		dom[]	doms[]	side[15, ]	dest[]		try:     	code: 
-[0m
-[38;5;78m5	in[]		out[6,0]	dom[]	doms[]	side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch]
-0	in[5]		out[1]		dom[5]	doms[]	side[5,1]	dest[1]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]		out[9]		dom[0]	doms[]	side[0,2]	dest[9]		try:   e	code: 
-2	in[]		out[8]		dom[]	doms[]	side[1,8]	dest[8]		try:   c	code: 
-8	in[2]		out[9]		dom[2]	doms[]	side[2,4]	dest[9]		try:     	code: ++arg0 [Unary#int]
-4	in[]		out[10]		dom[]	doms[]	side[8,10]	dest[10]	try: c  	code: 
-10	in[4]		out[11]		dom[4]	doms[]	side[4,11]	dest[11]	try:     	code: arg0 += 2 [Assign#int]
-11	in[10]		out[]		dom[10]	doms[]	side[10,9]	dest[T]		try:     	code: throw local4 [Throw]
-9	in[8,1]		out[12]		dom[]	doms[]	side[11,12]	dest[12]	try:     	code: local2 = arg0 [Assign#int]
-12	in[9]		out[13]		dom[9]	doms[]	side[9,13]	dest[13]	try:     	code: local2 [LocalVariable#int]
-13	in[12]		out[14]		dom[12]	doms[]	side[12,6]	dest[14]	try:     	code: 
-6	in[5]		out[15]		dom[5]	doms[]	side[13,15]	dest[15]	try:     	code: local2 = arg0 [Assign#int]
-15	in[6]		out[14]		dom[6]	doms[]	side[6,14]	dest[14]	try:     	code: local2 [LocalVariable#int]
-14	in[13,15]	out[]		dom[]	doms[]	side[15, ]	dest[]		try:     	code: 
-[0m
-
-Analyze switch (show full nodes)
-[38;5;9m5	in[]	out[6,0]	dom[]	doms[0,6]		side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch]
-0	in[5]	out[1]		dom[5]	doms[1,2,4,9]	side[5,1]	dest[1]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[9]		dom[0]	doms[]			side[0,2]	dest[9]		try:   e	code: 
-2	in[]	out[8]		dom[]	doms[8]			side[1,8]	dest[8]		try:   c	code: 
-8	in[2]	out[9]		dom[2]	doms[3]			side[2,4]	dest[9]		try:     	code: ++arg0 [Unary#int]
-3	in[]	out[]		dom[]	doms[]			side[8,4]	dest[9]		try: e  	code: 
-4	in[]	out[10]		dom[]	doms[10]		side[8,10]	dest[10]	try: c  	code: 
-10	in[4]	out[]		dom[4]	doms[]			side[4,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-11	in[]	out[]		dom[]	doms[]			side[10,9]	dest[T]		try:     	code: 
-7	in[]	out[]		dom[]	doms[]			side[11,9]	dest[9]		try:     	code: 
-9	in[8,1]	out[12]		dom[]	doms[12]		side[10,12]	dest[12]	try: x  	code: local2 = arg0 [Assign#int]
-12	in[9]	out[13]		dom[9]	doms[13]		side[9,13]	dest[13]	try:     	code: local2 [LocalVariable#int]
-13	in[12]	out[14]		dom[12]	doms[]			side[12,6]	dest[14]	try:     	code: 
-6	in[5]	out[15]		dom[5]	doms[15]		side[13,15]	dest[15]	try:     	code: local2 = arg0 [Assign#int]
-15	in[6]	out[14]		dom[6]	doms[]			side[6,14]	dest[14]	try:     	code: local2 [LocalVariable#int]
-[0m
-[38;5;78m5	in[]	out[6,0]	dom[]	doms[0,6]		side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch#int]
-0	in[5]	out[1]		dom[5]	doms[1,2,4,9]	side[5,1]	dest[1]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[9]		dom[0]	doms[]			side[0,2]	dest[9]		try:   e	code: 
-2	in[]	out[8]		dom[]	doms[8]			side[1,8]	dest[8]		try:   c	code: 
-8	in[2]	out[9]		dom[2]	doms[3]			side[2,4]	dest[9]		try:     	code: ++arg0 [Unary#int]
-3	in[]	out[]		dom[]	doms[]			side[8,4]	dest[9]		try: e  	code: 
-4	in[]	out[10]		dom[]	doms[10]		side[8,10]	dest[10]	try: c  	code: 
-10	in[4]	out[]		dom[4]	doms[]			side[4,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-11	in[]	out[]		dom[]	doms[]			side[10,9]	dest[T]		try:     	code: 
-7	in[]	out[]		dom[]	doms[]			side[11,9]	dest[9]		try:     	code: 
-9	in[8,1]	out[12]		dom[]	doms[12]		side[10,12]	dest[12]	try: x  	code: local2 = arg0 [Assign#int]
-12	in[9]	out[13]		dom[9]	doms[13]		side[9,13]	dest[13]	try:     	code: yield local2 [Yield#int - local2]
-13	in[12]	out[]		dom[12]	doms[]			side[12,6]	dest[14]	try:     	code: 
-6	in[5]	out[15]		dom[5]	doms[15]		side[13,15]	dest[15]	try:     	code: local2 = arg0 [Assign#int]
-15	in[6]	out[]		dom[6]	doms[]			side[6,A]	dest[14]	try:     	code: yield local2 [Yield#int - local2]
-[0m
-
-Analyze try-catch-finally (show full nodes)
-[38;5;9m5	in[]	out[6,0]	dom[]	doms[0,6]		side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch#int]
-0	in[5]	out[1]		dom[5]	doms[1,2,4,9]	side[5,1]	dest[1]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[9]		dom[0]	doms[]			side[0,2]	dest[9]		try:   e	code: 
-2	in[]	out[8]		dom[]	doms[8]			side[1,8]	dest[8]		try:   c	code: 
-8	in[2]	out[9]		dom[2]	doms[3]			side[2,4]	dest[9]		try:     	code: ++arg0 [Unary#int]
-3	in[]	out[]		dom[]	doms[]			side[8,4]	dest[9]		try: e  	code: 
-4	in[]	out[10]		dom[]	doms[10]		side[8,10]	dest[10]	try: c  	code: 
-10	in[4]	out[]		dom[4]	doms[]			side[4,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-11	in[]	out[]		dom[]	doms[]			side[10,9]	dest[T]		try:     	code: 
-7	in[]	out[]		dom[]	doms[]			side[11,9]	dest[9]		try:     	code: 
-9	in[8,1]	out[12]		dom[]	doms[12]		side[10,12]	dest[12]	try: x  	code: local2 = arg0 [Assign#int]
-12	in[9]	out[13]		dom[9]	doms[13]		side[9,13]	dest[13]	try:     	code: yield local2 [Yield#int - local2]
-13	in[12]	out[]		dom[12]	doms[]			side[12,6]	dest[14]	try:     	code: 
-6	in[5]	out[15]		dom[5]	doms[15]		side[13,15]	dest[15]	try:     	code: local2 = arg0 [Assign#int]
-15	in[6]	out[]		dom[6]	doms[]			side[6,A]	dest[14]	try:     	code: yield local2 [Yield#int - local2]
-[0m
-[38;5;78m5	in[]	out[6,0]	dom[]	doms[0,6]		side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch#int]
-0	in[5]	out[1]		dom[5]	doms[1,2,4,9]	side[5,1]	dest[1]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[9]		dom[0]	doms[]			side[0,2]	dest[9]		try:   e	code: 
-2	in[]	out[8]		dom[]	doms[8]			side[1,8]	dest[8]		try:   c	code: 
-8	in[2]	out[9]		dom[2]	doms[3]			side[2,4]	dest[9]		try:     	code: ++arg0 [Unary#int]
-3	in[]	out[]		dom[]	doms[]			side[8,4]	dest[9]		try: e  	code: 
-4	in[]	out[10]		dom[]	doms[10]		side[8,10]	dest[10]	try: c  	code: 
-10	in[4]	out[]		dom[4]	doms[]			side[4,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-11	in[]	out[]		dom[]	doms[]			side[10,9]	dest[T]		try:     	code: 
-7	in[]	out[]		dom[]	doms[]			side[11,9]	dest[9]		try:     	code: 
-9	in[8,1]	out[12]		dom[]	doms[12]		side[10,12]	dest[12]	try: xx	code: local2 = arg0 [Assign#int]
-12	in[9]	out[13]		dom[9]	doms[13]		side[9,13]	dest[13]	try:     	code: yield local2 [Yield#int - local2]
-13	in[12]	out[]		dom[12]	doms[]			side[12,6]	dest[14]	try:     	code: 
-6	in[5]	out[15]		dom[5]	doms[15]		side[13,15]	dest[15]	try:     	code: local2 = arg0 [Assign#int]
-15	in[6]	out[]		dom[6]	doms[]			side[6,A]	dest[14]	try:     	code: yield local2 [Yield#int - local2]
-[0m
-
-Merge immediate return (show full nodes)
-[38;5;9m5	in[]	out[6,0]	dom[]	doms[0,6]		side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch#int]
-0	in[5]	out[1]		dom[5]	doms[1,2,4,9]	side[5,1]	dest[1]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[9]		dom[0]	doms[]			side[0,2]	dest[9]		try:   e	code: 
-2	in[]	out[8]		dom[]	doms[8]			side[1,8]	dest[8]		try:   c	code: 
-8	in[2]	out[9]		dom[2]	doms[3]			side[2,4]	dest[9]		try:     	code: ++arg0 [Unary#int]
-3	in[]	out[]		dom[]	doms[]			side[8,4]	dest[9]		try: e  	code: 
-4	in[]	out[10]		dom[]	doms[10]		side[8,10]	dest[10]	try: c  	code: 
-10	in[4]	out[]		dom[4]	doms[]			side[4,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-11	in[]	out[]		dom[]	doms[]			side[10,9]	dest[T]		try:     	code: 
-7	in[]	out[]		dom[]	doms[]			side[11,9]	dest[9]		try:     	code: 
-9	in[8,1]	out[12]		dom[]	doms[12]		side[10,12]	dest[12]	try: xx	code: local2 = arg0 [Assign#int]
-12	in[9]	out[13]		dom[9]	doms[13]		side[9,13]	dest[13]	try:     	code: yield local2 [Yield#int - local2]
-13	in[12]	out[]		dom[12]	doms[]			side[12,6]	dest[14]	try:     	code: 
-6	in[5]	out[15]		dom[5]	doms[15]		side[13,15]	dest[15]	try:     	code: local2 = arg0 [Assign#int]
-15	in[6]	out[]		dom[6]	doms[]			side[6,A]	dest[14]	try:     	code: yield local2 [Yield#int - local2]
-[0m
-[38;5;78m5	in[]	out[6,0]	dom[]	doms[0,6]		side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch#int]
-0	in[5]	out[1]		dom[5]	doms[1,2,4,9]	side[5,1]	dest[1]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[9]		dom[0]	doms[]			side[0,2]	dest[9]		try:   e	code: 
-2	in[]	out[8]		dom[]	doms[8]			side[1,8]	dest[8]		try:   c	code: 
-8	in[2]	out[9]		dom[2]	doms[3]			side[2,4]	dest[9]		try:     	code: ++arg0 [Unary#int]
-3	in[]	out[]		dom[]	doms[]			side[8,4]	dest[9]		try: e  	code: 
-4	in[]	out[10]		dom[]	doms[10]		side[8,10]	dest[10]	try: c  	code: 
-10	in[4]	out[]		dom[4]	doms[]			side[4,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-11	in[]	out[]		dom[]	doms[]			side[10,9]	dest[T]		try:     	code: 
-7	in[]	out[]		dom[]	doms[]			side[11,9]	dest[9]		try:     	code: 
-9	in[8,1]	out[13]		dom[]	doms[12]		side[10,13]	dest[13]	try: xx	code: yield arg0 [Yield#int - arg0]
-12	in[]	out[]		dom[]	doms[13]		side[9,13]	dest[13]	try:     	code: 
-13	in[9]	out[]		dom[9]	doms[]			side[9,6]	dest[14]	try:     	code: 
-6	in[5]	out[]		dom[5]	doms[15]		side[13,A]	dest[14]	try:     	code: yield arg0 [Yield#int - arg0]
-15	in[]	out[]		dom[]	doms[]			side[6,A]	dest[14]	try:     	code: 
-[0m
-
-5	in[]	out[6,0]	dom[]	doms[0,6]		side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch#int]
-0	in[5]	out[1]		dom[5]	doms[1,2,4,9]	side[5,1]	dest[1]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[9]		dom[0]	doms[]			side[0,2]	dest[9]		try:   e	code: 
-2	in[]	out[8]		dom[]	doms[8]			side[1,8]	dest[8]		try:   c	code: 
-8	in[2]	out[9]		dom[2]	doms[3]			side[2,4]	dest[9]		try:     	code: ++arg0 [Unary#int]
-3	in[]	out[]		dom[]	doms[]			side[8,4]	dest[9]		try: e  	code: 
-4	in[]	out[10]		dom[]	doms[10]		side[8,10]	dest[10]	try: c  	code: 
-10	in[4]	out[]		dom[4]	doms[]			side[4,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-11	in[]	out[]		dom[]	doms[]			side[10,9]	dest[T]		try:     	code: 
-7	in[]	out[]		dom[]	doms[]			side[11,9]	dest[9]		try:     	code: 
-9	in[8,1]	out[13]		dom[]	doms[12]		side[10,13]	dest[13]	try: xx	code: yield arg0 [Yield#int - arg0]
-12	in[]	out[]		dom[]	doms[13]		side[9,13]	dest[13]	try:     	code: 
-13	in[9]	out[]		dom[9]	doms[]			side[9,6]	dest[14]	try:     	code: 
-6	in[5]	out[]		dom[5]	doms[15]		side[13,A]	dest[14]	try:     	code: yield arg0 [Yield#int - arg0]
-15	in[]	out[]		dom[]	doms[]			side[6,A]	dest[14]	try:     	code: 
-
-Process switch expression (show full nodes)
-[38;5;9m5	in[]		out[6,0]	dom[]	doms[]	side[ ,0]	dest[0]		try:     	code: switch (arg0) [Switch]
-0	in[5]		out[1]		dom[5]	doms[]	side[5,1]	dest[1]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]		out[7]		dom[0]	doms[]	side[0,2]	dest[7]		try:   e	code: 
-2	in[]		out[8]		dom[]	doms[]	side[1,8]	dest[8]		try:   c	code: 
-8	in[2]		out[3]		dom[2]	doms[]	side[2,3]	dest[3]		try:     	code: ++arg0 [Unary#int]
-3	in[8]		out[9]		dom[8]	doms[]	side[8,4]	dest[9]		try: e  	code: arg0 += 2 [Assign#int]
-4	in[]		out[10]		dom[]	doms[]	side[3,10]	dest[10]	try: c  	code: 
-10	in[4]		out[11]		dom[4]	doms[]	side[4,11]	dest[11]	try:     	code: arg0 += 2 [Assign#int]
-11	in[10]		out[]		dom[10]	doms[]	side[10,7]	dest[T]		try:     	code: throw local4 [Throw]
-7	in[1]		out[9]		dom[1]	doms[]	side[11,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-9	in[3,7]		out[12]		dom[]	doms[]	side[7,12]	dest[12]	try:     	code: local2 = arg0 [Assign#int]
-12	in[9]		out[13]		dom[9]	doms[]	side[9,13]	dest[13]	try:     	code: local2 [LocalVariable#int]
-13	in[12]		out[14]		dom[12]	doms[]	side[12,6]	dest[14]	try:     	code: 
-6	in[5]		out[15]		dom[5]	doms[]	side[13,15]	dest[15]	try:     	code: local2 = arg0 [Assign#int]
-15	in[6]		out[14]		dom[6]	doms[]	side[6,14]	dest[14]	try:     	code: local2 [LocalVariable#int]
-14	in[13,15]	out[]		dom[]	doms[]	side[15, ]	dest[]		try:     	code: 
-[0m
-[38;5;78mB	in[]	out[5]	dom[]	doms[]	side[ ,14]	dest[5]		code: switch-expression (arg0) [Switch#int]
-A	in[]	out[14]	dom[]	doms[]	side[6,14]	dest[14]	code: 
-14	in[A]	out[]	dom[A]	doms[]	side[B, ]	dest[]		code: 
-[0m
-
-[38;5;21mMethod tryCatchFinally()[0m (SwitchExpressionTest.java:269)
-B	in[]	out[5]	dom[]	doms[]	side[ ,14]	dest[5]		code: 
-A	in[]	out[14]	dom[]	doms[]	side[6,14]	dest[14]	code: 
-14	in[A]	out[]	dom[A]	doms[]	side[B,16]	dest[T]		code: return switch-expression (param) [Return#int - Switch#int]
-16	in[]	out[]	dom[]	doms[]	side[14, ]	dest[]		code: 
-
-14	in[]	out[]	dom[]	doms[]	side[6, ]	dest[T]	code: return switch-expression (param) [Return#int - Switch#int]
-
-
-============================================================
-
-
-============================================================
-Javac compiles reincarnation.decompiler.flow.SwitchExpressionTest$14
-============================================================
-/reincarnation/decompiler/flow/SwitchExpressionTest.java:31: ƒGƒ‰[: '.class'‚ª‚ ‚è‚Ü‚¹‚ñ
-                default -> int local2 = paramlocal2;
-                               ^
-/reincarnation/decompiler/flow/SwitchExpressionTest.java:31: ƒGƒ‰[: caseAdefault‚Ü‚½‚Í'}'‚ª‚ ‚è‚Ü‚¹‚ñ
-                default -> int local2 = paramlocal2;
-                                      ^
-/reincarnation/decompiler/flow/SwitchExpressionTest.java:31: ƒGƒ‰[: caseAdefault‚Ü‚½‚Í'}'‚ª‚ ‚è‚Ü‚¹‚ñ
-                default -> int local2 = paramlocal2;
-                                        ^
-/reincarnation/decompiler/flow/SwitchExpressionTest.java:31: ƒGƒ‰[: caseAdefault‚Ü‚½‚Í'}'‚ª‚ ‚è‚Ü‚¹‚ñ
-                default -> int local2 = paramlocal2;
-                                                   ^
-
-Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
-============================================================
-Original Code
-============================================================
-@Debuggable
-    void tryCatchFinally() {
-        verify(new TestCode.IntParam() {
-
-            @Override
-            public int run(@Param(from = 0, to = 5) int param) {
-                return switch (param) {
-                case 0, 1, 2 -> {
-                    try {
-                        param = MaybeThrow.error(param);
-                    } catch (Error e) {
-                        param = param + 1;
-                    } finally {
-                        param += 2;
-                    }
-                    yield param;
-                }
-                default -> param;
-                };
-            }
-        });
-    }
-============================================================
-Decompiled Code
-============================================================
-01    package reincarnation.decompiler.flow;
-02    
-03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.IntParam;
-05    import reincarnation.TestCode.Param;
-06    import reincarnation.decompiler.flow.MaybeThrow;
-07    import reincarnation.decompiler.flow.SwitchExpressionTest;
-08    
-09    class SwitchExpressionTest extends CodeVerifier {
-10    
-11        class SwitchExpressionTest$14 implements IntParam {
-12    
-13            SwitchExpressionTest$14(final SwitchExpressionTest this$0) {
-14            }
-15    
-16            public int run(@Param(to = 5) int param) {
-17                return switch (param) {
-18                    case 0, 1, 2 -> {
-19                        try {
-20                            try {
-21                                param = MaybeThrow.error(param);
-22                            } catch(Error e) {
-23                                param += 1;
-24                            }
-25                        } finally {
-26                            param += 2;
-27                        }
-28                        int local2 = param;
-29                        yield local2;
-30                    }
-31                    default -> int local2 = paramlocal2;
-32                };
-33            }
-34        }
-35    }
-============================================================
-Decompiling Log
-============================================================
-//-------------------------- SwitchExpressionTest#tryCatchFinally (SwitchExpressionTest.java:264) --------------------------//
-[38;5;21mMethod tryCatchFinally()[0m (SwitchExpressionTest.java:265)
+//------------------------------- SwitchExpressionTest#nest (SwitchExpressionTest.java:309) -------------------------------//
+Method nest() (SwitchExpressionTest.java:310)
 0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
 1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 
 Delete tail empty return (show full nodes)
-[38;5;9m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
-[0m
-[38;5;78m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
-[0m
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
 
 0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
 
-//-------------------------- SwitchExpressionTest#tryCatchFinally (SwitchExpressionTest.java:268) --------------------------//
-[38;5;21mMethod tryCatchFinally()[0m (SwitchExpressionTest.java:269)
-6	in[]		out[7,0]	dom[]	doms[]	side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch]
-0	in[6]		out[1]		dom[6]	doms[]	side[6,1]	dest[1]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]		out[8]		dom[0]	doms[]	side[0,8]	dest[8]		try: ee	code: arg0 += 2 [Assign#int]
-8	in[1]		out[9]		dom[1]	doms[]	side[1,2]	dest[9]		try:     	code: 
-2	in[]		out[10]		dom[]	doms[]	side[8,10]	dest[10]	try:   c	code: 
-10	in[2]		out[4]		dom[2]	doms[]	side[2,4]	dest[4]		try:     	code: arg0 = arg0 + 1 [Assign#int]
-4	in[10]		out[11]		dom[10]	doms[]	side[10,11]	dest[11]	try:     	code: arg0 += 2 [Assign#int]
-11	in[4]		out[9]		dom[4]	doms[]	side[4,3]	dest[9]		try:     	code: 
-3	in[]		out[5]		dom[]	doms[]	side[11,5]	dest[5]		try: c  	code: 
-5	in[3]		out[12]		dom[3]	doms[]	side[3,12]	dest[12]	try:     	code: arg0 += 2 [Assign#int]
-12	in[5]		out[]		dom[5]	doms[]	side[5,9]	dest[T]		try:     	code: throw local4 [Throw]
-9	in[8,11]	out[13]		dom[]	doms[]	side[12,7]	dest[13]	try:     	code: local2 = arg0 [Assign#int] local2 [LocalVariable#int]
-7	in[6]		out[13]		dom[6]	doms[]	side[9,13]	dest[13]	try:     	code: local2 = arg0 [Assign#int] local2 [LocalVariable#int]
 
-Remove copied finally nodes [size: 1] from end's outgoings (show full nodes)
-[38;5;9m6	in[]		out[7,0]	dom[]	doms[]	side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch]
-0	in[6]		out[1]		dom[6]	doms[]	side[6,1]	dest[1]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]		out[8]		dom[0]	doms[]	side[0,8]	dest[8]		try: ee	code: arg0 += 2 [Assign#int]
-8	in[1]		out[9]		dom[1]	doms[]	side[1,2]	dest[9]		try:     	code: 
-2	in[]		out[10]		dom[]	doms[]	side[8,10]	dest[10]	try:   c	code: 
-10	in[2]		out[4]		dom[2]	doms[]	side[2,4]	dest[4]		try:     	code: arg0 = arg0 + 1 [Assign#int]
-4	in[10]		out[11]		dom[10]	doms[]	side[10,11]	dest[11]	try:     	code: arg0 += 2 [Assign#int]
-11	in[4]		out[9]		dom[4]	doms[]	side[4,3]	dest[9]		try:     	code: 
-3	in[]		out[5]		dom[]	doms[]	side[11,5]	dest[5]		try: c  	code: 
-5	in[3]		out[12]		dom[3]	doms[]	side[3,12]	dest[12]	try:     	code: arg0 += 2 [Assign#int]
-12	in[5]		out[]		dom[5]	doms[]	side[5,9]	dest[T]		try:     	code: throw local4 [Throw]
-9	in[8,11]	out[13]		dom[]	doms[]	side[12,7]	dest[13]	try:     	code: local2 = arg0 [Assign#int] local2 [LocalVariable#int]
-7	in[6]		out[13]		dom[6]	doms[]	side[9,13]	dest[13]	try:     	code: local2 = arg0 [Assign#int] local2 [LocalVariable#int]
-13	in[9,7]		out[]		dom[]	doms[]	side[7, ]	dest[]		try:     	code: 
-[0m
-[38;5;78m6	in[]		out[7,0]	dom[]	doms[]	side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch]
-0	in[6]		out[9]		dom[6]	doms[]	side[6,2]	dest[9]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-2	in[]		out[10]		dom[]	doms[]	side[0,10]	dest[10]	try:   c	code: 
-10	in[2]		out[9]		dom[2]	doms[]	side[2,3]	dest[9]		try:     	code: arg0 = arg0 + 1 [Assign#int]
-3	in[]		out[5]		dom[]	doms[]	side[10,5]	dest[5]		try: c  	code: 
-5	in[3]		out[12]		dom[3]	doms[]	side[3,12]	dest[12]	try:     	code: arg0 += 2 [Assign#int]
-12	in[5]		out[]		dom[5]	doms[]	side[5,9]	dest[T]		try:     	code: throw local4 [Throw]
-9	in[0,10]	out[13]		dom[]	doms[]	side[12,7]	dest[13]	try:     	code: local2 = arg0 [Assign#int] local2 [LocalVariable#int]
-7	in[6]		out[13]		dom[6]	doms[]	side[9,13]	dest[13]	try:     	code: local2 = arg0 [Assign#int] local2 [LocalVariable#int]
-13	in[9,7]		out[]		dom[]	doms[]	side[7, ]	dest[]		try:     	code: 
-[0m
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
 
-Analyze switch (show full nodes)
-[38;5;9m6	in[]		out[7,0]	dom[]	doms[0,7]		side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch]
-0	in[6]		out[9]		dom[6]	doms[1,2,3,9]	side[6,2]	dest[9]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[]		out[]		dom[]	doms[]			side[0,2]	dest[9]		try: ee	code: 
-8	in[]		out[]		dom[]	doms[]			side[1,2]	dest[9]		try:     	code: 
-2	in[]		out[10]		dom[]	doms[10]		side[0,10]	dest[10]	try:   c	code: 
-10	in[2]		out[9]		dom[2]	doms[4]			side[2,3]	dest[9]		try:     	code: arg0 = arg0 + 1 [Assign#int]
-4	in[]		out[]		dom[]	doms[]			side[10,3]	dest[9]		try:     	code: 
-11	in[]		out[]		dom[]	doms[]			side[4,3]	dest[9]		try:     	code: 
-3	in[]		out[5]		dom[]	doms[5]			side[10,5]	dest[5]		try: c  	code: 
-5	in[3]		out[]		dom[3]	doms[]			side[3,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-12	in[]		out[]		dom[]	doms[]			side[5,9]	dest[T]		try:     	code: 
-9	in[0,10]	out[13]		dom[]	doms[]			side[5,7]	dest[13]	try: x  	code: local2 = arg0 [Assign#int] local2 [LocalVariable#int]
-7	in[6]		out[13]		dom[6]	doms[]			side[9,13]	dest[13]	try:     	code: local2 = arg0 [Assign#int] local2 [LocalVariable#int]
-[0m
-[38;5;78m6	in[]		out[7,0]	dom[]	doms[0,7]		side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch#int]
-0	in[6]		out[9]		dom[6]	doms[1,2,3,9]	side[6,2]	dest[9]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[]		out[]		dom[]	doms[]			side[0,2]	dest[9]		try: ee	code: 
-8	in[]		out[]		dom[]	doms[]			side[1,2]	dest[9]		try:     	code: 
-2	in[]		out[10]		dom[]	doms[10]		side[0,10]	dest[10]	try:   c	code: 
-10	in[2]		out[9]		dom[2]	doms[4]			side[2,3]	dest[9]		try:     	code: arg0 = arg0 + 1 [Assign#int]
-4	in[]		out[]		dom[]	doms[]			side[10,3]	dest[9]		try:     	code: 
-11	in[]		out[]		dom[]	doms[]			side[4,3]	dest[9]		try:     	code: 
-3	in[]		out[5]		dom[]	doms[5]			side[10,5]	dest[5]		try: c  	code: 
-5	in[3]		out[]		dom[3]	doms[]			side[3,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-12	in[]		out[]		dom[]	doms[]			side[5,9]	dest[T]		try:     	code: 
-9	in[0,10]	out[]		dom[]	doms[]			side[5,7]	dest[13]	try: x  	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-7	in[6]		out[]		dom[6]	doms[]			side[9,A]	dest[13]	try:     	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-[0m
+//------------------------------- SwitchExpressionTest#nest (SwitchExpressionTest.java:313) -------------------------------//
+Method nest() (SwitchExpressionTest.java:314)
+1	in[0]	out[4,3]	dom[0]	doms[]	side[0,3]	dest[3]	code: switch-expression (arg0) [Switch]
+3	in[1]	out[5]		dom[1]	doms[]	side[1,4]	dest[5]	code: 20 [Number]
+4	in[1]	out[5]		dom[1]	doms[]	side[3,2]	dest[5]	code: arg0 [LocalVariable#int]
 
-Analyze try-catch-finally (show full nodes)
-[38;5;9m6	in[]		out[7,0]	dom[]	doms[0,7]		side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch#int]
-0	in[6]		out[9]		dom[6]	doms[1,2,3,9]	side[6,2]	dest[9]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[]		out[]		dom[]	doms[]			side[0,2]	dest[9]		try: ee	code: 
-8	in[]		out[]		dom[]	doms[]			side[1,2]	dest[9]		try:     	code: 
-2	in[]		out[10]		dom[]	doms[10]		side[0,10]	dest[10]	try:   c	code: 
-10	in[2]		out[9]		dom[2]	doms[4]			side[2,3]	dest[9]		try:     	code: arg0 = arg0 + 1 [Assign#int]
-4	in[]		out[]		dom[]	doms[]			side[10,3]	dest[9]		try:     	code: 
-11	in[]		out[]		dom[]	doms[]			side[4,3]	dest[9]		try:     	code: 
-3	in[]		out[5]		dom[]	doms[5]			side[10,5]	dest[5]		try: c  	code: 
-5	in[3]		out[]		dom[3]	doms[]			side[3,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-12	in[]		out[]		dom[]	doms[]			side[5,9]	dest[T]		try:     	code: 
-9	in[0,10]	out[]		dom[]	doms[]			side[5,7]	dest[13]	try: x  	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-7	in[6]		out[]		dom[6]	doms[]			side[9,A]	dest[13]	try:     	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-[0m
-[38;5;78m6	in[]		out[7,0]	dom[]	doms[0,7]		side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch#int]
-0	in[6]		out[9]		dom[6]	doms[1,2,3,9]	side[6,2]	dest[9]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[]		out[]		dom[]	doms[]			side[0,2]	dest[9]		try: ee	code: 
-8	in[]		out[]		dom[]	doms[]			side[1,2]	dest[9]		try:     	code: 
-2	in[]		out[10]		dom[]	doms[10]		side[0,10]	dest[10]	try:   c	code: 
-10	in[2]		out[9]		dom[2]	doms[4]			side[2,3]	dest[9]		try:     	code: arg0 = arg0 + 1 [Assign#int]
-4	in[]		out[]		dom[]	doms[]			side[10,3]	dest[9]		try:     	code: 
-11	in[]		out[]		dom[]	doms[]			side[4,3]	dest[9]		try:     	code: 
-3	in[]		out[5]		dom[]	doms[5]			side[10,5]	dest[5]		try: c  	code: 
-5	in[3]		out[]		dom[3]	doms[]			side[3,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-12	in[]		out[]		dom[]	doms[]			side[5,9]	dest[T]		try:     	code: 
-9	in[0,10]	out[]		dom[]	doms[]			side[5,7]	dest[13]	try: xx	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-7	in[6]		out[]		dom[6]	doms[]			side[9,A]	dest[13]	try:     	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-[0m
+Analyze switch [Range 1 - 4] (show full nodes)
+1	in[0]	out[4,3]	dom[0]	doms[3,4]	side[0,3]	dest[3]	code: switch-expression (arg0) [Switch]
+3	in[1]	out[5]		dom[1]	doms[]		side[1,4]	dest[5]	code: 20 [Number]
+4	in[1]	out[5]		dom[1]	doms[]		side[3,2]	dest[5]	code: arg0 [LocalVariable#int]
 
-Build shorthand assign (show full nodes)
-[38;5;9m6	in[]		out[7,0]	dom[]	doms[0,7]		side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch#int]
-0	in[6]		out[9]		dom[6]	doms[1,2,3,9]	side[6,2]	dest[9]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[]		out[]		dom[]	doms[]			side[0,2]	dest[9]		try: ee	code: 
-8	in[]		out[]		dom[]	doms[]			side[1,2]	dest[9]		try:     	code: 
-2	in[]		out[10]		dom[]	doms[10]		side[0,10]	dest[10]	try:   c	code: 
-10	in[2]		out[9]		dom[2]	doms[4]			side[2,3]	dest[9]		try:     	code: arg0 = arg0 + 1 [Assign#int]
-4	in[]		out[]		dom[]	doms[]			side[10,3]	dest[9]		try:     	code: 
-11	in[]		out[]		dom[]	doms[]			side[4,3]	dest[9]		try:     	code: 
-3	in[]		out[5]		dom[]	doms[5]			side[10,5]	dest[5]		try: c  	code: 
-5	in[3]		out[]		dom[3]	doms[]			side[3,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-12	in[]		out[]		dom[]	doms[]			side[5,9]	dest[T]		try:     	code: 
-9	in[0,10]	out[]		dom[]	doms[]			side[5,7]	dest[13]	try: xx	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-7	in[6]		out[]		dom[6]	doms[]			side[9,A]	dest[13]	try:     	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-[0m
-[38;5;78m6	in[]		out[7,0]	dom[]	doms[0,7]		side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch#int]
-0	in[6]		out[9]		dom[6]	doms[1,2,3,9]	side[6,2]	dest[9]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[]		out[]		dom[]	doms[]			side[0,2]	dest[9]		try: ee	code: 
-8	in[]		out[]		dom[]	doms[]			side[1,2]	dest[9]		try:     	code: 
-2	in[]		out[10]		dom[]	doms[10]		side[0,10]	dest[10]	try:   c	code: 
-10	in[2]		out[9]		dom[2]	doms[4]			side[2,3]	dest[9]		try:     	code: arg0 += 1 [Assign#int]
-4	in[]		out[]		dom[]	doms[]			side[10,3]	dest[9]		try:     	code: 
-11	in[]		out[]		dom[]	doms[]			side[4,3]	dest[9]		try:     	code: 
-3	in[]		out[5]		dom[]	doms[5]			side[10,5]	dest[5]		try: c  	code: 
-5	in[3]		out[]		dom[3]	doms[]			side[3,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-12	in[]		out[]		dom[]	doms[]			side[5,9]	dest[T]		try:     	code: 
-9	in[0,10]	out[]		dom[]	doms[]			side[5,7]	dest[13]	try: xx	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-7	in[6]		out[]		dom[6]	doms[]			side[9,A]	dest[13]	try:     	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-[0m
+1	in[]	out[4,3]	dom[]	doms[3,4]	side[0,3]	dest[3]	code: switch-expression (arg0) [Switch#int]
+3	in[1]	out[]		dom[1]	doms[]		side[1,4]	dest[5]	code: yield 20 [Yield#int - 20]
+4	in[1]	out[]		dom[1]	doms[]		side[3,2]	dest[5]	code: yield arg0 [Yield#int - arg0]
 
-6	in[]		out[7,0]	dom[]	doms[0,7]		side[ ,0]	dest[0]		try:     	code: switch-expression (arg0) [Switch#int]
-0	in[6]		out[9]		dom[6]	doms[1,2,3,9]	side[6,2]	dest[9]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[]		out[]		dom[]	doms[]			side[0,2]	dest[9]		try: ee	code: 
-8	in[]		out[]		dom[]	doms[]			side[1,2]	dest[9]		try:     	code: 
-2	in[]		out[10]		dom[]	doms[10]		side[0,10]	dest[10]	try:   c	code: 
-10	in[2]		out[9]		dom[2]	doms[4]			side[2,3]	dest[9]		try:     	code: arg0 += 1 [Assign#int]
-4	in[]		out[]		dom[]	doms[]			side[10,3]	dest[9]		try:     	code: 
-11	in[]		out[]		dom[]	doms[]			side[4,3]	dest[9]		try:     	code: 
-3	in[]		out[5]		dom[]	doms[5]			side[10,5]	dest[5]		try: c  	code: 
-5	in[3]		out[]		dom[3]	doms[]			side[3,9]	dest[9]		try:     	code: arg0 += 2 [Assign#int]
-12	in[]		out[]		dom[]	doms[]			side[5,9]	dest[T]		try:     	code: 
-9	in[0,10]	out[]		dom[]	doms[]			side[5,7]	dest[13]	try: xx	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-7	in[6]		out[]		dom[6]	doms[]			side[9,A]	dest[13]	try:     	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
 
-Process switch expression (show full nodes)
-[38;5;9m6	in[]		out[7,0]	dom[]	doms[]	side[ ,0]	dest[0]		try:     	code: switch (arg0) [Switch]
-0	in[6]		out[1]		dom[6]	doms[]	side[6,1]	dest[1]		try: ss	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]		out[8]		dom[0]	doms[]	side[0,8]	dest[8]		try: ee	code: arg0 += 2 [Assign#int]
-8	in[1]		out[9]		dom[1]	doms[]	side[1,2]	dest[9]		try:     	code: 
-2	in[]		out[10]		dom[]	doms[]	side[8,10]	dest[10]	try:   c	code: 
-10	in[2]		out[4]		dom[2]	doms[]	side[2,4]	dest[4]		try:     	code: arg0 = arg0 + 1 [Assign#int]
-4	in[10]		out[11]		dom[10]	doms[]	side[10,11]	dest[11]	try:     	code: arg0 += 2 [Assign#int]
-11	in[4]		out[9]		dom[4]	doms[]	side[4,3]	dest[9]		try:     	code: 
-3	in[]		out[5]		dom[]	doms[]	side[11,5]	dest[5]		try: c  	code: 
-5	in[3]		out[12]		dom[3]	doms[]	side[3,12]	dest[12]	try:     	code: arg0 += 2 [Assign#int]
-12	in[5]		out[]		dom[5]	doms[]	side[5,9]	dest[T]		try:     	code: throw local4 [Throw]
-9	in[8,11]	out[13]		dom[]	doms[]	side[12,7]	dest[13]	try:     	code: local2 = arg0 [Assign#int] local2 [LocalVariable#int]
-7	in[6]		out[13]		dom[6]	doms[]	side[9,13]	dest[13]	try:     	code: local2 = arg0 [Assign#int] local2 [LocalVariable#int]
-13	in[9,7]		out[]		dom[]	doms[]	side[7, ]	dest[]		try:     	code: 
-[0m
-[38;5;78mB	in[]	out[6]	dom[]	doms[]	side[ ,13]	dest[6]		code: switch-expression (arg0) [Switch#int]
-A	in[]	out[13]	dom[]	doms[]	side[7,13]	dest[13]	code: 
-13	in[A]	out[]	dom[A]	doms[]	side[B, ]	dest[]		code: 
-[0m
+1	in[]	out[4,3]	dom[]	doms[3,4]	side[0,3]	dest[3]	code: switch-expression (arg0) [Switch#int]
+3	in[1]	out[]		dom[1]	doms[]		side[1,4]	dest[5]	code: yield 20 [Yield#int - 20]
+4	in[1]	out[]		dom[1]	doms[]		side[3,2]	dest[5]	code: yield arg0 [Yield#int - arg0]
 
-[38;5;21mMethod tryCatchFinally()[0m (SwitchExpressionTest.java:269)
-B	in[]	out[6]	dom[]	doms[]	side[ ,13]	dest[6]		code: 
-A	in[]	out[13]	dom[]	doms[]	side[7,13]	dest[13]	code: 
-13	in[A]	out[]	dom[A]	doms[]	side[B,14]	dest[T]		code: return switch-expression (param) [Return#int - Switch#int]
-14	in[]	out[]	dom[]	doms[]	side[13, ]	dest[]		code: 
+Transform switch expression [Range 1 - 2] (show full nodes)
+0	in[]		out[2,1]	dom[]	doms[]	side[ ,1]	dest[1]	code: switch (arg0 % 2) [Switch]
+1	in[0]		out[4,3]	dom[0]	doms[]	side[0,3]	dest[3]	code: switch (arg0) [Switch]
+3	in[1]		out[5]		dom[1]	doms[]	side[1,4]	dest[5]	code: 20 [Number]
+4	in[1]		out[5]		dom[1]	doms[]	side[3,2]	dest[5]	code: arg0 [LocalVariable#int]
+2	in[0]		out[5]		dom[0]	doms[]	side[4,5]	dest[5]	code: 30 [Number]
+5	in[3,4,2]	out[]		dom[]	doms[]	side[2, ]	dest[]	code: 
 
-13	in[]	out[]	dom[]	doms[]	side[7, ]	dest[T]	code: return switch-expression (param) [Return#int - Switch#int]
+0	in[]		out[2,5]	dom[]	doms[1]	side[ ,B]	dest[1]	code: switch (arg0 % 2) [Switch]
+B	in[]		out[1,5]	dom[]	doms[]	side[0,1]	dest[1]	code: switch-expression (arg0) [Switch#int]
+2	in[0]		out[5]		dom[0]	doms[]	side[4,A]	dest[5]	code: yield 30 [Yield#int - 30]
+A	in[]		out[5]		dom[]	doms[]	side[2,5]	dest[5]	code: 
+5	in[2,0,A,B]	out[]		dom[]	doms[]	side[A, ]	dest[]	code: 
+
 
 
 ============================================================
-Bytecode Diff -  reincarnation.decompiler.flow.SwitchExpressionTest$14
+Bytecode Diff -  reincarnation.decompiler.flow.SwitchExpressionTest$16
 ============================================================
-ECJ																				Javac
-visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);								visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
-AnnotableParameterCount(1, true);												AnnotableParameterCount(1, true);
-TryCatchBlock(L0, L1, L2, "j.l.Error");											TryCatchBlock(L0, L1, L2, "j.l.Error");
-TryCatchBlock(L0, ~L3~, ~L4~, null);											TryCatchBlock(L0, +L1+, +L3+, null);
-~Label~(~L5~);																	+TryCatchBlock+(+L2, L4, L3, null+);
-																				+TryCatchBlock(L3, L5, L3, null);+
-																				+Label(L6);+
-VarInsn(ILOAD, 1);																VarInsn(ILOAD, 1);
-TableSwitchInsn(0, 2, ~L6~, new Label[] { L0, L0, L0 });						TableSwitchInsn(0, 2, +L7+, new Label[] { L0, L0, L0 });
-Label(L0);																		Label(L0);
-Frame(F_SAME, 0, null, 0, null);												Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);																VarInsn(ILOAD, 1);
-MethodInsn(INVOKESTATIC, "MaybeThrow", "error", "(I)I", false);					MethodInsn(INVOKESTATIC, "MaybeThrow", "error", "(I)I", false);
-VarInsn(ISTORE, 1);																VarInsn(ISTORE, 1);
-Label(L1);																		Label(L1);
-~JumpInsn~(~GOTO~, ~L7~);														+IincInsn+(+1+, +2+);
-																				+Label(L8);+
-																				+JumpInsn(GOTO, L9);+
-Label(L2);																		Label(L2);
-Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Error"});							Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Error"});
-VarInsn(ASTORE, 3);																VarInsn(ASTORE, 3);
-Label(~L8~);																	Label(+L10+);
-~IincInsn~(~1~, 1);																+VarInsn+(+ILOAD+, 1);
-~Label~(~L3~);																	+Insn+(+ICONST_1+);
-																				+Insn(IADD);+
-																				+VarInsn(ISTORE, 1);+
-																				+Label(L4);+
-IincInsn(1, 2);																	IincInsn(1, 2);
-																				+Label(L11);+
-JumpInsn(GOTO, L9);																JumpInsn(GOTO, L9);
-Label(~L4~);																	Label(+L3+);
-Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Throwable"});						Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Throwable"});
-VarInsn(ASTORE, 4);																VarInsn(ASTORE, 4);
-Label(~L10~);																	Label(+L5+);
-IincInsn(1, 2);																	IincInsn(1, 2);
-Label(~L11~);																	Label(+L12+);
-VarInsn(ALOAD, 4);																VarInsn(ALOAD, 4);
-Insn(ATHROW);																	Insn(ATHROW);
-~Label(L7);~																	
-~Frame(F_SAME, 0, null, 0, null);~												
-~IincInsn(1, 2);~																
-Label(L9);																		Label(L9);
-Frame(F_SAME, 0, null, 0, null);												Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);																VarInsn(ILOAD, 1);
-VarInsn(ISTORE, 2);																VarInsn(ISTORE, 2);
-~Label(L12);~																	
-VarInsn(ILOAD, 2);																VarInsn(ILOAD, 2);
-~Label~(L13);																	+JumpInsn+(+GOTO, +L13);
-~JumpInsn~(~GOTO, L14~);														+Label+(+L7+);
-~Label(L6);~																	
-Frame(F_SAME, 0, null, 0, null);												Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);																VarInsn(ILOAD, 1);
-VarInsn(ISTORE, 2);																VarInsn(ISTORE, 2);
-~Label(L15);~																	
-VarInsn(ILOAD, 2);																VarInsn(ILOAD, 2);
-Label(~L14~);																	Label(+L13+);
-Frame(F_SAME1, 0, null, 1, new Object[] {INTEGER});								Frame(F_SAME1, 0, null, 1, new Object[] {INTEGER});
-Insn(IRETURN);																	Insn(IRETURN);
-Label(~L16~);																	Label(+L14+);
-LocalVariable(~"this"~, ~"LSwitchExpressionTest$14;"~, null, ~L5~, ~L16~, ~0~);	LocalVariable(+"e"+, +"Lj.l.Error;"+, null, +L10+, +L4+, +3+);
-LocalVariable(~"param"~, ~"I"~, null, ~L5~, ~L16~, ~1~);						LocalVariable(+"this"+, +"LSwitchExpressionTest$14;"+, null, +L6+, +L14+, +0+);
-LocalVariable(~"e"~, ~"Lj.l.Error;"~, null, ~L8~, ~L3~, ~3~);					LocalVariable(+"param"+, +"I"+, null, +L6+, +L14+, +1+);
-~LocalVariable(" secretYieldValue", "I", null, L12, L13, 2);~					
-~LocalVariable(" secretYieldValue", "I", null, L15, L14, 2);~					
-============================================================
-Bytecode Diff -  reincarnation.decompiler.flow.SwitchExpressionTest$14
-============================================================
-ECJ																				Javac
-visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);								visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
-AnnotableParameterCount(1, true);												AnnotableParameterCount(1, true);
-TryCatchBlock(L0, L1, L2, "j.l.Error");											TryCatchBlock(L0, L1, L2, "j.l.Error");
-TryCatchBlock(L0, ~L3~, ~L4~, null);											TryCatchBlock(L0, +L1+, +L3+, null);
-~Label~(~L5~);																	+TryCatchBlock+(+L2, L4, L3, null+);
-																				+TryCatchBlock(L3, L5, L3, null);+
-																				+Label(L6);+
-VarInsn(ILOAD, 1);																VarInsn(ILOAD, 1);
-TableSwitchInsn(0, 2, ~L6~, new Label[] { L0, L0, L0 });						TableSwitchInsn(0, 2, +L7+, new Label[] { L0, L0, L0 });
-Label(L0);																		Label(L0);
-Frame(F_SAME, 0, null, 0, null);												Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);																VarInsn(ILOAD, 1);
-MethodInsn(INVOKESTATIC, "MaybeThrow", "error", "(I)I", false);					MethodInsn(INVOKESTATIC, "MaybeThrow", "error", "(I)I", false);
-VarInsn(ISTORE, 1);																VarInsn(ISTORE, 1);
-Label(L1);																		Label(L1);
-~JumpInsn~(~GOTO~, ~L7~);														+IincInsn+(+1+, +2+);
-																				+Label(L8);+
-																				+JumpInsn(GOTO, L9);+
-Label(L2);																		Label(L2);
-Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Error"});							Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Error"});
-VarInsn(ASTORE, 3);																VarInsn(ASTORE, 3);
-Label(~L8~);																	Label(+L10+);
-~IincInsn~(~1~, 1);																+VarInsn+(+ILOAD+, 1);
-~Label~(~L3~);																	+Insn+(+ICONST_1+);
-																				+Insn(IADD);+
-																				+VarInsn(ISTORE, 1);+
-																				+Label(L4);+
-IincInsn(1, 2);																	IincInsn(1, 2);
-																				+Label(L11);+
-JumpInsn(GOTO, L9);																JumpInsn(GOTO, L9);
-Label(~L4~);																	Label(+L3+);
-Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Throwable"});						Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Throwable"});
-VarInsn(ASTORE, 4);																VarInsn(ASTORE, 4);
-Label(~L10~);																	Label(+L5+);
-IincInsn(1, 2);																	IincInsn(1, 2);
-Label(~L11~);																	Label(+L12+);
-VarInsn(ALOAD, 4);																VarInsn(ALOAD, 4);
-Insn(ATHROW);																	Insn(ATHROW);
-~Label(L7);~																	
-~Frame(F_SAME, 0, null, 0, null);~												
-~IincInsn(1, 2);~																
-Label(L9);																		Label(L9);
-Frame(F_SAME, 0, null, 0, null);												Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);																VarInsn(ILOAD, 1);
-VarInsn(ISTORE, 2);																VarInsn(ISTORE, 2);
-~Label(L12);~																	
-VarInsn(ILOAD, 2);																VarInsn(ILOAD, 2);
-~Label~(L13);																	+JumpInsn+(+GOTO, +L13);
-~JumpInsn~(~GOTO, L14~);														+Label+(+L7+);
-~Label(L6);~																	
-Frame(F_SAME, 0, null, 0, null);												Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);																VarInsn(ILOAD, 1);
-VarInsn(ISTORE, 2);																VarInsn(ISTORE, 2);
-~Label(L15);~																	
-VarInsn(ILOAD, 2);																VarInsn(ILOAD, 2);
-Label(~L14~);																	Label(+L13+);
-Frame(F_SAME1, 0, null, 1, new Object[] {INTEGER});								Frame(F_SAME1, 0, null, 1, new Object[] {INTEGER});
-Insn(IRETURN);																	Insn(IRETURN);
-Label(~L16~);																	Label(+L14+);
-LocalVariable(~"this"~, ~"LSwitchExpressionTest$14;"~, null, ~L5~, ~L16~, ~0~);	LocalVariable(+"e"+, +"Lj.l.Error;"+, null, +L10+, +L4+, +3+);
-LocalVariable(~"param"~, ~"I"~, null, ~L5~, ~L16~, ~1~);						LocalVariable(+"this"+, +"LSwitchExpressionTest$14;"+, null, +L6+, +L14+, +0+);
-LocalVariable(~"e"~, ~"Lj.l.Error;"~, null, ~L8~, ~L3~, ~3~);					LocalVariable(+"param"+, +"I"+, null, +L6+, +L14+, +1+);
-~LocalVariable(" secretYieldValue", "I", null, L12, L13, 2);~					
-~LocalVariable(" secretYieldValue", "I", null, L15, L14, 2);~					
+ECJ																		Javac
+visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);						visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
+AnnotableParameterCount(1, true);										AnnotableParameterCount(1, true);
+Label(L0);																Label(L0);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+Insn(ICONST_2);															Insn(ICONST_2);
+Insn(IREM);																Insn(IREM);
+~TableSwitchInsn~(~0~, 0~,~ ~L2~, new Label[] { L1 });					+LookupSwitchInsn+(+L2+, +new int[] { +0 +}+, new Label[] { L1 });
+Label(L1);																Label(L1);
+Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+~TableSwitchInsn~(~2~, 2~,~ ~L4~, new Label[] { L3 });					+LookupSwitchInsn+(+L4+, +new int[] { +2 +}+, new Label[] { L3 });
+Label(L3);																Label(L3);
+Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
+IntInsn(BIPUSH, 20);													IntInsn(BIPUSH, 20);
+JumpInsn(GOTO, L5);														JumpInsn(GOTO, L5);
+Label(L4);																Label(L4);
+Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
+VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
+~Label(L6);~															
+JumpInsn(GOTO, L5);														JumpInsn(GOTO, L5);
+Label(L2);																Label(L2);
+Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
+IntInsn(BIPUSH, 30);													IntInsn(BIPUSH, 30);
+Label(L5);																Label(L5);
+Frame(F_SAME1, 0, null, 1, new Object[] {INTEGER});						Frame(F_SAME1, 0, null, 1, new Object[] {INTEGER});
+Insn(IRETURN);															Insn(IRETURN);
+Label(~L7~);															Label(+L6+);
+LocalVariable("this", "LSwitchExpressionTest$16;", null, L0, ~L7~, 0);	LocalVariable("this", "LSwitchExpressionTest$16;", null, L0, +L6+, 0);
+LocalVariable("param", "I", null, L0, ~L7~, 1);							LocalVariable("param", "I", null, L0, +L6+, 1);
 ============================================================
 
-WARNING: A Java agent has been loaded dynamically (C:\Users\minam\AppData\Local\Temp\antibug2189102959095208089agent.jar)
-WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
-WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
-WARNING: Dynamic loading of agents will be disallowed by default in a future release
+
