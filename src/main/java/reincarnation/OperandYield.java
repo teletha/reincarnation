@@ -51,6 +51,14 @@ class OperandYield extends Operand {
      * {@inheritDoc}
      */
     @Override
+    protected boolean isValue() {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void writeCode(Coder coder) {
         coder.writeYield(value);
     }

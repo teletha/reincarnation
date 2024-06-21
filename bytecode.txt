@@ -1,24 +1,27 @@
 java.lang.Error: 
 ============================================================
-Javac compiles reincarnation.decompiler.flow.SwitchExpressionTest$16
-============================================================
-Cannot invoke "reincarnation.Operand.fix(java.lang.reflect.Type)" because "operand" is null
+ECJ compiles reincarnation.decompiler.flow.SwitchExpressionTest$15
 ============================================================
 Original Code
 ============================================================
-@Debuggable
-    void nest() {
+void withThrow() {
         verify(new TestCode.IntParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 10) int param) {
-                return switch (param % 2) {
-                case 0 -> switch (param) {
-                case 2 -> 20;
-                default -> param;
-                };
-                default -> 30;
-                };
+            public int run(@Param(from = 0, to = 5) int param) {
+                try {
+                    return value(switch (param) {
+                    case 0 -> 10;
+                    case 1 -> 15;
+                    default -> throw new Error();
+                    });
+                } catch (Error e) {
+                    return 30;
+                }
+            }
+
+            private int value(int value) {
+                return value;
             }
         });
     }
@@ -27,88 +30,54 @@ Decompiled Code
 ============================================================
 Decompiling Log
 ============================================================
-//------------------------------- SwitchExpressionTest#nest (SwitchExpressionTest.java:309) -------------------------------//
-Method nest() (SwitchExpressionTest.java:310)
-0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
+//----------------------------- SwitchExpressionTest#withThrow (SwitchExpressionTest.java:285) -----------------------------//
+Method withThrow() (SwitchExpressionTest.java:286)
+0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: this.this$0 = arg0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall] return null [Return - null]
 1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 
 Delete tail empty return (show full nodes)
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall] return null [Return - null]
 
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
-
-
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
-
-//------------------------------- SwitchExpressionTest#nest (SwitchExpressionTest.java:313) -------------------------------//
-Method nest() (SwitchExpressionTest.java:314)
-1	in[0]	out[4,3]	dom[0]	doms[]	side[0,3]	dest[3]	code: switch-expression (arg0) [Switch]
-3	in[1]	out[5]		dom[1]	doms[]	side[1,4]	dest[5]	code: 20 [Number]
-4	in[1]	out[5]		dom[1]	doms[]	side[3,2]	dest[5]	code: arg0 [LocalVariable#int]
-
-Analyze switch [Range 1 - 4] (show full nodes)
-1	in[0]	out[4,3]	dom[0]	doms[3,4]	side[0,3]	dest[3]	code: switch-expression (arg0) [Switch]
-3	in[1]	out[5]		dom[1]	doms[]		side[1,4]	dest[5]	code: 20 [Number]
-4	in[1]	out[5]		dom[1]	doms[]		side[3,2]	dest[5]	code: arg0 [LocalVariable#int]
-
-1	in[]	out[4,3]	dom[]	doms[3,4]	side[0,3]	dest[3]	code: switch-expression (arg0) [Switch#int]
-3	in[1]	out[]		dom[1]	doms[]		side[1,4]	dest[5]	code: yield 20 [Yield#int - 20]
-4	in[1]	out[]		dom[1]	doms[]		side[3,2]	dest[5]	code: yield arg0 [Yield#int - arg0]
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall]
 
 
-1	in[]	out[4,3]	dom[]	doms[3,4]	side[0,3]	dest[3]	code: switch-expression (arg0) [Switch#int]
-3	in[1]	out[]		dom[1]	doms[]		side[1,4]	dest[5]	code: yield 20 [Yield#int - 20]
-4	in[1]	out[]		dom[1]	doms[]		side[3,2]	dest[5]	code: yield arg0 [Yield#int - arg0]
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall]
 
-Transform switch expression [Range 1 - 2] (show full nodes)
-0	in[]		out[2,1]	dom[]	doms[]	side[ ,1]	dest[1]	code: switch (arg0 % 2) [Switch]
-1	in[0]		out[4,3]	dom[0]	doms[]	side[0,3]	dest[3]	code: switch (arg0) [Switch]
-3	in[1]		out[5]		dom[1]	doms[]	side[1,4]	dest[5]	code: 20 [Number]
-4	in[1]		out[5]		dom[1]	doms[]	side[3,2]	dest[5]	code: arg0 [LocalVariable#int]
-2	in[0]		out[5]		dom[0]	doms[]	side[4,5]	dest[5]	code: 30 [Number]
-5	in[3,4,2]	out[]		dom[]	doms[]	side[2, ]	dest[]	code: 
+//----------------------------- SwitchExpressionTest#withThrow (SwitchExpressionTest.java:290) -----------------------------//
+Method withThrow() (SwitchExpressionTest.java:291)
+A	in[0]	out[5,3,4]	dom[0]	doms[]	side[0,3]	dest[3]	code: this [LocalVariable#] switch-expression (arg0) [Switch]
+3	in[A]	out[6]		dom[A]	doms[]	side[A,4]	dest[6]	code: 10 [Number]
+4	in[A]	out[6]		dom[A]	doms[]	side[3,5]	dest[6]	code: 15 [Number]
 
-0	in[]		out[2,5]	dom[]	doms[1]	side[ ,B]	dest[1]	code: switch (arg0 % 2) [Switch]
-B	in[]		out[1,5]	dom[]	doms[]	side[0,1]	dest[1]	code: switch-expression (arg0) [Switch#int]
-2	in[0]		out[5]		dom[0]	doms[]	side[4,A]	dest[5]	code: yield 30 [Yield#int - 30]
-A	in[]		out[5]		dom[]	doms[]	side[2,5]	dest[5]	code: 
-5	in[2,0,A,B]	out[]		dom[]	doms[]	side[A, ]	dest[]	code: 
+Analyze switch [Range A - 4] (show full nodes)
+A	in[0]	out[5,3,4]	dom[0]	doms[3,4]	side[0,3]	dest[3]	code: this [LocalVariable#] switch-expression (arg0) [Switch]
+3	in[A]	out[6]		dom[A]	doms[]		side[A,4]	dest[6]	code: 10 [Number]
+4	in[A]	out[6]		dom[A]	doms[]		side[3,5]	dest[6]	code: 15 [Number]
 
+A	in[]	out[5,3,4]	dom[]	doms[3,4]	side[0,3]	dest[3]	code: this [LocalVariable#] switch-expression (arg0) [Switch]
+3	in[A]	out[]		dom[A]	doms[]		side[A,4]	dest[6]	code: yield 10 [Yield - 10]
+4	in[A]	out[]		dom[A]	doms[]		side[3,5]	dest[6]	code: yield 15 [Yield - 15]
 
 
-============================================================
-Bytecode Diff -  reincarnation.decompiler.flow.SwitchExpressionTest$16
-============================================================
-ECJ																		Javac
-visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);						visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
-AnnotableParameterCount(1, true);										AnnotableParameterCount(1, true);
-Label(L0);																Label(L0);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-Insn(ICONST_2);															Insn(ICONST_2);
-Insn(IREM);																Insn(IREM);
-~TableSwitchInsn~(~0~, 0~,~ ~L2~, new Label[] { L1 });					+LookupSwitchInsn+(+L2+, +new int[] { +0 +}+, new Label[] { L1 });
-Label(L1);																Label(L1);
-Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-~TableSwitchInsn~(~2~, 2~,~ ~L4~, new Label[] { L3 });					+LookupSwitchInsn+(+L4+, +new int[] { +2 +}+, new Label[] { L3 });
-Label(L3);																Label(L3);
-Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
-IntInsn(BIPUSH, 20);													IntInsn(BIPUSH, 20);
-JumpInsn(GOTO, L5);														JumpInsn(GOTO, L5);
-Label(L4);																Label(L4);
-Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-~Label(L6);~															
-JumpInsn(GOTO, L5);														JumpInsn(GOTO, L5);
-Label(L2);																Label(L2);
-Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
-IntInsn(BIPUSH, 30);													IntInsn(BIPUSH, 30);
-Label(L5);																Label(L5);
-Frame(F_SAME1, 0, null, 1, new Object[] {INTEGER});						Frame(F_SAME1, 0, null, 1, new Object[] {INTEGER});
-Insn(IRETURN);															Insn(IRETURN);
-Label(~L7~);															Label(+L6+);
-LocalVariable("this", "LSwitchExpressionTest$16;", null, L0, ~L7~, 0);	LocalVariable("this", "LSwitchExpressionTest$16;", null, L0, +L6+, 0);
-LocalVariable("param", "I", null, L0, ~L7~, 1);							LocalVariable("param", "I", null, L0, +L6+, 1);
+A	in[]	out[5,3,4]	dom[]	doms[3,4]	side[0,3]	dest[3]	code: this [LocalVariable#] switch-expression (arg0) [Switch]
+3	in[A]	out[]		dom[A]	doms[]		side[A,4]	dest[6]	code: yield 10 [Yield - 10]
+4	in[A]	out[]		dom[A]	doms[]		side[3,5]	dest[6]	code: yield 15 [Yield - 15]
+
+Transform switch expression [Range A - 4] (show full nodes)
+0	in[]	out[A]		dom[]	doms[]	side[ ,A]	dest[A]	try: s	code: 
+A	in[0]	out[5,3,4]	dom[0]	doms[]	side[0,3]	dest[3]	try:   	code: this [LocalVariable#] switch (arg0) [Switch]
+3	in[A]	out[6]		dom[A]	doms[]	side[A,4]	dest[6]	try:   	code: 10 [Number]
+4	in[A]	out[6]		dom[A]	doms[]	side[3,5]	dest[6]	try:   	code: 15 [Number]
+5	in[A]	out[]		dom[A]	doms[]	side[4,6]	dest[T]	try:   	code: throw java.lang.Error() [Throw]
+6	in[3,4]	out[]		dom[]	doms[]	side[5, ]	dest[]	try:   	code: 
+
+0	in[]	out[A]	dom[]	doms[A]	side[ ,A]	dest[A]	try: s	code: 
+A	in[0]	out[6]	dom[0]	doms[]	side[0,5]	dest[3]	try:   	code: this [LocalVariable#] switch-expression (arg0) [Switch]
+5	in[]	out[]	dom[]	doms[]	side[A,6]	dest[T]	try:   	code: throw java.lang.Error() [Throw]
+6	in[A]	out[]	dom[A]	doms[]	side[5, ]	dest[]	try:   	code: 
+
+
+
 ============================================================
 
 

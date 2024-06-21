@@ -197,7 +197,7 @@ public class CodeVerifier {
             if (CompilerType.isJavac()) {
                 info.asmfier(target, code.getClass());
             }
-            throw info.buildError();
+            throw info.buildError(e);
         } finally {
             if (debuggable != null) {
                 if (CompilerType.isJavac()) {

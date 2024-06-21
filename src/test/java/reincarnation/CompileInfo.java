@@ -117,12 +117,26 @@ public class CompileInfo {
     /**
      * Build error with detailed message.
      * 
+     * @param originalError
+     * 
      * @return
      */
-    public Error buildError() {
+    public Error buildError(Throwable originalError) {
+        errorMessage.add(exactErrorMessage(originalError));
+
         Error error = new Error(buildMessage(false));
         error.setStackTrace(new StackTraceElement[0]);
         return error;
+    }
+
+    private String exactErrorMessage(Throwable error) {
+        StringBuilder builder = new StringBuilder(error.getMessage()).append(EoL);
+
+        I.signal(error.getStackTrace()).take(3).to(trace -> {
+            builder.append("    at ").append(trace).append(EoL);
+        });
+
+        return builder.toString();
     }
 
     private List<String> extractOriginalTestCode() {

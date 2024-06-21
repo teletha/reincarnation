@@ -191,6 +191,8 @@ class OperandSwitch extends Operand {
         } else {
             MultiMap<Structure, Object> caseBlocks = cases.convertKeys(entrance::process);
 
+            Debugger.current().print(cases.keys().map(x -> x.id).toList());
+            Debugger.current().print(caseBlocks.keys().toList());
             coder.writeSwitch(false, Optional.empty(), condition, condition.type(), caseBlocks, null);
         }
     }
@@ -273,11 +275,13 @@ class OperandSwitch extends Operand {
 
         if (isExpression() && follower != null) {
             collectYieldables(follower).forEach(in -> {
-                OperandYield yield = new OperandYield(in.remove(0));
-                in.addOperand(yield);
+                if (in.peek(0) instanceof OperandYield == false) {
+                    OperandYield yield = new OperandYield(in.remove(0));
+                    in.addOperand(yield);
 
-                // type inference
-                bindTo(yield);
+                    // type inference
+                    bindTo(yield);
+                }
             });
 
             List<Node> incomings = new ArrayList(entrance.incoming);
@@ -290,6 +294,7 @@ class OperandSwitch extends Operand {
             }
 
             incomings.forEach(in -> in.connect(follower));
+            return;
         }
 
         if (defaultNode != null && follower != null) {

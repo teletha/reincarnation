@@ -724,27 +724,34 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         }
 
         if (!tries.isCatch(current) && !tries.isFinally(current)) {
-            for (OperandSwitch op : switches) {
+            for (OperandSwitch op : new ArrayList<>(switches)) {
                 if (op.canBeExpression(current)) {
-                    Node end = I.signal(current.incoming)
-                            .take(op.entrance::canReachTo)
-                            .sort(Comparator.naturalOrder())
-                            .last()
-                            .to()
-                            .exact().next;
+                    Node end = I.signal(current.incoming).take(op.entrance::canReachTo).sort(Comparator.naturalOrder()).last().to().exact();
 
                     try (Printable diff = debugger
                             .diff(nodes, "Transform switch expression [Range " + op.entrance.id + " - " + end.id + "]")) {
                         op.markAsExpression();
 
-                        List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(op.entrance), nodes.indexOf(end)));
+                        Node start = op.entrance;
+                        List<Node> in = new ArrayList(op.entrance.incoming);
+
+                        start.outgoing.forEach(o -> o.additionalCall++);
+
+                        List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(start), nodes.indexOf(end.next)));
                         analyze(sub);
 
-                        Node created = createNodeBefore(op.entrance, true, true);
-                        created.connect(current);
-                        // link(created, current);
+                        link(start, end.next);
+                        start.disconnect(true, true);
+                        start.dominator = null;
+                        start.dominators.clear();
+                        start.connect(current);
+                        in.forEach(n -> {
+                            n.disconnect(current);
+                            n.connect(start);
+                        });
 
-                        this.nodes.removeAll(sub);
+                        this.nodes.removeAll(sub.subList(1, sub.size()));
+                        switches.remove(op);
                     }
                 }
             }
@@ -2358,6 +2365,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         while (0 < num) {
             id.insert(0, (char) (--num % 26 + 'A'));
             num /= 26;
+        }
+
+        if (id.toString().equals("B")) {
+            new Error().printStackTrace();
         }
         return id.toString();
     }

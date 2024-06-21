@@ -187,6 +187,24 @@ class Debugger {
     /**
      * Dump node tree.
      * 
+     * @param node
+     */
+    void print(Node node) {
+        print(List.of(node));
+    }
+
+    /**
+     * Dump node tree.
+     * 
+     * @param nodes
+     */
+    void print(Node... nodes) {
+        print(List.of(nodes));
+    }
+
+    /**
+     * Dump node tree.
+     * 
      * @param nodes
      */
     void print(List<Node> nodes) {
