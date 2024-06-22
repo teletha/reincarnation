@@ -726,7 +726,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         if (!tries.isCatch(current) && !tries.isFinally(current)) {
             for (OperandSwitch op : new ArrayList<>(switches)) {
                 if (op.canBeExpression(current)) {
-                    Node end = I.signal(current.incoming).take(op.entrance::canReachTo).sort(Comparator.naturalOrder()).last().to().exact();
+                    Node end = op.tails(current).sort(Comparator.naturalOrder()).last().to().exact();
 
                     try (Printable diff = debugger
                             .diff(nodes, "Transform switch expression [Range " + op.entrance.id + " - " + end.id + "]")) {
@@ -2365,10 +2365,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         while (0 < num) {
             id.insert(0, (char) (--num % 26 + 'A'));
             num /= 26;
-        }
-
-        if (id.toString().equals("B")) {
-            new Error().printStackTrace();
         }
         return id.toString();
     }

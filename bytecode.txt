@@ -1,6 +1,12 @@
 java.lang.Error: 
 ============================================================
-ECJ compiles reincarnation.decompiler.flow.SwitchExpressionTest$15
+Javac compiles reincarnation.decompiler.flow.SwitchExpressionTest$15
+============================================================
+NullPointerException: Cannot read field "type" because "owner" is null
+    at reincarnation.OperandMethodCall.<init>(OperandMethodCall.java:70)
+    at reincarnation.JavaMethodDecompiler.visitMethodInsn(JavaMethodDecompiler.java:1840)
+    at org.objectweb.asm.ClassReader.readCode(ClassReader.java:2447)
+
 ============================================================
 Original Code
 ============================================================
@@ -32,16 +38,16 @@ Decompiling Log
 ============================================================
 //----------------------------- SwitchExpressionTest#withThrow (SwitchExpressionTest.java:285) -----------------------------//
 Method withThrow() (SwitchExpressionTest.java:286)
-0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: this.this$0 = arg0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall] return null [Return - null]
+0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
 1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 
 Delete tail empty return (show full nodes)
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall] return null [Return - null]
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
 
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall]
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
 
 
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall]
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
 
 //----------------------------- SwitchExpressionTest#withThrow (SwitchExpressionTest.java:290) -----------------------------//
 Method withThrow() (SwitchExpressionTest.java:291)
@@ -78,6 +84,55 @@ A	in[0]	out[6]	dom[0]	doms[]	side[0,5]	dest[3]	try:   	code: this [LocalVariable
 
 
 
+============================================================
+Bytecode Diff -  reincarnation.decompiler.flow.SwitchExpressionTest$15
+============================================================
+ECJ																				Javac
+visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);								visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
+AnnotableParameterCount(1, true);												AnnotableParameterCount(1, true);
+TryCatchBlock(L0, L1, L2, "j.l.Error");											TryCatchBlock(L0, L1, L2, "j.l.Error");
+Label(L0);																		Label(L0);
+VarInsn(ALOAD, 0);																VarInsn(ALOAD, 0);
+VarInsn(ILOAD, 1);																VarInsn(ILOAD, 1);
+~TableSwitchInsn~(0, 1~,~ ~L5~, new Label[] { L3, L4 });						+LookupSwitchInsn+(+L5, new int[] { +0, 1 +}+, new Label[] { L3, L4 });
+Label(L3);																		Label(L3);
+Frame(F_SAME1, 0, null, 1, new Object[] {"SwitchExpressionTest$15"});			Frame(F_SAME1, 0, null, 1, new Object[] {"SwitchExpressionTest$15"});
+IntInsn(BIPUSH, 10);															IntInsn(BIPUSH, 10);
+JumpInsn(GOTO, L6);																JumpInsn(GOTO, L6);
+Label(L4);																		Label(L4);
+Frame(F_SAME1, 0, null, 1, new Object[] {"SwitchExpressionTest$15"});			Frame(F_SAME1, 0, null, 1, new Object[] {"SwitchExpressionTest$15"});
+IntInsn(BIPUSH, 15);															IntInsn(BIPUSH, 15);
+JumpInsn(GOTO, L6);																JumpInsn(GOTO, L6);
+Label(L5);																		Label(L5);
+Frame(F_SAME1, 0, null, 1, new Object[] {"SwitchExpressionTest$15"});			Frame(F_SAME1, 0, null, 1, new Object[] {"SwitchExpressionTest$15"});
+TypeInsn(NEW, "j.l.Error");														TypeInsn(NEW, "j.l.Error");
+Insn(DUP);																		Insn(DUP);
+MethodInsn(INVOKESPECIAL, "j.l.Error", "&lt;init&gt;", "()V", false);			MethodInsn(INVOKESPECIAL, "j.l.Error", "&lt;init&gt;", "()V", false);
+Insn(ATHROW);																	Insn(ATHROW);
+Label(L6);																		Label(L6);
+Frame(F_FULL, 2, new Object[] {"SwitchExpressionTest$15", INTEGER});			Frame(F_FULL, 2, new Object[] {"SwitchExpressionTest$15", INTEGER});
+MethodInsn(INVOKEVIRTUAL, "SwitchExpressionTest$15", "value", "(I)I", false);	MethodInsn(INVOKEVIRTUAL, "SwitchExpressionTest$15", "value", "(I)I", false);
+Label(L1);																		Label(L1);
+Insn(IRETURN);																	Insn(IRETURN);
+Label(L2);																		Label(L2);
+Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Error"});							Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Error"});
+VarInsn(ASTORE, 2);																VarInsn(ASTORE, 2);
+Label(L7);																		Label(L7);
+IntInsn(BIPUSH, 30);															IntInsn(BIPUSH, 30);
+Insn(IRETURN);																	Insn(IRETURN);
+Label(L8);																		Label(L8);
+																				+LocalVariable("e", "Lj.l.Error;", null, L7, L8, 2);+
+LocalVariable("this", "LSwitchExpressionTest$15;", null, L0, L8, 0);			LocalVariable("this", "LSwitchExpressionTest$15;", null, L0, L8, 0);
+LocalVariable("param", "I", null, L0, L8, 1);									LocalVariable("param", "I", null, L0, L8, 1);
+~LocalVariable("e", "Lj.l.Error;", null, L7, L8, 2);~							
+																				
+visitMethod(ACC_PRIVATE, "value", "(I)I", null, null);							visitMethod(ACC_PRIVATE, "value", "(I)I", null, null);
+Label(L0);																		Label(L0);
+VarInsn(ILOAD, 1);																VarInsn(ILOAD, 1);
+Insn(IRETURN);																	Insn(IRETURN);
+Label(L1);																		Label(L1);
+LocalVariable("this", "LSwitchExpressionTest$15;", null, L0, L1, 0);			LocalVariable("this", "LSwitchExpressionTest$15;", null, L0, L1, 0);
+LocalVariable("value", "I", null, L0, L1, 1);									LocalVariable("value", "I", null, L0, L1, 1);
 ============================================================
 
 

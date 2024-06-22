@@ -130,7 +130,7 @@ public class CompileInfo {
     }
 
     private String exactErrorMessage(Throwable error) {
-        StringBuilder builder = new StringBuilder(error.getMessage()).append(EoL);
+        StringBuilder builder = new StringBuilder(error.getClass().getSimpleName()).append(": ").append(error.getMessage()).append(EoL);
 
         I.signal(error.getStackTrace()).take(3).to(trace -> {
             builder.append("    at ").append(trace).append(EoL);

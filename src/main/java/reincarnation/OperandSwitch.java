@@ -431,6 +431,10 @@ class OperandSwitch extends Operand {
         return cases.keys().startWith(defaultNode).skipNull();
     }
 
+    Signal<Node> tails(Node stop) {
+        return nodes().flatMap(n -> n.outgoingRecursively(x -> x == stop));
+    }
+
     boolean canBeExpression() {
         return canBeExpression(follower);
     }
