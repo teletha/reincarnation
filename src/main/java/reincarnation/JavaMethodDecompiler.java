@@ -1962,6 +1962,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 return renewed;
             };
             locals.unregister(latestLocalVariableAccess());
+
+            current.addOperand(operand);
+            switches.addFirst(operand);
+            return;
         }
 
         // for Javac
@@ -1973,6 +1977,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 OperandLocalVariable right = assign.right().as(OperandLocalVariable.class).to().exact();
                 OperandLocalVariable left = (OperandLocalVariable) assign.left;
                 right.original.observing().to(left.original::set);
+
+                current.addOperand(operand);
+                switches.addFirst(operand);
+                return;
             }
         } else if (stringSwitchForJavac != null) {
             stringSwitchForJavac.caseConverter = cases -> {
@@ -1982,7 +1990,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     // retrieve the actual matching text
                     OperandString text = old.children(OperandCondition.class, OperandMethodCall.class, OperandString.class).to().exact();
 
-                    renewed.put(caseNodes.get(caseIndex.getAndIncrement()), text);
+                    Node then = caseNodes.get(caseIndex.getAndIncrement());
+                    renewed.put(then, text);
+                    operand.entrance.disconnect(old);
+                    operand.entrance.connect(then);
 
                     // dispose(condition.elze, true, true);
                     // dispose(oldCaseBlock, true, true);
@@ -1991,6 +2002,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             };
             stringSwitchForJavac.defaultConverter = old -> defaultNode;
             stringSwitchForJavac = null;
+            current.addOperand(operand);
+            return;
         }
 
         current.addOperand(operand);

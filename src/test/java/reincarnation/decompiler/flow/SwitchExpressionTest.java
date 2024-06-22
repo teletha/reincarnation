@@ -13,7 +13,6 @@ import java.lang.annotation.RetentionPolicy;
 
 import reincarnation.CodeVerifier;
 import reincarnation.CrossDecompilerTest;
-import reincarnation.Debuggable;
 import reincarnation.TestCode;
 
 class SwitchExpressionTest extends CodeVerifier {
@@ -421,7 +420,6 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    @Debuggable
     void conditionByString() {
         verify(new TestCode.TextParam() {
 
@@ -437,7 +435,6 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    @Debuggable
     void conditionByStringMultiple() {
         verify(new TestCode.TextParam() {
 
