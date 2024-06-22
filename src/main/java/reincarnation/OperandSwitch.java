@@ -191,8 +191,6 @@ class OperandSwitch extends Operand {
         } else {
             MultiMap<Structure, Object> caseBlocks = cases.convertKeys(entrance::process);
 
-            Debugger.current().print(cases.keys().map(x -> x.id).toList());
-            Debugger.current().print(caseBlocks.keys().toList());
             coder.writeSwitch(false, Optional.empty(), condition, condition.type(), caseBlocks, null);
         }
     }

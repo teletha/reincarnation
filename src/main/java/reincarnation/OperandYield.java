@@ -18,7 +18,7 @@ import reincarnation.coder.Coder;
 class OperandYield extends Operand {
 
     /** The statement. */
-    private final Operand value;
+    final Operand value;
 
     /**
      * Build return expression.

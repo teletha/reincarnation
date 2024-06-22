@@ -25,7 +25,7 @@ class OperandAssign extends Operand {
     final Operand left;
 
     /** The right value. */
-    private Operand right;
+    Operand right;
 
     /** The operator. */
     private AssignOperator operator;
@@ -70,7 +70,7 @@ class OperandAssign extends Operand {
      * 
      * @return
      */
-    final Signal<Operand> assign() {
+    final Signal<Operand> right() {
         return I.signal(right);
     }
 

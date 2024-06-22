@@ -480,6 +480,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         List<Node> copied = new ArrayList(nodes);
 
         for (Node node : copied) {
+            // When each operands divided into individual nodes (mainly for ECJ)
             node.uniqueOutgoing().flatMap(Node::throughEmpty).skip(tries::isExit).to(out -> {
                 out.children(OperandReturn.class, OperandLocalVariable.class).to(local -> {
                     node.children(OperandAssign.class).flatMap(o -> o.assignedTo(local)).to(value -> {
@@ -497,6 +498,19 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     });
                 });
             });
+
+            // When all operands are aggregated in one node (mainly for Javac)
+            if (node.stack.size() == 2) {
+                Operand last = node.peek(0);
+                Operand first = node.peek(1);
+                if (first instanceof OperandAssign assign && last instanceof OperandReturn op && assign.isAssignedTo(op.value.v)) {
+                    node.clear().addOperand(new OperandReturn(assign.right));
+                }
+
+                if (first instanceof OperandAssign assign && last instanceof OperandYield op && assign.isAssignedTo(op.value)) {
+                    node.clear().addOperand(new OperandYield(assign.right));
+                }
+            }
         }
     }
 
@@ -1300,7 +1314,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             if (match(INVOKESPECIAL, ATHROW)) {
                 Operand o = current.peek(0);
                 if (o instanceof OperandConstructorCall con && con.type.is(AssertionError.class)) {
-                    debugger.print(nodes);
                     current.remove(0); // remove new AssertionError()
                     merge(current);
                     current.addOperand(new OperandAssert(current.remove(0), con.children().to()));
@@ -1955,7 +1968,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 stringSwitchForJavac = operand;
                 operand.convertToStringSwitch();
 
-                OperandLocalVariable right = assign.assign().as(OperandLocalVariable.class).to().exact();
+                OperandLocalVariable right = assign.right().as(OperandLocalVariable.class).to().exact();
                 OperandLocalVariable left = (OperandLocalVariable) assign.left;
                 right.original.observing().to(left.original::set);
             }

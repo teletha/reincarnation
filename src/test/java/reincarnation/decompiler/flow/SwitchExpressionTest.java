@@ -258,7 +258,6 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    @Debuggable
     void tryCatchFinally() {
         verify(new TestCode.IntParam() {
 

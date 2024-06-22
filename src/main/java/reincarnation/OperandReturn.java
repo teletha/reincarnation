@@ -22,7 +22,7 @@ class OperandReturn extends Operand {
     public static final OperandReturn Empty = new OperandReturn(null);
 
     /** The statement. */
-    private final Variable<Operand> value;
+    final Variable<Operand> value;
 
     /**
      * Build return expression.
