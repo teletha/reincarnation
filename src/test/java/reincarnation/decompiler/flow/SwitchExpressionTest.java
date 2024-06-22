@@ -421,6 +421,7 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    @Debuggable
     void conditionByString() {
         verify(new TestCode.TextParam() {
 

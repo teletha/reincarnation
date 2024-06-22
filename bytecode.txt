@@ -1,24 +1,18 @@
 
 ============================================================
-ECJ compiles reincarnation.decompiler.flow.SwitchExpressionTest$13
+ECJ compiles reincarnation.decompiler.flow.SwitchExpressionTest$23
 ============================================================
 Original Code
 ============================================================
 @Debuggable
-    void tryCatch() {
-        verify(new TestCode.IntParam() {
+    void conditionByString() {
+        verify(new TestCode.TextParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 5) int param) {
+            public String run(@Param(strings = {"a", "b", "c", "d", "e"}) String param) {
                 return switch (param) {
-                case 0, 1, 2 -> {
-                    try {
-                        param = MaybeThrow.error(param);
-                    } catch (Error e) {
-                        param = param + 1;
-                    }
-                    yield param;
-                }
+                case "a" -> "A";
+                case "b" -> "B";
                 default -> param;
                 };
             }
@@ -30,40 +24,33 @@ Decompiled Code
 01    package reincarnation.decompiler.flow;
 02    
 03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.IntParam;
-05    import reincarnation.TestCode.Param;
-06    import reincarnation.decompiler.flow.MaybeThrow;
-07    import reincarnation.decompiler.flow.SwitchExpressionTest;
-08    
-09    class SwitchExpressionTest extends CodeVerifier {
-10    
-11        class SwitchExpressionTest$13 implements IntParam {
-12            final SwitchExpressionTest this$0;
-13    
-14            SwitchExpressionTest$13(SwitchExpressionTest arg0) {
-15                this.this$0 = arg0;
-16            }
-17    
-18            public int run(@Param(to = 5) int param) {
-19                return switch (param) {
-20                    case 0, 1, 2 -> {
-21                        try {
-22                            param = MaybeThrow.error(param);
-23                        } catch(Error e) {
-24                            ++param;
-25                        }
-26                        yield param;
-27                    }
-28                    default -> param;
-29                };
-30            }
-31        }
-32    }
+04    import reincarnation.TestCode.Param;
+05    import reincarnation.TestCode.TextParam;
+06    import reincarnation.decompiler.flow.SwitchExpressionTest;
+07    
+08    class SwitchExpressionTest extends CodeVerifier {
+09    
+10        class SwitchExpressionTest$23 implements TextParam {
+11            final SwitchExpressionTest this$0;
+12    
+13            SwitchExpressionTest$23(SwitchExpressionTest arg0) {
+14                this.this$0 = arg0;
+15            }
+16    
+17            public String run(@Param(strings = {"a", "b", "c", "d", "e"}) String param) {
+18                return switch (param) {
+19                    case "a" -> "A";
+20                    case "b" -> "B";
+21                    default -> param;
+22                };
+23            }
+24        }
+25    }
 ============================================================
 Decompiling Log
 ============================================================
-//----------------------------- SwitchExpressionTest#tryCatch (SwitchExpressionTest.java:241) -----------------------------//
-[38;5;21mMethod tryCatch()[0m (SwitchExpressionTest.java:242)
+//------------------------- SwitchExpressionTest#conditionByString (SwitchExpressionTest.java:425) -------------------------//
+[38;5;21mMethod conditionByString()[0m (SwitchExpressionTest.java:426)
 0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: this.this$0 = arg0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall] return null [Return - null]
 1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 
@@ -73,192 +60,99 @@ Delete tail empty return (show full nodes)
 [38;5;78m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall]
 [0m
 
-Merge 0 0   []  []
 0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall]
 
-//----------------------------- SwitchExpressionTest#tryCatch (SwitchExpressionTest.java:245) -----------------------------//
-[38;5;21mMethod tryCatch()[0m (SwitchExpressionTest.java:246)
-3	in[]	out[4,0]	dom[]	doms[]	side[ ,0]	dest[0]		try:   	code: switch-expression (arg0) [Switch]
-0	in[3]	out[1]		dom[3]	doms[]	side[3,1]	dest[1]		try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]	side[0,2]	dest[5]		try: e	code: 
-2	in[]	out[6]		dom[]	doms[]	side[1,6]	dest[6]		try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]	side[2,5]	dest[5]		try:   	code: ++arg0 [Unary#int]
-5	in[1,6]	out[7]		dom[]	doms[]	side[6,7]	dest[7]		try:   	code: local2 = arg0 [Assign#int]
-7	in[5]	out[8]		dom[5]	doms[]	side[5,8]	dest[8]		try:   	code: local2 [LocalVariable#int]
-8	in[7]	out[9]		dom[7]	doms[]	side[7,4]	dest[9]		try:   	code: 
-4	in[3]	out[10]		dom[3]	doms[]	side[8,10]	dest[10]	try:   	code: local2 = arg0 [Assign#int]
-10	in[4]	out[9]		dom[4]	doms[]	side[4,9]	dest[9]		try:   	code: local2 [LocalVariable#int]
+//------------------------- SwitchExpressionTest#conditionByString (SwitchExpressionTest.java:429) -------------------------//
+[38;5;21mMethod conditionByString()[0m (SwitchExpressionTest.java:430)
+0	in[]		out[3,1,2]	dom[]	doms[]	side[ ,1]	dest[1]	code: switch-expression (arg0) [Switch]
+1	in[0]		out[4,5]	dom[0]	doms[]	side[0,5]	dest[5]	code: if (local2.equals("a") 0) then 4 else 5 [Condition then 4 else 5]
+5	in[1]		out[3]		dom[1]	doms[]	side[1,2]	dest[3]	code: 
+2	in[0]		out[6,7]	dom[0]	doms[]	side[5,7]	dest[7]	code: if (local2.equals("b") 0) then 6 else 7 [Condition then 6 else 7]
+7	in[2]		out[3]		dom[2]	doms[]	side[2,4]	dest[3]	code: 
+4	in[1]		out[8]		dom[1]	doms[]	side[7,6]	dest[8]	code: "A" [String]
+6	in[2]		out[8]		dom[2]	doms[]	side[4,3]	dest[8]	code: "B" [String]
+3	in[0,5,7]	out[8]		dom[0]	doms[]	side[6,8]	dest[8]	code: arg0 [LocalVariable#String]
 
-Analyze switch [Range 3 - 10] (show full nodes)
-[38;5;9m3	in[]	out[4,0]	dom[]	doms[0,4]	side[ ,0]	dest[0]		try:   	code: switch-expression (arg0) [Switch]
-0	in[3]	out[1]		dom[3]	doms[1,2,5]	side[3,1]	dest[1]		try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]		side[0,2]	dest[5]		try: e	code: 
-2	in[]	out[6]		dom[]	doms[6]		side[1,6]	dest[6]		try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]		side[2,5]	dest[5]		try:   	code: ++arg0 [Unary#int]
-5	in[1,6]	out[7]		dom[]	doms[7]		side[6,7]	dest[7]		try:   	code: local2 = arg0 [Assign#int]
-7	in[5]	out[8]		dom[5]	doms[8]		side[5,8]	dest[8]		try:   	code: local2 [LocalVariable#int]
-8	in[7]	out[9]		dom[7]	doms[]		side[7,4]	dest[9]		try:   	code: 
-4	in[3]	out[10]		dom[3]	doms[10]	side[8,10]	dest[10]	try:   	code: local2 = arg0 [Assign#int]
-10	in[4]	out[9]		dom[4]	doms[]		side[4,9]	dest[9]		try:   	code: local2 [LocalVariable#int]
+Analyze switch [Range 0 - 3] (show full nodes)
+[38;5;9m0	in[]		out[3,1,2]	dom[]	doms[1,2,3]	side[ ,1]	dest[1]	code: switch-expression (arg0) [Switch]
+1	in[0]		out[4,5]	dom[0]	doms[5,4]	side[0,5]	dest[5]	code: if (local2.equals("a") 0) then 4 else 5 [Condition then 4 else 5]
+5	in[1]		out[3]		dom[1]	doms[]		side[1,2]	dest[3]	code: 
+2	in[0]		out[6,7]	dom[0]	doms[7,6]	side[5,7]	dest[7]	code: if (local2.equals("b") 0) then 6 else 7 [Condition then 6 else 7]
+7	in[2]		out[3]		dom[2]	doms[]		side[2,4]	dest[3]	code: 
+4	in[1]		out[8]		dom[1]	doms[]		side[7,6]	dest[8]	code: "A" [String]
+6	in[2]		out[8]		dom[2]	doms[]		side[4,3]	dest[8]	code: "B" [String]
+3	in[0,5,7]	out[8]		dom[0]	doms[]		side[6,8]	dest[8]	code: arg0 [LocalVariable#String]
 [0m
-[38;5;78m3	in[]	out[4,0]	dom[]	doms[0,4]	side[ ,0]	dest[0]		try:   	code: switch-expression (arg0) [Switch#int]
-0	in[3]	out[1]		dom[3]	doms[1,2,5]	side[3,1]	dest[1]		try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]		side[0,2]	dest[5]		try: e	code: 
-2	in[]	out[6]		dom[]	doms[6]		side[1,6]	dest[6]		try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]		side[2,5]	dest[5]		try:   	code: ++arg0 [Unary#int]
-5	in[1,6]	out[7]		dom[]	doms[7]		side[6,7]	dest[7]		try:   	code: local2 = arg0 [Assign#int]
-7	in[5]	out[8]		dom[5]	doms[8]		side[5,8]	dest[8]		try:   	code: yield local2 [Yield#int - local2]
-8	in[7]	out[]		dom[7]	doms[]		side[7,4]	dest[9]		try:   	code: 
-4	in[3]	out[10]		dom[3]	doms[10]	side[8,10]	dest[10]	try:   	code: local2 = arg0 [Assign#int]
-10	in[4]	out[]		dom[4]	doms[]		side[4,9]	dest[9]		try:   	code: yield local2 [Yield#int - local2]
+[38;5;78m0	in[]	out[3,4,6]	dom[]	doms[1,2,3]	side[ ,4]	dest[1]	code: switch-expression (arg0) [Switch#String]
+1	in[]	out[]		dom[]	doms[5,4]	side[0,2]	dest[3]	code: 
+5	in[]	out[]		dom[]	doms[]		side[1,2]	dest[3]	code: 
+2	in[]	out[]		dom[]	doms[7,6]	side[0,4]	dest[3]	code: 
+7	in[]	out[]		dom[]	doms[]		side[2,4]	dest[3]	code: 
+4	in[0]	out[]		dom[0]	doms[]		side[0,6]	dest[8]	code: yield "A" [Yield#String - "A"]
+6	in[0]	out[]		dom[0]	doms[]		side[4,3]	dest[8]	code: yield "B" [Yield#String - "B"]
+3	in[0]	out[]		dom[0]	doms[]		side[6,8]	dest[8]	code: yield arg0 [Yield#String - arg0]
 [0m
 
-Analyze try-catch-finally (show full nodes)
-[38;5;9m3	in[]	out[4,0]	dom[]	doms[0,4]	side[ ,0]	dest[0]		try:   	code: switch-expression (arg0) [Switch#int]
-0	in[3]	out[1]		dom[3]	doms[1,2,5]	side[3,1]	dest[1]		try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]		side[0,2]	dest[5]		try: e	code: 
-2	in[]	out[6]		dom[]	doms[6]		side[1,6]	dest[6]		try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]		side[2,5]	dest[5]		try:   	code: ++arg0 [Unary#int]
-5	in[1,6]	out[7]		dom[]	doms[7]		side[6,7]	dest[7]		try:   	code: local2 = arg0 [Assign#int]
-7	in[5]	out[8]		dom[5]	doms[8]		side[5,8]	dest[8]		try:   	code: yield local2 [Yield#int - local2]
-8	in[7]	out[]		dom[7]	doms[]		side[7,4]	dest[9]		try:   	code: 
-4	in[3]	out[10]		dom[3]	doms[10]	side[8,10]	dest[10]	try:   	code: local2 = arg0 [Assign#int]
-10	in[4]	out[]		dom[4]	doms[]		side[4,9]	dest[9]		try:   	code: yield local2 [Yield#int - local2]
+0	in[]	out[3,4,6]	dom[]	doms[1,2,3]	side[ ,4]	dest[1]	code: switch-expression (arg0) [Switch#String]
+1	in[]	out[]		dom[]	doms[5,4]	side[0,2]	dest[3]	code: 
+5	in[]	out[]		dom[]	doms[]		side[1,2]	dest[3]	code: 
+2	in[]	out[]		dom[]	doms[7,6]	side[0,4]	dest[3]	code: 
+7	in[]	out[]		dom[]	doms[]		side[2,4]	dest[3]	code: 
+4	in[0]	out[]		dom[0]	doms[]		side[0,6]	dest[8]	code: yield "A" [Yield#String - "A"]
+6	in[0]	out[]		dom[0]	doms[]		side[4,3]	dest[8]	code: yield "B" [Yield#String - "B"]
+3	in[0]	out[]		dom[0]	doms[]		side[6,8]	dest[8]	code: yield arg0 [Yield#String - arg0]
+
+Transform switch expression [Range 0 - 3] (show full nodes)
+[38;5;9m0	in[]		out[3,1,2]	dom[]	doms[]	side[ ,1]	dest[1]	code: switch (arg0) [Switch]
+1	in[0]		out[4,5]	dom[0]	doms[]	side[0,5]	dest[5]	code: if (local2.equals("a") 0) then 4 else 5 [Condition then 4 else 5]
+5	in[1]		out[3]		dom[1]	doms[]	side[1,2]	dest[3]	code: 
+2	in[0]		out[6,7]	dom[0]	doms[]	side[5,7]	dest[7]	code: if (local2.equals("b") 0) then 6 else 7 [Condition then 6 else 7]
+7	in[2]		out[3]		dom[2]	doms[]	side[2,4]	dest[3]	code: 
+4	in[1]		out[8]		dom[1]	doms[]	side[7,6]	dest[8]	code: "A" [String]
+6	in[2]		out[8]		dom[2]	doms[]	side[4,3]	dest[8]	code: "B" [String]
+3	in[0,5,7]	out[8]		dom[0]	doms[]	side[6,8]	dest[8]	code: arg0 [LocalVariable#String]
+8	in[4,6,3]	out[]		dom[]	doms[]	side[3, ]	dest[]	code: 
 [0m
-[38;5;78m3	in[]	out[4,0]	dom[]	doms[0,4]	side[ ,0]	dest[0]		try:   	code: switch-expression (arg0) [Switch#int]
-0	in[3]	out[1]		dom[3]	doms[1,2,5]	side[3,1]	dest[1]		try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]		side[0,2]	dest[5]		try: e	code: 
-2	in[]	out[6]		dom[]	doms[6]		side[1,6]	dest[6]		try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]		side[2,5]	dest[5]		try:   	code: ++arg0 [Unary#int]
-5	in[1,6]	out[7]		dom[]	doms[7]		side[6,7]	dest[7]		try: x	code: local2 = arg0 [Assign#int]
-7	in[5]	out[8]		dom[5]	doms[8]		side[5,8]	dest[8]		try:   	code: yield local2 [Yield#int - local2]
-8	in[7]	out[]		dom[7]	doms[]		side[7,4]	dest[9]		try:   	code: 
-4	in[3]	out[10]		dom[3]	doms[10]	side[8,10]	dest[10]	try:   	code: local2 = arg0 [Assign#int]
-10	in[4]	out[]		dom[4]	doms[]		side[4,9]	dest[9]		try:   	code: yield local2 [Yield#int - local2]
+[38;5;78m0	in[]	out[8]	dom[]	doms[]	side[ ,8]	dest[1]	code: switch-expression (arg0) [Switch#String]
+8	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[]	code: 
 [0m
 
-Merge 0 3   []  [4, 0]
-Merge 0 0   [1]  [1]
-Merge 1 0
-Merge 0 1   []  [5]
-Merge 0 2   [6]  [6]
-Merge 1 2
-Merge 0 6   []  [5]
-Merge 0 5   [7]  [7]
-Merge 1 5
-Merge 2
-Merge 3
-Merge 0 7   []  []
-Merge 0 8   []  []
-Merge 0 4   [10]  [10]
-Merge 1 4
-Merge 2
-Merge 3
-Merge 0 10   []  []
-Merge immediate return (show full nodes)
-[38;5;9m3	in[]	out[4,0]	dom[]	doms[0,4]	side[ ,0]	dest[0]		try:   	code: switch-expression (arg0) [Switch#int]
-0	in[3]	out[1]		dom[3]	doms[1,2,5]	side[3,1]	dest[1]		try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]		side[0,2]	dest[5]		try: e	code: 
-2	in[]	out[6]		dom[]	doms[6]		side[1,6]	dest[6]		try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]		side[2,5]	dest[5]		try:   	code: ++arg0 [Unary#int]
-5	in[1,6]	out[7]		dom[]	doms[7]		side[6,7]	dest[7]		try: x	code: local2 = arg0 [Assign#int]
-7	in[5]	out[8]		dom[5]	doms[8]		side[5,8]	dest[8]		try:   	code: yield local2 [Yield#int - local2]
-8	in[7]	out[]		dom[7]	doms[]		side[7,4]	dest[9]		try:   	code: 
-4	in[3]	out[10]		dom[3]	doms[10]	side[8,10]	dest[10]	try:   	code: local2 = arg0 [Assign#int]
-10	in[4]	out[]		dom[4]	doms[]		side[4,9]	dest[9]		try:   	code: yield local2 [Yield#int - local2]
-[0m
-[38;5;78m3	in[]	out[4,0]	dom[]	doms[0,4]	side[ ,0]	dest[0]	try:   	code: switch-expression (arg0) [Switch#int]
-0	in[3]	out[1]		dom[3]	doms[1,2,5]	side[3,1]	dest[1]	try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]		side[0,2]	dest[5]	try: e	code: 
-2	in[]	out[6]		dom[]	doms[6]		side[1,6]	dest[6]	try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]		side[2,5]	dest[5]	try:   	code: ++arg0 [Unary#int]
-5	in[1,6]	out[8]		dom[]	doms[7]		side[6,8]	dest[8]	try: x	code: yield arg0 [Yield#int - arg0]
-7	in[]	out[]		dom[]	doms[8]		side[5,8]	dest[8]	try:   	code: 
-8	in[5]	out[]		dom[5]	doms[]		side[5,4]	dest[9]	try:   	code: 
-4	in[3]	out[]		dom[3]	doms[10]	side[8,9]	dest[9]	try:   	code: yield arg0 [Yield#int - arg0]
-10	in[]	out[]		dom[]	doms[]		side[4,9]	dest[9]	try:   	code: 
-[0m
+[38;5;21mMethod conditionByString()[0m (SwitchExpressionTest.java:430)
+0	in[]	out[8]	dom[]	doms[]	side[ ,8]	dest[1]	code: 
+8	in[0]	out[]	dom[0]	doms[]	side[0,9]	dest[T]	code: return switch-expression (param) [Return#String - Switch#String]
+9	in[]	out[]	dom[]	doms[]	side[8, ]	dest[]	code: 
 
-3	in[]	out[4,0]	dom[]	doms[0,4]	side[ ,0]	dest[0]	try:   	code: switch-expression (arg0) [Switch#int]
-0	in[3]	out[1]		dom[3]	doms[1,2,5]	side[3,1]	dest[1]	try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]		side[0,2]	dest[5]	try: e	code: 
-2	in[]	out[6]		dom[]	doms[6]		side[1,6]	dest[6]	try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]		side[2,5]	dest[5]	try:   	code: ++arg0 [Unary#int]
-5	in[1,6]	out[8]		dom[]	doms[7]		side[6,8]	dest[8]	try: x	code: yield arg0 [Yield#int - arg0]
-7	in[]	out[]		dom[]	doms[8]		side[5,8]	dest[8]	try:   	code: 
-8	in[5]	out[]		dom[5]	doms[]		side[5,4]	dest[9]	try:   	code: 
-4	in[3]	out[]		dom[3]	doms[10]	side[8,9]	dest[9]	try:   	code: yield arg0 [Yield#int - arg0]
-10	in[]	out[]		dom[]	doms[]		side[4,9]	dest[9]	try:   	code: 
-
-Transform switch expression [Range 3 - 10] (show full nodes)
-[38;5;9m3	in[]		out[4,0]	dom[]	doms[]	side[ ,0]	dest[0]		try:   	code: switch (arg0) [Switch]
-0	in[3]		out[1]		dom[3]	doms[]	side[3,1]	dest[1]		try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]		out[5]		dom[0]	doms[]	side[0,2]	dest[5]		try: e	code: 
-2	in[]		out[6]		dom[]	doms[]	side[1,6]	dest[6]		try: c	code: 
-6	in[2]		out[5]		dom[2]	doms[]	side[2,5]	dest[5]		try:   	code: ++arg0 [Unary#int]
-5	in[1,6]		out[7]		dom[]	doms[]	side[6,7]	dest[7]		try:   	code: local2 = arg0 [Assign#int]
-7	in[5]		out[8]		dom[5]	doms[]	side[5,8]	dest[8]		try:   	code: local2 [LocalVariable#int]
-8	in[7]		out[9]		dom[7]	doms[]	side[7,4]	dest[9]		try:   	code: 
-4	in[3]		out[10]		dom[3]	doms[]	side[8,10]	dest[10]	try:   	code: local2 = arg0 [Assign#int]
-10	in[4]		out[9]		dom[4]	doms[]	side[4,9]	dest[9]		try:   	code: local2 [LocalVariable#int]
-9	in[8,10]	out[]		dom[]	doms[]	side[10, ]	dest[]		try:   	code: 
-[0m
-[38;5;78m3	in[]	out[9]	dom[]	doms[]	side[ ,9]	dest[0]	code: switch-expression (arg0) [Switch#int]
-9	in[3]	out[]	dom[3]	doms[]	side[3, ]	dest[]	code: 
-[0m
-
-[38;5;21mMethod tryCatch()[0m (SwitchExpressionTest.java:246)
-3	in[]	out[9]	dom[]	doms[]	side[ ,9]	dest[0]	code: 
-9	in[3]	out[]	dom[3]	doms[]	side[3,11]	dest[T]	code: return switch-expression (param) [Return#int - Switch#int]
-11	in[]	out[]	dom[]	doms[]	side[9, ]	dest[]	code: 
-
-Merge 0 9   []  []
-9	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: return switch-expression (param) [Return#int - Switch#int]
+8	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: return switch-expression (param) [Return#String - Switch#String]
 
 
 ============================================================
 
 
 ============================================================
-Javac compiles reincarnation.decompiler.flow.SwitchExpressionTest$13
+Javac compiles reincarnation.decompiler.flow.SwitchExpressionTest$23
 ============================================================
-/reincarnation/decompiler/flow/SwitchExpressionTest.java:27: ÉGÉâÅ[: '.class'Ç™Ç†ÇËÇ‹ÇπÇÒ
-                default -> int local2 = paramlocal2;
-                               ^
-/reincarnation/decompiler/flow/SwitchExpressionTest.java:27: ÉGÉâÅ[: caseÅAdefaultÇ‹ÇΩÇÕ'}'Ç™Ç†ÇËÇ‹ÇπÇÒ
-                default -> int local2 = paramlocal2;
-                                      ^
-/reincarnation/decompiler/flow/SwitchExpressionTest.java:27: ÉGÉâÅ[: caseÅAdefaultÇ‹ÇΩÇÕ'}'Ç™Ç†ÇËÇ‹ÇπÇÒ
-                default -> int local2 = paramlocal2;
-                                        ^
-/reincarnation/decompiler/flow/SwitchExpressionTest.java:27: ÉGÉâÅ[: caseÅAdefaultÇ‹ÇΩÇÕ'}'Ç™Ç†ÇËÇ‹ÇπÇÒ
-                default -> int local2 = paramlocal2;
-                                                   ^
+/reincarnation/decompiler/flow/SwitchExpressionTest.java:18: ÉGÉâÅ[: returnï∂Ç™éwíËÇ≥ÇÍÇƒÇ¢Ç‹ÇπÇÒ
+        }
+        ^
 
 Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
 NullPointerException: Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
     at reincarnation.CodeVerifier$JavaVerifier.<init>(CodeVerifier.java:379)
     at reincarnation.CodeVerifier.verify(CodeVerifier.java:182)
-    at reincarnation.decompiler.flow.SwitchExpressionTest.tryCatch(SwitchExpressionTest.java:242)
+    at reincarnation.decompiler.flow.SwitchExpressionTest.conditionByString(SwitchExpressionTest.java:426)
 
 ============================================================
 Original Code
 ============================================================
 @Debuggable
-    void tryCatch() {
-        verify(new TestCode.IntParam() {
+    void conditionByString() {
+        verify(new TestCode.TextParam() {
 
             @Override
-            public int run(@Param(from = 0, to = 5) int param) {
+            public String run(@Param(strings = {"a", "b", "c", "d", "e"}) String param) {
                 return switch (param) {
-                case 0, 1, 2 -> {
-                    try {
-                        param = MaybeThrow.error(param);
-                    } catch (Error e) {
-                        param = param + 1;
-                    }
-                    yield param;
-                }
+                case "a" -> "A";
+                case "b" -> "B";
                 default -> param;
                 };
             }
@@ -270,39 +164,28 @@ Decompiled Code
 01    package reincarnation.decompiler.flow;
 02    
 03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.IntParam;
-05    import reincarnation.TestCode.Param;
-06    import reincarnation.decompiler.flow.MaybeThrow;
-07    import reincarnation.decompiler.flow.SwitchExpressionTest;
-08    
-09    class SwitchExpressionTest extends CodeVerifier {
-10    
-11        class SwitchExpressionTest$13 implements IntParam {
-12    
-13            SwitchExpressionTest$13(final SwitchExpressionTest this$0) {
-14            }
-15    
-16            public int run(@Param(to = 5) int param) {
-17                return switch (param) {
-18                    case 0, 1, 2 -> {
-19                        try {
-20                            param = MaybeThrow.error(param);
-21                        } catch(Error e) {
-22                            param += 1;
-23                        }
-24                        int local2 = param;
-25                        yield local2;
-26                    }
-27                    default -> int local2 = paramlocal2;
-28                };
-29            }
-30        }
-31    }
+04    import reincarnation.TestCode.Param;
+05    import reincarnation.TestCode.TextParam;
+06    import reincarnation.decompiler.flow.SwitchExpressionTest;
+07    
+08    class SwitchExpressionTest extends CodeVerifier {
+09    
+10        class SwitchExpressionTest$23 implements TextParam {
+11    
+12            SwitchExpressionTest$23(final SwitchExpressionTest this$0) {
+13            }
+14    
+15            public String run(@Param(strings = {"a", "b", "c", "d", "e"}) String param) {
+16                param = param;
+17                int local3 = -1;
+18            }
+19        }
+20    }
 ============================================================
 Decompiling Log
 ============================================================
-//----------------------------- SwitchExpressionTest#tryCatch (SwitchExpressionTest.java:241) -----------------------------//
-[38;5;21mMethod tryCatch()[0m (SwitchExpressionTest.java:242)
+//------------------------- SwitchExpressionTest#conditionByString (SwitchExpressionTest.java:425) -------------------------//
+[38;5;21mMethod conditionByString()[0m (SwitchExpressionTest.java:426)
 0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
 1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 
@@ -312,212 +195,207 @@ Delete tail empty return (show full nodes)
 [38;5;78m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
 [0m
 
-Merge 0 0   []  []
 0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
 
-//----------------------------- SwitchExpressionTest#tryCatch (SwitchExpressionTest.java:245) -----------------------------//
-[38;5;21mMethod tryCatch()[0m (SwitchExpressionTest.java:246)
-3	in[]	out[4,0]	dom[]	doms[]	side[ ,0]	dest[0]	try:   	code: switch-expression (arg0) [Switch]
-0	in[3]	out[1]		dom[3]	doms[]	side[3,1]	dest[1]	try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]	side[0,2]	dest[5]	try: e	code: 
-2	in[]	out[6]		dom[]	doms[]	side[1,6]	dest[6]	try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]	side[2,5]	dest[5]	try:   	code: arg0 = arg0 + 1 [Assign#int]
-5	in[1,6]	out[7]		dom[]	doms[]	side[6,4]	dest[7]	try:   	code: local2 = arg0 [Assign#int] local2 [LocalVariable#int]
-4	in[3]	out[7]		dom[3]	doms[]	side[5,7]	dest[7]	try:   	code: local2 = arg0 [Assign#int] local2 [LocalVariable#int]
+//------------------------- SwitchExpressionTest#conditionByString (SwitchExpressionTest.java:429) -------------------------//
+[38;5;21mMethod conditionByString()[0m (SwitchExpressionTest.java:430)
+3	in[0,1,2]	out[6,4,5]	dom[0]	doms[]	side[2,4]	dest[4]	code: switch-expression (local3) [Switch]
+4	in[3]		out[7]		dom[3]	doms[]	side[3,5]	dest[7]	code: "A" [String]
+5	in[3]		out[7]		dom[3]	doms[]	side[4,6]	dest[7]	code: "B" [String]
+6	in[3]		out[7]		dom[3]	doms[]	side[5,7]	dest[7]	code: arg0 [LocalVariable#String]
 
-Analyze switch [Range 3 - 4] (show full nodes)
-[38;5;9m3	in[]	out[4,0]	dom[]	doms[0,4]	side[ ,0]	dest[0]	try:   	code: switch-expression (arg0) [Switch]
-0	in[3]	out[1]		dom[3]	doms[1,2,5]	side[3,1]	dest[1]	try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]		side[0,2]	dest[5]	try: e	code: 
-2	in[]	out[6]		dom[]	doms[6]		side[1,6]	dest[6]	try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]		side[2,5]	dest[5]	try:   	code: arg0 = arg0 + 1 [Assign#int]
-5	in[1,6]	out[7]		dom[]	doms[]		side[6,4]	dest[7]	try:   	code: local2 = arg0 [Assign#int] local2 [LocalVariable#int]
-4	in[3]	out[7]		dom[3]	doms[]		side[5,7]	dest[7]	try:   	code: local2 = arg0 [Assign#int] local2 [LocalVariable#int]
+Analyze switch [Range 3 - 6] (show full nodes)
+[38;5;9m3	in[0,1,2]	out[6,4,5]	dom[0]	doms[4,5,6]	side[2,4]	dest[4]	code: switch-expression (local3) [Switch]
+4	in[3]		out[7]		dom[3]	doms[]		side[3,5]	dest[7]	code: "A" [String]
+5	in[3]		out[7]		dom[3]	doms[]		side[4,6]	dest[7]	code: "B" [String]
+6	in[3]		out[7]		dom[3]	doms[]		side[5,7]	dest[7]	code: arg0 [LocalVariable#String]
 [0m
-[38;5;78m3	in[]	out[4,0]	dom[]	doms[0,4]	side[ ,0]	dest[0]	try:   	code: switch-expression (arg0) [Switch#int]
-0	in[3]	out[1]		dom[3]	doms[1,2,5]	side[3,1]	dest[1]	try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]		side[0,2]	dest[5]	try: e	code: 
-2	in[]	out[6]		dom[]	doms[6]		side[1,6]	dest[6]	try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]		side[2,5]	dest[5]	try:   	code: arg0 = arg0 + 1 [Assign#int]
-5	in[1,6]	out[]		dom[]	doms[]		side[6,4]	dest[7]	try:   	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-4	in[3]	out[]		dom[3]	doms[]		side[5,7]	dest[7]	try:   	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
+[38;5;78m3	in[]	out[6,4,5]	dom[]	doms[4,5,6]	side[2,4]	dest[4]	code: switch-expression (local3) [Switch#String]
+4	in[3]	out[]		dom[3]	doms[]		side[3,5]	dest[7]	code: yield "A" [Yield#String - "A"]
+5	in[3]	out[]		dom[3]	doms[]		side[4,6]	dest[7]	code: yield "B" [Yield#String - "B"]
+6	in[3]	out[]		dom[3]	doms[]		side[5,7]	dest[7]	code: yield arg0 [Yield#String - arg0]
 [0m
 
-Analyze try-catch-finally (show full nodes)
-[38;5;9m3	in[]	out[4,0]	dom[]	doms[0,4]	side[ ,0]	dest[0]	try:   	code: switch-expression (arg0) [Switch#int]
-0	in[3]	out[1]		dom[3]	doms[1,2,5]	side[3,1]	dest[1]	try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]		side[0,2]	dest[5]	try: e	code: 
-2	in[]	out[6]		dom[]	doms[6]		side[1,6]	dest[6]	try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]		side[2,5]	dest[5]	try:   	code: arg0 = arg0 + 1 [Assign#int]
-5	in[1,6]	out[]		dom[]	doms[]		side[6,4]	dest[7]	try:   	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-4	in[3]	out[]		dom[3]	doms[]		side[5,7]	dest[7]	try:   	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
+3	in[]	out[6,4,5]	dom[]	doms[4,5,6]	side[2,4]	dest[4]	code: switch-expression (local3) [Switch#String]
+4	in[3]	out[]		dom[3]	doms[]		side[3,5]	dest[7]	code: yield "A" [Yield#String - "A"]
+5	in[3]	out[]		dom[3]	doms[]		side[4,6]	dest[7]	code: yield "B" [Yield#String - "B"]
+6	in[3]	out[]		dom[3]	doms[]		side[5,7]	dest[7]	code: yield arg0 [Yield#String - arg0]
+
+Transform switch expression [Range 3 - 6] (show full nodes)
+[38;5;9m0	in[]		out[3,1,2]	dom[]	doms[]	side[ ,1]	dest[1]	code: local2 = arg0 [Assign#String] local3 = -1 [Assign] switch (local2) [Switch]
+1	in[0]		out[3]		dom[0]	doms[]	side[0,2]	dest[3]	code: if (local2.equals("a") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 0 [Assign]
+2	in[0]		out[3]		dom[0]	doms[]	side[1,3]	dest[3]	code: if (local2.equals("b") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 1 [Assign]
+3	in[0,1,2]	out[6,4,5]	dom[0]	doms[]	side[2,4]	dest[4]	code: switch (local3) [Switch]
+4	in[3]		out[7]		dom[3]	doms[]	side[3,5]	dest[7]	code: "A" [String]
+5	in[3]		out[7]		dom[3]	doms[]	side[4,6]	dest[7]	code: "B" [String]
+6	in[3]		out[7]		dom[3]	doms[]	side[5,7]	dest[7]	code: arg0 [LocalVariable#String]
+7	in[4,5,6]	out[]		dom[]	doms[]	side[6, ]	dest[]	code: 
 [0m
-[38;5;78m3	in[]	out[4,0]	dom[]	doms[0,4]	side[ ,0]	dest[0]	try:   	code: switch-expression (arg0) [Switch#int]
-0	in[3]	out[1]		dom[3]	doms[1,2,5]	side[3,1]	dest[1]	try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]		side[0,2]	dest[5]	try: e	code: 
-2	in[]	out[6]		dom[]	doms[6]		side[1,6]	dest[6]	try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]		side[2,5]	dest[5]	try:   	code: arg0 = arg0 + 1 [Assign#int]
-5	in[1,6]	out[]		dom[]	doms[]		side[6,4]	dest[7]	try: x	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-4	in[3]	out[]		dom[3]	doms[]		side[5,7]	dest[7]	try:   	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
+[38;5;78m0	in[]		out[1,2,3]	dom[]	doms[3]	side[ ,1]	dest[1]	code: local2 = arg0 [Assign#String] local3 = -1 [Assign] switch (local2) [Switch]
+1	in[0]		out[3]		dom[0]	doms[]	side[0,2]	dest[3]	code: if (local2.equals("a") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 0 [Assign]
+2	in[0]		out[3]		dom[0]	doms[]	side[1,3]	dest[3]	code: if (local2.equals("b") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 1 [Assign]
+3	in[0,1,2]	out[7]		dom[0]	doms[]	side[2,7]	dest[4]	code: switch-expression (local3) [Switch#String]
+7	in[3]		out[]		dom[3]	doms[]	side[3, ]	dest[]	code: 
 [0m
 
-Merge 0 3   []  [4, 0]
-Merge 0 0   [1]  [1]
-Merge 1 0
-Merge 0 1   []  [5]
-Merge 0 2   [6]  [6]
-Merge 1 2
-Merge 0 6   []  [5]
-Merge 0 5   []  []
-Merge 0 4   []  []
-Build shorthand assign (show full nodes)
-[38;5;9m3	in[]	out[4,0]	dom[]	doms[0,4]	side[ ,0]	dest[0]	try:   	code: switch-expression (arg0) [Switch#int]
-0	in[3]	out[1]		dom[3]	doms[1,2,5]	side[3,1]	dest[1]	try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]		side[0,2]	dest[5]	try: e	code: 
-2	in[]	out[6]		dom[]	doms[6]		side[1,6]	dest[6]	try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]		side[2,5]	dest[5]	try:   	code: arg0 = arg0 + 1 [Assign#int]
-5	in[1,6]	out[]		dom[]	doms[]		side[6,4]	dest[7]	try: x	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-4	in[3]	out[]		dom[3]	doms[]		side[5,7]	dest[7]	try:   	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
+[38;5;21mMethod conditionByString()[0m (SwitchExpressionTest.java:430)
+0	in[]		out[1,2,3]	dom[]	doms[3]	side[ ,1]	dest[1]	code: local2 = arg0 [Assign#String] local3 = -1 [Assign] switch-expression (local2) [Switch]
+1	in[0]		out[3]		dom[0]	doms[]	side[0,2]	dest[3]	code: if (local2.equals("a") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 0 [Assign]
+2	in[0]		out[3]		dom[0]	doms[]	side[1,3]	dest[3]	code: if (local2.equals("b") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 1 [Assign]
+3	in[0,1,2]	out[7]		dom[0]	doms[]	side[2,7]	dest[4]	code: switch-expression (local3) [Switch#String]
+
+Analyze switch [Range 0 - 3] (show full nodes)
+[38;5;9m0	in[]			out[1,2,3]	dom[]	doms[3,1,2]	side[ ,1]	dest[1]	code: local2 = arg0 [Assign#String] local3 = -1 [Assign] switch-expression (local2) [Switch]
+1	in[0]			out[3,A]	dom[0]	doms[]		side[0,A]	dest[3]	code: if (local2.equals("a") 0) then 3 else SAME [Condition then 3 else SAME]
+2	in[0]			out[3,B]	dom[0]	doms[]		side[A,B]	dest[3]	code: if (local2.equals("b") 0) then 3 else SAME [Condition then 3 else SAME]
+3	in[0,1,2,A,B]	out[7]		dom[]	doms[]		side[B,7]	dest[4]	code: switch-expression (local3) [Switch#String]
 [0m
-[38;5;78m3	in[]	out[4,0]	dom[]	doms[0,4]	side[ ,0]	dest[0]	try:   	code: switch-expression (arg0) [Switch#int]
-0	in[3]	out[1]		dom[3]	doms[1,2,5]	side[3,1]	dest[1]	try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]		side[0,2]	dest[5]	try: e	code: 
-2	in[]	out[6]		dom[]	doms[6]		side[1,6]	dest[6]	try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]		side[2,5]	dest[5]	try:   	code: arg0 += 1 [Assign#int]
-5	in[1,6]	out[]		dom[]	doms[]		side[6,4]	dest[7]	try: x	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-4	in[3]	out[]		dom[3]	doms[]		side[5,7]	dest[7]	try:   	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
+[38;5;78m0	in[]	out[1,2,6]	dom[]	doms[3,1,2]	side[ ,1]	dest[1]	code: local2 = arg0 [Assign#String] local3 = -1 [Assign] switch-expression (local2) [Switch]
+1	in[0]	out[A,6]	dom[0]	doms[]		side[0,A]	dest[3]	code: if (local2.equals("a") 0) then 3 else SAME [Condition then 3 else SAME]
+2	in[0]	out[B,6]	dom[0]	doms[]		side[A,B]	dest[3]	code: if (local2.equals("b") 0) then 3 else SAME [Condition then 3 else SAME]
+3	in[]	out[7]		dom[]	doms[]		side[B,7]	dest[4]	code: switch-expression (local3) [Switch#String]
 [0m
 
-3	in[]	out[4,0]	dom[]	doms[0,4]	side[ ,0]	dest[0]	try:   	code: switch-expression (arg0) [Switch#int]
-0	in[3]	out[1]		dom[3]	doms[1,2,5]	side[3,1]	dest[1]	try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]		side[0,2]	dest[5]	try: e	code: 
-2	in[]	out[6]		dom[]	doms[6]		side[1,6]	dest[6]	try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]		side[2,5]	dest[5]	try:   	code: arg0 += 1 [Assign#int]
-5	in[1,6]	out[]		dom[]	doms[]		side[6,4]	dest[7]	try: x	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
-4	in[3]	out[]		dom[3]	doms[]		side[5,7]	dest[7]	try:   	code: local2 = arg0 [Assign#int] yield local2 [Yield#int - local2]
+0	in[]	out[1,2,6]	dom[]	doms[3,1,2]	side[ ,1]	dest[1]	code: local2 = arg0 [Assign#String] local3 = -1 [Assign] switch-expression (local2) [Switch]
+1	in[0]	out[A,6]	dom[0]	doms[]		side[0,A]	dest[3]	code: if (local2.equals("a") 0) then 3 else SAME [Condition then 3 else SAME]
+2	in[0]	out[B,6]	dom[0]	doms[]		side[A,B]	dest[3]	code: if (local2.equals("b") 0) then 3 else SAME [Condition then 3 else SAME]
+3	in[]	out[7]		dom[]	doms[]		side[B,7]	dest[4]	code: switch-expression (local3) [Switch#String]
 
-Transform switch expression [Range 3 - 4] (show full nodes)
-[38;5;9m3	in[]	out[4,0]	dom[]	doms[]	side[ ,0]	dest[0]	try:   	code: switch (arg0) [Switch]
-0	in[3]	out[1]		dom[3]	doms[]	side[3,1]	dest[1]	try: s	code: arg0 = MaybeThrow.error(arg0) [Assign#int]
-1	in[0]	out[5]		dom[0]	doms[]	side[0,2]	dest[5]	try: e	code: 
-2	in[]	out[6]		dom[]	doms[]	side[1,6]	dest[6]	try: c	code: 
-6	in[2]	out[5]		dom[2]	doms[]	side[2,5]	dest[5]	try:   	code: arg0 = arg0 + 1 [Assign#int]
-5	in[1,6]	out[7]		dom[]	doms[]	side[6,4]	dest[7]	try:   	code: local2 = arg0 [Assign#int] local2 [LocalVariable#int]
-4	in[3]	out[7]		dom[3]	doms[]	side[5,7]	dest[7]	try:   	code: local2 = arg0 [Assign#int] local2 [LocalVariable#int]
-7	in[5,4]	out[]		dom[]	doms[]	side[4, ]	dest[]	try:   	code: 
+Transform switch expression [Range 0 - 3] (show full nodes)
+[38;5;9m0	in[]		out[1,2,3]	dom[]	doms[3]	side[ ,1]	dest[1]	code: local2 = arg0 [Assign#String] local3 = -1 [Assign] switch (local2) [Switch]
+1	in[0]		out[3]		dom[0]	doms[]	side[0,2]	dest[3]	code: if (local2.equals("a") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 0 [Assign]
+2	in[0]		out[3]		dom[0]	doms[]	side[1,3]	dest[3]	code: if (local2.equals("b") 0) then 3 else SAME [Condition then 3 else SAME] local3 = 1 [Assign]
+3	in[0,1,2]	out[7]		dom[0]	doms[]	side[2,7]	dest[4]	code: switch-expression (local3) [Switch#String]
+7	in[3]		out[]		dom[3]	doms[]	side[3, ]	dest[]	code: 
 [0m
-[38;5;78m3	in[]	out[7]	dom[]	doms[]	side[ ,7]	dest[0]	code: switch-expression (arg0) [Switch#int]
-7	in[3]	out[]	dom[3]	doms[]	side[3, ]	dest[]	code: 
+[38;5;78m0	in[]	out[7]	dom[]	doms[]	side[ ,7]	dest[1]	code: local2 = arg0 [Assign#String] local3 = -1 [Assign] switch-expression (local2) [Switch]
+A	in[1]	out[6]	dom[1]	doms[]	side[1,2]	dest[]	code: local3 = 0 [Assign]
+B	in[2]	out[6]	dom[2]	doms[]	side[2,3]	dest[]	code: local3 = 1 [Assign]
+7	in[3,0]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 [0m
 
-[38;5;21mMethod tryCatch()[0m (SwitchExpressionTest.java:246)
-3	in[]	out[7]	dom[]	doms[]	side[ ,7]	dest[0]	code: 
-7	in[3]	out[]	dom[3]	doms[]	side[3,8]	dest[T]	code: return switch-expression (param) [Return#int - Switch#int]
+[38;5;21mMethod conditionByString()[0m (SwitchExpressionTest.java:430)
+0	in[]	out[7]	dom[]	doms[]	side[ ,7]	dest[1]	code: param = param [Assign#String] local3 = -1 [Assign]
+A	in[1]	out[6]	dom[1]	doms[]	side[1,2]	dest[]	code: local3 = 0 [Assign]
+B	in[2]	out[6]	dom[2]	doms[]	side[2,3]	dest[]	code: local3 = 1 [Assign]
+7	in[3,0]	out[]	dom[]	doms[]	side[0,8]	dest[T]	code: return switch-expression (param) [Return#String - Switch#String]
 8	in[]	out[]	dom[]	doms[]	side[7, ]	dest[]	code: 
 
-Merge 0 7   []  []
-7	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: return switch-expression (param) [Return#int - Switch#int]
+0	in[]	out[7]	dom[]	doms[]	side[ ,7]	dest[1]	code: param = param [Assign#String] local3 = -1 [Assign]
+A	in[1]	out[6]	dom[1]	doms[]	side[1,2]	dest[]	code: local3 = 0 [Assign]
+B	in[2]	out[6]	dom[2]	doms[]	side[2,3]	dest[]	code: local3 = 1 [Assign]
+7	in[3,0]	out[]	dom[]	doms[]	side[0, ]	dest[T]	code: return switch-expression (param) [Return#String - Switch#String]
 
 
 ============================================================
-Bytecode Diff -  reincarnation.decompiler.flow.SwitchExpressionTest$13
+Bytecode Diff -  reincarnation.decompiler.flow.SwitchExpressionTest$23
 ============================================================
-ECJ																		Javac
-visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);						visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
-AnnotableParameterCount(1, true);										AnnotableParameterCount(1, true);
-TryCatchBlock(L0, L1, L2, "j.l.Error");									TryCatchBlock(L0, L1, L2, "j.l.Error");
-Label(L3);																Label(L3);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-TableSwitchInsn(0, 2, L4, new Label[] { L0, L0, L0 });					TableSwitchInsn(0, 2, L4, new Label[] { L0, L0, L0 });
-Label(L0);																Label(L0);
-Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-MethodInsn(INVOKESTATIC, "MaybeThrow", "error", "(I)I", false);			MethodInsn(INVOKESTATIC, "MaybeThrow", "error", "(I)I", false);
-VarInsn(ISTORE, 1);														VarInsn(ISTORE, 1);
-Label(L1);																Label(L1);
-JumpInsn(GOTO, L5);														JumpInsn(GOTO, L5);
-Label(L2);																Label(L2);
-Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Error"});					Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Error"});
-VarInsn(ASTORE, 3);														VarInsn(ASTORE, 3);
-Label(L6);																Label(L6);
-~IincInsn~(~1~, 1);														+VarInsn+(+ILOAD+, 1);
-																		+Insn(ICONST_1);+
-																		+Insn(IADD);+
-																		+VarInsn(ISTORE, 1);+
-Label(L5);																Label(L5);
-Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-VarInsn(ISTORE, 2);														VarInsn(ISTORE, 2);
-~Label(L7);~															
-VarInsn(ILOAD, 2);														VarInsn(ILOAD, 2);
-~Label~(~L8~);															+JumpInsn+(+GOTO, L7+);
-~JumpInsn(GOTO, L9);~													
-Label(L4);																Label(L4);
-Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-VarInsn(ISTORE, 2);														VarInsn(ISTORE, 2);
-~Label(L10);~															
-VarInsn(ILOAD, 2);														VarInsn(ILOAD, 2);
-Label(~L9~);															Label(+L7+);
-Frame(F_SAME1, 0, null, 1, new Object[] {INTEGER});						Frame(F_SAME1, 0, null, 1, new Object[] {INTEGER});
-Insn(IRETURN);															Insn(IRETURN);
-Label(~L11~);															Label(+L8+);
-~LocalVariable("this", "LSwitchExpressionTest$13;", null, L3, L11, 0);~	
-~LocalVariable("param", "I", null, L3, L11, 1);~						
-LocalVariable("e", "Lj.l.Error;", null, L6, L5, 3);						LocalVariable("e", "Lj.l.Error;", null, L6, L5, 3);
-LocalVariable(~" secretYieldValue"~, ~"I"~, null, ~L7~, L8, ~2~);		LocalVariable(+"this"+, +"LSwitchExpressionTest$13;"+, null, +L3+, L8, +0+);
-LocalVariable(~" secretYieldValue"~, "I", null, ~L10~, ~L9~, ~2~);		LocalVariable(+"param"+, "I", null, +L3+, +L8+, +1+);
+ECJ																				Javac
+visitMethod(ACC_PUBLIC, "run", "(Lj.l.String;)Lj.l.String;", null, null);		visitMethod(ACC_PUBLIC, "run", "(Lj.l.String;)Lj.l.String;", null, null);
+AnnotableParameterCount(1, true);												AnnotableParameterCount(1, true);
+Label(L0);																		Label(L0);
+VarInsn(ALOAD, 1);																VarInsn(ALOAD, 1);
+~Insn(DUP);~																	
+VarInsn(ASTORE, 2);																VarInsn(ASTORE, 2);
+																				+Insn(ICONST_M1);+
+																				+VarInsn(ISTORE, 3);+
+																				+VarInsn(ALOAD, 2);+
+MethodInsn(INVOKEVIRTUAL, "j.l.String", "hashCode", "()I", false);				MethodInsn(INVOKEVIRTUAL, "j.l.String", "hashCode", "()I", false);
+LookupSwitchInsn(L3, new int[] { 97, 98 }, new Label[] { L1, L2 });				LookupSwitchInsn(L3, new int[] { 97, 98 }, new Label[] { L1, L2 });
+Label(L1);																		Label(L1);
+Frame(F_APPEND,~1~, new Object[] {"j.l.String"}, 0, null);						Frame(F_APPEND,+2+, new Object[] {"j.l.String"+, INTEGER+}, 0, null);
+VarInsn(ALOAD, 2);																VarInsn(ALOAD, 2);
+LdcInsn("a");																	LdcInsn("a");
+MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);	MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);
+JumpInsn(~IFNE~, ~L4~);															JumpInsn(+IFEQ+, +L3+);
+																				+Insn(ICONST_0);+
+																				+VarInsn(ISTORE, 3);+
+JumpInsn(GOTO, L3);																JumpInsn(GOTO, L3);
+Label(L2);																		Label(L2);
+Frame(F_SAME, 0, null, 0, null);												Frame(F_SAME, 0, null, 0, null);
+VarInsn(ALOAD, 2);																VarInsn(ALOAD, 2);
+LdcInsn("b");																	LdcInsn("b");
+MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);	MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);
+JumpInsn(~IFNE~, ~L5~);															JumpInsn(+IFEQ+, +L3+);
+~JumpInsn~(~GOTO, L3~);															+Insn+(+ICONST_1+);
+																				+VarInsn(ISTORE, 3);+
+																				+Label(L3);+
+																				+Frame(F_SAME, 0, null, 0, null);+
+																				+VarInsn(ILOAD, 3);+
+																				+LookupSwitchInsn(L6, new int[] { 0, 1 }, new Label[] { L4, L5 });+
+Label(L4);																		Label(L4);
+Frame(F_SAME, 0, null, 0, null);												Frame(F_SAME, 0, null, 0, null);
+LdcInsn("A");																	LdcInsn("A");
+JumpInsn(GOTO, ~L6~);															JumpInsn(GOTO, +L7+);
+Label(L5);																		Label(L5);
+Frame(F_SAME, 0, null, 0, null);												Frame(F_SAME, 0, null, 0, null);
+LdcInsn("B");																	LdcInsn("B");
+JumpInsn(GOTO, ~L6~);															JumpInsn(GOTO, +L7+);
+Label(~L3~);																	Label(+L6+);
+Frame(F_SAME, 0, null, 0, null);												Frame(F_SAME, 0, null, 0, null);
+VarInsn(ALOAD, 1);																VarInsn(ALOAD, 1);
+Label(~L6~);																	Label(+L7+);
+Frame(F_FULL, 2, new Object[] {"String"});										Frame(F_FULL, 2, new Object[] {"String"});
+Insn(ARETURN);																	Insn(ARETURN);
+Label(~L7~);																	Label(+L8+);
+LocalVariable("this", "LSwitchExpressionTest$23;", null, L0, ~L7~, 0);			LocalVariable("this", "LSwitchExpressionTest$23;", null, L0, +L8+, 0);
+LocalVariable("param", "Lj.l.String;", null, L0, ~L7~, 1);						LocalVariable("param", "Lj.l.String;", null, L0, +L8+, 1);
 ============================================================
-Bytecode Diff -  reincarnation.decompiler.flow.SwitchExpressionTest$13
+Bytecode Diff -  reincarnation.decompiler.flow.SwitchExpressionTest$23
 ============================================================
-ECJ																		Javac
-visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);						visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
-AnnotableParameterCount(1, true);										AnnotableParameterCount(1, true);
-TryCatchBlock(L0, L1, L2, "j.l.Error");									TryCatchBlock(L0, L1, L2, "j.l.Error");
-Label(L3);																Label(L3);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-TableSwitchInsn(0, 2, L4, new Label[] { L0, L0, L0 });					TableSwitchInsn(0, 2, L4, new Label[] { L0, L0, L0 });
-Label(L0);																Label(L0);
-Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-MethodInsn(INVOKESTATIC, "MaybeThrow", "error", "(I)I", false);			MethodInsn(INVOKESTATIC, "MaybeThrow", "error", "(I)I", false);
-VarInsn(ISTORE, 1);														VarInsn(ISTORE, 1);
-Label(L1);																Label(L1);
-JumpInsn(GOTO, L5);														JumpInsn(GOTO, L5);
-Label(L2);																Label(L2);
-Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Error"});					Frame(F_SAME1, 0, null, 1, new Object[] {"j.l.Error"});
-VarInsn(ASTORE, 3);														VarInsn(ASTORE, 3);
-Label(L6);																Label(L6);
-~IincInsn~(~1~, 1);														+VarInsn+(+ILOAD+, 1);
-																		+Insn(ICONST_1);+
-																		+Insn(IADD);+
-																		+VarInsn(ISTORE, 1);+
-Label(L5);																Label(L5);
-Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-VarInsn(ISTORE, 2);														VarInsn(ISTORE, 2);
-~Label(L7);~															
-VarInsn(ILOAD, 2);														VarInsn(ILOAD, 2);
-~Label~(~L8~);															+JumpInsn+(+GOTO, L7+);
-~JumpInsn(GOTO, L9);~													
-Label(L4);																Label(L4);
-Frame(F_SAME, 0, null, 0, null);										Frame(F_SAME, 0, null, 0, null);
-VarInsn(ILOAD, 1);														VarInsn(ILOAD, 1);
-VarInsn(ISTORE, 2);														VarInsn(ISTORE, 2);
-~Label(L10);~															
-VarInsn(ILOAD, 2);														VarInsn(ILOAD, 2);
-Label(~L9~);															Label(+L7+);
-Frame(F_SAME1, 0, null, 1, new Object[] {INTEGER});						Frame(F_SAME1, 0, null, 1, new Object[] {INTEGER});
-Insn(IRETURN);															Insn(IRETURN);
-Label(~L11~);															Label(+L8+);
-~LocalVariable("this", "LSwitchExpressionTest$13;", null, L3, L11, 0);~	
-~LocalVariable("param", "I", null, L3, L11, 1);~						
-LocalVariable("e", "Lj.l.Error;", null, L6, L5, 3);						LocalVariable("e", "Lj.l.Error;", null, L6, L5, 3);
-LocalVariable(~" secretYieldValue"~, ~"I"~, null, ~L7~, L8, ~2~);		LocalVariable(+"this"+, +"LSwitchExpressionTest$13;"+, null, +L3+, L8, +0+);
-LocalVariable(~" secretYieldValue"~, "I", null, ~L10~, ~L9~, ~2~);		LocalVariable(+"param"+, "I", null, +L3+, +L8+, +1+);
+ECJ																				Javac
+visitMethod(ACC_PUBLIC, "run", "(Lj.l.String;)Lj.l.String;", null, null);		visitMethod(ACC_PUBLIC, "run", "(Lj.l.String;)Lj.l.String;", null, null);
+AnnotableParameterCount(1, true);												AnnotableParameterCount(1, true);
+Label(L0);																		Label(L0);
+VarInsn(ALOAD, 1);																VarInsn(ALOAD, 1);
+~Insn(DUP);~																	
+VarInsn(ASTORE, 2);																VarInsn(ASTORE, 2);
+																				+Insn(ICONST_M1);+
+																				+VarInsn(ISTORE, 3);+
+																				+VarInsn(ALOAD, 2);+
+MethodInsn(INVOKEVIRTUAL, "j.l.String", "hashCode", "()I", false);				MethodInsn(INVOKEVIRTUAL, "j.l.String", "hashCode", "()I", false);
+LookupSwitchInsn(L3, new int[] { 97, 98 }, new Label[] { L1, L2 });				LookupSwitchInsn(L3, new int[] { 97, 98 }, new Label[] { L1, L2 });
+Label(L1);																		Label(L1);
+Frame(F_APPEND,~1~, new Object[] {"j.l.String"}, 0, null);						Frame(F_APPEND,+2+, new Object[] {"j.l.String"+, INTEGER+}, 0, null);
+VarInsn(ALOAD, 2);																VarInsn(ALOAD, 2);
+LdcInsn("a");																	LdcInsn("a");
+MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);	MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);
+JumpInsn(~IFNE~, ~L4~);															JumpInsn(+IFEQ+, +L3+);
+																				+Insn(ICONST_0);+
+																				+VarInsn(ISTORE, 3);+
+JumpInsn(GOTO, L3);																JumpInsn(GOTO, L3);
+Label(L2);																		Label(L2);
+Frame(F_SAME, 0, null, 0, null);												Frame(F_SAME, 0, null, 0, null);
+VarInsn(ALOAD, 2);																VarInsn(ALOAD, 2);
+LdcInsn("b");																	LdcInsn("b");
+MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);	MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);
+JumpInsn(~IFNE~, ~L5~);															JumpInsn(+IFEQ+, +L3+);
+~JumpInsn~(~GOTO, L3~);															+Insn+(+ICONST_1+);
+																				+VarInsn(ISTORE, 3);+
+																				+Label(L3);+
+																				+Frame(F_SAME, 0, null, 0, null);+
+																				+VarInsn(ILOAD, 3);+
+																				+LookupSwitchInsn(L6, new int[] { 0, 1 }, new Label[] { L4, L5 });+
+Label(L4);																		Label(L4);
+Frame(F_SAME, 0, null, 0, null);												Frame(F_SAME, 0, null, 0, null);
+LdcInsn("A");																	LdcInsn("A");
+JumpInsn(GOTO, ~L6~);															JumpInsn(GOTO, +L7+);
+Label(L5);																		Label(L5);
+Frame(F_SAME, 0, null, 0, null);												Frame(F_SAME, 0, null, 0, null);
+LdcInsn("B");																	LdcInsn("B");
+JumpInsn(GOTO, ~L6~);															JumpInsn(GOTO, +L7+);
+Label(~L3~);																	Label(+L6+);
+Frame(F_SAME, 0, null, 0, null);												Frame(F_SAME, 0, null, 0, null);
+VarInsn(ALOAD, 1);																VarInsn(ALOAD, 1);
+Label(~L6~);																	Label(+L7+);
+Frame(F_FULL, 2, new Object[] {"String"});										Frame(F_FULL, 2, new Object[] {"String"});
+Insn(ARETURN);																	Insn(ARETURN);
+Label(~L7~);																	Label(+L8+);
+LocalVariable("this", "LSwitchExpressionTest$23;", null, L0, ~L7~, 0);			LocalVariable("this", "LSwitchExpressionTest$23;", null, L0, +L8+, 0);
+LocalVariable("param", "Lj.l.String;", null, L0, ~L7~, 1);						LocalVariable("param", "Lj.l.String;", null, L0, +L8+, 1);
 ============================================================
 
-WARNING: A Java agent has been loaded dynamically (C:\Users\minam\AppData\Local\Temp\antibug1918019657505839673agent.jar)
+WARNING: A Java agent has been loaded dynamically (C:\Users\minam\AppData\Local\Temp\antibug12771189083985908773agent.jar)
 WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
 WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
 WARNING: Dynamic loading of agents will be disallowed by default in a future release

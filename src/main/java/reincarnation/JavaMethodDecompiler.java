@@ -749,10 +749,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                         Node start = op.entrance;
                         List<Node> in = new ArrayList(op.entrance.incoming);
 
-                        start.outgoing.forEach(o -> o.additionalCall++);
-
                         List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(start), nodes.indexOf(end.next)));
                         analyze(sub);
+
+                        start.outgoing.forEach(o -> o.additionalCall++);
 
                         link(start, end.next);
                         start.disconnect(true, true);
@@ -1953,6 +1953,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                             .exact();
 
                     renewed.put(condition.then, text);
+                    operand.entrance.disconnect(oldCaseBlock);
+                    operand.entrance.connect(condition.then);
 
                     dispose(condition.elze, true, true);
                     dispose(oldCaseBlock, true, true);
