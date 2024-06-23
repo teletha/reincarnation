@@ -387,7 +387,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         tries.disposeEmptyTryCatchFinallyBlock();
 
         // Separate conditional operands and dispose empty node.
-        for (Node node : nodes.toArray(new Node[nodes.size()])) {
+        for (Node node : new ArrayList<>(nodes)) {
             if (node.disposable && node.stack.isEmpty()) {
                 dispose(node, false, false);
             } else {
@@ -755,7 +755,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                         List<Node> preservedIncomings = new ArrayList(start.incoming);
 
                         // Copy all nodes in the switch expression range.
-                        List<Node> expressions = copy(start, end.next);
+                        List<Node> expressions = new ArrayList(nodes.subList(nodes.indexOf(start), nodes.indexOf(end.next)));
 
                         // Since we need to aggregate Switch expressions into a single operand, we
                         // perform the analyzing immediately. Since all call counts are used up
@@ -2421,17 +2421,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         // API definition
         return node;
-    }
-
-    /**
-     * Copy nodes by range.
-     * 
-     * @param start A starting node. (inclusive)
-     * @param end A ending node. (exclusive)
-     * @return
-     */
-    private List<Node> copy(Node start, Node end) {
-        return new ArrayList(nodes.subList(nodes.indexOf(start), nodes.indexOf(end)));
     }
 
     /**
