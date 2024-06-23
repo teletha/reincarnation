@@ -2288,6 +2288,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
             // Delete all operands from the current processing node
             target.stack.clear();
+            target.jumping.clear();
 
             // switch current node if needed
             if (target == current) {
@@ -2454,7 +2455,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             if (info.conditionalHead && node.previous != null && node.previous.peek(0) instanceof OperandCondition condition) {
                 if (info.canMerge(condition, right) && condition.elze == node && node.previous.jumping.contains(node)) {
                     node.previous.jumping.addAll(node.jumping);
-                    node.jumping.clear();
 
                     dispose(node);
 
