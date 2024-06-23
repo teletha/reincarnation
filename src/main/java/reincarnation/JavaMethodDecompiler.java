@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -738,34 +739,40 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         }
 
         if (!tries.isCatch(current) && !tries.isFinally(current)) {
-            for (OperandSwitch op : new ArrayList<>(switches)) {
+            Iterator<OperandSwitch> iterator = switches.iterator();
+            while (iterator.hasNext()) {
+                OperandSwitch op = iterator.next();
+
                 if (op.canBeExpression(current)) {
+                    Node start = op.entrance;
                     Node end = op.tails(current).sort(Comparator.naturalOrder()).last().to().exact();
 
-                    try (Printable diff = debugger
-                            .diff(nodes, "Transform switch expression [Range " + op.entrance.id + " - " + end.id + "]")) {
+                    try (Printable diff = debugger.diff(nodes, "Transform switch expression [Range " + start.id + " - " + end.id + "]")) {
                         op.markAsExpression();
 
-                        Node start = op.entrance;
-                        List<Node> in = new ArrayList(op.entrance.incoming);
+                        // Save the node's connection information once because it will be lost in
+                        // switch's analyze.
+                        List<Node> preservedIncomings = new ArrayList(start.incoming);
 
-                        List<Node> sub = new ArrayList(nodes.subList(nodes.indexOf(start), nodes.indexOf(end.next)));
-                        analyze(sub);
+                        // Copy all nodes in the switch expression range.
+                        List<Node> expressions = copy(start, end.next);
 
-                        start.outgoing.forEach(o -> o.additionalCall++);
+                        // Since we need to aggregate Switch expressions into a single operand, we
+                        // perform the analyzing immediately. Since all call counts are used up
+                        // during analyzing, the counts for the outgoing nodes are increased.
+                        analyze(expressions);
+                        start.outgoing.forEach(node -> node.additionalCall++);
 
+                        // Reconnect switch-expression node correctly
+                        start.resetConnection().connectFrom(preservedIncomings).connect(current);
                         link(start, end.next);
-                        start.disconnect(true, true);
-                        start.dominator = null;
-                        start.dominators.clear();
-                        start.connect(current);
-                        in.forEach(n -> {
-                            n.disconnect(current);
-                            n.connect(start);
-                        });
 
-                        this.nodes.removeAll(sub.subList(1, sub.size()));
-                        switches.remove(op);
+                        // Remove all nodes for switch expressions, leaving the first node with the
+                        // analyzed switch operand.
+                        nodes.removeAll(expressions.subList(1, expressions.size()));
+
+                        // Drop the analyzed switch operand
+                        iterator.remove();
                     }
                 }
             }
@@ -2414,6 +2421,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         // API definition
         return node;
+    }
+
+    /**
+     * Copy nodes by range.
+     * 
+     * @param start A starting node. (inclusive)
+     * @param end A ending node. (exclusive)
+     * @return
+     */
+    private List<Node> copy(Node start, Node end) {
+        return new ArrayList(nodes.subList(nodes.indexOf(start), nodes.indexOf(end)));
     }
 
     /**

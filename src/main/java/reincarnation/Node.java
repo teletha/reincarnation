@@ -1048,24 +1048,67 @@ public class Node implements Code<Operand>, Comparable<Node> {
      * Helper method to connect nodes each other.
      * 
      * @param node A target node.
+     * @return Chainable API.
      */
-    final void connect(Node node) {
+    final Node connect(Node node) {
         if (node != null && node != Termination) {
             outgoing.addIfAbsent(node);
             node.incoming.addIfAbsent(this);
         }
+        return this;
+    }
+
+    /**
+     * Helper method to connect nodes each other.
+     * 
+     * @param nodes A set of target nodes.
+     * @return Chainable API.
+     */
+    final Node connect(Collection<Node> nodes) {
+        if (nodes != null) {
+            nodes.forEach(this::connect);
+        }
+        return this;
+    }
+
+    /**
+     * Helper method to connect nodes each other.
+     * 
+     * @param node A target node.
+     * @return Chainable API.
+     */
+    final Node connectFrom(Node node) {
+        if (node != null) {
+            node.connect(this);
+        }
+        return this;
+    }
+
+    /**
+     * Helper method to connect nodes each other.
+     * 
+     * @param nodes A set of target nodes.
+     * @return Chainable API.
+     */
+    final Node connectFrom(Collection<Node> nodes) {
+        if (nodes != null) {
+            nodes.forEach(this::connectFrom);
+        }
+        return this;
     }
 
     /**
      * Helper method to disconnect nodes each other.
      * 
      * @param node A target node.
+     * @return Chainable API.
      */
-    final void disconnect(Node node) {
+    final Node disconnect(Node node) {
         if (node != null && node != Termination) {
             outgoing.remove(node);
             node.incoming.remove(this);
         }
+        return this;
     }
 
     /**
@@ -1073,10 +1116,22 @@ public class Node implements Code<Operand>, Comparable<Node> {
      * 
      * @param incoming
      * @param outgoing
+     * @return Chainable API
      */
-    final void disconnect(boolean incoming, boolean outgoing) {
+    final Node disconnect(boolean incoming, boolean outgoing) {
         if (incoming) this.incoming.forEach(in -> in.disconnect(this));
         if (outgoing) this.outgoing.forEach(out -> disconnect(out));
+
+        return this;
+    }
+
+    /**
+     * Disconnect node from incomings and outgoings.
+     * 
+     * @return Chainable API
+     */
+    final Node resetConnection() {
+        return disconnect(true, true);
     }
 
     /**

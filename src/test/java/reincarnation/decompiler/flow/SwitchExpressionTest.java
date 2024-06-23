@@ -175,6 +175,50 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    void blockIf() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                return switch (param) {
+                case 0, 1, 2 -> {
+                    if (param % 2 == 0) {
+                        if (param == 2) {
+                            yield 1;
+                        } else {
+                            yield 10;
+                        }
+                    } else {
+                        yield param - 20;
+                    }
+                }
+                default -> param;
+                };
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void blockFor() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                return switch (param) {
+                case 0, 1, 2 -> {
+                    int value = 0;
+                    for (int i = 0; i < param; i++) {
+                        value += 2;
+                    }
+                    yield value;
+                }
+                default -> param;
+                };
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     void conditional() {
         verify(new TestCode.IntParam() {
 
