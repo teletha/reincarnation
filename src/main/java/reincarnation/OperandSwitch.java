@@ -22,7 +22,6 @@ import java.util.function.UnaryOperator;
 import kiss.I;
 import kiss.Signal;
 import reincarnation.coder.Coder;
-import reincarnation.structure.Breakable;
 import reincarnation.structure.Structure;
 import reincarnation.structure.Switch;
 import reincarnation.util.GeneratedCodes;
@@ -106,13 +105,13 @@ class OperandSwitch extends Operand {
     private Node defaultNode;
 
     /** The end node. */
-    Node follower;
+    private Node follower;
 
     /** The post processor for case blocks. */
-    UnaryOperator<MultiMap<Node, Object>> caseConverter = UnaryOperator.identity();
+    private UnaryOperator<MultiMap<Node, Object>> caseConverter = UnaryOperator.identity();
 
     /** The post processor for default block. */
-    UnaryOperator<Node> defaultConverter = UnaryOperator.identity();
+    private UnaryOperator<Node> defaultConverter = UnaryOperator.identity();
 
     /**
      * Creates a new {@code OperandSwitch} instance.
@@ -195,16 +194,11 @@ class OperandSwitch extends Operand {
         }
     }
 
-    private Switch cache;
-
     /**
      * @return
      */
     public Switch structurize() {
-        if (cache == null) {
-            cache = new Switch(entrance, condition, cases, follower);
-        }
-        return cache;
+        return new Switch(entrance, condition, cases, follower);
     }
 
     /**
@@ -309,51 +303,11 @@ class OperandSwitch extends Operand {
             }
 
             // create splitter node for each cases
-            Set<Node> incomings = group.values()
-                    .map(nodes -> manipulator.createSplitterNodeBefore(follower, nodes))
-                    // .effect(node -> node.loopExit.set(new DelayedBreak(node)))
-                    .toSet();
+            Set<Node> incomings = group.values().map(nodes -> manipulator.createSplitterNodeBefore(follower, nodes)).toSet();
 
             // create splitter node for this switch
             follower = manipulator.createSplitterNodeBefore(follower, incomings);
             follower.additionalCall++;
-
-            // Node created = manipulator.createSplitterNodeBefore(originalFollower, breakers);
-            // created.loopExit.set(new DelayedBreak(created));
-        }
-    }
-
-    private class DelayedBreak extends Breakable {
-
-        /**
-         * @param that
-         */
-        public DelayedBreak(Node that) {
-            super(that, that);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        protected void writeCode(Coder coder) {
-            OperandSwitch.this.structurize().write(coder);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Optional<String> label() {
-            return OperandSwitch.this.structurize().label();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Object id() {
-            return condition;
         }
     }
 
@@ -412,10 +366,6 @@ class OperandSwitch extends Operand {
         }
     }
 
-    private boolean acceptFallThrough(Node node) {
-        return nodes().skip(node).any(node::hasDominator).to().v;
-    }
-
     private boolean hasFallThrough(Node node) {
         return nodes().skip(n -> n == node || n.isBefore(node)).any(n -> node.canReachTo(n)).to().v;
     }
@@ -431,10 +381,6 @@ class OperandSwitch extends Operand {
 
     Signal<Node> tails(Node stop) {
         return nodes().flatMap(n -> n.outgoingRecursively(x -> x == stop));
-    }
-
-    boolean canBeExpression() {
-        return canBeExpression(follower);
     }
 
     boolean canBeExpression(Node follow) {
@@ -493,29 +439,13 @@ class OperandSwitch extends Operand {
      * Utility method to optimize for string-switch.
      * 
      */
-    final void convertToStringSwitch() {
-        replaceCondition(x -> x.as(OperandMethodCall.class).exact().owner);
+    final void convertToStringSwitch(Node defaultNode, UnaryOperator<MultiMap<Node, Object>> caseConverter) {
+        this.defaultConverter = node -> defaultNode;
+        this.caseConverter = caseConverter;
+        this.condition = condition.as(OperandMethodCall.class).exact().owner;
     }
 
-    /**
-     * Replcase the condition on switch.
-     * 
-     * @param condition
-     */
-    final void replaceCondition(Operand condition) {
-        this.condition = Objects.requireNonNull(condition);
-    }
-
-    /**
-     * Replcase the condition on switch.
-     * 
-     * @param converter
-     */
-    final void replaceCondition(UnaryOperator<Operand> converter) {
-        replaceCondition(converter.apply(condition));
-    }
-
-    void replaceCase(Node oldNode, Node newNode) {
+    final void updateCase(Node oldNode, Node newNode) {
         if (defaultNode == oldNode) {
             defaultNode = newNode;
         }

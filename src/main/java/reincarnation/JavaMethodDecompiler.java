@@ -1948,8 +1948,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         // for ECJ
         if (match(DUP, ASTORE, INVOKEVIRTUAL, SWITCH)) {
-            operand.convertToStringSwitch();
-            operand.caseConverter = cases -> {
+            operand.convertToStringSwitch(defaultNode, cases -> {
                 MultiMap<Node, Object> renewed = new MultiMap(true);
                 cases.keys().to(oldCaseBlock -> {
                     OperandCondition condition = oldCaseBlock.child(OperandCondition.class).exact();
@@ -1967,7 +1966,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     dispose(oldCaseBlock, true, true);
                 });
                 return renewed;
-            };
+            });
             locals.unregister(latestLocalVariableAccess());
 
             current.addOperand(operand);
@@ -1979,7 +1978,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         if (match(ALOAD, ASTORE, ICONST_M1, ISTORE, ALOAD, INVOKEVIRTUAL, SWITCH)) {
             if (current.peek(1) instanceof OperandAssign assign) {
                 stringSwitchForJavac = operand;
-                operand.convertToStringSwitch();
 
                 OperandLocalVariable right = assign.right().as(OperandLocalVariable.class).to().exact();
                 OperandLocalVariable left = (OperandLocalVariable) assign.left;
@@ -1990,7 +1988,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 return;
             }
         } else if (stringSwitchForJavac != null) {
-            stringSwitchForJavac.caseConverter = cases -> {
+            stringSwitchForJavac.convertToStringSwitch(defaultNode, cases -> {
                 AtomicInteger caseIndex = new AtomicInteger();
                 MultiMap<Node, Object> renewed = new MultiMap(true);
                 cases.keys().to(old -> {
@@ -2006,8 +2004,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     // dispose(oldCaseBlock, true, true);
                 });
                 return renewed;
-            };
-            stringSwitchForJavac.defaultConverter = old -> defaultNode;
+            });
             stringSwitchForJavac = null;
             current.addOperand(operand);
             return;
@@ -2247,9 +2244,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             nodes.remove(target);
 
             // update case or default node on switch
-            for (OperandSwitch switche : switches) {
-                switche.replaceCase(target, target.next);
-            }
+            switches.forEach(op -> op.updateCase(target, target.next));
 
             link(target.previous, target.next);
 

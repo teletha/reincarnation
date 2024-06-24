@@ -17,9 +17,6 @@ import kiss.I;
 import kiss.Variable;
 import reincarnation.Node;
 
-/**
- * @version 2018/10/31 16:06:57
- */
 public abstract class Breakable extends Structure {
 
     private static int labelReference = 0;
@@ -57,9 +54,5 @@ public abstract class Breakable extends Structure {
             label = requireLabel.v ? Optional.of(String.valueOf(labelReference++)) : Optional.empty();
         }
         return label;
-    }
-
-    public Object id() {
-        return associated;
     }
 }

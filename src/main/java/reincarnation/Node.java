@@ -100,15 +100,13 @@ public class Node implements Code<Operand>, Comparable<Node> {
     private boolean whileFindingDominator;
 
     /** The flag whether this node has already written or not. */
-    boolean analyzed = false;
+    private boolean analyzed = false;
 
     /** The number of additional write calls. */
     int additionalCall = 0;
 
     /** The number of current write calls. */
     private int currentCalls = 0;
-
-    GeneratedNodeType generationType;
 
     /** The relationship with loop structure header. */
     public final Variable<Loopable> loopHeader = Variable.empty();
@@ -181,15 +179,6 @@ public class Node implements Code<Operand>, Comparable<Node> {
      */
     final boolean isSwitchExpression() {
         return child(OperandSwitch.class).map(OperandSwitch::isExpression).or(Boolean.FALSE);
-    }
-
-    /**
-     * Check node type.
-     * 
-     * @return
-     */
-    final boolean isSwitchCaseEndPoint() {
-        return generationType == GeneratedNodeType.SwitchCaseEndPoint;
     }
 
     /**
