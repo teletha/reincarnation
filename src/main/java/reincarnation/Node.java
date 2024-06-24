@@ -1199,6 +1199,9 @@ public class Node implements Code<Operand>, Comparable<Node> {
                 return new Try(this, removed.start, catches, removed.exit);
             }
 
+            // =============================================================
+            // Block
+            // =============================================================
             if (isSwitchStatement()) {
                 return child(OperandSwitch.class).v.structurize();
             } else if (isSwitchExpression()) {
