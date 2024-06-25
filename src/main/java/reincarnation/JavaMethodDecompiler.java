@@ -1988,6 +1988,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 return;
             }
         } else if (match(INVOKE, ASTORE, ICONST_M1, ISTORE, ALOAD, INVOKEVIRTUAL, SWITCH)) {
+            // for Javac with method invocation
             if (current.peek(1) instanceof OperandAssign assign) {
                 stringSwitchForJavac = operand;
 

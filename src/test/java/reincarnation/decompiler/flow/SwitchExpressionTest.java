@@ -53,6 +53,25 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    void methodCondition() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                return switch (increment(param)) {
+                case 1 -> 10;
+                case 2 -> 20;
+                default -> 30;
+                };
+            }
+
+            private int increment(int value) {
+                return value + 1;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     void withAssign() {
         verify(new TestCode.IntParam() {
 
@@ -435,6 +454,20 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    void conditionByCharWithMethodCondition() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"aa", "ab", "ac", "ba", "bb"}) String param) {
+                return switch (param.charAt(0)) {
+                case 'a' -> "A";
+                default -> param;
+                };
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     void conditionByEnum() {
         verify(new TestCode.IntParam() {
 
@@ -487,6 +520,39 @@ class SwitchExpressionTest extends CodeVerifier {
                 return switch (param) {
                 case "a", "b" -> "AB";
                 case "c", "d" -> "CD";
+                default -> param;
+                };
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void conditionByStringWithMethodCondition() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"aa", "ab", "ac", "ba", "bb"}) String param) {
+                return switch (param.substring(0, 1)) {
+                case "a" -> "A";
+                default -> param;
+                };
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void conditionByStringNest() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"aa", "ab", "ac", "ba", "bb"}) String param) {
+                return switch (param.substring(0, 1)) {
+                case "a" -> switch (param.substring(1, 2)) {
+                case "a" -> "AA";
+                case "b" -> "AB";
+                default -> "AC";
+                };
+
                 default -> param;
                 };
             }
