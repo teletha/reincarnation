@@ -1987,6 +1987,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 switches.addFirst(operand);
                 return;
             }
+        } else if (match(INVOKE, ASTORE, ICONST_M1, ISTORE, ALOAD, INVOKEVIRTUAL, SWITCH)) {
+            if (current.peek(1) instanceof OperandAssign assign) {
+                stringSwitchForJavac = operand;
+
+                operand.condition.set(assign.right.as(OperandMethodCall.class).v);
+                operand.condition.fix();
+
+                current.addOperand(operand);
+                switches.addFirst(operand);
+                return;
+            }
         } else if (stringSwitchForJavac != null) {
             stringSwitchForJavac.convertToStringSwitch(defaultNode, cases -> {
                 AtomicInteger caseIndex = new AtomicInteger();
@@ -1997,8 +2008,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
                     Node then = caseNodes.get(caseIndex.getAndIncrement());
                     renewed.put(then, text);
-                    operand.entrance.disconnect(old);
-                    operand.entrance.connect(then);
+                    operand.entrance.disconnect(old).connect(then);
 
                     // dispose(condition.elze, true, true);
                     // dispose(oldCaseBlock, true, true);

@@ -210,6 +210,29 @@ class SwitchTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    void methodCondition() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int param) {
+                switch (increment(param)) {
+                case 1:
+                    return 10;
+
+                case 2:
+                    return 20;
+                }
+
+                return 30;
+            }
+
+            private int increment(int value) {
+                return value + 1;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     void conditional() {
         verify(new TestCode.IntParam() {
 
@@ -1601,6 +1624,23 @@ class SwitchTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    void conditionByCharWithMethodCondition() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"aa", "ab", "ac", "ba", "bb"}) String param) {
+                switch (param.charAt(0)) {
+                case 'a':
+                    return "A";
+
+                default:
+                    return param;
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     void conditionByEnum() {
         verify(new TestCode.IntParam() {
 
@@ -1672,6 +1712,49 @@ class SwitchTest extends CodeVerifier {
                 case "c":
                 case "d":
                     return "CD";
+
+                default:
+                    return param;
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void conditionByStringWithMethodCondition() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"aa", "ab", "ac", "ba", "bb"}) String param) {
+                switch (param.substring(0, 1)) {
+                case "a":
+                    return "A";
+
+                default:
+                    return param;
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void conditionByStringNest() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"aa", "ab", "ac", "ba", "bb"}) String param) {
+                switch (param.substring(0, 1)) {
+                case "a":
+                    switch (param.substring(1, 2)) {
+                    case "a":
+                        return "AA";
+
+                    case "b":
+                        return "AB";
+
+                    default:
+                        return "AC";
+                    }
 
                 default:
                     return param;

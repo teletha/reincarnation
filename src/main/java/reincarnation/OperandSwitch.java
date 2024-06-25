@@ -21,6 +21,7 @@ import java.util.function.UnaryOperator;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.Variable;
 import reincarnation.coder.Coder;
 import reincarnation.structure.Structure;
 import reincarnation.structure.Switch;
@@ -96,7 +97,7 @@ class OperandSwitch extends Operand {
     final Node entrance;
 
     /** The condition. */
-    private Operand condition;
+    final Variable<Operand> condition = Variable.empty();
 
     /** The special case manager. */
     private MultiMap<Node, Object> cases = new MultiMap(true);
@@ -152,7 +153,7 @@ class OperandSwitch extends Operand {
         }
 
         this.entrance = entrance;
-        this.condition = condition;
+        this.condition.set(condition);
         this.defaultNode = defaultNode;
 
         for (int i = 0; i < keys.length; i++) {
@@ -190,7 +191,7 @@ class OperandSwitch extends Operand {
         } else {
             MultiMap<Structure, Object> caseBlocks = cases.convertKeys(entrance::process);
 
-            coder.writeSwitch(false, Optional.empty(), condition, condition.type(), caseBlocks, null);
+            coder.writeSwitch(false, Optional.empty(), condition.v, condition.v.type(), caseBlocks, null);
         }
     }
 
@@ -198,7 +199,7 @@ class OperandSwitch extends Operand {
      * @return
      */
     public Switch structurize() {
-        return new Switch(entrance, condition, cases, follower);
+        return new Switch(entrance, condition.v, cases, follower);
     }
 
     /**
@@ -442,7 +443,14 @@ class OperandSwitch extends Operand {
     final void convertToStringSwitch(Node defaultNode, UnaryOperator<MultiMap<Node, Object>> caseConverter) {
         this.defaultConverter = node -> defaultNode;
         this.caseConverter = caseConverter;
-        this.condition = condition.as(OperandMethodCall.class).exact().owner;
+
+        condition.v.as(OperandMethodCall.class).to(call -> {
+            if (call.owner instanceof OperandAssign assign) {
+                this.condition.set(assign.right);
+            } else {
+                this.condition.set(call.owner);
+            }
+        });
     }
 
     final void updateCase(Node oldNode, Node newNode) {
@@ -460,7 +468,7 @@ class OperandSwitch extends Operand {
      */
     @Override
     protected String view() {
-        return "switch" + (isExpression() ? "-expression" : "") + " (" + condition.view() + ")";
+        return "switch" + (isExpression() ? "-expression" : "") + " (" + condition.v.view() + ")";
     }
 
     /**
