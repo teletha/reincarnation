@@ -1,27 +1,13 @@
 java.lang.Error: 
 ============================================================
-ECJ compiles reincarnation.decompiler.flow.SwitchExpressionTest$30
+Javac compiles reincarnation.decompiler.flow.SwitchExpressionTest$30
 ============================================================
-/reincarnation/decompiler/flow/SwitchExpressionTest.java:20: エラー: case、defaultまたは'}'がありません
-"a"                    case  -> "AA";
-^
-/reincarnation/decompiler/flow/SwitchExpressionTest.java:20: エラー: 式の開始が不正です
-"a"                    case  -> "AA";
-                             ^
-/reincarnation/decompiler/flow/SwitchExpressionTest.java:21: エラー: case、defaultまたは'}'がありません
-"b"                    case  -> "AB";
-^
-/reincarnation/decompiler/flow/SwitchExpressionTest.java:21: エラー: 式の開始が不正です
-"b"                    case  -> "AB";
-                             ^
-
-Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
-NullPointerException: Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
-    at reincarnation.CodeVerifier$JavaVerifier.<init>(CodeVerifier.java:379)
-    at reincarnation.CodeVerifier.verify(CodeVerifier.java:182)
-    at reincarnation.decompiler.flow.SwitchExpressionTest.conditionByStringNest(SwitchExpressionTest.java:545)
-    at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-    at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+NullPointerException: null
+    at kiss.Variable.lambda$1(Variable.java:107)
+    at kiss.Variable.or(Variable.java:343)
+    at kiss.Variable.exact(Variable.java:106)
+    at reincarnation.JavaMethodDecompiler.lambda$21(JavaMethodDecompiler.java:2008)
+    at kiss.Subscriber.accept(Subscriber.java:120)
 
 ============================================================
 Original Code
@@ -33,7 +19,7 @@ void conditionByStringNest() {
             public String run(@Param(strings = {"aa", "ab", "ac", "ba", "bb"}) String param) {
                 return switch (param.substring(0, 1)) {
                 case "a" -> switch (param.substring(1, 2)) {
-                case "a" -> "AA";
+                case "CCC" -> "AA";
                 case "b" -> "AB";
                 default -> "AC";
                 };
@@ -47,167 +33,205 @@ void conditionByStringNest() {
 ============================================================
 Decompiled Code
 ============================================================
-01    package reincarnation.decompiler.flow;
-02    
-03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.Param;
-05    import reincarnation.TestCode.TextParam;
-06    import reincarnation.decompiler.flow.SwitchExpressionTest;
-07    
-08    class SwitchExpressionTest extends CodeVerifier {
-09    
-10        class SwitchExpressionTest$30 implements TextParam {
-11            final SwitchExpressionTest this$0;
-12    
-13            SwitchExpressionTest$30(final SwitchExpressionTest this$0) {
-14                this.this$0 = this$0;
-15            }
-16    
-17            public String run(@Param(strings = {"aa", "ab", "ac", "ba", "bb"}) String param) {
-18                return switch (param.substring(0, 1)) {
-19                    case "a" -> switch (param.substring(1, 2)) {
-20    "a"                    case  -> "AA";
-21    "b"                    case  -> "AB";
-22                        default -> {
-23                            yield "AC";
-24                        }
-25                    };
-26                    default -> param;
-27                };
-28            }
-29        }
-30    }
-============================================================
 Decompiling Log
 ============================================================
 //----------------------- SwitchExpressionTest#conditionByStringNest (SwitchExpressionTest.java:544) -----------------------//
 Method conditionByStringNest() (SwitchExpressionTest.java:545)
-0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: this.this$0 = this$0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall] return null [Return - null]
+0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
 1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 
 Delete tail empty return (show full nodes)
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = this$0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall] return null [Return - null]
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
 
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = this$0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall]
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
 
 
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = this$0 [Assign#SwitchExpressionTest] java.lang.Object() [ConstructorCall]
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
 
 //----------------------- SwitchExpressionTest#conditionByStringNest (SwitchExpressionTest.java:548) -----------------------//
-Method conditionByStringNest() (SwitchExpressionTest.java:549)
-3	in[1]		out[7,5,6]	dom[1]	doms[]	side[4,5]	dest[5]		code: switch-expression (param.substring(1,2)) [Switch]
-5	in[3]		out[8,9]	dom[3]	doms[]	side[3,9]	dest[9]		code: if (local3.equals("a") 0) then 8 else 9 [Condition then 8 else 9]
-9	in[5]		out[7]		dom[5]	doms[]	side[5,6]	dest[7]		code: 
-6	in[3]		out[10,11]	dom[3]	doms[]	side[9,11]	dest[11]	code: if (local3.equals("b") 0) then 10 else 11 [Condition then 10 else 11]
-11	in[6]		out[7]		dom[6]	doms[]	side[6,8]	dest[7]		code: 
-8	in[5]		out[12]		dom[5]	doms[]	side[11,10]	dest[12]	code: "AA" [String]
-10	in[6]		out[12]		dom[6]	doms[]	side[8,7]	dest[12]	code: "AB" [String]
-7	in[3,9,11]	out[13]		dom[3]	doms[]	side[10,13]	dest[13]	code: "AC" [String]
-13	in[7]		out[12]		dom[7]	doms[]	side[7,2]	dest[12]	code: 
+Method conditionByStringNest() (SwitchExpressionTest.java:553)
+3	in[2]		out[7,5,6]	dom[2]	doms[]	side[2,6]	dest[6]		code: local4 = arg0.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (arg0.substring(1,2)) [Switch]
+6	in[3]		out[7]		dom[3]	doms[]	side[3,5]	dest[7]		code: if (local4.equals("CCC") 0) then 7 else SAME [Condition then 7 else SAME] local5 = 0 [Assign]
+5	in[3]		out[7]		dom[3]	doms[]	side[6,7]	dest[7]		code: if (local4.equals("b") 0) then 7 else SAME [Condition then 7 else SAME] local5 = 1 [Assign]
+7	in[3,6,5]	out[10,8,9]	dom[3]	doms[]	side[5,8]	dest[8]		code: switch (local5) [Switch]
+8	in[7]		out[11]		dom[7]	doms[]	side[7,9]	dest[11]	code: "AA" [String]
+9	in[7]		out[11]		dom[7]	doms[]	side[8,10]	dest[11]	code: "AB" [String]
+10	in[7]		out[11]		dom[7]	doms[]	side[9,11]	dest[11]	code: "AC" [String]
 
-Analyze switch [Range 3 - 13] (show full nodes)
-3	in[1]		out[7,5,6]	dom[1]	doms[5,6,7]	side[4,5]	dest[5]		code: switch-expression (param.substring(1,2)) [Switch]
-5	in[3]		out[8,9]	dom[3]	doms[9,8]	side[3,9]	dest[9]		code: if (local3.equals("a") 0) then 8 else 9 [Condition then 8 else 9]
-9	in[5]		out[7]		dom[5]	doms[]		side[5,6]	dest[7]		code: 
-6	in[3]		out[10,11]	dom[3]	doms[11,10]	side[9,11]	dest[11]	code: if (local3.equals("b") 0) then 10 else 11 [Condition then 10 else 11]
-11	in[6]		out[7]		dom[6]	doms[]		side[6,8]	dest[7]		code: 
-8	in[5]		out[12]		dom[5]	doms[]		side[11,10]	dest[12]	code: "AA" [String]
-10	in[6]		out[12]		dom[6]	doms[]		side[8,7]	dest[12]	code: "AB" [String]
-7	in[3,9,11]	out[13]		dom[3]	doms[13]	side[10,13]	dest[13]	code: "AC" [String]
-13	in[7]		out[12]		dom[7]	doms[]		side[7,2]	dest[12]	code: 
+Analyze switch [Range 3 - 10] (show full nodes)
+3	in[2]			out[7,5,6]	dom[2]	doms[6,5,7]		side[2,6]	dest[6]		code: local4 = arg0.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (arg0.substring(1,2)) [Switch]
+6	in[3]			out[7,A]	dom[3]	doms[]			side[3,A]	dest[7]		code: if (local4.equals("CCC") 0) then 7 else SAME [Condition then 7 else SAME]
+5	in[3]			out[7,B]	dom[3]	doms[]			side[A,B]	dest[7]		code: if (local4.equals("b") 0) then 7 else SAME [Condition then 7 else SAME]
+7	in[3,6,5,A,B]	out[10,8,9]	dom[]	doms[8,9,10]	side[B,8]	dest[8]		code: switch (local5) [Switch]
+8	in[7]			out[11]		dom[7]	doms[]			side[7,9]	dest[11]	code: "AA" [String]
+9	in[7]			out[11]		dom[7]	doms[]			side[8,10]	dest[11]	code: "AB" [String]
+10	in[7]			out[11]		dom[7]	doms[]			side[9,11]	dest[11]	code: "AC" [String]
 
-3	in[]	out[7,8,10]	dom[]	doms[5,6,7]	side[4,8]	dest[5]		code: switch-expression (param.substring(1,2)) [Switch#String]
-5	in[]	out[]		dom[]	doms[9,8]	side[3,6]	dest[7]		code: 
-9	in[]	out[]		dom[]	doms[]		side[5,6]	dest[7]		code: 
-6	in[]	out[]		dom[]	doms[11,10]	side[3,8]	dest[7]		code: 
-11	in[]	out[]		dom[]	doms[]		side[6,8]	dest[7]		code: 
-8	in[3]	out[]		dom[3]	doms[]		side[3,10]	dest[12]	code: yield "AA" [Yield#String - "AA"]
-10	in[3]	out[]		dom[3]	doms[]		side[8,7]	dest[12]	code: yield "AB" [Yield#String - "AB"]
-7	in[3]	out[13]		dom[3]	doms[13]	side[10,13]	dest[13]	code: yield "AC" [Yield#String - "AC"]
-13	in[7]	out[]		dom[7]	doms[]		side[7,2]	dest[12]	code: 
+3	in[]			out[7,5,6]	dom[]	doms[6,5,7]		side[2,6]	dest[6]		code: local4 = arg0.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (arg0.substring(1,2)) [Switch#String]
+6	in[3]			out[7,A]	dom[3]	doms[]			side[3,A]	dest[7]		code: if (local4.equals("CCC") 0) then 7 else SAME [Condition then 7 else SAME]
+5	in[3]			out[7,B]	dom[3]	doms[]			side[A,B]	dest[7]		code: if (local4.equals("b") 0) then 7 else SAME [Condition then 7 else SAME]
+7	in[3,6,5,A,B]	out[10,8,9]	dom[]	doms[8,9,10]	side[B,8]	dest[8]		code: switch (local5) [Switch]
+8	in[7]			out[]		dom[7]	doms[]			side[7,9]	dest[11]	code: yield "AA" [Yield#String - "AA"]
+9	in[7]			out[]		dom[7]	doms[]			side[8,10]	dest[11]	code: yield "AB" [Yield#String - "AB"]
+10	in[7]			out[]		dom[7]	doms[]			side[9,11]	dest[11]	code: yield "AC" [Yield#String - "AC"]
 
 
-3	in[]	out[7,8,10]	dom[]	doms[5,6,7]	side[4,8]	dest[5]		code: switch-expression (param.substring(1,2)) [Switch#String]
-5	in[]	out[]		dom[]	doms[9,8]	side[3,6]	dest[7]		code: 
-9	in[]	out[]		dom[]	doms[]		side[5,6]	dest[7]		code: 
-6	in[]	out[]		dom[]	doms[11,10]	side[3,8]	dest[7]		code: 
-11	in[]	out[]		dom[]	doms[]		side[6,8]	dest[7]		code: 
-8	in[3]	out[]		dom[3]	doms[]		side[3,10]	dest[12]	code: yield "AA" [Yield#String - "AA"]
-10	in[3]	out[]		dom[3]	doms[]		side[8,7]	dest[12]	code: yield "AB" [Yield#String - "AB"]
-7	in[3]	out[13]		dom[3]	doms[13]	side[10,13]	dest[13]	code: yield "AC" [Yield#String - "AC"]
-13	in[7]	out[]		dom[7]	doms[]		side[7,2]	dest[12]	code: 
+3	in[]			out[7,5,6]	dom[]	doms[6,5,7]		side[2,6]	dest[6]		code: local4 = arg0.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (arg0.substring(1,2)) [Switch#String]
+6	in[3]			out[7,A]	dom[3]	doms[]			side[3,A]	dest[7]		code: if (local4.equals("CCC") 0) then 7 else SAME [Condition then 7 else SAME]
+5	in[3]			out[7,B]	dom[3]	doms[]			side[A,B]	dest[7]		code: if (local4.equals("b") 0) then 7 else SAME [Condition then 7 else SAME]
+7	in[3,6,5,A,B]	out[10,8,9]	dom[]	doms[8,9,10]	side[B,8]	dest[8]		code: switch (local5) [Switch]
+8	in[7]			out[]		dom[7]	doms[]			side[7,9]	dest[11]	code: yield "AA" [Yield#String - "AA"]
+9	in[7]			out[]		dom[7]	doms[]			side[8,10]	dest[11]	code: yield "AB" [Yield#String - "AB"]
+10	in[7]			out[]		dom[7]	doms[]			side[9,11]	dest[11]	code: yield "AC" [Yield#String - "AC"]
 
-Transform switch expression [Range 3 - 13] (show full nodes)
-0	in[]			out[2,1]	dom[]	doms[]	side[ ,1]	dest[1]		code: switch (param.substring(0,1)) [Switch]
-1	in[0]			out[3,4]	dom[0]	doms[]	side[0,4]	dest[4]		code: if (local2.equals("a") 0) then 3 else 4 [Condition then 3 else 4]
-4	in[1]			out[2]		dom[1]	doms[]	side[1,3]	dest[2]		code: 
-3	in[1]			out[7,5,6]	dom[1]	doms[]	side[4,5]	dest[5]		code: switch (param.substring(1,2)) [Switch]
-5	in[3]			out[8,9]	dom[3]	doms[]	side[3,9]	dest[9]		code: if (local3.equals("a") 0) then 8 else 9 [Condition then 8 else 9]
-9	in[5]			out[7]		dom[5]	doms[]	side[5,6]	dest[7]		code: 
-6	in[3]			out[10,11]	dom[3]	doms[]	side[9,11]	dest[11]	code: if (local3.equals("b") 0) then 10 else 11 [Condition then 10 else 11]
-11	in[6]			out[7]		dom[6]	doms[]	side[6,8]	dest[7]		code: 
-8	in[5]			out[12]		dom[5]	doms[]	side[11,10]	dest[12]	code: "AA" [String]
-10	in[6]			out[12]		dom[6]	doms[]	side[8,7]	dest[12]	code: "AB" [String]
-7	in[3,9,11]		out[13]		dom[3]	doms[]	side[10,13]	dest[13]	code: "AC" [String]
-13	in[7]			out[12]		dom[7]	doms[]	side[7,2]	dest[12]	code: 
-2	in[0,4]			out[12]		dom[0]	doms[]	side[13,12]	dest[12]	code: param [LocalVariable#String]
-12	in[8,10,13,2]	out[]		dom[]	doms[]	side[2, ]	dest[]		code: 
+Transform switch expression [Range 3 - 10] (show full nodes)
+0	in[]		out[2,1]	dom[]	doms[]	side[ ,1]	dest[1]		code: local2 = arg0.substring(0,1) [Assign#String] local3 = -1 [Assign] switch (arg0.substring(0,1)) [Switch]
+1	in[0]		out[2]		dom[0]	doms[]	side[0,2]	dest[2]		code: if (local2.equals("a") 0) then 2 else SAME [Condition then 2 else SAME] local3 = 0 [Assign]
+2	in[0,1]		out[4,3]	dom[0]	doms[]	side[1,3]	dest[3]		code: switch (local3) [Switch]
+3	in[2]		out[7,5,6]	dom[2]	doms[]	side[2,6]	dest[6]		code: local4 = arg0.substring(1,2) [Assign#String] local5 = -1 [Assign] switch (arg0.substring(1,2)) [Switch]
+6	in[3]		out[7]		dom[3]	doms[]	side[3,5]	dest[7]		code: if (local4.equals("CCC") 0) then 7 else SAME [Condition then 7 else SAME] local5 = 0 [Assign]
+5	in[3]		out[7]		dom[3]	doms[]	side[6,7]	dest[7]		code: if (local4.equals("b") 0) then 7 else SAME [Condition then 7 else SAME] local5 = 1 [Assign]
+7	in[3,6,5]	out[10,8,9]	dom[3]	doms[]	side[5,8]	dest[8]		code: switch (local5) [Switch]
+8	in[7]		out[11]		dom[7]	doms[]	side[7,9]	dest[11]	code: "AA" [String]
+9	in[7]		out[11]		dom[7]	doms[]	side[8,10]	dest[11]	code: "AB" [String]
+10	in[7]		out[11]		dom[7]	doms[]	side[9,11]	dest[11]	code: "AC" [String]
+11	in[8,9,10]	out[]		dom[]	doms[]	side[10, ]	dest[]		code: 
 
-0	in[]		out[2,1]	dom[]	doms[]		side[ ,1]	dest[1]		code: switch (param.substring(0,1)) [Switch]
-1	in[0]		out[4,12,3]	dom[0]	doms[3]		side[0,4]	dest[4]		code: if (local2.equals("a") 0) then 3 else 4 [Condition then 3 else 4]
-4	in[1]		out[2]		dom[1]	doms[]		side[1,3]	dest[2]		code: 
-3	in[1]		out[12]		dom[1]	doms[5,6,7]	side[4,2]	dest[5]		code: switch-expression (param.substring(1,2)) [Switch#String]
-2	in[0,4]		out[12]		dom[0]	doms[]		side[3,12]	dest[12]	code: yield param [Yield#String - param]
-12	in[2,1,3]	out[]		dom[]	doms[]		side[2, ]	dest[]		code: 
+0	in[]	out[2,1]	dom[]	doms[]		side[ ,1]	dest[1]	code: local2 = arg0.substring(0,1) [Assign#String] local3 = -1 [Assign] switch (arg0.substring(0,1)) [Switch]
+1	in[0]	out[2]		dom[0]	doms[]		side[0,2]	dest[2]	code: if (local2.equals("a") 0) then 2 else SAME [Condition then 2 else SAME] local3 = 0 [Assign]
+2	in[0,1]	out[4,11,3]	dom[0]	doms[3]		side[1,3]	dest[3]	code: switch (local3) [Switch]
+3	in[2]	out[11]		dom[2]	doms[6,5,7]	side[2,11]	dest[6]	code: local4 = arg0.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (arg0.substring(1,2)) [Switch#String]
+A	in[6]	out[7]		dom[6]	doms[]		side[6,5]	dest[]	code: local5 = 0 [Assign]
+B	in[5]	out[7]		dom[5]	doms[]		side[5,7]	dest[]	code: local5 = 1 [Assign]
+11	in[2,3]	out[]		dom[2]	doms[]		side[3, ]	dest[]	code: 
 
 
 Method conditionByStringNest() (SwitchExpressionTest.java:549)
-0	in[]	out[2,1]	dom[]	doms[]		side[ ,1]	dest[1]		code: switch-expression (param.substring(0,1)) [Switch]
-1	in[0]	out[4,12,3]	dom[0]	doms[3]		side[0,4]	dest[4]		code: if (local2.equals("a") 0) then 3 else 4 [Condition then 3 else 4]
-4	in[1]	out[2]		dom[1]	doms[]		side[1,3]	dest[2]		code: 
-3	in[1]	out[12]		dom[1]	doms[5,6,7]	side[4,2]	dest[5]		code: switch-expression (param.substring(1,2)) [Switch#String]
-2	in[0,4]	out[12]		dom[0]	doms[]		side[3,12]	dest[12]	code: yield param [Yield#String - param]
+0	in[]		out[2,1]	dom[]	doms[]		side[ ,1]	dest[1]		code: local2 = param.substring(0,1) [Assign#String] local3 = -1 [Assign] switch (param.substring(0,1)) [Switch]
+1	in[0]		out[2]		dom[0]	doms[]		side[0,2]	dest[2]		code: if (local2.equals("a") 0) then 2 else SAME [Condition then 2 else SAME] local3 = 0 [Assign]
+2	in[0,1]		out[4,11,3]	dom[0]	doms[3]		side[1,3]	dest[3]		code: switch (local3) [Switch]
+3	in[2]		out[11]		dom[2]	doms[6,5,7]	side[2,11]	dest[6]		code: local4 = param.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (param.substring(1,2)) [Switch#String]
+A	in[6]		out[7]		dom[6]	doms[]		side[6,5]	dest[]		code: local5 = 0 [Assign]
+B	in[5]		out[7]		dom[5]	doms[]		side[5,7]	dest[]		code: local5 = 1 [Assign]
+11	in[2,3]		out[12]		dom[2]	doms[]		side[3,4]	dest[12]	code: 
+4	in[2]		out[12]		dom[2]	doms[]		side[11,12]	dest[12]	code: 
+12	in[11,4]	out[]		dom[]	doms[]		side[4,13]	dest[T]		code: return param [Return#String - LocalVariable#String]
+13	in[]		out[]		dom[]	doms[]		side[12, ]	dest[]		code: 
 
-Analyze switch [Range 0 - 2] (show full nodes)
-0	in[]	out[2,1]	dom[]	doms[1,2]	side[ ,1]	dest[1]		code: switch-expression (param.substring(0,1)) [Switch]
-1	in[0]	out[4,12,3]	dom[0]	doms[3,4]	side[0,4]	dest[4]		code: if (local2.equals("a") 0) then 3 else 4 [Condition then 3 else 4]
-4	in[1]	out[2]		dom[1]	doms[]		side[1,3]	dest[2]		code: 
-3	in[1]	out[12]		dom[1]	doms[5,6,7]	side[4,2]	dest[5]		code: switch-expression (param.substring(1,2)) [Switch#String]
-2	in[0,4]	out[12]		dom[0]	doms[]		side[3,12]	dest[12]	code: yield param [Yield#String - param]
+Analyze switch [Range 0 - 12] (show full nodes)
+0	in[]		out[2,1]		dom[]	doms[1,2]	side[ ,1]	dest[1]		code: local2 = param.substring(0,1) [Assign#String] local3 = -1 [Assign] switch (param.substring(0,1)) [Switch]
+1	in[0]		out[2,C]		dom[0]	doms[C]		side[0,C]	dest[2]		code: if (local2.equals("a") 0) then 2 else SAME [Condition then 2 else SAME]
+C	in[1]		out[2]			dom[1]	doms[]		side[1,2]	dest[]		code: local3 = 0 [Assign]
+2	in[0,1,C]	out[11,3,12]	dom[]	doms[3,12]	side[C,3]	dest[3]		code: switch (local3) [Switch]
+3	in[2]		out[11]			dom[2]	doms[6,5,7]	side[2,11]	dest[6]		code: local4 = param.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (param.substring(1,2)) [Switch#String]
+A	in[6]		out[7]			dom[6]	doms[]		side[6,5]	dest[]		code: local5 = 0 [Assign]
+B	in[5]		out[7]			dom[5]	doms[]		side[5,7]	dest[]		code: local5 = 1 [Assign]
+11	in[2,3]		out[12]			dom[2]	doms[]		side[3,12]	dest[12]	code: 
+12	in[11,2]	out[]			dom[2]	doms[]		side[11, ]	dest[T]		code: return param [Return#String - LocalVariable#String]
 
-0	in[]	out[2,3]	dom[]	doms[1,2]	side[ ,3]	dest[1]		code: switch-expression (param.substring(0,1)) [Switch#String]
-1	in[]	out[]		dom[]	doms[3,4]	side[0,3]	dest[2]		code: 
-4	in[]	out[]		dom[]	doms[]		side[1,3]	dest[2]		code: 
-3	in[0]	out[]		dom[0]	doms[5,6,7]	side[0,2]	dest[5]		code: yield switch-expression (param.substring(1,2)) [Yield#String - switch(String param.substring(1, 2)){ case:[#7, 8, 10, #7] follow:12}]
-2	in[0]	out[]		dom[0]	doms[]		side[3,12]	dest[12]	code: yield param [Yield#String - param]
-
-
-0	in[]	out[2,3]	dom[]	doms[1,2]	side[ ,3]	dest[1]		code: switch-expression (param.substring(0,1)) [Switch#String]
-1	in[]	out[]		dom[]	doms[3,4]	side[0,3]	dest[2]		code: 
-4	in[]	out[]		dom[]	doms[]		side[1,3]	dest[2]		code: 
-3	in[0]	out[]		dom[0]	doms[5,6,7]	side[0,2]	dest[5]		code: yield switch-expression (param.substring(1,2)) [Yield#String - switch(String param.substring(1, 2)){ case:[#7, 8, 10, #7] follow:12}]
-2	in[0]	out[]		dom[0]	doms[]		side[3,12]	dest[12]	code: yield param [Yield#String - param]
-
-Transform switch expression [Range 0 - 2] (show full nodes)
-0	in[]		out[2,1]	dom[]	doms[]		side[ ,1]	dest[1]		code: switch (param.substring(0,1)) [Switch]
-1	in[0]		out[4,12,3]	dom[0]	doms[3]		side[0,4]	dest[4]		code: if (local2.equals("a") 0) then 3 else 4 [Condition then 3 else 4]
-4	in[1]		out[2]		dom[1]	doms[]		side[1,3]	dest[2]		code: 
-3	in[1]		out[12]		dom[1]	doms[5,6,7]	side[4,2]	dest[5]		code: switch-expression (param.substring(1,2)) [Switch#String]
-2	in[0,4]		out[12]		dom[0]	doms[]		side[3,12]	dest[12]	code: yield param [Yield#String - param]
-12	in[2,1,3]	out[]		dom[]	doms[]		side[2, ]	dest[]		code: 
-
-0	in[]	out[12]	dom[]	doms[1,2]	side[ ,12]	dest[1]	code: switch-expression (param.substring(0,1)) [Switch#String]
-12	in[0]	out[]	dom[0]	doms[]		side[0, ]	dest[]	code: 
-
-
-Method conditionByStringNest() (SwitchExpressionTest.java:549)
-0	in[]	out[12]	dom[]	doms[1,2]	side[ ,12]	dest[1]	code: 
-12	in[0]	out[]	dom[0]	doms[]		side[0,14]	dest[T]	code: return switch-expression (param.substring(0,1)) [Return#String - Switch#String]
-14	in[]	out[]	dom[]	doms[]		side[12, ]	dest[]	code: 
-
-12	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: return switch-expression (param.substring(0,1)) [Return#String - Switch#String]
+0	in[]		out[2,1]		dom[]	doms[1,2]	side[ ,1]	dest[1]		code: local2 = param.substring(0,1) [Assign#String] local3 = -1 [Assign] switch (param.substring(0,1)) [Switch]
+1	in[0]		out[2,C]		dom[0]	doms[C]		side[0,C]	dest[2]		code: if (local2.equals("a") 0) then 2 else SAME [Condition then 2 else SAME]
+C	in[1]		out[2]			dom[1]	doms[]		side[1,2]	dest[]		code: local3 = 0 [Assign]
+2	in[0,1,C]	out[11,3,12]	dom[]	doms[3,12]	side[C,3]	dest[3]		code: switch (local3) [Switch]
+3	in[2]		out[11]			dom[2]	doms[6,5,7]	side[2,11]	dest[6]		code: local4 = param.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (param.substring(1,2)) [Switch#String]
+A	in[6]		out[7]			dom[6]	doms[]		side[6,5]	dest[]		code: local5 = 0 [Assign]
+B	in[5]		out[7]			dom[5]	doms[]		side[5,7]	dest[]		code: local5 = 1 [Assign]
+11	in[2,3]		out[D]			dom[2]	doms[]		side[3,D]	dest[12]	code: 
+D	in[11]		out[E]			dom[11]	doms[]		side[11,E]	dest[12]	code: 
+E	in[D]		out[F]			dom[D]	doms[]		side[D,F]	dest[12]	code: 
+F	in[E]		out[G]			dom[E]	doms[]		side[E,G]	dest[12]	code: 
+G	in[F]		out[12]			dom[F]	doms[]		side[F,12]	dest[12]	code: 
+12	in[2,G]		out[]			dom[2]	doms[]		side[G, ]	dest[T]		code: return param [Return#String - LocalVariable#String]
 
 
+
+============================================================
+Bytecode Diff -  reincarnation.decompiler.flow.SwitchExpressionTest$30
+============================================================
+ECJ																					Javac
+visitMethod(ACC_PUBLIC, "run", "(Lj.l.String;)Lj.l.String;", null, null);			visitMethod(ACC_PUBLIC, "run", "(Lj.l.String;)Lj.l.String;", null, null);
+~Parameter("param", 0);~															
+AnnotableParameterCount(1, true);													AnnotableParameterCount(1, true);
+Label(L0);																			Label(L0);
+VarInsn(ALOAD, 1);																	VarInsn(ALOAD, 1);
+Insn(ICONST_0);																		Insn(ICONST_0);
+Insn(ICONST_1);																		Insn(ICONST_1);
+MethodInsn(INVOKEVIRTUAL, "j.l.String", "substring", "(II)Lj.l.String;", false);	MethodInsn(INVOKEVIRTUAL, "j.l.String", "substring", "(II)Lj.l.String;", false);
+~Insn(DUP);~																		
+VarInsn(ASTORE, 2);																	VarInsn(ASTORE, 2);
+																					+Insn(ICONST_M1);+
+																					+VarInsn(ISTORE, 3);+
+																					+VarInsn(ALOAD, 2);+
+MethodInsn(INVOKEVIRTUAL, "j.l.String", "hashCode", "()I", false);					MethodInsn(INVOKEVIRTUAL, "j.l.String", "hashCode", "()I", false);
+LookupSwitchInsn(L2, new int[] { 97 }, new Label[] { L1 });							LookupSwitchInsn(L2, new int[] { 97 }, new Label[] { L1 });
+Label(L1);																			Label(L1);
+Frame(F_APPEND,~1~, new Object[] {"j.l.String"}, 0, null);							Frame(F_APPEND,+2+, new Object[] {"j.l.String"+, INTEGER+}, 0, null);
+VarInsn(ALOAD, 2);																	VarInsn(ALOAD, 2);
+LdcInsn("a");																		LdcInsn("a");
+MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);		MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);
+JumpInsn(~IFNE~, ~L3~);																JumpInsn(+IFEQ+, +L2+);
+~JumpInsn~(~GOTO, L2~);																+Insn+(+ICONST_0+);
+																					+VarInsn(ISTORE, 3);+
+																					+Label(L2);+
+																					+Frame(F_SAME, 0, null, 0, null);+
+																					+VarInsn(ILOAD, 3);+
+																					+LookupSwitchInsn(L4, new int[] { 0 }, new Label[] { L3 });+
+Label(L3);																			Label(L3);
+Frame(F_SAME, 0, null, 0, null);													Frame(F_SAME, 0, null, 0, null);
+VarInsn(ALOAD, 1);																	VarInsn(ALOAD, 1);
+Insn(ICONST_1);																		Insn(ICONST_1);
+Insn(ICONST_2);																		Insn(ICONST_2);
+MethodInsn(INVOKEVIRTUAL, "j.l.String", "substring", "(II)Lj.l.String;", false);	MethodInsn(INVOKEVIRTUAL, "j.l.String", "substring", "(II)Lj.l.String;", false);
+~Insn(DUP);~																		VarInsn(ASTORE, +4+);
+VarInsn(ASTORE, ~3~);																+Insn(ICONST_M1);+
+																					+VarInsn(ISTORE, 5);+
+																					+VarInsn(ALOAD, 4);+
+MethodInsn(INVOKEVIRTUAL, "j.l.String", "hashCode", "()I", false);					MethodInsn(INVOKEVIRTUAL, "j.l.String", "hashCode", "()I", false);
+LookupSwitchInsn(~L6~, new int[] { 98, 66531 }, new Label[] { ~L4~, ~L5~ });		LookupSwitchInsn(+L7+, new int[] { 98, 66531 }, new Label[] { +L5+, +L6+ });
+Label(~L4~);																		Label(+L6+);
+Frame(F_APPEND,~1~, new Object[] {"j.l.String"}, 0, null);							Frame(F_APPEND,+2+, new Object[] {"j.l.String"+, INTEGER+}, 0, null);
+VarInsn(ALOAD, ~3~);																VarInsn(ALOAD, +4+);
+LdcInsn(~"b"~);																		LdcInsn(+"CCC"+);
+MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);		MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);
+JumpInsn(~IFNE~, L7);																JumpInsn(+IFEQ+, L7);
+~JumpInsn~(~GOTO, L6~);																+Insn+(+ICONST_0+);
+																					+VarInsn(ISTORE, 5);+
+																					+JumpInsn(GOTO, L7);+
+Label(L5);																			Label(L5);
+Frame(F_SAME, 0, null, 0, null);													Frame(F_SAME, 0, null, 0, null);
+VarInsn(ALOAD, ~3~);																VarInsn(ALOAD, +4+);
+LdcInsn(~"CCC"~);																	LdcInsn(+"b"+);
+MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);		MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);
+JumpInsn(~IFNE~, ~L8~);																JumpInsn(+IFEQ+, +L7+);
+~JumpInsn~(~GOTO, L6~);																+Insn+(+ICONST_1+);
+																					+VarInsn(ISTORE, 5);+
+																					+Label(L7);+
+																					+Frame(F_SAME, 0, null, 0, null);+
+																					+VarInsn(ILOAD, 5);+
+																					+LookupSwitchInsn(L10, new int[] { 0, 1 }, new Label[] { L8, L9 });+
+Label(L8);																			Label(L8);
+Frame(F_SAME, 0, null, 0, null);													Frame(F_SAME, 0, null, 0, null);
+LdcInsn("AA");																		LdcInsn("AA");
+JumpInsn(GOTO, ~L9~);																JumpInsn(GOTO, +L11+);
+Label(~L7~);																		Label(+L9+);
+Frame(F_SAME, 0, null, 0, null);													Frame(F_SAME, 0, null, 0, null);
+LdcInsn("AB");																		LdcInsn("AB");
+JumpInsn(GOTO, ~L9~);																JumpInsn(GOTO, +L11+);
+Label(~L6~);																		Label(+L10+);
+Frame(F_SAME, 0, null, 0, null);													Frame(F_SAME, 0, null, 0, null);
+LdcInsn("AC");																		LdcInsn("AC");
+Label(~L10~);																		Label(+L11+);
+~JumpInsn~(~GOTO~, ~L9);~															+Frame+(+F_FULL+, +4,+ +new Object[] {"String"}+);
+~Label(L2~);																		+JumpInsn+(+GOTO+, +L12);+
+~Frame~(~F_CHOP~,~1,~ ~null,~ ~0, null~);											+Label(L4+);
+																					+Frame(F_SAME, 0, null, 0, null);+
+VarInsn(ALOAD, 1);																	VarInsn(ALOAD, 1);
+Label(~L9~);																		Label(+L12+);
+Frame(F_FULL, 2, new Object[] {"String"});											Frame(F_FULL, 2, new Object[] {"String"});
+Insn(ARETURN);																		Insn(ARETURN);
+Label(~L11~);																		Label(+L13+);
+LocalVariable("this", "LSwitchExpressionTest$30;", null, L0, ~L11~, 0);				LocalVariable("this", "LSwitchExpressionTest$30;", null, L0, +L13+, 0);
+LocalVariable("param", "Lj.l.String;", null, L0, ~L11~, 1);							LocalVariable("param", "Lj.l.String;", null, L0, +L13+, 1);
 ============================================================
 
 
