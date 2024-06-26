@@ -548,7 +548,7 @@ class SwitchExpressionTest extends CodeVerifier {
             public String run(@Param(strings = {"aa", "ab", "ac", "ba", "bb"}) String param) {
                 return switch (param.substring(0, 1)) {
                 case "a" -> switch (param.substring(1, 2)) {
-                case "a" -> "AA";
+                case "CCC" -> "AA";
                 case "b" -> "AB";
                 default -> "AC";
                 };

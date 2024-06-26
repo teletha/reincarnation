@@ -244,23 +244,6 @@ public abstract class Coder<O extends CodingOption> {
     }
 
     /**
-     * Translate from your code to string.
-     * 
-     * @param code
-     * @return
-     */
-    protected final String translate(Object code) {
-        StringBuilder temp = builder;
-        try {
-            builder = new StringBuilder();
-            write(code);
-            return builder.toString();
-        } finally {
-            builder = temp;
-        }
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -787,7 +770,7 @@ public abstract class Coder<O extends CodingOption> {
                     if (keys.isEmpty()) {
                         writeDefaultCase(statement, code);
                     } else {
-                        writeStringCase(statement, keys.stream().map(this::translate).toList(), code);
+                        writeStringCase(statement, keys.stream().map(Object::toString).toList(), code);
                     }
                 });
             } else {

@@ -190,7 +190,6 @@ class OperandSwitch extends Operand {
             coder.write(toString());
         } else {
             MultiMap<Structure, Object> caseBlocks = cases.convertKeys(entrance::process);
-            System.out.println(caseBlocks.values().toList());
 
             coder.writeSwitch(false, Optional.empty(), condition.v, condition.v.type(), caseBlocks, null);
         }
@@ -447,7 +446,6 @@ class OperandSwitch extends Operand {
 
         List<OperandLocalVariable> variables = entrance.children(OperandLocalVariable.class).toList();
         entrance.stack.removeAll(variables);
-        System.out.println(entrance);
 
         condition.v.as(OperandMethodCall.class).to(call -> {
             if (call.owner instanceof OperandAssign assign) {
