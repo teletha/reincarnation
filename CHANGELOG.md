@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.7.0](https://github.com/teletha/reincarnation/compare/v1.6.0...v1.7.0) (2024-04-22)
+
+
+### Features
+
+* test by ecj and javac ([9c1893f](https://github.com/teletha/reincarnation/commit/9c1893f57fb1cc3cbe2cbf2a571c80f31fe27865))
+
+
+### Bug Fixes
+
+* test cache the expected result ([18e2153](https://github.com/teletha/reincarnation/commit/18e215394913a7b84ca0ef22c23bcf65d768ab1b))
+
 ## [1.6.0](https://github.com/teletha/reincarnation/compare/v1.5.0...v1.6.0) (2024-04-21)
 
 
