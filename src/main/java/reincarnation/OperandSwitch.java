@@ -240,13 +240,21 @@ class OperandSwitch extends Operand {
         return !isCase(node) && !isDefault(node) && entrance != node;
     }
 
+    private boolean analyzed;
+
     /**
      * Analyze following node.
      */
     void analyze(NodeManipulator manipulator) {
+        if (analyzed) {
+            return;
+        }
+        analyzed = true;
+
         cases.sort();
         cases.remove(defaultNode);
 
+        Debugger.current().print(entrance.id + "    " + cases.keys().map(x -> x.id).toList() + "   " + this);
         this.cases = caseConverter.apply(cases);
         this.defaultNode = defaultConverter.apply(defaultNode);
 
@@ -386,25 +394,34 @@ class OperandSwitch extends Operand {
 
     boolean canBeExpression(Node follow) {
         if (isExpression()) {
+            Debugger.current().print("isEx");
             return false;
         }
 
         if (!isOther(follow)) {
+            Debugger.current().print("isOther");
             return false;
         }
 
         for (Node node : nodes().toList()) {
             if (!node.isBefore(follow)) {
+                Debugger.current().print("isBefore");
                 return false;
             }
 
             if (!node.canReachTo(follow, nodes().skip(node).toSet(), true)) {
+                Debugger.current().print("canReach");
                 return false;
             }
         }
 
         for (Node node : collectYieldables(follow)) {
             if (!node.isValue()) {
+                Debugger.current()
+                        .print("is not value " + node.id + "  on  " + entrance.id + "  " + follow.id + "   " + collectYieldables(follow)
+                                .stream()
+                                .map(x -> x.id)
+                                .toList());
                 return false;
             }
         }

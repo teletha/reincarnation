@@ -747,7 +747,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     Node start = op.entrance;
                     Node end = op.tails(current).sort(Comparator.naturalOrder()).last().to().exact();
 
-                    try (Printable diff = debugger.diff(nodes, "Transform switch expression [Range " + start.id + " - " + end.id + "]")) {
+                    try (Printable diff = debugger.diff(nodes, "Convert to switch expression [Range " + start.id + " - " + end.id + "]")) {
                         op.markAsExpression();
 
                         // Save the node's connection information once because it will be lost in
