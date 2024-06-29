@@ -2010,12 +2010,16 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     Node then = caseNodes.get(caseIndex.getAndIncrement());
                     renewed.put(then, text);
                     operand.entrance.disconnect(old).connect(then);
-
-                    // dispose(condition.elze, true, true);
-                    // dispose(oldCaseBlock, true, true);
                 });
                 return renewed;
             });
+
+            Node node = current;
+            while (node != stringSwitchForJavac.entrance) {
+                dispose(node, true, true);
+                node = node.previous;
+            }
+
             stringSwitchForJavac = null;
             current.addOperand(operand);
             return;
