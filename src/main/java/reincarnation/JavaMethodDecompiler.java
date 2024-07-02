@@ -2014,12 +2014,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 return renewed;
             });
 
-            Node node = current;
-            while (node != stringSwitchForJavac.entrance) {
-                dispose(node, true, true);
-                node = node.previous;
-            }
-
             stringSwitchForJavac = null;
             current.addOperand(operand);
             return;
