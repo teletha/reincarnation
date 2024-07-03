@@ -159,6 +159,8 @@ class OperandSwitch extends Operand {
         for (int i = 0; i < keys.length; i++) {
             cases.put(caseNodes.get(i), keys[i]);
         }
+        cases.remove(defaultNode);
+        cases.sort();
 
         markAsStatement();
     }
@@ -251,11 +253,9 @@ class OperandSwitch extends Operand {
         }
         analyzed = true;
 
-        cases.sort();
-        cases.remove(defaultNode);
-
         Debugger.current().print(entrance.id + "    " + cases.keys().map(x -> x.id).toList() + "   " + this);
         this.cases = caseConverter.apply(cases);
+        cases.sort();
         this.defaultNode = defaultConverter.apply(defaultNode);
 
         // ===============================================
@@ -480,6 +480,7 @@ class OperandSwitch extends Operand {
 
         if (cases.containsKey(oldNode)) {
             cases.putAll(newNode, cases.remove(oldNode));
+            cases.sort();
         }
     }
 
