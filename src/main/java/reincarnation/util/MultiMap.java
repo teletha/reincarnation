@@ -36,10 +36,12 @@ import kiss.Signal;
 public class MultiMap<K, V> {
 
     /** The actual map. */
-    private Map<K, List<V>> map = new LinkedHashMap();
+    private Map<K, List<V>> map;
 
     /** The flag for whether to accept duplicated values for the same key or not. */
     private final boolean acceptDuplication;
+
+    private final boolean sort;
 
     /**
      * Constructs a new instance of {@link MultiMap}.
@@ -47,8 +49,15 @@ public class MultiMap<K, V> {
      * @param acceptDuplication The flag for whether to accept duplicated values for the same key or
      *            not.
      */
-    public MultiMap(boolean acceptDuplication) {
+    public MultiMap(boolean acceptDuplication, boolean sort) {
         this.acceptDuplication = acceptDuplication;
+        this.sort = sort;
+
+        if (sort) {
+            map = new ConcurrentSkipListMap();
+        } else {
+            map = new LinkedHashMap();
+        }
     }
 
     /**
@@ -56,17 +65,6 @@ public class MultiMap<K, V> {
      */
     public void sort() {
         Map<K, List<V>> sortable = new ConcurrentSkipListMap();
-        sortable.putAll(map);
-        this.map = sortable;
-    }
-
-    /**
-     * Sorts this map by key using the specified {@link Comparator}.
-     * 
-     * @param comparator The {@link Comparator} to be used to sort the map.
-     */
-    public void sort(Comparator<? super K> comparator) {
-        Map<K, List<V>> sortable = new ConcurrentSkipListMap(comparator);
         sortable.putAll(map);
         this.map = sortable;
     }
@@ -183,7 +181,7 @@ public class MultiMap<K, V> {
      *         {@link Function}.
      */
     public <N> MultiMap<N, V> convertKeys(Function<K, N> converter) {
-        MultiMap created = new MultiMap(acceptDuplication);
+        MultiMap created = new MultiMap(acceptDuplication, false);
         forEach((key, values) -> {
             created.map.put(converter.apply(key), values);
         });
@@ -201,7 +199,7 @@ public class MultiMap<K, V> {
      *         {@link Function}.
      */
     public <N> MultiMap<K, N> convertValues(Function<List<V>, N> converter) {
-        MultiMap created = new MultiMap(acceptDuplication);
+        MultiMap created = new MultiMap(acceptDuplication, false);
         forEach((key, values) -> {
             created.put(key, converter.apply(values));
         });

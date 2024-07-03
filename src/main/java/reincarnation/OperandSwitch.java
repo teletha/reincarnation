@@ -100,7 +100,7 @@ class OperandSwitch extends Operand {
     final Variable<Operand> condition = Variable.empty();
 
     /** The special case manager. */
-    private MultiMap<Node, Object> cases = new MultiMap(true);
+    private MultiMap<Node, Object> cases = new MultiMap(true, false);
 
     /** The default case. */
     private Node defaultNode;
@@ -302,7 +302,7 @@ class OperandSwitch extends Operand {
             List<Node> cases = nodes().toList();
 
             // group incomings by cases
-            MultiMap<Node, Node> group = new MultiMap(true);
+            MultiMap<Node, Node> group = new MultiMap(true, false);
             for (Node in : follower.getPureIncoming()) {
                 for (Node node : cases) {
                     if (in.hasDominator(node)) {
@@ -480,7 +480,6 @@ class OperandSwitch extends Operand {
 
         if (cases.containsKey(oldNode)) {
             cases.putAll(newNode, cases.remove(oldNode));
-            cases.sort();
         }
     }
 

@@ -65,7 +65,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     private final VariableNaming vars = new VariableNaming();
 
     /** The placeholder of local classes. */
-    private final MultiMap<Executable, Class> placeholders = new MultiMap(false);
+    private final MultiMap<Executable, Class> placeholders = new MultiMap(false, false);
 
     /** The import manager. */
     private final Imports imports = new Imports();

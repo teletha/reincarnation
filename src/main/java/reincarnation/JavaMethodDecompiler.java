@@ -1949,7 +1949,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         // for ECJ
         if (match(DUP, ASTORE, INVOKEVIRTUAL, SWITCH)) {
             operand.convertToStringSwitch(defaultNode, cases -> {
-                MultiMap<Node, Object> renewed = new MultiMap(true);
+                MultiMap<Node, Object> renewed = new MultiMap(true, false);
                 cases.keys().to(oldCaseBlock -> {
                     OperandCondition condition = oldCaseBlock.child(OperandCondition.class).exact();
 
@@ -2002,7 +2002,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         } else if (stringSwitchForJavac != null) {
             stringSwitchForJavac.convertToStringSwitch(defaultNode, cases -> {
                 AtomicInteger caseIndex = new AtomicInteger();
-                MultiMap<Node, Object> renewed = new MultiMap(true);
+                MultiMap<Node, Object> renewed = new MultiMap(true, false);
                 cases.keys().to(old -> {
                     // retrieve the actual matching text
                     OperandString text = old.children(OperandCondition.class, OperandMethodCall.class, OperandString.class).to().exact();
@@ -3027,7 +3027,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         private final List<TryCatchFinally> blocks = new ArrayList();
 
         /** The copied finally node manager. */
-        private final MultiMap<CopiedFinally, CopiedFinally> finallyCopies = new MultiMap(true);
+        private final MultiMap<CopiedFinally, CopiedFinally> finallyCopies = new MultiMap(true, false);
 
         /** The analyze state. */
         private boolean analyzed;
