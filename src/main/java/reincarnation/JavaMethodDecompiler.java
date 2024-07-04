@@ -40,6 +40,7 @@ import org.objectweb.asm.Type;
 
 import kiss.I;
 import kiss.Signal;
+import kiss.WiseConsumer;
 import reincarnation.Debugger.Printable;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -273,6 +274,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     /** The default debugger. */
     private final Debugger debugger = Debugger.current();
 
+    /** The label aware actions. */
+    private final MultiMap<Node, WiseConsumer<Node>> ends = new MultiMap(false, false);
+
     /**
      * @param source
      * @param locals
@@ -356,6 +360,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     public void visitEnd() {
         if (Classes.isAbstract(executable)) {
             return;
+        }
+
+        List<WiseConsumer<Node>> actions = ends.remove(current);
+        if (actions != null) {
+            actions.forEach(action -> action.accept(current));
         }
 
         analyze(nodes);
@@ -1747,6 +1756,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         if (1 < nodes.size()) {
             merge(current.previous);
         }
+
+        List<WiseConsumer<Node>> actions = ends.remove(current.previous);
+        if (actions != null) {
+            actions.forEach(action -> action.accept(current.previous));
+        }
     }
 
     /**
@@ -1948,22 +1962,39 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         // for ECJ
         if (match(DUP, ASTORE, INVOKEVIRTUAL, SWITCH)) {
+            // caseNodes.forEach(caseNode -> {
+            // registerNodeEndedAction(caseNode, node -> {
+            // OperandCondition condition = node.child(OperandCondition.class).exact();
+            //
+            // // retrieve the actual matching text
+            // OperandString text = node.children(OperandCondition.class, OperandMethodCall.class,
+            // OperandString.class).to().exact();
+            //
+            // operand.entrance.disconnect(node);
+            // operand.entrance.connect(condition.then);
+            //
+            // dispose(condition.elze, true, true);
+            // dispose(node, true, true);
+            //
+            // operand.replaceCase(node, condition.then, text);
+            // });
+            // });
+            // operand.convertToStringSwitch(defaultNode);
+
             operand.convertToStringSwitch(defaultNode, cases -> {
                 MultiMap<Node, Object> renewed = new MultiMap(true, false);
-                cases.keys().to(oldCaseBlock -> {
-                    OperandCondition condition = oldCaseBlock.child(OperandCondition.class).exact();
+                cases.keys().to(old -> {
+                    OperandCondition condition = old.child(OperandCondition.class).exact();
 
                     // retrieve the actual matching text
-                    OperandString text = oldCaseBlock.children(OperandCondition.class, OperandMethodCall.class, OperandString.class)
-                            .to()
-                            .exact();
+                    OperandString text = old.children(OperandCondition.class, OperandMethodCall.class, OperandString.class).to().exact();
 
-                    renewed.put(condition.then, text);
-                    operand.entrance.disconnect(oldCaseBlock);
-                    operand.entrance.connect(condition.then);
+                    Node then = condition.then;
+                    renewed.put(then, text);
+                    operand.entrance.disconnect(old).connect(then);
 
                     dispose(condition.elze, true, true);
-                    dispose(oldCaseBlock, true, true);
+                    dispose(old, true, true);
                 });
                 return renewed;
             });
@@ -2004,12 +2035,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 AtomicInteger caseIndex = new AtomicInteger();
                 MultiMap<Node, Object> renewed = new MultiMap(true, false);
                 cases.keys().to(old -> {
+                    OperandCondition condition = old.child(OperandCondition.class).exact();
+
                     // retrieve the actual matching text
                     OperandString text = old.children(OperandCondition.class, OperandMethodCall.class, OperandString.class).to().exact();
 
                     Node then = caseNodes.get(caseIndex.getAndIncrement());
                     renewed.put(then, text);
                     operand.entrance.disconnect(old).connect(then);
+
+                    dispose(condition.elze, true, true);
+                    dispose(old, true, true);
                 });
                 return renewed;
             });
@@ -2814,6 +2850,19 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         } catch (NoSuchMethodException e) {
             return false;
         }
+    }
+
+    /**
+     * Register the label action when the target node is ended.
+     * 
+     * @param target
+     * @param action
+     */
+    private void registerNodeEndedAction(Node target, WiseConsumer<Node> action) {
+        Objects.requireNonNull(target);
+        Objects.requireNonNull(action);
+
+        ends.put(target, action);
     }
 
     /**

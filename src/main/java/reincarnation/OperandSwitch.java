@@ -380,11 +380,20 @@ class OperandSwitch extends Operand {
     }
 
     /**
-     * Traverse all cases.
+     * Traverse all case nodes.
      * 
      * @return
      */
-    private Signal<Node> nodes() {
+    public Signal<Node> cases() {
+        return cases.keys().skipNull();
+    }
+
+    /**
+     * Traverse all case and default nodes.
+     * 
+     * @return
+     */
+    public Signal<Node> nodes() {
         return cases.keys().startWith(defaultNode).skipNull();
     }
 
@@ -473,6 +482,25 @@ class OperandSwitch extends Operand {
         });
     }
 
+    /**
+     * Utility method to optimize for string-switch.
+     * 
+     */
+    final void convertToStringSwitch(Node defaultNode) {
+        this.defaultConverter = node -> defaultNode;
+
+        List<OperandLocalVariable> variables = entrance.children(OperandLocalVariable.class).toList();
+        entrance.stack.removeAll(variables);
+
+        condition.v.as(OperandMethodCall.class).to(call -> {
+            if (call.owner instanceof OperandAssign assign) {
+                this.condition.set(assign.right);
+            } else {
+                this.condition.set(call.owner);
+            }
+        });
+    }
+
     final void updateCase(Node oldNode, Node newNode) {
         if (defaultNode == oldNode) {
             defaultNode = newNode;
@@ -480,6 +508,21 @@ class OperandSwitch extends Operand {
 
         if (cases.containsKey(oldNode)) {
             cases.putAll(newNode, cases.remove(oldNode));
+        }
+    }
+
+    /**
+     * @param oldNode
+     * @param newNode
+     */
+    public void replaceCase(Node oldNode, Node newNode, OperandString value) {
+        if (defaultNode == oldNode) {
+            defaultNode = newNode;
+        }
+
+        List<Object> removed = cases.remove(oldNode);
+        if (removed != null) {
+            cases.put(newNode, value);
         }
     }
 
