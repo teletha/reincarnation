@@ -466,8 +466,8 @@ class OperandSwitch extends Operand {
      * Utility method to optimize for string-switch.
      * 
      */
-    final void convertToStringSwitch(Node defaultNode, UnaryOperator<MultiMap<Node, Object>> caseConverter) {
-        this.defaultConverter = node -> defaultNode;
+    final void convertToStringSwitch(UnaryOperator<Node> defaultConverter, UnaryOperator<MultiMap<Node, Object>> caseConverter) {
+        this.defaultConverter = defaultConverter;
         this.caseConverter = caseConverter;
 
         List<OperandLocalVariable> variables = entrance.children(OperandLocalVariable.class).toList();

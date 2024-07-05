@@ -1981,7 +1981,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             // });
             // operand.convertToStringSwitch(defaultNode);
 
-            operand.convertToStringSwitch(defaultNode, cases -> {
+            operand.convertToStringSwitch(n -> defaultNode, cases -> {
                 MultiMap<Node, Object> renewed = new MultiMap(true, false);
                 cases.keys().to(old -> {
                     OperandCondition condition = old.child(OperandCondition.class).exact();
@@ -2031,7 +2031,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 return;
             }
         } else if (stringSwitchForJavac != null) {
-            stringSwitchForJavac.convertToStringSwitch(defaultNode, cases -> {
+            stringSwitchForJavac.convertToStringSwitch(n -> defaultNode, cases -> {
                 AtomicInteger caseIndex = new AtomicInteger();
                 MultiMap<Node, Object> renewed = new MultiMap(true, false);
                 cases.keys().to(old -> {
