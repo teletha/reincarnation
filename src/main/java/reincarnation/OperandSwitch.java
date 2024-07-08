@@ -162,6 +162,9 @@ class OperandSwitch extends Operand {
         cases.remove(defaultNode);
         cases.sort();
 
+        // connect from entrance to each cases and default
+        nodes().to(entrance::connect);
+
         markAsStatement();
     }
 

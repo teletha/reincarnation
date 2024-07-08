@@ -1954,9 +1954,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         List<Node> caseNodes = I.signal(labels).map(this::getNode).toList();
         Node defaultNode = getNode(defaultLabel);
 
-        // connect from entrance to each cases and default
-        I.signal(caseNodes).startWith(defaultNode).to(current::connect);
-
         Operand switchCondition = current.remove(0);
         OperandSwitch operand = new OperandSwitch(current, switchCondition, keys, caseNodes, defaultNode);
 
