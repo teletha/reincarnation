@@ -100,7 +100,7 @@ class OperandSwitch extends Operand {
     final Variable<Operand> condition = Variable.empty();
 
     /** The special case manager. */
-    private MultiMap<Node, Object> cases = new MultiMap(true, false);
+    private MultiMap<Node, Object> cases = new MultiMap(true);
 
     /** The default case. */
     private Node defaultNode;
@@ -160,7 +160,6 @@ class OperandSwitch extends Operand {
             cases.put(caseNodes.get(i), keys[i]);
         }
         cases.remove(defaultNode);
-        cases.sort();
 
         // connect from entrance to each cases and default
         nodes().to(entrance::connect);
@@ -305,7 +304,7 @@ class OperandSwitch extends Operand {
             List<Node> cases = nodes().toList();
 
             // group incomings by cases
-            MultiMap<Node, Node> group = new MultiMap(true, false);
+            MultiMap<Node, Node> group = new MultiMap(true);
             for (Node in : follower.getPureIncoming()) {
                 for (Node node : cases) {
                     if (in.hasDominator(node)) {
@@ -406,38 +405,28 @@ class OperandSwitch extends Operand {
 
     boolean canBeExpression(Node follow) {
         if (isExpression()) {
-            Debugger.current().print("isEx");
             return false;
         }
 
         if (!isOther(follow)) {
-            Debugger.current().print("isOther");
             return false;
         }
 
         for (Node node : nodes().toList()) {
             if (!node.isBefore(follow)) {
-                Debugger.current().print("isBefore");
                 return false;
             }
 
             if (!node.canReachTo(follow, nodes().skip(node).toSet(), true)) {
-                Debugger.current().print("canReach");
                 return false;
             }
         }
 
         for (Node node : collectYieldables(follow)) {
             if (!node.isValue()) {
-                Debugger.current()
-                        .print("is not value " + node.id + "  on  " + entrance.id + "  " + follow.id + "   " + collectYieldables(follow)
-                                .stream()
-                                .map(x -> x.id)
-                                .toList());
                 return false;
             }
         }
-
         return true;
     }
 

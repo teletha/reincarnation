@@ -275,7 +275,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     private final Debugger debugger = Debugger.current();
 
     /** The label aware actions. */
-    private final MultiMap<Node, WiseConsumer<Node>> ends = new MultiMap(false, false);
+    private final MultiMap<Node, WiseConsumer<Node>> ends = new MultiMap(false);
 
     /**
      * @param source
@@ -1979,8 +1979,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             // operand.convertToStringSwitch(defaultNode);
 
             operand.convertToStringSwitch(n -> defaultNode, cases -> {
-                MultiMap<Node, Object> renewed = new MultiMap(true, false);
-                cases.keys().to(old -> {
+                MultiMap<Node, Object> renewed = new MultiMap(true);
+                cases.keys().toList().forEach(old -> {
                     OperandCondition condition = old.child(OperandCondition.class).exact();
 
                     // retrieve the actual matching text
@@ -2030,8 +2030,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         } else if (stringSwitchForJavac != null) {
             stringSwitchForJavac.convertToStringSwitch(n -> defaultNode, cases -> {
                 AtomicInteger caseIndex = new AtomicInteger();
-                MultiMap<Node, Object> renewed = new MultiMap(true, false);
-                cases.keys().to(old -> {
+                MultiMap<Node, Object> renewed = new MultiMap(true);
+                cases.keys().toList().forEach(old -> {
                     OperandCondition condition = old.child(OperandCondition.class).exact();
 
                     // retrieve the actual matching text
@@ -3073,7 +3073,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         private final List<TryCatchFinally> blocks = new ArrayList();
 
         /** The copied finally node manager. */
-        private final MultiMap<CopiedFinally, CopiedFinally> finallyCopies = new MultiMap(true, false);
+        private final MultiMap<CopiedFinally, CopiedFinally> finallyCopies = new MultiMap(true);
 
         /** The analyze state. */
         private boolean analyzed;

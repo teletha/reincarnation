@@ -152,6 +152,8 @@ public class CodeVerifier {
                         target = JavacClassLoader.loadClass(target.getName());
                     } catch (ClassNotFoundException e) {
                         throw I.quiet(e);
+                    } catch (LinkageError e) {
+                        e.printStackTrace();
                     }
                 }
 

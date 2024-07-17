@@ -41,23 +41,15 @@ public class MultiMap<K, V> {
     /** The flag for whether to accept duplicated values for the same key or not. */
     private final boolean acceptDuplication;
 
-    private final boolean sort;
-
     /**
      * Constructs a new instance of {@link MultiMap}.
      * 
      * @param acceptDuplication The flag for whether to accept duplicated values for the same key or
      *            not.
      */
-    public MultiMap(boolean acceptDuplication, boolean sort) {
+    public MultiMap(boolean acceptDuplication) {
         this.acceptDuplication = acceptDuplication;
-        this.sort = sort;
-
-        if (sort) {
-            map = new ConcurrentSkipListMap();
-        } else {
-            map = new LinkedHashMap();
-        }
+        this.map = new LinkedHashMap();
     }
 
     /**
@@ -181,7 +173,7 @@ public class MultiMap<K, V> {
      *         {@link Function}.
      */
     public <N> MultiMap<N, V> convertKeys(Function<K, N> converter) {
-        MultiMap created = new MultiMap(acceptDuplication, false);
+        MultiMap created = new MultiMap(acceptDuplication);
         forEach((key, values) -> {
             created.map.put(converter.apply(key), values);
         });
@@ -199,7 +191,7 @@ public class MultiMap<K, V> {
      *         {@link Function}.
      */
     public <N> MultiMap<K, N> convertValues(Function<List<V>, N> converter) {
-        MultiMap created = new MultiMap(acceptDuplication, false);
+        MultiMap created = new MultiMap(acceptDuplication);
         forEach((key, values) -> {
             created.put(key, converter.apply(values));
         });
