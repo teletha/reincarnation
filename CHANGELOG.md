@@ -1,5 +1,48 @@
 # Changelog
 
+## [1.7.0](https://github.com/teletha/reincarnation/compare/v1.6.0...v1.7.0) (2024-07-17)
+
+
+### Features
+
+* (ecj) support nested string switch expression ([73e9343](https://github.com/teletha/reincarnation/commit/73e9343092aac4261b92bf418993b4b983d33553))
+* (ecj) support string switch expression ([0dfcf5b](https://github.com/teletha/reincarnation/commit/0dfcf5bb0d9714d39e97a846b020061fbad71acd))
+* (javac) partial support for finally block ([0774200](https://github.com/teletha/reincarnation/commit/07742002b98e9cecda5dbc870fab8427e027c8bb))
+* (javac) partial support for finally block ([7446fbf](https://github.com/teletha/reincarnation/commit/7446fbf9cc1d2037c5ce4e9ac0d89b62bc7686fb))
+* (javac) partial support for try-finally block ([304d196](https://github.com/teletha/reincarnation/commit/304d196ad5d4947065f071f7cc3384237fe4e0bb))
+* (javac) support constructor reference ([69e4088](https://github.com/teletha/reincarnation/commit/69e40884a89c07c6aa57c2843d2de4e94d68bee7))
+* (javac) support enum switch ([482f1b6](https://github.com/teletha/reincarnation/commit/482f1b68daebc87e13050bc5573bf8909f46b457))
+* (javac) support primitive array ([54ee0b3](https://github.com/teletha/reincarnation/commit/54ee0b362c6eb0c49f4694d00b5df618d43da21b))
+* (javac) support string switch statement ([3c261ce](https://github.com/teletha/reincarnation/commit/3c261cece95be0fa778d9ff90d144afb5f17d476))
+* (Javac) support synthetic asstion field ([687f725](https://github.com/teletha/reincarnation/commit/687f72543c3270cec9e54da0c79bfd3e5ddfb4e1))
+* (javac) support throw in switch ([be4424c](https://github.com/teletha/reincarnation/commit/be4424c4728c445b5d5a9adfa1bccba3a34f6923))
+* automatic bytecode compare view on failed test ([20347ff](https://github.com/teletha/reincarnation/commit/20347ff6c9cf0b513c2e52efe0b9965c55c8012f))
+* compiler type is configurable ([44f4603](https://github.com/teletha/reincarnation/commit/44f4603392c6476f569376b41dffcc03003aa6c5))
+* format debugger info ([cb4cc5a](https://github.com/teletha/reincarnation/commit/cb4cc5a4180640a95ba08ab1d36567f35b5984c0))
+* show bytecode diff on failed tests ([82ce348](https://github.com/teletha/reincarnation/commit/82ce348a9f604260d3e42224127a8aabddd3e43e))
+* show javac and ecj bytecodes on test error ([65853d3](https://github.com/teletha/reincarnation/commit/65853d3800b8cf6bbca61aec395331bf09f30409))
+* support method condition on string switch ([a61f9a3](https://github.com/teletha/reincarnation/commit/a61f9a370f932a34d6ced75b16b37410cee22e0a))
+* support try-catch in switch expression ([b3906db](https://github.com/teletha/reincarnation/commit/b3906db4cac0e912c28c7cf66ed9e23220ff7f74))
+* test by ecj and javac ([9c1893f](https://github.com/teletha/reincarnation/commit/9c1893f57fb1cc3cbe2cbf2a571c80f31fe27865))
+
+
+### Bug Fixes
+
+* (javac) can't decompile local class ([efed2a0](https://github.com/teletha/reincarnation/commit/efed2a047799377d91474595d5586547d45a5192))
+* (Javac) Executable#getGenericParameterTypes is broken on local ([6aa3a18](https://github.com/teletha/reincarnation/commit/6aa3a1817413d532cd4639ff04f50097eeaef2d1))
+* (Javac) Executable#getGenericParameterTypes is broken. ([f576a0a](https://github.com/teletha/reincarnation/commit/f576a0a3496258566890fef8bd3dd375776ec364))
+* (javac) optimize immediate yield in switch expression ([6e511e0](https://github.com/teletha/reincarnation/commit/6e511e05b23d889416253c16cb4a95dfe2efaafd))
+* (javac) remove copied finally block correctly ([b1349d0](https://github.com/teletha/reincarnation/commit/b1349d0c876278eb6a199f2281ceb7f1467ff1cc))
+* (javac) remove copied finally nodes correctly ([9fa8a53](https://github.com/teletha/reincarnation/commit/9fa8a53d03168d967f253d32007e21dde3990983))
+* (javac) support string switch expression ([189c3ff](https://github.com/teletha/reincarnation/commit/189c3ff2c85c7be84c07461771c5dc5c63cb3d80))
+* add Node#canReachToAny and #canBeReachedFromAny ([1575ca3](https://github.com/teletha/reincarnation/commit/1575ca3bdb425b19f9c6b6b31f281e12771ee9e3))
+* cross compiler more ([76b362c](https://github.com/teletha/reincarnation/commit/76b362c95b1c74655246d2d25854feb6602ddd70))
+* failed to decompile lambda ([9cebeb7](https://github.com/teletha/reincarnation/commit/9cebeb728d7bd1a162a356c3144f6c5a94dee85a))
+* invalid if condition flow ([e45b3f7](https://github.com/teletha/reincarnation/commit/e45b3f749e67fcc62c1eb1d4d8e4dc16eab392fa))
+* merge conditions correctly ([4b6550b](https://github.com/teletha/reincarnation/commit/4b6550b06789c7243d69579c6d609a7cf01392eb))
+* nested switch expression ([7d236c5](https://github.com/teletha/reincarnation/commit/7d236c53d44c89e81f8055f7784b52bd7334f1f4))
+* test cache the expected result ([18e2153](https://github.com/teletha/reincarnation/commit/18e215394913a7b84ca0ef22c23bcf65d768ab1b))
+
 ## [1.6.0](https://github.com/teletha/reincarnation/compare/v1.5.0...v1.6.0) (2024-04-21)
 
 
