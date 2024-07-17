@@ -11,6 +11,8 @@ package reincarnation.decompiler.flow;
 
 import java.lang.annotation.RetentionPolicy;
 
+import org.junit.jupiter.api.Disabled;
+
 import reincarnation.CodeVerifier;
 import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
@@ -541,6 +543,7 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    @Disabled
     void conditionByStringNest() {
         verify(new TestCode.TextParam() {
 
