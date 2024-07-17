@@ -209,6 +209,20 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "OperandConstructorCall",
+			"packageName": "reincarnation",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "OperandStringSwitch",
+			"packageName": "reincarnation",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "Reincarnation",
 			"packageName": "reincarnation",
 			"type": "Class"
