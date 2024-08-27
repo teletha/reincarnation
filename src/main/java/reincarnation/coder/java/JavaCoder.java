@@ -334,8 +334,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         line();
         writeAnnotation(method);
-        lineNB(modifier(method, method.isDefault()), name(method.getTypeParameters()), name(method.getReturnType()), " ", method
-                .getName(), buildParameter(method, naming(code)), thrower(method.getExceptionTypes()));
+        lineNB(modifier(method, method.isDefault()), name(method.getTypeParameters()), name(method.getGenericReturnType()), " ", method
+                .getName(), buildParameter(method, naming(code)), thrower(method.getGenericExceptionTypes()));
 
         if (Classes.isAbstract(method)) {
             lineNI(";");
@@ -436,7 +436,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param parameters
      * @return
      */
-    private Join thrower(Class[] exceptions) {
+    private Join thrower(Type[] exceptions) {
         return Join.of(exceptions).ignoreEmpty().prefix(space + "throws" + space).separator("," + space).converter(type -> {
             return name(type);
         });

@@ -82,9 +82,10 @@ class Inference {
             // for (int i = 0; i < args.length; i++) {
             // if (args[i] instanceof TypeVariable variable) {
             // GenericDeclaration declaration = variable.getGenericDeclaration();
-            // System.out.println(i + " " + args[i] + " " + parameters
-            // .size() + " " + method + " " + declaration + " " + declaration.getClass());
-            // args[i] = parameters.get(i).type.v;
+            // System.out.println(i + " " + args[i] + " " + parameters.size() + " " + method + " " +
+            // declaration + " " + declaration
+            // .getClass());
+            // // args[i] = parameters.get(i).type.v;
             // }
             // }
             // return parameterized;

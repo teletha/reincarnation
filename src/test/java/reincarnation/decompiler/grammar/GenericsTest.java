@@ -43,6 +43,21 @@ class GenericsTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    void returnParameterizedType() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return data().get(0).length();
+            }
+
+            private List<String> data() {
+                return List.of("test");
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     void constructorParameterizedType() {
         verify(new TestCode.Int() {
 

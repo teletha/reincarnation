@@ -21,10 +21,10 @@ import reincarnation.coder.Coder;
 class OperandCast extends Operand {
 
     /** The actual value to be cast. */
-    final Operand value;
+    private final Operand value;
 
     /** The type to cast to. */
-    final Class type;
+    private final Class type;
 
     /** Whether the cast is necessary or not. */
     private final boolean needCast;
