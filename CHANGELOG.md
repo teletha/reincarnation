@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.8.0](https://github.com/teletha/reincarnation/compare/v1.7.0...v1.8.0) (2024-08-27)
+
+
+### Features
+
+* support declaring TypeVariable in method and constructor ([36f0586](https://github.com/teletha/reincarnation/commit/36f058650751a9dc8a4c148425034ce996182eea))
+* support method reference by TypeVariable ([a495d1b](https://github.com/teletha/reincarnation/commit/a495d1b8f86f3e5ed09fe64a56e622e0aea580c1))
+
 ## [1.7.0](https://github.com/teletha/reincarnation/compare/v1.6.0...v1.7.0) (2024-07-17)
 
 
