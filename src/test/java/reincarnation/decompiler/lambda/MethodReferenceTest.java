@@ -240,4 +240,20 @@ class MethodReferenceTest extends CodeVerifier {
             return "test";
         }
     }
+
+    @CrossDecompilerTest
+    void typeVariable() {
+        verify(new TestCode.Run() {
+
+            @Override
+            public void run() {
+                ToIntFunction<CharSequence> calc = this::length;
+                assert calc.applyAsInt("test") == 4;
+            }
+
+            private <T extends CharSequence> int length(T text) {
+                return text.length();
+            }
+        });
+    }
 }

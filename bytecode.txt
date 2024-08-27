@@ -1,292 +1,322 @@
-java.lang.Error: 
+
 ============================================================
-Javac compiles reincarnation.decompiler.flow.SwitchExpressionTest$30
+ECJ compiles reincarnation.decompiler.grammar.GenericsTest$7
 ============================================================
-/reincarnation/decompiler/flow/SwitchExpressionTest.java:18: ÉGÉâÅ[: returnï∂Ç™éwíËÇ≥ÇÍÇƒÇ¢Ç‹ÇπÇÒ
-        }
-        ^
+/reincarnation/decompiler/grammar/GenericsTest.java:21: ÉGÉâÅ[: ìÒçÄââéZéq'>'ÇÃÉIÉyÉâÉìÉhå^Ç™ïsê≥Ç≈Ç∑
+            if ((Comparable) (one).compareTo(other) > 0) {
+                                                    ^
+  ç≈èâÇÃå^: java.lang.Comparable
+  2î‘ñ⁄ÇÃå^: int
+ÉmÅ[Ég: /reincarnation/decompiler/grammar/GenericsTest.javaÇÃëÄçÏÇÕÅAñ¢É`ÉFÉbÉNÇ‹ÇΩÇÕà¿ëSÇ≈ÇÕÇ†ÇËÇ‹ÇπÇÒÅB
+ÉmÅ[Ég: è⁄ç◊ÇÕÅA-Xlint:uncheckedÉIÉvÉVÉáÉìÇéwíËÇµÇƒçƒÉRÉìÉpÉCÉãÇµÇƒÇ≠ÇæÇ≥Ç¢ÅB
 
 Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
 NullPointerException: Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
-    at reincarnation.CodeVerifier$JavaVerifier.<init>(CodeVerifier.java:379)
-    at reincarnation.CodeVerifier.verify(CodeVerifier.java:182)
-    at reincarnation.decompiler.flow.SwitchExpressionTest.conditionByStringNest(SwitchExpressionTest.java:545)
+    at reincarnation.CodeVerifier$JavaVerifier.<init>(CodeVerifier.java:381)
+    at reincarnation.CodeVerifier.verify(CodeVerifier.java:184)
+    at reincarnation.decompiler.grammar.GenericsTest.intersection(GenericsTest.java:123)
     at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
     at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-    at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:728)
+    at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:766)
     at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
     at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
     at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+    at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+    at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestTemplateMethod(TimeoutExtension.java:94)
+    at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+    at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+    at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+    at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+    at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
 
 ============================================================
 Original Code
 ============================================================
-void conditionByStringNest() {
-        verify(new TestCode.TextParam() {
+@Debuggable
+    void intersection() {
+        verify(new TestCode.Run() {
 
             @Override
-            public String run(@Param(strings = {"aa", "ab", "ac", "ba", "bb"}) String param) {
-                return switch (param.substring(0, 1)) {
-                case "a" -> switch (param.substring(1, 2)) {
-                case "a" -> "AA";
-                case "b" -> "AB";
-                default -> "AC";
-                };
+            public void run() {
+                assert size("test", "total") == 4;
+            }
 
-                default -> param;
-                };
+            private <T extends CharSequence & Comparable> int size(T one, T other) {
+                if (one.compareTo(other) <= 0) {
+                    return one.length();
+                } else {
+                    return other.length();
+                }
             }
         });
     }
-}
 ============================================================
 Decompiled Code
 ============================================================
-01    package reincarnation.decompiler.flow;
+01    package reincarnation.decompiler.grammar;
 02    
 03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.Param;
-05    import reincarnation.TestCode.TextParam;
-06    import reincarnation.decompiler.flow.SwitchExpressionTest;
-07    
-08    class SwitchExpressionTest extends CodeVerifier {
-09    
-10        class SwitchExpressionTest$30 implements TextParam {
+04    import reincarnation.TestCode.Run;
+05    import reincarnation.decompiler.grammar.GenericsTest;
+06    
+07    class GenericsTest extends CodeVerifier {
+08    
+09        class GenericsTest$7 implements Run {
+10            final GenericsTest this$0;
 11    
-12            SwitchExpressionTest$30(final SwitchExpressionTest this$0) {
-13            }
-14    
-15            public String run(@Param(strings = {"aa", "ab", "ac", "ba", "bb"}) String param) {
-16                switch (param.substring(0, 1)) {
-17                }
+12            GenericsTest$7(GenericsTest arg0) {
+13                this.this$0 = arg0;
+14            }
+15    
+16            public void run() {
+17                assert this.size("test", "total") == 4;
 18            }
-19        }
-20    }
+19    
+20            private <T extends CharSequence & Comparable> int size(T one, T other) {
+21                if ((Comparable) (one).compareTo(other) > 0) {
+22                    return other.length();
+23                } else {
+24                    return one.length();
+25                }
+26            }
+27        }
+28    }
 ============================================================
 Decompiling Log
 ============================================================
-//----------------------- SwitchExpressionTest#conditionByStringNest (SwitchExpressionTest.java:544) -----------------------//
-Method conditionByStringNest() (SwitchExpressionTest.java:545)
+//----------------------------------- GenericsTest#intersection (GenericsTest.java:122) -----------------------------------//
+[38;5;21mMethod intersection()[0m (GenericsTest.java:123)
+0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: this.this$0 = arg0 [Assign#GenericsTest] java.lang.Object() [ConstructorCall] return null [Return - null]
+1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
+
+Delete tail empty return (show full nodes)
+[38;5;9m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#GenericsTest] java.lang.Object() [ConstructorCall] return null [Return - null]
+[0m
+[38;5;78m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#GenericsTest] java.lang.Object() [ConstructorCall]
+[0m
+
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#GenericsTest] java.lang.Object() [ConstructorCall]
+
+//----------------------------------- GenericsTest#intersection (GenericsTest.java:126) -----------------------------------//
+[38;5;21mMethod intersection()[0m (GenericsTest.java:128)
+0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]	code: assert if (this.size("test","total") 4) then 1 else SAME [Assert]
+1	in[0]	out[]	dom[0]	doms[]	side[0,2]	dest[T]	code: return null [Return - null]
+2	in[]	out[]	dom[]	doms[]	side[1, ]	dest[]	code: 
+
+Delete tail empty return (show full nodes)
+[38;5;9m0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: assert if (this.size("test","total") 4) then 1 else SAME [Assert]
+1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: return null [Return - null]
+[0m
+[38;5;78m0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: assert if (this.size("test","total") 4) then 1 else SAME [Assert]
+1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: 
+[0m
+
+0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: assert if (this.size("test","total") 4) then 1 else SAME [Assert]
+1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: 
+
+//----------------------------------- GenericsTest#intersection (GenericsTest.java:130) -----------------------------------//
+[38;5;21mMethod intersection()[0m (GenericsTest.java:134)
+0	in[]	out[1,2]	dom[]	doms[]	side[ ,2]	dest[2]	code: if ((Comparable) (Comparable) one.compareTo(other) 0) then 1 else 2 [Condition then 1 else 2]
+2	in[0]	out[]		dom[0]	doms[]	side[0,1]	dest[T]	code: return one.length() [Return#int - MethodCall#int]
+1	in[0]	out[]		dom[0]	doms[]	side[2,3]	dest[T]	code: return other.length() [Return#int - MethodCall#int]
+3	in[]	out[]		dom[]	doms[]	side[1, ]	dest[]	code: 
+
+0	in[]	out[1,2]	dom[]	doms[2,1]	side[ ,2]	dest[2]	code: if ((Comparable) (Comparable) one.compareTo(other) 0) then 1 else 2 [Condition then 1 else 2]
+2	in[0]	out[]		dom[0]	doms[]		side[0,1]	dest[T]	code: return one.length() [Return#int - MethodCall#int]
+1	in[0]	out[]		dom[0]	doms[]		side[2, ]	dest[T]	code: return other.length() [Return#int - MethodCall#int]
+
+
+============================================================
+
+WARNING: A Java agent has been loaded dynamically (C:\Users\minam\AppData\Local\Temp\antibug12990346659633935007agent.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+
+============================================================
+Javac compiles reincarnation.decompiler.grammar.GenericsTest$7
+============================================================
+Original Code
+============================================================
+@Debuggable
+    void intersection() {
+        verify(new TestCode.Run() {
+
+            @Override
+            public void run() {
+                assert size("test", "total") == 4;
+            }
+
+            private <T extends CharSequence & Comparable> int size(T one, T other) {
+                if (one.compareTo(other) <= 0) {
+                    return one.length();
+                } else {
+                    return other.length();
+                }
+            }
+        });
+    }
+============================================================
+Decompiled Code
+============================================================
+01    package reincarnation.decompiler.grammar;
+02    
+03    import reincarnation.CodeVerifier;
+04    import reincarnation.TestCode.Run;
+05    import reincarnation.decompiler.grammar.GenericsTest;
+06    
+07    class GenericsTest extends CodeVerifier {
+08    
+09        class GenericsTest$7 implements Run {
+10    
+11            static {
+12            }
+13    
+14            GenericsTest$7(final GenericsTest this$0) {
+15            }
+16    
+17            public void run() {
+18                assert this.size("test", "total") == 4;
+19            }
+20    
+21            private <T extends CharSequence & Comparable> int size(T one, T other) {
+22                if (((Comparable) (one)).compareTo(other) > 0) {
+23                    return other.length();
+24                } else {
+25                    return one.length();
+26                }
+27            }
+28        }
+29    }
+============================================================
+Decompiling Log
+============================================================
+//----------------------------------- GenericsTest#intersection (GenericsTest.java:122) -----------------------------------//
+[38;5;21mMethod intersection()[0m (GenericsTest.java:123)
 0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
 1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 
 Delete tail empty return (show full nodes)
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
+[38;5;9m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
+[0m
+[38;5;78m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
+[0m
 
 0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
 
+//----------------------------------- GenericsTest#intersection (GenericsTest.java:126) -----------------------------------//
+[38;5;21mMethod intersection()[0m (GenericsTest.java:128)
+0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]	code: assert if (this.size("test","total") 4) then 1 else SAME [Assert]
+1	in[0]	out[]	dom[0]	doms[]	side[0,2]	dest[T]	code: return null [Return - null]
+2	in[]	out[]	dom[]	doms[]	side[1, ]	dest[]	code: 
 
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
+Delete tail empty return (show full nodes)
+[38;5;9m0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: assert if (this.size("test","total") 4) then 1 else SAME [Assert]
+1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: return null [Return - null]
+[0m
+[38;5;78m0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: assert if (this.size("test","total") 4) then 1 else SAME [Assert]
+1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: 
+[0m
 
-//----------------------- SwitchExpressionTest#conditionByStringNest (SwitchExpressionTest.java:548) -----------------------//
-isOther
-isOther
-is not value 2  on  0  3   [2]
-isOther
-is not value 3  on  0  5   [3]
-isOther
-is not value 3  on  0  6   [3]
-isOther
-is not value 3  on  0  7   [3, 6, 5]
-is not value 7  on  3  8   [7]
-is not value 7  on  0  8   [7]
-is not value 7  on  3  9   [7]
-is not value 7  on  0  9   [7]
-is not value 7  on  3  10   [7]
-is not value 7  on  0  10   [7]
-Method conditionByStringNest() (SwitchExpressionTest.java:553)
-3	in[2]		out[7,5,6]	dom[2]	doms[]	side[2,5]	dest[5]		code: local4 = arg0.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (arg0.substring(1,2)) [Switch]
-5	in[3]		out[7]		dom[3]	doms[]	side[3,6]	dest[7]		code: if (local4.equals("a") 0) then 7 else SAME [Condition then 7 else SAME] local5 = 0 [Assign]
-6	in[3]		out[7]		dom[3]	doms[]	side[5,7]	dest[7]		code: if (local4.equals("b") 0) then 7 else SAME [Condition then 7 else SAME] local5 = 1 [Assign]
-7	in[3,5,6]	out[10,8,9]	dom[3]	doms[]	side[6,8]	dest[8]		code: switch (local5) [Switch]
-8	in[7]		out[11]		dom[7]	doms[]	side[7,9]	dest[11]	code: "AA" [String]
-9	in[7]		out[11]		dom[7]	doms[]	side[8,10]	dest[11]	code: "AB" [String]
-10	in[7]		out[11]		dom[7]	doms[]	side[9,11]	dest[11]	code: "AC" [String]
+0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: assert if (this.size("test","total") 4) then 1 else SAME [Assert]
+1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: 
 
-3    [5, 6]   switch(String arg0.substring(1, 2)){ case:[#7, 5, 6] follow:none}
-Analyze switch [Range 3 - 10] (show full nodes)
-3	in[2]			out[7,5,6]	dom[2]	doms[5,6,7]		side[2,5]	dest[5]		code: local4 = arg0.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (arg0.substring(1,2)) [Switch]
-5	in[3]			out[7,A]	dom[3]	doms[]			side[3,A]	dest[7]		code: if (local4.equals("a") 0) then 7 else SAME [Condition then 7 else SAME]
-6	in[3]			out[7,B]	dom[3]	doms[]			side[A,B]	dest[7]		code: if (local4.equals("b") 0) then 7 else SAME [Condition then 7 else SAME]
-7	in[3,5,6,A,B]	out[10,8,9]	dom[]	doms[8,9,10]	side[B,8]	dest[8]		code: switch (local5) [Switch]
-8	in[7]			out[11]		dom[7]	doms[]			side[7,9]	dest[11]	code: "AA" [String]
-9	in[7]			out[11]		dom[7]	doms[]			side[8,10]	dest[11]	code: "AB" [String]
-10	in[7]			out[11]		dom[7]	doms[]			side[9,11]	dest[11]	code: "AC" [String]
+//----------------------------------- GenericsTest#intersection (GenericsTest.java:130) -----------------------------------//
+[38;5;21mMethod intersection()[0m (GenericsTest.java:134)
+0	in[]	out[1,2]	dom[]	doms[]	side[ ,2]	dest[2]	code: if ((Comparable) one.compareTo(other) 0) then 1 else 2 [Condition then 1 else 2]
+2	in[0]	out[]		dom[0]	doms[]	side[0,1]	dest[T]	code: return one.length() [Return#int - MethodCall#int]
+1	in[0]	out[]		dom[0]	doms[]	side[2,3]	dest[T]	code: return other.length() [Return#int - MethodCall#int]
+3	in[]	out[]		dom[]	doms[]	side[1, ]	dest[]	code: 
 
-3	in[]		out[A,B,10,8,9]	dom[]	doms[5,6,7]		side[2,A]	dest[8]		code: local4 = arg0.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (arg0.substring(1,2)) [Switch#String]
-5	in[]		out[]			dom[]	doms[]			side[3,A]	dest[7]		code: 
-6	in[]		out[]			dom[]	doms[]			side[A,B]	dest[7]		code: 
-7	in[]		out[]			dom[]	doms[8,9,10]	side[B,8]	dest[8]		code: 
-8	in[3,A,B]	out[]			dom[3]	doms[]			side[B,9]	dest[11]	code: yield "AA" [Yield#String - "AA"]
-9	in[3,A,B]	out[]			dom[3]	doms[]			side[8,10]	dest[11]	code: yield "AB" [Yield#String - "AB"]
-10	in[3,A,B]	out[]			dom[3]	doms[]			side[9,11]	dest[11]	code: yield "AC" [Yield#String - "AC"]
+0	in[]	out[1,2]	dom[]	doms[2,1]	side[ ,2]	dest[2]	code: if ((Comparable) one.compareTo(other) 0) then 1 else 2 [Condition then 1 else 2]
+2	in[0]	out[]		dom[0]	doms[]		side[0,1]	dest[T]	code: return one.length() [Return#int - MethodCall#int]
+1	in[0]	out[]		dom[0]	doms[]		side[2, ]	dest[T]	code: return other.length() [Return#int - MethodCall#int]
 
+//----------------------------------- GenericsTest#intersection (GenericsTest.java:130) -----------------------------------//
+Handle ternary operator (show full nodes)
+[38;5;9m0	in[]	out[1,2]	dom[]	doms[]	side[ ,1]	dest[2]	code: if (GenericsTest.class.desiredAssertionStatus() 0) then 1 else 2 [Condition then 1 else 2] 1 [Number]
+1	in[0]	out[2]		dom[0]	doms[]	side[0,2]	dest[2]	code: 0 [Number]
+2	in[0,1]	out[]		dom[0]	doms[]	side[1, ]	dest[]	code: 
+[0m
+[38;5;78m0	in[]	out[2]	dom[]	doms[]	side[ ,2]	dest[2]	code: if (GenericsTest.class.desiredAssertionStatus() 0) then 1 else 2? 1 : 0 [AmbiguousZeroOneTernary]
+2	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[]	code: 
+[0m
 
-3	in[]		out[A,B,10,8,9]	dom[]	doms[5,6,7]		side[2,A]	dest[8]		code: local4 = arg0.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (arg0.substring(1,2)) [Switch#String]
-5	in[]		out[]			dom[]	doms[]			side[3,A]	dest[7]		code: 
-6	in[]		out[]			dom[]	doms[]			side[A,B]	dest[7]		code: 
-7	in[]		out[]			dom[]	doms[8,9,10]	side[B,8]	dest[8]		code: 
-8	in[3,A,B]	out[]			dom[3]	doms[]			side[B,9]	dest[11]	code: yield "AA" [Yield#String - "AA"]
-9	in[3,A,B]	out[]			dom[3]	doms[]			side[8,10]	dest[11]	code: yield "AB" [Yield#String - "AB"]
-10	in[3,A,B]	out[]			dom[3]	doms[]			side[9,11]	dest[11]	code: yield "AC" [Yield#String - "AC"]
+[38;5;21mMethod intersection()[0m (GenericsTest.java:123)
+0	in[]	out[2]	dom[]	doms[]	side[ ,2]	dest[2]	code: 
+2	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: return null [Return - null]
 
-Convert to switch expression [Range 3 - 10] (show full nodes)
-0	in[]		out[2,1]	dom[]	doms[]	side[ ,1]	dest[1]		code: local2 = arg0.substring(0,1) [Assign#String] local3 = -1 [Assign] switch (arg0.substring(0,1)) [Switch]
-1	in[0]		out[2]		dom[0]	doms[]	side[0,2]	dest[2]		code: if (local2.equals("a") 0) then 2 else SAME [Condition then 2 else SAME] local3 = 0 [Assign]
-2	in[0,1]		out[4,3]	dom[0]	doms[]	side[1,3]	dest[3]		code: switch (local3) [Switch]
-3	in[2]		out[7,5,6]	dom[2]	doms[]	side[2,5]	dest[5]		code: local4 = arg0.substring(1,2) [Assign#String] local5 = -1 [Assign] switch (arg0.substring(1,2)) [Switch]
-5	in[3]		out[7]		dom[3]	doms[]	side[3,6]	dest[7]		code: if (local4.equals("a") 0) then 7 else SAME [Condition then 7 else SAME] local5 = 0 [Assign]
-6	in[3]		out[7]		dom[3]	doms[]	side[5,7]	dest[7]		code: if (local4.equals("b") 0) then 7 else SAME [Condition then 7 else SAME] local5 = 1 [Assign]
-7	in[3,5,6]	out[10,8,9]	dom[3]	doms[]	side[6,8]	dest[8]		code: switch (local5) [Switch]
-8	in[7]		out[11]		dom[7]	doms[]	side[7,9]	dest[11]	code: "AA" [String]
-9	in[7]		out[11]		dom[7]	doms[]	side[8,10]	dest[11]	code: "AB" [String]
-10	in[7]		out[11]		dom[7]	doms[]	side[9,11]	dest[11]	code: "AC" [String]
-11	in[8,9,10]	out[]		dom[]	doms[]	side[10, ]	dest[]		code: 
+Delete tail empty return (show full nodes)
+[38;5;9m0	in[]	out[2]	dom[]	doms[2]	side[ ,2]	dest[2]	code: 
+2	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: return null [Return - null]
+[0m
+[38;5;78m0	in[]	out[2]	dom[]	doms[2]	side[ ,2]	dest[2]	code: 
+2	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: 
+[0m
 
-0	in[]	out[2,1]	dom[]	doms[]		side[ ,1]	dest[1]	code: local2 = arg0.substring(0,1) [Assign#String] local3 = -1 [Assign] switch (arg0.substring(0,1)) [Switch]
-1	in[0]	out[2]		dom[0]	doms[]		side[0,2]	dest[2]	code: if (local2.equals("a") 0) then 2 else SAME [Condition then 2 else SAME] local3 = 0 [Assign]
-2	in[0,1]	out[4,11,3]	dom[0]	doms[3]		side[1,3]	dest[3]	code: switch (local3) [Switch]
-3	in[2]	out[11]		dom[2]	doms[5,6,7]	side[2,11]	dest[8]	code: local4 = arg0.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (arg0.substring(1,2)) [Switch#String]
-A	in[]	out[10,8,9]	dom[]	doms[]		side[3,B]	dest[]	code: local5 = 0 [Assign]
-B	in[]	out[10,8,9]	dom[]	doms[]		side[A,8]	dest[]	code: local5 = 1 [Assign]
-11	in[2,3]	out[]		dom[2]	doms[]		side[3, ]	dest[]	code: 
-
-
-is not value 2  on  0  11   [3, 2]
-is not value 2  on  0  4   [2]
-is not value 2  on  0  12   [3, 2, 4]
-Method conditionByStringNest() (SwitchExpressionTest.java:549)
-0	in[]		out[2,1]	dom[]	doms[]		side[ ,1]	dest[1]		code: local2 = param.substring(0,1) [Assign#String] local3 = -1 [Assign] switch (param.substring(0,1)) [Switch]
-1	in[0]		out[2]		dom[0]	doms[]		side[0,2]	dest[2]		code: if (local2.equals("a") 0) then 2 else SAME [Condition then 2 else SAME] local3 = 0 [Assign]
-2	in[0,1]		out[4,11,3]	dom[0]	doms[3]		side[1,3]	dest[3]		code: switch (local3) [Switch]
-3	in[2]		out[11]		dom[2]	doms[5,6,7]	side[2,11]	dest[8]		code: local4 = param.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (param.substring(1,2)) [Switch#String]
-A	in[]		out[10,8,9]	dom[]	doms[]		side[3,B]	dest[]		code: local5 = 0 [Assign]
-B	in[]		out[10,8,9]	dom[]	doms[]		side[A,8]	dest[]		code: local5 = 1 [Assign]
-11	in[2,3]		out[12]		dom[2]	doms[]		side[3,4]	dest[12]	code: 
-4	in[2]		out[12]		dom[2]	doms[]		side[11,12]	dest[12]	code: 
-12	in[11,4]	out[]		dom[]	doms[]		side[4,13]	dest[T]		code: return param [Return#String - LocalVariable#String]
-13	in[]		out[]		dom[]	doms[]		side[12, ]	dest[]		code: 
-
-0    [1]   switch(String param.substring(0, 1)){ case:[#2, 1] follow:none}
-Analyze switch [Range 0 - 12] (show full nodes)
-0	in[]		out[2,1]		dom[]	doms[1,2]	side[ ,1]	dest[1]		code: local2 = param.substring(0,1) [Assign#String] local3 = -1 [Assign] switch (param.substring(0,1)) [Switch]
-1	in[0]		out[2,C]		dom[0]	doms[C]		side[0,C]	dest[2]		code: if (local2.equals("a") 0) then 2 else SAME [Condition then 2 else SAME]
-C	in[1]		out[2]			dom[1]	doms[]		side[1,2]	dest[]		code: local3 = 0 [Assign]
-2	in[0,1,C]	out[11,3,12]	dom[]	doms[3,12]	side[C,3]	dest[3]		code: switch (local3) [Switch]
-3	in[2]		out[11]			dom[2]	doms[5,6,7]	side[2,11]	dest[8]		code: local4 = param.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (param.substring(1,2)) [Switch#String]
-A	in[]		out[10,8,9]		dom[]	doms[]		side[3,B]	dest[]		code: local5 = 0 [Assign]
-B	in[]		out[10,8,9]		dom[]	doms[]		side[A,8]	dest[]		code: local5 = 1 [Assign]
-11	in[2,3]		out[12]			dom[2]	doms[]		side[3,12]	dest[12]	code: 
-12	in[11,2]	out[]			dom[2]	doms[]		side[11, ]	dest[T]		code: return param [Return#String - LocalVariable#String]
-
-0	in[]		out[C,11,3,12]	dom[]	doms[1,2]	side[ ,C]	dest[3]		code: local2 = param.substring(0,1) [Assign#String] local3 = -1 [Assign] switch (param.substring(0,1)) [Switch]
-C	in[0]		out[11,3,12]	dom[0]	doms[]		side[0,3]	dest[]		code: local3 = 0 [Assign]
-3	in[0,C]		out[11]			dom[0]	doms[5,6,7]	side[C,11]	dest[8]		code: local4 = param.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (param.substring(1,2)) [Switch#String]
-A	in[]		out[10,8,9]		dom[]	doms[]		side[3,B]	dest[]		code: local5 = 0 [Assign]
-B	in[]		out[10,8,9]		dom[]	doms[]		side[A,8]	dest[]		code: local5 = 1 [Assign]
-11	in[3,0,C]	out[D]			dom[]	doms[]		side[3,D]	dest[12]	code: 
-D	in[11]		out[E]			dom[11]	doms[]		side[11,E]	dest[12]	code: 
-E	in[D]		out[12]			dom[D]	doms[]		side[D,12]	dest[12]	code: 
-12	in[0,C,E]	out[]			dom[]	doms[]		side[E, ]	dest[T]		code: return param [Return#String - LocalVariable#String]
-
-
-0	in[]		out[C,11,3,12]	dom[]	doms[1,2]	side[ ,C]	dest[3]		code: local2 = param.substring(0,1) [Assign#String] local3 = -1 [Assign] switch (param.substring(0,1)) [Switch]
-C	in[0]		out[11,3,12]	dom[0]	doms[]		side[0,3]	dest[]		code: local3 = 0 [Assign]
-3	in[0,C]		out[11]			dom[0]	doms[5,6,7]	side[C,11]	dest[8]		code: local4 = param.substring(1,2) [Assign#String] local5 = -1 [Assign] switch-expression (param.substring(1,2)) [Switch#String]
-A	in[]		out[10,8,9]		dom[]	doms[]		side[3,B]	dest[]		code: local5 = 0 [Assign]
-B	in[]		out[10,8,9]		dom[]	doms[]		side[A,8]	dest[]		code: local5 = 1 [Assign]
-11	in[3,0,C]	out[D]			dom[]	doms[]		side[3,D]	dest[12]	code: 
-D	in[11]		out[E]			dom[11]	doms[]		side[11,E]	dest[12]	code: 
-E	in[D]		out[12]			dom[D]	doms[]		side[D,12]	dest[12]	code: 
-12	in[0,C,E]	out[]			dom[]	doms[]		side[E, ]	dest[T]		code: return param [Return#String - LocalVariable#String]
+0	in[]	out[2]	dom[]	doms[2]	side[ ,2]	dest[2]	code: 
+2	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: 
 
 
 ============================================================
-Bytecode Diff -  reincarnation.decompiler.flow.SwitchExpressionTest$30
+Bytecode Diff -  reincarnation.decompiler.grammar.GenericsTest$7
 ============================================================
-ECJ																					Javac
-visitMethod(ACC_PUBLIC, "run", "(Lj.l.String;)Lj.l.String;", null, null);			visitMethod(ACC_PUBLIC, "run", "(Lj.l.String;)Lj.l.String;", null, null);
-AnnotableParameterCount(1, true);													AnnotableParameterCount(1, true);
-Label(L0);																			Label(L0);
-VarInsn(ALOAD, 1);																	VarInsn(ALOAD, 1);
-Insn(ICONST_0);																		Insn(ICONST_0);
-Insn(ICONST_1);																		Insn(ICONST_1);
-MethodInsn(INVOKEVIRTUAL, "j.l.String", "substring", "(II)Lj.l.String;", false);	MethodInsn(INVOKEVIRTUAL, "j.l.String", "substring", "(II)Lj.l.String;", false);
-~Insn(DUP);~																		
-VarInsn(ASTORE, 2);																	VarInsn(ASTORE, 2);
-																					+Insn(ICONST_M1);+
-																					+VarInsn(ISTORE, 3);+
-																					+VarInsn(ALOAD, 2);+
-MethodInsn(INVOKEVIRTUAL, "j.l.String", "hashCode", "()I", false);					MethodInsn(INVOKEVIRTUAL, "j.l.String", "hashCode", "()I", false);
-LookupSwitchInsn(L2, new int[] { 97 }, new Label[] { L1 });							LookupSwitchInsn(L2, new int[] { 97 }, new Label[] { L1 });
-Label(L1);																			Label(L1);
-Frame(F_APPEND,~1~, new Object[] {"j.l.String"}, 0, null);							Frame(F_APPEND,+2+, new Object[] {"j.l.String"+, INTEGER+}, 0, null);
-VarInsn(ALOAD, 2);																	VarInsn(ALOAD, 2);
-LdcInsn("a");																		LdcInsn("a");
-MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);		MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);
-JumpInsn(~IFNE~, ~L3~);																JumpInsn(+IFEQ+, +L2+);
-~JumpInsn~(~GOTO, L2~);																+Insn+(+ICONST_0+);
-																					+VarInsn(ISTORE, 3);+
-																					+Label(L2);+
-																					+Frame(F_SAME, 0, null, 0, null);+
-																					+VarInsn(ILOAD, 3);+
-																					+LookupSwitchInsn(L4, new int[] { 0 }, new Label[] { L3 });+
-Label(L3);																			Label(L3);
-Frame(F_SAME, 0, null, 0, null);													Frame(F_SAME, 0, null, 0, null);
-VarInsn(ALOAD, 1);																	VarInsn(ALOAD, 1);
-Insn(ICONST_1);																		Insn(ICONST_1);
-Insn(ICONST_2);																		Insn(ICONST_2);
-MethodInsn(INVOKEVIRTUAL, "j.l.String", "substring", "(II)Lj.l.String;", false);	MethodInsn(INVOKEVIRTUAL, "j.l.String", "substring", "(II)Lj.l.String;", false);
-~Insn(DUP);~																		VarInsn(ASTORE, +4+);
-VarInsn(ASTORE, ~3~);																+Insn(ICONST_M1);+
-																					+VarInsn(ISTORE, 5);+
-																					+VarInsn(ALOAD, 4);+
-MethodInsn(INVOKEVIRTUAL, "j.l.String", "hashCode", "()I", false);					MethodInsn(INVOKEVIRTUAL, "j.l.String", "hashCode", "()I", false);
-LookupSwitchInsn(~L6~, new int[] { 97, 98 }, new Label[] { ~L4~, ~L5~ });			LookupSwitchInsn(+L7+, new int[] { 97, 98 }, new Label[] { +L5+, +L6+ });
-Label(~L4~);																		Label(+L5+);
-Frame(F_APPEND,~1~, new Object[] {"j.l.String"}, 0, null);							Frame(F_APPEND,+2+, new Object[] {"j.l.String"+, INTEGER+}, 0, null);
-VarInsn(ALOAD, ~3~);																VarInsn(ALOAD, +4+);
-LdcInsn("a");																		LdcInsn("a");
-MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);		MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);
-JumpInsn(~IFNE~, L7);																JumpInsn(+IFEQ+, L7);
-~JumpInsn~(~GOTO, L6~);																+Insn+(+ICONST_0+);
-~Label~(~L5~);																		+VarInsn+(+ISTORE, 5+);
-																					+JumpInsn(GOTO, L7);+
-																					+Label(L6);+
-Frame(F_SAME, 0, null, 0, null);													Frame(F_SAME, 0, null, 0, null);
-VarInsn(ALOAD, ~3~);																VarInsn(ALOAD, +4+);
-LdcInsn("b");																		LdcInsn("b");
-MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);		MethodInsn(INVOKEVIRTUAL, "j.l.String", "equals", "(Lj.l.Object;)Z", false);
-JumpInsn(~IFNE~, ~L8~);																JumpInsn(+IFEQ+, +L7+);
-~JumpInsn~(~GOTO, L6~);																+Insn+(+ICONST_1+);
-																					+VarInsn(ISTORE, 5);+
-Label(L7);																			Label(L7);
-Frame(F_SAME, 0, null, 0, null);													Frame(F_SAME, 0, null, 0, null);
-~LdcInsn~(~"AA"~);																	+VarInsn+(+ILOAD, 5+);
-~JumpInsn~(~GOTO~, L9);																+LookupSwitchInsn+(+L10+, +new int[] { 0, 1 }, new Label[] { L8, +L9+ }+);
-Label(L8);																			Label(L8);
-Frame(F_SAME, 0, null, 0, null);													Frame(F_SAME, 0, null, 0, null);
-																					+LdcInsn("AA");+
-																					+JumpInsn(GOTO, L11);+
-																					+Label(L9);+
-																					+Frame(F_SAME, 0, null, 0, null);+
-LdcInsn("AB");																		LdcInsn("AB");
-JumpInsn(GOTO, ~L9~);																JumpInsn(GOTO, +L11+);
-Label(~L6~);																		Label(+L10+);
-Frame(F_SAME, 0, null, 0, null);													Frame(F_SAME, 0, null, 0, null);
-LdcInsn("AC");																		LdcInsn("AC");
-Label(~L10~);																		Label(+L11+);
-~JumpInsn~(~GOTO~, ~L9);~															+Frame+(+F_FULL+, +4,+ +new Object[] {"String"}+);
-~Label(L2~);																		+JumpInsn+(+GOTO+, +L12);+
-~Frame~(~F_CHOP~,~1,~ ~null,~ ~0, null~);											+Label(L4+);
-																					+Frame(F_SAME, 0, null, 0, null);+
-VarInsn(ALOAD, 1);																	VarInsn(ALOAD, 1);
-Label(~L9~);																		Label(+L12+);
-Frame(F_FULL, 2, new Object[] {"String"});											Frame(F_FULL, 2, new Object[] {"String"});
-Insn(ARETURN);																		Insn(ARETURN);
-Label(~L11~);																		Label(+L13+);
-LocalVariable("this", "LSwitchExpressionTest$30;", null, L0, ~L11~, 0);				LocalVariable("this", "LSwitchExpressionTest$30;", null, L0, +L13+, 0);
-LocalVariable("param", "Lj.l.String;", null, L0, ~L11~, 1);							LocalVariable("param", "Lj.l.String;", null, L0, +L13+, 1);
+ECJ																																				Javac
+visitMethod(ACC_PUBLIC, "run", "()V", null, null);																								visitMethod(ACC_PUBLIC, "run", "()V", null, null);
+Label(L0);																																		Label(L0);
+FieldInsn(GETSTATIC, ~"GenericsTest"~, "$assertionsDisabled", "Z");																				FieldInsn(GETSTATIC, +"GenericsTest$7"+, "$assertionsDisabled", "Z");
+JumpInsn(IFNE, L1);																																JumpInsn(IFNE, L1);
+VarInsn(ALOAD, 0);																																VarInsn(ALOAD, 0);
+LdcInsn("test");																																LdcInsn("test");
+LdcInsn("total");																																LdcInsn("total");
+MethodInsn(INVOKEVIRTUAL, "CharSequence;)I", false);																							MethodInsn(INVOKEVIRTUAL, "CharSequence;)I", false);
+Insn(ICONST_4);																																	Insn(ICONST_4);
+JumpInsn(IF_ICMPEQ, L1);																														JumpInsn(IF_ICMPEQ, L1);
+TypeInsn(NEW, "j.l.AssertionError");																											TypeInsn(NEW, "j.l.AssertionError");
+Insn(DUP);																																		Insn(DUP);
+MethodInsn(INVOKESPECIAL, "j.l.AssertionError", "&lt;init&gt;", "()V", false);																	MethodInsn(INVOKESPECIAL, "j.l.AssertionError", "&lt;init&gt;", "()V", false);
+Insn(ATHROW);																																	Insn(ATHROW);
+Label(L1);																																		Label(L1);
+Frame(F_SAME, 0, null, 0, null);																												Frame(F_SAME, 0, null, 0, null);
+Insn(RETURN);																																	Insn(RETURN);
+Label(L2);																																		Label(L2);
+LocalVariable("this", "LGenericsTest$7;", null, L0, L2, 0);																						LocalVariable("this", "LGenericsTest$7;", null, L0, L2, 0);
+																																				
+visitMethod(ACC_PRIVATE, "size", "(Lj.l.CharSequence;Lj.l.CharSequence;)I", "&lt;T::Lj.l.CharSequence;:Lj.l.Comparable;&gt;(TT;TT;)I", null);	visitMethod(ACC_PRIVATE, "size", "(Lj.l.CharSequence;Lj.l.CharSequence;)I", "&lt;T::Lj.l.CharSequence;:Lj.l.Comparable;&gt;(TT;TT;)I", null);
+Label(L0);																																		Label(L0);
+VarInsn(ALOAD, 1);																																VarInsn(ALOAD, 1);
+TypeInsn(CHECKCAST, "j.l.Comparable");																											TypeInsn(CHECKCAST, "j.l.Comparable");
+~TypeInsn(CHECKCAST, "j.l.Comparable");~																										
+VarInsn(ALOAD, 2);																																VarInsn(ALOAD, 2);
+MethodInsn(INVOKEINTERFACE, "j.l.Comparable", "compareTo", "(Lj.l.Object;)I", true);															MethodInsn(INVOKEINTERFACE, "j.l.Comparable", "compareTo", "(Lj.l.Object;)I", true);
+JumpInsn(IFGT, L1);																																JumpInsn(IFGT, L1);
+Label(L2);																																		Label(L2);
+VarInsn(ALOAD, 1);																																VarInsn(ALOAD, 1);
+MethodInsn(INVOKEINTERFACE, "j.l.CharSequence", "length", "()I", true);																			MethodInsn(INVOKEINTERFACE, "j.l.CharSequence", "length", "()I", true);
+Insn(IRETURN);																																	Insn(IRETURN);
+Label(L1);																																		Label(L1);
+Frame(F_SAME, 0, null, 0, null);																												Frame(F_SAME, 0, null, 0, null);
+VarInsn(ALOAD, 2);																																VarInsn(ALOAD, 2);
+MethodInsn(INVOKEINTERFACE, "j.l.CharSequence", "length", "()I", true);																			MethodInsn(INVOKEINTERFACE, "j.l.CharSequence", "length", "()I", true);
+Insn(IRETURN);																																	Insn(IRETURN);
+Label(L3);																																		Label(L3);
+LocalVariable("this", "LGenericsTest$7;", null, L0, L3, 0);																						LocalVariable("this", "LGenericsTest$7;", null, L0, L3, 0);
+LocalVariable("one", "Lj.l.CharSequence;", "TT;", L0, L3, 1);																					LocalVariable("one", "Lj.l.CharSequence;", "TT;", L0, L3, 1);
+LocalVariable("other", "Lj.l.CharSequence;", "TT;", L0, L3, 2);																					LocalVariable("other", "Lj.l.CharSequence;", "TT;", L0, L3, 2);
+																																				++
+																																				+visitMethod(ACC_STATIC, "&lt;clinit&gt;", "()V", null, null);+
+																																				+Label(L0);+
+																																				+LdcInsn(Type.getType("LGenericsTest;"));+
+																																				+MethodInsn(INVOKEVIRTUAL, "j.l.Class", "desiredAssertionStatus", "()Z", false);+
+																																				+JumpInsn(IFNE, L1);+
+																																				+Insn(ICONST_1);+
+																																				+JumpInsn(GOTO, L2);+
+																																				+Label(L1);+
+																																				+Frame(F_SAME, 0, null, 0, null);+
+																																				+Insn(ICONST_0);+
+																																				+Label(L2);+
+																																				+Frame(F_SAME1, 0, null, 1, new Object[] {INTEGER});+
+																																				+FieldInsn(PUTSTATIC, "GenericsTest$7", "$assertionsDisabled", "Z");+
+																																				+Insn(RETURN);+
 ============================================================
-
 

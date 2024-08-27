@@ -9,6 +9,7 @@
  */
 package reincarnation.decompiler.grammar;
 
+import java.io.Serializable;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -27,7 +28,7 @@ import reincarnation.TestCode;
 class GenericsTest extends CodeVerifier {
 
     @CrossDecompilerTest
-    void parameterizedType() {
+    void methodParameterizedType() {
         verify(new TestCode.Int() {
 
             @Override
@@ -42,7 +43,26 @@ class GenericsTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    void extendType() {
+    void constructorParameterizedType() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return new Size(List.of("1")).size;
+            }
+
+            static class Size {
+                int size;
+
+                Size(List<String> param) {
+                    size = param.get(0).length();
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void methodExtendType() {
         verify(new TestCode.Int() {
 
             @Override
@@ -57,7 +77,26 @@ class GenericsTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    void superType() {
+    void constructorExtendType() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return new Size(List.of("1")).size;
+            }
+
+            static class Size {
+                int size;
+
+                Size(List<? extends CharSequence> param) {
+                    size = param.get(0).length();
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void methodSuperType() {
         verify(new TestCode.Int() {
 
             @Override
@@ -72,7 +111,26 @@ class GenericsTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    void wildcard() {
+    void constructorSuperType() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return new Size(List.of("1")).size;
+            }
+
+            static class Size {
+                int size;
+
+                Size(List<? super CharSequence> param) {
+                    size = ((CharSequence) param.get(0)).length();
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void methodWildcard() {
         verify(new TestCode.Int() {
 
             @Override
@@ -82,6 +140,206 @@ class GenericsTest extends CodeVerifier {
 
             private int size(List<?> param) {
                 return ((String) param.get(0)).length();
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void constructorWildcard() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return new Size(List.of("1")).size;
+            }
+
+            static class Size {
+                int size;
+
+                Size(List<?> param) {
+                    size = ((String) param.get(0)).length();
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void methodTypeVariable() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return size("test");
+            }
+
+            private <T extends CharSequence> int size(T text) {
+                return text.length();
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void methodTypeVariableFromEnclosedClass() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return new Size().size("test");
+            }
+
+            static class Size<T extends CharSequence> {
+
+                int size(T text) {
+                    return text.length();
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void constructorTypeVariable() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return new Size("test").size;
+            }
+
+            static class Size {
+                int size;
+
+                <T extends CharSequence> Size(T text) {
+                    size = text.length();
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void constructorTypeVariableFromEnclosedClass() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return new Size("test").size;
+            }
+
+            static class Size<T extends CharSequence> {
+                int size;
+
+                Size(T text) {
+                    size = text.length();
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void methodTypeVariables() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return size("test", "total");
+            }
+
+            private <T extends CharSequence> int size(T one, T other) {
+                return one.length() + other.length();
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void constructorTypeVariables() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return new Size("test", "total").size;
+            }
+
+            static class Size {
+                int size;
+
+                <T extends CharSequence> Size(T one, T other) {
+                    size = one.length() + other.length();
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void methodIntersection() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return size("test", "total");
+            }
+
+            private <T extends CharSequence & Comparable> int size(T one, T other) {
+                if (one.compareTo(other) <= 0) {
+                    return one.length();
+                } else {
+                    return other.length();
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void constructorIntersection() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return new Size("test", "total").size;
+            }
+
+            static class Size {
+                int size;
+
+                <T extends CharSequence & Comparable> Size(T one, T other) {
+                    if (one.compareTo(other) <= 0) {
+                        size = one.length();
+                    } else {
+                        size = other.length();
+                    }
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void methodMultipleTypeVariables() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return size(List.of("test", "total"));
+            }
+
+            private <C extends List<E>, E extends CharSequence> int size(C container) {
+                return container.stream().mapToInt(x -> x.length()).sum();
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void constructorMultipleTypeVariables() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return new Size(List.of("test", "total")).size;
+            }
+
+            static class Size {
+                int size;
+
+                <C extends List<E>, E extends CharSequence> Size(C container) {
+                    size = container.stream().mapToInt(x -> x.length()).sum();
+                }
             }
         });
     }
@@ -134,6 +392,26 @@ class GenericsTest extends CodeVerifier {
                 Type[] bounds = types[0].getBounds();
                 assert bounds.length == 1;
                 assert bounds[0] == CharSequence.class;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void classIntersectedBoundedVariables() {
+        verify(new TestCode.Run() {
+
+            @Override
+            public void run() {
+                class Main<A extends CharSequence & Serializable> {
+                }
+
+                TypeVariable[] types = Main.class.getTypeParameters();
+                assert types.length == 1;
+
+                Type[] bounds = types[0].getBounds();
+                assert bounds.length == 2;
+                assert bounds[0] == CharSequence.class;
+                assert bounds[1] == Serializable.class;
             }
         });
     }

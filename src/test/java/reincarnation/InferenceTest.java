@@ -91,7 +91,8 @@ class InferenceTest {
         TypeVariable type = X.class.getTypeParameters()[0];
         assert type instanceof TypeVariable;
         assert Inference.instanceOf(type, String.class) == false;
-        assert Inference.instanceOf(type, CharSequence.class) == false;
+        assert Inference.instanceOf(type, CharSequence.class);
+        assert Inference.instanceOf(type, Serializable.class);
 
         assert Inference.instanceOf(type, Date.class) == false;
         assert Inference.instanceOf(type, AutoCloseable.class) == false;

@@ -173,12 +173,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                 ? Join.of(type.getPermittedSubclasses()).ignoreEmpty().prefix(" permits ").separator("," + space).converter(this::name)
                 : null;
         Join accessor = modifier(type);
-        Join variable = Join.of(type.getTypeParameters())
-                .ignoreEmpty()
-                .prefix("<")
-                .separator("," + space)
-                .suffix(">")
-                .converter(this::name);
+        Join variable = name(type.getTypeParameters());
 
         if (type.isRecord()) {
             kind = "record";
@@ -310,7 +305,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         line();
         writeAnnotation(con);
-        line(modifier(con, false), simpleName(con.getDeclaringClass()), buildParameter(con, naming(code)), space, "{");
+        line(modifier(con, false), name(con.getTypeParameters()), simpleName(con
+                .getDeclaringClass()), buildParameter(con, naming(code)), space, "{");
         indent(() -> {
             Class owner = con.getDeclaringClass();
             if (Classes.isMemberLike(owner) && Classes.isNonStatic(owner)) {
@@ -338,7 +334,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
         line();
         writeAnnotation(method);
-        lineNB(modifier(method, method.isDefault()), name(method.getReturnType()), " ", method
+        lineNB(modifier(method, method.isDefault()), name(method.getTypeParameters()), name(method.getReturnType()), " ", method
                 .getName(), buildParameter(method, naming(code)), thrower(method.getExceptionTypes()));
 
         if (Classes.isAbstract(method)) {
@@ -413,19 +409,21 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                 .separator("," + space)
                 .skip(x -> GeneratedCodes.isEnumParameter(x.ⅰ))
                 .converter(p -> {
-                    String name = strategy.name(p.ⅰ.getName());
+                    Parameter param = p.ⅰ;
+                    Type type = p.ⅱ;
+                    String name = strategy.name(param.getName());
                     vars.declare(name);
 
-                    Join annotations = Join.of(p.ⅰ.getAnnotations())
+                    Join annotations = Join.of(param.getAnnotations())
                             .ignoreEmpty()
                             .separator(" ")
                             .suffix(" ")
-                            .converter(this::writeAnnotationValue);
+                            .converter(JavaCoder.this::writeAnnotationValue);
 
                     return new StringBuilder() //
                             .append(annotations)
-                            .append(modifier(p.ⅰ))
-                            .append(qualify(p.ⅱ, p.ⅰ.isVarArgs()))
+                            .append(modifier(param))
+                            .append(qualify(type, param.isVarArgs()))
                             .append(' ')
                             .append(name)
                             .toString();
@@ -1303,7 +1301,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     }
 
     /**
-     * Qualify the specified name of type..
+     * Qualify the specified name of type.
      * 
      * @param type
      * @return
@@ -1313,14 +1311,34 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     }
 
     /**
-     * Qualify the specified name of type..
+     * Qualify the specified name of types.
+     * 
+     * @param type
+     * @return
+     */
+    private Join name(Type[] types) {
+        return Join.of(types).prefix("<").separator(", ").suffix(">" + space).converter(type -> qualify(1, type, false)).ignoreEmpty();
+    }
+
+    /**
+     * Qualify the specified name of type.
      * 
      * @param type
      * @return
      */
     private String qualify(Type type, boolean vararg) {
+        return qualify(0, type, vararg);
+    }
+
+    /**
+     * Qualify the specified name of type.
+     * 
+     * @param type
+     * @return
+     */
+    private String qualify(int level, Type type, boolean vararg) {
         StringBuilder builder = new StringBuilder();
-        qualify(type, builder);
+        qualify(level, type, builder);
 
         if (vararg) {
             int length = builder.length();
@@ -1332,27 +1350,27 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     }
 
     /**
-     * Qualify the specified name of type..
+     * Qualify the specified name of type.
      * 
      * @param type
      */
-    private void qualify(Type type, StringBuilder builder) {
+    private void qualify(int level, Type type, StringBuilder builder) {
         if (type instanceof Class clazz) {
             builder.append(imports.name(clazz));
         } else if (type instanceof TypeVariable variable) {
             builder.append(variable);
-
-            Join.of(variable.getBounds())
-                    .ignoreEmpty()
-                    .prefix(" extends ")
-                    .separator("," + space)
-                    .converter(x -> name(x))
-                    .take(x -> x != Object.class)
-                    .ignoreEmpty()
-                    .write(builder);
+            if (level != 0) {
+                Join.of(variable.getBounds())
+                        .ignoreEmpty()
+                        .prefix(" extends ")
+                        .separator(space + "&" + space)
+                        .converter(x -> name(x))
+                        .take(x -> x != Object.class)
+                        .ignoreEmpty()
+                        .write(builder);
+            }
         } else if (type instanceof ParameterizedType parameterized) {
-            qualify(parameterized.getRawType(), builder);
-
+            qualify(level + 1, parameterized.getRawType(), builder);
             Join.of(parameterized.getActualTypeArguments())
                     .ignoreEmpty()
                     .prefix("<")
@@ -1383,7 +1401,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                                 });
                     });
         } else if (type instanceof GenericArrayType array) {
-            qualify(array.getGenericComponentType(), builder);
+            qualify(level + 1, array.getGenericComponentType(), builder);
             builder.append("[]");
         } else {
             throw new Error(String.valueOf(type));

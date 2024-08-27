@@ -180,7 +180,7 @@ public class CompileInfo {
             Entry<Class, List<String>> nextE = ecj.next();
 
             List<DiffRow> rows = generator.generateDiffRows(nextE.getValue(), nextJ.getValue());
-            int maxE = rows.stream().mapToInt(row -> Debugger.calculateLineLength(row.getOldLine())).max().getAsInt();
+            int maxE = rows.stream().mapToInt(row -> Debugger.calculateLineLength(row.getOldLine())).max().orElse(0);
 
             List<String> diff = new ArrayList();
             diff.add(Debugger.alignLine("ECJ", maxE) + "Javac");

@@ -35,6 +35,13 @@ class Inference {
             return required.isAssignableFrom(clazz);
         } else if (target instanceof ParameterizedType parameterized) {
             return instanceOf(parameterized.getRawType(), required);
+        } else if (target instanceof TypeVariable variable) {
+            for (Type bound : variable.getBounds()) {
+                if (instanceOf(bound, required)) {
+                    return true;
+                }
+            }
+            return false;
         } else if (target instanceof WildcardType wild) {
             for (Type upper : wild.getUpperBounds()) {
                 if (!instanceOf(upper, required)) {
