@@ -9,6 +9,7 @@
  */
 package reincarnation;
 
+import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
@@ -515,6 +516,14 @@ public class CodeVerifier {
         @Override
         public Appendable getInterface() {
             return System.out;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        protected InputStream getSink() {
+            return System.in;
         }
 
         /**
