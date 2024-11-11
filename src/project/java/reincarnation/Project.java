@@ -9,10 +9,16 @@
  */
 package reincarnation;
 
+import static bee.api.License.*;
+
+import javax.lang.model.SourceVersion;
+
 public class Project extends bee.api.Project {
 
     {
         product("com.github.teletha", "Reincarnation", ref("version.txt"));
+        license(MIT);
+        require(SourceVersion.RELEASE_21);
 
         require("org.ow2.asm", "asm");
         require("com.github.teletha", "sinobu");
