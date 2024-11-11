@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.9.0](https://github.com/teletha/reincarnation/compare/v1.8.0...v1.9.0) (2024-11-11)
+
+
+### Features
+
+* require Java21 ([7002086](https://github.com/teletha/reincarnation/commit/7002086c5611c9a810300290869a60752d191708))
+
+
+### Bug Fixes
+
+* remove dependency on icy manipulator ([88c4209](https://github.com/teletha/reincarnation/commit/88c420908e7af58f91386c2a525979f32c61c5ab))
+* source code requires Java 21 coz the latest ECJ is not support 23 ([cacdd30](https://github.com/teletha/reincarnation/commit/cacdd30ae85d68e4c17c6479f0ab2add95118405))
+
 ## [1.8.0](https://github.com/teletha/reincarnation/compare/v1.7.0...v1.8.0) (2024-08-27)
 
 
