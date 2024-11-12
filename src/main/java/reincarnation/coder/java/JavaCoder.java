@@ -1366,7 +1366,6 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                         .separator(space + "&" + space)
                         .converter(x -> name(x))
                         .take(x -> x != Object.class)
-                        .ignoreEmpty()
                         .write(builder);
             }
         } else if (type instanceof ParameterizedType parameterized) {
