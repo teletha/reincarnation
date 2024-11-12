@@ -157,7 +157,7 @@ Add it into in the dependencies element like so:
 ```xml
 <dependency>
     <groupId>com.github.teletha</groupId>
-    <artifactId>Reincarnation</artifactId>
+    <artifactId>reincarnation</artifactId>
     <version>1.9.0</version>
 </dependency>
 ```
@@ -171,7 +171,7 @@ repositories {
 Add it into the dependencies section like so:
 ```gradle
 dependencies {
-    implementation 'com.github.teletha:Reincarnation:1.9.0'
+    implementation 'com.github.teletha:reincarnation:1.9.0'
 }
 ```
 #### [SBT](https://www.scala-sbt.org/)
@@ -181,7 +181,7 @@ resolvers += "jitpack" at "https://jitpack.io"
 ```
 Add it into the libraryDependencies section like so:
 ```scala
-libraryDependencies += "com.github.teletha" % "Reincarnation" % "1.9.0"
+libraryDependencies += "com.github.teletha" % "reincarnation" % "1.9.0"
 ```
 #### [Leiningen](https://leiningen.org/)
 Add JitPack repository at the end of repositories in your project.clj:
@@ -190,12 +190,12 @@ Add JitPack repository at the end of repositories in your project.clj:
 ```
 Add it into the dependencies section like so:
 ```clj
-:dependencies [[com.github.teletha/Reincarnation "1.9.0"]]
+:dependencies [[com.github.teletha/reincarnation "1.9.0"]]
 ```
 #### [Bee](https://teletha.github.io/bee)
 Add it into your project definition class like so:
 ```java
-require("com.github.teletha", "Reincarnation", "1.9.0");
+require("com.github.teletha", "reincarnation", "1.9.0");
 ```
 <p align="right"><a href="#top">back to top</a></p>
 
@@ -217,7 +217,7 @@ Contributing improvements in these areas is much easier, and much less of a hass
 ### Bug Reports
 If you come across a bug, please file a bug report. Warning us of a bug is possibly the most valuable contribution you can make to Reincarnation.
 If you encounter a bug that hasn't already been filed, [please file a report](https://github.com/teletha/reincarnation/issues/new) with an [SSCCE](http://sscce.org/) demonstrating the bug.
-If you think something might be a bug, but you're not sure, ask on StackOverflow or on [Reincarnation-discuss](https://github.com/teletha/reincarnation/discussions).
+If you think something might be a bug, but you're not sure, ask on StackOverflow or on [reincarnation-discuss](https://github.com/teletha/reincarnation/discussions).
 <p align="right"><a href="#top">back to top</a></p>
 
 

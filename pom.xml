@@ -1,10 +1,10 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.teletha</groupId>
-	<artifactId>Reincarnation</artifactId>
+	<artifactId>reincarnation</artifactId>
 	<version>1.9.0</version>
 	<packaging>jar</packaging>
-	<name>Reincarnation</name>
+	<name>reincarnation</name>
 	<description>Reincarnation is designed as a decompiler intended to support modern Java syntax.
 Eventually, it should be able to understand all of the syntax and grammars listed below.
 However, some information that is completely removed by the compiler and cannot be accessed from the bytecode cannot be restored,
