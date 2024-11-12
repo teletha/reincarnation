@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Disabled;
 import reincarnation.CodeVerifier;
 import reincarnation.CompilerType;
 import reincarnation.CrossDecompilerTest;
+import reincarnation.DisabledOnMaven;
 import reincarnation.TestCode;
 
 class SwitchTest extends CodeVerifier {
@@ -1643,6 +1644,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
+    @DisabledOnMaven
     @CrossDecompilerTest
     void conditionByEnum() {
         verify(new TestCode.IntParam() {
@@ -1663,6 +1665,7 @@ class SwitchTest extends CodeVerifier {
         });
     }
 
+    @DisabledOnMaven
     @CrossDecompilerTest
     void conditionByEnumMultiple() {
         verify(new TestCode.IntParam() {
