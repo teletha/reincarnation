@@ -16,7 +16,7 @@ import javax.lang.model.SourceVersion;
 public class Project extends bee.api.Project {
 
     {
-        product("com.github.teletha", "Reincarnation", ref("version.txt"));
+        product("com.github.teletha", "reincarnation", ref("version.txt"));
         license(MIT);
         require(SourceVersion.RELEASE_21);
 
