@@ -256,6 +256,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
 					<compilerId>eclipse</compilerId>
 					<compilerArgs>
 						<arg>-parameters</arg>
+						<arg>-warn:none</arg>
 						<arg>-preserveAllLocals</arg>
 					</compilerArgs>
 				</configuration>
