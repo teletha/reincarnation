@@ -453,6 +453,8 @@ public class CodeVerifier {
                     ((Throwable) actual).printStackTrace();
                 }
                 assert actual == null;
+            } else if (actual == null) {
+                throw new AssertionError("Expected value is " + expected + ", but actual is " + actual);
             } else {
                 Class type = expected.getClass();
 

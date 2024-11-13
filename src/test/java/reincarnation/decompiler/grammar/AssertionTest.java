@@ -11,10 +11,8 @@ package reincarnation.decompiler.grammar;
 
 import reincarnation.CodeVerifier;
 import reincarnation.CrossDecompilerTest;
-import reincarnation.DisabledOnMaven;
 import reincarnation.TestCode;
 
-@DisabledOnMaven
 class AssertionTest extends CodeVerifier {
 
     @CrossDecompilerTest
