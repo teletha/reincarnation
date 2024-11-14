@@ -9,6 +9,8 @@
  */
 package reincarnation.decompiler.method;
 
+import org.junit.jupiter.api.Disabled;
+
 import reincarnation.CodeVerifier;
 import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
@@ -68,6 +70,41 @@ class VarArgTest extends CodeVerifier {
                     total += values[i];
                 }
                 return total;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void string() {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                return concat("a", "b", "c");
+            }
+
+            private String concat(String... text) {
+                return String.join("", text);
+            }
+        });
+    }
+
+    @Disabled
+    @CrossDecompilerTest
+    void object() {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                return concat("a", "b", "c");
+            }
+
+            private String concat(java.lang.Object... text) {
+                StringBuilder builder = new StringBuilder();
+                for (java.lang.Object object : text) {
+                    builder.append(object);
+                }
+                return builder.toString();
             }
         });
     }

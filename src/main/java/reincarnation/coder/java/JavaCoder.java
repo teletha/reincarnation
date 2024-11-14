@@ -803,10 +803,6 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     private Join buildParameter(Executable executable, List<Code> params, int start) {
         Join concat = new Join().prefix("(").suffix(")").separator("," + space);
-        if (executable.isVarArgs() && !params.isEmpty()) {
-            Code last = params.remove(params.size() - 1);
-            last.children().skip(1) /* skip dimension */.to(c -> params.add((Code) c));
-        }
 
         Parameter[] parameters = executable.getParameters();
         for (int i = start; i < params.size(); i++) {
