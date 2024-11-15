@@ -22,7 +22,6 @@ public class Project extends bee.api.Project {
 
         require("org.ow2.asm", "asm");
         require("com.github.teletha", "sinobu");
-        require("com.github.teletha", "psychopath");
 
         require("com.github.teletha", "bee", "[0.61.1,)").atTest();
         require("com.github.teletha", "antibug").atTest();
