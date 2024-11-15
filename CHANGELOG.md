@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.10.0](https://github.com/teletha/reincarnation/compare/v1.9.0...v1.10.0) (2024-11-15)
+
+
+### Features
+
+* drop LocalVariables#register ([2df283a](https://github.com/teletha/reincarnation/commit/2df283a5ddb91dec2c3a117301d4773d41eecb56))
+* provide Low-Line-Verification system in test case ([ad05b8e](https://github.com/teletha/reincarnation/commit/ad05b8eaa7502da3f92fb13ee927961618f28d78))
+* support the shorthand array initialization with declaraiton ([9ba7305](https://github.com/teletha/reincarnation/commit/9ba73052fb64916f8d565f5de2b67444b2be74af))
+
+
+### Bug Fixes
+
+* remove unused dependency (psychopath) ([d6b536d](https://github.com/teletha/reincarnation/commit/d6b536d5888de610aacd30d190910d60d429f7fa))
+* vararg coder is broken ([15c0bbb](https://github.com/teletha/reincarnation/commit/15c0bbb34434222070a382e7e9c9fc4c7fa5ba2c))
+
 ## [1.9.0](https://github.com/teletha/reincarnation/compare/v1.8.0...v1.9.0) (2024-11-11)
 
 
