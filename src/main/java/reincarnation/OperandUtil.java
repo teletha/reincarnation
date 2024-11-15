@@ -185,7 +185,7 @@ class OperandUtil {
 
         default:
             try {
-                return Class.forName(internalType.getClassName(), false, Reincarnation.loader.get());
+                return Class.forName(internalType.getClassName(), false, Reincarnation.LOADER.get());
             } catch (ClassNotFoundException e) {
                 // If this exception will be thrown, it is bug of this program. So we must
                 // rethrow the wrapped error in here.

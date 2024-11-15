@@ -105,7 +105,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             List<Class> enums = new ArrayList();
             List<Class> anons = new ArrayList();
             for (Class clazz : reincarnation.anonymous) {
-                if (clazz.getSuperclass().isEnum()) {
+                Class superclass = clazz.getSuperclass();
+                if (superclass != null && superclass.isEnum()) {
                     enums.add(clazz);
                 } else {
                     anons.add(clazz);

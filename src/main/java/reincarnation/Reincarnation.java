@@ -39,10 +39,10 @@ import reincarnation.util.GeneratedCodes;
 public final class Reincarnation {
 
     /** The class loader to search type. */
-    static final ThreadLocal<ClassLoader> loader = ThreadLocal.withInitial(ClassLoader::getSystemClassLoader);
+    static final ThreadLocal<ClassLoader> LOADER = ThreadLocal.withInitial(ClassLoader::getSystemClassLoader);
 
     /** The cache. */
-    static final Map<Class, Reincarnation> cache = new ConcurrentHashMap();
+    static final Map<Class, Reincarnation> CACHE = new ConcurrentHashMap();
 
     /** The target class. */
     public final Class clazz;
@@ -158,13 +158,17 @@ public final class Reincarnation {
      * @return Chainable API.
      */
     public static final synchronized Reincarnation exhume(Class clazz) {
-        return cache.computeIfAbsent(clazz, key -> {
-            loader.set(key.getClassLoader());
+        return CACHE.computeIfAbsent(clazz, key -> {
+            ClassLoader loader = key.getClassLoader();
+            if (loader == null) {
+                loader = ClassLoader.getSystemClassLoader();
+            }
+            LOADER.set(loader);
 
             Reincarnation reincarnation = new Reincarnation(key);
 
             try {
-                InputStream input = key.getClassLoader().getResourceAsStream(key.getName().replace('.', '/') + ".class");
+                InputStream input = loader.getResourceAsStream(key.getName().replace('.', '/') + ".class");
                 new ClassReader(input).accept(new JavaClassDecompiler(reincarnation), 0);
             } catch (IOException e) {
                 throw I.quiet(e);
@@ -178,11 +182,20 @@ public final class Reincarnation {
      * Decompile the specified class as Java code.
      * 
      * @param clazz A target class to decompile.
+     */
+    public static final String rebirth(Class clazz) {
+        return rebirth(clazz, null);
+    }
+
+    /**
+     * Decompile the specified class as Java code.
+     * 
+     * @param clazz A target class to decompile.
      * @return A decompiled Java source code.
      */
     public static final String rebirth(Class clazz, JavaCodingOption options) {
         JavaCoder coder = new JavaCoder();
-        coder.config(options);
+        coder.config(options == null ? new JavaCodingOption() : options);
 
         exhume(clazz).rebirth(coder);
         return coder.toString();

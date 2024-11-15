@@ -198,7 +198,7 @@ public class CodeVerifier {
             } catch (Throwable e) {
                 if (info.decompilerDebugLog.isEmpty() && debugged.add(target)) {
                     // decompile with debug mode
-                    Reincarnation.cache.remove(target);
+                    Reincarnation.CACHE.remove(target);
                     info.decompiled = decompile(target, true);
                 }
                 info.errorMessage.add(e.getMessage());
