@@ -1316,9 +1316,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             if (match(ALOAD, ASTORE, ALOAD, ARRAYLENGTH)) {
                 Operand prev = current.peek(1);
                 Operand next = current.peek(0);
-                if (prev instanceof OperandAssign assign && next instanceof OperandLocalVariable local) {
-                    assign.assignedTo(local).as(OperandLocalVariable.class).to(original -> {
-                        locals.register(local.index, original);
+                if (prev instanceof OperandAssign assign && next instanceof OperandLocalVariable newVariable) {
+                    assign.assignedTo(newVariable).as(OperandLocalVariable.class).to(originalVariable -> {
+                        originalVariable.assimilate(newVariable);
                     });
                 }
             }
@@ -1512,7 +1512,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
                         for (int i = consumableStackSize - 1; 0 <= i; i--) {
                             Operand removed = current.remove(i);
-                            if (removed instanceof OperandLocalVariable local && local.index == 0) {
+                            if (removed instanceof OperandLocalVariable local && local.index.v == 0) {
                                 // ignore "this" variable
                             } else {
                                 params.add(removed);

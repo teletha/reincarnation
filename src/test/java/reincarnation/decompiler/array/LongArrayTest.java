@@ -216,7 +216,7 @@ public class LongArrayTest extends CodeVerifier {
                 long sum = 0;
                 long[] array = {1, 2, 3};
 
-                for (long i : array) {
+                for (long i : array) { // LLV
                     if (i == 1) {
                         sum++;
                     }

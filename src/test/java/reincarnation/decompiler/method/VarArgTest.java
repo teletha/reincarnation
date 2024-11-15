@@ -9,8 +9,6 @@
  */
 package reincarnation.decompiler.method;
 
-import org.junit.jupiter.api.Disabled;
-
 import reincarnation.CodeVerifier;
 import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
@@ -89,7 +87,6 @@ class VarArgTest extends CodeVerifier {
         });
     }
 
-    @Disabled
     @CrossDecompilerTest
     void object() {
         verify(new TestCode.Text() {

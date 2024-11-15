@@ -1560,10 +1560,10 @@ public class Node implements Code<Operand>, Comparable<Node> {
                         .combine(length.children(OperandLocalVariable.class)))
 
                 // Check whether the current node compare index to array's length
-                .takeIf(x -> current.children(OperandCondition.class).take(c -> c.right == x.ⅱ))
+                .takeIf(x -> current.children(OperandCondition.class).take(c -> c.right.equals(x.ⅱ)))
 
                 // Check whether the entrance node access to the indexed item
-                .takeIf(x -> entrance.children(OperandAssign.class, OperandArrayAccess.class).take(access -> access.array == x.ⅰ))
+                .takeIf(x -> entrance.children(OperandAssign.class, OperandArrayAccess.class).take(access -> access.array.equals(x.ⅰ)))
 
                 // Summarize only information that will be used later.
                 .combine(entrance.children(OperandAssign.class, OperandLocalVariable.class).as(Operand.class), (a, b) -> I.pair(a.ⅰ, b))

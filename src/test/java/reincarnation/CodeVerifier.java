@@ -187,6 +187,14 @@ public class CodeVerifier {
                 for (int i = 0; i < inputs.size(); i++) {
                     java.verify(inputs.get(i), expecteds.get(i));
                 }
+
+                // ========================================================
+                // Low Line Verification
+                // ========================================================
+                List<String> lines = info.lowLevelVerifier();
+                for (String line : lines) {
+                    assert info.decompiled.contains(line) : "The required code fragment is not found. \n" + line + "\n";
+                }
             } catch (Throwable e) {
                 if (info.decompilerDebugLog.isEmpty() && debugged.add(target)) {
                     // decompile with debug mode

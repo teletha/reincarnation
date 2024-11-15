@@ -216,7 +216,7 @@ public class IntArrayTest extends CodeVerifier {
                 int sum = 0;
                 int[] array = {1, 2, 3};
 
-                for (int i : array) {
+                for (int i : array) { // LLV
                     if (i == 1) {
                         sum++;
                     }

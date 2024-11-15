@@ -121,7 +121,7 @@ final class LocalVariables implements Naming {
      * @param variable
      */
     void register(int index, OperandLocalVariable variable) {
-        bindings.put(index, variable.index);
+        bindings.put(index, variable.index.v);
     }
 
     /**
@@ -135,11 +135,11 @@ final class LocalVariables implements Naming {
     }
 
     boolean isLocal(OperandLocalVariable variable) {
-        return offset < variable.index;
+        return offset < variable.index.v;
     }
 
     boolean isParam(OperandLocalVariable variable) {
-        return variable.index <= offset;
+        return variable.index.v <= offset;
     }
 
     /**
@@ -176,7 +176,7 @@ final class LocalVariables implements Naming {
      */
     void analyzeVariableDeclarationNode(NodeManipulator manipulator) {
         root: for (OperandLocalVariable variable : variables.values()) {
-            if (unregistered.contains(variable.index)) continue;
+            if (unregistered.contains(variable.index.v)) continue;
 
             // Determine if you need to add a node for variable declarations. For example, if the
             // same variable is referenced by multiple child nodes, you must consider whether you
@@ -206,7 +206,7 @@ final class LocalVariables implements Naming {
                 // If multiple types use the same variable, a common variable declaration cannot be
                 // used if one header node is the dominator of the other header node.
                 for (OperandLocalVariable other : variables.values()) {
-                    if (other.index == variable.index && !other.type.equals(variable.type)) {
+                    if (other.index.v == variable.index.v && !other.type.equals(variable.type)) {
                         Node otherHeader = Node.getLowestCommonDominator(other.referrers);
                         if (header.hasDominator(otherHeader) || otherHeader.hasDominator(header)) {
                             continue root;
@@ -226,13 +226,13 @@ final class LocalVariables implements Naming {
     @Override
     public String name(String name) {
         for (OperandLocalVariable param : params.values()) {
-            if (param.name.equals(name)) {
+            if (param.name.is(name)) {
                 return param.toString();
             }
         }
 
         for (OperandLocalVariable variable : variables.values()) {
-            if (variable.name.equals(name)) {
+            if (variable.name.is(name)) {
                 return variable.toString();
             }
         }

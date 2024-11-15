@@ -216,8 +216,8 @@ public class DoubleArrayTest extends CodeVerifier {
                 double sum = 0;
                 double[] array = {1, 2, 3};
 
-                for (double i : array) {
-                    if (i == 1) {
+                for (double item : array) { // LLV
+                    if (item == 1) {
                         sum++;
                     }
                 }

@@ -117,6 +117,17 @@ public class CompileInfo {
     /**
      * Build error with detailed message.
      * 
+     * @return
+     */
+    public Error buildError() {
+        Error error = new Error(buildMessage(false));
+        error.setStackTrace(new StackTraceElement[0]);
+        return error;
+    }
+
+    /**
+     * Build error with detailed message.
+     * 
      * @param originalError
      * 
      * @return
@@ -153,6 +164,13 @@ public class CompileInfo {
             }
             return methods;
         }).get(method.getName());
+    }
+
+    public List<String> lowLevelVerifier() {
+        return extractOriginalTestCode().stream()
+                .filter(line -> line.endsWith("// LLV"))
+                .map(line -> line.substring(0, line.length() - 7).trim())
+                .toList();
     }
 
     public void asmfier(Class typeForJavac, Class typeForECJ) {

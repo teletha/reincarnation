@@ -1,198 +1,186 @@
 
 ============================================================
-ECJ compiles reincarnation.decompiler.grammar.GenericsTest$7
-============================================================
-/reincarnation/decompiler/grammar/GenericsTest.java:21: ÉGÉâÅ[: ìÒçÄââéZéq'>'ÇÃÉIÉyÉâÉìÉhå^Ç™ïsê≥Ç≈Ç∑
-            if ((Comparable) (one).compareTo(other) > 0) {
-                                                    ^
-  ç≈èâÇÃå^: java.lang.Comparable
-  2î‘ñ⁄ÇÃå^: int
-ÉmÅ[Ég: /reincarnation/decompiler/grammar/GenericsTest.javaÇÃëÄçÏÇÕÅAñ¢É`ÉFÉbÉNÇ‹ÇΩÇÕà¿ëSÇ≈ÇÕÇ†ÇËÇ‹ÇπÇÒÅB
-ÉmÅ[Ég: è⁄ç◊ÇÕÅA-Xlint:uncheckedÉIÉvÉVÉáÉìÇéwíËÇµÇƒçƒÉRÉìÉpÉCÉãÇµÇƒÇ≠ÇæÇ≥Ç¢ÅB
-
-Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
-NullPointerException: Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
-    at reincarnation.CodeVerifier$JavaVerifier.<init>(CodeVerifier.java:381)
-    at reincarnation.CodeVerifier.verify(CodeVerifier.java:184)
-    at reincarnation.decompiler.grammar.GenericsTest.intersection(GenericsTest.java:123)
-    at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-    at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-    at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:766)
-    at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
-    at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
-    at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
-    at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
-    at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestTemplateMethod(TimeoutExtension.java:94)
-    at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
-    at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
-    at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
-    at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
-    at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
-
+ECJ compiles reincarnation.decompiler.array.IntArrayTest$15
 ============================================================
 Original Code
 ============================================================
-@Debuggable
-    void intersection() {
-        verify(new TestCode.Run() {
-
+public void ArrayForEach() {
+        verify(new TestCode.IntParam() {
             @Override
-            public void run() {
-                assert size("test", "total") == 4;
-            }
+            public int run(int value) {
+                int sum = 0;
+                int[] array = {1, 2, 3};
 
-            private <T extends CharSequence & Comparable> int size(T one, T other) {
-                if (one.compareTo(other) <= 0) {
-                    return one.length();
-                } else {
-                    return other.length();
+                for (int i : array) {
+                    if (i == 1) {
+                        sum++;
+                    }
                 }
+                return sum;
             }
         });
     }
+}
 ============================================================
 Decompiled Code
 ============================================================
-01    package reincarnation.decompiler.grammar;
+01    package reincarnation.decompiler.array;
 02    
 03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.Run;
-05    import reincarnation.decompiler.grammar.GenericsTest;
+04    import reincarnation.TestCode.IntParam;
+05    import reincarnation.decompiler.array.IntArrayTest;
 06    
-07    class GenericsTest extends CodeVerifier {
+07    public class IntArrayTest extends CodeVerifier {
 08    
-09        class GenericsTest$7 implements Run {
-10            final GenericsTest this$0;
+09        class IntArrayTest$15 implements IntParam {
+10            final IntArrayTest this$0;
 11    
-12            GenericsTest$7(GenericsTest arg0) {
-13                this.this$0 = arg0;
+12            IntArrayTest$15(final IntArrayTest this$0) {
+13                this.this$0 = this$0;
 14            }
 15    
-16            public void run() {
-17                assert this.size("test", "total") == 4;
-18            }
-19    
-20            private <T extends CharSequence & Comparable> int size(T one, T other) {
-21                if ((Comparable) (one).compareTo(other) > 0) {
-22                    return other.length();
-23                } else {
-24                    return one.length();
-25                }
-26            }
-27        }
-28    }
+16            public int run(int value) {
+17                int sum = 0;
+18                int[] array = new int[] {1, 2, 3};
+19                for (int i : array) {
+20                    if (i == 1) {
+21                        ++sum;
+22                        // 7 -> 6 continue to 3 (1 of 2) Loop[entrance=3, first=4, exit=8, check=6]
+23                        continue;
+24                    }
+25                    // 5 -> 6 continue to 3 (2 of 2) Loop[entrance=3, first=4, exit=8, check=6]
+26                }
+27                return sum;
+28            }
+29        }
+30    }
 ============================================================
 Decompiling Log
 ============================================================
-//----------------------------------- GenericsTest#intersection (GenericsTest.java:122) -----------------------------------//
-[38;5;21mMethod intersection()[0m (GenericsTest.java:123)
-0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: this.this$0 = arg0 [Assign#GenericsTest] java.lang.Object() [ConstructorCall] return null [Return - null]
+//----------------------------------- IntArrayTest#ArrayForEach (IntArrayTest.java:214) -----------------------------------//
+[38;5;21mMethod ArrayForEach()[0m (IntArrayTest.java:215)
+0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: this.this$0 = this$0 [Assign#IntArrayTest] java.lang.Object() [ConstructorCall] return null [Return - null]
 1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 
 Delete tail empty return (show full nodes)
-[38;5;9m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#GenericsTest] java.lang.Object() [ConstructorCall] return null [Return - null]
+[38;5;9m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = this$0 [Assign#IntArrayTest] java.lang.Object() [ConstructorCall] return null [Return - null]
 [0m
-[38;5;78m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#GenericsTest] java.lang.Object() [ConstructorCall]
-[0m
-
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = arg0 [Assign#GenericsTest] java.lang.Object() [ConstructorCall]
-
-//----------------------------------- GenericsTest#intersection (GenericsTest.java:126) -----------------------------------//
-[38;5;21mMethod intersection()[0m (GenericsTest.java:128)
-0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]	code: assert if (this.size("test","total") 4) then 1 else SAME [Assert]
-1	in[0]	out[]	dom[0]	doms[]	side[0,2]	dest[T]	code: return null [Return - null]
-2	in[]	out[]	dom[]	doms[]	side[1, ]	dest[]	code: 
-
-Delete tail empty return (show full nodes)
-[38;5;9m0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: assert if (this.size("test","total") 4) then 1 else SAME [Assert]
-1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: return null [Return - null]
-[0m
-[38;5;78m0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: assert if (this.size("test","total") 4) then 1 else SAME [Assert]
-1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: 
+[38;5;78m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = this$0 [Assign#IntArrayTest] java.lang.Object() [ConstructorCall]
 [0m
 
-0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: assert if (this.size("test","total") 4) then 1 else SAME [Assert]
-1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: 
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = this$0 [Assign#IntArrayTest] java.lang.Object() [ConstructorCall]
 
-//----------------------------------- GenericsTest#intersection (GenericsTest.java:130) -----------------------------------//
-[38;5;21mMethod intersection()[0m (GenericsTest.java:134)
-0	in[]	out[1,2]	dom[]	doms[]	side[ ,2]	dest[2]	code: if ((Comparable) (Comparable) one.compareTo(other) 0) then 1 else 2 [Condition then 1 else 2]
-2	in[0]	out[]		dom[0]	doms[]	side[0,1]	dest[T]	code: return one.length() [Return#int - MethodCall#int]
-1	in[0]	out[]		dom[0]	doms[]	side[2,3]	dest[T]	code: return other.length() [Return#int - MethodCall#int]
-3	in[]	out[]		dom[]	doms[]	side[1, ]	dest[]	code: 
+//----------------------------------- IntArrayTest#ArrayForEach (IntArrayTest.java:217) -----------------------------------//
+[38;5;21mMethod ArrayForEach()[0m (IntArrayTest.java:226)
+0	in[]	out[1]		dom[]	doms[]	side[ ,1]	dest[1]	code: sum = 0 [Assign]
+1	in[0]	out[2]		dom[0]	doms[]	side[0,2]	dest[2]	code: array = new int[] [Assign#int[]]
+2	in[1]	out[3]		dom[1]	doms[]	side[1,4]	dest[3]	code: local6 = array.length [Assign] local5 = 0 [Assign]
+4	in[3]	out[5]		dom[3]	doms[]	side[2,5]	dest[5]	code: i = array.[local5] [Assign#int]
+5	in[4]	out[6,7]	dom[4]	doms[]	side[4,7]	dest[7]	code: if (i 1) then 6 else 7 [Condition then 6 else 7]
+7	in[5]	out[6]		dom[5]	doms[]	side[5,6]	dest[6]	code: ++sum [Unary#int]
+6	in[5,7]	out[3]		dom[5]	doms[]	side[7,3]	dest[3]	code: ++local5 [Unary#int]
+3	in[2,6]	out[4,8]	dom[]	doms[]	side[6,8]	dest[8]	code: if (local5 local6) then 4 else 8 [Condition then 4 else 8]
+8	in[3]	out[]		dom[3]	doms[]	side[3,9]	dest[T]	code: return sum [Return#int - LocalVariable#int]
+9	in[]	out[]		dom[]	doms[]	side[8, ]	dest[]	code: 
 
-0	in[]	out[1,2]	dom[]	doms[2,1]	side[ ,2]	dest[2]	code: if ((Comparable) (Comparable) one.compareTo(other) 0) then 1 else 2 [Condition then 1 else 2]
-2	in[0]	out[]		dom[0]	doms[]		side[0,1]	dest[T]	code: return one.length() [Return#int - MethodCall#int]
-1	in[0]	out[]		dom[0]	doms[]		side[2, ]	dest[T]	code: return other.length() [Return#int - MethodCall#int]
+Analyze nodes (show full nodes)
+[38;5;9m0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: sum = 0 [Assign]
+1	in[0]	out[2]		dom[0]	doms[2]		side[0,2]	dest[2]	code: array = new int[] [Assign#int[]]
+2	in[1]	out[3]		dom[1]	doms[3]		side[1,4]	dest[3]	code: local6 = array.length [Assign] local5 = 0 [Assign]
+4	in[3]	out[5]		dom[3]	doms[5]		side[2,5]	dest[5]	code: i = array.[local5] [Assign#int]
+5	in[4]	out[6,7]	dom[4]	doms[7,6]	side[4,7]	dest[7]	code: if (i 1) then 6 else 7 [Condition then 6 else 7]
+7	in[5]	out[6]		dom[5]	doms[]		side[5,6]	dest[6]	code: ++sum [Unary#int]
+6	in[5,7]	out[3]		dom[5]	doms[]		side[7,3]	dest[3]	code: ++local5 [Unary#int]
+3	in[2,6]	out[4,8]	dom[2]	doms[4,8]	side[6,8]	dest[8]	back[6]code: if (local5 local6) then 4 else 8 [Condition then 4 else 8]
+8	in[3]	out[]		dom[3]	doms[]		side[3, ]	dest[T]	code: return sum [Return#int - LocalVariable#int]
+[0m
+[38;5;78m0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: sum = 0 [Assign]
+1	in[0]	out[2]		dom[0]	doms[2]		side[0,2]	dest[2]	code: array = new int[] [Assign#int[]]
+2	in[1]	out[3]		dom[1]	doms[3]		side[1,4]	dest[3]	code: 
+4	in[3]	out[5]		dom[3]	doms[5]		side[2,5]	dest[5]	code: 
+5	in[4]	out[6,7]	dom[4]	doms[7,6]	side[4,7]	dest[7]	code: if (i 1) then 6 else 7 [Condition then 6 else 7]
+7	in[5]	out[6]		dom[5]	doms[]		side[5,6]	dest[6]	code: ++sum [Unary#int]
+6	in[5,7]	out[3]		dom[5]	doms[]		side[7,3]	dest[3]	code: 
+3	in[2,6]	out[4,8]	dom[2]	doms[4,8]	side[6,8]	dest[8]	back[6]code: if (local5 local6) then 4 else 8 [Condition then 4 else 8]
+8	in[3]	out[]		dom[3]	doms[]		side[3, ]	dest[T]	code: return sum [Return#int - LocalVariable#int]
+[0m
+
+0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: sum = 0 [Assign]
+1	in[0]	out[2]		dom[0]	doms[2]		side[0,2]	dest[2]	code: array = new int[] [Assign#int[]]
+2	in[1]	out[3]		dom[1]	doms[3]		side[1,4]	dest[3]	code: 
+4	in[3]	out[5]		dom[3]	doms[5]		side[2,5]	dest[5]	code: 
+5	in[4]	out[6,7]	dom[4]	doms[7,6]	side[4,7]	dest[7]	code: if (i 1) then 6 else 7 [Condition then 6 else 7]
+7	in[5]	out[6]		dom[5]	doms[]		side[5,6]	dest[6]	code: ++sum [Unary#int]
+6	in[5,7]	out[3]		dom[5]	doms[]		side[7,3]	dest[3]	code: 
+3	in[2,6]	out[4,8]	dom[2]	doms[4,8]	side[6,8]	dest[8]	back[6]code: if (local5 local6) then 4 else 8 [Condition then 4 else 8]
+8	in[3]	out[]		dom[3]	doms[]		side[3, ]	dest[T]	code: return sum [Return#int - LocalVariable#int]
 
 
 ============================================================
 
-WARNING: A Java agent has been loaded dynamically (C:\Users\minam\AppData\Local\Temp\antibug12990346659633935007agent.jar)
-WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
-WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
-WARNING: Dynamic loading of agents will be disallowed by default in a future release
 
 ============================================================
-Javac compiles reincarnation.decompiler.grammar.GenericsTest$7
+Javac compiles reincarnation.decompiler.array.IntArrayTest$15
 ============================================================
 Original Code
 ============================================================
-@Debuggable
-    void intersection() {
-        verify(new TestCode.Run() {
-
+public void ArrayForEach() {
+        verify(new TestCode.IntParam() {
             @Override
-            public void run() {
-                assert size("test", "total") == 4;
-            }
+            public int run(int value) {
+                int sum = 0;
+                int[] array = {1, 2, 3};
 
-            private <T extends CharSequence & Comparable> int size(T one, T other) {
-                if (one.compareTo(other) <= 0) {
-                    return one.length();
-                } else {
-                    return other.length();
+                for (int i : array) {
+                    if (i == 1) {
+                        sum++;
+                    }
                 }
+                return sum;
             }
         });
     }
+}
 ============================================================
 Decompiled Code
 ============================================================
-01    package reincarnation.decompiler.grammar;
+01    package reincarnation.decompiler.array;
 02    
 03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.Run;
-05    import reincarnation.decompiler.grammar.GenericsTest;
+04    import reincarnation.TestCode.IntParam;
+05    import reincarnation.decompiler.array.IntArrayTest;
 06    
-07    class GenericsTest extends CodeVerifier {
+07    public class IntArrayTest extends CodeVerifier {
 08    
-09        class GenericsTest$7 implements Run {
+09        class IntArrayTest$15 implements IntParam {
 10    
-11            static {
+11            IntArrayTest$15(final IntArrayTest this$0) {
 12            }
 13    
-14            GenericsTest$7(final GenericsTest this$0) {
-15            }
-16    
-17            public void run() {
-18                assert this.size("test", "total") == 4;
-19            }
-20    
-21            private <T extends CharSequence & Comparable> int size(T one, T other) {
-22                if (((Comparable) (one)).compareTo(other) > 0) {
-23                    return other.length();
-24                } else {
-25                    return one.length();
-26                }
-27            }
-28        }
-29    }
+14            public int run(int value) {
+15                int sum = 0;
+16                int[] array = new int[] {1, 2, 3};
+17                int[] local4 = array;
+18                int local5 = local4.length;
+19                int local6 = 0;
+20                for (; local6 < local5; ++local6) {
+21                    int i = array[local6];
+22                    if (i == 1) {
+23                        ++sum;
+24                        // 7 -> 6 continue to 3 (1 of 2) Loop[entrance=3, first=A, exit=4, check=6]
+25                        continue;
+26                    }
+27                    // 5 -> 6 continue to 3 (2 of 2) Loop[entrance=3, first=A, exit=4, check=6]
+28                }
+29                return sum;
+30            }
+31        }
+32    }
 ============================================================
 Decompiling Log
 ============================================================
-//----------------------------------- GenericsTest#intersection (GenericsTest.java:122) -----------------------------------//
-[38;5;21mMethod intersection()[0m (GenericsTest.java:123)
+//----------------------------------- IntArrayTest#ArrayForEach (IntArrayTest.java:214) -----------------------------------//
+[38;5;21mMethod ArrayForEach()[0m (IntArrayTest.java:215)
 0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
 1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 
@@ -204,119 +192,95 @@ Delete tail empty return (show full nodes)
 
 0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
 
-//----------------------------------- GenericsTest#intersection (GenericsTest.java:126) -----------------------------------//
-[38;5;21mMethod intersection()[0m (GenericsTest.java:128)
-0	in[]	out[1]	dom[]	doms[]	side[ ,1]	dest[1]	code: assert if (this.size("test","total") 4) then 1 else SAME [Assert]
-1	in[0]	out[]	dom[0]	doms[]	side[0,2]	dest[T]	code: return null [Return - null]
-2	in[]	out[]	dom[]	doms[]	side[1, ]	dest[]	code: 
+//----------------------------------- IntArrayTest#ArrayForEach (IntArrayTest.java:217) -----------------------------------//
+[38;5;21mMethod ArrayForEach()[0m (IntArrayTest.java:226)
+0	in[]	out[1]		dom[]	doms[]	side[ ,1]	dest[1]	code: sum = 0 [Assign]
+1	in[0]	out[2]		dom[0]	doms[]	side[0,2]	dest[2]	code: array = new int[] [Assign#int[]]
+2	in[1]	out[3]		dom[1]	doms[]	side[1,3]	dest[3]	code: local4 = array [Assign#int[]] local5 = local4.length [Assign] local6 = 0 [Assign]
+3	in[2,6]	out[4,5]	dom[]	doms[]	side[2,5]	dest[5]	code: if (local6 local5) then 4 else 5 [Condition then 4 else 5] i = array.[local6] [Assign#int]
+5	in[3]	out[6,7]	dom[3]	doms[]	side[3,7]	dest[7]	code: if (i 1) then 6 else 7 [Condition then 6 else 7]
+7	in[5]	out[6]		dom[5]	doms[]	side[5,6]	dest[6]	code: ++sum [Unary#int]
+6	in[5,7]	out[3]		dom[5]	doms[]	side[7,4]	dest[3]	code: ++local6 [Unary#int]
+4	in[3]	out[]		dom[3]	doms[]	side[6,8]	dest[T]	code: return sum [Return#int - LocalVariable#int]
+8	in[]	out[]		dom[]	doms[]	side[4, ]	dest[]	code: 
 
-Delete tail empty return (show full nodes)
-[38;5;9m0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: assert if (this.size("test","total") 4) then 1 else SAME [Assert]
-1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: return null [Return - null]
-[0m
-[38;5;78m0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: assert if (this.size("test","total") 4) then 1 else SAME [Assert]
-1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: 
-[0m
-
-0	in[]	out[1]	dom[]	doms[1]	side[ ,1]	dest[1]	code: assert if (this.size("test","total") 4) then 1 else SAME [Assert]
-1	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: 
-
-//----------------------------------- GenericsTest#intersection (GenericsTest.java:130) -----------------------------------//
-[38;5;21mMethod intersection()[0m (GenericsTest.java:134)
-0	in[]	out[1,2]	dom[]	doms[]	side[ ,2]	dest[2]	code: if ((Comparable) one.compareTo(other) 0) then 1 else 2 [Condition then 1 else 2]
-2	in[0]	out[]		dom[0]	doms[]	side[0,1]	dest[T]	code: return one.length() [Return#int - MethodCall#int]
-1	in[0]	out[]		dom[0]	doms[]	side[2,3]	dest[T]	code: return other.length() [Return#int - MethodCall#int]
-3	in[]	out[]		dom[]	doms[]	side[1, ]	dest[]	code: 
-
-0	in[]	out[1,2]	dom[]	doms[2,1]	side[ ,2]	dest[2]	code: if ((Comparable) one.compareTo(other) 0) then 1 else 2 [Condition then 1 else 2]
-2	in[0]	out[]		dom[0]	doms[]		side[0,1]	dest[T]	code: return one.length() [Return#int - MethodCall#int]
-1	in[0]	out[]		dom[0]	doms[]		side[2, ]	dest[T]	code: return other.length() [Return#int - MethodCall#int]
-
-//----------------------------------- GenericsTest#intersection (GenericsTest.java:130) -----------------------------------//
-Handle ternary operator (show full nodes)
-[38;5;9m0	in[]	out[1,2]	dom[]	doms[]	side[ ,1]	dest[2]	code: if (GenericsTest.class.desiredAssertionStatus() 0) then 1 else 2 [Condition then 1 else 2] 1 [Number]
-1	in[0]	out[2]		dom[0]	doms[]	side[0,2]	dest[2]	code: 0 [Number]
-2	in[0,1]	out[]		dom[0]	doms[]	side[1, ]	dest[]	code: 
-[0m
-[38;5;78m0	in[]	out[2]	dom[]	doms[]	side[ ,2]	dest[2]	code: if (GenericsTest.class.desiredAssertionStatus() 0) then 1 else 2? 1 : 0 [AmbiguousZeroOneTernary]
-2	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[]	code: 
-[0m
-
-[38;5;21mMethod intersection()[0m (GenericsTest.java:123)
-0	in[]	out[2]	dom[]	doms[]	side[ ,2]	dest[2]	code: 
-2	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: return null [Return - null]
-
-Delete tail empty return (show full nodes)
-[38;5;9m0	in[]	out[2]	dom[]	doms[2]	side[ ,2]	dest[2]	code: 
-2	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: return null [Return - null]
-[0m
-[38;5;78m0	in[]	out[2]	dom[]	doms[2]	side[ ,2]	dest[2]	code: 
-2	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: 
-[0m
-
-0	in[]	out[2]	dom[]	doms[2]	side[ ,2]	dest[2]	code: 
-2	in[0]	out[]	dom[0]	doms[]	side[0, ]	dest[T]	code: 
+0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: sum = 0 [Assign]
+1	in[0]	out[2]		dom[0]	doms[2]		side[0,2]	dest[2]	code: array = new int[] [Assign#int[]]
+2	in[1]	out[3]		dom[1]	doms[3]		side[1,3]	dest[3]	code: local4 = array [Assign#int[]] local5 = local4.length [Assign] local6 = 0 [Assign]
+3	in[2,6]	out[4,A]	dom[2]	doms[A,4]	side[2,A]	dest[5]	back[6]code: if (local6 local5) then 4 else 5 [Condition then 4 else 5]
+A	in[3]	out[5]		dom[3]	doms[5]		side[3,5]	dest[]	code: i = array.[local6] [Assign#int]
+5	in[A]	out[6,7]	dom[A]	doms[7,6]	side[A,7]	dest[7]	code: if (i 1) then 6 else 7 [Condition then 6 else 7]
+7	in[5]	out[6]		dom[5]	doms[]		side[5,6]	dest[6]	code: ++sum [Unary#int]
+6	in[5,7]	out[3]		dom[5]	doms[]		side[7,4]	dest[3]	code: ++local6 [Unary#int]
+4	in[3]	out[]		dom[3]	doms[]		side[6, ]	dest[T]	code: return sum [Return#int - LocalVariable#int]
 
 
 ============================================================
-Bytecode Diff -  reincarnation.decompiler.grammar.GenericsTest$7
+Bytecode Diff -  reincarnation.decompiler.array.IntArrayTest$15
 ============================================================
-ECJ																																				Javac
-visitMethod(ACC_PUBLIC, "run", "()V", null, null);																								visitMethod(ACC_PUBLIC, "run", "()V", null, null);
-Label(L0);																																		Label(L0);
-FieldInsn(GETSTATIC, ~"GenericsTest"~, "$assertionsDisabled", "Z");																				FieldInsn(GETSTATIC, +"GenericsTest$7"+, "$assertionsDisabled", "Z");
-JumpInsn(IFNE, L1);																																JumpInsn(IFNE, L1);
-VarInsn(ALOAD, 0);																																VarInsn(ALOAD, 0);
-LdcInsn("test");																																LdcInsn("test");
-LdcInsn("total");																																LdcInsn("total");
-MethodInsn(INVOKEVIRTUAL, "CharSequence;)I", false);																							MethodInsn(INVOKEVIRTUAL, "CharSequence;)I", false);
-Insn(ICONST_4);																																	Insn(ICONST_4);
-JumpInsn(IF_ICMPEQ, L1);																														JumpInsn(IF_ICMPEQ, L1);
-TypeInsn(NEW, "j.l.AssertionError");																											TypeInsn(NEW, "j.l.AssertionError");
-Insn(DUP);																																		Insn(DUP);
-MethodInsn(INVOKESPECIAL, "j.l.AssertionError", "&lt;init&gt;", "()V", false);																	MethodInsn(INVOKESPECIAL, "j.l.AssertionError", "&lt;init&gt;", "()V", false);
-Insn(ATHROW);																																	Insn(ATHROW);
-Label(L1);																																		Label(L1);
-Frame(F_SAME, 0, null, 0, null);																												Frame(F_SAME, 0, null, 0, null);
-Insn(RETURN);																																	Insn(RETURN);
-Label(L2);																																		Label(L2);
-LocalVariable("this", "LGenericsTest$7;", null, L0, L2, 0);																						LocalVariable("this", "LGenericsTest$7;", null, L0, L2, 0);
-																																				
-visitMethod(ACC_PRIVATE, "size", "(Lj.l.CharSequence;Lj.l.CharSequence;)I", "&lt;T::Lj.l.CharSequence;:Lj.l.Comparable;&gt;(TT;TT;)I", null);	visitMethod(ACC_PRIVATE, "size", "(Lj.l.CharSequence;Lj.l.CharSequence;)I", "&lt;T::Lj.l.CharSequence;:Lj.l.Comparable;&gt;(TT;TT;)I", null);
-Label(L0);																																		Label(L0);
-VarInsn(ALOAD, 1);																																VarInsn(ALOAD, 1);
-TypeInsn(CHECKCAST, "j.l.Comparable");																											TypeInsn(CHECKCAST, "j.l.Comparable");
-~TypeInsn(CHECKCAST, "j.l.Comparable");~																										
-VarInsn(ALOAD, 2);																																VarInsn(ALOAD, 2);
-MethodInsn(INVOKEINTERFACE, "j.l.Comparable", "compareTo", "(Lj.l.Object;)I", true);															MethodInsn(INVOKEINTERFACE, "j.l.Comparable", "compareTo", "(Lj.l.Object;)I", true);
-JumpInsn(IFGT, L1);																																JumpInsn(IFGT, L1);
-Label(L2);																																		Label(L2);
-VarInsn(ALOAD, 1);																																VarInsn(ALOAD, 1);
-MethodInsn(INVOKEINTERFACE, "j.l.CharSequence", "length", "()I", true);																			MethodInsn(INVOKEINTERFACE, "j.l.CharSequence", "length", "()I", true);
-Insn(IRETURN);																																	Insn(IRETURN);
-Label(L1);																																		Label(L1);
-Frame(F_SAME, 0, null, 0, null);																												Frame(F_SAME, 0, null, 0, null);
-VarInsn(ALOAD, 2);																																VarInsn(ALOAD, 2);
-MethodInsn(INVOKEINTERFACE, "j.l.CharSequence", "length", "()I", true);																			MethodInsn(INVOKEINTERFACE, "j.l.CharSequence", "length", "()I", true);
-Insn(IRETURN);																																	Insn(IRETURN);
-Label(L3);																																		Label(L3);
-LocalVariable("this", "LGenericsTest$7;", null, L0, L3, 0);																						LocalVariable("this", "LGenericsTest$7;", null, L0, L3, 0);
-LocalVariable("one", "Lj.l.CharSequence;", "TT;", L0, L3, 1);																					LocalVariable("one", "Lj.l.CharSequence;", "TT;", L0, L3, 1);
-LocalVariable("other", "Lj.l.CharSequence;", "TT;", L0, L3, 2);																					LocalVariable("other", "Lj.l.CharSequence;", "TT;", L0, L3, 2);
-																																				++
-																																				+visitMethod(ACC_STATIC, "&lt;clinit&gt;", "()V", null, null);+
-																																				+Label(L0);+
-																																				+LdcInsn(Type.getType("LGenericsTest;"));+
-																																				+MethodInsn(INVOKEVIRTUAL, "j.l.Class", "desiredAssertionStatus", "()Z", false);+
-																																				+JumpInsn(IFNE, L1);+
-																																				+Insn(ICONST_1);+
-																																				+JumpInsn(GOTO, L2);+
-																																				+Label(L1);+
-																																				+Frame(F_SAME, 0, null, 0, null);+
-																																				+Insn(ICONST_0);+
-																																				+Label(L2);+
-																																				+Frame(F_SAME1, 0, null, 1, new Object[] {INTEGER});+
-																																				+FieldInsn(PUTSTATIC, "GenericsTest$7", "$assertionsDisabled", "Z");+
-																																				+Insn(RETURN);+
+ECJ																																	Javac
+visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);																					visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
+~Parameter("value", 0);~																											
+Label(L0);																															Label(L0);
+Insn(ICONST_0);																														Insn(ICONST_0);
+VarInsn(ISTORE, 2);																													VarInsn(ISTORE, 2);
+Label(L1);																															Label(L1);
+Insn(ICONST_3);																														Insn(ICONST_3);
+IntInsn(NEWARRAY, T_INT);																											IntInsn(NEWARRAY, T_INT);
+Insn(DUP);																															Insn(DUP);
+Insn(ICONST_0);																														Insn(ICONST_0);
+Insn(ICONST_1);																														Insn(ICONST_1);
+Insn(IASTORE);																														Insn(IASTORE);
+Insn(DUP);																															Insn(DUP);
+Insn(ICONST_1);																														Insn(ICONST_1);
+Insn(ICONST_2);																														Insn(ICONST_2);
+Insn(IASTORE);																														Insn(IASTORE);
+Insn(DUP);																															Insn(DUP);
+Insn(ICONST_2);																														Insn(ICONST_2);
+Insn(ICONST_3);																														Insn(ICONST_3);
+Insn(IASTORE);																														Insn(IASTORE);
+VarInsn(ASTORE, 3);																													VarInsn(ASTORE, 3);
+Label(L2);																															Label(L2);
+VarInsn(ALOAD, 3);																													VarInsn(ALOAD, 3);
+~Insn~(~DUP~);																														+VarInsn+(+ASTORE, 4+);
+VarInsn(~ASTORE~, ~7~);																												VarInsn(+ALOAD+, +4+);
+Insn(ARRAYLENGTH);																													Insn(ARRAYLENGTH);
+~VarInsn(ISTORE, 6);~																												
+~Insn(ICONST_0);~																													
+VarInsn(ISTORE, 5);																													VarInsn(ISTORE, 5);
+~JumpInsn~(~GOTO~, ~L3~);																											+Insn+(+ICONST_0);+
+Label(~L4~);																														+VarInsn(ISTORE+, +6+);
+Frame(F_FULL, ~8~, new Object[] {"IntArrayTest$15", INTEGER, INTEGER, "[I", ~TOP~, INTEGER, INTEGER~, "[I"~}, 0, new Object[] {});	Label(+L3+);
+~VarInsn(ALOAD, 7);~																												Frame(F_FULL, +7+, new Object[] {"IntArrayTest$15", INTEGER, INTEGER, "[I", +"[I"+, INTEGER, INTEGER}, 0, new Object[] {});
+																																	+VarInsn(ILOAD, 6);+
+VarInsn(ILOAD, 5);																													VarInsn(ILOAD, 5);
+																																	+JumpInsn(IF_ICMPGE, L4);+
+																																	+VarInsn(ALOAD, 4);+
+																																	+VarInsn(ILOAD, 6);+
+Insn(IALOAD);																														Insn(IALOAD);
+VarInsn(ISTORE, ~4~);																												VarInsn(ISTORE, +7+);
+Label(L5);																															Label(L5);
+VarInsn(ILOAD, ~4~);																												VarInsn(ILOAD, +7+);
+Insn(ICONST_1);																														Insn(ICONST_1);
+JumpInsn(IF_ICMPNE, L6);																											JumpInsn(IF_ICMPNE, L6);
+Label(L7);																															Label(L7);
+IincInsn(2, 1);																														IincInsn(2, 1);
+Label(L6);																															Label(L6);
+Frame(F_SAME, 0, null, 0, null);																									Frame(F_SAME, 0, null, 0, null);
+IincInsn(~5~, 1);																													IincInsn(+6+, 1);
+~Label~(L3);																														+JumpInsn+(+GOTO, +L3);
+Frame(~F_SAME~,~ 0~, null, 0, null);																								+Label(L4);+
+~VarInsn(ILOAD, 5);~																												Frame(+F_CHOP+,+3+, null, 0, null);
+~VarInsn(ILOAD, 6);~																												
+~JumpInsn(IF_ICMPLT, L4);~																											
+~Label(L8);~																														
+VarInsn(ILOAD, 2);																													VarInsn(ILOAD, 2);
+Insn(IRETURN);																														Insn(IRETURN);
+Label(~L9~);																														Label(+L8+);
+LocalVariable("this", "LIntArrayTest$15;", null, L0, ~L9~, 0);																		LocalVariable(+"i", "I", null, L5, L6, 7);+
+LocalVariable("value", "I", null, L0, ~L9~, 1);																						+LocalVariable(+"this", "LIntArrayTest$15;", null, L0, +L8+, 0);
+LocalVariable("sum", "I", null, L1, ~L9~, 2);																						LocalVariable("value", "I", null, L0, +L8+, 1);
+LocalVariable("array", "[I", null, L2, ~L9~, 3);																					LocalVariable("sum", "I", null, L1, +L8+, 2);
+~LocalVariable("i", "I", null, L5, L6, 4);~																							LocalVariable("array", "[I", null, L2, +L8+, 3);
 ============================================================
 

@@ -216,7 +216,7 @@ public class FloatArrayTest extends CodeVerifier {
                 float sum = 0;
                 float[] array = {1, 2, 3};
 
-                for (float i : array) {
+                for (float i : array) { // LLV
                     if (i == 1) {
                         sum++;
                     }

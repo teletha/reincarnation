@@ -216,8 +216,8 @@ public class BooleanArrayTest extends CodeVerifier {
                 int sum = 0;
                 boolean[] array = {true, false, true};
 
-                for (boolean i : array) {
-                    if (i) {
+                for (boolean bool : array) { // LLV
+                    if (bool) {
                         sum++;
                     }
                 }
