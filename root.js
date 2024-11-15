@@ -139,6 +139,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "IntMap",
+			"packageName": "reincarnation.util",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "JavaCoder",
 			"packageName": "reincarnation.coder.java",
 			"type": "Class"
