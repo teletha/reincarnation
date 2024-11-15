@@ -74,6 +74,18 @@ public class FloatArrayTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    public void ArrayByShorthandWithDeclaration() {
+        verify(new TestCode.Float() {
+
+            @Override
+            public float run() {
+                float[] array = {1.0F, 0.0F}; // LLV
+                return array[0] + array[1];
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     public void ArrayByShorthandWithAllFalse() {
         verify(new TestCode.FloatArray() {
 

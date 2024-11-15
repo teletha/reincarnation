@@ -74,6 +74,18 @@ public class LongArrayTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    public void ArrayByShorthandWithDeclaration() {
+        verify(new TestCode.Long() {
+
+            @Override
+            public long run() {
+                long[] array = {1L, 0L}; // LLV
+                return array[0] + array[1];
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     public void ArrayByShorthandWithAllFalse() {
         verify(new TestCode.LongArray() {
 

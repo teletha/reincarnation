@@ -66,9 +66,20 @@ public class IntArrayTest extends CodeVerifier {
         verify(new TestCode.IntArray() {
 
             @Override
-
             public int[] run() {
                 return new int[] {1, 0};
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    public void ArrayByShorthandWithDeclaration() {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                int[] array = {1, 0}; // LLV
+                return array[0] + array[1];
             }
         });
     }
@@ -196,7 +207,7 @@ public class IntArrayTest extends CodeVerifier {
             @Override
             public int run(int value) {
                 int sum = 0;
-                int[] array = {1, 2, 3};
+                int[] array = {1, 2, 3}; // LLV
 
                 for (int i = 0; i < array.length; i++) {
                     if (array[i] == 1) {

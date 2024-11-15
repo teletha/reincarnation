@@ -397,16 +397,16 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    public void writeCreateArray(Class type, List<Code> dimensions) {
-        coder.writeCreateArray(type, dimensions);
+    public void writeCreateArray(Class type, boolean shorthandable, List<Code> dimensions) {
+        coder.writeCreateArray(type, shorthandable, dimensions);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void writeCreateArray(Class type, List<Code> dimensions, List<Code> initialValues) {
-        coder.writeCreateArray(type, dimensions, initialValues);
+    public void writeCreateArray(Class type, boolean shorthandable, List<Code> dimensions, List<Code> initialValues) {
+        coder.writeCreateArray(type, shorthandable, dimensions, initialValues);
     }
 
     /**

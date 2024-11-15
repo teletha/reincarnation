@@ -72,6 +72,20 @@ final class LocalVariables implements Naming {
         this.offset = offset;
     }
 
+    boolean has(int order, int opcode) {
+        // check parameters
+        OperandLocalVariable variable = params.get(order);
+
+        if (variable != null) {
+            return true;
+        }
+
+        int index = order;
+        Class type = load(opcode);
+
+        return variables.containsKey(id(index, type));
+    }
+
     /**
      * Compute the identified qualified local variable name.
      * 

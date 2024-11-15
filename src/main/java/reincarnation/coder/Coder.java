@@ -602,18 +602,43 @@ public abstract class Coder<O extends CodingOption> {
      * Create array expression.
      * 
      * @param type A type of array.
-     * @param dimensions A list of dimension size.
+     *            The class of the array's component type.
+     * @param shorthandable A flag indicating whether shorthand syntax (e.g., `{1, 2, 3}`)
+     *            can be used for array creation.
+     *            If true, the array declaration and initialization
+     *            should be combined in a single statement where possible.
+     *            This applies only when dimensions are not explicitly defined
+     *            and initial values are provided (if applicable).
+     *            For example:
+     *            <ul>
+     *            <li>Shorthand: {@code int[] array = {1, 2, 3}}</li>
+     *            <li>Non-shorthand: {@code int[] array = new int[] {1, 2, 3}}</li>
+     *            </ul>
+     * @param dimensions A list of dimension sizes for the array.
+     *            If empty, it indicates that the dimensions will be inferred.
      */
-    public abstract void writeCreateArray(Class type, List<Code> dimensions);
+    public abstract void writeCreateArray(Class type, boolean shorthandable, List<Code> dimensions);
 
     /**
      * Create array expression.
      * 
      * @param type A type of array.
-     * @param dimensions A list of dimension size.
-     * @param initialValues A list of initial values.
+     *            The class of the array's component type.
+     * @param shorthandable A flag indicating whether shorthand syntax (e.g., `{1, 2, 3}`)
+     *            can be used for array initialization.
+     *            If true, the array declaration and initialization
+     *            should be combined in a single statement where possible.
+     *            For example, `int[] array = {1, 2, 3}` instead of
+     *            `int[] array = new int[] {1, 2, 3}`.
+     *            This is applicable only when dimensions are not explicitly defined
+     *            and initial values are provided.
+     * @param dimensions A list of dimension sizes for the array.
+     *            If empty, it indicates that the array dimensions
+     *            should be inferred from the initial values.
+     * @param initialValues A list of initial values to populate the array.
+     *            If empty, the array will be initialized with default values.
      */
-    public abstract void writeCreateArray(Class type, List<Code> dimensions, List<Code> initialValues);
+    public abstract void writeCreateArray(Class type, boolean shorthandable, List<Code> dimensions, List<Code> initialValues);
 
     /**
      * Ternary condition expression.

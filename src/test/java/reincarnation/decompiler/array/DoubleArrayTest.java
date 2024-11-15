@@ -74,6 +74,18 @@ public class DoubleArrayTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    public void ArrayByShorthandWithDeclaration() {
+        verify(new TestCode.Double() {
+
+            @Override
+            public double run() {
+                double[] array = {1.0D, 0.0D}; // LLV
+                return array[0] + array[1];
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     public void ArrayByShorthandWithAllFalse() {
         verify(new TestCode.DoubleArray() {
 

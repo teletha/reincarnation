@@ -864,7 +864,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeCreateArray(Class type, List<Code> dimensions) {
+    public void writeCreateArray(Class type, boolean shorthandable, List<Code> dimensions) {
         write("new", space, name(type), join("[", dimensions, "][", "]"));
     }
 
@@ -872,8 +872,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeCreateArray(Class type, List<Code> dimensions, List<Code> initialValues) {
-        write("new", space, name(type), join("[", dimensions, "][", "]"), space, join("{", initialValues, ", ", "}"));
+    public void writeCreateArray(Class type, boolean shorthandable, List<Code> dimensions, List<Code> initialValues) {
+        if (shorthandable) {
+            write(join("{", initialValues, ", ", "}"));
+        } else {
+            write("new", space, name(type), join("[", dimensions, "][", "]"), space, join("{", initialValues, ", ", "}"));
+        }
     }
 
     /**

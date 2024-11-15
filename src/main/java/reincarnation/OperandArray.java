@@ -68,6 +68,9 @@ class OperandArray extends Operand {
     /** The component type. */
     private final Class type;
 
+    /** The initialization type. */
+    boolean shorthandable;
+
     /**
      * <p>
      * Create Array operand.
@@ -137,7 +140,7 @@ class OperandArray extends Operand {
             for (int i = 0; i < dimensions.size(); i++) {
                 levels.set(i, dimensions.get(i));
             }
-            coder.writeCreateArray(root(type), levels);
+            coder.writeCreateArray(root(type), shorthandable, levels);
         } else {
             int requiredSize = dimensions.isEmpty() ? items.size()
                     : Math.max(dimensions.get(0).as(OperandNumber.class).v.value.intValue(), items.size());
@@ -158,7 +161,7 @@ class OperandArray extends Operand {
                     initializer.set(i, items.get(i));
                 }
             }
-            coder.writeCreateArray(type, levels, initializer);
+            coder.writeCreateArray(type, shorthandable, levels, initializer);
         }
     }
 

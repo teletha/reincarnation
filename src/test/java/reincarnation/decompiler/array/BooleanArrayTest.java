@@ -74,6 +74,18 @@ public class BooleanArrayTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    public void ArrayByShorthandWithDeclaration() {
+        verify(new TestCode.Boolean() {
+
+            @Override
+            public boolean run() {
+                boolean[] array = {true, false}; // LLV
+                return array[0];
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     public void ArrayByShorthandWithAllFalse() {
         verify(new TestCode.BooleanArray() {
 

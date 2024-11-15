@@ -1292,9 +1292,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 value = value.fix(char.class);
             }
 
-            if (contextMaybeArray instanceof OperandArray) {
+            if (contextMaybeArray instanceof OperandArray array) {
                 // initialization of syntax sugar
-                ((OperandArray) contextMaybeArray).set(current.remove(0), value);
+                array.set(current.remove(0), value);
             } else {
                 // write by index
                 OperandArrayAccess array = new OperandArrayAccess(contextMaybeArray, current.remove(0));
@@ -2138,6 +2138,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         recordLocalVariableAccess(position);
 
         // retrieve local variable name
+        boolean firstUse = !locals.has(position, opcode);
         OperandLocalVariable variable = locals
                 .find(position, opcode, match(FRAME_SAME1, ASTORE) || match(FRAME_FULL, ASTORE) ? null : current);
 
@@ -2187,6 +2188,10 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
             if (match(FRAME_SAME1, ASTORE) || match(FRAME_FULL, ASTORE)) {
                 tries.assignExceptionVariable(current, variable);
+            }
+
+            if (firstUse && current.peek(0) instanceof OperandArray array) {
+                array.shorthandable = true;
             }
 
         case ISTORE:
