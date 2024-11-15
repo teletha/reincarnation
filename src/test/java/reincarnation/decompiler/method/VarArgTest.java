@@ -98,7 +98,7 @@ class VarArgTest extends CodeVerifier {
 
             private String concat(java.lang.Object... text) {
                 StringBuilder builder = new StringBuilder();
-                for (java.lang.Object object : text) {
+                for (java.lang.Object object : text) { // LLV
                     builder.append(object);
                 }
                 return builder.toString();

@@ -28,9 +28,6 @@ import reincarnation.util.Classes;
  */
 final class LocalVariables implements Naming {
 
-    /** The special binding. */
-    private final Map<Integer, Integer> bindings = new HashMap();
-
     /** Flag for static or normal. */
     private final int offset;
 
@@ -91,11 +88,6 @@ final class LocalVariables implements Naming {
             return variable;
         }
 
-        Integer binding = bindings.get(order);
-        if (binding != null) {
-            order = binding.intValue();
-        }
-
         int index = order;
         Class type = load(opcode);
 
@@ -117,20 +109,11 @@ final class LocalVariables implements Naming {
     }
 
     /**
-     * @param index
-     * @param variable
-     */
-    void register(int index, OperandLocalVariable variable) {
-        bindings.put(index, variable.index.v);
-    }
-
-    /**
      * Unregister the local variable by index.
      * 
      * @param index
      */
     void unregister(int index) {
-        bindings.remove(index);
         unregistered.add(index);
     }
 

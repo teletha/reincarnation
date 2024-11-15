@@ -53,8 +53,8 @@ class OperandLocalVariable extends Operand {
     /**
      * Synchronizes the state of this local variable with the specified target local variable.
      * <p>
-     * This method sets up observers on the fields of this object (`index`, `name`, and `original`)
-     * and binds their values to the corresponding fields of the target local variable.
+     * This method sets up observers on the fields of this object (`index`, `name`, `type`, and
+     * `original`) and binds their values to the corresponding fields of the target local variable.
      * Any updates to this object's fields will automatically propagate to the target.
      * </p>
      *
@@ -65,6 +65,7 @@ class OperandLocalVariable extends Operand {
         index.observing().to(target.index::set);
         name.observing().to(target.name::set);
         original.observing().to(target.original::set);
+        type.observing().to(target.type::set);
     }
 
     /**

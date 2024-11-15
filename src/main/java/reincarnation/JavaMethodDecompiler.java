@@ -2137,15 +2137,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         record(opcode);
         recordLocalVariableAccess(position);
 
-        // Array#length for enhanced for-loop produces special bytecode
-        if (match(ALOAD, DUP, ASTORE)) {
-            locals.register(position, (OperandLocalVariable) current.remove(0));
-            return;
-        }
-
         // retrieve local variable name
         OperandLocalVariable variable = locals
                 .find(position, opcode, match(FRAME_SAME1, ASTORE) || match(FRAME_FULL, ASTORE) ? null : current);
+
+        // For ECJ
+        // Array#length on enhanced for-loop produces special bytecode
+        if (match(ALOAD, DUP, ASTORE)) {
+            OperandLocalVariable original = (OperandLocalVariable) current.remove(0);
+            original.assimilate(variable);
+            return;
+        }
 
         switch (opcode) {
         case ILOAD:

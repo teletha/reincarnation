@@ -1,6 +1,32 @@
-
+java.lang.Error: 
 ============================================================
 ECJ compiles reincarnation.decompiler.array.IntArrayTest$15
+============================================================
+/reincarnation/decompiler/array/IntArrayTest.java:20: ÉGÉâÅ[: ìÒçÄââéZéq'=='ÇÃÉIÉyÉâÉìÉhå^Ç™ïsê≥Ç≈Ç∑
+                if (i == 1) {
+                      ^
+  ç≈èâÇÃå^: java.lang.Object
+  2î‘ñ⁄ÇÃå^: int
+
+Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
+NullPointerException: Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
+    at reincarnation.CodeVerifier$JavaVerifier.<init>(CodeVerifier.java:390)
+    at reincarnation.CodeVerifier.verify(CodeVerifier.java:185)
+    at reincarnation.decompiler.array.IntArrayTest.ArrayForEach(IntArrayTest.java:213)
+    at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+    at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+    at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:767)
+    at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+    at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+    at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
+    at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
+    at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestTemplateMethod(TimeoutExtension.java:94)
+    at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
+    at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
+    at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+    at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+    at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+
 ============================================================
 Original Code
 ============================================================
@@ -11,7 +37,7 @@ public void ArrayForEach() {
                 int sum = 0;
                 int[] array = {1, 2, 3};
 
-                for (int i : array) {
+                for (int i : array) { // LLV
                     if (i == 1) {
                         sum++;
                     }
@@ -42,7 +68,7 @@ Decompiled Code
 16            public int run(int value) {
 17                int sum = 0;
 18                int[] array = new int[] {1, 2, 3};
-19                for (int i : array) {
+19                for (java.lang.Object i : array) {
 20                    if (i == 1) {
 21                        ++sum;
 22                        // 7 -> 6 continue to 3 (1 of 2) Loop[entrance=3, first=4, exit=8, check=6]
@@ -57,25 +83,25 @@ Decompiled Code
 ============================================================
 Decompiling Log
 ============================================================
-//----------------------------------- IntArrayTest#ArrayForEach (IntArrayTest.java:214) -----------------------------------//
-[38;5;21mMethod ArrayForEach()[0m (IntArrayTest.java:215)
+//----------------------------------- IntArrayTest#ArrayForEach (IntArrayTest.java:212) -----------------------------------//
+Method ArrayForEach() (IntArrayTest.java:213)
 0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: this.this$0 = this$0 [Assign#IntArrayTest] java.lang.Object() [ConstructorCall] return null [Return - null]
 1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 
 Delete tail empty return (show full nodes)
-[38;5;9m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = this$0 [Assign#IntArrayTest] java.lang.Object() [ConstructorCall] return null [Return - null]
-[0m
-[38;5;78m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = this$0 [Assign#IntArrayTest] java.lang.Object() [ConstructorCall]
-[0m
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = this$0 [Assign#IntArrayTest] java.lang.Object() [ConstructorCall] return null [Return - null]
 
 0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = this$0 [Assign#IntArrayTest] java.lang.Object() [ConstructorCall]
 
-//----------------------------------- IntArrayTest#ArrayForEach (IntArrayTest.java:217) -----------------------------------//
-[38;5;21mMethod ArrayForEach()[0m (IntArrayTest.java:226)
+
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = this$0 [Assign#IntArrayTest] java.lang.Object() [ConstructorCall]
+
+//----------------------------------- IntArrayTest#ArrayForEach (IntArrayTest.java:215) -----------------------------------//
+Method ArrayForEach() (IntArrayTest.java:224)
 0	in[]	out[1]		dom[]	doms[]	side[ ,1]	dest[1]	code: sum = 0 [Assign]
 1	in[0]	out[2]		dom[0]	doms[]	side[0,2]	dest[2]	code: array = new int[] [Assign#int[]]
 2	in[1]	out[3]		dom[1]	doms[]	side[1,4]	dest[3]	code: local6 = array.length [Assign] local5 = 0 [Assign]
-4	in[3]	out[5]		dom[3]	doms[]	side[2,5]	dest[5]	code: i = array.[local5] [Assign#int]
+4	in[3]	out[5]		dom[3]	doms[]	side[2,5]	dest[5]	code: i = array.[local5] [Assign]
 5	in[4]	out[6,7]	dom[4]	doms[]	side[4,7]	dest[7]	code: if (i 1) then 6 else 7 [Condition then 6 else 7]
 7	in[5]	out[6]		dom[5]	doms[]	side[5,6]	dest[6]	code: ++sum [Unary#int]
 6	in[5,7]	out[3]		dom[5]	doms[]	side[7,3]	dest[3]	code: ++local5 [Unary#int]
@@ -84,17 +110,17 @@ Delete tail empty return (show full nodes)
 9	in[]	out[]		dom[]	doms[]	side[8, ]	dest[]	code: 
 
 Analyze nodes (show full nodes)
-[38;5;9m0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: sum = 0 [Assign]
+0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: sum = 0 [Assign]
 1	in[0]	out[2]		dom[0]	doms[2]		side[0,2]	dest[2]	code: array = new int[] [Assign#int[]]
 2	in[1]	out[3]		dom[1]	doms[3]		side[1,4]	dest[3]	code: local6 = array.length [Assign] local5 = 0 [Assign]
-4	in[3]	out[5]		dom[3]	doms[5]		side[2,5]	dest[5]	code: i = array.[local5] [Assign#int]
+4	in[3]	out[5]		dom[3]	doms[5]		side[2,5]	dest[5]	code: i = array.[local5] [Assign]
 5	in[4]	out[6,7]	dom[4]	doms[7,6]	side[4,7]	dest[7]	code: if (i 1) then 6 else 7 [Condition then 6 else 7]
 7	in[5]	out[6]		dom[5]	doms[]		side[5,6]	dest[6]	code: ++sum [Unary#int]
 6	in[5,7]	out[3]		dom[5]	doms[]		side[7,3]	dest[3]	code: ++local5 [Unary#int]
 3	in[2,6]	out[4,8]	dom[2]	doms[4,8]	side[6,8]	dest[8]	back[6]code: if (local5 local6) then 4 else 8 [Condition then 4 else 8]
 8	in[3]	out[]		dom[3]	doms[]		side[3, ]	dest[T]	code: return sum [Return#int - LocalVariable#int]
-[0m
-[38;5;78m0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: sum = 0 [Assign]
+
+0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: sum = 0 [Assign]
 1	in[0]	out[2]		dom[0]	doms[2]		side[0,2]	dest[2]	code: array = new int[] [Assign#int[]]
 2	in[1]	out[3]		dom[1]	doms[3]		side[1,4]	dest[3]	code: 
 4	in[3]	out[5]		dom[3]	doms[5]		side[2,5]	dest[5]	code: 
@@ -103,7 +129,7 @@ Analyze nodes (show full nodes)
 6	in[5,7]	out[3]		dom[5]	doms[]		side[7,3]	dest[3]	code: 
 3	in[2,6]	out[4,8]	dom[2]	doms[4,8]	side[6,8]	dest[8]	back[6]code: if (local5 local6) then 4 else 8 [Condition then 4 else 8]
 8	in[3]	out[]		dom[3]	doms[]		side[3, ]	dest[T]	code: return sum [Return#int - LocalVariable#int]
-[0m
+
 
 0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: sum = 0 [Assign]
 1	in[0]	out[2]		dom[0]	doms[2]		side[0,2]	dest[2]	code: array = new int[] [Assign#int[]]
@@ -118,169 +144,4 @@ Analyze nodes (show full nodes)
 
 ============================================================
 
-
-============================================================
-Javac compiles reincarnation.decompiler.array.IntArrayTest$15
-============================================================
-Original Code
-============================================================
-public void ArrayForEach() {
-        verify(new TestCode.IntParam() {
-            @Override
-            public int run(int value) {
-                int sum = 0;
-                int[] array = {1, 2, 3};
-
-                for (int i : array) {
-                    if (i == 1) {
-                        sum++;
-                    }
-                }
-                return sum;
-            }
-        });
-    }
-}
-============================================================
-Decompiled Code
-============================================================
-01    package reincarnation.decompiler.array;
-02    
-03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.IntParam;
-05    import reincarnation.decompiler.array.IntArrayTest;
-06    
-07    public class IntArrayTest extends CodeVerifier {
-08    
-09        class IntArrayTest$15 implements IntParam {
-10    
-11            IntArrayTest$15(final IntArrayTest this$0) {
-12            }
-13    
-14            public int run(int value) {
-15                int sum = 0;
-16                int[] array = new int[] {1, 2, 3};
-17                int[] local4 = array;
-18                int local5 = local4.length;
-19                int local6 = 0;
-20                for (; local6 < local5; ++local6) {
-21                    int i = array[local6];
-22                    if (i == 1) {
-23                        ++sum;
-24                        // 7 -> 6 continue to 3 (1 of 2) Loop[entrance=3, first=A, exit=4, check=6]
-25                        continue;
-26                    }
-27                    // 5 -> 6 continue to 3 (2 of 2) Loop[entrance=3, first=A, exit=4, check=6]
-28                }
-29                return sum;
-30            }
-31        }
-32    }
-============================================================
-Decompiling Log
-============================================================
-//----------------------------------- IntArrayTest#ArrayForEach (IntArrayTest.java:214) -----------------------------------//
-[38;5;21mMethod ArrayForEach()[0m (IntArrayTest.java:215)
-0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
-1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
-
-Delete tail empty return (show full nodes)
-[38;5;9m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
-[0m
-[38;5;78m0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
-[0m
-
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
-
-//----------------------------------- IntArrayTest#ArrayForEach (IntArrayTest.java:217) -----------------------------------//
-[38;5;21mMethod ArrayForEach()[0m (IntArrayTest.java:226)
-0	in[]	out[1]		dom[]	doms[]	side[ ,1]	dest[1]	code: sum = 0 [Assign]
-1	in[0]	out[2]		dom[0]	doms[]	side[0,2]	dest[2]	code: array = new int[] [Assign#int[]]
-2	in[1]	out[3]		dom[1]	doms[]	side[1,3]	dest[3]	code: local4 = array [Assign#int[]] local5 = local4.length [Assign] local6 = 0 [Assign]
-3	in[2,6]	out[4,5]	dom[]	doms[]	side[2,5]	dest[5]	code: if (local6 local5) then 4 else 5 [Condition then 4 else 5] i = array.[local6] [Assign#int]
-5	in[3]	out[6,7]	dom[3]	doms[]	side[3,7]	dest[7]	code: if (i 1) then 6 else 7 [Condition then 6 else 7]
-7	in[5]	out[6]		dom[5]	doms[]	side[5,6]	dest[6]	code: ++sum [Unary#int]
-6	in[5,7]	out[3]		dom[5]	doms[]	side[7,4]	dest[3]	code: ++local6 [Unary#int]
-4	in[3]	out[]		dom[3]	doms[]	side[6,8]	dest[T]	code: return sum [Return#int - LocalVariable#int]
-8	in[]	out[]		dom[]	doms[]	side[4, ]	dest[]	code: 
-
-0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: sum = 0 [Assign]
-1	in[0]	out[2]		dom[0]	doms[2]		side[0,2]	dest[2]	code: array = new int[] [Assign#int[]]
-2	in[1]	out[3]		dom[1]	doms[3]		side[1,3]	dest[3]	code: local4 = array [Assign#int[]] local5 = local4.length [Assign] local6 = 0 [Assign]
-3	in[2,6]	out[4,A]	dom[2]	doms[A,4]	side[2,A]	dest[5]	back[6]code: if (local6 local5) then 4 else 5 [Condition then 4 else 5]
-A	in[3]	out[5]		dom[3]	doms[5]		side[3,5]	dest[]	code: i = array.[local6] [Assign#int]
-5	in[A]	out[6,7]	dom[A]	doms[7,6]	side[A,7]	dest[7]	code: if (i 1) then 6 else 7 [Condition then 6 else 7]
-7	in[5]	out[6]		dom[5]	doms[]		side[5,6]	dest[6]	code: ++sum [Unary#int]
-6	in[5,7]	out[3]		dom[5]	doms[]		side[7,4]	dest[3]	code: ++local6 [Unary#int]
-4	in[3]	out[]		dom[3]	doms[]		side[6, ]	dest[T]	code: return sum [Return#int - LocalVariable#int]
-
-
-============================================================
-Bytecode Diff -  reincarnation.decompiler.array.IntArrayTest$15
-============================================================
-ECJ																																	Javac
-visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);																					visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
-~Parameter("value", 0);~																											
-Label(L0);																															Label(L0);
-Insn(ICONST_0);																														Insn(ICONST_0);
-VarInsn(ISTORE, 2);																													VarInsn(ISTORE, 2);
-Label(L1);																															Label(L1);
-Insn(ICONST_3);																														Insn(ICONST_3);
-IntInsn(NEWARRAY, T_INT);																											IntInsn(NEWARRAY, T_INT);
-Insn(DUP);																															Insn(DUP);
-Insn(ICONST_0);																														Insn(ICONST_0);
-Insn(ICONST_1);																														Insn(ICONST_1);
-Insn(IASTORE);																														Insn(IASTORE);
-Insn(DUP);																															Insn(DUP);
-Insn(ICONST_1);																														Insn(ICONST_1);
-Insn(ICONST_2);																														Insn(ICONST_2);
-Insn(IASTORE);																														Insn(IASTORE);
-Insn(DUP);																															Insn(DUP);
-Insn(ICONST_2);																														Insn(ICONST_2);
-Insn(ICONST_3);																														Insn(ICONST_3);
-Insn(IASTORE);																														Insn(IASTORE);
-VarInsn(ASTORE, 3);																													VarInsn(ASTORE, 3);
-Label(L2);																															Label(L2);
-VarInsn(ALOAD, 3);																													VarInsn(ALOAD, 3);
-~Insn~(~DUP~);																														+VarInsn+(+ASTORE, 4+);
-VarInsn(~ASTORE~, ~7~);																												VarInsn(+ALOAD+, +4+);
-Insn(ARRAYLENGTH);																													Insn(ARRAYLENGTH);
-~VarInsn(ISTORE, 6);~																												
-~Insn(ICONST_0);~																													
-VarInsn(ISTORE, 5);																													VarInsn(ISTORE, 5);
-~JumpInsn~(~GOTO~, ~L3~);																											+Insn+(+ICONST_0);+
-Label(~L4~);																														+VarInsn(ISTORE+, +6+);
-Frame(F_FULL, ~8~, new Object[] {"IntArrayTest$15", INTEGER, INTEGER, "[I", ~TOP~, INTEGER, INTEGER~, "[I"~}, 0, new Object[] {});	Label(+L3+);
-~VarInsn(ALOAD, 7);~																												Frame(F_FULL, +7+, new Object[] {"IntArrayTest$15", INTEGER, INTEGER, "[I", +"[I"+, INTEGER, INTEGER}, 0, new Object[] {});
-																																	+VarInsn(ILOAD, 6);+
-VarInsn(ILOAD, 5);																													VarInsn(ILOAD, 5);
-																																	+JumpInsn(IF_ICMPGE, L4);+
-																																	+VarInsn(ALOAD, 4);+
-																																	+VarInsn(ILOAD, 6);+
-Insn(IALOAD);																														Insn(IALOAD);
-VarInsn(ISTORE, ~4~);																												VarInsn(ISTORE, +7+);
-Label(L5);																															Label(L5);
-VarInsn(ILOAD, ~4~);																												VarInsn(ILOAD, +7+);
-Insn(ICONST_1);																														Insn(ICONST_1);
-JumpInsn(IF_ICMPNE, L6);																											JumpInsn(IF_ICMPNE, L6);
-Label(L7);																															Label(L7);
-IincInsn(2, 1);																														IincInsn(2, 1);
-Label(L6);																															Label(L6);
-Frame(F_SAME, 0, null, 0, null);																									Frame(F_SAME, 0, null, 0, null);
-IincInsn(~5~, 1);																													IincInsn(+6+, 1);
-~Label~(L3);																														+JumpInsn+(+GOTO, +L3);
-Frame(~F_SAME~,~ 0~, null, 0, null);																								+Label(L4);+
-~VarInsn(ILOAD, 5);~																												Frame(+F_CHOP+,+3+, null, 0, null);
-~VarInsn(ILOAD, 6);~																												
-~JumpInsn(IF_ICMPLT, L4);~																											
-~Label(L8);~																														
-VarInsn(ILOAD, 2);																													VarInsn(ILOAD, 2);
-Insn(IRETURN);																														Insn(IRETURN);
-Label(~L9~);																														Label(+L8+);
-LocalVariable("this", "LIntArrayTest$15;", null, L0, ~L9~, 0);																		LocalVariable(+"i", "I", null, L5, L6, 7);+
-LocalVariable("value", "I", null, L0, ~L9~, 1);																						+LocalVariable(+"this", "LIntArrayTest$15;", null, L0, +L8+, 0);
-LocalVariable("sum", "I", null, L1, ~L9~, 2);																						LocalVariable("value", "I", null, L0, +L8+, 1);
-LocalVariable("array", "[I", null, L2, ~L9~, 3);																					LocalVariable("sum", "I", null, L1, +L8+, 2);
-~LocalVariable("i", "I", null, L5, L6, 4);~																							LocalVariable("array", "[I", null, L2, +L8+, 3);
-============================================================
 
