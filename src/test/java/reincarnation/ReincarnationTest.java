@@ -9,18 +9,17 @@
  */
 package reincarnation;
 
-import java.awt.List;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.constant.ClassDesc;
 import java.lang.constant.ConstantDesc;
 import java.time.temporal.ChronoField;
 import java.util.AbstractCollection;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.junit.jupiter.api.Test;
-
-import impl.org.controlsfx.collections.MappingChange.Map;
 
 class ReincarnationTest {
 
