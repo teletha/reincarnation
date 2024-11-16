@@ -17,6 +17,8 @@ import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.List;
 
+import kiss.Model;
+
 class Inference {
 
     /**
@@ -72,7 +74,7 @@ class Inference {
 
             for (int i = 0; i < declaredParameters.length; i++) {
                 if (declaredParameters[i].equals(variable)) {
-                    return parameterized.getActualTypeArguments()[i];
+                    return Model.collectParameters(parameterized, declaration)[i];
                 }
             }
         }
