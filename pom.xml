@@ -188,7 +188,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
 		<dependency>
 			<groupId>com.github.teletha</groupId>
 			<artifactId>sinobu</artifactId>
-			<version>4.5.0</version>
+			<version>4.5.1</version>
 			<scope>compile</scope>
 			<exclusions/>
 		</dependency>
