@@ -224,7 +224,7 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 ## Dependency
 Reincarnation depends on the following products on runtime.
 * [asm-9.7.1](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.7.1)
-* [sinobu-4.5.0](https://mvnrepository.com/artifact/com.github.teletha/sinobu/4.5.0)
+* [sinobu-4.5.1](https://mvnrepository.com/artifact/com.github.teletha/sinobu/4.5.1)
 <p align="right"><a href="#top">back to top</a></p>
 
 
