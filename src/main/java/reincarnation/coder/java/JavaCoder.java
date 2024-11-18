@@ -338,7 +338,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         lineNB(modifier(method, method.isDefault()), name(method.getTypeParameters()), name(method.getGenericReturnType()), " ", method
                 .getName(), buildParameter(method, naming(code)), thrower(method.getGenericExceptionTypes()));
 
-        if (Classes.isAbstract(method)) {
+        if (Classes.isAbstract(method) || Classes.isNative(method)) {
             lineNI(";");
         } else {
             lineNI(space, "{");

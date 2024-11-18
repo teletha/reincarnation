@@ -26,13 +26,23 @@ import kiss.Model;
 public class Classes {
 
     /**
-     * Check whether the given member is static or not.
+     * Check whether the given member is abstract or not.
      * 
      * @param member A target member to test.
      * @return A result.
      */
     public static boolean isAbstract(Member member) {
         return member != null && Modifier.isAbstract(member.getModifiers());
+    }
+
+    /**
+     * Check whether the given member is native or not.
+     * 
+     * @param member A target member to test.
+     * @return A result.
+     */
+    public static boolean isNative(Member member) {
+        return member != null && Modifier.isNative(member.getModifiers());
     }
 
     /**

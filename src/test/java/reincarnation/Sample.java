@@ -9,13 +9,13 @@
  */
 package reincarnation;
 
-import java.util.Map;
+import java.lang.invoke.MethodHandle;
 
 import reincarnation.coder.java.JavaCodingOption;
 
 public class Sample {
 
     public static void main(String[] args) {
-        System.out.println(Reincarnation.rebirth(Map.class, new JavaCodingOption()));
+        System.out.println(Reincarnation.rebirth(MethodHandle.class, new JavaCodingOption()));
     }
 }

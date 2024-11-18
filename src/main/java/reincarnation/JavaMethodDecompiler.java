@@ -358,7 +358,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     @Override
     public void visitEnd() {
-        if (Classes.isAbstract(executable)) {
+        if (Classes.isAbstract(executable) || Classes.isNative(executable)) {
             return;
         }
 
@@ -405,6 +405,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         }
 
         // Search all backedge nodes.
+        System.out.println(executable);
         nodes.get(0).searchBackEdge();
 
         // ============================================
