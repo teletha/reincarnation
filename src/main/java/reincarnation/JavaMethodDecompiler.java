@@ -14,6 +14,7 @@ import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
 import static reincarnation.OperandUtil.*;
 
+import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
@@ -405,7 +406,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         }
 
         // Search all backedge nodes.
-        System.out.println(executable);
         nodes.get(0).searchBackEdge();
 
         // ============================================
@@ -1871,6 +1871,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             break;
 
         case INVOKEVIRTUAL: // method call
+            // The invoke and invokeExact methods of MethodHandle originally take Object[] as their
+            // argument type, but due to a special circumstance, they actually record the given type
+            // on the bytecode, so it is necessary to return them to their original form.
+            if (owner == MethodHandle.class && (method.equals("invoke") || method.equals("invokeExact"))) {
+                parameters = new Class[] {Object[].class};
+
+            }
+
         case INVOKEINTERFACE: // interface method call
             current.addOperand(new OperandMethodCall(AccessMode.THIS, owner, method, parameters, current.remove(0), contexts));
             break;

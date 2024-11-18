@@ -587,6 +587,16 @@ public interface TestCode<Self extends TestCode> {
         String run();
     }
 
+    public interface TextThrow extends TestCode {
+
+        /**
+         * Write testable code.
+         * 
+         * @return A result.
+         */
+        String run() throws Throwable;
+    }
+
     /**
      * @version 2018/04/04 16:29:00
      */
