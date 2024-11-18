@@ -11,10 +11,10 @@
 		<script src="mimic.js" type="module"></script>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="T">
-		<header class="k">
-			<h1 class="R" date="2024-11-11" ver="1.9.0"><code>Reincarnation</code></h1>
-			<nav class="Z"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+	<body class="h">
+		<header class="d">
+			<h1 class="W" date="2024-11-11" ver="1.9.0"><code>Reincarnation</code></h1>
+			<nav class="H"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
 					</svg><code>API</code></a><a href="https://github.com/teletha/reincarnation/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#user"/>
@@ -23,7 +23,7 @@
 					</svg>Activity</a><a href="https://github.com/teletha/reincarnation" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#github"/>
 					</svg>Repository</a></nav>
-			<div class="M" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+			<div class="T" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#sun"/>
 					</svg>
 				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
@@ -31,99 +31,99 @@
 					</svg>
 				</a></div>
 		</header>
-		<main class="m">
-			<nav class="l">
+		<main class="S">
+			<nav class="I">
 				<div></div>
 			</nav>
-			<article class="c" id="Article">
-				<section class="g"><code class="b">reincarnation.util</code>
-					<h2 class="Class W"><code class="H">IntMap</code><code class="e">&#60;<code>V</code>&#62;</code></h2>
-					<div class="Y">
+			<article class="J" id="Article">
+				<section class="f"><code class="Y">reincarnation.util</code>
+					<h2 class="Class i"><code class="k">IntMap</code><code class="P">&#60;<code>V</code>&#62;</code></h2>
+					<div class="U">
 						<ul class="C D">
 							<li><code>V</code><span><p>The type of values stored in the map</p></span></li>
 						</ul>
 					</div><span class="B"><p>A simple array-based map implementation that uses integer indices as keys.
 This implementation does not allow null values and treats negative indices as invalid.</p></span></section>
-				<section class="g" id="IntMap()">
-					<h2 class="N"><i class="PUBLIC"></i><code class="H">IntMap</code><code class="e">()</code></h2><span class="B"><p>Constructs an IntMap with an initial capacity of 8 elements.</p></span></section>
-				<section class="g" id="get(int)">
-					<h2 class="N"><i class="PUBLIC"></i><code class="H">get</code><code class="e">(<code>int</code><code class="parameterName">index</code>)</code><i class="I"><code>V</code></i></h2>
-					<table class="Q">
-						<tr class="h">
+				<section class="f" id="IntMap()">
+					<h2 class="V"><i class="PUBLIC"></i><code class="k">IntMap</code><code class="P">()</code></h2><span class="B"><p>Constructs an IntMap with an initial capacity of 8 elements.</p></span></section>
+				<section class="f" id="get(int)">
+					<h2 class="V"><i class="PUBLIC"></i><code class="k">get</code><code class="P">(<code>int</code><code class="parameterName">index</code>)</code><i class="Q"><code>V</code></i></h2>
+					<table class="Z">
+						<tr class="X">
 							<td><code>int</code><code>index</code></td>
 							<td><span><p>The index whose associated value is to be returned</p></span></td>
 						</tr>
-						<tr class="f">
+						<tr class="L">
 							<td><code>V</code></td>
 							<td><span><p>The value associated with the specified index, or null if the index is invalid or has
 no value</p></span></td>
 						</tr>
 					</table><span class="B"><p>Retrieves the value associated with the specified index.</p></span></section>
-				<section class="g" id="get(int,java.util.function.Supplier)">
-					<h2 class="N"><i class="PUBLIC"></i><code class="H">get</code><code class="e">(<code>int</code><code class="parameterName">index</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Supplier.html">Supplier</a><code class="parameters"><code>V</code></code></code><code class="parameterName">defaultProvider</code>)</code><i class="I"><code>V</code></i></h2>
-					<table class="Q">
-						<tr class="h">
+				<section class="f" id="get(int,java.util.function.Supplier)">
+					<h2 class="V"><i class="PUBLIC"></i><code class="k">get</code><code class="P">(<code>int</code><code class="parameterName">index</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Supplier.html">Supplier</a><code class="parameters"><code>V</code></code></code><code class="parameterName">defaultProvider</code>)</code><i class="Q"><code>V</code></i></h2>
+					<table class="Z">
+						<tr class="X">
 							<td><code>int</code><code>index</code></td>
 							<td><span><p>The index whose associated value is to be returned or computed</p></span></td>
 						</tr>
-						<tr class="h">
+						<tr class="X">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Supplier.html">Supplier</a><code class="parameters"><code>V</code></code></code><code>defaultProvider</code></td>
 							<td><span><p>The supplier to generate a default value if none exists</p></span></td>
 						</tr>
-						<tr class="f">
+						<tr class="L">
 							<td><code>V</code></td>
 							<td><span><p>The current (existing or computed) value associated with the specified index</p></span></td>
 						</tr>
 					</table><span class="B"><p>Returns the value associated with the specified index, or computes a new value using
 the provided supplier if no value exists. If a new value is computed, it is stored
 in the map before being returned.</p></span></section>
-				<section class="g" id="put(int,java.lang.Object)">
-					<h2 class="N"><i class="PUBLIC"></i><code class="H">put</code><code class="e">(<code>int</code><code class="parameterName">index</code>, <code>V</code><code class="parameterName">value</code>)</code><i class="I"><code>void</code></i></h2>
-					<table class="Q">
-						<tr class="h">
+				<section class="f" id="put(int,java.lang.Object)">
+					<h2 class="V"><i class="PUBLIC"></i><code class="k">put</code><code class="P">(<code>int</code><code class="parameterName">index</code>, <code>V</code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></h2>
+					<table class="Z">
+						<tr class="X">
 							<td><code>int</code><code>index</code></td>
 							<td><span><p>The index with which the specified value is to be associated</p></span></td>
 						</tr>
-						<tr class="h">
+						<tr class="X">
 							<td><code>V</code><code>value</code></td>
 							<td><span><p>The value to be associated with the specified index (must not be null)</p></span></td>
 						</tr>
 					</table><span class="B"><p>Associates the specified value with the specified index in this map.
 If the map previously contained a mapping for the index, the old value is replaced.
 Automatically resizes the internal array if the index exceeds current capacity.</p></span></section>
-				<section class="g" id="has(int)">
-					<h2 class="N"><i class="PUBLIC"></i><code class="H">has</code><code class="e">(<code>int</code><code class="parameterName">index</code>)</code><i class="I"><code>boolean</code></i></h2>
-					<table class="Q">
-						<tr class="h">
+				<section class="f" id="has(int)">
+					<h2 class="V"><i class="PUBLIC"></i><code class="k">has</code><code class="P">(<code>int</code><code class="parameterName">index</code>)</code><i class="Q"><code>boolean</code></i></h2>
+					<table class="Z">
+						<tr class="X">
 							<td><code>int</code><code>index</code></td>
 							<td><span><p>The index whose presence in this map is to be tested</p></span></td>
 						</tr>
-						<tr class="f">
+						<tr class="L">
 							<td><code>boolean</code></td>
 							<td><span><p>true if this map contains a non-null value for the specified index</p></span></td>
 						</tr>
 					</table><span class="B"><p>Returns true if this map contains a value for the specified index.</p></span></section>
-				<section class="g" id="delete(int)">
-					<h2 class="N"><i class="PUBLIC"></i><code class="H">delete</code><code class="e">(<code>int</code><code class="parameterName">index</code>)</code><i class="I"><code>V</code></i></h2>
-					<table class="Q">
-						<tr class="h">
+				<section class="f" id="delete(int)">
+					<h2 class="V"><i class="PUBLIC"></i><code class="k">delete</code><code class="P">(<code>int</code><code class="parameterName">index</code>)</code><i class="Q"><code>V</code></i></h2>
+					<table class="Z">
+						<tr class="X">
 							<td><code>int</code><code>index</code></td>
 							<td><span><p>The index whose mapping is to be removed from the map</p></span></td>
 						</tr>
-						<tr class="f">
+						<tr class="L">
 							<td><code>V</code></td>
 							<td><span><p>The previous value associated with the specified index, or null if there was no
 mapping</p></span></td>
 						</tr>
 					</table><span class="B"><p>Removes the mapping for the specified index if present.</p></span></section>
-				<section class="g" id="find(java.util.function.Predicate)">
-					<h2 class="N"><i class="PUBLIC"></i><code class="H">find</code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>V</code></code></code><code class="parameterName">condition</code>)</code><i class="I"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code>V</code></code></code></i></h2>
-					<table class="Q">
-						<tr class="h">
+				<section class="f" id="find(java.util.function.Predicate)">
+					<h2 class="V"><i class="PUBLIC"></i><code class="k">find</code><code class="P">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>V</code></code></code><code class="parameterName">condition</code>)</code><i class="Q"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code>V</code></code></code></i></h2>
+					<table class="Z">
+						<tr class="X">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>V</code></code></code><code>condition</code></td>
 							<td><span><p>The predicate to match values against</p></span></td>
 						</tr>
-						<tr class="f">
+						<tr class="L">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code>V</code></code></code></td>
 							<td><span><p>An Optional containing the first matching value, or empty if none found</p></span></td>
 						</tr>
@@ -131,20 +131,20 @@ mapping</p></span></td>
 or an empty Optional if no value matches. The search is performed in ascending
 order of indices.</p></span></section>
 			</article>
-			<aside class="j" id="SubNavi">
-				<div class="J">
-					<h5 class="U">Constructors</h5>
+			<aside class="l" id="SubNavi">
+				<div class="K">
+					<h5 class="a">Constructors</h5>
 					<ul>
-						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.util.IntMap.html#IntMap()">IntMap</a></code><code class="e">()</code></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.util.IntMap.html#IntMap()">IntMap</a></code><code class="P">()</code></li>
 					</ul>
-					<h5 class="U">Methods</h5>
+					<h5 class="a">Methods</h5>
 					<ul>
-						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.util.IntMap.html#get(int)">get</a></code><code class="e">(<code>int</code><code class="parameterName">index</code>)</code><i class="X"><code>V</code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.util.IntMap.html#get(int,java.util.function.Supplier)">get</a></code><code class="e">(<code>int</code><code class="parameterName">index</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Supplier.html">Supplier</a><code class="parameters"><code>V</code></code></code><code class="parameterName">defaultProvider</code>)</code><i class="X"><code>V</code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.util.IntMap.html#put(int,java.lang.Object)">put</a></code><code class="e">(<code>int</code><code class="parameterName">index</code>, <code>V</code><code class="parameterName">value</code>)</code><i class="X"><code>void</code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.util.IntMap.html#has(int)">has</a></code><code class="e">(<code>int</code><code class="parameterName">index</code>)</code><i class="X"><code>boolean</code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.util.IntMap.html#delete(int)">delete</a></code><code class="e">(<code>int</code><code class="parameterName">index</code>)</code><i class="X"><code>V</code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.util.IntMap.html#find(java.util.function.Predicate)">find</a></code><code class="e">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>V</code></code></code><code class="parameterName">condition</code>)</code><i class="X"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code>V</code></code></code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.util.IntMap.html#get(int)">get</a></code><code class="P">(<code>int</code><code class="parameterName">index</code>)</code><i class="b"><code>V</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.util.IntMap.html#get(int,java.util.function.Supplier)">get</a></code><code class="P">(<code>int</code><code class="parameterName">index</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Supplier.html">Supplier</a><code class="parameters"><code>V</code></code></code><code class="parameterName">defaultProvider</code>)</code><i class="b"><code>V</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.util.IntMap.html#put(int,java.lang.Object)">put</a></code><code class="P">(<code>int</code><code class="parameterName">index</code>, <code>V</code><code class="parameterName">value</code>)</code><i class="b"><code>void</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.util.IntMap.html#has(int)">has</a></code><code class="P">(<code>int</code><code class="parameterName">index</code>)</code><i class="b"><code>boolean</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.util.IntMap.html#delete(int)">delete</a></code><code class="P">(<code>int</code><code class="parameterName">index</code>)</code><i class="b"><code>V</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.util.IntMap.html#find(java.util.function.Predicate)">find</a></code><code class="P">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>V</code></code></code><code class="parameterName">condition</code>)</code><i class="b"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code>V</code></code></code></i></li>
 					</ul>
 				</div>
 			</aside>
