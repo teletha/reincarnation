@@ -9,8 +9,11 @@
  */
 package reincarnation.decompiler.method;
 
+import static java.lang.invoke.MethodType.*;
+
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
+import java.util.List;
 
 import reincarnation.CodeVerifier;
 import reincarnation.CrossDecompilerTest;
@@ -19,13 +22,49 @@ import reincarnation.TestCode;
 class MethodHandleTest extends CodeVerifier {
 
     @CrossDecompilerTest
-    void primitive() {
+    void invoke() {
         verify(new TestCode.TextThrow() {
 
             @Override
             public String run() throws Throwable {
-                MethodHandle handle = MethodHandles.lookup().findGetter(String.class, "toString", String.class);
+                MethodHandle handle = MethodHandles.lookup().findVirtual(String.class, "toString", methodType(String.class));
+                return (String) handle.invoke("ok");
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void invokeExact() {
+        verify(new TestCode.TextThrow() {
+
+            @Override
+            public String run() throws Throwable {
+                MethodHandle handle = MethodHandles.lookup().findVirtual(String.class, "toString", methodType(String.class));
                 return (String) handle.invokeExact("ok");
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void invokeWithArguments() {
+        verify(new TestCode.TextThrow() {
+
+            @Override
+            public String run() throws Throwable {
+                MethodHandle handle = MethodHandles.lookup().findVirtual(String.class, "toString", methodType(String.class));
+                return (String) handle.invokeWithArguments("ok");
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void invokeWithArgumentsList() {
+        verify(new TestCode.TextThrow() {
+
+            @Override
+            public String run() throws Throwable {
+                MethodHandle handle = MethodHandles.lookup().findVirtual(String.class, "toString", methodType(String.class));
+                return (String) handle.invokeWithArguments(List.of("ok"));
             }
         });
     }

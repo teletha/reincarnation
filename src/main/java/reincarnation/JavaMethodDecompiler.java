@@ -13,6 +13,7 @@ import static org.objectweb.asm.Opcodes.*;
 import static reincarnation.Node.*;
 import static reincarnation.OperandCondition.*;
 import static reincarnation.OperandUtil.*;
+import static reincarnation.operator.AccessMode.*;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Constructor;
@@ -1875,9 +1876,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             // argument type, but due to a special circumstance, they actually record the given type
             // on the bytecode, so it is necessary to return them to their original form.
             if (owner == MethodHandle.class && (method.equals("invoke") || method.equals("invokeExact"))) {
-                parameters = new Class[] {Object[].class};
-
+                Operand call = new OperandMethodCall(THIS, owner, method, new Class[] {Object[].class}, current.remove(0), contexts);
+                current.addOperand(new OperandCast(call, returnType));
+                break;
             }
+            // fall-through
 
         case INVOKEINTERFACE: // interface method call
             current.addOperand(new OperandMethodCall(AccessMode.THIS, owner, method, parameters, current.remove(0), contexts));
