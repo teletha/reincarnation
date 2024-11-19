@@ -62,7 +62,7 @@ public class CompileInfo {
     private List<String> decompiledByVineFlower;
 
     /** The error message of compiler. */
-    public final List<String> errorMessage = new ArrayList();
+    public final List<String> messages = new ArrayList();
 
     /** The debug log of decompiler. */
     public StringBuilder decompilerDebugLog;
@@ -90,7 +90,7 @@ public class CompileInfo {
 
         write("");
         write(type, "compiles", compilingClass.getName());
-        write(errorMessage);
+        write(messages);
 
         write("Original Code");
         write(extractOriginalTestCode());
@@ -114,40 +114,23 @@ public class CompileInfo {
         return builder.toString();
     }
 
+    public CompileInfo message(Throwable error) {
+        StringBuilder builder = new StringBuilder(error.getClass().getSimpleName()).append(": ").append(error.getMessage()).append(EoL);
+        I.signal(error.getStackTrace()).take(16).to(trace -> {
+            builder.append("    at ").append(trace).append(EoL);
+        });
+        messages.add(builder.toString());
+
+        return this;
+    }
+
     /**
      * Build error with detailed message.
      * 
      * @return
      */
     public Error buildError() {
-        Error error = new Error(buildMessage(false));
-        error.setStackTrace(new StackTraceElement[0]);
-        return error;
-    }
-
-    /**
-     * Build error with detailed message.
-     * 
-     * @param originalError
-     * 
-     * @return
-     */
-    public Error buildError(Throwable originalError) {
-        errorMessage.add(exactErrorMessage(originalError));
-
-        Error error = new Error(buildMessage(false));
-        error.setStackTrace(new StackTraceElement[0]);
-        return error;
-    }
-
-    private String exactErrorMessage(Throwable error) {
-        StringBuilder builder = new StringBuilder(error.getClass().getSimpleName()).append(": ").append(error.getMessage()).append(EoL);
-
-        I.signal(error.getStackTrace()).take(16).to(trace -> {
-            builder.append("    at ").append(trace).append(EoL);
-        });
-
-        return builder.toString();
+        return new AssertionError(buildMessage(false));
     }
 
     private List<String> extractOriginalTestCode() {

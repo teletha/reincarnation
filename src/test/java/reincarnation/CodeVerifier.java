@@ -177,7 +177,8 @@ public class CodeVerifier {
                     recompiledClass = loader.loadClass(JavaCoder.computeName(target));
                     assert target != recompiledClass; // load from different classloader
                 } catch (Throwable e) {
-                    info.errorMessage.add(notifier.message.toString());
+                    info.messages.add(notifier.message.toString());
+                    throw e;
                 }
                 // ========================================================
                 // Execute recompiled code and compare result with original.
@@ -201,14 +202,13 @@ public class CodeVerifier {
                     Reincarnation.CACHE.remove(target);
                     info.decompiled = decompile(target, true);
                 }
-                info.errorMessage.add(e.getMessage());
                 throw e;
             }
         } catch (Throwable e) {
             if (CompilerType.isJavac()) {
                 info.asmfier(target, code.getClass());
             }
-            throw info.buildError(e);
+            throw info.message(e).buildError();
         } finally {
             if (debuggable != null) {
                 if (CompilerType.isJavac()) {
