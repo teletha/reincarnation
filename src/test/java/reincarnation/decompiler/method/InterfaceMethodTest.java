@@ -16,13 +16,35 @@ import reincarnation.TestCode;
 class InterfaceMethodTest extends CodeVerifier {
 
     @CrossDecompilerTest
+    void method() {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                interface A {
+                    String method(); // LLV
+                }
+
+                class B implements A {
+                    @Override
+                    public String method() {
+                        return "TEST";
+                    };
+                }
+
+                return new B().method();
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     void staticMethod() {
         verify(new TestCode.Text() {
 
             @Override
             public String run() {
                 interface A {
-                    static String method() {
+                    static String method() { // LLV
                         return "Call interface static method";
                     }
                 }
@@ -30,6 +52,7 @@ class InterfaceMethodTest extends CodeVerifier {
                 return A.method();
             }
         });
+
     }
 
     @CrossDecompilerTest
@@ -39,7 +62,7 @@ class InterfaceMethodTest extends CodeVerifier {
             @Override
             public String run() {
                 interface A {
-                    static String method() {
+                    static String method() { // LLV
                         return privateMethod();
                     }
 
@@ -51,6 +74,7 @@ class InterfaceMethodTest extends CodeVerifier {
                 return A.method();
             }
         });
+
     }
 
     @CrossDecompilerTest
@@ -60,7 +84,7 @@ class InterfaceMethodTest extends CodeVerifier {
             @Override
             public String run() {
                 interface A {
-                    default String method() {
+                    default String method() { // LLV
                         return "Call interface default method";
                     }
                 }
@@ -71,6 +95,7 @@ class InterfaceMethodTest extends CodeVerifier {
                 return new B().method();
             }
         });
+
     }
 
     @CrossDecompilerTest
@@ -84,7 +109,7 @@ class InterfaceMethodTest extends CodeVerifier {
                         return privateMethod();
                     }
 
-                    private String privateMethod() {
+                    private String privateMethod() { // LLV
                         return "Call interface private method";
                     }
                 }

@@ -205,7 +205,7 @@ final class LocalVariables implements Naming {
                 for (OperandLocalVariable other : variables.values()) {
                     if (other.index.v == variable.index.v && !other.type.equals(variable.type)) {
                         Node otherHeader = Node.getLowestCommonDominator(other.referrers);
-                        if (header.hasDominator(otherHeader) || otherHeader.hasDominator(header)) {
+                        if (header.hasDominator(otherHeader) || (otherHeader != null && otherHeader.hasDominator(header))) {
                             continue root;
                         }
                     }

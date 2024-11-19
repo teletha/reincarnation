@@ -11,6 +11,7 @@ package reincarnation;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -26,12 +27,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.objectweb.asm.ClassReader;
 
 import kiss.I;
+import reincarnation.coder.AnnotationLike;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.java.JavaCoder;
 import reincarnation.coder.java.JavaCodingOption;
 import reincarnation.util.Classes;
 import reincarnation.util.GeneratedCodes;
+import reincarnation.util.MultiMap;
 
 /**
  * {@link Reincarnation} is a unit of decompilation.
@@ -46,6 +49,9 @@ public final class Reincarnation {
 
     /** The target class. */
     public final Class clazz;
+
+    /** The annotaion manager. */
+    public final MultiMap<AnnotatedElement, AnnotationLike> annotations = new MultiMap(false);
 
     /** The initializer manager. */
     public final List<Code> staticInitializer = new ArrayList();

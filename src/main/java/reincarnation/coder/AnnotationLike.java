@@ -7,18 +7,25 @@
  *
  *          http://opensource.org/licenses/mit-license.php
  */
-package reincarnation.meta;
+package reincarnation.coder;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class AnnotationMeta {
+public class AnnotationLike {
 
+    /** The actual annotation type. */
     public final Class clazz;
 
+    /** The key-value store. */
     public final Map<String, Object> values = new LinkedHashMap();
 
-    public AnnotationMeta(Class clazz) {
+    /**
+     * Create an annotation data holder.
+     * 
+     * @param clazz
+     */
+    public AnnotationLike(Class clazz) {
         this.clazz = clazz;
     }
 }

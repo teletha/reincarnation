@@ -193,8 +193,12 @@ public class CodeVerifier {
                 // Low Line Verification
                 // ========================================================
                 List<String> lines = info.lowLevelVerifier();
-                for (String line : lines) {
-                    assert info.decompiled.contains(line) : "The required code fragment is not found. \n" + line + "\n";
+                if (!lines.isEmpty()) {
+                    List<String> decompiled = Arrays.stream(info.decompiled.split("\n")).map(String::trim).toList();
+
+                    for (String line : lines) {
+                        assert decompiled.stream().anyMatch(line::equals) : "The required code fragment is not found. \n" + line + "\n";
+                    }
                 }
             } catch (Throwable e) {
                 if (info.decompilerDebugLog.isEmpty() && debugged.add(target)) {

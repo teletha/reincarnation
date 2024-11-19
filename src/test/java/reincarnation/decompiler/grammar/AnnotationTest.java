@@ -16,6 +16,7 @@ import java.util.List;
 import reincarnation.CodeVerifier;
 import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
+import reincarnation.decompiler.grammar.annotation.ClassPolicyMark;
 import reincarnation.decompiler.grammar.annotation.Mark;
 import reincarnation.decompiler.grammar.annotation.Marks;
 import reincarnation.decompiler.grammar.annotation.Meta;
@@ -30,7 +31,7 @@ class AnnotationTest extends CodeVerifier {
             @Override
             public boolean run() {
 
-                @Mark
+                @Mark // LLV
                 class A {
                 }
 
@@ -47,7 +48,7 @@ class AnnotationTest extends CodeVerifier {
             public int run() {
 
                 interface A {
-                    @Mark(intValue = 20)
+                    @Mark(intValue = 20) // LLV
                     void test();
                 }
 
@@ -64,7 +65,7 @@ class AnnotationTest extends CodeVerifier {
             public int run() {
 
                 class A {
-                    @Mark(intValue = 20)
+                    @Mark(intValue = 20) // LLV
                     String test = "ok";
                 }
 
@@ -81,7 +82,7 @@ class AnnotationTest extends CodeVerifier {
             public int run() {
 
                 class A {
-                    @Mark(intValue = 20)
+                    @Mark(intValue = 20) // LLV
                     A() {
                     }
                 }
@@ -113,7 +114,7 @@ class AnnotationTest extends CodeVerifier {
             @Override
             public int run() {
                 interface A {
-                    void test(@Mark(intValue = 3) int value);
+                    void test(@Mark(intValue = 3) int arg0); // LLV
                 }
 
                 return Meta.findParameterMark(A.class).intValue();
@@ -128,7 +129,7 @@ class AnnotationTest extends CodeVerifier {
             @Override
             public int run() {
 
-                @Mark(intValue = 10)
+                @Mark(intValue = 10) // LLV
                 interface A {
                 }
 
@@ -144,7 +145,7 @@ class AnnotationTest extends CodeVerifier {
             @Override
             public long run() {
 
-                @Mark(longValue = 10)
+                @Mark(longValue = 10L) // LLV
                 interface A {
                 }
 
@@ -160,7 +161,7 @@ class AnnotationTest extends CodeVerifier {
             @Override
             public float run() {
 
-                @Mark(floatValue = 10)
+                @Mark(floatValue = 10.0F) // LLV
                 interface A {
                 }
 
@@ -176,7 +177,7 @@ class AnnotationTest extends CodeVerifier {
             @Override
             public double run() {
 
-                @Mark(doubleValue = 10)
+                @Mark(doubleValue = 10.0) // LLV
                 interface A {
                 }
 
@@ -192,7 +193,7 @@ class AnnotationTest extends CodeVerifier {
             @Override
             public short run() {
 
-                @Mark(shortValue = 10)
+                @Mark(shortValue = 10) // LLV
                 interface A {
                 }
 
@@ -208,7 +209,7 @@ class AnnotationTest extends CodeVerifier {
             @Override
             public byte run() {
 
-                @Mark(byteValue = 10)
+                @Mark(byteValue = 10) // LLV
                 interface A {
                 }
 
@@ -224,7 +225,7 @@ class AnnotationTest extends CodeVerifier {
             @Override
             public char run() {
 
-                @Mark(charValue = 'R')
+                @Mark(charValue = 'R') // LLV
                 interface A {
                 }
 
@@ -240,7 +241,7 @@ class AnnotationTest extends CodeVerifier {
             @Override
             public boolean run() {
 
-                @Mark(booleanValue = true)
+                @Mark(booleanValue = true) // LLV
                 interface A {
                 }
 
@@ -256,7 +257,7 @@ class AnnotationTest extends CodeVerifier {
             @Override
             public String run() {
 
-                @Mark(stringValue = "test")
+                @Mark(stringValue = "test") // LLV
                 interface A {
                 }
 
@@ -272,7 +273,7 @@ class AnnotationTest extends CodeVerifier {
             @Override
             public String run() {
 
-                @Mark(enumValue = Symbol.C)
+                @Mark(enumValue = Symbol.C) // LLV
                 interface A {
                 }
 
@@ -288,7 +289,7 @@ class AnnotationTest extends CodeVerifier {
             @Override
             public String run() {
 
-                @Mark(classValue = List.class)
+                @Mark(classValue = List.class) // LLV
                 interface A {
                 }
 
@@ -336,7 +337,7 @@ class AnnotationTest extends CodeVerifier {
             @Override
             public long run() {
 
-                @Mark(intValue = 10, longValue = 20)
+                @Mark(intValue = 10, longValue = 20L) // LLV
                 interface A {
                 }
 
@@ -353,13 +354,29 @@ class AnnotationTest extends CodeVerifier {
             @Override
             public long run() {
 
-                @Mark(longValue = 20)
+                @Mark(longValue = 20L)
                 @Mark(intValue = 10)
                 interface A {
                 }
 
                 Marks mark = Meta.findType(A.class, Marks.class);
                 return mark.value()[0].longValue() + mark.value()[1].intValue();
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void retentionPolicyClass() {
+        verify(new TestCode.Long() {
+
+            @Override
+            public long run() {
+
+                @ClassPolicyMark(longValue = 20L) // LLV
+                interface A {
+                }
+
+                return A.class.getModifiers();
             }
         });
     }

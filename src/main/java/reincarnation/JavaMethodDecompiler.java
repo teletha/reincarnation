@@ -20,6 +20,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -44,10 +45,10 @@ import kiss.I;
 import kiss.Signal;
 import kiss.WiseConsumer;
 import reincarnation.Debugger.Printable;
+import reincarnation.coder.AnnotationLike;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.Naming;
-import reincarnation.meta.AnnotationsMeta;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
@@ -280,8 +281,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     /** The label aware actions. */
     private final MultiMap<Node, WiseConsumer<Node>> ends = new MultiMap(false);
 
-    private final AnnotationsMeta annotations = new AnnotationsMeta();
-
     /**
      * @param source
      * @param locals
@@ -331,7 +330,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         if (desc.equals(DEBUGGER)) {
             debugger.enable = true;
         }
-        return new JavaAnnotationDecompiler(OperandUtil.load(desc), annotations);
+
+        AnnotationLike annotation = new AnnotationLike(OperandUtil.load(desc));
+        source.annotations.put(executable, annotation);
+
+        return new JavaAnnotationDecompiler(annotation);
     }
 
     /**
@@ -1926,6 +1929,19 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
      */
     @Override
     public void visitParameter(String name, int access) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AnnotationVisitor visitParameterAnnotation(int index, String descriptor, boolean visible) {
+        AnnotationLike like = new AnnotationLike(OperandUtil.load(descriptor));
+
+        Parameter param = executable.getParameters()[index];
+        source.annotations.put(param, like);
+
+        return new JavaAnnotationDecompiler(like);
     }
 
     /**

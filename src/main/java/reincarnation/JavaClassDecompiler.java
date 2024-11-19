@@ -13,6 +13,7 @@ import static org.objectweb.asm.Opcodes.*;
 import static reincarnation.OperandUtil.*;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
@@ -23,16 +24,13 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
 import kiss.I;
-import reincarnation.meta.AnnotationsMeta;
+import reincarnation.coder.AnnotationLike;
 import reincarnation.util.GeneratedCodes;
 
 class JavaClassDecompiler extends ClassVisitor {
 
     /** The current processing source. */
     private final Reincarnation source;
-
-    /** The annotation holder. */
-    private final AnnotationsMeta meta = new AnnotationsMeta();
 
     /**
      * Java class decompiler
@@ -61,7 +59,10 @@ class JavaClassDecompiler extends ClassVisitor {
      */
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-        return new JavaAnnotationDecompiler(OperandUtil.load(desc), meta);
+        AnnotationLike meta = new AnnotationLike(OperandUtil.load(desc));
+        source.annotations.put(source.clazz, meta);
+
+        return new JavaAnnotationDecompiler(meta);
     }
 
     /**
@@ -70,7 +71,21 @@ class JavaClassDecompiler extends ClassVisitor {
     @Override
     public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
         source.require(OperandUtil.load(desc));
-        return null;
+
+        return new FieldVisitor(ASM9) {
+            @Override
+            public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
+                try {
+                    Field field = source.clazz.getDeclaredField(name);
+                    AnnotationLike annotation = new AnnotationLike(OperandUtil.load(descriptor));
+                    source.annotations.put(field, annotation);
+
+                    return new JavaAnnotationDecompiler(annotation);
+                } catch (Exception e) {
+                    throw I.quiet(e);
+                }
+            }
+        };
     }
 
     /**

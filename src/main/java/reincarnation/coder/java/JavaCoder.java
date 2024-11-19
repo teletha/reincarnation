@@ -9,9 +9,7 @@
  */
 package reincarnation.coder.java;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.Repeatable;
-import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
@@ -40,6 +38,7 @@ import reincarnation.Debuggable;
 import reincarnation.Operand;
 import reincarnation.OperandConstructorCall;
 import reincarnation.Reincarnation;
+import reincarnation.coder.AnnotationLike;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.CodingOption;
@@ -70,11 +69,18 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     /** The import manager. */
     private final Imports imports = new Imports();
 
+    /** The decompiled abstract code. */
+    private Reincarnation reincarnation;
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void write(Reincarnation reincarnation) {
+        // push decompiler info
+        Reincarnation old = this.reincarnation;
+        this.reincarnation = reincarnation;
+
         // search placeholder method or constructor for local classes
         reincarnation.locals.forEach(e -> {
             Constructor con = e.getEnclosingConstructor();
@@ -97,9 +103,16 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             writeLazy(this::writeImport);
             writeOne(reincarnation);
         }
+
+        // pop decompiler info
+        this.reincarnation = old;
     }
 
     private void writeOne(Reincarnation reincarnation) {
+        // push decompiler info
+        Reincarnation old = this.reincarnation;
+        this.reincarnation = reincarnation;
+
         writeType(reincarnation.clazz, () -> {
             // Separate anonymous classes into Enum subclasses and non-Enum subclasses
             List<Class> enums = new ArrayList();
@@ -121,6 +134,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             reincarnation.methods.forEach(this::writeMethod);
             anons.forEach(e -> writeOne(Reincarnation.exhume(e)));
         });
+
+        // pop decompiler info
+        this.reincarnation = old;
     }
 
     /**
@@ -208,7 +224,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         }
 
         line();
-        writeAnnotation(type);
+        writeAnnotation(reincarnation.annotations.get(type));
         line(accessor, kind, space, simpleName(type), variable, extend, implement, permit, space, "{");
         indent(inner);
         line("}");
@@ -248,7 +264,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param field
      */
     private void writeFieldDefinition(Field field) {
-        writeAnnotation(field);
+        writeAnnotation(reincarnation.annotations.get(field));
         line(modifier(field, false), name(field.getType()), space, field.getName(), ";");
     }
 
@@ -305,7 +321,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         vars.start();
 
         line();
-        writeAnnotation(con);
+        writeAnnotation(reincarnation.annotations.get(con));
         line(modifier(con, false), name(con.getTypeParameters()), simpleName(con
                 .getDeclaringClass()), buildParameter(con, naming(code)), space, "{");
         indent(() -> {
@@ -334,7 +350,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         vars.start();
 
         line();
-        writeAnnotation(method);
+        writeAnnotation(reincarnation.annotations.get(method));
         lineNB(modifier(method, method.isDefault()), name(method.getTypeParameters()), name(method.getGenericReturnType()), " ", method
                 .getName(), buildParameter(method, naming(code)), thrower(method.getGenericExceptionTypes()));
 
@@ -415,7 +431,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
                     String name = strategy.name(param.getName());
                     vars.declare(name);
 
-                    Join annotations = Join.of(param.getAnnotations())
+                    Join annotations = Join.of(reincarnation.annotations.get(param))
                             .ignoreEmpty()
                             .separator(" ")
                             .suffix(" ")
@@ -725,7 +741,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeConstructorCall(Constructor constructor, List<Code> params) {
-        write("new", space, name(constructor.getDeclaringClass()), buildParameter(constructor, params));
+        write("new", space, name(constructor.getDeclaringClass()), buildCallParameter(constructor, params));
     }
 
     /**
@@ -736,7 +752,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         if (params.isEmpty() || constructor.getDeclaringClass() == Enum.class) {
             revert();
         } else {
-            write("super", buildParameter(constructor, params));
+            write("super", buildCallParameter(constructor, params));
         }
     }
 
@@ -746,9 +762,9 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeThisConstructorCall(Constructor constructor, List<Code> params) {
         if (constructor.getDeclaringClass().isEnum()) {
-            write("this", buildParameter(constructor, params, 2));
+            write("this", buildCallParameter(constructor, params, 2));
         } else {
-            write("this", buildParameter(constructor, params));
+            write("this", buildCallParameter(constructor, params));
         }
     }
 
@@ -766,18 +782,18 @@ public class JavaCoder extends Coder<JavaCodingOption> {
     @Override
     public void writeMethodCall(Method method, Code context, List<Code> params, AccessMode mode) {
         if (method.isSynthetic()) {
-            write(context, ".", method.getName(), buildParameter(method, params));
+            write(context, ".", method.getName(), buildCallParameter(method, params));
         } else {
             if (mode == AccessMode.SUPER) {
-                write("super.", method.getName(), buildParameter(method, params));
+                write("super.", method.getName(), buildCallParameter(method, params));
             } else {
                 if (Classes.isWrapper(method)) {
                     write(params.get(0));
                 } else {
                     if (Classes.isStatic(method) && current.is(method.getDeclaringClass())) {
-                        write(method.getName(), buildParameter(method, params));
+                        write(method.getName(), buildCallParameter(method, params));
                     } else {
-                        write(context, ".", method.getName(), buildParameter(method, params));
+                        write(context, ".", method.getName(), buildCallParameter(method, params));
                     }
                 }
             }
@@ -791,8 +807,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param params
      * @return
      */
-    private Join buildParameter(Executable executable, List<Code> params) {
-        return buildParameter(executable, params, 0);
+    private Join buildCallParameter(Executable executable, List<Code> params) {
+        return buildCallParameter(executable, params, 0);
     }
 
     /**
@@ -802,7 +818,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param params
      * @return
      */
-    private Join buildParameter(Executable executable, List<Code> params, int start) {
+    private Join buildCallParameter(Executable executable, List<Code> params, int start) {
         Join concat = new Join().prefix("(").suffix(")").separator("," + space);
 
         Parameter[] parameters = executable.getParameters();
@@ -1188,21 +1204,18 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * 
      * @param element
      */
-    private void writeAnnotation(AnnotatedElement element) {
-        I.signal(element.getDeclaredAnnotations()).skip(annotation -> annotation instanceof Debuggable).to(annotation -> {
+    private void writeAnnotation(List<AnnotationLike> annotations) {
+        I.signal(annotations).skip(annotation -> annotation.clazz == Debuggable.class).to(annotation -> {
             // Checks for full compliance with the Repeatable annotation specification.
-            Class type = annotation.annotationType();
-            Method[] methods = type.getDeclaredMethods();
+            Method[] methods = annotation.clazz.getDeclaredMethods();
             if (methods.length == 1) {
                 Method m = methods[0];
                 if (m.getName().equals("value")) {
                     Class returnType = m.getReturnType();
                     if (returnType.isArray() && returnType.getComponentType().isAnnotationPresent(Repeatable.class)) {
                         try {
-                            Object value = m.invoke(annotation);
-                            int length = Array.getLength(value);
-                            for (int i = 0; i < length; i++) {
-                                line(writeAnnotationValue(Array.get(value, i)));
+                            for (AnnotationLike like : (List<AnnotationLike>) annotation.values.get("value")) {
+                                line(writeAnnotationValue(like));
                             }
                         } catch (Exception e) {
                             throw I.quiet(e);
@@ -1224,18 +1237,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @return
      */
     private String writeAnnotationValue(Object value) {
-        if (value instanceof Annotation a) {
-            try {
-                return "@" + name(a.annotationType()) + Join.of(a.annotationType().getDeclaredMethods())
-                        .ignoreEmpty()
-                        .prefix("(")
-                        .separator("," + space)
-                        .suffix(")")
-                        .skip(m -> Objects.deepEquals(readAnnotationValue(a, m), m.getDefaultValue()))
-                        .converter(m -> m.getName() + space + "=" + space + writeAnnotationValue(readAnnotationValue(a, m)));
-            } catch (Exception e) {
-                return a.toString();
-            }
+        if (value instanceof AnnotationLike annotation) {
+            return "@" + name(annotation.clazz) + Join.of(annotation.clazz.getDeclaredMethods())
+                    .ignoreEmpty()
+                    .prefix("(")
+                    .separator("," + space)
+                    .suffix(")")
+                    .skip(m -> Objects.deepEquals(readAnnotationValue(annotation, m), m.getDefaultValue()))
+                    .converter(m -> m.getName() + space + "=" + space + writeAnnotationValue(readAnnotationValue(annotation, m)));
         } else if (value instanceof String) {
             return "\"" + value + "\"";
         } else if (value instanceof Character) {
@@ -1248,6 +1257,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
             return name(e.getDeclaringClass()) + "." + e.name();
         } else if (value instanceof Class clazz) {
             return name(clazz) + ".class";
+        } else if (value instanceof List list) {
+            StringJoiner join = new StringJoiner("," + space, "{", "}");
+            for (Object item : list) {
+                join.add(writeAnnotationValue(item));
+            }
+            return join.toString();
         } else if (value.getClass().isArray()) {
             int length = Array.getLength(value);
             StringJoiner join = new StringJoiner("," + space, "{", "}");
@@ -1267,11 +1282,14 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param method
      * @return
      */
-    private Object readAnnotationValue(Annotation annotation, Method method) {
+    private Object readAnnotationValue(AnnotationLike annotation, Method method) {
         try {
-            System.out.println(annotation + "   " + method);
-            method.setAccessible(true);
-            return method.invoke(annotation);
+            Object value = annotation.values.get(method.getName());
+            if (value == null) {
+                return method.getDefaultValue();
+            } else {
+                return value;
+            }
         } catch (Exception e) {
             throw I.quiet(e);
         }
@@ -1431,7 +1449,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @return
      */
     private Join modifier(Class member) {
-        return modifier(member.getModifiers(), member, false);
+        return modifier(member.getModifiers(), member, false, member.getDeclaringClass());
     }
 
     /**
@@ -1441,7 +1459,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @return
      */
     private Join modifier(Parameter member) {
-        return modifier(member.getModifiers(), member, false);
+        return modifier(member.getModifiers(), member, false, null);
     }
 
     /**
@@ -1451,7 +1469,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @return
      */
     private Join modifier(Member member, boolean isDefault) {
-        return modifier(member.getModifiers(), member, isDefault);
+        return modifier(member.getModifiers(), member, isDefault, member.getDeclaringClass());
     }
 
     /**
@@ -1460,11 +1478,12 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * @param modifier
      * @return
      */
-    private Join modifier(int modifier, Object type, boolean isDefault) {
+    private Join modifier(int modifier, Object type, boolean isDefault, Class declaring) {
+        boolean inInterface = declaring != null && declaring.isInterface();
         Join joiner = new Join().ignoreEmpty().separator(" ").suffix(" ");
 
         if (Modifier.isPublic(modifier)) {
-            joiner.add("public");
+            if (!inInterface) joiner.add("public");
         } else if (Modifier.isProtected(modifier)) {
             joiner.add("protected");
         } else if (Modifier.isPrivate(modifier)) {
@@ -1478,7 +1497,7 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         }
 
         if (Modifier.isAbstract(modifier)) {
-            joiner.add("abstract");
+            if (!inInterface) joiner.add("abstract");
         } else if (Modifier.isFinal(modifier)) {
             joiner.add("final");
         }

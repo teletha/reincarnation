@@ -235,4 +235,12 @@ public class MultiMap<K, V> {
             handler.accept(entry.getKey(), entry.getValue());
         });
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return map.toString();
+    }
 }

@@ -9,22 +9,28 @@
  */
 package reincarnation;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiConsumer;
+
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 
-import reincarnation.meta.AnnotationMeta;
-import reincarnation.meta.AnnotationsMeta;
+import reincarnation.coder.AnnotationLike;
 
-public class JavaAnnotationDecompiler extends AnnotationVisitor {
+class JavaAnnotationDecompiler extends AnnotationVisitor {
 
-    /** The metadata holder. */
-    private final AnnotationMeta meta;
+    /** The metadata register. */
+    private final BiConsumer<String, Object> register;
 
-    public JavaAnnotationDecompiler(Class clazz, AnnotationsMeta meta) {
+    JavaAnnotationDecompiler(AnnotationLike meta) {
+        this(meta.values::put);
+    }
+
+    JavaAnnotationDecompiler(BiConsumer<String, Object> register) {
         super(Opcodes.ASM9);
-
-        System.out.println(clazz);
-        this.meta = new AnnotationMeta(clazz);
+        this.register = register;
     }
 
     /**
@@ -32,7 +38,10 @@ public class JavaAnnotationDecompiler extends AnnotationVisitor {
      */
     @Override
     public void visit(String name, Object value) {
-        super.visit(name, value);
+        if (value instanceof Type type) {
+            value = OperandUtil.load(type);
+        }
+        register.accept(name, value);
     }
 
     /**
@@ -40,7 +49,9 @@ public class JavaAnnotationDecompiler extends AnnotationVisitor {
      */
     @Override
     public AnnotationVisitor visitAnnotation(String name, String descriptor) {
-        return super.visitAnnotation(name, descriptor);
+        AnnotationLike sub = new AnnotationLike(OperandUtil.load(descriptor));
+        register.accept(name, sub);
+        return new JavaAnnotationDecompiler(sub);
     }
 
     /**
@@ -48,7 +59,10 @@ public class JavaAnnotationDecompiler extends AnnotationVisitor {
      */
     @Override
     public AnnotationVisitor visitArray(String name) {
-        return super.visitArray(name);
+        List container = new ArrayList();
+        register.accept(name, container);
+
+        return new JavaAnnotationDecompiler((k, v) -> container.add(v));
     }
 
     /**
@@ -56,6 +70,11 @@ public class JavaAnnotationDecompiler extends AnnotationVisitor {
      */
     @Override
     public void visitEnum(String name, String descriptor, String value) {
-        super.visitEnum(name, descriptor, value);
+        Object[] constants = OperandUtil.load(descriptor).getEnumConstants();
+        for (Object constant : constants) {
+            if (constant instanceof Enum e && e.name().equals(value)) {
+                register.accept(name, constant);
+            }
+        }
     }
 }
