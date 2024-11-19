@@ -47,6 +47,7 @@ import reincarnation.Debugger.Printable;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.Naming;
+import reincarnation.meta.AnnotationsMeta;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
@@ -279,6 +280,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     /** The label aware actions. */
     private final MultiMap<Node, WiseConsumer<Node>> ends = new MultiMap(false);
 
+    private final AnnotationsMeta annotations = new AnnotationsMeta();
+
     /**
      * @param source
      * @param locals
@@ -328,7 +331,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         if (desc.equals(DEBUGGER)) {
             debugger.enable = true;
         }
-        return null; // do nothing
+        return new JavaAnnotationDecompiler(OperandUtil.load(Type.getType(desc)), annotations); // do
+                                                                                                // nothing
     }
 
     /**

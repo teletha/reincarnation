@@ -1225,13 +1225,17 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     private String writeAnnotationValue(Object value) {
         if (value instanceof Annotation a) {
-            return "@" + name(a.annotationType()) + Join.of(a.annotationType().getDeclaredMethods())
-                    .ignoreEmpty()
-                    .prefix("(")
-                    .separator("," + space)
-                    .suffix(")")
-                    .skip(m -> Objects.deepEquals(readAnnotationValue(a, m), m.getDefaultValue()))
-                    .converter(m -> m.getName() + space + "=" + space + writeAnnotationValue(readAnnotationValue(a, m)));
+            try {
+                return "@" + name(a.annotationType()) + Join.of(a.annotationType().getDeclaredMethods())
+                        .ignoreEmpty()
+                        .prefix("(")
+                        .separator("," + space)
+                        .suffix(")")
+                        .skip(m -> Objects.deepEquals(readAnnotationValue(a, m), m.getDefaultValue()))
+                        .converter(m -> m.getName() + space + "=" + space + writeAnnotationValue(readAnnotationValue(a, m)));
+            } catch (Exception e) {
+                return a.toString();
+            }
         } else if (value instanceof String) {
             return "\"" + value + "\"";
         } else if (value instanceof Character) {
@@ -1265,6 +1269,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     private Object readAnnotationValue(Annotation annotation, Method method) {
         try {
+            System.out.println(annotation + "   " + method);
+            method.setAccessible(true);
             return method.invoke(annotation);
         } catch (Exception e) {
             throw I.quiet(e);

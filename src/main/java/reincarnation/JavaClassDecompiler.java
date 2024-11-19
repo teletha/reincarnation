@@ -16,18 +16,23 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
+import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 
 import kiss.I;
+import reincarnation.meta.AnnotationsMeta;
 import reincarnation.util.GeneratedCodes;
 
 class JavaClassDecompiler extends ClassVisitor {
 
     /** The current processing source. */
     private final Reincarnation source;
+
+    /** The annotation holder. */
+    private final AnnotationsMeta meta = new AnnotationsMeta();
 
     /**
      * Java class decompiler
@@ -49,6 +54,14 @@ class JavaClassDecompiler extends ClassVisitor {
         for (String i : interfaces) {
             source.require(OperandUtil.load(i));
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+        return new JavaAnnotationDecompiler(OperandUtil.load(Type.getType(desc)), meta);
     }
 
     /**

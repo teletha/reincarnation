@@ -9,13 +9,13 @@
  */
 package reincarnation;
 
-import java.lang.invoke.MethodHandle;
+import java.util.concurrent.ConcurrentHashMap;
 
 import reincarnation.coder.java.JavaCodingOption;
 
 public class Sample {
 
     public static void main(String[] args) {
-        System.out.println(Reincarnation.rebirth(MethodHandle.class, new JavaCodingOption()));
+        System.out.println(Reincarnation.rebirth(ConcurrentHashMap.class, new JavaCodingOption()));
     }
 }

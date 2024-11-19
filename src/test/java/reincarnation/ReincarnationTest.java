@@ -15,9 +15,11 @@ import java.lang.constant.ClassDesc;
 import java.lang.constant.ConstantDesc;
 import java.time.temporal.ChronoField;
 import java.util.AbstractCollection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +32,7 @@ class ReincarnationTest {
 
     @Test
     void rebirthCoreClass() {
-        // Reincarnation.rebirth(ArrayList.class);
+        Reincarnation.rebirth(ArrayList.class);
         Reincarnation.rebirth(Properties.class);
     }
 
@@ -62,5 +64,10 @@ class ReincarnationTest {
     void rebirthCoreAnnotation() {
         Reincarnation.rebirth(Retention.class);
         Reincarnation.rebirth(Deprecated.class);
+    }
+
+    @Test
+    void unexportedAnnotationAccess() {
+        Reincarnation.rebirth(ConcurrentHashMap.class);
     }
 }
