@@ -331,8 +331,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         if (desc.equals(DEBUGGER)) {
             debugger.enable = true;
         }
-        return new JavaAnnotationDecompiler(OperandUtil.load(Type.getType(desc)), annotations); // do
-                                                                                                // nothing
+        return new JavaAnnotationDecompiler(OperandUtil.load(desc), annotations);
     }
 
     /**
@@ -556,7 +555,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         Class owner = load(ownerClassName);
 
         // Field type
-        Class type = load(Type.getType(desc));
+        Class type = load(desc);
 
         switch (opcode) {
         case PUTFIELD:

@@ -32,7 +32,13 @@ class OperandUtil {
      * @return
      */
     static Class load(String internalName) {
-        return internalName == null ? null : load(Type.getObjectType(internalName));
+        if (internalName == null) {
+            return null;
+        }
+        if (internalName.length() == 1 || (internalName.startsWith("L") && internalName.endsWith(";"))) {
+            return load(Type.getType(internalName));
+        }
+        return load(Type.getObjectType(internalName));
     }
 
     /**

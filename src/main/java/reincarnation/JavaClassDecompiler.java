@@ -61,7 +61,7 @@ class JavaClassDecompiler extends ClassVisitor {
      */
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-        return new JavaAnnotationDecompiler(OperandUtil.load(Type.getType(desc)), meta);
+        return new JavaAnnotationDecompiler(OperandUtil.load(desc), meta);
     }
 
     /**
@@ -69,7 +69,7 @@ class JavaClassDecompiler extends ClassVisitor {
      */
     @Override
     public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
-        source.require(OperandUtil.load(Type.getType(desc)));
+        source.require(OperandUtil.load(desc));
         return null;
     }
 
