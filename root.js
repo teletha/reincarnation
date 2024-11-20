@@ -20,6 +20,13 @@ const root = {
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "AnnotationLike",
+			"packageName": "reincarnation.coder",
+			"type": "Class"
+		},
+		{
+			"modifiers": {
+				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "AssignOperator",
 			"packageName": "reincarnation.operator",
 			"type": "Enum"
@@ -134,13 +141,6 @@ const root = {
 				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "InfiniteLoop",
 			"packageName": "reincarnation.structure",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "IntMap",
-			"packageName": "reincarnation.util",
 			"type": "Class"
 		},
 		{
