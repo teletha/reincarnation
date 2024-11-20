@@ -29,7 +29,89 @@ class AssignmentTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    void dual() {
+    void localDoubleChain() {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                String loc1 = "A";
+                String loc2 = "B";
+
+                loc1 = loc2 = "UPDATE"; // LLV
+
+                return loc1 + loc2;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void localDoubleChainOnUninitialized() {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                String loc1, loc2;
+
+                loc1 = loc2 = "A";
+
+                return loc1 + loc2;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void localTripleChain() {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                String loc1 = "1";
+                String loc2 = "2";
+                String loc3 = "3";
+
+                loc1 = loc2 = loc3 = "T"; // LLV
+
+                return loc1 + loc2 + loc3;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void localPentaChain() {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                String loc1 = "1";
+                String loc2 = "2";
+                String loc3 = "3";
+                String loc4 = "4";
+                String loc5 = "5";
+
+                loc1 = loc2 = loc3 = loc4 = loc5 = "P"; // LLV
+
+                return loc1 + loc2 + loc3 + loc4 + loc5;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void localDoubleChainPrimitive() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                int a = 0, b = 0;
+
+                a = b = value + 1; // LLV
+
+                return a * b;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void localDoubleChainPrimitiveOnUninitialized() {
         verify(new TestCode.IntParam() {
 
             @Override
@@ -44,7 +126,22 @@ class AssignmentTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    void multiple() {
+    void localTripleChainPrimitive() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                int a = 0, b = 0, c = 0;
+
+                a = b = c = value + 1; // LLV
+
+                return a * b * c;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void localTripleChainPrimitiveOnUninitialized() {
         verify(new TestCode.IntParam() {
 
             @Override
@@ -59,7 +156,7 @@ class AssignmentTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    void fieldDual() {
+    void fieldDoubleChain() {
         verify(new TestCode.IntParam() {
 
             private int a;
@@ -76,7 +173,7 @@ class AssignmentTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    void fieldMultiple() {
+    void fieldTripleChain() {
         verify(new TestCode.DoubleParam() {
 
             private double a;

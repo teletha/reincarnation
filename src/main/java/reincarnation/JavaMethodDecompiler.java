@@ -375,7 +375,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             actions.forEach(action -> action.accept(current));
         }
 
-        analyze(nodes);
+        try {
+            analyze(nodes);
+        } catch (Throwable e) {
+            throw new Error("Failed to decompile [" + executable + "]", e);
+        }
 
         // ============================================
         // Reset debugger state
@@ -2278,6 +2282,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 OperandAssign assign = new OperandAssign(variable, AssignOperator.ASSIGN, operand);
 
                 if (!operand.duplicated) {
+                    // If it is not a duplicated value, it is just an assignment and we simply put
+                    // it back on the stack.
                     current.addOperand(assign);
                 } else {
                     operand.duplicated = false;
@@ -2289,11 +2295,25 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                         current.addOperand(enumValues[0]);
                     }
 
-                    if (locals.isLocal(variable) && match(DUP, STORE)) {
+                    // When performing a chained assignment, the left-most variable can declare its
+                    // type, but the other variables must have their types declared beforehand, so
+                    // the variable itself must be loaded on the stack.
+                    // However, this is not necessary if the type has already been declared.
+                    //
+                    // First Use Example
+                    // int a, b;
+                    // a = b = 1;
+                    //
+                    // Non-First Use Example
+                    // int a = 0, b = 0;
+                    // a = b = 1;
+                    if (firstUse) {
                         current.stack.add(variable);
                     }
 
-                    // duplicate pointer
+                    // The assignment expression is put back on the stack, but since we do not yet
+                    // know how this expression will be used, we apply enclose processing so that it
+                    // can be treated as a value.
                     current.addOperand(assign.encolose());
                 }
             }

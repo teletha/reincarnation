@@ -38,9 +38,10 @@ class OperandAssign extends Operand {
      * @param right A right value.
      */
     OperandAssign(Operand left, AssignOperator operator, Operand right) {
-        this.left = Objects.requireNonNull(left);
-        this.right = Objects.requireNonNull(right);
-        this.operator = Objects.requireNonNull(operator);
+        this.left = left;
+        // Can the right side be unconditionally disclosed ?
+        this.right = right.disclose();
+        this.operator = operator;
 
         bindTo(left.bindTo(right));
     }

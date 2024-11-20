@@ -21,34 +21,30 @@ class InterfaceStaticFieldTest extends CodeVerifier {
 
             @Override
             public String run() {
-                return Interface.NAME;
+                interface Root {
+                    String NAME = "OK".trim(); // LLV
+                }
+
+                return Root.NAME;
             }
         });
     }
 
     @CrossDecompilerTest
-    @SuppressWarnings("static-access")
+    @SuppressWarnings({"static-access"})
     void instanceAccess() {
         verify(new TestCode.Text() {
 
             @Override
             public String run() {
-                Clazz clazz = new Clazz();
-                return clazz.NAME;
+                interface Root {
+                    String NAME = "OK".trim();
+                }
+                class Clazz implements Root {
+                }
+
+                return new Clazz().NAME;
             }
         });
-    }
-
-    /**
-     * @version 2018/10/23 15:51:48
-     */
-    private static interface Interface {
-        String NAME = "TEST".substring(1);
-    }
-
-    /**
-     * @version 2018/10/23 15:51:51
-     */
-    private static class Clazz implements Interface {
     }
 }

@@ -1,147 +1,73 @@
-java.lang.Error: 
+java.lang.AssertionError: 
 ============================================================
-ECJ compiles reincarnation.decompiler.array.IntArrayTest$15
+ECJ compiles reincarnation.decompiler.operator.AssignmentTest$2
 ============================================================
-/reincarnation/decompiler/array/IntArrayTest.java:20: エラー: 二項演算子'=='のオペランド型が不正です
-                if (i == 1) {
-                      ^
-  最初の型: java.lang.Object
-  2番目の型: int
+/reincarnation/decompiler/operator/AssignmentTest.java:21: エラー: 文ではありません
+            loc2;
+            ^
 
-Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
-NullPointerException: Cannot invoke "java.lang.Class.getDeclaredConstructors()" because "clazz" is null
-    at reincarnation.CodeVerifier$JavaVerifier.<init>(CodeVerifier.java:390)
-    at reincarnation.CodeVerifier.verify(CodeVerifier.java:185)
-    at reincarnation.decompiler.array.IntArrayTest.ArrayForEach(IntArrayTest.java:213)
-    at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-    at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-    at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:767)
-    at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
-    at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
-    at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:156)
-    at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:147)
-    at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestTemplateMethod(TimeoutExtension.java:94)
-    at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:103)
-    at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:93)
-    at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
-    at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
-    at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+Fail: Fail compiling code.
+No solution.
 
 ============================================================
 Original Code
 ============================================================
-public void ArrayForEach() {
-        verify(new TestCode.IntParam() {
-            @Override
-            public int run(int value) {
-                int sum = 0;
-                int[] array = {1, 2, 3};
+void localDouble() {
+        verify(new TestCode.Text() {
 
-                for (int i : array) { // LLV
-                    if (i == 1) {
-                        sum++;
-                    }
-                }
-                return sum;
+            @Override
+            public String run() {
+                Locale loc1 = Locale.ENGLISH;
+                Locale loc2 = Locale.ENGLISH;
+
+                loc1 = loc2 = Locale.FRANCE;
+
+                return loc1.getCountry() + loc2.getCountry();
             }
         });
     }
-}
 ============================================================
 Decompiled Code
 ============================================================
-01    package reincarnation.decompiler.array;
+01    package reincarnation.decompiler.operator;
 02    
-03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.IntParam;
-05    import reincarnation.decompiler.array.IntArrayTest;
-06    
-07    public class IntArrayTest extends CodeVerifier {
+03    import java.util.Locale;
+04    
+05    import reincarnation.CodeVerifier;
+06    import reincarnation.TestCode.Text;
+07    import reincarnation.decompiler.operator.AssignmentTest;
 08    
-09        class IntArrayTest$15 implements IntParam {
-10            final IntArrayTest this$0;
-11    
-12            IntArrayTest$15(final IntArrayTest this$0) {
-13                this.this$0 = this$0;
-14            }
-15    
-16            public int run(int value) {
-17                int sum = 0;
-18                int[] array = new int[] {1, 2, 3};
-19                for (java.lang.Object i : array) {
-20                    if (i == 1) {
-21                        ++sum;
-22                        // 7 -> 6 continue to 3 (1 of 2) Loop[entrance=3, first=4, exit=8, check=6]
-23                        continue;
-24                    }
-25                    // 5 -> 6 continue to 3 (2 of 2) Loop[entrance=3, first=4, exit=8, check=6]
-26                }
-27                return sum;
-28            }
-29        }
-30    }
+09    class AssignmentTest extends CodeVerifier {
+10    
+11        class AssignmentTest$2 implements Text {
+12            final AssignmentTest this$0;
+13    
+14            AssignmentTest$2(final AssignmentTest this$0) {
+15                this.this$0 = this$0;
+16            }
+17    
+18            public String run() {
+19                Locale loc1 = Locale.ENGLISH;
+20                Locale loc2 = Locale.ENGLISH;
+21                loc2;
+22                loc1 = (loc2 = Locale.FRANCE);
+23                return loc1.getCountry() + loc2.getCountry();
+24            }
+25        }
+26    }
 ============================================================
 Decompiling Log
 ============================================================
-//----------------------------------- IntArrayTest#ArrayForEach (IntArrayTest.java:212) -----------------------------------//
-Method ArrayForEach() (IntArrayTest.java:213)
-0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: this.this$0 = this$0 [Assign#IntArrayTest] java.lang.Object() [ConstructorCall] return null [Return - null]
-1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
-
-Delete tail empty return (show full nodes)
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = this$0 [Assign#IntArrayTest] java.lang.Object() [ConstructorCall] return null [Return - null]
-
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = this$0 [Assign#IntArrayTest] java.lang.Object() [ConstructorCall]
-
-
-0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: this.this$0 = this$0 [Assign#IntArrayTest] java.lang.Object() [ConstructorCall]
-
-//----------------------------------- IntArrayTest#ArrayForEach (IntArrayTest.java:215) -----------------------------------//
-Method ArrayForEach() (IntArrayTest.java:224)
-0	in[]	out[1]		dom[]	doms[]	side[ ,1]	dest[1]	code: sum = 0 [Assign]
-1	in[0]	out[2]		dom[0]	doms[]	side[0,2]	dest[2]	code: array = new int[] [Assign#int[]]
-2	in[1]	out[3]		dom[1]	doms[]	side[1,4]	dest[3]	code: local6 = array.length [Assign] local5 = 0 [Assign]
-4	in[3]	out[5]		dom[3]	doms[]	side[2,5]	dest[5]	code: i = array.[local5] [Assign]
-5	in[4]	out[6,7]	dom[4]	doms[]	side[4,7]	dest[7]	code: if (i 1) then 6 else 7 [Condition then 6 else 7]
-7	in[5]	out[6]		dom[5]	doms[]	side[5,6]	dest[6]	code: ++sum [Unary#int]
-6	in[5,7]	out[3]		dom[5]	doms[]	side[7,3]	dest[3]	code: ++local5 [Unary#int]
-3	in[2,6]	out[4,8]	dom[]	doms[]	side[6,8]	dest[8]	code: if (local5 local6) then 4 else 8 [Condition then 4 else 8]
-8	in[3]	out[]		dom[3]	doms[]	side[3,9]	dest[T]	code: return sum [Return#int - LocalVariable#int]
-9	in[]	out[]		dom[]	doms[]	side[8, ]	dest[]	code: 
-
-Analyze nodes (show full nodes)
-0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: sum = 0 [Assign]
-1	in[0]	out[2]		dom[0]	doms[2]		side[0,2]	dest[2]	code: array = new int[] [Assign#int[]]
-2	in[1]	out[3]		dom[1]	doms[3]		side[1,4]	dest[3]	code: local6 = array.length [Assign] local5 = 0 [Assign]
-4	in[3]	out[5]		dom[3]	doms[5]		side[2,5]	dest[5]	code: i = array.[local5] [Assign]
-5	in[4]	out[6,7]	dom[4]	doms[7,6]	side[4,7]	dest[7]	code: if (i 1) then 6 else 7 [Condition then 6 else 7]
-7	in[5]	out[6]		dom[5]	doms[]		side[5,6]	dest[6]	code: ++sum [Unary#int]
-6	in[5,7]	out[3]		dom[5]	doms[]		side[7,3]	dest[3]	code: ++local5 [Unary#int]
-3	in[2,6]	out[4,8]	dom[2]	doms[4,8]	side[6,8]	dest[8]	back[6]code: if (local5 local6) then 4 else 8 [Condition then 4 else 8]
-8	in[3]	out[]		dom[3]	doms[]		side[3, ]	dest[T]	code: return sum [Return#int - LocalVariable#int]
-
-0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: sum = 0 [Assign]
-1	in[0]	out[2]		dom[0]	doms[2]		side[0,2]	dest[2]	code: array = new int[] [Assign#int[]]
-2	in[1]	out[3]		dom[1]	doms[3]		side[1,4]	dest[3]	code: 
-4	in[3]	out[5]		dom[3]	doms[5]		side[2,5]	dest[5]	code: 
-5	in[4]	out[6,7]	dom[4]	doms[7,6]	side[4,7]	dest[7]	code: if (i 1) then 6 else 7 [Condition then 6 else 7]
-7	in[5]	out[6]		dom[5]	doms[]		side[5,6]	dest[6]	code: ++sum [Unary#int]
-6	in[5,7]	out[3]		dom[5]	doms[]		side[7,3]	dest[3]	code: 
-3	in[2,6]	out[4,8]	dom[2]	doms[4,8]	side[6,8]	dest[8]	back[6]code: if (local5 local6) then 4 else 8 [Condition then 4 else 8]
-8	in[3]	out[]		dom[3]	doms[]		side[3, ]	dest[T]	code: return sum [Return#int - LocalVariable#int]
-
-
-0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: sum = 0 [Assign]
-1	in[0]	out[2]		dom[0]	doms[2]		side[0,2]	dest[2]	code: array = new int[] [Assign#int[]]
-2	in[1]	out[3]		dom[1]	doms[3]		side[1,4]	dest[3]	code: 
-4	in[3]	out[5]		dom[3]	doms[5]		side[2,5]	dest[5]	code: 
-5	in[4]	out[6,7]	dom[4]	doms[7,6]	side[4,7]	dest[7]	code: if (i 1) then 6 else 7 [Condition then 6 else 7]
-7	in[5]	out[6]		dom[5]	doms[]		side[5,6]	dest[6]	code: ++sum [Unary#int]
-6	in[5,7]	out[3]		dom[5]	doms[]		side[7,3]	dest[3]	code: 
-3	in[2,6]	out[4,8]	dom[2]	doms[4,8]	side[6,8]	dest[8]	back[6]code: if (local5 local6) then 4 else 8 [Condition then 4 else 8]
-8	in[3]	out[]		dom[3]	doms[]		side[3, ]	dest[T]	code: return sum [Return#int - LocalVariable#int]
-
 
 ============================================================
 
+	at reincarnation.CompileInfo.buildError(CompileInfo.java:133)
+	at reincarnation.CodeVerifier.verify(CodeVerifier.java:215)
+	at reincarnation.decompiler.operator.AssignmentTest.localDouble(AssignmentTest.java:36)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at antibug.powerassert.PowerAssert.capture(PowerAssert.java:62)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:507)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1458)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2034)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:189)
 
