@@ -1,10 +1,56 @@
+classWriter.visitNestHost("reincarnation/decompiler/operator/AssignmentTest");
+
+{
+methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "(J)J", null, null);
+methodVisitor.visitParameter("value", 0);
+methodVisitor.visitCode();
+Label label0 = new Label();
+methodVisitor.visitLabel(label0);
+methodVisitor.visitLineNumber(267, label0);
+methodVisitor.visitVarInsn(ALOAD, 0); // this
+methodVisitor.visitVarInsn(LLOAD, 1); // value
+methodVisitor.visitInsn(DUP2);
+methodVisitor.visitVarInsn(LSTORE, 3); // local
+Label label1 = new Label();
+methodVisitor.visitLabel(label1);
+methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/operator/AssignmentTest$16", "field", "J");
+Label label2 = new Label();
+methodVisitor.visitLabel(label2);
+methodVisitor.visitLineNumber(269, label2);
+methodVisitor.visitVarInsn(LLOAD, 3);
+methodVisitor.visitVarInsn(ALOAD, 0);
+methodVisitor.visitFieldInsn(GETFIELD, "reincarnation/decompiler/operator/AssignmentTest$16", "field", "J");
+methodVisitor.visitInsn(LADD);
+methodVisitor.visitInsn(LRETURN);
+Label label3 = new Label();
+methodVisitor.visitLabel(label3);
+methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/operator/AssignmentTest$16;", null, label0, label3, 0);
+methodVisitor.visitLocalVariable("value", "J", null, label0, label3, 1);
+methodVisitor.visitLocalVariable("local", "J", null, label1, label3, 3);
+methodVisitor.visitMaxs(5, 5);
+methodVisitor.visitEnd();
+}
+
+18                this;
+19                ((AssignmentTest$16) long local).field = local = value;
+
+
 java.lang.AssertionError: 
 ============================================================
-ECJ compiles reincarnation.decompiler.operator.AssignmentTest$2
+ECJ compiles reincarnation.decompiler.operator.AssignmentTest$16
 ============================================================
-/reincarnation/decompiler/operator/AssignmentTest.java:21: エラー: 文ではありません
-            loc2;
+/reincarnation/decompiler/operator/AssignmentTest.java:18: エラー: 文ではありません
+            this;
             ^
+/reincarnation/decompiler/operator/AssignmentTest.java:19: エラー: '.class'がありません
+            ((AssignmentTest$16) long local).field = local = value;
+                                      ^
+/reincarnation/decompiler/operator/AssignmentTest.java:19: エラー: 文ではありません
+            ((AssignmentTest$16) long local).field = local = value;
+            ^
+/reincarnation/decompiler/operator/AssignmentTest.java:19: エラー: ';'がありません
+            ((AssignmentTest$16) long local).field = local = value;
+                                           ^
 
 Fail: Fail compiling code.
 No solution.
@@ -12,17 +58,17 @@ No solution.
 ============================================================
 Original Code
 ============================================================
-void localDouble() {
-        verify(new TestCode.Text() {
+void mixLongFieldLocal() {
+        verify(new TestCode.LongParam() {
+
+            private long field;
 
             @Override
-            public String run() {
-                Locale loc1 = Locale.ENGLISH;
-                Locale loc2 = Locale.ENGLISH;
+            public long run(long value) {
+                long local;
+                field = local = value;
 
-                loc1 = loc2 = Locale.FRANCE;
-
-                return loc1.getCountry() + loc2.getCountry();
+                return local + field;
             }
         });
     }
@@ -31,30 +77,27 @@ Decompiled Code
 ============================================================
 01    package reincarnation.decompiler.operator;
 02    
-03    import java.util.Locale;
-04    
-05    import reincarnation.CodeVerifier;
-06    import reincarnation.TestCode.Text;
-07    import reincarnation.decompiler.operator.AssignmentTest;
+03    import reincarnation.CodeVerifier;
+04    import reincarnation.TestCode.LongParam;
+05    import reincarnation.decompiler.operator.AssignmentTest;
+06    
+07    class AssignmentTest extends CodeVerifier {
 08    
-09    class AssignmentTest extends CodeVerifier {
-10    
-11        class AssignmentTest$2 implements Text {
-12            final AssignmentTest this$0;
-13    
-14            AssignmentTest$2(final AssignmentTest this$0) {
-15                this.this$0 = this$0;
-16            }
-17    
-18            public String run() {
-19                Locale loc1 = Locale.ENGLISH;
-20                Locale loc2 = Locale.ENGLISH;
-21                loc2;
-22                loc1 = (loc2 = Locale.FRANCE);
-23                return loc1.getCountry() + loc2.getCountry();
-24            }
-25        }
-26    }
+09        class AssignmentTest$16 implements LongParam {
+10            private long field;
+11            final AssignmentTest this$0;
+12    
+13            AssignmentTest$16(final AssignmentTest this$0) {
+14                this.this$0 = this$0;
+15            }
+16    
+17            public long run(long value) {
+18                this;
+19                ((AssignmentTest$16) long local).field = local = value;
+20                return local + this.field;
+21            }
+22        }
+23    }
 ============================================================
 Decompiling Log
 ============================================================
@@ -63,7 +106,7 @@ Decompiling Log
 
 	at reincarnation.CompileInfo.buildError(CompileInfo.java:133)
 	at reincarnation.CodeVerifier.verify(CodeVerifier.java:215)
-	at reincarnation.decompiler.operator.AssignmentTest.localDouble(AssignmentTest.java:36)
+	at reincarnation.decompiler.operator.AssignmentTest.mixLongFieldLocal(AssignmentTest.java:260)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at antibug.powerassert.PowerAssert.capture(PowerAssert.java:62)
 	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:507)

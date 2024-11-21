@@ -9,13 +9,11 @@
  */
 package reincarnation;
 
-import java.util.Locale;
-
 import reincarnation.coder.java.JavaCodingOption;
 
 public class Sample {
 
     public static void main(String[] args) {
-        System.out.println(Reincarnation.rebirth(Locale.class, new JavaCodingOption()));
+        System.out.println(Reincarnation.rebirth(Sample.class, new JavaCodingOption()));
     }
 }

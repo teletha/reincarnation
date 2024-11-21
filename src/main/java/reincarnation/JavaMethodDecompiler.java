@@ -566,7 +566,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         switch (opcode) {
         case PUTFIELD:
-            Operand filed = new OperandFieldAccess(owner, name, current.remove(1));
+            Operand field = new OperandFieldAccess(owner, name, current.remove(1));
 
             // Increment (decrement) of field doesn't use increment instruction, so we must
             // distinguish increment (decrement) from addition by pattern matching.
@@ -574,28 +574,35 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 // The pattenr of post-increment field is like above.
                 current.remove(0);
 
-                current.addOperand(increment(filed, type, true, true));
+                current.addOperand(increment(field, type, true, true));
             } else if (match(DUP, GETFIELD, DUPLICATE_AWAY, CONSTANT_1, SUB, PUTFIELD)) {
                 // The pattenr of post-decrement field is like above.
                 current.remove(0);
 
-                current.addOperand(increment(filed, type, false, true));
+                current.addOperand(increment(field, type, false, true));
             } else if (match(DUP, GETFIELD, CONSTANT_1, ADD, DUPLICATE_AWAY, PUTFIELD)) {
                 // The pattenr of pre-increment field is like above.
                 current.remove(0);
 
-                current.addOperand(increment(filed, type, true, false));
+                current.addOperand(increment(field, type, true, false));
             } else if (match(DUP, GETFIELD, CONSTANT_1, SUB, DUPLICATE_AWAY, PUTFIELD)) {
                 // The pattenr of pre-decrement field is like above.
                 current.remove(0);
 
-                current.addOperand(increment(filed, type, false, false));
+                current.addOperand(increment(field, type, false, false));
             } else {
                 Operand value = current.remove(0).fix(type);
-                OperandAssign assign = new OperandAssign(filed, AssignOperator.ASSIGN, value);
+                OperandAssign assign = new OperandAssign(field, AssignOperator.ASSIGN, value);
 
                 if (match(DUPLICATE_AWAY, PUTFIELD)) {
-                    // multiple assignment (i.e. this.a = this.b = 0;)
+                    // DUP operand is generated when the result of an assignment expression is
+                    // to be treated as a value.
+                    //
+                    // Example
+                    // - inline parameter (i.e. method(local = value))
+                    // - chained assignment (i.e. this.a = this.b = 0;)
+                    value.duplicated = false;
+
                     current.addOperand(assign.encolose());
                 } else {
                     // normal assignment
@@ -657,12 +664,20 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
                 current.addOperand(increment(accessClassField(owner, name), type, false, false));
             } else {
-                OperandAssign assign = new OperandAssign(accessClassField(owner, name), AssignOperator.ASSIGN, current.remove(0).fix(type));
+                Operand value = current.remove(0).fix(type);
+                OperandAssign assign = new OperandAssign(accessClassField(owner, name), AssignOperator.ASSIGN, value);
 
                 if (match(DUPLICATE, PUTSTATIC)) {
-                    // The pattern of static field assignment in method parameter.
+                    // DUP operand is generated when the result of an assignment expression is
+                    // to be treated as a value.
+                    //
+                    // Example
+                    // - inline parameter (i.e. method(local = value))
+                    // - chained assignment (i.e. Type.a = Type.b = 0;)
+                    value.duplicated = false;
+
                     current.remove(0);
-                    // current.addOperand(assign);
+                    current.addOperand(assign.encolose());
                 } else {
                     current.addExpression(assign);
                 }
@@ -1325,6 +1340,21 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         // read array length
         case ARRAYLENGTH:
+            // For ECJ
+            // Array#length on enhanced for-loop produces special bytecode
+            if (match(ALOAD, DUP, ASTORE, ARRAYLENGTH)) {
+                Operand prev = current.peek(1);
+                Operand next = current.remove(0);
+
+                if (prev instanceof OperandLocalVariable newVariable && next instanceof OperandAssign assign) {
+                    assign.assignedTo(newVariable).as(OperandLocalVariable.class).to(originalVariable -> {
+                        originalVariable.assimilate(newVariable);
+                    });
+                }
+            }
+
+            // For Javac
+            // Array#length on enhanced for-loop produces special bytecode
             if (match(ALOAD, ASTORE, ALOAD, ARRAYLENGTH)) {
                 Operand prev = current.peek(1);
                 Operand next = current.peek(0);
@@ -1334,6 +1364,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     });
                 }
             }
+
             current.addOperand(new OperandArrayLength(current.remove(0)));
             break;
 
@@ -2179,11 +2210,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         // For ECJ
         // Array#length on enhanced for-loop produces special bytecode
-        if (match(ALOAD, DUP, ASTORE)) {
-            OperandLocalVariable original = (OperandLocalVariable) current.remove(0);
-            original.assimilate(variable);
-            return;
-        }
+        // if (match(ALOAD, DUP, ASTORE)) {
+        // OperandLocalVariable original = (OperandLocalVariable) current.remove(0);
+        // original.assimilate(variable);
+        // System.out.println("OK");
+        // return;
+        // }
 
         switch (opcode) {
         case ILOAD:
@@ -2308,6 +2340,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     // int a = 0, b = 0;
                     // a = b = 1;
                     if (firstUse) {
+                        System.out.println(variable + "    " + current.stack);
                         current.stack.add(variable);
                     }
 
