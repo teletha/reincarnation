@@ -200,4 +200,19 @@ public interface NodeManipulator {
         }
         return nodes[size];
     }
+
+    /**
+     * The specified node and the previous node are combined into a single node. The
+     * previous node will be disposed.
+     * 
+     * @param target A node that is the starting point for merging
+     */
+    default void mergePrevious(Node target) {
+        Node prev = target.previous;
+
+        if (prev != null) {
+            target.stack.addAll(0, prev.stack);
+            dispose(prev, true, false);
+        }
+    }
 }

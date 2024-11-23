@@ -761,7 +761,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
             if (nLocal == 0 && nStack == 0) {
                 processTernaryOperator();
-                merge(current.previous);
+                mergeConditions(current.previous);
             }
             break;
 
@@ -1374,7 +1374,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 Operand o = current.peek(0);
                 if (o instanceof OperandConstructorCall con && con.type.is(AssertionError.class)) {
                     current.remove(0); // remove new AssertionError()
-                    merge(current);
+                    mergeConditions(current);
                     current.addOperand(new OperandAssert(current.remove(0), con.children().to()));
                     break;
                 }
@@ -1797,7 +1797,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         nodes.add(current);
 
         if (1 < nodes.size()) {
-            merge(current.previous);
+            mergeConditions(current.previous);
         }
 
         List<WiseConsumer<Node>> actions = ends.remove(current.previous);
@@ -2327,6 +2327,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                         current.addOperand(enumValues[0]);
                     }
 
+                    // The chained assignment for three or more variables causes node splitting and
+                    // must be combined into one.
+                    if (match(LABEL, DUP, STORE)) {
+                        mergePrevious(current);
+                    }
+
                     // When performing a chained assignment, the left-most variable can declare its
                     // type, but the other variables must have their types declared beforehand, so
                     // the variable itself must be loaded on the stack.
@@ -2339,9 +2345,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     // Non-First Use Example
                     // int a = 0, b = 0;
                     // a = b = 1;
-                    if (firstUse) {
-                        System.out.println(variable + "    " + current.stack);
-                        current.stack.add(variable);
+                    if (firstUse && locals.isLocal(variable)) {
+                        // If the operand stack is empty, just add it to the top and it will declare
+                        // the variable. Otherwise, it is used in the middle of an expression, and
+                        // adding it as is would result in a variable declaration in a place where
+                        // it is not permitted.
+                        // So, add a node just before and have the variable declaration there.
+                        if (current.stack.isEmpty()) {
+                            current.addOperand(variable);
+                        } else {
+                            createNodeBefore(current, variable);
+                        }
                     }
 
                     // The assignment expression is put back on the stack, but since we do not yet
@@ -2554,7 +2568,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     /**
      * Helper method to merge all conditional operands.
      */
-    private void merge(Node node) {
+    private void mergeConditions(Node node) {
         if (node == null) {
             return;
         }
@@ -2594,7 +2608,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     dispose(node);
 
                     // Merge recursively
-                    merge(node.previous);
+                    mergeConditions(node.previous);
                 }
             }
         }

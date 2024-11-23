@@ -51,7 +51,6 @@ class AssignmentTest extends CodeVerifier {
             @Override
             public String run() {
                 String loc1, loc2;
-
                 loc1 = loc2 = "A";
 
                 return loc1 + loc2;
@@ -95,6 +94,20 @@ class AssignmentTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    void localTripleChainOnUninitialized() {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                String loc1, loc2, loc3;
+                loc1 = loc2 = loc3 = "T";
+
+                return loc1 + loc2 + loc3;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     void localPentaChain() {
         verify(new TestCode.Text() {
 
@@ -107,6 +120,20 @@ class AssignmentTest extends CodeVerifier {
                 String loc5 = "5";
 
                 loc1 = loc2 = loc3 = loc4 = loc5 = "P"; // LLV
+
+                return loc1 + loc2 + loc3 + loc4 + loc5;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void localPentaChainOnUninitialized() {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                String loc2, loc3, loc4, loc5;
+                String loc1 = loc2 = loc3 = loc4 = loc5 = "P"; // LLV
 
                 return loc1 + loc2 + loc3 + loc4 + loc5;
             }
@@ -241,6 +268,70 @@ class AssignmentTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    void mixIntFieldLocalLocal() {
+        verify(new TestCode.IntParam() {
+
+            private int field;
+
+            @Override
+            public int run(int value) {
+                int local1, local2;
+                this.field = local1 = local2 = value; // LLV
+
+                return local1 + field + local2;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void mixIntLocalFieldLocal() {
+        verify(new TestCode.IntParam() {
+
+            private int field;
+
+            @Override
+            public int run(int value) {
+                int local2;
+                int local1 = this.field = local2 = value; // LLV
+
+                return local1 + field + local2;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void mixIntLocalLocalField() {
+        verify(new TestCode.IntParam() {
+
+            private int field;
+
+            @Override
+            public int run(int value) {
+                int local2;
+                int local1 = local2 = this.field = value; // LLV
+
+                return local1 + field + local2;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void mixIntFieldLocalLocalLocal() {
+        verify(new TestCode.IntParam() {
+
+            private int field;
+
+            @Override
+            public int run(int value) {
+                int local1, local2, local3;
+                this.field = local1 = local2 = local3 = value; // LLV
+
+                return local1 + field + local2 + local3;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     void mixLongLocalField() {
         verify(new TestCode.LongParam() {
 
@@ -289,19 +380,19 @@ class AssignmentTest extends CodeVerifier {
     void mixObjectFieldLocal() {
         verify(new TestCode.TextParam() {
             private String field;
-    
+
             @Override
             public String run(String value) {
                 String local;
                 field = local = value;
-    
+
                 return local + field;
             }
         });
     }
 
     @CrossDecompilerTest
-    void mixStaticIntField() {
+    void mixStaticIntLocalField() {
         verify(new TestCode.IntParam() {
 
             private static int field;
@@ -316,7 +407,23 @@ class AssignmentTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    void mixStaticLongField() {
+    void mixStaticIntFieldLocal() {
+        verify(new TestCode.IntParam() {
+
+            private static int field;
+
+            @Override
+            public int run(int value) {
+                int local;
+                field = local = value;
+
+                return local + field;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void mixStaticLongLocalField() {
         verify(new TestCode.LongParam() {
 
             private static long field;
@@ -331,7 +438,23 @@ class AssignmentTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    void mixStaticObjectField() {
+    void mixStaticLongFieldLocal() {
+        verify(new TestCode.LongParam() {
+
+            private static long field;
+
+            @Override
+            public long run(long value) {
+                long local;
+                field = local = value;
+
+                return local + field;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void mixStaticObjectLocalField() {
         verify(new TestCode.TextParam() {
             private static String field;
 
@@ -340,6 +463,35 @@ class AssignmentTest extends CodeVerifier {
                 String local = field = value;
 
                 return local + field;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void mixStaticObjectFieldLocal() {
+        verify(new TestCode.TextParam() {
+            private static String field;
+
+            @Override
+            public String run(String value) {
+                String local;
+                field = local = value;
+
+                return local + field;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void nest() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                int local1, local2, local3;
+                local1 = (local2 = (local3 = value + 3) + 2) + 1;
+
+                return local1 - local2 * local3;
             }
         });
     }

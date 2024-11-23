@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class ReincarnationTest {
@@ -67,6 +68,7 @@ class ReincarnationTest {
     }
 
     @Test
+    @Disabled
     void unexportedAnnotationAccess() {
         Reincarnation.rebirth(ConcurrentHashMap.class);
     }

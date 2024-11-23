@@ -132,11 +132,11 @@ final class LocalVariables implements Naming {
     }
 
     boolean isLocal(OperandLocalVariable variable) {
-        return offset < variable.index.v;
+        return offset <= variable.index.v;
     }
 
     boolean isParam(OperandLocalVariable variable) {
-        return variable.index.v <= offset;
+        return variable.index.v < offset;
     }
 
     /**
