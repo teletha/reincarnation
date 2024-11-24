@@ -378,6 +378,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         try {
             analyze(nodes);
         } catch (Throwable e) {
+            e.printStackTrace();
             throw new Error("Failed to decompile [" + executable + "]", e);
         }
 
@@ -2329,7 +2330,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
                     // The chained assignment for three or more variables causes node splitting and
                     // must be combined into one.
-                    if (match(LABEL, DUP, STORE)) {
+                    if (match(LABEL, DUPLICATE, STORE)) {
                         mergePrevious(current);
                     }
 
@@ -2346,16 +2347,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     // int a = 0, b = 0;
                     // a = b = 1;
                     if (firstUse && locals.isLocal(variable)) {
-                        // If the operand stack is empty, just add it to the top and it will declare
-                        // the variable. Otherwise, it is used in the middle of an expression, and
-                        // adding it as is would result in a variable declaration in a place where
-                        // it is not permitted.
-                        // So, add a node just before and have the variable declaration there.
-                        if (current.stack.isEmpty()) {
-                            current.addOperand(variable);
-                        } else {
-                            createNodeBefore(current, variable);
-                        }
+                        current.stack.addFirst(variable);
                     }
 
                     // The assignment expression is put back on the stack, but since we do not yet

@@ -189,6 +189,43 @@ public class Classes {
     }
 
     /**
+     * Converts a wrapper class to its corresponding primitive class.
+     * <p>
+     * This method checks if the given {@code Class} object represents a wrapper type
+     * (e.g., {@link Integer}, {@link Long}, {@link Double}, etc.) and returns the
+     * corresponding primitive type (e.g., {@code int.class}, {@code long.class},
+     * {@code double.class}, etc.).
+     * If the provided type is not a wrapper class, it is returned unchanged.
+     * </p>
+     *
+     * @param type the {@code Class} object to be unwrapped
+     * @return the corresponding primitive {@code Class} object if the input is a wrapper type;
+     *         otherwise, the input {@code Class} object itself
+     * @throws NullPointerException if {@code type} is {@code null}
+     */
+    public static Class unwrap(Class type) {
+        if (type == Integer.class) {
+            return int.class;
+        } else if (type == Long.class) {
+            return long.class;
+        } else if (type == Float.class) {
+            return float.class;
+        } else if (type == Double.class) {
+            return double.class;
+        } else if (type == Short.class) {
+            return short.class;
+        } else if (type == Byte.class) {
+            return byte.class;
+        } else if (type == Boolean.class) {
+            return boolean.class;
+        } else if (type == Character.class) {
+            return char.class;
+        } else {
+            return type;
+        }
+    }
+
+    /**
      * Check whether the specified method is wrapper for primitive or not.
      * 
      * @param method

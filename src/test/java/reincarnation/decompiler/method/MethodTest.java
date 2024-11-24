@@ -16,114 +16,278 @@ import reincarnation.TestCode;
 class MethodTest extends CodeVerifier {
 
     @CrossDecompilerTest
-    void Basic() {
-        verify(new Basic());
-    }
+    void primitiveInt() {
+        verify(new TestCode.IntParam() {
 
-    /**
-     * @version 2018/10/23 15:32:19
-     */
-    private static class Basic implements TestCode.Int {
-
-        @Override
-        public int run() {
-            return compute();
-        }
-
-        private int compute() {
-            return -10;
-        }
-    }
-
-    @CrossDecompilerTest
-    void Param() {
-        verify(new Param());
-    }
-
-    /**
-     * @version 2018/10/23 15:32:31
-     */
-    private static class Param implements TestCode.IntParam {
-
-        @Override
-        public int run(int value) {
-            return compute(value);
-        }
-
-        private int compute(int value) {
-            return 100 + value;
-        }
-    }
-
-    @CrossDecompilerTest
-    void MultipleParams() {
-        verify(new MultipleParams());
-    }
-
-    /**
-     * @version 2018/10/23 15:32:40
-     */
-    private static class MultipleParams implements TestCode.IntParam {
-
-        @Override
-        public int run(int value) {
-            return compute(value, value + 1);
-        }
-
-        private int compute(int first, int second) {
-            return first * second;
-        }
-    }
-
-    @CrossDecompilerTest
-    void ArrayParam() {
-        verify(new ArrayParam());
-    }
-
-    /**
-     * @version 2018/10/23 15:32:50
-     */
-    private static class ArrayParam implements TestCode.IntParam {
-
-        @Override
-        public int run(int value) {
-            int[] ints = {value, value + 1, value + 2};
-
-            return compute(ints);
-        }
-
-        private int compute(int[] values) {
-            int i = 0;
-
-            for (int j = 0; j < values.length; j++) {
-                i += values[j];
+            @Override
+            public int run(int value) {
+                return compute();
             }
 
-            return i;
-        }
+            private int compute() {
+                return -10;
+            }
+        });
     }
 
     @CrossDecompilerTest
-    void AssignLocalParam() {
-        verify(new AssignLocalParam());
+    void primitiveLong() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                return compute();
+            }
+
+            private long compute() {
+                return -10;
+            }
+        });
     }
 
-    /**
-     * @version 2018/10/23 15:32:58
-     */
-    private static class AssignLocalParam implements TestCode.IntParam {
+    @CrossDecompilerTest
+    void primitiveObject() {
+        verify(new TestCode.Text() {
 
-        @Override
-        public int run(int value) {
-            int local = 0;
-            int result = compute(local = value);
+            @Override
+            public String run() {
+                return compute();
+            }
 
-            return local + result;
-        }
+            private String compute() {
+                return "minus";
+            }
+        });
+    }
 
-        private int compute(int value) {
-            return 100 + value;
-        }
+    @CrossDecompilerTest
+    void paramInt() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return compute(value);
+            }
+
+            private int compute(int value) {
+                return 100 + value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void paramLong() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                return compute(value);
+            }
+
+            private long compute(long value) {
+                return 100 + value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void paramObject() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(String value) {
+                return compute(value);
+            }
+
+            private String compute(String value) {
+                return value + "!!!";
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void params() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return compute(value, value + 1);
+            }
+
+            private int compute(int first, int second) {
+                return first * second;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void paramArray() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                int[] ints = {value, value + 1, value + 2};
+
+                return compute(ints);
+            }
+
+            private int compute(int[] values) {
+                int i = 0;
+
+                for (int j = 0; j < values.length; j++) {
+                    i += values[j];
+                }
+
+                return i;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void assignLocalInt() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                int local = 0;
+                int result = compute(local = value);
+
+                return local + result;
+            }
+
+            private int compute(int value) {
+                return 100 + value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void assignUninitializedLocalInt() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                int local;
+                return compute(local = value) + local;
+            }
+
+            private int compute(int value) {
+                return 100 + value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void assignParamInt() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(int value) {
+                return compute(value = 10);
+            }
+
+            private int compute(int value) {
+                return 100 + value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void assignLocalLong() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                long local = 0;
+                long result = compute(local = value);
+
+                return local + result;
+            }
+
+            private long compute(long value) {
+                return 100 + value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void assignUninitializedLocalLong() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                long local;
+                return compute(local = value) + local;
+            }
+
+            private long compute(long value) {
+                return 100 + value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void assignParamLong() {
+        verify(new TestCode.LongParam() {
+
+            @Override
+            public long run(long value) {
+                return compute(value = 10);
+            }
+
+            private long compute(long value) {
+                return 100 + value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void assignLocalObject() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(String value) {
+                String local = "BASE";
+                String result = compute(local = value);
+
+                return local + result;
+            }
+
+            private String compute(String value) {
+                return 100 + value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void assignUninitializedLocalObject() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(String value) {
+                String local;
+                return compute(local = value) + local;
+            }
+
+            private String compute(String value) {
+                return 100 + value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void assignParamObject() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(String value) {
+                return compute(value = "OK");
+            }
+
+            private String compute(String value) {
+                return 100 + value;
+            }
+        });
     }
 
     @CrossDecompilerTest
@@ -398,7 +562,7 @@ class MethodTest extends CodeVerifier {
             public int run(int param) {
                 Child child = new Child();
 
-                return child.compute(param) + ((Parent) child).compute(param) + ((Ancestor) child).compute(param);
+                return child.compute(param) + child.compute(param) + child.compute(param);
             }
         });
     }
@@ -439,7 +603,7 @@ class MethodTest extends CodeVerifier {
          */
         @Override
         public int run(int param) {
-            return compute(param) + super.compute(param) + ((Ancestor) this).compute(param);
+            return compute(param) + super.compute(param) + this.compute(param);
         }
     }
 

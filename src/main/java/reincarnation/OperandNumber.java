@@ -12,6 +12,7 @@ package reincarnation;
 import java.util.Objects;
 
 import reincarnation.coder.Coder;
+import reincarnation.util.Classes;
 
 class OperandNumber extends Operand {
 
@@ -23,6 +24,7 @@ class OperandNumber extends Operand {
      */
     OperandNumber(Number value) {
         this.value = value;
+        this.type.set(Classes.unwrap(value.getClass()));
     }
 
     /**
