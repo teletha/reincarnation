@@ -174,7 +174,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
 		<dependency>
 			<groupId>io.github.java-diff-utils</groupId>
 			<artifactId>java-diff-utils</artifactId>
-			<version>4.12</version>
+			<version>4.15</version>
 			<scope>test</scope>
 			<exclusions/>
 		</dependency>
