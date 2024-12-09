@@ -1,112 +1,166 @@
-classWriter.visitNestHost("reincarnation/decompiler/operator/AssignmentTest");
-
-{
-methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "run", "(J)J", null, null);
-methodVisitor.visitParameter("value", 0);
-methodVisitor.visitCode();
-Label label0 = new Label();
-methodVisitor.visitLabel(label0);
-methodVisitor.visitLineNumber(267, label0);
-methodVisitor.visitVarInsn(ALOAD, 0); // this
-methodVisitor.visitVarInsn(LLOAD, 1); // value
-methodVisitor.visitInsn(DUP2);
-methodVisitor.visitVarInsn(LSTORE, 3); // local
-Label label1 = new Label();
-methodVisitor.visitLabel(label1);
-methodVisitor.visitFieldInsn(PUTFIELD, "reincarnation/decompiler/operator/AssignmentTest$16", "field", "J");
-Label label2 = new Label();
-methodVisitor.visitLabel(label2);
-methodVisitor.visitLineNumber(269, label2);
-methodVisitor.visitVarInsn(LLOAD, 3);
-methodVisitor.visitVarInsn(ALOAD, 0);
-methodVisitor.visitFieldInsn(GETFIELD, "reincarnation/decompiler/operator/AssignmentTest$16", "field", "J");
-methodVisitor.visitInsn(LADD);
-methodVisitor.visitInsn(LRETURN);
-Label label3 = new Label();
-methodVisitor.visitLabel(label3);
-methodVisitor.visitLocalVariable("this", "Lreincarnation/decompiler/operator/AssignmentTest$16;", null, label0, label3, 0);
-methodVisitor.visitLocalVariable("value", "J", null, label0, label3, 1);
-methodVisitor.visitLocalVariable("local", "J", null, label1, label3, 3);
-methodVisitor.visitMaxs(5, 5);
-methodVisitor.visitEnd();
-}
-
-18                this;
-19                ((AssignmentTest$16) long local).field = local = value;
-
-
 java.lang.AssertionError: 
 ============================================================
-ECJ compiles reincarnation.decompiler.operator.AssignmentTest$16
+Javac compiles reincarnation.decompiler.operator.Assignment2Test$1
 ============================================================
-/reincarnation/decompiler/operator/AssignmentTest.java:18: エラー: 文ではありません
-            this;
-            ^
-/reincarnation/decompiler/operator/AssignmentTest.java:19: エラー: '.class'がありません
-            ((AssignmentTest$16) long local).field = local = value;
-                                      ^
-/reincarnation/decompiler/operator/AssignmentTest.java:19: エラー: 文ではありません
-            ((AssignmentTest$16) long local).field = local = value;
-            ^
-/reincarnation/decompiler/operator/AssignmentTest.java:19: エラー: ';'がありません
-            ((AssignmentTest$16) long local).field = local = value;
-                                           ^
-
-Fail: Fail compiling code.
-No solution.
+Error: Failed to decompile [public int reincarnation.decompiler.operator.Assignment2Test$1.run(int)]
+    at reincarnation.JavaMethodDecompiler.visitEnd(JavaMethodDecompiler.java:382)
+    at org.objectweb.asm.ClassReader.readMethod(ClassReader.java:1516)
+    at org.objectweb.asm.ClassReader.accept(ClassReader.java:745)
+    at org.objectweb.asm.ClassReader.accept(ClassReader.java:425)
+    at reincarnation.Reincarnation.lambda$1(Reincarnation.java:178)
+    at java.base/java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1713)
+    at reincarnation.Reincarnation.exhume(Reincarnation.java:167)
+    at reincarnation.Reincarnation.rebirth(Reincarnation.java:206)
+    at reincarnation.CodeVerifier.decompile(CodeVerifier.java:236)
+    at reincarnation.CodeVerifier.verify(CodeVerifier.java:164)
+    at reincarnation.decompiler.operator.Assignment2Test.aaa(Assignment2Test.java:22)
+    at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+    at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+    at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:767)
+    at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+    at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
 
 ============================================================
 Original Code
 ============================================================
-void mixLongFieldLocal() {
-        verify(new TestCode.LongParam() {
-
-            private long field;
+@Debuggable
+    void aaa() {
+        verify(new TestCode.IntParam() {
 
             @Override
-            public long run(long value) {
-                long local;
-                field = local = value;
-
-                return local + field;
+            public int run(int value) {
+                String[] base = {};
+                String[] copy;
+                for (String item : base) {
+                    if (base != null && ((copy = base) != null)) {
+                        return 22;
+                    }
+                }
+                return 11;
             }
         });
     }
+}
 ============================================================
 Decompiled Code
 ============================================================
-01    package reincarnation.decompiler.operator;
-02    
-03    import reincarnation.CodeVerifier;
-04    import reincarnation.TestCode.LongParam;
-05    import reincarnation.decompiler.operator.AssignmentTest;
-06    
-07    class AssignmentTest extends CodeVerifier {
-08    
-09        class AssignmentTest$16 implements LongParam {
-10            private long field;
-11            final AssignmentTest this$0;
-12    
-13            AssignmentTest$16(final AssignmentTest this$0) {
-14                this.this$0 = this$0;
-15            }
-16    
-17            public long run(long value) {
-18                this;
-19                ((AssignmentTest$16) long local).field = local = value;
-20                return local + this.field;
-21            }
-22        }
-23    }
-============================================================
 Decompiling Log
 ============================================================
+Method aaa() (Assignment2Test.java:22)
+0	in[]	out[]	dom[]	doms[]	side[ ,1]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
+1	in[]	out[]	dom[]	doms[]	side[0, ]	dest[]	code: 
 
+Delete tail empty return (show full nodes)
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall] return null [Return - null]
+
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
+
+
+0	in[]	out[]	dom[]	doms[]	side[ , ]	dest[T]	code: java.lang.Object() [ConstructorCall]
+
+//------------------------------------- Assignment2Test#aaa (Assignment2Test.java:25) -------------------------------------//
+Method aaa() (Assignment2Test.java:33)
+0	in[]	out[1]		dom[]	doms[]	side[ ,1]	dest[1]	code: base = new String[] [Assign#String[]]
+1	in[0]	out[2]		dom[0]	doms[]	side[0,2]	dest[2]	code: base = base [Assign#String[]] local5 = base.length [Assign] local6 = 0 [Assign]
+2	in[1,5]	out[3,A]	dom[]	doms[]	side[1,A]	dest[4]	code: if (local6 local5) then 3 else 4 [Condition then 3 else 4] item = base.[local6] [Assign#String]
+A	in[2]	out[4]		dom[2]	doms[]	side[2,4]	dest[4]	code: copy [LocalVariable#String[]]
+4	in[A]	out[5,6]	dom[A]	doms[]	side[A,6]	dest[6]	code: if (base null) then 5 else 6 [Condition then 5 else 6]
+6	in[4]	out[5,7]	dom[4]	doms[]	side[4,7]	dest[7]	code: if (copy = base null) then 5 else 7 [Condition then 5 else 7]
+7	in[6]	out[]		dom[6]	doms[]	side[6,5]	dest[T]	code: return 22 [Return#int - Number#int]
+5	in[4,6]	out[2]		dom[4]	doms[]	side[7,3]	dest[2]	code: ++local6 [Unary#int]
+3	in[2]	out[]		dom[2]	doms[]	side[5,8]	dest[T]	code: return 11 [Return#int - Number#int]
+8	in[]	out[]		dom[]	doms[]	side[3, ]	dest[]	code: 
+
+Analyze nodes (show full nodes)
+0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: base = new String[] [Assign#String[]]
+1	in[0]	out[2]		dom[0]	doms[2]		side[0,2]	dest[2]	code: base = base [Assign#String[]] local5 = base.length [Assign] local6 = 0 [Assign]
+2	in[1,5]	out[3,B]	dom[1]	doms[B,3]	side[1,B]	dest[4]	back[5]code: if (local6 local5) then 3 else 4 [Condition then 3 else 4]
+B	in[2]	out[A,4]	dom[2]	doms[A,4]	side[2,A]	dest[]	code: item = base.[local6] [Assign#String]
+A	in[B]	out[4]		dom[B]	doms[]		side[B,4]	dest[4]	code: copy [LocalVariable#String[]]
+4	in[A,B]	out[5,6]	dom[B]	doms[6,5]	side[A,6]	dest[6]	code: if (base null) then 5 else 6 [Condition then 5 else 6]
+6	in[4]	out[5,7]	dom[4]	doms[7]		side[4,7]	dest[7]	code: if (copy = base null) then 5 else 7 [Condition then 5 else 7]
+7	in[6]	out[]		dom[6]	doms[]		side[6,5]	dest[T]	code: return 22 [Return#int - Number#int]
+5	in[4,6]	out[2]		dom[4]	doms[]		side[7,3]	dest[2]	code: ++local6 [Unary#int]
+3	in[2]	out[]		dom[2]	doms[]		side[5, ]	dest[T]	code: return 11 [Return#int - Number#int]
+
+0	in[]	out[1]		dom[]	doms[1]		side[ ,1]	dest[1]	code: base = new String[] [Assign#String[]]
+1	in[0]	out[2]		dom[0]	doms[2]		side[0,2]	dest[2]	code: 
+2	in[1,5]	out[3,B]	dom[1]	doms[B,3]	side[1,B]	dest[4]	back[5]code: if (local6 local5) then 3 else 4 [Condition then 3 else 4]
+B	in[2]	out[A,4]	dom[2]	doms[A,4]	side[2,A]	dest[]	code: 
+A	in[B]	out[4]		dom[B]	doms[]		side[B,4]	dest[4]	code: copy [LocalVariable#String[]]
+4	in[A,B]	out[5,6]	dom[B]	doms[6,5]	side[A,6]	dest[6]	code: if (base null) then 5 else 6 [Condition then 5 else 6]
+6	in[4]	out[5,7]	dom[4]	doms[7]		side[4,7]	dest[7]	code: if (copy = base null) then 5 else 7 [Condition then 5 else 7]
+7	in[6]	out[]		dom[6]	doms[]		side[6,5]	dest[T]	code: return 22 [Return#int - Number#int]
+5	in[4,6]	out[2]		dom[4]	doms[]		side[7,3]	dest[2]	code: 
+3	in[2]	out[]		dom[2]	doms[]		side[5, ]	dest[T]	code: return 11 [Return#int - Number#int]
+
+
+
+============================================================
+Bytecode Diff -  reincarnation.decompiler.operator.Assignment2Test$1
+============================================================
+ECJ																	Javac
+visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);					visitMethod(ACC_PUBLIC, "run", "(I)I", null, null);
+~Parameter("value", 0);~											
+Label(L0);															Label(L0);
+Insn(ICONST_0);														Insn(ICONST_0);
+TypeInsn(ANEWARRAY, "j.l.String");									TypeInsn(ANEWARRAY, "j.l.String");
+VarInsn(ASTORE, 2);													VarInsn(ASTORE, 2);
+Label(L1);															Label(L1);
+VarInsn(ALOAD, 2);													VarInsn(ALOAD, 2);
+~Insn~(~DUP~);														+VarInsn+(+ASTORE, 4+);
+VarInsn(~ASTORE~, ~7~);												VarInsn(+ALOAD+, +4+);
+Insn(ARRAYLENGTH);													Insn(ARRAYLENGTH);
+~VarInsn(ISTORE, 6);~												
+~Insn(ICONST_0);~													
+VarInsn(ISTORE, 5);													VarInsn(ISTORE, 5);
+~JumpInsn~(~GOTO~, ~L2~);											+Insn+(+ICONST_0);+
+Label(~L3~);														+VarInsn(ISTORE+, +6+);
+Frame(F_FULL, ~8~, new Object[] {"String;"}, 0, new Object[] {});	Label(+L2+);
+~VarInsn(ALOAD, 7);~												Frame(F_FULL, +7+, new Object[] {"String;"+, INTEGER, INTEGER+}, 0, new Object[] {});
+																	+VarInsn(ILOAD, 6);+
+VarInsn(ILOAD, 5);													VarInsn(ILOAD, 5);
+																	+JumpInsn(IF_ICMPGE, L3);+
+																	+VarInsn(ALOAD, 4);+
+																	+VarInsn(ILOAD, 6);+
+Insn(AALOAD);														Insn(AALOAD);
+VarInsn(ASTORE, ~4~);												VarInsn(ASTORE, +7+);
+Label(L4);															Label(L4);
+VarInsn(ALOAD, 2);													VarInsn(ALOAD, 2);
+JumpInsn(IFNULL, L5);												JumpInsn(IFNULL, L5);
+VarInsn(ALOAD, 2);													VarInsn(ALOAD, 2);
+Insn(DUP);															Insn(DUP);
+VarInsn(ASTORE, 3);													VarInsn(ASTORE, 3);
+Label(L6);															Label(L6);
+JumpInsn(IFNULL, L5);												JumpInsn(IFNULL, L5);
+Label(L7);															Label(L7);
+IntInsn(BIPUSH, 22);												IntInsn(BIPUSH, 22);
+Insn(IRETURN);														Insn(IRETURN);
+Label(L5);															Label(L5);
+Frame(F_SAME, 0, null, 0, null);									Frame(F_SAME, 0, null, 0, null);
+IincInsn(~5~, 1);													IincInsn(+6+, 1);
+~Label~(L2);														+JumpInsn+(+GOTO, +L2);
+Frame(~F_SAME~, ~0~, ~null~, 0, ~null);~							+Label(L3);+
+~VarInsn(ILOAD,~ ~5~);												Frame(+F_FULL+, +3+, +new Object[] {"String;"}+, 0, +new+ +Object[]+ +{}+);
+~VarInsn(ILOAD, 6);~												
+~JumpInsn(IF_ICMPLT, L3);~											
+~Label(L8);~														
+IntInsn(BIPUSH, 11);												IntInsn(BIPUSH, 11);
+Insn(IRETURN);														Insn(IRETURN);
+Label(~L9~);														Label(+L8+);
+~LocalVariable("this", "LAssignment2Test$1;", null, L0, L9, 0);~	
+~LocalVariable("value", "I", null, L0, L9, 1);~						
+~LocalVariable("base", "[Lj.l.String;", null, L1, L9, 2);~			
+LocalVariable("copy", "[Lj.l.String;", null, L6, L5, 3);			LocalVariable("copy", "[Lj.l.String;", null, L6, L5, 3);
+LocalVariable("item", "Lj.l.String;", null, L4, L5, ~4~);			LocalVariable("item", "Lj.l.String;", null, L4, L5, +7+);
+																	+LocalVariable("this", "LAssignment2Test$1;", null, L0, L8, 0);+
+																	+LocalVariable("value", "I", null, L0, L8, 1);+
+																	+LocalVariable("base", "[Lj.l.String;", null, L1, L8, 2);+
 ============================================================
 
 	at reincarnation.CompileInfo.buildError(CompileInfo.java:133)
 	at reincarnation.CodeVerifier.verify(CodeVerifier.java:215)
-	at reincarnation.decompiler.operator.AssignmentTest.mixLongFieldLocal(AssignmentTest.java:260)
+	at reincarnation.decompiler.operator.Assignment2Test.aaa(Assignment2Test.java:22)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 	at antibug.powerassert.PowerAssert.capture(PowerAssert.java:62)
 	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:507)

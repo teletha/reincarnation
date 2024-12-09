@@ -561,8 +561,10 @@ class MethodTest extends CodeVerifier {
             @Override
             public int run(int param) {
                 Child child = new Child();
+                Parent parent = child;
+                Ancestor ancestor = child;
 
-                return child.compute(param) + child.compute(param) + child.compute(param);
+                return child.compute(param) + parent.compute(param) + ancestor.compute(param);
             }
         });
     }
