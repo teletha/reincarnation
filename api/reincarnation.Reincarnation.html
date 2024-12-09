@@ -4,17 +4,26 @@
 		<meta charset="UTF-8"/>
 		<meta content="width=device-width, initial-scale=1" name="viewport"/>
 		<meta content="Explains how to use Reincarnation and its API. " name="description"/>
-		<link href="https://fonts.googleapis.com" rel="preconnect"/>
 		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="preload"/>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<title>Reincarnation API</title>
 		<base href="../"/>
 		<script src="mimic.js" type="module"></script>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="f">
-		<header class="W">
-			<h1 class="d" date="2024-11-11" ver="1.9.0"><code>Reincarnation</code></h1>
-			<nav class="Q"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+	<body class="i">
+		<header class="d">
+			<h1 class="h" date="2024-11-11" ver="1.9.0"><code>Reincarnation</code></h1>
+			<nav class="V"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
 					</svg><code>API</code></a><a href="https://github.com/teletha/reincarnation/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#user"/>
@@ -23,7 +32,7 @@
 					</svg>Activity</a><a href="https://github.com/teletha/reincarnation" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#github"/>
 					</svg>Repository</a></nav>
-			<div class="b" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
+			<div class="e" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
 						<use href="main.svg#sun"/>
 					</svg>
 				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
@@ -31,131 +40,131 @@
 					</svg>
 				</a></div>
 		</header>
-		<main class="m">
-			<nav class="k">
+		<main class="Z">
+			<nav class="f">
 				<div></div>
 			</nav>
-			<article class="V" id="Article">
-				<section class="Y"><code class="g">reincarnation</code>
-					<h2 class="Class j"><code class="M">Reincarnation</code></h2>
-					<div class="h"></div><span class="B"><code><a href="api/reincarnation.Reincarnation.html">Reincarnation</a></code> is a unit of decompilation.</span></section>
-				<section class="Y" id="clazz">
-					<h2 class="U"><i class="FINAL"><i class="PUBLIC"></i></i><code class="M">clazz</code><i class="Z"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></i></h2><span class="B"><p>The target class.</p></span></section>
-				<section class="Y" id="annotations">
-					<h2 class="U"><i class="FINAL"><i class="PUBLIC"></i></i><code class="M">annotations</code><i class="Z"><code class="return"><a href="api/reincarnation.util.MultiMap.html">MultiMap</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/AnnotatedElement.html">AnnotatedElement</a></code>, <code><a href="api/reincarnation.coder.AnnotationLike.html">AnnotationLike</a></code></code></code></i></h2><span class="B"><p>The annotaion manager.</p></span></section>
-				<section class="Y" id="staticInitializer">
-					<h2 class="U"><i class="FINAL"><i class="PUBLIC"></i></i><code class="M">staticInitializer</code><i class="Z"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></i></h2><span class="B"><p>The initializer manager.</p></span></section>
-				<section class="Y" id="initializer">
-					<h2 class="U"><i class="FINAL"><i class="PUBLIC"></i></i><code class="M">initializer</code><i class="Z"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></i></h2><span class="B"><p>The initializer manager.</p></span></section>
-				<section class="Y" id="fields">
-					<h2 class="U"><i class="FINAL"><i class="PUBLIC"></i></i><code class="M">fields</code><i class="Z"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code></code></code></i></h2><span class="B"><p>The non-static field manager.</p></span></section>
-				<section class="Y" id="staticFields">
-					<h2 class="U"><i class="FINAL"><i class="PUBLIC"></i></i><code class="M">staticFields</code><i class="Z"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code></code></code></i></h2><span class="B"><p>The static field manager.</p></span></section>
-				<section class="Y" id="constructors">
-					<h2 class="U"><i class="FINAL"><i class="PUBLIC"></i></i><code class="M">constructors</code><i class="Z"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></i></h2><span class="B"><p>The constructor manager.</p></span></section>
-				<section class="Y" id="methods">
-					<h2 class="U"><i class="FINAL"><i class="PUBLIC"></i></i><code class="M">methods</code><i class="Z"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></i></h2><span class="B"><p>The method manager.</p></span></section>
-				<section class="Y" id="members">
-					<h2 class="U"><i class="FINAL"><i class="PUBLIC"></i></i><code class="M">members</code><i class="Z"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code>, <code><a href="api/reincarnation.Reincarnation.html">Reincarnation</a></code></code></code></i></h2><span class="B"><p>The member manager.</p></span></section>
-				<section class="Y" id="classes">
-					<h2 class="U"><i class="FINAL"><i class="PUBLIC"></i></i><code class="M">classes</code><i class="Z"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></h2><span class="B"><p>The dependency classes.</p></span></section>
-				<section class="Y" id="anonymous">
-					<h2 class="U"><i class="FINAL"><i class="PUBLIC"></i></i><code class="M">anonymous</code><i class="Z"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></h2><span class="B"><p>The dependency member classes.</p></span></section>
-				<section class="Y" id="locals">
-					<h2 class="U"><i class="FINAL"><i class="PUBLIC"></i></i><code class="M">locals</code><i class="Z"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></h2><span class="B"><p>The dependency member classes.</p></span></section>
-				<section class="Y" id="rebirth(reincarnation.coder.Coder)">
-					<h2 class="U"><i class="PUBLIC"></i><code class="M">rebirth</code><code class="l">(<code><a href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>)</code><i class="Z"><code>void</code></i></h2>
-					<table class="L">
-						<tr class="R">
+			<article class="M" id="Article">
+				<section class="L"><code class="l">reincarnation</code>
+					<h2 class="Class X"><code class="b">Reincarnation</code></h2>
+					<div class="c"></div><span class="B"><code><a href="api/reincarnation.Reincarnation.html">Reincarnation</a></code> is a unit of decompilation.</span></section>
+				<section class="L" id="clazz">
+					<h2 class="j"><i class="FINAL"><i class="PUBLIC"></i></i><code class="b">clazz</code><i class="N"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></i></h2><span class="B"><p>The target class.</p></span></section>
+				<section class="L" id="annotations">
+					<h2 class="j"><i class="FINAL"><i class="PUBLIC"></i></i><code class="b">annotations</code><i class="N"><code class="return"><a href="api/reincarnation.util.MultiMap.html">MultiMap</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/AnnotatedElement.html">AnnotatedElement</a></code>, <code><a href="api/reincarnation.coder.AnnotationLike.html">AnnotationLike</a></code></code></code></i></h2><span class="B"><p>The annotaion manager.</p></span></section>
+				<section class="L" id="staticInitializer">
+					<h2 class="j"><i class="FINAL"><i class="PUBLIC"></i></i><code class="b">staticInitializer</code><i class="N"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></i></h2><span class="B"><p>The initializer manager.</p></span></section>
+				<section class="L" id="initializer">
+					<h2 class="j"><i class="FINAL"><i class="PUBLIC"></i></i><code class="b">initializer</code><i class="N"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></i></h2><span class="B"><p>The initializer manager.</p></span></section>
+				<section class="L" id="fields">
+					<h2 class="j"><i class="FINAL"><i class="PUBLIC"></i></i><code class="b">fields</code><i class="N"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code></code></code></i></h2><span class="B"><p>The non-static field manager.</p></span></section>
+				<section class="L" id="staticFields">
+					<h2 class="j"><i class="FINAL"><i class="PUBLIC"></i></i><code class="b">staticFields</code><i class="N"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code></code></code></i></h2><span class="B"><p>The static field manager.</p></span></section>
+				<section class="L" id="constructors">
+					<h2 class="j"><i class="FINAL"><i class="PUBLIC"></i></i><code class="b">constructors</code><i class="N"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></i></h2><span class="B"><p>The constructor manager.</p></span></section>
+				<section class="L" id="methods">
+					<h2 class="j"><i class="FINAL"><i class="PUBLIC"></i></i><code class="b">methods</code><i class="N"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></i></h2><span class="B"><p>The method manager.</p></span></section>
+				<section class="L" id="members">
+					<h2 class="j"><i class="FINAL"><i class="PUBLIC"></i></i><code class="b">members</code><i class="N"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code>, <code><a href="api/reincarnation.Reincarnation.html">Reincarnation</a></code></code></code></i></h2><span class="B"><p>The member manager.</p></span></section>
+				<section class="L" id="classes">
+					<h2 class="j"><i class="FINAL"><i class="PUBLIC"></i></i><code class="b">classes</code><i class="N"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></h2><span class="B"><p>The dependency classes.</p></span></section>
+				<section class="L" id="anonymous">
+					<h2 class="j"><i class="FINAL"><i class="PUBLIC"></i></i><code class="b">anonymous</code><i class="N"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></h2><span class="B"><p>The dependency member classes.</p></span></section>
+				<section class="L" id="locals">
+					<h2 class="j"><i class="FINAL"><i class="PUBLIC"></i></i><code class="b">locals</code><i class="N"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></h2><span class="B"><p>The dependency member classes.</p></span></section>
+				<section class="L" id="rebirth(reincarnation.coder.Coder)">
+					<h2 class="j"><i class="PUBLIC"></i><code class="b">rebirth</code><code class="K">(<code><a href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>)</code><i class="N"><code>void</code></i></h2>
+					<table class="U">
+						<tr class="m">
 							<td><code><a href="api/reincarnation.coder.Coder.html">Coder</a></code><code>coder</code></td>
 							<td><span><p>A target class to compile.</p></span></td>
 						</tr>
 					</table><span class="B"><p>Compile the specified class.</p></span></section>
-				<section class="Y" id="require(java.lang.Class)">
-					<h2 class="U"><i class="PUBLIC"></i><code class="M">require</code><code class="l">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">dependency</code>)</code><i class="Z"><code>void</code></i></h2>
-					<table class="L">
-						<tr class="R">
+				<section class="L" id="require(java.lang.Class)">
+					<h2 class="j"><i class="PUBLIC"></i><code class="b">require</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">dependency</code>)</code><i class="N"><code>void</code></i></h2>
+					<table class="U">
+						<tr class="m">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code>dependency</code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Add dependency type of this source.</p></span></section>
-				<section class="Y" id="require(java.lang.Class[])">
-					<h2 class="U"><i class="PUBLIC"></i><code class="M">require</code><code class="l">(<code array="fix"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">dependencies</code>)</code><i class="Z"><code>void</code></i></h2>
-					<table class="L">
-						<tr class="R">
+				<section class="L" id="require(java.lang.Class[])">
+					<h2 class="j"><i class="PUBLIC"></i><code class="b">require</code><code class="K">(<code array="fix"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">dependencies</code>)</code><i class="N"><code>void</code></i></h2>
+					<table class="U">
+						<tr class="m">
 							<td><code array="fix"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code>dependencies</code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Add dependency type of this source.</p></span></section>
-				<section class="Y" id="exhume(java.lang.Class)">
-					<h2 class="U"><i class="FINAL SYNCHRONIZED"><i class="PUBLIC STATIC"></i></i><code class="M">exhume</code><code class="l">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">clazz</code>)</code><i class="Z"><code><a href="api/reincarnation.Reincarnation.html">Reincarnation</a></code></i></h2>
-					<table class="L">
-						<tr class="R">
+				<section class="L" id="exhume(java.lang.Class)">
+					<h2 class="j"><i class="FINAL SYNCHRONIZED"><i class="STATIC PUBLIC"></i></i><code class="b">exhume</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">clazz</code>)</code><i class="N"><code><a href="api/reincarnation.Reincarnation.html">Reincarnation</a></code></i></h2>
+					<table class="U">
+						<tr class="m">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code>clazz</code></td>
 							<td><span><p>A class to decompile.</p></span></td>
 						</tr>
-						<tr class="e">
+						<tr class="H">
 							<td><code><a href="api/reincarnation.Reincarnation.html">Reincarnation</a></code></td>
 							<td><span><p>Chainable API.</p></span></td>
 						</tr>
 					</table><span class="B"><p>Decompile the target <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code>.</p></span></section>
-				<section class="Y" id="rebirth(java.lang.Class)">
-					<h2 class="U"><i class="FINAL"><i class="PUBLIC STATIC"></i></i><code class="M">rebirth</code><code class="l">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">clazz</code>)</code><i class="Z"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="L">
-						<tr class="R">
+				<section class="L" id="rebirth(java.lang.Class)">
+					<h2 class="j"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code class="b">rebirth</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">clazz</code>)</code><i class="N"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="U">
+						<tr class="m">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code>clazz</code></td>
 							<td><span><p>A target class to decompile.</p></span></td>
 						</tr>
-						<tr class="e">
+						<tr class="H">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
 							<td></td>
 						</tr>
 					</table><span class="B"><p>Decompile the specified class as Java code.</p></span></section>
-				<section class="Y" id="rebirth(java.lang.Class,reincarnation.coder.java.JavaCodingOption)">
-					<h2 class="U"><i class="FINAL"><i class="PUBLIC STATIC"></i></i><code class="M">rebirth</code><code class="l">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">clazz</code>, <code><a href="api/reincarnation.coder.java.JavaCodingOption.html">JavaCodingOption</a></code><code class="parameterName">options</code>)</code><i class="Z"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="L">
-						<tr class="R">
+				<section class="L" id="rebirth(java.lang.Class,reincarnation.coder.java.JavaCodingOption)">
+					<h2 class="j"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code class="b">rebirth</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">clazz</code>, <code><a href="api/reincarnation.coder.java.JavaCodingOption.html">JavaCodingOption</a></code><code class="parameterName">options</code>)</code><i class="N"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+					<table class="U">
+						<tr class="m">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code>clazz</code></td>
 							<td><span><p>A target class to decompile.</p></span></td>
 						</tr>
-						<tr class="R">
+						<tr class="m">
 							<td><code><a href="api/reincarnation.coder.java.JavaCodingOption.html">JavaCodingOption</a></code><code>options</code></td>
 							<td></td>
 						</tr>
-						<tr class="e">
+						<tr class="H">
 							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
 							<td><span><p>A decompiled Java source code.</p></span></td>
 						</tr>
 					</table><span class="B"><p>Decompile the specified class as Java code.</p></span></section>
 			</article>
-			<aside class="J" id="SubNavi">
-				<div class="P">
-					<h5 class="c">Fields</h5>
+			<aside class="P" id="SubNavi">
+				<div class="T">
+					<h5 class="R">Fields</h5>
 					<ul>
-						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#clazz">clazz</a></code><i class="O"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></i></li>
-						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#annotations">annotations</a></code><i class="O"><code class="return"><a href="api/reincarnation.util.MultiMap.html">MultiMap</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/AnnotatedElement.html">AnnotatedElement</a></code>, <code><a href="api/reincarnation.coder.AnnotationLike.html">AnnotationLike</a></code></code></code></i></li>
-						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#staticInitializer">staticInitializer</a></code><i class="O"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></i></li>
-						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#initializer">initializer</a></code><i class="O"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></i></li>
-						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#fields">fields</a></code><i class="O"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code></code></code></i></li>
-						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#staticFields">staticFields</a></code><i class="O"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code></code></code></i></li>
-						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#constructors">constructors</a></code><i class="O"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></i></li>
-						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#methods">methods</a></code><i class="O"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></i></li>
-						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#members">members</a></code><i class="O"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code>, <code><a href="api/reincarnation.Reincarnation.html">Reincarnation</a></code></code></code></i></li>
-						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#classes">classes</a></code><i class="O"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></li>
-						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#anonymous">anonymous</a></code><i class="O"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></li>
-						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#locals">locals</a></code><i class="O"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></li>
+						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#clazz">clazz</a></code><i class="g"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></i></li>
+						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#annotations">annotations</a></code><i class="g"><code class="return"><a href="api/reincarnation.util.MultiMap.html">MultiMap</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/AnnotatedElement.html">AnnotatedElement</a></code>, <code><a href="api/reincarnation.coder.AnnotationLike.html">AnnotationLike</a></code></code></code></i></li>
+						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#staticInitializer">staticInitializer</a></code><i class="g"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></i></li>
+						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#initializer">initializer</a></code><i class="g"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></i></li>
+						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#fields">fields</a></code><i class="g"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code></code></code></i></li>
+						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#staticFields">staticFields</a></code><i class="g"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code></code></code></i></li>
+						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#constructors">constructors</a></code><i class="g"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></i></li>
+						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#methods">methods</a></code><i class="g"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code>, <code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code></i></li>
+						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#members">members</a></code><i class="g"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Map.html">Map</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code>, <code><a href="api/reincarnation.Reincarnation.html">Reincarnation</a></code></code></code></i></li>
+						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#classes">classes</a></code><i class="g"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></li>
+						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#anonymous">anonymous</a></code><i class="g"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></li>
+						<li><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#locals">locals</a></code><i class="g"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></li>
 					</ul>
-					<h5 class="c">Static Methods</h5>
+					<h5 class="R">Static Methods</h5>
 					<ul>
-						<li><i class="FINAL SYNCHRONIZED"><i class="PUBLIC STATIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#exhume(java.lang.Class)">exhume</a></code><code class="l">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">clazz</code>)</code><i class="O"><code><a href="api/reincarnation.Reincarnation.html">Reincarnation</a></code></i></li>
-						<li><i class="FINAL"><i class="PUBLIC STATIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#rebirth(java.lang.Class)">rebirth</a></code><code class="l">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">clazz</code>)</code><i class="O"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="FINAL"><i class="PUBLIC STATIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#rebirth(java.lang.Class,reincarnation.coder.java.JavaCodingOption)">rebirth</a></code><code class="l">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">clazz</code>, <code><a href="api/reincarnation.coder.java.JavaCodingOption.html">JavaCodingOption</a></code><code class="parameterName">options</code>)</code><i class="O"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="FINAL SYNCHRONIZED"><i class="STATIC PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#exhume(java.lang.Class)">exhume</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">clazz</code>)</code><i class="g"><code><a href="api/reincarnation.Reincarnation.html">Reincarnation</a></code></i></li>
+						<li><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#rebirth(java.lang.Class)">rebirth</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">clazz</code>)</code><i class="g"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+						<li><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code><a href="api/reincarnation.Reincarnation.html#rebirth(java.lang.Class,reincarnation.coder.java.JavaCodingOption)">rebirth</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">clazz</code>, <code><a href="api/reincarnation.coder.java.JavaCodingOption.html">JavaCodingOption</a></code><code class="parameterName">options</code>)</code><i class="g"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
 					</ul>
-					<h5 class="c">Methods</h5>
+					<h5 class="R">Methods</h5>
 					<ul>
-						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.Reincarnation.html#rebirth(reincarnation.coder.Coder)">rebirth</a></code><code class="l">(<code><a href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>)</code><i class="O"><code>void</code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.Reincarnation.html#require(java.lang.Class)">require</a></code><code class="l">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">dependency</code>)</code><i class="O"><code>void</code></i></li>
-						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.Reincarnation.html#require(java.lang.Class[])">require</a></code><code class="l">(<code array="fix"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">dependencies</code>)</code><i class="O"><code>void</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.Reincarnation.html#rebirth(reincarnation.coder.Coder)">rebirth</a></code><code class="K">(<code><a href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>)</code><i class="g"><code>void</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.Reincarnation.html#require(java.lang.Class)">require</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">dependency</code>)</code><i class="g"><code>void</code></i></li>
+						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.Reincarnation.html#require(java.lang.Class[])">require</a></code><code class="K">(<code array="fix"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">dependencies</code>)</code><i class="g"><code>void</code></i></li>
 					</ul>
 				</div>
 			</aside>
