@@ -91,8 +91,8 @@ const
 			if (typeof arg[0] == "function") {
 				let component = this.closest(".mimic").nodes[0]
 				if (component) {
-					let info = component.mimic || (component.mimic = {})
-					let renders = info.renders || (info.renders = [])
+					let info = component.mimic ??= {}
+					let renders = info.renders ??= []
 					renders.push(arg[0])
 				}
 				arg[0] = arg[0]()
@@ -174,10 +174,10 @@ Mimic.prototype = {
 	empty: self(e => e.replaceChildren()),
 	clear: self(e => e.parentNode.removeChild(e)),
 
-	html: value((e, text) => text ? e.innerHTML = text : e.innerHTML),
-	text: value((e, text) => text ? e.textContent = text : e.textContent),
-	attr: value((e, name, value) => value ? e.setAttribute(name, value) : e.getAttribute(name)),
-	data: value((e, name, value) => value ? e.dataset[name] = value : e.dataset[name]),
+	html: value((e, text) => text === undefined ? e.innerHTML : e.innerHTML = text),
+	text: value((e, text) => text === undefined ? e.textContent : e.textContent = text),
+	attr: value((e, name, value) => value === undefined ? e.getAttribute(name) : value == null ? e.removeAttribute(name) : e.setAttribute(name, value)),
+	data: value((e, name, value) => value === undefined ? e.dataset[name] : e.dataset[name] = value),
 	css: self((e, style) => isString(style) ? e.style.cssText = style : Object.keys(style).forEach(name => e.style[name] = style[name])),
 	model: value((e, value) => value !== undefined ? e.model = value : e.model),
 	value: value((e, value) => value !== undefined ? e.value = value : e.value),
@@ -211,7 +211,7 @@ function activatable(element, type) {
 	if (element.closest) {
 		let component = element.closest(".mimic")
 		if (component) {
-			let info = component.mimic || (component.mimic = {})
+			let info = component.mimic ??= {}
 			let count = ++info[type] || (info[type] = 1)
 			if (count === 1) component.addEventListener(type, e => {
 				console.log("need redraw ", component, e, info)

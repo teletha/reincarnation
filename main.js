@@ -24,21 +24,21 @@ history.scrollRestoration = "manual"
 // View Mode
 // =====================================================
 $("html").add(user.theme)
-$("#light,#dark").on("click", e => save($("html").reset(user.theme = e.currentTarget.id)))
+$("#theme").click(e => save($("html").reset(user.theme = user.theme == "light" ? "dark" : "light")))
 
 // =====================================================
 // Dynamic Navigation Indicator
 // =====================================================
 const navi = new IntersectionObserver(e => {
-	e = e.filter(i => i.isIntersecting);
-	if (0 < e.length) {
-		const i = e.reduce((a, b) => a.intersectionRation > b.intersectionRatio ? a : b);
-		if (i) {
-			$("#DocNavi .now").remove("now");
-			$(`#DocNavi a[href$='#${i.target.id}']`).add("now");
+	e.forEach(i => {
+		var x = $(`:is(nav,aside) a[href$='#${i.target.id}']`);
+		if (i.isIntersecting) {
+			x.add("now").each(n => n.scrollIntoView({block: "nearest"}))
+		} else {
+			x.remove("now")
 		}
-	}
-}, { root: null, rootMargin: "-40% 0px -60% 0px", threshold: 0 })
+	})
+}, {rootMargin: "-15% 0px -20% 0px", threshold: 0.1})
 
 // =====================================================
 // Lightning Fast Viewer
@@ -107,9 +107,7 @@ function FlashMan({ paged, cacheSize = 20, preload = "mouseover", preview = "sec
 	}
 
 	// Detect all URL changes
-	window.addEventListener("popstate", v => {
-		changed(true)
-	})
+	window.addEventListener("popstate", v => changed(true))
 	document.addEventListener("DOMContentLoaded", v => { update(); cache.set(location.pathname, document.documentElement.outerHTML) })
 	document.addEventListener("click", v => {
 		let e = v.target.closest("a");
@@ -134,16 +132,14 @@ function FlashMan({ paged, cacheSize = 20, preload = "mouseover", preview = "sec
 
 FlashMan({
 	paged: () => {
-		$("#APINavi").each(e => e.hidden = !location.pathname.startsWith(prefix + "api/"));
-		$("#DocNavi").each(e => e.hidden = !location.pathname.startsWith(prefix + "doc/"));
+		$("#APINavi").each(e => e.dataset.hide = !location.pathname.startsWith(prefix + "api/"));
+		$("#DocNavi").each(e => e.dataset.hide = !location.pathname.startsWith(prefix + "doc/"));
 		$("#DocNavi>div").each(e => {
 			const sub = e.lastElementChild;
 
 			if (location.pathname.endsWith(e.id)) {
-				e.classList.add("active");
 				sub.style.height = sub.scrollHeight + "px";
 			} else {
-				e.classList.remove("active");
 				sub.style.height = 0;
 			}
 		});
@@ -151,26 +147,26 @@ FlashMan({
 		$("#Article section").each(e => navi.observe(e));
 	},
 
-	preview: "#Article>section",
+	preview: "#Article section",
 	/* Enahnce code highlight */
 	"pre": e => {
 		hljs.highlightElement(e)
 		e.lang = e.classList[0].substring(5).toUpperCase()
-		$(e).appendTo($("<code>").insertBefore(e)).make("a").title("Copy this code").click(v => navigator.clipboard.writeText(e.textContent)).svg(prefix + "main.svg#copy")
+		$(e).appendTo($("<code>").insertBefore(e)).make("a").attr("aria-label", "Copy this code").click(v => navigator.clipboard.writeText(e.textContent)).svg(prefix + "main.svg#copy")
 	},
 	/* Enahnce meta icons */
 	".perp": e => {
-		e.title = "Copy the permanent link";
+		e.ariaLabel = "Copy the permanent link";
 		e.onclick = () => navigator.clipboard.writeText(location.origin + location.pathname + "#" + e.closest("section").id);
 	}, ".tweet": e => {
-		e.title = "Post this article to Twitter";
+		e.ariaLabel = "Post this article to Twitter";
 		e.href = "https://twitter.com/intent/tweet?url=" + encodeURIComponent(location.origin + location.pathname + "#" + e.closest("section").id) + "&text=" + encodeURIComponent(e.closest("header").firstElementChild.textContent);
 		e.target = "_blank";
-		e.rel = "noopener noreferrer";
+		e.rel = "noreferrer";
 	}, ".edit": e => {
-		e.title = "Edit this article";
+		e.ariaLabel = "Edit this article";
 		e.target = "_blank";
-		e.rel = "noopener noreferrer";
+		e.rel = "noreferrer";
 	}
 });
 
@@ -287,10 +283,10 @@ class APITree extends $ {
 
 		this.moduleFilter = new Select({ placeholder: "Select Module", model: root.modules })
 		this.packageFilter = new Select({ placeholder: "Select Package", model: root.packages })
-		this.typeFilter = new Select({ placeholder: "Select Type", multiple: true, model: ['Interface', 'Functional', 'AbstractClass', 'Class', 'Enum', 'Annotation', 'Exception'] })
+		this.typeFilter = new Select({ placeholder: "Select Type", multiple: true, model: ['Interface', 'Functional', 'AbstractClass', 'Class', 'Enum', 'Record', 'Annotation', 'Exception'] })
 		this.nameFilter = $("<input>").id("NameFilter").placeholder("Search by Name")
 
-		this.id("APINavi").attr("hidden", true).change(e => this.update()).input(e => this.update())
+		this.id("APINavi").change(e => this.update()).input(e => this.update())
 			.append(this.moduleFilter)
 			.append(this.packageFilter)
 			.append(this.typeFilter)
@@ -322,19 +318,17 @@ class APITree extends $ {
 	}
 }
 
-$("main>nav")
+$("body>nav")
 	.append(new APITree(root))
-	.make("div").id("DocNavi").attr("hidden", true)
+	.make("div").id("DocNavi")
 	.make("div", root.docs, (doc, div) => {
 		div.add("doc").id(doc.path)
 			.make("a").href(doc.path).text(doc.title).parent()
-			.make("ol").add("sub")
-			.make("li", doc.subs, (sub, li) => {
-				li.make("a").href(sub.path).svg(prefix + "main.svg#chevrons").parent()
-					.make("span").text(sub.title)
-				li.make("a", sub.subs, (foot, a) => {
-					a.href(foot.path).svg(prefix + "main.svg#chevrons").parent()
-						.make("span").add("foot").text(foot.title)
+			.make("div").add("sub")
+			.make("a", doc.subs, (sub, li) => {
+				li.href(sub.path).text(sub.title).parent()
+				.make("a", sub.subs, (foot, a) => {
+					a.href(foot.path).add("foot").text(foot.title)
 				})
 			})
 	})

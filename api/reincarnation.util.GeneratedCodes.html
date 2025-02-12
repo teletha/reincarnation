@@ -13,309 +13,308 @@
 		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
 		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" rel="preload"/>
 		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
-		<link as="style" fetchpriority="high" href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="preload"/>
-		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<title>Reincarnation API</title>
 		<base href="../"/>
 		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="i">
-		<header class="d">
-			<h1 class="h" date="2024-11-11" ver="1.9.0"><code>Reincarnation</code></h1>
-			<nav class="V"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+	<body class="N">
+		<header class="O" date="2024-11-11" ver="1.10.0">
+			<h1 class="U"><code>Reincarnation</code></h1>
+			<nav class="b"><a href="api/" id="API"><svg class="package A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
-					</svg><code>API</code></a><a href="https://github.com/teletha/reincarnation/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#user"/>
-					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#activity"/>
-					</svg>Activity</a><a href="https://github.com/teletha/reincarnation" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#github"/>
-					</svg>Repository</a></nav>
-			<div class="e" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#sun"/>
 					</svg>
-				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user A svg" viewBox="0 0 24 24">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity A svg" viewBox="0 0 24 24">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github A svg" viewBox="0 0 24 24">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="K"><a aria-label="Change color scheme" id="theme"><svg class="sun A svg" viewBox="0 0 24 24">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon A svg" viewBox="0 0 24 24">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<main class="Z">
-			<nav class="f">
-				<div></div>
-			</nav>
-			<article class="M" id="Article">
-				<section class="L"><code class="l">reincarnation.util</code>
-					<h2 class="Class X"><code class="b">GeneratedCodes</code></h2>
-					<div class="c"></div><span class="B"><p>Provide the mock API for compiler generated code.</p></span></section>
-				<section class="L" id="GeneratedCodes()">
-					<h2 class="j"><i class="PUBLIC"></i><code class="b">GeneratedCodes</code><code class="K">()</code></h2>
-				</section>
-				<section class="L" id="isImplicitConstructor(java.lang.reflect.Constructor,reincarnation.coder.Code)">
-					<h2 class="j"><i class="STATIC PUBLIC"></i><code class="b">isImplicitConstructor</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="N"><code>boolean</code></i></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code>constructor</code></td>
-							<td></td>
-						</tr>
-						<tr class="m">
-							<td><code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code>code</code></td>
-							<td></td>
-						</tr>
-						<tr class="H">
-							<td><code>boolean</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Check whether the given constructor is defined implicitly or not.</p></span></section>
-				<section class="L" id="isLocalParameter(java.lang.reflect.Parameter)">
-					<h2 class="j"><i class="STATIC PUBLIC"></i><code class="b">isLocalParameter</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Parameter.html">Parameter</a></code><code class="parameterName">parameter</code>)</code><i class="N"><code>boolean</code></i></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Parameter.html">Parameter</a></code><code>parameter</code></td>
-							<td></td>
-						</tr>
-						<tr class="H">
-							<td><code>boolean</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Check whether the given parameter is generated code or not.</p></span></section>
-				<section class="L" id="isAssertionField(java.lang.reflect.Field)">
-					<h2 class="j"><i class="STATIC PUBLIC"></i><code class="b">isAssertionField</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="N"><code>boolean</code></i></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code>field</code></td>
-							<td></td>
-						</tr>
-						<tr class="H">
-							<td><code>boolean</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Check whether the given field is generated code or not.</p></span></section>
-				<section class="L" id="isEnumConstructor(java.lang.reflect.Constructor,reincarnation.coder.Code)">
-					<h2 class="j"><i class="STATIC PUBLIC"></i><code class="b">isEnumConstructor</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="N"><code>boolean</code></i></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code>constructor</code></td>
-							<td></td>
-						</tr>
-						<tr class="m">
-							<td><code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code>code</code></td>
-							<td></td>
-						</tr>
-						<tr class="H">
-							<td><code>boolean</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Check whether the given constructor is generated code or not.</p></span></section>
-				<section class="L" id="isEnumParameter(java.lang.reflect.Parameter)">
-					<h2 class="j"><i class="STATIC PUBLIC"></i><code class="b">isEnumParameter</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Parameter.html">Parameter</a></code><code class="parameterName">parameter</code>)</code><i class="N"><code>boolean</code></i></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Parameter.html">Parameter</a></code><code>parameter</code></td>
-							<td></td>
-						</tr>
-						<tr class="H">
-							<td><code>boolean</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Check whether the given parameter is generated code or not.</p></span></section>
-				<section class="L" id="isEnumMethod(java.lang.reflect.Method,reincarnation.coder.Code)">
-					<h2 class="j"><i class="STATIC PUBLIC"></i><code class="b">isEnumMethod</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="N"><code>boolean</code></i></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code>method</code></td>
-							<td></td>
-						</tr>
-						<tr class="m">
-							<td><code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code>code</code></td>
-							<td></td>
-						</tr>
-						<tr class="H">
-							<td><code>boolean</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Check whether the given method is generated code or not.</p></span></section>
-				<section class="L" id="isEnumField(java.lang.reflect.Field)">
-					<h2 class="j"><i class="STATIC PUBLIC"></i><code class="b">isEnumField</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="N"><code>boolean</code></i></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code>field</code></td>
-							<td></td>
-						</tr>
-						<tr class="H">
-							<td><code>boolean</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Check whether the given field is generated code or not.</p></span></section>
-				<section class="L" id="isEnumSwitchMethod(java.lang.reflect.Method)">
-					<h2 class="j"><i class="STATIC PUBLIC"></i><code class="b">isEnumSwitchMethod</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>)</code><i class="N"><code>boolean</code></i></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code>method</code></td>
-							<td></td>
-						</tr>
-						<tr class="H">
-							<td><code>boolean</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Check whether the given method is generated code or not.</p></span></section>
-				<section class="L" id="isEnumSwitchField(java.lang.reflect.Field)">
-					<h2 class="j"><i class="STATIC PUBLIC"></i><code class="b">isEnumSwitchField</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="N"><code>boolean</code></i></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code>field</code></td>
-							<td></td>
-						</tr>
-						<tr class="H">
-							<td><code>boolean</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Check whether the given field is generated code or not.</p></span></section>
-				<section class="L" id="isEnumSwitchName(java.lang.String)">
-					<h2 class="j"><i class="STATIC PUBLIC"></i><code class="b">isEnumSwitchName</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>)</code><i class="N"><code>boolean</code></i></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code>name</code></td>
-							<td></td>
-						</tr>
-						<tr class="H">
-							<td><code>boolean</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Helper method to detect special enum method.</p></span></section>
-				<section class="L" id="isRecordConstructor(java.lang.reflect.Constructor,reincarnation.coder.Code)">
-					<h2 class="j"><i class="STATIC PUBLIC"></i><code class="b">isRecordConstructor</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="N"><code>boolean</code></i></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code>constructor</code></td>
-							<td></td>
-						</tr>
-						<tr class="m">
-							<td><code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code>code</code></td>
-							<td></td>
-						</tr>
-						<tr class="H">
-							<td><code>boolean</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Check whether the given constructor is generated code or not.</p></span></section>
-				<section class="L" id="isRecordMethod(java.lang.reflect.Method,reincarnation.coder.Code)">
-					<h2 class="j"><i class="STATIC PUBLIC"></i><code class="b">isRecordMethod</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="N"><code>boolean</code></i></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code>method</code></td>
-							<td></td>
-						</tr>
-						<tr class="m">
-							<td><code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code>code</code></td>
-							<td></td>
-						</tr>
-						<tr class="H">
-							<td><code>boolean</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Check whether the given method is generated code or not.</p></span></section>
-				<section class="L" id="isRecordField(java.lang.reflect.Field)">
-					<h2 class="j"><i class="STATIC PUBLIC"></i><code class="b">isRecordField</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="N"><code>boolean</code></i></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code>field</code></td>
-							<td></td>
-						</tr>
-						<tr class="H">
-							<td><code>boolean</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Check whether the given field is generated code or not.</p></span></section>
-				<section class="L" id="recordToString(java.lang.Object)">
-					<h2 class="j"><i class="STATIC NATIVE PUBLIC"></i><code class="b">recordToString</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">o</code>)</code><i class="N"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code>o</code></td>
-							<td></td>
-						</tr>
-						<tr class="H">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Bootstrap methods for state-driven implementations of core methods, including
-<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)">Object#equals(Object)</a></code><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#hashCode()">Object#hashCode()</a></code>, and <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#toString()">Object#toString()</a></code>. These
+		<nav class="Q"></nav>
+		<article class="P" id="Article">
+			<section class="p"><code class="c">reincarnation.util</code>
+				<h2 class="Class a"><code class="m">GeneratedCodes</code></h2>
+				<div class="R"></div><span class="B"><p>Provide the mock API for compiler generated code.</p></span></section>
+			<section class="p" id="GeneratedCodes()">
+				<h2 class="W"><i class="PUBLIC"></i><code class="m">GeneratedCodes</code><code class="V">()</code></h2>
+			</section>
+			<section class="p" id="isImplicitConstructor(java.lang.reflect.Constructor,reincarnation.coder.Code)">
+				<h2 class="W"><i class="STATIC PUBLIC"></i><code class="m">isImplicitConstructor</code><code class="V">(<code><a aria-label="java.lang.reflect.Constructor 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code>, <code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="i"><code>boolean</code></i></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.reflect.Constructor 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code></td>
+						<td></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code></td>
+						<td></td>
+					</tr>
+					<tr class="o">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Check whether the given constructor is defined implicitly or not.</p></span></section>
+			<section class="p" id="isLocalParameter(java.lang.reflect.Parameter)">
+				<h2 class="W"><i class="STATIC PUBLIC"></i><code class="m">isLocalParameter</code><code class="V">(<code><a aria-label="java.lang.reflect.Parameter 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Parameter.html">Parameter</a></code><code class="parameterName">parameter</code>)</code><i class="i"><code>boolean</code></i></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.reflect.Parameter 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Parameter.html">Parameter</a></code><code class="parameterName">parameter</code></td>
+						<td></td>
+					</tr>
+					<tr class="o">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Check whether the given parameter is generated code or not.</p></span></section>
+			<section class="p" id="isAssertionField(java.lang.reflect.Field)">
+				<h2 class="W"><i class="STATIC PUBLIC"></i><code class="m">isAssertionField</code><code class="V">(<code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="i"><code>boolean</code></i></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code></td>
+						<td></td>
+					</tr>
+					<tr class="o">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Check whether the given field is generated code or not.</p></span></section>
+			<section class="p" id="isEnumConstructor(java.lang.reflect.Constructor,reincarnation.coder.Code)">
+				<h2 class="W"><i class="STATIC PUBLIC"></i><code class="m">isEnumConstructor</code><code class="V">(<code><a aria-label="java.lang.reflect.Constructor 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code>, <code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="i"><code>boolean</code></i></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.reflect.Constructor 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code></td>
+						<td></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code></td>
+						<td></td>
+					</tr>
+					<tr class="o">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Check whether the given constructor is generated code or not.</p></span></section>
+			<section class="p" id="isEnumParameter(java.lang.reflect.Parameter)">
+				<h2 class="W"><i class="STATIC PUBLIC"></i><code class="m">isEnumParameter</code><code class="V">(<code><a aria-label="java.lang.reflect.Parameter 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Parameter.html">Parameter</a></code><code class="parameterName">parameter</code>)</code><i class="i"><code>boolean</code></i></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.reflect.Parameter 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Parameter.html">Parameter</a></code><code class="parameterName">parameter</code></td>
+						<td></td>
+					</tr>
+					<tr class="o">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Check whether the given parameter is generated code or not.</p></span></section>
+			<section class="p" id="isEnumMethod(java.lang.reflect.Method,reincarnation.coder.Code)">
+				<h2 class="W"><i class="STATIC PUBLIC"></i><code class="m">isEnumMethod</code><code class="V">(<code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>, <code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="i"><code>boolean</code></i></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code></td>
+						<td></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code></td>
+						<td></td>
+					</tr>
+					<tr class="o">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Check whether the given method is generated code or not.</p></span></section>
+			<section class="p" id="isEnumField(java.lang.reflect.Field)">
+				<h2 class="W"><i class="STATIC PUBLIC"></i><code class="m">isEnumField</code><code class="V">(<code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="i"><code>boolean</code></i></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code></td>
+						<td></td>
+					</tr>
+					<tr class="o">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Check whether the given field is generated code or not.</p></span></section>
+			<section class="p" id="isEnumSwitchMethod(java.lang.reflect.Method)">
+				<h2 class="W"><i class="STATIC PUBLIC"></i><code class="m">isEnumSwitchMethod</code><code class="V">(<code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>)</code><i class="i"><code>boolean</code></i></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code></td>
+						<td></td>
+					</tr>
+					<tr class="o">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Check whether the given method is generated code or not.</p></span></section>
+			<section class="p" id="isEnumSwitchField(java.lang.reflect.Field)">
+				<h2 class="W"><i class="STATIC PUBLIC"></i><code class="m">isEnumSwitchField</code><code class="V">(<code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="i"><code>boolean</code></i></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code></td>
+						<td></td>
+					</tr>
+					<tr class="o">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Check whether the given field is generated code or not.</p></span></section>
+			<section class="p" id="isEnumSwitchName(java.lang.String)">
+				<h2 class="W"><i class="STATIC PUBLIC"></i><code class="m">isEnumSwitchName</code><code class="V">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>)</code><i class="i"><code>boolean</code></i></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code></td>
+						<td></td>
+					</tr>
+					<tr class="o">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Helper method to detect special enum method.</p></span></section>
+			<section class="p" id="isRecordConstructor(java.lang.reflect.Constructor,reincarnation.coder.Code)">
+				<h2 class="W"><i class="STATIC PUBLIC"></i><code class="m">isRecordConstructor</code><code class="V">(<code><a aria-label="java.lang.reflect.Constructor 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code>, <code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="i"><code>boolean</code></i></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.reflect.Constructor 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code></td>
+						<td></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code></td>
+						<td></td>
+					</tr>
+					<tr class="o">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Check whether the given constructor is generated code or not.</p></span></section>
+			<section class="p" id="isRecordMethod(java.lang.reflect.Method,reincarnation.coder.Code)">
+				<h2 class="W"><i class="STATIC PUBLIC"></i><code class="m">isRecordMethod</code><code class="V">(<code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>, <code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="i"><code>boolean</code></i></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code></td>
+						<td></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code></td>
+						<td></td>
+					</tr>
+					<tr class="o">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Check whether the given method is generated code or not.</p></span></section>
+			<section class="p" id="isRecordField(java.lang.reflect.Field)">
+				<h2 class="W"><i class="STATIC PUBLIC"></i><code class="m">isRecordField</code><code class="V">(<code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="i"><code>boolean</code></i></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code></td>
+						<td></td>
+					</tr>
+					<tr class="o">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Check whether the given field is generated code or not.</p></span></section>
+			<section class="p" id="recordToString(java.lang.Object)">
+				<h2 class="W"><i class="NATIVE STATIC PUBLIC"></i><code class="m">recordToString</code><code class="V">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">o</code>)</code><i class="i"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">o</code></td>
+						<td></td>
+					</tr>
+					<tr class="o">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Bootstrap methods for state-driven implementations of core methods, including
+<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)">Object#equals(Object)</a></code><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#hashCode()">Object#hashCode()</a></code>, and <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#toString()">Object#toString()</a></code>. These
 methods may be used, for example, by Java compiler implementations to implement the bodies of
 Object methods for record classes.</p></span></section>
-				<section class="L" id="recordEquals(java.lang.Object,java.lang.Object)">
-					<h2 class="j"><i class="STATIC NATIVE PUBLIC"></i><code class="b">recordEquals</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">o</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code>)</code><i class="N"><code>boolean</code></i></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code>o</code></td>
-							<td></td>
-						</tr>
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code>other</code></td>
-							<td></td>
-						</tr>
-						<tr class="H">
-							<td><code>boolean</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Bootstrap methods for state-driven implementations of core methods, including
-<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)">Object#equals(Object)</a></code><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#hashCode()">Object#hashCode()</a></code>, and <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#toString()">Object#toString()</a></code>. These
+			<section class="p" id="recordEquals(java.lang.Object,java.lang.Object)">
+				<h2 class="W"><i class="NATIVE STATIC PUBLIC"></i><code class="m">recordEquals</code><code class="V">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">o</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code>)</code><i class="i"><code>boolean</code></i></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">o</code></td>
+						<td></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code></td>
+						<td></td>
+					</tr>
+					<tr class="o">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Bootstrap methods for state-driven implementations of core methods, including
+<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)">Object#equals(Object)</a></code><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#hashCode()">Object#hashCode()</a></code>, and <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#toString()">Object#toString()</a></code>. These
 methods may be used, for example, by Java compiler implementations to implement the bodies of
 Object methods for record classes.</p></span></section>
-				<section class="L" id="recordHashCode(java.lang.Object)">
-					<h2 class="j"><i class="STATIC NATIVE PUBLIC"></i><code class="b">recordHashCode</code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">o</code>)</code><i class="N"><code>int</code></i></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code>o</code></td>
-							<td></td>
-						</tr>
-						<tr class="H">
-							<td><code>int</code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Bootstrap methods for state-driven implementations of core methods, including
-<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)">Object#equals(Object)</a></code><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#hashCode()">Object#hashCode()</a></code>, and <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#toString()">Object#toString()</a></code>. These
+			<section class="p" id="recordHashCode(java.lang.Object)">
+				<h2 class="W"><i class="NATIVE STATIC PUBLIC"></i><code class="m">recordHashCode</code><code class="V">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">o</code>)</code><i class="i"><code>int</code></i></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">o</code></td>
+						<td></td>
+					</tr>
+					<tr class="o">
+						<td><code>int</code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Bootstrap methods for state-driven implementations of core methods, including
+<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)">Object#equals(Object)</a></code><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#hashCode()">Object#hashCode()</a></code>, and <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html#toString()">Object#toString()</a></code>. These
 methods may be used, for example, by Java compiler implementations to implement the bodies of
 Object methods for record classes.</p></span></section>
-				<section class="L" id="makeConcatWithConstants()">
-					<h2 class="j"><i class="STATIC NATIVE PUBLIC"></i><code class="b">makeConcatWithConstants</code><code class="K">()</code><i class="N"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-					<table class="U">
-						<tr class="H">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Special reference for
-<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/invoke/StringConcatFactory.html#makeConcatWithConstants(java.lang.invoke.MethodHandles.Lookup,java.lang.String,java.lang.invoke.MethodType,java.lang.String,java.lang.Object...)">StringConcatFactory#makeConcatWithConstants(java.lang.invoke.MethodHandles.Lookup, String, java.lang.invoke.MethodType, String, Object...)</a></code></p></span></section>
-			</article>
-			<aside class="P" id="SubNavi">
-				<div class="T">
-					<h5 class="R">Constructors</h5>
-					<ul>
-						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#GeneratedCodes()">GeneratedCodes</a></code><code class="K">()</code></li>
-					</ul>
-					<h5 class="R">Static Methods</h5>
-					<ul>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isImplicitConstructor(java.lang.reflect.Constructor,reincarnation.coder.Code)">isImplicitConstructor</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="g"><code>boolean</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isLocalParameter(java.lang.reflect.Parameter)">isLocalParameter</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Parameter.html">Parameter</a></code><code class="parameterName">parameter</code>)</code><i class="g"><code>boolean</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isAssertionField(java.lang.reflect.Field)">isAssertionField</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="g"><code>boolean</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isEnumConstructor(java.lang.reflect.Constructor,reincarnation.coder.Code)">isEnumConstructor</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="g"><code>boolean</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isEnumParameter(java.lang.reflect.Parameter)">isEnumParameter</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Parameter.html">Parameter</a></code><code class="parameterName">parameter</code>)</code><i class="g"><code>boolean</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isEnumMethod(java.lang.reflect.Method,reincarnation.coder.Code)">isEnumMethod</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="g"><code>boolean</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isEnumField(java.lang.reflect.Field)">isEnumField</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="g"><code>boolean</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isEnumSwitchMethod(java.lang.reflect.Method)">isEnumSwitchMethod</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>)</code><i class="g"><code>boolean</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isEnumSwitchField(java.lang.reflect.Field)">isEnumSwitchField</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="g"><code>boolean</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isEnumSwitchName(java.lang.String)">isEnumSwitchName</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>)</code><i class="g"><code>boolean</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isRecordConstructor(java.lang.reflect.Constructor,reincarnation.coder.Code)">isRecordConstructor</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="g"><code>boolean</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isRecordMethod(java.lang.reflect.Method,reincarnation.coder.Code)">isRecordMethod</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>, <code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="g"><code>boolean</code></i></li>
-						<li><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isRecordField(java.lang.reflect.Field)">isRecordField</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="g"><code>boolean</code></i></li>
-						<li><i class="STATIC NATIVE PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#recordToString(java.lang.Object)">recordToString</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">o</code>)</code><i class="g"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-						<li><i class="STATIC NATIVE PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#recordEquals(java.lang.Object,java.lang.Object)">recordEquals</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">o</code>, <code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code>)</code><i class="g"><code>boolean</code></i></li>
-						<li><i class="STATIC NATIVE PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#recordHashCode(java.lang.Object)">recordHashCode</a></code><code class="K">(<code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">o</code>)</code><i class="g"><code>int</code></i></li>
-						<li><i class="STATIC NATIVE PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#makeConcatWithConstants()">makeConcatWithConstants</a></code><code class="K">()</code><i class="g"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-					</ul>
-				</div>
-			</aside>
-		</main>
-		<script src="root.js"></script>
-		<script src="main.js" type="module"></script>
+			<section class="p" id="makeConcatWithConstants()">
+				<h2 class="W"><i class="NATIVE STATIC PUBLIC"></i><code class="m">makeConcatWithConstants</code><code class="V">()</code><i class="i"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="l">
+					<tr class="o">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Special reference for
+<code><a aria-label="java.lang.invoke.StringConcatFactory 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/invoke/StringConcatFactory.html#makeConcatWithConstants(java.lang.invoke.MethodHandles.Lookup,java.lang.String,java.lang.invoke.MethodType,java.lang.String,java.lang.Object...)">StringConcatFactory#makeConcatWithConstants(java.lang.invoke.MethodHandles.Lookup, String, java.lang.invoke.MethodType, String, Object...)</a></code></p></span></section>
+		</article>
+		<aside class="L">
+			<div class="H">
+				<h5 class="d">Constructors</h5>
+				<ul>
+					<li class="T"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#GeneratedCodes()">GeneratedCodes</a></code><code class="V">()</code></li>
+				</ul>
+				<h5 class="d">Static Methods</h5>
+				<ul>
+					<li class="T"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isImplicitConstructor(java.lang.reflect.Constructor,reincarnation.coder.Code)">isImplicitConstructor</a></code><code class="V">(<code><a aria-label="java.lang.reflect.Constructor 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code>, <code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="h"><code>boolean</code></i></li>
+					<li class="T"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isLocalParameter(java.lang.reflect.Parameter)">isLocalParameter</a></code><code class="V">(<code><a aria-label="java.lang.reflect.Parameter 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Parameter.html">Parameter</a></code><code class="parameterName">parameter</code>)</code><i class="h"><code>boolean</code></i></li>
+					<li class="T"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isAssertionField(java.lang.reflect.Field)">isAssertionField</a></code><code class="V">(<code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="h"><code>boolean</code></i></li>
+					<li class="T"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isEnumConstructor(java.lang.reflect.Constructor,reincarnation.coder.Code)">isEnumConstructor</a></code><code class="V">(<code><a aria-label="java.lang.reflect.Constructor 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code>, <code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="h"><code>boolean</code></i></li>
+					<li class="T"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isEnumParameter(java.lang.reflect.Parameter)">isEnumParameter</a></code><code class="V">(<code><a aria-label="java.lang.reflect.Parameter 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Parameter.html">Parameter</a></code><code class="parameterName">parameter</code>)</code><i class="h"><code>boolean</code></i></li>
+					<li class="T"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isEnumMethod(java.lang.reflect.Method,reincarnation.coder.Code)">isEnumMethod</a></code><code class="V">(<code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>, <code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="h"><code>boolean</code></i></li>
+					<li class="T"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isEnumField(java.lang.reflect.Field)">isEnumField</a></code><code class="V">(<code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="h"><code>boolean</code></i></li>
+					<li class="T"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isEnumSwitchMethod(java.lang.reflect.Method)">isEnumSwitchMethod</a></code><code class="V">(<code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>)</code><i class="h"><code>boolean</code></i></li>
+					<li class="T"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isEnumSwitchField(java.lang.reflect.Field)">isEnumSwitchField</a></code><code class="V">(<code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="h"><code>boolean</code></i></li>
+					<li class="T"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isEnumSwitchName(java.lang.String)">isEnumSwitchName</a></code><code class="V">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>)</code><i class="h"><code>boolean</code></i></li>
+					<li class="T"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isRecordConstructor(java.lang.reflect.Constructor,reincarnation.coder.Code)">isRecordConstructor</a></code><code class="V">(<code><a aria-label="java.lang.reflect.Constructor 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code>, <code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="h"><code>boolean</code></i></li>
+					<li class="T"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isRecordMethod(java.lang.reflect.Method,reincarnation.coder.Code)">isRecordMethod</a></code><code class="V">(<code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>, <code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a></code></code></code><code class="parameterName">code</code>)</code><i class="h"><code>boolean</code></i></li>
+					<li class="T"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#isRecordField(java.lang.reflect.Field)">isRecordField</a></code><code class="V">(<code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="h"><code>boolean</code></i></li>
+					<li class="T"><i class="NATIVE STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#recordToString(java.lang.Object)">recordToString</a></code><code class="V">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">o</code>)</code><i class="h"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="T"><i class="NATIVE STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#recordEquals(java.lang.Object,java.lang.Object)">recordEquals</a></code><code class="V">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">o</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code>)</code><i class="h"><code>boolean</code></i></li>
+					<li class="T"><i class="NATIVE STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#recordHashCode(java.lang.Object)">recordHashCode</a></code><code class="V">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">o</code>)</code><i class="h"><code>int</code></i></li>
+					<li class="T"><i class="NATIVE STATIC PUBLIC"></i><code><a href="api/reincarnation.util.GeneratedCodes.html#makeConcatWithConstants()">makeConcatWithConstants</a></code><code class="V">()</code><i class="h"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="I"/>
 	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
 </html>

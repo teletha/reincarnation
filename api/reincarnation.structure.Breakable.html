@@ -13,101 +13,100 @@
 		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
 		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" rel="preload"/>
 		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
-		<link as="style" fetchpriority="high" href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="preload"/>
-		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<title>Reincarnation API</title>
 		<base href="../"/>
 		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="i">
-		<header class="d">
-			<h1 class="h" date="2024-11-11" ver="1.9.0"><code>Reincarnation</code></h1>
-			<nav class="V"><a href="api/"><svg class="A svg" viewBox="0 0 24 24">
+	<body class="N">
+		<header class="O" date="2024-11-11" ver="1.10.0">
+			<h1 class="U"><code>Reincarnation</code></h1>
+			<nav class="b"><a href="api/" id="API"><svg class="package A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
-					</svg><code>API</code></a><a href="https://github.com/teletha/reincarnation/discussions" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#user"/>
-					</svg>Community</a><a href="doc/changelog.html"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#activity"/>
-					</svg>Activity</a><a href="https://github.com/teletha/reincarnation" target="_blank"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#github"/>
-					</svg>Repository</a></nav>
-			<div class="e" id="ViewMode"><a id="light" title="Change to a brighter color scheme"><svg class="A svg" viewBox="0 0 24 24">
-						<use href="main.svg#sun"/>
 					</svg>
-				</a><a id="dark" title="Change to a darker color scheme"><svg class="A svg" viewBox="0 0 24 24">
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user A svg" viewBox="0 0 24 24">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity A svg" viewBox="0 0 24 24">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github A svg" viewBox="0 0 24 24">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="K"><a aria-label="Change color scheme" id="theme"><svg class="sun A svg" viewBox="0 0 24 24">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon A svg" viewBox="0 0 24 24">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<main class="Z">
-			<nav class="f">
-				<div></div>
-			</nav>
-			<article class="M" id="Article">
-				<section class="L"><code class="l">reincarnation.structure</code>
-					<h2 class="AbstractClass X"><code class="b">Breakable</code></h2>
-					<div class="c">
-						<ul class="C E">
-							<li><code><a href="api/reincarnation.structure.Structure.html">Structure</a></code></li>
-						</ul>
-						<ul class="C F">
-							<li><code><a href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a href="api/reincarnation.structure.Structure.html">Structure</a></code></code></code></li>
-						</ul>
-						<ul class="C G">
-							<li><code><a href="api/reincarnation.structure.DoWhile.html">DoWhile</a></code></li>
-							<li><code><a href="api/reincarnation.structure.For.html">For</a></code></li>
-							<li><code><a href="api/reincarnation.structure.InfiniteLoop.html">InfiniteLoop</a></code></li>
-							<li><code><a href="api/reincarnation.structure.Loopable.html">Loopable</a></code></li>
-							<li><code><a href="api/reincarnation.structure.Switch.html">Switch</a></code></li>
-							<li><code><a href="api/reincarnation.structure.While.html">While</a></code></li>
-						</ul>
-					</div>
-				</section>
-				<section class="L" id="first">
-					<h2 class="j"><i class="FINAL"><i class="PROTECTED"></i></i><code class="b">first</code><i class="N"><code class="return"><a href="api/reincarnation.Node.html">Node</a></code></i></h2><span class="B"><p>The first processing node of this block structure.</p></span></section>
-				<section class="L" id="jumpers">
-					<h2 class="j"><i class="FINAL"><i class="PROTECTED"></i></i><code class="b">jumpers</code><i class="N"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="api/reincarnation.structure.Jumpable.html">Jumpable</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/reincarnation.structure.Breakable.html">Breakable</a></code></code></code></code></code></code></i></h2><span class="B"><p>The associated jumpers.</p></span></section>
-				<section class="L" id="Breakable(reincarnation.Node,reincarnation.Node)">
-					<h2 class="j"><i class="PROTECTED"></i><code class="b">Breakable</code><code class="K">(<code><a href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">that</code>, <code><a href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">first</code>)</code></h2>
-					<table class="U">
-						<tr class="m">
-							<td><code><a href="api/reincarnation.Node.html">Node</a></code><code>that</code></td>
-							<td><span><p>The node which indicate &#39;this&#39; variable.</p></span></td>
-						</tr>
-						<tr class="m">
-							<td><code><a href="api/reincarnation.Node.html">Node</a></code><code>first</code></td>
-							<td><span><p>The first processing node of this block structure.</p></span></td>
-						</tr>
-					</table><span class="B"><p>Build <code><a href="api/reincarnation.structure.Breakable.html">Breakable</a></code> block structure.</p></span></section>
-				<section class="L" id="label()">
-					<h2 class="j"><i class="PUBLIC"></i><code class="b">label</code><code class="K">()</code><i class="N"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></code></code></i></h2>
-					<table class="U">
-						<tr class="H">
-							<td><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></code></code></td>
-							<td></td>
-						</tr>
-					</table><span class="B"><p>Compute label text.</p></span></section>
-			</article>
-			<aside class="P" id="SubNavi">
-				<div class="T">
-					<h5 class="R">Constructors</h5>
-					<ul>
-						<li><i class="PROTECTED"></i><code><a href="api/reincarnation.structure.Breakable.html#Breakable(reincarnation.Node,reincarnation.Node)">Breakable</a></code><code class="K">(<code><a href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">that</code>, <code><a href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">first</code>)</code></li>
+		<nav class="Q"></nav>
+		<article class="P" id="Article">
+			<section class="p"><code class="c">reincarnation.structure</code>
+				<h2 class="AbstractClass a"><code class="m">Breakable</code></h2>
+				<div class="R">
+					<ul class="C E">
+						<li><code><a aria-label="reincarnation.structure.Structure" href="api/reincarnation.structure.Structure.html">Structure</a></code></li>
 					</ul>
-					<h5 class="R">Fields</h5>
-					<ul>
-						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.structure.Breakable.html#first">first</a></code><i class="g"><code class="return"><a href="api/reincarnation.Node.html">Node</a></code></i></li>
-						<li><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.structure.Breakable.html#jumpers">jumpers</a></code><i class="g"><code class="return"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a href="api/reincarnation.structure.Jumpable.html">Jumpable</a><code class="parameters"><code>?</code><code class="extends"><code><a href="api/reincarnation.structure.Breakable.html">Breakable</a></code></code></code></code></code></code></i></li>
+					<ul class="C F">
+						<li><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.structure.Structure" href="api/reincarnation.structure.Structure.html">Structure</a></code></code></code></li>
 					</ul>
-					<h5 class="R">Methods</h5>
-					<ul>
-						<li><i class="PUBLIC"></i><code><a href="api/reincarnation.structure.Breakable.html#label()">label</a></code><code class="K">()</code><i class="g"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></code></code></i></li>
+					<ul class="C G">
+						<li><code><a aria-label="reincarnation.structure.DoWhile" href="api/reincarnation.structure.DoWhile.html">DoWhile</a></code></li>
+						<li><code><a aria-label="reincarnation.structure.For" href="api/reincarnation.structure.For.html">For</a></code></li>
+						<li><code><a aria-label="reincarnation.structure.InfiniteLoop" href="api/reincarnation.structure.InfiniteLoop.html">InfiniteLoop</a></code></li>
+						<li><code><a aria-label="reincarnation.structure.Loopable" href="api/reincarnation.structure.Loopable.html">Loopable</a></code></li>
+						<li><code><a aria-label="reincarnation.structure.Switch" href="api/reincarnation.structure.Switch.html">Switch</a></code></li>
+						<li><code><a aria-label="reincarnation.structure.While" href="api/reincarnation.structure.While.html">While</a></code></li>
 					</ul>
 				</div>
-			</aside>
-		</main>
-		<script src="root.js"></script>
-		<script src="main.js" type="module"></script>
+			</section>
+			<section class="p" id="first">
+				<h2 class="W"><i class="FINAL"><i class="PROTECTED"></i></i><code class="m">first</code><i class="i"><code class="return"><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2><span class="B"><p>The first processing node of this block structure.</p></span></section>
+			<section class="p" id="jumpers">
+				<h2 class="W"><i class="FINAL"><i class="PROTECTED"></i></i><code class="m">jumpers</code><i class="i"><code class="return"><a aria-label="java.util.Set 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a aria-label="reincarnation.structure.Jumpable" href="api/reincarnation.structure.Jumpable.html">Jumpable</a><code class="parameters"><code>?</code><code class="extends"><code><a aria-label="reincarnation.structure.Breakable" href="api/reincarnation.structure.Breakable.html">Breakable</a></code></code></code></code></code></code></i></h2><span class="B"><p>The associated jumpers.</p></span></section>
+			<section class="p" id="Breakable(reincarnation.Node,reincarnation.Node)">
+				<h2 class="W"><i class="PROTECTED"></i><code class="m">Breakable</code><code class="V">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">that</code>, <code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">first</code>)</code></h2>
+				<table class="l">
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">that</code></td>
+						<td><span><p>The node which indicate &#39;this&#39; variable.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">first</code></td>
+						<td><span><p>The first processing node of this block structure.</p></span></td>
+					</tr>
+				</table><span class="B"><p>Build <code><a aria-label="reincarnation.structure.Breakable" href="api/reincarnation.structure.Breakable.html">Breakable</a></code> block structure.</p></span></section>
+			<section class="p" id="label()">
+				<h2 class="W"><i class="PUBLIC"></i><code class="m">label</code><code class="V">()</code><i class="i"><code><a aria-label="java.util.Optional 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></code></code></i></h2>
+				<table class="l">
+					<tr class="o">
+						<td><code><a aria-label="java.util.Optional 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></code></code></td>
+						<td></td>
+					</tr>
+				</table><span class="B"><p>Compute label text.</p></span></section>
+		</article>
+		<aside class="L">
+			<div class="H">
+				<h5 class="d">Constructors</h5>
+				<ul>
+					<li class="T"><i class="PROTECTED"></i><code><a href="api/reincarnation.structure.Breakable.html#Breakable(reincarnation.Node,reincarnation.Node)">Breakable</a></code><code class="V">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">that</code>, <code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">first</code>)</code></li>
+				</ul>
+				<h5 class="d">Fields</h5>
+				<ul>
+					<li class="T"><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.structure.Breakable.html#first">first</a></code><i class="h"><code class="return"><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
+					<li class="T"><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.structure.Breakable.html#jumpers">jumpers</a></code><i class="h"><code class="return"><a aria-label="java.util.Set 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a aria-label="reincarnation.structure.Jumpable" href="api/reincarnation.structure.Jumpable.html">Jumpable</a><code class="parameters"><code>?</code><code class="extends"><code><a aria-label="reincarnation.structure.Breakable" href="api/reincarnation.structure.Breakable.html">Breakable</a></code></code></code></code></code></code></i></li>
+				</ul>
+				<h5 class="d">Methods</h5>
+				<ul>
+					<li class="T"><i class="PUBLIC"></i><code><a href="api/reincarnation.structure.Breakable.html#label()">label</a></code><code class="V">()</code><i class="h"><code><a aria-label="java.util.Optional 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></code></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="I"/>
 	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
 </html>
