@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.teletha</groupId>
 	<artifactId>reincarnation</artifactId>
-	<version>1.9.0</version>
+	<version>1.10.0</version>
 	<packaging>jar</packaging>
 	<name>reincarnation</name>
 	<description>Reincarnation is designed as a decompiler intended to support modern Java syntax.
@@ -139,7 +139,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
 		<dependency>
 			<groupId>org.jetbrains</groupId>
 			<artifactId>annotations</artifactId>
-			<version>26.0.1</version>
+			<version>26.0.2</version>
 			<scope>test</scope>
 			<exclusions/>
 		</dependency>
@@ -181,7 +181,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
 		<dependency>
 			<groupId>com.github.javaparser</groupId>
 			<artifactId>javaparser-core</artifactId>
-			<version>3.26.2</version>
+			<version>3.26.3</version>
 			<scope>test</scope>
 			<exclusions/>
 		</dependency>
