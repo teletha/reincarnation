@@ -188,21 +188,21 @@ The output method of the analyzed code is not limited to Java, but is designed t
 		<dependency>
 			<groupId>com.github.teletha</groupId>
 			<artifactId>sinobu</artifactId>
-			<version>4.5.2</version>
+			<version>4.6.0</version>
 			<scope>compile</scope>
 			<exclusions/>
 		</dependency>
 		<dependency>
 			<groupId>com.github.teletha</groupId>
 			<artifactId>viewtify</artifactId>
-			<version>2.32.1</version>
+			<version>2.34.0</version>
 			<scope>test</scope>
 			<exclusions/>
 		</dependency>
 		<dependency>
 			<groupId>org.vineflower</groupId>
 			<artifactId>vineflower</artifactId>
-			<version>1.10.1</version>
+			<version>1.11.1</version>
 			<scope>test</scope>
 			<exclusions/>
 		</dependency>
@@ -241,10 +241,9 @@ The output method of the analyzed code is not limited to Java, but is designed t
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.13.0</version>
+				<version>3.14.0</version>
 				<configuration>
-					<source>21</source>
-					<target>21</target>
+					<release>24</release>
 					<encoding>UTF-8</encoding>
 					<compilerId>eclipse</compilerId>
 					<compilerArgs>
@@ -261,7 +260,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
 					<dependency>
 						<groupId>org.eclipse.jdt</groupId>
 						<artifactId>ecj</artifactId>
-						<version>3.40.0</version>
+						<version>3.41.0</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -284,6 +283,32 @@ The output method of the analyzed code is not limited to Java, but is designed t
 						<version>1.4.0</version>
 					</dependency>
 				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.3.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.11.2</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
