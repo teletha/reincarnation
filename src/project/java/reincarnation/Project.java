@@ -13,6 +13,8 @@ import static bee.api.License.*;
 
 import javax.lang.model.SourceVersion;
 
+import bee.task.Compile;
+
 public class Project extends bee.api.Project {
 
     {
@@ -162,11 +164,9 @@ public class Project extends bee.api.Project {
                 - [x] Lambda expression
                 - [x] Method reference (e.g. this::method, String::concat, Type::new, int[]::new)
                 """);
-    }
 
-    public static class Compile extends bee.task.Compile {
-        {
-            useECJ = true;
-        }
+        config(Compile.class, conf -> {
+            conf.useECJ = true;
+        });
     }
 }
