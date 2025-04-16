@@ -30,7 +30,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 
 import bee.UserInterface;
-import bee.api.Command;
 import bee.util.JavaCompiler;
 import kiss.I;
 import kiss.WiseSupplier;
@@ -544,14 +543,14 @@ public class CodeVerifier {
          * {@inheritDoc}
          */
         @Override
-        public void startCommand(String name, Command command) {
+        public void startCommand(String name) {
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public void endCommand(String name, Command command) {
+        public void endCommand(String name) {
         }
     }
 }
