@@ -13,7 +13,7 @@ import kiss.Variable;
 
 public enum BinaryOperator {
 
-    /** && */
+    /** &amp;&amp; */
     AND("&&"),
 
     /** || */
@@ -25,10 +25,10 @@ public enum BinaryOperator {
     /** != */
     NOT_EQUALS("!="),
 
-    /** < */
+    /** &lt; */
     LESS("<"),
 
-    /** <= */
+    /** &lt;= */
     LESS_EQUALS("<="),
 
     /** > */
@@ -37,7 +37,7 @@ public enum BinaryOperator {
     /** >= */
     GREATER_EQUALS(">="),
 
-    /** & */
+    /** &amp; */
     BINARY_AND("&"),
 
     /** | */
@@ -61,7 +61,7 @@ public enum BinaryOperator {
     /** % */
     REMAINDER("%"),
 
-    /** << */
+    /** &lt;&lt; */
     LEFT_SHIFT("<<"),
 
     /** >> */

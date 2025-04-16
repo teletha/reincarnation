@@ -13,7 +13,7 @@ public enum AssignOperator {
     /** = */
     ASSIGN("="),
 
-    /** &= */
+    /** &amp;= */
     AND("&="),
 
     /** |= */
@@ -37,7 +37,7 @@ public enum AssignOperator {
     /** %= */
     REMAINDER("%="),
 
-    /** <<= */
+    /** &lt;&lt;= */
     LEFT_SHIFT("<<="),
 
     /** >>= */

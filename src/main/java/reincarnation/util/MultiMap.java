@@ -26,9 +26,9 @@ import kiss.Signal;
 
 /**
  * MultiMap provides a generic way to store multiple values associated with the same key. This class
- * is similar to a Map<K, List<V>>, but it provides additional convenience methods to make it easier
- * to work with a list of values for a given key. By default, duplicate values for a key are not
- * allowed, but this can be configured using the acceptDuplication flag in the constructor.
+ * is similar to a Map&lt;K, List&lt;V>>, but it provides additional convenience methods to make it
+ * easier to work with a list of values for a given key. By default, duplicate values for a key are
+ * not allowed, but this can be configured using the acceptDuplication flag in the constructor.
  * 
  * @param <K> The type of keys maintained by this map.
  * @param <V> The type of mapped values.
