@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.1](https://github.com/teletha/reincarnation/compare/v1.10.0...1.10.1) (2025-04-16)
+
+
+### Bug Fixes
+
+* update bee-api ([4fdaca1](https://github.com/teletha/reincarnation/commit/4fdaca145c36dcc56c6f7e3e8f5f155e5a0e93d6))
+
 ## [1.10.0](https://github.com/teletha/reincarnation/compare/v1.9.0...v1.10.0) (2024-12-09)
 
 
