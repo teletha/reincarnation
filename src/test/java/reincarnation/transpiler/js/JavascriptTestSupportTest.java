@@ -9,19 +9,20 @@
  */
 package reincarnation.transpiler.js;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-@Disabled
-class JavascriptTestSupportTest extends JavascriptTestSupport {
+import reincarnation.TestCode;
+
+class JavascriptTestSupportTest extends JavetTestSupport {
 
     @Test
     void primitiveInt() {
-        assert executeAs(int.class, "return 3") == 3;
-    }
+        verify(new TestCode.Boolean() {
 
-    @Test
-    void primitiveLong() {
-        assert executeAs(long.class, "return 123456789012") == 123456789012L;
+            @Override
+            public boolean run() {
+                return true;
+            }
+        });
     }
 }

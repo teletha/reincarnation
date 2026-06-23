@@ -32,6 +32,8 @@ import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.java.JavaCoder;
 import reincarnation.coder.java.JavaCodingOption;
+import reincarnation.coder.ts.TypeScriptCoder;
+import reincarnation.coder.ts.TypeScriptCodingOption;
 import reincarnation.util.Classes;
 import reincarnation.util.GeneratedCodes;
 import reincarnation.util.MultiMap;
@@ -190,7 +192,7 @@ public final class Reincarnation {
      * @param clazz A target class to decompile.
      */
     public static final String rebirth(Class clazz) {
-        return rebirth(clazz, null);
+        return rebirth(clazz, (JavaCodingOption) null);
     }
 
     /**
@@ -202,6 +204,20 @@ public final class Reincarnation {
     public static final String rebirth(Class clazz, JavaCodingOption options) {
         JavaCoder coder = new JavaCoder();
         coder.config(options == null ? new JavaCodingOption() : options);
+
+        exhume(clazz).rebirth(coder);
+        return coder.toString();
+    }
+
+    /**
+     * Decompile the specified class as JS code.
+     * 
+     * @param clazz A target class to decompile.
+     * @return A decompiled JS source code.
+     */
+    public static final String rebirth(Class clazz, TypeScriptCodingOption options) {
+        TypeScriptCoder coder = new TypeScriptCoder();
+        coder.config(options == null ? new TypeScriptCodingOption() : options);
 
         exhume(clazz).rebirth(coder);
         return coder.toString();

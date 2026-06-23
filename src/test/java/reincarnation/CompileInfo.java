@@ -65,7 +65,7 @@ public class CompileInfo {
     public final List<String> messages = new ArrayList();
 
     /** The debug log of decompiler. */
-    public StringBuilder decompilerDebugLog;
+    public StringBuilder decompilerDebugLog = new StringBuilder();
 
     private final List<ASMified> asmfied = new ArrayList();
 

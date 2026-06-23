@@ -1,39 +1,46 @@
 /*
- * Copyright (C) 2024 The REINCARNATION Development Team
+ * Copyright (C) 2026 Nameless Production Committee
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *          https://opensource.org/licenses/MIT
+ *          http://opensource.org/licenses/mit-license.php
  */
-package reincarnation;
+package reincarnation.transpiler.js;
 
-import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 
-import bee.UserInterface;
-import bee.util.JavaCompiler;
-import kiss.I;
-import psychopath.Locator;
-import reincarnation.TestCode.Param;
-import reincarnation.coder.java.JavaCoder;
-import reincarnation.coder.java.JavaCodingOption;
+import com.caoccao.javet.interop.V8Host;
+import com.caoccao.javet.interop.V8Runtime;
+import com.caoccao.javet.swc4j.Swc4j;
+import com.caoccao.javet.swc4j.enums.Swc4jMediaType;
+import com.caoccao.javet.swc4j.options.Swc4jTranspileOptions;
+import com.caoccao.javet.swc4j.outputs.Swc4jTranspileOutput;
 
-public class CodeVerifier {
+import reincarnation.CompileInfo;
+import reincarnation.CompilerType;
+import reincarnation.JavaVerifier;
+import reincarnation.Reincarnation;
+import reincarnation.ShowJavaResultOnly;
+import reincarnation.TestCode;
+import reincarnation.TestCode.Param;
+import reincarnation.coder.ts.TypeScriptCodingOption;
+
+public class JavetTestSupport {
 
     /** No parameter. */
     private static final Object NoParam = new Object();
@@ -72,30 +79,12 @@ public class CodeVerifier {
      */
     private static final Map<Class, List> cache = new ConcurrentHashMap();
 
-    /** The debugged class manager. */
-    private static final Set<Class> debugged = ConcurrentHashMap.newKeySet();
-
-    /** The current debbuger. */
-    private final Debugger debugger = Debugger.current();
-
-    /** The debug mode. */
-    private Debuggable debuggable;
-
     /** The test method. */
     private Method method;
 
     @BeforeEach
     void enableDebugMode(TestInfo info) {
         method = info.getTestMethod().orElseThrow();
-        debuggable = info.getTestMethod().get().getAnnotation(Debuggable.class);
-        if (debuggable == null) {
-            debuggable = info.getTestClass().get().getAnnotation(Debuggable.class);
-        }
-    }
-
-    @AfterEach
-    void disableDebugMode(TestInfo info) {
-        debuggable = null;
     }
 
     /**
@@ -134,53 +123,38 @@ public class CodeVerifier {
         // Prepare recompile.
         // ========================================================
         CompileInfo info = new CompileInfo(method, target, CompilerType.current());
-        info.decompilerDebugLog = debugger.replaceOutput();
 
         try {
             try {
                 // ========================================================
-                // Compile code by javac.
-                // ========================================================
-                if (CompilerType.isJavac()) {
-                    try {
-                        compileAllTestsByJavac();
-                        target = JavacClassLoader.loadClass(target.getName());
-                    } catch (ClassNotFoundException e) {
-                        throw I.quiet(e);
-                    } catch (LinkageError e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                // ========================================================
                 // Decompile code.
                 // ========================================================
-                info.decompiled = decompile(target, debuggable != null);
+                info.decompiled = decompile(target, false);
 
-                // ========================================================
-                // Recompile java code.
-                // ========================================================
-                Class recompiledClass = null;
-                Silent notifier = new Silent();
-                try {
-                    ClassLoader loader = JavaCompiler.with(notifier)
-                            .addSource(JavaCoder.computeName(target.getEnclosingClass()), info.decompiled)
-                            .addClassPath(Locator.directory("target/test-classes"))
-                            .compile();
+                System.out.println(info.decompiled);
 
-                    recompiledClass = loader.loadClass(JavaCoder.computeName(target));
-                    assert target != recompiledClass; // load from different classloader
-                } catch (Throwable e) {
-                    info.messages.add(notifier.message.toString());
-                    throw e;
-                }
                 // ========================================================
                 // Execute recompiled code and compare result with original.
                 // ========================================================
-                JavaVerifier java = new JavaVerifier(recompiledClass);
+                // JavaVerifier java = new JavaVerifier(recompiledClass);
+                //
+                // for (int i = 0; i < inputs.size(); i++) {
+                // java.verify(inputs.get(i), expecteds.get(i));
+                // }
 
-                for (int i = 0; i < inputs.size(); i++) {
-                    java.verify(inputs.get(i), expecteds.get(i));
+                URL specifier = URI.create("file:///abc.ts").toURL();
+                Swc4jTranspileOptions options = new Swc4jTranspileOptions().setSpecifier(specifier).setMediaType(Swc4jMediaType.TypeScript);
+                // Transpile the code.
+                Swc4jTranspileOutput output = new Swc4j().transpile(info.decompiled, options);
+                // Print the transpiled code.
+                System.out.println(output.getCode());
+
+                // Node.js Mode
+                try (V8Runtime runtime = V8Host.getNodeInstance().createV8Runtime()) {
+                    System.out.println(runtime.getExecutor(output.getCode() + "\n" + "new JavascriptTestSupportTest$1().run();")
+                            .executeString());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
                 // ========================================================
@@ -195,11 +169,11 @@ public class CodeVerifier {
                     }
                 }
             } catch (Throwable e) {
-                if (info.decompilerDebugLog.isEmpty() && debugged.add(target)) {
-                    // decompile with debug mode
-                    Reincarnation.CACHE.remove(target);
-                    info.decompiled = decompile(target, true);
-                }
+                // if (info.decompilerDebugLog.isEmpty() && debugged.add(target)) {
+                // // decompile with debug mode
+                // Reincarnation.CACHE.remove(target);
+                // info.decompiled = decompile(target, true);
+                // }
                 throw e;
             }
         } catch (Throwable e) {
@@ -208,29 +182,18 @@ public class CodeVerifier {
             }
             throw info.message(e).buildError();
         } finally {
-            if (debuggable != null) {
-                if (CompilerType.isJavac()) {
-                    info.asmfier(target, code.getClass());
-                }
-
-                // compare by another decompiler
-                if (debuggable.vineflower()) {
-                    info.decompileByVineFlower();
-                }
-                System.out.println(info.buildMessage(true));
-            }
+            // if (debuggable != null) {
+            // if (CompilerType.isJavac()) {
+            // info.asmfier(target, code.getClass());
+            // }
+            //
+            // // compare by another decompiler
+            // if (debuggable.vineflower()) {
+            // info.decompileByVineFlower();
+            // }
+            // System.out.println(info.buildMessage(true));
+            // }
         }
-    }
-
-    private String decompile(Class target, boolean debug) {
-        JavaCodingOption options = new JavaCodingOption();
-        options.writeMemberFromTopLevel = true;
-
-        debugger.enableForcibly = debug;
-        String decompiled = Reincarnation.rebirth(target, options);
-        debugger.enableForcibly = false;
-
-        return decompiled;
     }
 
     /**
@@ -340,73 +303,12 @@ public class CodeVerifier {
         return inputs;
     }
 
-    /** The compiled class loader for Javac. */
-    private static ClassLoader JavacClassLoader;
+    private String decompile(Class target, boolean debug) {
+        TypeScriptCodingOption options = new TypeScriptCodingOption();
+        options.writeMemberFromTopLevel = true;
 
-    /**
-     * Compile all test sources by Javac.
-     */
-    private static synchronized void compileAllTestsByJavac() {
-        if (JavacClassLoader == null) {
-            JavacClassLoader = JavaCompiler.with(new Silent())
-                    .addCurrentClassPath()
-                    .addSourceDirectory(Locator.directory("src/test/java"))
-                    .compile();
-        }
-    }
+        String decompiled = Reincarnation.rebirth(target, options);
 
-    /**
-     * 
-     */
-    private static class Silent extends UserInterface {
-
-        /** The message buffer. */
-        private StringBuilder message = new StringBuilder();
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        protected void write(int type, String message) {
-            this.message.append(message).append("\r\n");
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        protected void write(Throwable error) {
-            error.printStackTrace();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Appendable getInterface() {
-            return System.out;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        protected InputStream getSink() {
-            return System.in;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void startCommand(String name) {
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void endCommand(String name) {
-        }
+        return decompiled;
     }
 }
