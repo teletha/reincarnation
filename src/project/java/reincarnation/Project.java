@@ -20,12 +20,12 @@ public class Project extends bee.api.Project {
     {
         product("io.github.teletha", "reincarnation", ref("version.txt"));
         license(MIT);
-        require(SourceVersion.RELEASE_21);
+        require(SourceVersion.RELEASE_25);
 
         require("org.ow2.asm", "asm");
         require("io.github.teletha", "sinobu");
 
-        require("io.github.teletha", "bee", "[0.61.1,)").atTest();
+        require("io.github.teletha", "bee").atTest();
         require("io.github.teletha", "antibug").atTest();
         require("io.github.teletha", "viewtify").atTest();
         require("org.ow2.asm", "asm-util").atTest();

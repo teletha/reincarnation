@@ -1042,6 +1042,23 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 break;
             }
 
+            // The Javac compiler (Java 25 or later) generates a null-check for the enclosing
+            // instance parameter of the inner class as the following byte code.
+            //
+            // visitVarInsn(ALOAD, index);
+            // visitInsn(DUP);
+            // visitMethodInsn(INVOKESTATIC, "java/util/Objects","requireNonNull",SIGNATURE, false);
+            // visitInsn(POP);
+            // visitInsn(POP);
+            //
+            // The first POP is already removed by the preceding branch, so the duplicated
+            // parameter still remains. It is a completely unnecessary code, so we should remove
+            // it unconditionally.
+            if (match(DUP, INVOKESTATIC, POP, POP)) {
+                current.remove(0);
+                break;
+            }
+
             // Accessing the interface static field from the instance, compiler generates the
             // byte code expressed in following ASM codes.
             //

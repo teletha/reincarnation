@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.lang.model.SourceVersion;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
@@ -163,9 +165,16 @@ public class CodeVerifier {
                 Class recompiledClass = null;
                 Silent notifier = new Silent();
                 try {
+                    // The JDK 25 compiler inserts a null check for the immediately enclosing
+                    // instance into inner class constructors when targeting release 25.
+                    // However, this verifier instantiates the recompiled inner classes with a null
+                    // enclosing instance via reflection, so such a null check throws an NPE.
+                    // Therefore, we compile the decompiled code with the latest release that does
+                    // not emit the enclosing instance null check. (See JDK-8351274)
                     ClassLoader loader = JavaCompiler.with(notifier)
                             .addSource(JavaCoder.computeName(target.getEnclosingClass()), info.decompiled)
                             .addClassPath(Locator.directory("target/test-classes"))
+                            .setVersion(SourceVersion.RELEASE_24)
                             .compile();
 
                     recompiledClass = loader.loadClass(JavaCoder.computeName(target));
