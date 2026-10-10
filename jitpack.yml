@@ -1,10 +1,10 @@
 jdk:
-  - openjdk21
+  - openjdk25
 
 before_install:
-  - sdk install java 21-open
-  - sdk use java 21-open
-  - export PATH="$HOME/.sdkman/candidates/java/21-open/bin:$PATH"
+  - sdk install java 25-open
+  - sdk use java 25-open
+  - export PATH="$HOME/.sdkman/candidates/java/25-open/bin:$PATH"
 
 install: |
   if [ -f "./bee" ]; then
