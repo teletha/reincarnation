@@ -3,7 +3,9 @@ const root = {
 	"modules": [],
 	"packages": [
 		"reincarnation",
+		"reincarnation.coder.js",
 		"reincarnation.coder",
+		"reincarnation.coder.ts",
 		"reincarnation.coder.java",
 		"reincarnation.operator",
 		"reincarnation.structure",
@@ -11,262 +13,208 @@ const root = {
 	],
 	"types": [
 		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "AccessMode",
-			"packageName": "reincarnation.operator",
-			"type": "Enum"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "AnnotationLike",
-			"packageName": "reincarnation.coder",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "AssignOperator",
-			"packageName": "reincarnation.operator",
-			"type": "Enum"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "BinaryOperator",
-			"packageName": "reincarnation.operator",
-			"type": "Enum"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Break",
-			"packageName": "reincarnation.structure",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Breakable",
-			"packageName": "reincarnation.structure",
-			"type": "AbstractClass"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Classes",
-			"packageName": "reincarnation.util",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Code",
-			"packageName": "reincarnation.coder",
-			"type": "Functional"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Coder",
-			"packageName": "reincarnation.coder",
-			"type": "AbstractClass"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "CodingOption",
-			"packageName": "reincarnation.coder",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Continue",
-			"packageName": "reincarnation.structure",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Debuggable",
-			"packageName": "reincarnation",
-			"type": "Annotation"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "DelegatableCoder",
-			"packageName": "reincarnation.coder",
-			"type": "AbstractClass"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "DoWhile",
-			"packageName": "reincarnation.structure",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "For",
-			"packageName": "reincarnation.structure",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Fragment",
-			"packageName": "reincarnation.structure",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "GeneratedCodes",
-			"packageName": "reincarnation.util",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "If",
-			"packageName": "reincarnation.structure",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "InfiniteLoop",
-			"packageName": "reincarnation.structure",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "JavaCoder",
-			"packageName": "reincarnation.coder.java",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "JavaCodingOption",
-			"packageName": "reincarnation.coder.java",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Join",
-			"packageName": "reincarnation.coder",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Jumpable",
-			"packageName": "reincarnation.structure",
-			"type": "AbstractClass"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Loopable",
-			"packageName": "reincarnation.structure",
-			"type": "AbstractClass"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "MultiMap",
-			"packageName": "reincarnation.util",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Naming",
-			"packageName": "reincarnation.coder",
-			"type": "Functional"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Node",
-			"packageName": "reincarnation",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "NodeManipulator",
-			"packageName": "reincarnation",
-			"type": "Interface"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Operand",
-			"packageName": "reincarnation",
-			"type": "AbstractClass"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "OperandConstructorCall",
 			"packageName": "reincarnation",
 			"type": "Class"
 		},
 		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Reincarnation",
-			"packageName": "reincarnation",
+			"name": "JavascriptCodingOption",
+			"packageName": "reincarnation.coder.js",
 			"type": "Class"
 		},
 		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Structure",
-			"packageName": "reincarnation.structure",
-			"type": "AbstractClass"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Switch",
-			"packageName": "reincarnation.structure",
+			"name": "JavascriptCoder",
+			"packageName": "reincarnation.coder.js",
 			"type": "Class"
 		},
 		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "Try",
-			"packageName": "reincarnation.structure",
-			"type": "Class"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
-			"name": "UnaryOperator",
-			"packageName": "reincarnation.operator",
-			"type": "Enum"
-		},
-		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "VariableNaming",
 			"packageName": "reincarnation.coder",
 			"type": "Class"
 		},
 		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
+			"name": "Code",
+			"packageName": "reincarnation.coder",
+			"type": "Functional"
+		},
+		{
+			"name": "Coder",
+			"packageName": "reincarnation.coder",
+			"type": "AbstractClass"
+		},
+		{
+			"name": "Naming",
+			"packageName": "reincarnation.coder",
+			"type": "Functional"
+		},
+		{
+			"name": "TypeScriptCoder",
+			"packageName": "reincarnation.coder.ts",
+			"type": "Class"
+		},
+		{
+			"name": "TypeScriptCodingOption",
+			"packageName": "reincarnation.coder.ts",
+			"type": "Class"
+		},
+		{
+			"name": "DelegatableCoder",
+			"packageName": "reincarnation.coder",
+			"type": "AbstractClass"
+		},
+		{
+			"name": "Join",
+			"packageName": "reincarnation.coder",
+			"type": "Class"
+		},
+		{
+			"name": "CodingOption",
+			"packageName": "reincarnation.coder",
+			"type": "Class"
+		},
+		{
+			"name": "AnnotationLike",
+			"packageName": "reincarnation.coder",
+			"type": "Class"
+		},
+		{
+			"name": "JavaCoder",
+			"packageName": "reincarnation.coder.java",
+			"type": "Class"
+		},
+		{
+			"name": "JavaCodingOption",
+			"packageName": "reincarnation.coder.java",
+			"type": "Class"
+		},
+		{
+			"name": "Reincarnation",
+			"packageName": "reincarnation",
+			"type": "Class"
+		},
+		{
+			"name": "AccessMode",
+			"packageName": "reincarnation.operator",
+			"type": "Enum"
+		},
+		{
+			"name": "AssignOperator",
+			"packageName": "reincarnation.operator",
+			"type": "Enum"
+		},
+		{
+			"name": "BinaryOperator",
+			"packageName": "reincarnation.operator",
+			"type": "Enum"
+		},
+		{
+			"name": "UnaryOperator",
+			"packageName": "reincarnation.operator",
+			"type": "Enum"
+		},
+		{
+			"name": "Debuggable",
+			"packageName": "reincarnation",
+			"type": "Annotation"
+		},
+		{
+			"name": "NodeManipulator",
+			"packageName": "reincarnation",
+			"type": "Interface"
+		},
+		{
+			"name": "Fragment",
+			"packageName": "reincarnation.structure",
+			"type": "Class"
+		},
+		{
+			"name": "InfiniteLoop",
+			"packageName": "reincarnation.structure",
+			"type": "Class"
+		},
+		{
+			"name": "DoWhile",
+			"packageName": "reincarnation.structure",
+			"type": "Class"
+		},
+		{
+			"name": "Structure",
+			"packageName": "reincarnation.structure",
+			"type": "AbstractClass"
+		},
+		{
+			"name": "For",
+			"packageName": "reincarnation.structure",
+			"type": "Class"
+		},
+		{
+			"name": "Jumpable",
+			"packageName": "reincarnation.structure",
+			"type": "AbstractClass"
+		},
+		{
+			"name": "Switch",
+			"packageName": "reincarnation.structure",
+			"type": "Class"
+		},
+		{
+			"name": "If",
+			"packageName": "reincarnation.structure",
+			"type": "Class"
+		},
+		{
+			"name": "Loopable",
+			"packageName": "reincarnation.structure",
+			"type": "AbstractClass"
+		},
+		{
+			"name": "Try",
+			"packageName": "reincarnation.structure",
+			"type": "Class"
+		},
+		{
+			"name": "Breakable",
+			"packageName": "reincarnation.structure",
+			"type": "AbstractClass"
+		},
+		{
+			"name": "Break",
+			"packageName": "reincarnation.structure",
+			"type": "Class"
+		},
+		{
 			"name": "While",
 			"packageName": "reincarnation.structure",
+			"type": "Class"
+		},
+		{
+			"name": "Continue",
+			"packageName": "reincarnation.structure",
+			"type": "Class"
+		},
+		{
+			"name": "Operand",
+			"packageName": "reincarnation",
+			"type": "AbstractClass"
+		},
+		{
+			"name": "GeneratedCodes",
+			"packageName": "reincarnation.util",
+			"type": "Class"
+		},
+		{
+			"name": "MultiMap",
+			"packageName": "reincarnation.util",
+			"type": "Class"
+		},
+		{
+			"name": "Classes",
+			"packageName": "reincarnation.util",
+			"type": "Class"
+		},
+		{
+			"name": "Node",
+			"packageName": "reincarnation",
 			"type": "Class"
 		}
 	]

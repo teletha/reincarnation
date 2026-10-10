@@ -3,94 +3,96 @@
 	<head>
 		<meta charset="UTF-8"/>
 		<meta content="width=device-width, initial-scale=1" name="viewport"/>
-		<meta content="Explains how to use Reincarnation and its API. " name="description"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
 		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
 		<link href="https://fonts.googleapis.com" rel="preconnect"/>
 		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
 		<title>Reincarnation API</title>
 		<base href="../"/>
 		<script src="mimic.js" type="module"></script>
 		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="S">
-		<header class="T" date="2024-12-09" ver="1.10.0">
-			<h1 class="W"><code>Reincarnation</code></h1>
-			<nav class="P"><a href="api/" id="API"><svg class="package A svg" viewBox="0 0 24 24">
+	<body class="M">
+		<header class="N" date="2024-12-09">
+			<h1 class="u"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="r"><a href="api/main.html" id="API"><svg class="package">
 						<use href="main.svg#package"/>
 					</svg>
-				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user A svg" viewBox="0 0 24 24">
-						<use href="main.svg#user"/>
-					</svg>
-				</a><a href="doc/changelog.html" id="Activity"><svg class="activity A svg" viewBox="0 0 24 24">
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
 						<use href="main.svg#activity"/>
 					</svg>
-				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github A svg" viewBox="0 0 24 24">
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
 						<use href="main.svg#github"/>
 					</svg>
 				</a></nav>
-			<div class="o"><a aria-label="Change color scheme" id="theme"><svg class="sun A svg" viewBox="0 0 24 24">
+			<div class="v"><a aria-label="Change color scheme" id="theme"><svg class="sun">
 						<use href="main.svg#sun"/>
-					</svg><svg class="moon A svg" viewBox="0 0 24 24">
+					</svg><svg class="moon">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<nav class="R"></nav>
-		<article class="U" id="Article">
-			<section class="Z"><code class="M">reincarnation.coder</code>
-				<h2 class="Functional c"><code class="d">Naming</code></h2>
-				<div class="H"></div><span class="B"><p>Naming strategy.</p></span></section>
-			<section class="Z" id="Incremental">
-				<h2 class="l"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code class="d">Incremental</code><i class="p"><code class="return"><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code></i></h2><span class="B"><p>All variable names are incremental suffix number.</p></span></section>
-			<section class="Z" id="Obfuscate">
-				<h2 class="l"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code class="d">Obfuscate</code><i class="p"><code class="return"><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code></i></h2><span class="B"><p>All variable names are obfuscated and minimized.</p></span></section>
-			<section class="Z" id="name(java.lang.String)">
-				<h2 class="l"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">name</code><code class="q">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>)</code><i class="p"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code></td>
+		<nav class="Q"></nav>
+		<article class="O" id="Article">
+			<section class="k"><code class="EB">reincarnation.coder</code>
+				<h2 class="Functional Z"><code class="a">Naming</code></h2>
+				<div class="h"></div><span class="A"><p>Naming strategy.</p></span></section>
+			<section class="k" id="Incremental">
+				<h2 class="x"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code class="a">Incremental</code><i class="q"><code class="return"><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code></i></h2><span class="A"><p>All variable names are incremental suffix number.</p></span></section>
+			<section class="k" id="Obfuscate">
+				<h2 class="x"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code class="a">Obfuscate</code><i class="q"><code class="return"><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code></i></h2><span class="A"><p>All variable names are obfuscated and minimized.</p></span></section>
+			<section class="k" id="name(java.lang.String)">
+				<h2 class="x"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="a">name</code><code class="KB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>)</code><i class="q"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code></td>
 						<td><span><p>A target name.</p></span></td>
 					</tr>
-					<tr class="k">
-						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
+					<tr class="j">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
 						<td><span><p>A renamed.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Rename something.</p></span></section>
-			<section class="Z" id="then(reincarnation.coder.Naming)">
-				<h2 class="l"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">then</code><code class="q">(<code><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code><code class="parameterName">next</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Rename something.</p></span></section>
+			<section class="k" id="then(reincarnation.coder.Naming)">
+				<h2 class="x"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="a">then</code><code class="KB">(<code><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code><code class="parameterName">next</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code><code class="parameterName">next</code></td>
 						<td></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Compose <code><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code>.</p></span></section>
+				</table><span class="A"><p>Compose <code><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code>.</p></span></section>
 		</article>
-		<aside class="L">
+		<aside class="R">
 			<div class="Y">
-				<h5 class="m">Static Fields</h5>
+				<h5 class="c">Static Fields</h5>
 				<ul>
-					<li class="n"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code><a href="api/reincarnation.coder.Naming.html#Incremental">Incremental</a></code><i class="j"><code class="return"><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code></i></li>
-					<li class="n"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code><a href="api/reincarnation.coder.Naming.html#Obfuscate">Obfuscate</a></code><i class="j"><code class="return"><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code></i></li>
+					<li class="FB"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code><a href="api/reincarnation.coder.Naming.html#Incremental">Incremental</a></code><i class="l"><code class="return"><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code></i></li>
+					<li class="FB"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code><a href="api/reincarnation.coder.Naming.html#Obfuscate">Obfuscate</a></code><i class="l"><code class="return"><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code></i></li>
 				</ul>
-				<h5 class="m">Methods</h5>
+				<h5 class="c">Methods</h5>
 				<ul>
-					<li class="n"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.coder.Naming.html#name(java.lang.String)">name</a></code><code class="q">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>)</code><i class="j"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-					<li class="n"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.coder.Naming.html#then(reincarnation.coder.Naming)">then</a></code><code class="q">(<code><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code><code class="parameterName">next</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code></i></li>
+					<li class="FB"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.coder.Naming.html#name(java.lang.String)">name</a></code><code class="KB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>)</code><i class="l"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="FB"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.coder.Naming.html#then(reincarnation.coder.Naming)">then</a></code><code class="KB">(<code><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code><code class="parameterName">next</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Naming" href="api/reincarnation.coder.Naming.html">Naming</a></code></i></li>
 				</ul>
 			</div>
 		</aside>
-		<footer class="s"/>
+		<footer class="P">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
 	</body>
 	<script src="root.js"></script>
 	<script src="main.js" type="module"></script>

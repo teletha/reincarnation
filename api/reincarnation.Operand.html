@@ -3,344 +3,346 @@
 	<head>
 		<meta charset="UTF-8"/>
 		<meta content="width=device-width, initial-scale=1" name="viewport"/>
-		<meta content="Explains how to use Reincarnation and its API. " name="description"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
 		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
 		<link href="https://fonts.googleapis.com" rel="preconnect"/>
 		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
 		<title>Reincarnation API</title>
 		<base href="../"/>
 		<script src="mimic.js" type="module"></script>
 		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="S">
-		<header class="T" date="2024-12-09" ver="1.10.0">
-			<h1 class="W"><code>Reincarnation</code></h1>
-			<nav class="P"><a href="api/" id="API"><svg class="package A svg" viewBox="0 0 24 24">
+	<body class="M">
+		<header class="N" date="2024-12-09">
+			<h1 class="u"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="r"><a href="api/main.html" id="API"><svg class="package">
 						<use href="main.svg#package"/>
 					</svg>
-				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user A svg" viewBox="0 0 24 24">
-						<use href="main.svg#user"/>
-					</svg>
-				</a><a href="doc/changelog.html" id="Activity"><svg class="activity A svg" viewBox="0 0 24 24">
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
 						<use href="main.svg#activity"/>
 					</svg>
-				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github A svg" viewBox="0 0 24 24">
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
 						<use href="main.svg#github"/>
 					</svg>
 				</a></nav>
-			<div class="o"><a aria-label="Change color scheme" id="theme"><svg class="sun A svg" viewBox="0 0 24 24">
+			<div class="v"><a aria-label="Change color scheme" id="theme"><svg class="sun">
 						<use href="main.svg#sun"/>
-					</svg><svg class="moon A svg" viewBox="0 0 24 24">
+					</svg><svg class="moon">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<nav class="R"></nav>
-		<article class="U" id="Article">
-			<section class="Z"><code class="M">reincarnation</code>
-				<h2 class="AbstractClass c"><code class="d">Operand</code></h2>
-				<div class="H">
-					<ul class="C F">
+		<nav class="Q"></nav>
+		<article class="O" id="Article">
+			<section class="k"><code class="EB">reincarnation</code>
+				<h2 class="AbstractClass Z"><code class="a">Operand</code></h2>
+				<div class="h">
+					<ul class="E H">
 						<li><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a><code class="parameters"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code></li>
 					</ul>
-					<ul class="C G">
+					<ul class="E I">
 						<li><code><a aria-label="reincarnation.OperandConstructorCall" href="api/reincarnation.OperandConstructorCall.html">OperandConstructorCall</a></code></li>
 					</ul>
 				</div>
 			</section>
-			<section class="Z" id="Null">
-				<h2 class="l"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code class="d">Null</code><i class="p"><code class="return"><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></h2><span class="B"><p>The reusable operand for null literal.</p></span></section>
-			<section class="Z" id="type">
-				<h2 class="l"><i class="PROTECTED"></i><code class="d">type</code><i class="p"><code class="return">kiss.Variable<code class="parameters"><code><a aria-label="java.lang.reflect.Type 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></code></code></i></h2><span class="B"><p>The infered type.</p></span></section>
-			<section class="Z" id="duplicated">
-				<h2 class="l"><i class="PROTECTED"></i><code class="d">duplicated</code><i class="p"><code class="return">boolean</code></i></h2><span class="B"><p>The flag for operand duplication.</p></span></section>
-			<section class="Z" id="Operand()">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">Operand</code><code class="q">()</code></h2>
+			<section class="k" id="Null">
+				<h2 class="x"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code class="a">Null</code><i class="q"><code class="return"><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></h2><span class="A"><p>The reusable operand for null literal.</p></span></section>
+			<section class="k" id="type">
+				<h2 class="x"><i class="PROTECTED"></i><code class="a">type</code><i class="q"><code class="return">kiss.Variable<code class="parameters"><code><a aria-label="java.lang.reflect.Type 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></code></code></i></h2><span class="A"><p>The infered type.</p></span></section>
+			<section class="k" id="duplicated">
+				<h2 class="x"><i class="PROTECTED"></i><code class="a">duplicated</code><i class="q"><code class="return">boolean</code></i></h2><span class="A"><p>The flag for operand duplication.</p></span></section>
+			<section class="k" id="Operand()">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">Operand</code><code class="KB">()</code></h2>
 			</section>
-			<section class="Z" id="info()">
-				<h2 class="l"><i class="PROTECTED"></i><code class="d">info</code><code class="q">()</code><i class="p"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-				<table class="J">
-					<tr class="k">
-						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
+			<section class="k" id="info()">
+				<h2 class="x"><i class="PROTECTED"></i><code class="a">info</code><code class="KB">()</code><i class="q"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="b">
+					<tr class="j">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Display the human-readable operand info.</p></span></section>
-			<section class="Z" id="view()">
-				<h2 class="l"><i class="ABSTRACT"><i class="PROTECTED"></i></i><code class="d">view</code><code class="q">()</code><i class="p"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-				<table class="J">
-					<tr class="k">
-						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
+				</table><span class="A"><p>Display the human-readable operand info.</p></span></section>
+			<section class="k" id="view()">
+				<h2 class="x"><i class="ABSTRACT"><i class="PROTECTED"></i></i><code class="a">view</code><code class="KB">()</code><i class="q"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="b">
+					<tr class="j">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Display the human-readable operand value.</p></span></section>
-			<section class="Z" id="fix()">
-				<h2 class="l"><i class="FINAL"><i class="PROTECTED"></i></i><code class="d">fix</code><code class="q">()</code><i class="p"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></h2>
-				<table class="J">
-					<tr class="k">
+				</table><span class="A"><p>Display the human-readable operand value.</p></span></section>
+			<section class="k" id="fix()">
+				<h2 class="x"><i class="FINAL"><i class="PROTECTED"></i></i><code class="a">fix</code><code class="KB">()</code><i class="q"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></h2>
+				<table class="b">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></td>
 						<td><span><p>Chainable API.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Fix as the current type.</p></span></section>
-			<section class="Z" id="fix(java.lang.reflect.Type)">
-				<h2 class="l"><i class="FINAL"><i class="PROTECTED"></i></i><code class="d">fix</code><code class="q">(<code><a aria-label="java.lang.reflect.Type 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code><code class="parameterName">type</code>)</code><i class="p"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.lang.reflect.Type 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code><code class="parameterName">type</code></td>
+				</table><span class="A"><p>Fix as the current type.</p></span></section>
+			<section class="k" id="fix(java.lang.reflect.Type)">
+				<h2 class="x"><i class="FINAL"><i class="PROTECTED"></i></i><code class="a">fix</code><code class="KB">(<code><a aria-label="java.lang.reflect.Type 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code><code class="parameterName">type</code>)</code><i class="q"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.lang.reflect.Type 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code><code class="parameterName">type</code></td>
 						<td><span><p>A type to fix.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></td>
 						<td><span><p>Chainable API.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Fix as the specified type.</p></span></section>
-			<section class="Z" id="isFixed()">
-				<h2 class="l"><i class="FINAL"><i class="PROTECTED"></i></i><code class="d">isFixed</code><code class="q">()</code><i class="p"><code>boolean</code></i></h2>
-				<table class="J">
-					<tr class="k">
+				</table><span class="A"><p>Fix as the specified type.</p></span></section>
+			<section class="k" id="isFixed()">
+				<h2 class="x"><i class="FINAL"><i class="PROTECTED"></i></i><code class="a">isFixed</code><code class="KB">()</code><i class="q"><code>boolean</code></i></h2>
+				<table class="b">
+					<tr class="j">
 						<td><code>boolean</code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Check type inference state.</p></span></section>
-			<section class="Z" id="bindTo(reincarnation.Operand)">
-				<h2 class="l"><i class="FINAL"><i class="PROTECTED"></i></i><code class="d">bindTo</code><code class="q">(<code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code><code class="parameterName">other</code>)</code><i class="p"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Check type inference state.</p></span></section>
+			<section class="k" id="bindTo(reincarnation.Operand)">
+				<h2 class="x"><i class="FINAL"><i class="PROTECTED"></i></i><code class="a">bindTo</code><code class="KB">(<code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code><code class="parameterName">other</code>)</code><i class="q"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code><code class="parameterName">other</code></td>
 						<td></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Bind infered type.</p></span></section>
-			<section class="Z" id="isTrue()">
-				<h2 class="l"><i class="PROTECTED"></i><code class="d">isTrue</code><code class="q">()</code><i class="p"><code>boolean</code></i></h2>
-				<table class="J">
-					<tr class="k">
+				</table><span class="A"><p>Bind infered type.</p></span></section>
+			<section class="k" id="isTrue()">
+				<h2 class="x"><i class="PROTECTED"></i><code class="a">isTrue</code><code class="KB">()</code><i class="q"><code>boolean</code></i></h2>
+				<table class="b">
+					<tr class="j">
 						<td><code>boolean</code></td>
 						<td></td>
 					</tr>
 				</table>
 			</section>
-			<section class="Z" id="isFalse()">
-				<h2 class="l"><i class="PROTECTED"></i><code class="d">isFalse</code><code class="q">()</code><i class="p"><code>boolean</code></i></h2>
-				<table class="J">
-					<tr class="k">
+			<section class="k" id="isFalse()">
+				<h2 class="x"><i class="PROTECTED"></i><code class="a">isFalse</code><code class="KB">()</code><i class="q"><code>boolean</code></i></h2>
+				<table class="b">
+					<tr class="j">
 						<td><code>boolean</code></td>
 						<td></td>
 					</tr>
 				</table>
 			</section>
-			<section class="Z" id="isNegatable()">
-				<h2 class="l"><i class="PROTECTED"></i><code class="d">isNegatable</code><code class="q">()</code><i class="p"><code>boolean</code></i></h2>
-				<table class="J">
-					<tr class="k">
+			<section class="k" id="isNegatable()">
+				<h2 class="x"><i class="PROTECTED"></i><code class="a">isNegatable</code><code class="KB">()</code><i class="q"><code>boolean</code></i></h2>
+				<table class="b">
+					<tr class="j">
 						<td><code>boolean</code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Check whether this operand is negatable or not.</p></span></section>
-			<section class="Z" id="isValue()">
-				<h2 class="l"><i class="PROTECTED"></i><code class="d">isValue</code><code class="q">()</code><i class="p"><code>boolean</code></i></h2>
-				<table class="J">
-					<tr class="k">
+				</table><span class="A"><p>Check whether this operand is negatable or not.</p></span></section>
+			<section class="k" id="isValue()">
+				<h2 class="x"><i class="PROTECTED"></i><code class="a">isValue</code><code class="KB">()</code><i class="q"><code>boolean</code></i></h2>
+				<table class="b">
+					<tr class="j">
 						<td><code>boolean</code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Check whether this operand means any value or not.</p></span></section>
-			<section class="Z" id="isEnclosed()">
-				<h2 class="l"><i class="FINAL"><i class="PROTECTED"></i></i><code class="d">isEnclosed</code><code class="q">()</code><i class="p"><code>boolean</code></i></h2>
-				<table class="J">
-					<tr class="k">
+				</table><span class="A"><p>Check whether this operand means any value or not.</p></span></section>
+			<section class="k" id="isEnclosed()">
+				<h2 class="x"><i class="FINAL"><i class="PROTECTED"></i></i><code class="a">isEnclosed</code><code class="KB">()</code><i class="q"><code>boolean</code></i></h2>
+				<table class="b">
+					<tr class="j">
 						<td><code>boolean</code></td>
 						<td></td>
 					</tr>
 				</table>
 			</section>
-			<section class="Z" id="type()">
-				<h2 class="l"><i class="FINAL"><i class="PUBLIC"></i></i><code class="d">type</code><code class="q">()</code><i class="p"><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></i></h2>
-				<table class="J">
-					<tr class="k">
-						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></td>
+			<section class="k" id="type()">
+				<h2 class="x"><i class="FINAL"><i class="PUBLIC"></i></i><code class="a">type</code><code class="KB">()</code><i class="q"><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code></i></h2>
+				<table class="b">
+					<tr class="j">
+						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Get the associated class type.</p></span></section>
-			<section class="Z" id="encolose()">
-				<h2 class="l"><i class="FINAL"><i class="PUBLIC"></i></i><code class="d">encolose</code><code class="q">()</code><i class="p"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></h2>
-				<table class="J">
-					<tr class="k">
-						<td><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></td>
-						<td><span><p>Chainable API.</p></span></td>
-					</tr>
-				</table><span class="B"><p>Enclose myself.</p></span></section>
-			<section class="Z" id="disclose()">
-				<h2 class="l"><i class="FINAL"><i class="PUBLIC"></i></i><code class="d">disclose</code><code class="q">()</code><i class="p"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></h2>
-				<table class="J">
-					<tr class="k">
+				</table><span class="A"><p>Get the associated class type.</p></span></section>
+			<section class="k" id="encolose()">
+				<h2 class="x"><i class="FINAL"><i class="PUBLIC"></i></i><code class="a">encolose</code><code class="KB">()</code><i class="q"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></h2>
+				<table class="b">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></td>
 						<td><span><p>Chainable API.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Disclose myself.</p></span></section>
-			<section class="Z" id="isStatement()">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">isStatement</code><code class="q">()</code><i class="p"><code>boolean</code></i></h2>
-				<table class="J">
-					<tr class="k">
+				</table><span class="A"><p>Enclose myself.</p></span></section>
+			<section class="k" id="disclose()">
+				<h2 class="x"><i class="FINAL"><i class="PUBLIC"></i></i><code class="a">disclose</code><code class="KB">()</code><i class="q"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></h2>
+				<table class="b">
+					<tr class="j">
+						<td><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></td>
+						<td><span><p>Chainable API.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Disclose myself.</p></span></section>
+			<section class="k" id="isStatement()">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">isStatement</code><code class="KB">()</code><i class="q"><code>boolean</code></i></h2>
+				<table class="b">
+					<tr class="j">
 						<td><code>boolean</code></td>
 						<td><span><p>A result.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Check <code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code> type.</p></span></section>
-			<section class="Z" id="isExpression()">
-				<h2 class="l"><i class="FINAL"><i class="PUBLIC"></i></i><code class="d">isExpression</code><code class="q">()</code><i class="p"><code>boolean</code></i></h2>
-				<table class="J">
-					<tr class="k">
+				</table><span class="A"><p>Check <code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code> type.</p></span></section>
+			<section class="k" id="isExpression()">
+				<h2 class="x"><i class="FINAL"><i class="PUBLIC"></i></i><code class="a">isExpression</code><code class="KB">()</code><i class="q"><code>boolean</code></i></h2>
+				<table class="b">
+					<tr class="j">
 						<td><code>boolean</code></td>
 						<td><span><p>A result.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Check <code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code> type.</p></span></section>
-			<section class="Z" id="markAsStatement()">
-				<h2 class="l"><i class="FINAL"><i class="PUBLIC"></i></i><code class="d">markAsStatement</code><code class="q">()</code><i class="p"><code>void</code></i></h2><span class="B"><p>Mark this <code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code> as statement.</p></span></section>
-			<section class="Z" id="markAsExpression()">
-				<h2 class="l"><i class="FINAL"><i class="PUBLIC"></i></i><code class="d">markAsExpression</code><code class="q">()</code><i class="p"><code>void</code></i></h2><span class="B"><p>Mark this <code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code> as expression.</p></span></section>
-			<section class="Z" id="as(java.lang.Class)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">as</code><code class="q">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>T</code></code></code><code class="parameterName">type</code>)</code><i class="p"><code>kiss.Variable<code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="b">
+				</table><span class="A"><p>Check <code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code> type.</p></span></section>
+			<section class="k" id="markAsStatement()">
+				<h2 class="x"><i class="FINAL"><i class="PUBLIC"></i></i><code class="a">markAsStatement</code><code class="KB">()</code><i class="q"><code>void</code></i></h2><span class="A"><p>Mark this <code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code> as statement.</p></span></section>
+			<section class="k" id="markAsExpression()">
+				<h2 class="x"><i class="FINAL"><i class="PUBLIC"></i></i><code class="a">markAsExpression</code><code class="KB">()</code><i class="q"><code>void</code></i></h2><span class="A"><p>Mark this <code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code> as expression.</p></span></section>
+			<section class="k" id="as(java.lang.Class)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">as</code><code class="KB">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>T</code></code></code><code class="parameterName">type</code>)</code><i class="q"><code>kiss.Variable<code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="w">
 						<td><code>T</code><code class="extends"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></td>
 						<td></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>T</code></code></code><code class="parameterName">type</code></td>
+					<tr class="f">
+						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>T</code></code></code><code class="parameterName">type</code></td>
 						<td></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code>kiss.Variable<code class="parameters"><code>T</code></code></code></td>
 						<td></td>
 					</tr>
 				</table>
 			</section>
-			<section class="Z" id="comment()">
-				<h2 class="l"><i class="OVERRIDE PUBLIC"></i><code class="d">comment</code><code class="q">()</code><i class="p"><code><a aria-label="java.util.Optional 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></code></code></i></h2>
-				<table class="J">
-					<tr class="k">
-						<td><code><a aria-label="java.util.Optional 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></code></code></td>
+			<section class="k" id="comment()">
+				<h2 class="x"><i class="OVERRIDE PUBLIC"></i><code class="a">comment</code><code class="KB">()</code><i class="q"><code><a aria-label="java.util.Optional 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></code></code></i></h2>
+				<table class="b">
+					<tr class="j">
+						<td><code><a aria-label="java.util.Optional 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></code></code></td>
 						<td></td>
 					</tr>
 				</table>
 			</section>
-			<section class="Z" id="write(reincarnation.coder.Coder)">
-				<h2 class="l"><i class="FINAL"><i class="OVERRIDE PUBLIC"></i></i><code class="d">write</code><code class="q">(<code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>)</code><i class="p"><code>void</code></i></h2>
-				<table class="J">
-					<tr class="r">
+			<section class="k" id="write(reincarnation.coder.Coder)">
+				<h2 class="x"><i class="FINAL"><i class="OVERRIDE PUBLIC"></i></i><code class="a">write</code><code class="KB">(<code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code></td>
 						<td></td>
 					</tr>
 				</table>
 			</section>
-			<section class="Z" id="writeCode(reincarnation.coder.Coder)">
-				<h2 class="l"><i class="ABSTRACT"><i class="PROTECTED"></i></i><code class="d">writeCode</code><code class="q">(<code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>)</code><i class="p"><code>void</code></i></h2>
-				<table class="J">
-					<tr class="r">
+			<section class="k" id="writeCode(reincarnation.coder.Coder)">
+				<h2 class="x"><i class="ABSTRACT"><i class="PROTECTED"></i></i><code class="a">writeCode</code><code class="KB">(<code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Write code actually.</p></span></section>
-			<section class="Z" id="find(java.lang.Class)">
-				<h2 class="l"><i class="FINAL"><i class="PUBLIC"></i></i><code class="d">find</code><code class="q">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>T</code></code></code><code class="parameterName">type</code>)</code><i class="p"><code>kiss.Signal<code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="b">
+				</table><span class="A"><p>Write code actually.</p></span></section>
+			<section class="k" id="find(java.lang.Class)">
+				<h2 class="x"><i class="FINAL"><i class="PUBLIC"></i></i><code class="a">find</code><code class="KB">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>T</code></code></code><code class="parameterName">type</code>)</code><i class="q"><code>kiss.Signal<code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="w">
 						<td><code>T</code><code class="extends"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></td>
 						<td></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>T</code></code></code><code class="parameterName">type</code></td>
+					<tr class="f">
+						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>T</code></code></code><code class="parameterName">type</code></td>
 						<td></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code>kiss.Signal<code class="parameters"><code>T</code></code></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Find all typed <code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code>s.</p></span></section>
-			<section class="Z" id="toString()">
-				<h2 class="l"><i class="OVERRIDE PUBLIC"></i><code class="d">toString</code><code class="q">()</code><i class="p"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-				<table class="J">
-					<tr class="k">
-						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
+				</table><span class="A"><p>Find all typed <code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code>s.</p></span></section>
+			<section class="k" id="toString()">
+				<h2 class="x"><i class="OVERRIDE PUBLIC"></i><code class="a">toString</code><code class="KB">()</code><i class="q"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="b">
+					<tr class="j">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
 						<td></td>
 					</tr>
 				</table>
 			</section>
-			<section class="Z" id="match(java.util.List,java.util.List)">
-				<h2 class="l"><i class="PROTECTED STATIC"></i><code class="d">match</code><code class="q">(<code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code><code class="parameterName">one</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code><code class="parameterName">other</code>)</code><i class="p"><code>boolean</code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code><code class="parameterName">one</code></td>
+			<section class="k" id="match(java.util.List,java.util.List)">
+				<h2 class="x"><i class="STATIC PROTECTED"></i><code class="a">match</code><code class="KB">(<code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code><code class="parameterName">one</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code><code class="parameterName">other</code>)</code><i class="q"><code>boolean</code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code><code class="parameterName">one</code></td>
 						<td></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code><code class="parameterName">other</code></td>
+					<tr class="f">
+						<td><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code><code class="parameterName">other</code></td>
 						<td></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code>boolean</code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Test the given operands are same code or not.</p></span></section>
+				</table><span class="A"><p>Test the given operands are same code or not.</p></span></section>
 		</article>
-		<aside class="L">
+		<aside class="R">
 			<div class="Y">
-				<h5 class="m">Constructors</h5>
+				<h5 class="c">Constructors</h5>
 				<ul>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.Operand.html#Operand()">Operand</a></code><code class="q">()</code></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.Operand.html#Operand()">Operand</a></code><code class="KB">()</code></li>
 				</ul>
-				<h5 class="m">Static Fields</h5>
+				<h5 class="c">Static Fields</h5>
 				<ul>
-					<li class="n"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#Null">Null</a></code><i class="j"><code class="return"><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></li>
+					<li class="FB"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#Null">Null</a></code><i class="l"><code class="return"><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></li>
 				</ul>
-				<h5 class="m">Fields</h5>
+				<h5 class="c">Fields</h5>
 				<ul>
-					<li class="n"><i class="PROTECTED"></i><code><a href="api/reincarnation.Operand.html#type">type</a></code><i class="j"><code class="return">kiss.Variable<code class="parameters"><code><a aria-label="java.lang.reflect.Type 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></code></code></i></li>
-					<li class="n"><i class="PROTECTED"></i><code><a href="api/reincarnation.Operand.html#duplicated">duplicated</a></code><i class="j"><code class="return">boolean</code></i></li>
+					<li class="FB"><i class="PROTECTED"></i><code><a href="api/reincarnation.Operand.html#type">type</a></code><i class="l"><code class="return">kiss.Variable<code class="parameters"><code><a aria-label="java.lang.reflect.Type 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code></code></code></i></li>
+					<li class="FB"><i class="PROTECTED"></i><code><a href="api/reincarnation.Operand.html#duplicated">duplicated</a></code><i class="l"><code class="return">boolean</code></i></li>
 				</ul>
-				<h5 class="m">Static Methods</h5>
+				<h5 class="c">Static Methods</h5>
 				<ul>
-					<li class="n"><i class="PROTECTED STATIC"></i><code><a href="api/reincarnation.Operand.html#match(java.util.List,java.util.List)">match</a></code><code class="q">(<code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code><code class="parameterName">one</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code><code class="parameterName">other</code>)</code><i class="j"><code>boolean</code></i></li>
+					<li class="FB"><i class="STATIC PROTECTED"></i><code><a href="api/reincarnation.Operand.html#match(java.util.List,java.util.List)">match</a></code><code class="KB">(<code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code><code class="parameterName">one</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code><code class="parameterName">other</code>)</code><i class="l"><code>boolean</code></i></li>
 				</ul>
-				<h5 class="m">Methods</h5>
+				<h5 class="c">Methods</h5>
 				<ul>
-					<li class="n"><i class="PROTECTED"></i><code><a href="api/reincarnation.Operand.html#info()">info</a></code><code class="q">()</code><i class="j"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-					<li class="n"><i class="ABSTRACT"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.Operand.html#view()">view</a></code><code class="q">()</code><i class="j"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-					<li class="n"><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.Operand.html#fix()">fix</a></code><code class="q">()</code><i class="j"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></li>
-					<li class="n"><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.Operand.html#fix(java.lang.reflect.Type)">fix</a></code><code class="q">(<code><a aria-label="java.lang.reflect.Type 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code><code class="parameterName">type</code>)</code><i class="j"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></li>
-					<li class="n"><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.Operand.html#isFixed()">isFixed</a></code><code class="q">()</code><i class="j"><code>boolean</code></i></li>
-					<li class="n"><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.Operand.html#bindTo(reincarnation.Operand)">bindTo</a></code><code class="q">(<code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code><code class="parameterName">other</code>)</code><i class="j"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></li>
-					<li class="n"><i class="PROTECTED"></i><code><a href="api/reincarnation.Operand.html#isTrue()">isTrue</a></code><code class="q">()</code><i class="j"><code>boolean</code></i></li>
-					<li class="n"><i class="PROTECTED"></i><code><a href="api/reincarnation.Operand.html#isFalse()">isFalse</a></code><code class="q">()</code><i class="j"><code>boolean</code></i></li>
-					<li class="n"><i class="PROTECTED"></i><code><a href="api/reincarnation.Operand.html#isNegatable()">isNegatable</a></code><code class="q">()</code><i class="j"><code>boolean</code></i></li>
-					<li class="n"><i class="PROTECTED"></i><code><a href="api/reincarnation.Operand.html#isValue()">isValue</a></code><code class="q">()</code><i class="j"><code>boolean</code></i></li>
-					<li class="n"><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.Operand.html#isEnclosed()">isEnclosed</a></code><code class="q">()</code><i class="j"><code>boolean</code></i></li>
-					<li class="n"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#type()">type</a></code><code class="q">()</code><i class="j"><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a></code></i></li>
-					<li class="n"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#encolose()">encolose</a></code><code class="q">()</code><i class="j"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></li>
-					<li class="n"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#disclose()">disclose</a></code><code class="q">()</code><i class="j"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.Operand.html#isStatement()">isStatement</a></code><code class="q">()</code><i class="j"><code>boolean</code></i></li>
-					<li class="n"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#isExpression()">isExpression</a></code><code class="q">()</code><i class="j"><code>boolean</code></i></li>
-					<li class="n"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#markAsStatement()">markAsStatement</a></code><code class="q">()</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#markAsExpression()">markAsExpression</a></code><code class="q">()</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.Operand.html#as(java.lang.Class)">as</a></code><code class="q">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>T</code></code></code><code class="parameterName">type</code>)</code><i class="j"><code>kiss.Variable<code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.Operand.html#comment()">comment</a></code><code class="q">()</code><i class="j"><code><a aria-label="java.util.Optional 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></code></code></i></li>
-					<li class="n"><i class="FINAL"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#write(reincarnation.coder.Coder)">write</a></code><code class="q">(<code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>)</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="ABSTRACT"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.Operand.html#writeCode(reincarnation.coder.Coder)">writeCode</a></code><code class="q">(<code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>)</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#find(java.lang.Class)">find</a></code><code class="q">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>T</code></code></code><code class="parameterName">type</code>)</code><i class="j"><code>kiss.Signal<code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.Operand.html#toString()">toString</a></code><code class="q">()</code><i class="j"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="FB"><i class="PROTECTED"></i><code><a href="api/reincarnation.Operand.html#info()">info</a></code><code class="KB">()</code><i class="l"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="FB"><i class="ABSTRACT"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.Operand.html#view()">view</a></code><code class="KB">()</code><i class="l"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="FB"><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.Operand.html#fix()">fix</a></code><code class="KB">()</code><i class="l"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></li>
+					<li class="FB"><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.Operand.html#fix(java.lang.reflect.Type)">fix</a></code><code class="KB">(<code><a aria-label="java.lang.reflect.Type 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Type.html">Type</a></code><code class="parameterName">type</code>)</code><i class="l"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></li>
+					<li class="FB"><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.Operand.html#isFixed()">isFixed</a></code><code class="KB">()</code><i class="l"><code>boolean</code></i></li>
+					<li class="FB"><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.Operand.html#bindTo(reincarnation.Operand)">bindTo</a></code><code class="KB">(<code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code><code class="parameterName">other</code>)</code><i class="l"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></li>
+					<li class="FB"><i class="PROTECTED"></i><code><a href="api/reincarnation.Operand.html#isTrue()">isTrue</a></code><code class="KB">()</code><i class="l"><code>boolean</code></i></li>
+					<li class="FB"><i class="PROTECTED"></i><code><a href="api/reincarnation.Operand.html#isFalse()">isFalse</a></code><code class="KB">()</code><i class="l"><code>boolean</code></i></li>
+					<li class="FB"><i class="PROTECTED"></i><code><a href="api/reincarnation.Operand.html#isNegatable()">isNegatable</a></code><code class="KB">()</code><i class="l"><code>boolean</code></i></li>
+					<li class="FB"><i class="PROTECTED"></i><code><a href="api/reincarnation.Operand.html#isValue()">isValue</a></code><code class="KB">()</code><i class="l"><code>boolean</code></i></li>
+					<li class="FB"><i class="FINAL"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.Operand.html#isEnclosed()">isEnclosed</a></code><code class="KB">()</code><i class="l"><code>boolean</code></i></li>
+					<li class="FB"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#type()">type</a></code><code class="KB">()</code><i class="l"><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code></i></li>
+					<li class="FB"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#encolose()">encolose</a></code><code class="KB">()</code><i class="l"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></li>
+					<li class="FB"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#disclose()">disclose</a></code><code class="KB">()</code><i class="l"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.Operand.html#isStatement()">isStatement</a></code><code class="KB">()</code><i class="l"><code>boolean</code></i></li>
+					<li class="FB"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#isExpression()">isExpression</a></code><code class="KB">()</code><i class="l"><code>boolean</code></i></li>
+					<li class="FB"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#markAsStatement()">markAsStatement</a></code><code class="KB">()</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#markAsExpression()">markAsExpression</a></code><code class="KB">()</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.Operand.html#as(java.lang.Class)">as</a></code><code class="KB">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>T</code></code></code><code class="parameterName">type</code>)</code><i class="l"><code>kiss.Variable<code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.Operand.html#comment()">comment</a></code><code class="KB">()</code><i class="l"><code><a aria-label="java.util.Optional 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Optional.html">Optional</a><code class="parameters"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></code></code></i></li>
+					<li class="FB"><i class="FINAL"><i class="OVERRIDE PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#write(reincarnation.coder.Coder)">write</a></code><code class="KB">(<code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>)</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="ABSTRACT"><i class="PROTECTED"></i></i><code><a href="api/reincarnation.Operand.html#writeCode(reincarnation.coder.Coder)">writeCode</a></code><code class="KB">(<code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>)</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.Operand.html#find(java.lang.Class)">find</a></code><code class="KB">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>T</code></code></code><code class="parameterName">type</code>)</code><i class="l"><code>kiss.Signal<code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.Operand.html#toString()">toString</a></code><code class="KB">()</code><i class="l"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
 				</ul>
 			</div>
 		</aside>
-		<footer class="s"/>
+		<footer class="P">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
 	</body>
 	<script src="root.js"></script>
 	<script src="main.js" type="module"></script>

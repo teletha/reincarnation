@@ -3,391 +3,393 @@
 	<head>
 		<meta charset="UTF-8"/>
 		<meta content="width=device-width, initial-scale=1" name="viewport"/>
-		<meta content="Explains how to use Reincarnation and its API. " name="description"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
 		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
 		<link href="https://fonts.googleapis.com" rel="preconnect"/>
 		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
 		<title>Reincarnation API</title>
 		<base href="../"/>
 		<script src="mimic.js" type="module"></script>
 		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="S">
-		<header class="T" date="2024-12-09" ver="1.10.0">
-			<h1 class="W"><code>Reincarnation</code></h1>
-			<nav class="P"><a href="api/" id="API"><svg class="package A svg" viewBox="0 0 24 24">
+	<body class="M">
+		<header class="N" date="2024-12-09">
+			<h1 class="u"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="r"><a href="api/main.html" id="API"><svg class="package">
 						<use href="main.svg#package"/>
 					</svg>
-				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user A svg" viewBox="0 0 24 24">
-						<use href="main.svg#user"/>
-					</svg>
-				</a><a href="doc/changelog.html" id="Activity"><svg class="activity A svg" viewBox="0 0 24 24">
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
 						<use href="main.svg#activity"/>
 					</svg>
-				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github A svg" viewBox="0 0 24 24">
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
 						<use href="main.svg#github"/>
 					</svg>
 				</a></nav>
-			<div class="o"><a aria-label="Change color scheme" id="theme"><svg class="sun A svg" viewBox="0 0 24 24">
+			<div class="v"><a aria-label="Change color scheme" id="theme"><svg class="sun">
 						<use href="main.svg#sun"/>
-					</svg><svg class="moon A svg" viewBox="0 0 24 24">
+					</svg><svg class="moon">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<nav class="R"></nav>
-		<article class="U" id="Article">
-			<section class="Z"><code class="M">reincarnation.coder</code>
-				<h2 class="Class c"><code class="d">Join</code><code class="q">&#60;<code>T</code>&#62;</code></h2>
-				<div class="H">
-					<ul class="C D">
+		<nav class="Q"></nav>
+		<article class="O" id="Article">
+			<section class="k"><code class="EB">reincarnation.coder</code>
+				<h2 class="Class Z"><code class="a">Join</code><code class="KB">&lt;<code>T</code>&gt;</code></h2>
+				<div class="h">
+					<ul class="E F">
 						<li><code>T</code></li>
 					</ul>
-					<ul class="C F">
+					<ul class="E H">
 						<li><code><a aria-label="reincarnation.coder.Code" href="api/reincarnation.coder.Code.html">Code</a></code></li>
 					</ul>
 				</div>
 			</section>
-			<section class="Z" id="Join()">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">Join</code><code class="q">()</code></h2>
+			<section class="k" id="Join()">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">Join</code><code class="KB">()</code></h2>
 			</section>
-			<section class="Z" id="separator(java.lang.String)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">separator</code><code class="q">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code></td>
+			<section class="k" id="separator(java.lang.String)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">separator</code><code class="KB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code></td>
 						<td><span><p>A separaotr chracter.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td><span><p>Chainable API.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Set separator.</p></span></section>
-			<section class="Z" id="prefix(java.lang.String)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">prefix</code><code class="q">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">prefix</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">prefix</code></td>
+				</table><span class="A"><p>Set separator.</p></span></section>
+			<section class="k" id="prefix(java.lang.String)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">prefix</code><code class="KB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">prefix</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">prefix</code></td>
 						<td><span><p>A prefix chracter.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td><span><p>Chainable API.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Set prefix.</p></span></section>
-			<section class="Z" id="suffix(java.lang.String)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">suffix</code><code class="q">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">suffix</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">suffix</code></td>
+				</table><span class="A"><p>Set prefix.</p></span></section>
+			<section class="k" id="suffix(java.lang.String)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">suffix</code><code class="KB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">suffix</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">suffix</code></td>
 						<td><span><p>A suffix chracter.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td><span><p>Chainable API.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Set suffix.</p></span></section>
-			<section class="Z" id="skip(java.util.function.Predicate)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">skip</code><code class="q">(<code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>T</code></code></code><code class="parameterName">condition</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>T</code></code></code><code class="parameterName">condition</code></td>
+				</table><span class="A"><p>Set suffix.</p></span></section>
+			<section class="k" id="skip(java.util.function.Predicate)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">skip</code><code class="KB">(<code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>T</code></code></code><code class="parameterName">condition</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>T</code></code></code><code class="parameterName">condition</code></td>
 						<td></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Set filter.</p></span></section>
-			<section class="Z" id="skip(java.util.function.BiPredicate)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">skip</code><code class="q">(<code><a aria-label="java.util.function.BiPredicate 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiPredicate.html">BiPredicate</a><code class="parameters"><code><a aria-label="java.lang.Long 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Long.html">Long</a></code>, <code>T</code></code></code><code class="parameterName">condition</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.util.function.BiPredicate 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiPredicate.html">BiPredicate</a><code class="parameters"><code><a aria-label="java.lang.Long 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Long.html">Long</a></code>, <code>T</code></code></code><code class="parameterName">condition</code></td>
+				</table><span class="A"><p>Set filter.</p></span></section>
+			<section class="k" id="skip(java.util.function.BiPredicate)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">skip</code><code class="KB">(<code><a aria-label="java.util.function.BiPredicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiPredicate.html">BiPredicate</a><code class="parameters"><code><a aria-label="java.lang.Long 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Long.html">Long</a></code>, <code>T</code></code></code><code class="parameterName">condition</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.util.function.BiPredicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiPredicate.html">BiPredicate</a><code class="parameters"><code><a aria-label="java.lang.Long 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Long.html">Long</a></code>, <code>T</code></code></code><code class="parameterName">condition</code></td>
 						<td></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Set filter.</p></span></section>
-			<section class="Z" id="take(java.util.function.Predicate)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">take</code><code class="q">(<code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>T</code></code></code><code class="parameterName">condition</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>T</code></code></code><code class="parameterName">condition</code></td>
+				</table><span class="A"><p>Set filter.</p></span></section>
+			<section class="k" id="take(java.util.function.Predicate)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">take</code><code class="KB">(<code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>T</code></code></code><code class="parameterName">condition</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>T</code></code></code><code class="parameterName">condition</code></td>
 						<td></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Set filter.</p></span></section>
-			<section class="Z" id="take(java.util.function.BiPredicate)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">take</code><code class="q">(<code><a aria-label="java.util.function.BiPredicate 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiPredicate.html">BiPredicate</a><code class="parameters"><code><a aria-label="java.lang.Long 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Long.html">Long</a></code>, <code>T</code></code></code><code class="parameterName">condition</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.util.function.BiPredicate 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiPredicate.html">BiPredicate</a><code class="parameters"><code><a aria-label="java.lang.Long 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Long.html">Long</a></code>, <code>T</code></code></code><code class="parameterName">condition</code></td>
+				</table><span class="A"><p>Set filter.</p></span></section>
+			<section class="k" id="take(java.util.function.BiPredicate)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">take</code><code class="KB">(<code><a aria-label="java.util.function.BiPredicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiPredicate.html">BiPredicate</a><code class="parameters"><code><a aria-label="java.lang.Long 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Long.html">Long</a></code>, <code>T</code></code></code><code class="parameterName">condition</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.util.function.BiPredicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiPredicate.html">BiPredicate</a><code class="parameters"><code><a aria-label="java.lang.Long 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Long.html">Long</a></code>, <code>T</code></code></code><code class="parameterName">condition</code></td>
 						<td></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Set filter.</p></span></section>
-			<section class="Z" id="converter(java.util.function.Function)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">converter</code><code class="q">(<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>T</code>, <code>?</code></code></code><code class="parameterName">converter</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>T</code>, <code>?</code></code></code><code class="parameterName">converter</code></td>
+				</table><span class="A"><p>Set filter.</p></span></section>
+			<section class="k" id="converter(java.util.function.Function)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">converter</code><code class="KB">(<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>T</code>, <code>?</code></code></code><code class="parameterName">converter</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>T</code>, <code>?</code></code></code><code class="parameterName">converter</code></td>
 						<td><span><p>A value converter.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td><span><p>Chainable API.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Set converter.</p></span></section>
-			<section class="Z" id="converter(java.util.function.BiFunction)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">converter</code><code class="q">(<code><a aria-label="java.util.function.BiFunction 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiFunction.html">BiFunction</a><code class="parameters"><code><a aria-label="java.lang.Integer 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Integer.html">Integer</a></code>, <code>T</code>, <code>?</code></code></code><code class="parameterName">converter</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.util.function.BiFunction 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiFunction.html">BiFunction</a><code class="parameters"><code><a aria-label="java.lang.Integer 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Integer.html">Integer</a></code>, <code>T</code>, <code>?</code></code></code><code class="parameterName">converter</code></td>
+				</table><span class="A"><p>Set converter.</p></span></section>
+			<section class="k" id="converter(java.util.function.BiFunction)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">converter</code><code class="KB">(<code><a aria-label="java.util.function.BiFunction 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiFunction.html">BiFunction</a><code class="parameters"><code><a aria-label="java.lang.Integer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Integer.html">Integer</a></code>, <code>T</code>, <code>?</code></code></code><code class="parameterName">converter</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.util.function.BiFunction 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiFunction.html">BiFunction</a><code class="parameters"><code><a aria-label="java.lang.Integer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Integer.html">Integer</a></code>, <code>T</code>, <code>?</code></code></code><code class="parameterName">converter</code></td>
 						<td><span><p>A value converter.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td><span><p>Chainable API.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Set converter for last value.</p></span></section>
-			<section class="Z" id="ignoreEmpty()">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">ignoreEmpty</code><code class="q">()</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="k">
+				</table><span class="A"><p>Set converter for last value.</p></span></section>
+			<section class="k" id="ignoreEmpty()">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">ignoreEmpty</code><code class="KB">()</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td><span><p>Chainable API.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Ignore prefix and suffix if container is empty.</p></span></section>
-			<section class="Z" id="ignoreSingle()">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">ignoreSingle</code><code class="q">()</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="k">
+				</table><span class="A"><p>Ignore prefix and suffix if container is empty.</p></span></section>
+			<section class="k" id="ignoreSingle()">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">ignoreSingle</code><code class="KB">()</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td><span><p>Chainable API.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Ignore prefix and suffix if container has single item.</p></span></section>
-			<section class="Z" id="add(java.lang.Object...)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">add</code><code class="q">(<code array="var">T</code><code class="parameterName">values</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Ignore prefix and suffix if container has single item.</p></span></section>
+			<section class="k" id="add(java.lang.Object...)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">add</code><code class="KB">(<code array="var">T</code><code class="parameterName">values</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code array="var">T</code><code class="parameterName">values</code></td>
 						<td></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Add values.</p></span></section>
-			<section class="Z" id="add(java.util.Collection)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">add</code><code class="q">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code></td>
+				</table><span class="A"><p>Add values.</p></span></section>
+			<section class="k" id="add(java.util.Collection)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">add</code><code class="KB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code></td>
 						<td></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Add values.</p></span></section>
-			<section class="Z" id="remove(java.lang.Object...)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">remove</code><code class="q">(<code array="var">T</code><code class="parameterName">values</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Add values.</p></span></section>
+			<section class="k" id="remove(java.lang.Object...)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">remove</code><code class="KB">(<code array="var">T</code><code class="parameterName">values</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code array="var">T</code><code class="parameterName">values</code></td>
 						<td></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Add values.</p></span></section>
-			<section class="Z" id="remove(java.util.Collection)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">remove</code><code class="q">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code></td>
+				</table><span class="A"><p>Add values.</p></span></section>
+			<section class="k" id="remove(java.util.Collection)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">remove</code><code class="KB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code></td>
 						<td></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Add values.</p></span></section>
-			<section class="Z" id="write()">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">write</code><code class="q">()</code><i class="p"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-				<table class="J">
-					<tr class="k">
-						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
+				</table><span class="A"><p>Add values.</p></span></section>
+			<section class="k" id="write()">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">write</code><code class="KB">()</code><i class="q"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="b">
+					<tr class="j">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Write out as <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code>.</p></span></section>
-			<section class="Z" id="write(reincarnation.coder.Coder)">
-				<h2 class="l"><i class="OVERRIDE PUBLIC"></i><code class="d">write</code><code class="q">(<code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>)</code><i class="p"><code>void</code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Write out as <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code>.</p></span></section>
+			<section class="k" id="write(reincarnation.coder.Coder)">
+				<h2 class="x"><i class="OVERRIDE PUBLIC"></i><code class="a">write</code><code class="KB">(<code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code></td>
 						<td></td>
 					</tr>
 				</table>
 			</section>
-			<section class="Z" id="write(reincarnation.coder.Coder,java.lang.Runnable)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">write</code><code class="q">(<code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>, <code><a aria-label="java.lang.Runnable 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code><code class="parameterName">empty</code>)</code><i class="p"><code>void</code></i></h2>
-				<table class="J">
-					<tr class="r">
+			<section class="k" id="write(reincarnation.coder.Coder,java.lang.Runnable)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">write</code><code class="KB">(<code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>, <code><a aria-label="java.lang.Runnable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code><code class="parameterName">empty</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code></td>
 						<td></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.lang.Runnable 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code><code class="parameterName">empty</code></td>
+					<tr class="f">
+						<td><code><a aria-label="java.lang.Runnable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code><code class="parameterName">empty</code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Write out or process if no item.</p></span></section>
-			<section class="Z" id="write(java.lang.StringBuilder)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">write</code><code class="q">(<code><a aria-label="java.lang.StringBuilder 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code><code class="parameterName">builder</code>)</code><i class="p"><code>void</code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.lang.StringBuilder 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code><code class="parameterName">builder</code></td>
+				</table><span class="A"><p>Write out or process if no item.</p></span></section>
+			<section class="k" id="write(java.lang.StringBuilder)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">write</code><code class="KB">(<code><a aria-label="java.lang.StringBuilder 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code><code class="parameterName">builder</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.lang.StringBuilder 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code><code class="parameterName">builder</code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Write to <code><a aria-label="java.lang.StringBuilder 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code>.</p></span></section>
-			<section class="Z" id="write(java.lang.StringBuilder,java.lang.Runnable)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">write</code><code class="q">(<code><a aria-label="java.lang.StringBuilder 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code><code class="parameterName">builder</code>, <code><a aria-label="java.lang.Runnable 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code><code class="parameterName">empty</code>)</code><i class="p"><code>void</code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.lang.StringBuilder 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code><code class="parameterName">builder</code></td>
+				</table><span class="A"><p>Write to <code><a aria-label="java.lang.StringBuilder 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code>.</p></span></section>
+			<section class="k" id="write(java.lang.StringBuilder,java.lang.Runnable)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">write</code><code class="KB">(<code><a aria-label="java.lang.StringBuilder 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code><code class="parameterName">builder</code>, <code><a aria-label="java.lang.Runnable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code><code class="parameterName">empty</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.lang.StringBuilder 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code><code class="parameterName">builder</code></td>
 						<td></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.lang.Runnable 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code><code class="parameterName">empty</code></td>
+					<tr class="f">
+						<td><code><a aria-label="java.lang.Runnable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code><code class="parameterName">empty</code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Write to <code><a aria-label="java.lang.StringBuilder 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code>.</p></span></section>
-			<section class="Z" id="toString()">
-				<h2 class="l"><i class="OVERRIDE PUBLIC"></i><code class="d">toString</code><code class="q">()</code><i class="p"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-				<table class="J">
-					<tr class="k">
-						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
+				</table><span class="A"><p>Write to <code><a aria-label="java.lang.StringBuilder 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code>.</p></span></section>
+			<section class="k" id="toString()">
+				<h2 class="x"><i class="OVERRIDE PUBLIC"></i><code class="a">toString</code><code class="KB">()</code><i class="q"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="b">
+					<tr class="j">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
 						<td></td>
 					</tr>
 				</table>
 			</section>
-			<section class="Z" id="of(java.lang.Object...)">
-				<h2 class="l"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code class="d">of</code><code class="q">(<code array="var">T</code><code class="parameterName">values</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="b">
+			<section class="k" id="of(java.lang.Object...)">
+				<h2 class="x"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code class="a">of</code><code class="KB">(<code array="var">T</code><code class="parameterName">values</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="w">
 						<td><code>T</code></td>
 						<td></td>
 					</tr>
-					<tr class="r">
+					<tr class="f">
 						<td><code array="var">T</code><code class="parameterName">values</code></td>
 						<td><span><p>The values to join.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td><span><p>A joinable code.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Create joinable code.</p></span></section>
-			<section class="Z" id="of(java.util.Collection)">
-				<h2 class="l"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code class="d">of</code><code class="q">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="b">
+				</table><span class="A"><p>Create joinable code.</p></span></section>
+			<section class="k" id="of(java.util.Collection)">
+				<h2 class="x"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code class="a">of</code><code class="KB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="w">
 						<td><code>T</code></td>
 						<td></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code></td>
+					<tr class="f">
+						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code></td>
 						<td><span><p>The values to join.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td><span><p>A joinable code.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Create joinable code.</p></span></section>
-			<section class="Z" id="of(java.lang.String,java.util.Collection,java.lang.String,java.lang.String)">
-				<h2 class="l"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code class="d">of</code><code class="q">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">prefix</code>, <code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">suffix</code>)</code><i class="p"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
-				<table class="J">
-					<tr class="b">
+				</table><span class="A"><p>Create joinable code.</p></span></section>
+			<section class="k" id="of(java.lang.String,java.util.Collection,java.lang.String,java.lang.String)">
+				<h2 class="x"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code class="a">of</code><code class="KB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">prefix</code>, <code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">suffix</code>)</code><i class="q"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></h2>
+				<table class="b">
+					<tr class="w">
 						<td><code>T</code></td>
 						<td></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">prefix</code></td>
+					<tr class="f">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">prefix</code></td>
 						<td><span><p>The prefix.</p></span></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code></td>
+					<tr class="f">
+						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code></td>
 						<td></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code></td>
+					<tr class="f">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code></td>
 						<td></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">suffix</code></td>
+					<tr class="f">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">suffix</code></td>
 						<td></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></td>
 						<td><span><p>A joinable code.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Create joinable code.</p></span></section>
+				</table><span class="A"><p>Create joinable code.</p></span></section>
 		</article>
-		<aside class="L">
+		<aside class="R">
 			<div class="Y">
-				<h5 class="m">Constructors</h5>
+				<h5 class="c">Constructors</h5>
 				<ul>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#Join()">Join</a></code><code class="q">()</code></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#Join()">Join</a></code><code class="KB">()</code></li>
 				</ul>
-				<h5 class="m">Static Methods</h5>
+				<h5 class="c">Static Methods</h5>
 				<ul>
-					<li class="n"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code><a href="api/reincarnation.coder.Join.html#of(java.lang.Object...)">of</a></code><code class="q">(<code array="var">T</code><code class="parameterName">values</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code><a href="api/reincarnation.coder.Join.html#of(java.util.Collection)">of</a></code><code class="q">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code><a href="api/reincarnation.coder.Join.html#of(java.lang.String,java.util.Collection,java.lang.String,java.lang.String)">of</a></code><code class="q">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">prefix</code>, <code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">suffix</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code><a href="api/reincarnation.coder.Join.html#of(java.lang.Object...)">of</a></code><code class="KB">(<code array="var">T</code><code class="parameterName">values</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code><a href="api/reincarnation.coder.Join.html#of(java.util.Collection)">of</a></code><code class="KB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code><a href="api/reincarnation.coder.Join.html#of(java.lang.String,java.util.Collection,java.lang.String,java.lang.String)">of</a></code><code class="KB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">prefix</code>, <code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">suffix</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
 				</ul>
-				<h5 class="m">Methods</h5>
+				<h5 class="c">Methods</h5>
 				<ul>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#separator(java.lang.String)">separator</a></code><code class="q">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#prefix(java.lang.String)">prefix</a></code><code class="q">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">prefix</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#suffix(java.lang.String)">suffix</a></code><code class="q">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">suffix</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#skip(java.util.function.Predicate)">skip</a></code><code class="q">(<code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>T</code></code></code><code class="parameterName">condition</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#skip(java.util.function.BiPredicate)">skip</a></code><code class="q">(<code><a aria-label="java.util.function.BiPredicate 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiPredicate.html">BiPredicate</a><code class="parameters"><code><a aria-label="java.lang.Long 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Long.html">Long</a></code>, <code>T</code></code></code><code class="parameterName">condition</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#take(java.util.function.Predicate)">take</a></code><code class="q">(<code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>T</code></code></code><code class="parameterName">condition</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#take(java.util.function.BiPredicate)">take</a></code><code class="q">(<code><a aria-label="java.util.function.BiPredicate 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiPredicate.html">BiPredicate</a><code class="parameters"><code><a aria-label="java.lang.Long 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Long.html">Long</a></code>, <code>T</code></code></code><code class="parameterName">condition</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#converter(java.util.function.Function)">converter</a></code><code class="q">(<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>T</code>, <code>?</code></code></code><code class="parameterName">converter</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#converter(java.util.function.BiFunction)">converter</a></code><code class="q">(<code><a aria-label="java.util.function.BiFunction 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiFunction.html">BiFunction</a><code class="parameters"><code><a aria-label="java.lang.Integer 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Integer.html">Integer</a></code>, <code>T</code>, <code>?</code></code></code><code class="parameterName">converter</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#ignoreEmpty()">ignoreEmpty</a></code><code class="q">()</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#ignoreSingle()">ignoreSingle</a></code><code class="q">()</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#add(java.lang.Object...)">add</a></code><code class="q">(<code array="var">T</code><code class="parameterName">values</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#add(java.util.Collection)">add</a></code><code class="q">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#remove(java.lang.Object...)">remove</a></code><code class="q">(<code array="var">T</code><code class="parameterName">values</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#remove(java.util.Collection)">remove</a></code><code class="q">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code>)</code><i class="j"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#write()">write</a></code><code class="q">()</code><i class="j"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-					<li class="n"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#write(reincarnation.coder.Coder)">write</a></code><code class="q">(<code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>)</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#write(reincarnation.coder.Coder,java.lang.Runnable)">write</a></code><code class="q">(<code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>, <code><a aria-label="java.lang.Runnable 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code><code class="parameterName">empty</code>)</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#write(java.lang.StringBuilder)">write</a></code><code class="q">(<code><a aria-label="java.lang.StringBuilder 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code><code class="parameterName">builder</code>)</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#write(java.lang.StringBuilder,java.lang.Runnable)">write</a></code><code class="q">(<code><a aria-label="java.lang.StringBuilder 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code><code class="parameterName">builder</code>, <code><a aria-label="java.lang.Runnable 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code><code class="parameterName">empty</code>)</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#toString()">toString</a></code><code class="q">()</code><i class="j"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#separator(java.lang.String)">separator</a></code><code class="KB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#prefix(java.lang.String)">prefix</a></code><code class="KB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">prefix</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#suffix(java.lang.String)">suffix</a></code><code class="KB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">suffix</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#skip(java.util.function.Predicate)">skip</a></code><code class="KB">(<code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>T</code></code></code><code class="parameterName">condition</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#skip(java.util.function.BiPredicate)">skip</a></code><code class="KB">(<code><a aria-label="java.util.function.BiPredicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiPredicate.html">BiPredicate</a><code class="parameters"><code><a aria-label="java.lang.Long 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Long.html">Long</a></code>, <code>T</code></code></code><code class="parameterName">condition</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#take(java.util.function.Predicate)">take</a></code><code class="KB">(<code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html">Predicate</a><code class="parameters"><code>T</code></code></code><code class="parameterName">condition</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#take(java.util.function.BiPredicate)">take</a></code><code class="KB">(<code><a aria-label="java.util.function.BiPredicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiPredicate.html">BiPredicate</a><code class="parameters"><code><a aria-label="java.lang.Long 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Long.html">Long</a></code>, <code>T</code></code></code><code class="parameterName">condition</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#converter(java.util.function.Function)">converter</a></code><code class="KB">(<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>T</code>, <code>?</code></code></code><code class="parameterName">converter</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#converter(java.util.function.BiFunction)">converter</a></code><code class="KB">(<code><a aria-label="java.util.function.BiFunction 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiFunction.html">BiFunction</a><code class="parameters"><code><a aria-label="java.lang.Integer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Integer.html">Integer</a></code>, <code>T</code>, <code>?</code></code></code><code class="parameterName">converter</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#ignoreEmpty()">ignoreEmpty</a></code><code class="KB">()</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#ignoreSingle()">ignoreSingle</a></code><code class="KB">()</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#add(java.lang.Object...)">add</a></code><code class="KB">(<code array="var">T</code><code class="parameterName">values</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#add(java.util.Collection)">add</a></code><code class="KB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#remove(java.lang.Object...)">remove</a></code><code class="KB">(<code array="var">T</code><code class="parameterName">values</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#remove(java.util.Collection)">remove</a></code><code class="KB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code>T</code></code></code><code class="parameterName">values</code>)</code><i class="l"><code><a aria-label="reincarnation.coder.Join" href="api/reincarnation.coder.Join.html">Join</a><code class="parameters"><code>T</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#write()">write</a></code><code class="KB">()</code><i class="l"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="FB"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#write(reincarnation.coder.Coder)">write</a></code><code class="KB">(<code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>)</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#write(reincarnation.coder.Coder,java.lang.Runnable)">write</a></code><code class="KB">(<code><a aria-label="reincarnation.coder.Coder" href="api/reincarnation.coder.Coder.html">Coder</a></code><code class="parameterName">coder</code>, <code><a aria-label="java.lang.Runnable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code><code class="parameterName">empty</code>)</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#write(java.lang.StringBuilder)">write</a></code><code class="KB">(<code><a aria-label="java.lang.StringBuilder 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code><code class="parameterName">builder</code>)</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#write(java.lang.StringBuilder,java.lang.Runnable)">write</a></code><code class="KB">(<code><a aria-label="java.lang.StringBuilder 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/StringBuilder.html">StringBuilder</a></code><code class="parameterName">builder</code>, <code><a aria-label="java.lang.Runnable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Runnable.html">Runnable</a></code><code class="parameterName">empty</code>)</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.coder.Join.html#toString()">toString</a></code><code class="KB">()</code><i class="l"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
 				</ul>
 			</div>
 		</aside>
-		<footer class="s"/>
+		<footer class="P">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
 	</body>
 	<script src="root.js"></script>
 	<script src="main.js" type="module"></script>

@@ -3,278 +3,280 @@
 	<head>
 		<meta charset="UTF-8"/>
 		<meta content="width=device-width, initial-scale=1" name="viewport"/>
-		<meta content="Explains how to use Reincarnation and its API. " name="description"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
 		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
 		<link href="https://fonts.googleapis.com" rel="preconnect"/>
 		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
 		<title>Reincarnation API</title>
 		<base href="../"/>
 		<script src="mimic.js" type="module"></script>
 		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="S">
-		<header class="T" date="2024-12-09" ver="1.10.0">
-			<h1 class="W"><code>Reincarnation</code></h1>
-			<nav class="P"><a href="api/" id="API"><svg class="package A svg" viewBox="0 0 24 24">
+	<body class="M">
+		<header class="N" date="2024-12-09">
+			<h1 class="u"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="r"><a href="api/main.html" id="API"><svg class="package">
 						<use href="main.svg#package"/>
 					</svg>
-				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user A svg" viewBox="0 0 24 24">
-						<use href="main.svg#user"/>
-					</svg>
-				</a><a href="doc/changelog.html" id="Activity"><svg class="activity A svg" viewBox="0 0 24 24">
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
 						<use href="main.svg#activity"/>
 					</svg>
-				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github A svg" viewBox="0 0 24 24">
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
 						<use href="main.svg#github"/>
 					</svg>
 				</a></nav>
-			<div class="o"><a aria-label="Change color scheme" id="theme"><svg class="sun A svg" viewBox="0 0 24 24">
+			<div class="v"><a aria-label="Change color scheme" id="theme"><svg class="sun">
 						<use href="main.svg#sun"/>
-					</svg><svg class="moon A svg" viewBox="0 0 24 24">
+					</svg><svg class="moon">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<nav class="R"></nav>
-		<article class="U" id="Article">
-			<section class="Z"><code class="M">reincarnation.util</code>
-				<h2 class="Class c"><code class="d">MultiMap</code><code class="q">&#60;<code>K</code>, <code>V</code>&#62;</code></h2>
-				<div class="H">
-					<ul class="C D">
+		<nav class="Q"></nav>
+		<article class="O" id="Article">
+			<section class="k"><code class="EB">reincarnation.util</code>
+				<h2 class="Class Z"><code class="a">MultiMap</code><code class="KB">&lt;<code>K</code>, <code>V</code>&gt;</code></h2>
+				<div class="h">
+					<ul class="E F">
 						<li><code>K</code><span><p>The type of keys maintained by this map.</p></span></li>
 						<li><code>V</code><span><p>The type of mapped values.</p></span></li>
 					</ul>
-				</div><span class="B"><p>MultiMap provides a generic way to store multiple values associated with the same key. This class
-is similar to a Map&#38;lt;K, List&#38;lt;V&#38;gt;&#38;gt;, but it provides additional convenience methods to make it
+				</div><span class="A"><p>MultiMap provides a generic way to store multiple values associated with the same key. This class
+is similar to a Map&lt;K, List&lt;V&gt;&gt;, but it provides additional convenience methods to make it
 easier to work with a list of values for a given key. By default, duplicate values for a key are
 not allowed, but this can be configured using the acceptDuplication flag in the constructor.</p></span></section>
-			<section class="Z" id="MultiMap(boolean)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">MultiMap</code><code class="q">(<code>boolean</code><code class="parameterName">acceptDuplication</code>)</code></h2>
-				<table class="J">
-					<tr class="r">
+			<section class="k" id="MultiMap(boolean)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">MultiMap</code><code class="KB">(<code>boolean</code><code class="parameterName">acceptDuplication</code>)</code></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code>boolean</code><code class="parameterName">acceptDuplication</code></td>
 						<td><span><p>The flag for whether to accept duplicated values for the same key or
 not.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Constructs a new instance of <code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a></code>.</p></span></section>
-			<section class="Z" id="sort()">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">sort</code><code class="q">()</code><i class="p"><code>void</code></i></h2><span class="B"><p>Sorts this map by key using the natural <code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Comparator.html">Comparator</a></code>.</p></span></section>
-			<section class="Z" id="get(java.lang.Object)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">get</code><code class="q">(<code>K</code><code class="parameterName">key</code>)</code><i class="p"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Constructs a new instance of <code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a></code>.</p></span></section>
+			<section class="k" id="sort()">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">sort</code><code class="KB">()</code><i class="q"><code>void</code></i></h2><span class="A"><p>Sorts this map by key using the natural <code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Comparator.html">Comparator</a></code>.</p></span></section>
+			<section class="k" id="get(java.lang.Object)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">get</code><code class="KB">(<code>K</code><code class="parameterName">key</code>)</code><i class="q"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code>K</code><code class="parameterName">key</code></td>
 						<td><span><p>The key for which the values are to be retrieved.</p></span></td>
 					</tr>
-					<tr class="k">
-						<td><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></td>
+					<tr class="j">
+						<td><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></td>
 						<td><span><p>A list of all values associated with the specified key.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Gets all values associated with the specified key.</p></span></section>
-			<section class="Z" id="put(java.lang.Object)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">put</code><code class="q">(<code>K</code><code class="parameterName">key</code>)</code><i class="p"><code>void</code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Gets all values associated with the specified key.</p></span></section>
+			<section class="k" id="put(java.lang.Object)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">put</code><code class="KB">(<code>K</code><code class="parameterName">key</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code>K</code><code class="parameterName">key</code></td>
 						<td><span><p>The key with which to associate the specified value.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Associates the empty value with the specified key in this map.</p></span></section>
-			<section class="Z" id="put(java.lang.Object,java.lang.Object)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">put</code><code class="q">(<code>K</code><code class="parameterName">key</code>, <code>V</code><code class="parameterName">value</code>)</code><i class="p"><code>void</code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Associates the empty value with the specified key in this map.</p></span></section>
+			<section class="k" id="put(java.lang.Object,java.lang.Object)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">put</code><code class="KB">(<code>K</code><code class="parameterName">key</code>, <code>V</code><code class="parameterName">value</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code>K</code><code class="parameterName">key</code></td>
 						<td><span><p>The key with which to associate the specified value.</p></span></td>
 					</tr>
-					<tr class="r">
+					<tr class="f">
 						<td><code>V</code><code class="parameterName">value</code></td>
 						<td><span><p>The value to be associated with the specified key.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Associates the specified value with the specified key in this map.</p></span></section>
-			<section class="Z" id="putAll(java.lang.Object,java.util.List)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">putAll</code><code class="q">(<code>K</code><code class="parameterName">key</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code><code class="parameterName">values</code>)</code><i class="p"><code>void</code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Associates the specified value with the specified key in this map.</p></span></section>
+			<section class="k" id="putAll(java.lang.Object,java.util.List)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">putAll</code><code class="KB">(<code>K</code><code class="parameterName">key</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code><code class="parameterName">values</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code>K</code><code class="parameterName">key</code></td>
 						<td><span><p>The key with which to associate the specified values.</p></span></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code><code class="parameterName">values</code></td>
+					<tr class="f">
+						<td><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code><code class="parameterName">values</code></td>
 						<td><span><p>The values to be associated with the specified key.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Associates all the specified values with the specified key in this map.</p></span></section>
-			<section class="Z" id="remove(java.lang.Object)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">remove</code><code class="q">(<code>K</code><code class="parameterName">key</code>)</code><i class="p"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Associates all the specified values with the specified key in this map.</p></span></section>
+			<section class="k" id="remove(java.lang.Object)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">remove</code><code class="KB">(<code>K</code><code class="parameterName">key</code>)</code><i class="q"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code>K</code><code class="parameterName">key</code></td>
 						<td><span><p>The key for which all values are to be removed.</p></span></td>
 					</tr>
-					<tr class="k">
-						<td><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></td>
+					<tr class="j">
+						<td><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Removes all values associated with the specified key from this map.</p></span></section>
-			<section class="Z" id="remove(java.lang.Object,java.lang.Object)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">remove</code><code class="q">(<code>K</code><code class="parameterName">key</code>, <code>V</code><code class="parameterName">value</code>)</code><i class="p"><code>void</code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Removes all values associated with the specified key from this map.</p></span></section>
+			<section class="k" id="remove(java.lang.Object,java.lang.Object)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">remove</code><code class="KB">(<code>K</code><code class="parameterName">key</code>, <code>V</code><code class="parameterName">value</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code>K</code><code class="parameterName">key</code></td>
 						<td><span><p>The key with which the specified value is associated.</p></span></td>
 					</tr>
-					<tr class="r">
+					<tr class="f">
 						<td><code>V</code><code class="parameterName">value</code></td>
 						<td><span><p>The value to be removed from the specified key.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Removes the specified value associated with the specified key from this map.</p></span></section>
-			<section class="Z" id="keys()">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">keys</code><code class="q">()</code><i class="p"><code>kiss.Signal<code class="parameters"><code>K</code></code></code></i></h2>
-				<table class="J">
-					<tr class="k">
+				</table><span class="A"><p>Removes the specified value associated with the specified key from this map.</p></span></section>
+			<section class="k" id="keys()">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">keys</code><code class="KB">()</code><i class="q"><code>kiss.Signal<code class="parameters"><code>K</code></code></code></i></h2>
+				<table class="b">
+					<tr class="j">
 						<td><code>kiss.Signal<code class="parameters"><code>K</code></code></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Traverses all keys in this <code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a></code> and returns a Signal that emits each key
+				</table><span class="A"><p>Traverses all keys in this <code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a></code> and returns a Signal that emits each key
 sequentially.</p></span></section>
-			<section class="Z" id="values()">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">values</code><code class="q">()</code><i class="p"><code>kiss.Signal<code class="parameters"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code></i></h2>
-				<table class="J">
-					<tr class="k">
-						<td><code>kiss.Signal<code class="parameters"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code></td>
+			<section class="k" id="values()">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">values</code><code class="KB">()</code><i class="q"><code>kiss.Signal<code class="parameters"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code></i></h2>
+				<table class="b">
+					<tr class="j">
+						<td><code>kiss.Signal<code class="parameters"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code></td>
 						<td></td>
 					</tr>
-				</table><span class="B"><p>Traverses all keys in this <code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a></code> and returns a Signal that emits each key
+				</table><span class="A"><p>Traverses all keys in this <code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a></code> and returns a Signal that emits each key
 sequentially.</p></span></section>
-			<section class="Z" id="containsKey(java.lang.Object)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">containsKey</code><code class="q">(<code>K</code><code class="parameterName">key</code>)</code><i class="p"><code>boolean</code></i></h2>
-				<table class="J">
-					<tr class="r">
+			<section class="k" id="containsKey(java.lang.Object)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">containsKey</code><code class="KB">(<code>K</code><code class="parameterName">key</code>)</code><i class="q"><code>boolean</code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code>K</code><code class="parameterName">key</code></td>
 						<td><span><p>The key whose presence in this map is to be tested</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code>boolean</code></td>
 						<td><span><code>true</code> if this map contains a mapping for the specified key</span></td>
 					</tr>
-				</table><span class="B"><p>Returns <code>true</code> if this map contains a mapping for the specified key.</p><p>
- More formally, returns <code>true</code> if and only if this map contains at a mapping for a key
- <code>k</code> such that <code>Objects.equals(key, k)</code>. (There can be at most one such mapping.)
+				</table><span class="A"><p>Returns <code>true</code> if this map contains a mapping for the specified key.</p><p>
+More formally, returns <code>true</code> if and only if this map contains at a mapping for a key
+<code>k</code> such that <code>Objects.equals(key, k)</code>. (There can be at most one such mapping.)
 </p>
 				</span></section>
-			<section class="Z" id="convertKeys(java.util.function.Function)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">convertKeys</code><code class="q">(<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>K</code>, <code>N</code></code></code><code class="parameterName">converter</code>)</code><i class="p"><code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a><code class="parameters"><code>N</code>, <code>V</code></code></code></i></h2>
-				<table class="J">
-					<tr class="b">
+			<section class="k" id="convertKeys(java.util.function.Function)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">convertKeys</code><code class="KB">(<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>K</code>, <code>N</code></code></code><code class="parameterName">converter</code>)</code><i class="q"><code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a><code class="parameters"><code>N</code>, <code>V</code></code></code></i></h2>
+				<table class="b">
+					<tr class="w">
 						<td><code>N</code></td>
 						<td><span><p>The new type of keys in the returned map.</p></span></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>K</code>, <code>N</code></code></code><code class="parameterName">converter</code></td>
-						<td><span><p>The <code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a></code> to be applied to each key in this map to obtain the new
+					<tr class="f">
+						<td><code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>K</code>, <code>N</code></code></code><code class="parameterName">converter</code></td>
+						<td><span><p>The <code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a></code> to be applied to each key in this map to obtain the new
 key in the returned map.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a><code class="parameters"><code>N</code>, <code>V</code></code></code></td>
 						<td><span><p>A new <code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a></code> with the keys of this map converted using the specified
-<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a></code>.</p></span></td>
+<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a></code>.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Returns a new <code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a></code> with the keys of this map converted using the specified
-<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a></code>.</p></span></section>
-			<section class="Z" id="convertValues(java.util.function.Function)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">convertValues</code><code class="q">(<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code>, <code>N</code></code></code><code class="parameterName">converter</code>)</code><i class="p"><code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a><code class="parameters"><code>K</code>, <code>N</code></code></code></i></h2>
-				<table class="J">
-					<tr class="b">
+				</table><span class="A"><p>Returns a new <code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a></code> with the keys of this map converted using the specified
+<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a></code>.</p></span></section>
+			<section class="k" id="convertValues(java.util.function.Function)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">convertValues</code><code class="KB">(<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code>, <code>N</code></code></code><code class="parameterName">converter</code>)</code><i class="q"><code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a><code class="parameters"><code>K</code>, <code>N</code></code></code></i></h2>
+				<table class="b">
+					<tr class="w">
 						<td><code>N</code></td>
 						<td><span><p>The new type of values in the returned map.</p></span></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code>, <code>N</code></code></code><code class="parameterName">converter</code></td>
-						<td><span><p>The <code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a></code> to be applied to each value in this map to obtain the
+					<tr class="f">
+						<td><code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code>, <code>N</code></code></code><code class="parameterName">converter</code></td>
+						<td><span><p>The <code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a></code> to be applied to each value in this map to obtain the
 new value in the returned map.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a><code class="parameters"><code>K</code>, <code>N</code></code></code></td>
 						<td><span><p>A new <code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a></code> with the values of this map converted using the specified
-<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a></code>.</p></span></td>
+<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a></code>.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Returns a new <code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a></code> with the values of this map converted using the specified
-<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a></code>.</p></span></section>
-			<section class="Z" id="forEach(java.util.function.BiConsumer)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">forEach</code><code class="q">(<code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code>)</code><i class="p"><code>void</code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code></td>
+				</table><span class="A"><p>Returns a new <code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a></code> with the values of this map converted using the specified
+<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a></code>.</p></span></section>
+			<section class="k" id="forEach(java.util.function.BiConsumer)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">forEach</code><code class="KB">(<code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code></td>
 						<td><span><p>The action to be performed for each key-value pair.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Performs the given action for each key-value pair in this map until all pairs have been
+				</table><span class="A"><p>Performs the given action for each key-value pair in this map until all pairs have been
 processed or the action throws an exception.</p></span></section>
-			<section class="Z" id="forEach(java.util.Comparator,java.util.function.BiConsumer)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">forEach</code><code class="q">(<code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Comparator.html">Comparator</a><code class="parameters"><code>K</code></code></code><code class="parameterName">comparator</code>, <code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code>)</code><i class="p"><code>void</code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Comparator.html">Comparator</a><code class="parameters"><code>K</code></code></code><code class="parameterName">comparator</code></td>
+			<section class="k" id="forEach(java.util.Comparator,java.util.function.BiConsumer)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">forEach</code><code class="KB">(<code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Comparator.html">Comparator</a><code class="parameters"><code>K</code></code></code><code class="parameterName">comparator</code>, <code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Comparator.html">Comparator</a><code class="parameters"><code>K</code></code></code><code class="parameterName">comparator</code></td>
 						<td></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code></td>
+					<tr class="f">
+						<td><code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code></td>
 						<td><span><p>The action to be performed for each key-value pair.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Performs the given action for each key-value pair in this map until all pairs have been
+				</table><span class="A"><p>Performs the given action for each key-value pair in this map until all pairs have been
 processed or the action throws an exception.</p></span></section>
-			<section class="Z" id="forEachReversely(java.util.function.BiConsumer)">
-				<h2 class="l"><i class="PUBLIC"></i><code class="d">forEachReversely</code><code class="q">(<code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code>)</code><i class="p"><code>void</code></i></h2>
-				<table class="J">
-					<tr class="r">
-						<td><code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code></td>
+			<section class="k" id="forEachReversely(java.util.function.BiConsumer)">
+				<h2 class="x"><i class="PUBLIC"></i><code class="a">forEachReversely</code><code class="KB">(<code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="f">
+						<td><code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code></td>
 						<td><span><p>The action to be performed for each key-value pair.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Performs the given action for each key-value pair in this map until all pairs have been
+				</table><span class="A"><p>Performs the given action for each key-value pair in this map until all pairs have been
 processed or the action throws an exception.</p></span></section>
-			<section class="Z" id="toString()">
-				<h2 class="l"><i class="OVERRIDE PUBLIC"></i><code class="d">toString</code><code class="q">()</code><i class="p"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-				<table class="J">
-					<tr class="k">
-						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></td>
+			<section class="k" id="toString()">
+				<h2 class="x"><i class="OVERRIDE PUBLIC"></i><code class="a">toString</code><code class="KB">()</code><i class="q"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="b">
+					<tr class="j">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
 						<td></td>
 					</tr>
 				</table>
 			</section>
 		</article>
-		<aside class="L">
+		<aside class="R">
 			<div class="Y">
-				<h5 class="m">Constructors</h5>
+				<h5 class="c">Constructors</h5>
 				<ul>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#MultiMap(boolean)">MultiMap</a></code><code class="q">(<code>boolean</code><code class="parameterName">acceptDuplication</code>)</code></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#MultiMap(boolean)">MultiMap</a></code><code class="KB">(<code>boolean</code><code class="parameterName">acceptDuplication</code>)</code></li>
 				</ul>
-				<h5 class="m">Methods</h5>
+				<h5 class="c">Methods</h5>
 				<ul>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#sort()">sort</a></code><code class="q">()</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#get(java.lang.Object)">get</a></code><code class="q">(<code>K</code><code class="parameterName">key</code>)</code><i class="j"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#put(java.lang.Object)">put</a></code><code class="q">(<code>K</code><code class="parameterName">key</code>)</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#put(java.lang.Object,java.lang.Object)">put</a></code><code class="q">(<code>K</code><code class="parameterName">key</code>, <code>V</code><code class="parameterName">value</code>)</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#putAll(java.lang.Object,java.util.List)">putAll</a></code><code class="q">(<code>K</code><code class="parameterName">key</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code><code class="parameterName">values</code>)</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#remove(java.lang.Object)">remove</a></code><code class="q">(<code>K</code><code class="parameterName">key</code>)</code><i class="j"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#remove(java.lang.Object,java.lang.Object)">remove</a></code><code class="q">(<code>K</code><code class="parameterName">key</code>, <code>V</code><code class="parameterName">value</code>)</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#keys()">keys</a></code><code class="q">()</code><i class="j"><code>kiss.Signal<code class="parameters"><code>K</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#values()">values</a></code><code class="q">()</code><i class="j"><code>kiss.Signal<code class="parameters"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#containsKey(java.lang.Object)">containsKey</a></code><code class="q">(<code>K</code><code class="parameterName">key</code>)</code><i class="j"><code>boolean</code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#convertKeys(java.util.function.Function)">convertKeys</a></code><code class="q">(<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>K</code>, <code>N</code></code></code><code class="parameterName">converter</code>)</code><i class="j"><code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a><code class="parameters"><code>N</code>, <code>V</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#convertValues(java.util.function.Function)">convertValues</a></code><code class="q">(<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code>, <code>N</code></code></code><code class="parameterName">converter</code>)</code><i class="j"><code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a><code class="parameters"><code>K</code>, <code>N</code></code></code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#forEach(java.util.function.BiConsumer)">forEach</a></code><code class="q">(<code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code>)</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#forEach(java.util.Comparator,java.util.function.BiConsumer)">forEach</a></code><code class="q">(<code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Comparator.html">Comparator</a><code class="parameters"><code>K</code></code></code><code class="parameterName">comparator</code>, <code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code>)</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#forEachReversely(java.util.function.BiConsumer)">forEachReversely</a></code><code class="q">(<code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code>)</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#toString()">toString</a></code><code class="q">()</code><i class="j"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#sort()">sort</a></code><code class="KB">()</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#get(java.lang.Object)">get</a></code><code class="KB">(<code>K</code><code class="parameterName">key</code>)</code><i class="l"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#put(java.lang.Object)">put</a></code><code class="KB">(<code>K</code><code class="parameterName">key</code>)</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#put(java.lang.Object,java.lang.Object)">put</a></code><code class="KB">(<code>K</code><code class="parameterName">key</code>, <code>V</code><code class="parameterName">value</code>)</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#putAll(java.lang.Object,java.util.List)">putAll</a></code><code class="KB">(<code>K</code><code class="parameterName">key</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code><code class="parameterName">values</code>)</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#remove(java.lang.Object)">remove</a></code><code class="KB">(<code>K</code><code class="parameterName">key</code>)</code><i class="l"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#remove(java.lang.Object,java.lang.Object)">remove</a></code><code class="KB">(<code>K</code><code class="parameterName">key</code>, <code>V</code><code class="parameterName">value</code>)</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#keys()">keys</a></code><code class="KB">()</code><i class="l"><code>kiss.Signal<code class="parameters"><code>K</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#values()">values</a></code><code class="KB">()</code><i class="l"><code>kiss.Signal<code class="parameters"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#containsKey(java.lang.Object)">containsKey</a></code><code class="KB">(<code>K</code><code class="parameterName">key</code>)</code><i class="l"><code>boolean</code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#convertKeys(java.util.function.Function)">convertKeys</a></code><code class="KB">(<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code>K</code>, <code>N</code></code></code><code class="parameterName">converter</code>)</code><i class="l"><code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a><code class="parameters"><code>N</code>, <code>V</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#convertValues(java.util.function.Function)">convertValues</a></code><code class="KB">(<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code>, <code>N</code></code></code><code class="parameterName">converter</code>)</code><i class="l"><code><a aria-label="reincarnation.util.MultiMap" href="api/reincarnation.util.MultiMap.html">MultiMap</a><code class="parameters"><code>K</code>, <code>N</code></code></code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#forEach(java.util.function.BiConsumer)">forEach</a></code><code class="KB">(<code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code>)</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#forEach(java.util.Comparator,java.util.function.BiConsumer)">forEach</a></code><code class="KB">(<code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Comparator.html">Comparator</a><code class="parameters"><code>K</code></code></code><code class="parameterName">comparator</code>, <code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code>)</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#forEachReversely(java.util.function.BiConsumer)">forEachReversely</a></code><code class="KB">(<code><a aria-label="java.util.function.BiConsumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BiConsumer.html">BiConsumer</a><code class="parameters"><code>K</code>, <code><a aria-label="java.util.List 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/List.html">List</a><code class="parameters"><code>V</code></code></code></code></code><code class="parameterName">handler</code>)</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.util.MultiMap.html#toString()">toString</a></code><code class="KB">()</code><i class="l"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
 				</ul>
 			</div>
 		</aside>
-		<footer class="s"/>
+		<footer class="P">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
 	</body>
 	<script src="root.js"></script>
 	<script src="main.js" type="module"></script>

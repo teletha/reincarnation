@@ -3,301 +3,303 @@
 	<head>
 		<meta charset="UTF-8"/>
 		<meta content="width=device-width, initial-scale=1" name="viewport"/>
-		<meta content="Explains how to use Reincarnation and its API. " name="description"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
 		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
 		<link href="https://fonts.googleapis.com" rel="preconnect"/>
 		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Inter" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Material+Icons" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
-		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" rel="preload"/>
-		<link href="https://fonts.googleapis.com/css2?display=swap&#38;family=Vollkorn" media="print" onload="this.media=&#39;all&#39;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
 		<title>Reincarnation API</title>
 		<base href="../"/>
 		<script src="mimic.js" type="module"></script>
 		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="S">
-		<header class="T" date="2024-12-09" ver="1.10.0">
-			<h1 class="W"><code>Reincarnation</code></h1>
-			<nav class="P"><a href="api/" id="API"><svg class="package A svg" viewBox="0 0 24 24">
+	<body class="M">
+		<header class="N" date="2024-12-09">
+			<h1 class="u"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="r"><a href="api/main.html" id="API"><svg class="package">
 						<use href="main.svg#package"/>
 					</svg>
-				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user A svg" viewBox="0 0 24 24">
-						<use href="main.svg#user"/>
-					</svg>
-				</a><a href="doc/changelog.html" id="Activity"><svg class="activity A svg" viewBox="0 0 24 24">
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
 						<use href="main.svg#activity"/>
 					</svg>
-				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github A svg" viewBox="0 0 24 24">
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
 						<use href="main.svg#github"/>
 					</svg>
 				</a></nav>
-			<div class="o"><a aria-label="Change color scheme" id="theme"><svg class="sun A svg" viewBox="0 0 24 24">
+			<div class="v"><a aria-label="Change color scheme" id="theme"><svg class="sun">
 						<use href="main.svg#sun"/>
-					</svg><svg class="moon A svg" viewBox="0 0 24 24">
+					</svg><svg class="moon">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<nav class="R"></nav>
-		<article class="U" id="Article">
-			<section class="Z"><code class="M">reincarnation</code>
-				<h2 class="Interface c"><code class="d">NodeManipulator</code></h2>
-				<div class="H"></div>
+		<nav class="Q"></nav>
+		<article class="O" id="Article">
+			<section class="k"><code class="EB">reincarnation</code>
+				<h2 class="Interface Z"><code class="a">NodeManipulator</code></h2>
+				<div class="h"></div>
 			</section>
-			<section class="Z" id="createNodeBefore(reincarnation.Node,boolean)">
-				<h2 class="l"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">createNodeBefore</code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code>boolean</code><code class="parameterName">connectable</code>)</code><i class="p"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
-				<table class="J">
-					<tr class="r">
+			<section class="k" id="createNodeBefore(reincarnation.Node,boolean)">
+				<h2 class="x"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="a">createNodeBefore</code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code>boolean</code><code class="parameterName">connectable</code>)</code><i class="q"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code></td>
 						<td><span><p>The index node before which to create the new node.</p></span></td>
 					</tr>
-					<tr class="r">
+					<tr class="f">
 						<td><code>boolean</code><code class="parameterName">connectable</code></td>
 						<td><span><p>Whether the new node should be connectable.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></td>
 						<td><span><p>The newly created node.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Create a new node before the specified node.</p></span></section>
-			<section class="Z" id="createNodeBefore(reincarnation.Node,boolean,boolean)">
-				<h2 class="l"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">createNodeBefore</code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code>boolean</code><code class="parameterName">connectable</code>, <code>boolean</code><code class="parameterName">transferOperands</code>)</code><i class="p"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Create a new node before the specified node.</p></span></section>
+			<section class="k" id="createNodeBefore(reincarnation.Node,boolean,boolean)">
+				<h2 class="x"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="a">createNodeBefore</code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code>boolean</code><code class="parameterName">connectable</code>, <code>boolean</code><code class="parameterName">transferOperands</code>)</code><i class="q"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code></td>
 						<td><span><p>The index node before which to create the new node.</p></span></td>
 					</tr>
-					<tr class="r">
+					<tr class="f">
 						<td><code>boolean</code><code class="parameterName">connectable</code></td>
 						<td><span><p>Whether the new node should be connectable.</p></span></td>
 					</tr>
-					<tr class="r">
+					<tr class="f">
 						<td><code>boolean</code><code class="parameterName">transferOperands</code></td>
 						<td></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></td>
 						<td><span><p>The newly created node.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Create a new node before the specified node.</p></span></section>
-			<section class="Z" id="createNodeBefore(reincarnation.Node,reincarnation.Operand...)">
-				<h2 class="l"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">createNodeBefore</code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code array="var"><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code><code class="parameterName">initials</code>)</code><i class="p"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Create a new node before the specified node.</p></span></section>
+			<section class="k" id="createNodeBefore(reincarnation.Node,reincarnation.Operand...)">
+				<h2 class="x"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="a">createNodeBefore</code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code array="var"><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code><code class="parameterName">initials</code>)</code><i class="q"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code></td>
 						<td><span><p>The index node before which to create the new node.</p></span></td>
 					</tr>
-					<tr class="r">
+					<tr class="f">
 						<td><code array="var"><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code><code class="parameterName">initials</code></td>
 						<td><span><p>The initial operand for the new node.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></td>
 						<td><span><p>The newly created node.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Create a new node with the specified initial operand before the specified node.</p></span></section>
-			<section class="Z" id="createNodeBefore(reincarnation.Node,java.lang.Iterable)">
-				<h2 class="l"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">createNodeBefore</code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>?</code><code class="extends"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code></code><code class="parameterName">initials</code>)</code><i class="p"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Create a new node with the specified initial operand before the specified node.</p></span></section>
+			<section class="k" id="createNodeBefore(reincarnation.Node,java.lang.Iterable)">
+				<h2 class="x"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="a">createNodeBefore</code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>?</code><code class="extends"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code></code><code class="parameterName">initials</code>)</code><i class="q"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code></td>
 						<td><span><p>The index node before which to create the new node.</p></span></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>?</code><code class="extends"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code></code><code class="parameterName">initials</code></td>
+					<tr class="f">
+						<td><code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>?</code><code class="extends"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code></code><code class="parameterName">initials</code></td>
 						<td><span><p>The initial operand for the new node.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></td>
 						<td><span><p>The newly created node.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Create a new node with the specified initial operand before the specified node.</p></span></section>
-			<section class="Z" id="createSplitterNodeBefore(reincarnation.Node,java.util.Collection)">
-				<h2 class="l"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">createSplitterNodeBefore</code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></code></code><code class="parameterName">incomings</code>)</code><i class="p"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Create a new node with the specified initial operand before the specified node.</p></span></section>
+			<section class="k" id="createSplitterNodeBefore(reincarnation.Node,java.util.Collection)">
+				<h2 class="x"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="a">createSplitterNodeBefore</code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></code></code><code class="parameterName">incomings</code>)</code><i class="q"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code></td>
 						<td><span><p>The index node before which to create the new node.</p></span></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></code></code><code class="parameterName">incomings</code></td>
+					<tr class="f">
+						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></code></code><code class="parameterName">incomings</code></td>
 						<td><span><p>The incoming nodes for the new splitter node.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></td>
 						<td><span><p>The newly created splitter node.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Create a new splitter node before the specified node, with the specified incoming nodes.</p></span></section>
-			<section class="Z" id="createNodeAfter(reincarnation.Node,boolean)">
-				<h2 class="l"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">createNodeAfter</code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code>boolean</code><code class="parameterName">connectable</code>)</code><i class="p"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Create a new splitter node before the specified node, with the specified incoming nodes.</p></span></section>
+			<section class="k" id="createNodeAfter(reincarnation.Node,boolean)">
+				<h2 class="x"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="a">createNodeAfter</code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code>boolean</code><code class="parameterName">connectable</code>)</code><i class="q"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code></td>
 						<td><span><p>The index node after which to create the new node.</p></span></td>
 					</tr>
-					<tr class="r">
+					<tr class="f">
 						<td><code>boolean</code><code class="parameterName">connectable</code></td>
 						<td><span><p>Whether the new node should be connectable.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></td>
 						<td><span><p>The newly created node.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Create a new node after the specified node.</p></span></section>
-			<section class="Z" id="createNodeAfter(reincarnation.Node,boolean,boolean)">
-				<h2 class="l"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">createNodeAfter</code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code>boolean</code><code class="parameterName">connectable</code>, <code>boolean</code><code class="parameterName">transferOperands</code>)</code><i class="p"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Create a new node after the specified node.</p></span></section>
+			<section class="k" id="createNodeAfter(reincarnation.Node,boolean,boolean)">
+				<h2 class="x"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="a">createNodeAfter</code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code>boolean</code><code class="parameterName">connectable</code>, <code>boolean</code><code class="parameterName">transferOperands</code>)</code><i class="q"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code></td>
 						<td><span><p>The index node after which to create the new node.</p></span></td>
 					</tr>
-					<tr class="r">
+					<tr class="f">
 						<td><code>boolean</code><code class="parameterName">connectable</code></td>
 						<td><span><p>Whether the new node should be connectable.</p></span></td>
 					</tr>
-					<tr class="r">
+					<tr class="f">
 						<td><code>boolean</code><code class="parameterName">transferOperands</code></td>
 						<td><span><p>Whether the new node should spoil all original operands.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></td>
 						<td><span><p>The newly created node.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Create a new node after the specified node.</p></span></section>
-			<section class="Z" id="createNodeAfter(reincarnation.Node,reincarnation.Operand...)">
-				<h2 class="l"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">createNodeAfter</code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code array="var"><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code><code class="parameterName">initials</code>)</code><i class="p"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Create a new node after the specified node.</p></span></section>
+			<section class="k" id="createNodeAfter(reincarnation.Node,reincarnation.Operand...)">
+				<h2 class="x"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="a">createNodeAfter</code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code array="var"><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code><code class="parameterName">initials</code>)</code><i class="q"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code></td>
 						<td><span><p>The index node after which to create the new node.</p></span></td>
 					</tr>
-					<tr class="r">
+					<tr class="f">
 						<td><code array="var"><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code><code class="parameterName">initials</code></td>
 						<td><span><p>The initial operand for the new node.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></td>
 						<td><span><p>The newly created node.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Create a new node with the specified initial operand after the specified node.</p></span></section>
-			<section class="Z" id="createNodeAfter(reincarnation.Node,java.lang.Iterable)">
-				<h2 class="l"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">createNodeAfter</code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>?</code><code class="extends"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code></code><code class="parameterName">initials</code>)</code><i class="p"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Create a new node with the specified initial operand after the specified node.</p></span></section>
+			<section class="k" id="createNodeAfter(reincarnation.Node,java.lang.Iterable)">
+				<h2 class="x"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="a">createNodeAfter</code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>?</code><code class="extends"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code></code><code class="parameterName">initials</code>)</code><i class="q"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code></td>
 						<td><span><p>The index node after which to create the new node.</p></span></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>?</code><code class="extends"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code></code><code class="parameterName">initials</code></td>
+					<tr class="f">
+						<td><code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>?</code><code class="extends"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code></code><code class="parameterName">initials</code></td>
 						<td><span><p>The initial operand for the new node.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></td>
 						<td><span><p>The newly created node.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Create a new node with the specified initial operand after the specified node.</p></span></section>
-			<section class="Z" id="createSplitterNodeAfter(reincarnation.Node,java.util.Collection)">
-				<h2 class="l"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">createSplitterNodeAfter</code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></code></code><code class="parameterName">outgoings</code>)</code><i class="p"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Create a new node with the specified initial operand after the specified node.</p></span></section>
+			<section class="k" id="createSplitterNodeAfter(reincarnation.Node,java.util.Collection)">
+				<h2 class="x"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="a">createSplitterNodeAfter</code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></code></code><code class="parameterName">outgoings</code>)</code><i class="q"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code></td>
 						<td><span><p>The index node after which to create the new node.</p></span></td>
 					</tr>
-					<tr class="r">
-						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></code></code><code class="parameterName">outgoings</code></td>
+					<tr class="f">
+						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></code></code><code class="parameterName">outgoings</code></td>
 						<td><span><p>The outgoing nodes for the new splitter node.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></td>
 						<td><span><p>The newly created splitter node.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Create a new splitter node after the specified node, with the specified outgoing nodes.</p></span></section>
-			<section class="Z" id="isDisposed(reincarnation.Node)">
-				<h2 class="l"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">isDisposed</code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">node</code>)</code><i class="p"><code>boolean</code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Create a new splitter node after the specified node, with the specified outgoing nodes.</p></span></section>
+			<section class="k" id="isDisposed(reincarnation.Node)">
+				<h2 class="x"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="a">isDisposed</code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">node</code>)</code><i class="q"><code>boolean</code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">node</code></td>
 						<td><span><p>A target node to test.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code>boolean</code></td>
 						<td><span><p>A result of test.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Test whether the given node is disposed or not.</p></span></section>
-			<section class="Z" id="dispose(reincarnation.Node)">
-				<h2 class="l"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">dispose</code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">target</code>)</code><i class="p"><code>void</code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Test whether the given node is disposed or not.</p></span></section>
+			<section class="k" id="dispose(reincarnation.Node)">
+				<h2 class="x"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="a">dispose</code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">target</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">target</code></td>
 						<td><span><p>A target node to dispose.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Dispose the specified node.</p></span></section>
-			<section class="Z" id="dispose(reincarnation.Node,boolean,boolean)">
-				<h2 class="l"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="d">dispose</code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">target</code>, <code>boolean</code><code class="parameterName">clearStack</code>, <code>boolean</code><code class="parameterName">previousRecursively</code>)</code><i class="p"><code>void</code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Dispose the specified node.</p></span></section>
+			<section class="k" id="dispose(reincarnation.Node,boolean,boolean)">
+				<h2 class="x"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="a">dispose</code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">target</code>, <code>boolean</code><code class="parameterName">clearStack</code>, <code>boolean</code><code class="parameterName">previousRecursively</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">target</code></td>
 						<td><span><p>A target node to dipose.</p></span></td>
 					</tr>
-					<tr class="r">
+					<tr class="f">
 						<td><code>boolean</code><code class="parameterName">clearStack</code></td>
 						<td><span><p>true will clear all operands in target node, false will transfer them into
 the previous node.</p></span></td>
 					</tr>
-					<tr class="r">
+					<tr class="f">
 						<td><code>boolean</code><code class="parameterName">previousRecursively</code></td>
 						<td><span><p>true will dispose the previous node if it is empty.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Helper method to dispose the specified node.</p></span></section>
-			<section class="Z" id="link(reincarnation.Node...)">
-				<h2 class="l"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">link</code><code class="q">(<code array="var"><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">nodes</code>)</code><i class="p"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Helper method to dispose the specified node.</p></span></section>
+			<section class="k" id="link(reincarnation.Node...)">
+				<h2 class="x"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="a">link</code><code class="KB">(<code array="var"><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">nodes</code>)</code><i class="q"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code array="var"><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">nodes</code></td>
 						<td><span><p>A sequence of nodes.</p></span></td>
 					</tr>
-					<tr class="k">
+					<tr class="j">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></td>
 						<td><span><p>A last node.</p></span></td>
 					</tr>
-				</table><span class="B"><p>Link all nodes as order of appearance.</p></span></section>
-			<section class="Z" id="mergePrevious(reincarnation.Node)">
-				<h2 class="l"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="d">mergePrevious</code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">target</code>)</code><i class="p"><code>void</code></i></h2>
-				<table class="J">
-					<tr class="r">
+				</table><span class="A"><p>Link all nodes as order of appearance.</p></span></section>
+			<section class="k" id="mergePrevious(reincarnation.Node)">
+				<h2 class="x"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="a">mergePrevious</code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">target</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="f">
 						<td><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">target</code></td>
 						<td><span><p>A node that is the starting point for merging</p></span></td>
 					</tr>
-				</table><span class="B"><p>The specified node and the previous node are combined into a single node. The
+				</table><span class="A"><p>The specified node and the previous node are combined into a single node. The
 previous node will be disposed.</p></span></section>
 		</article>
-		<aside class="L">
+		<aside class="R">
 			<div class="Y">
-				<h5 class="m">Methods</h5>
+				<h5 class="c">Methods</h5>
 				<ul>
-					<li class="n"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createNodeBefore(reincarnation.Node,boolean)">createNodeBefore</a></code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code>boolean</code><code class="parameterName">connectable</code>)</code><i class="j"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
-					<li class="n"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createNodeBefore(reincarnation.Node,boolean,boolean)">createNodeBefore</a></code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code>boolean</code><code class="parameterName">connectable</code>, <code>boolean</code><code class="parameterName">transferOperands</code>)</code><i class="j"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
-					<li class="n"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createNodeBefore(reincarnation.Node,reincarnation.Operand...)">createNodeBefore</a></code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code array="var"><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code><code class="parameterName">initials</code>)</code><i class="j"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
-					<li class="n"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createNodeBefore(reincarnation.Node,java.lang.Iterable)">createNodeBefore</a></code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>?</code><code class="extends"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code></code><code class="parameterName">initials</code>)</code><i class="j"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
-					<li class="n"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createSplitterNodeBefore(reincarnation.Node,java.util.Collection)">createSplitterNodeBefore</a></code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></code></code><code class="parameterName">incomings</code>)</code><i class="j"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
-					<li class="n"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createNodeAfter(reincarnation.Node,boolean)">createNodeAfter</a></code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code>boolean</code><code class="parameterName">connectable</code>)</code><i class="j"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
-					<li class="n"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createNodeAfter(reincarnation.Node,boolean,boolean)">createNodeAfter</a></code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code>boolean</code><code class="parameterName">connectable</code>, <code>boolean</code><code class="parameterName">transferOperands</code>)</code><i class="j"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
-					<li class="n"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createNodeAfter(reincarnation.Node,reincarnation.Operand...)">createNodeAfter</a></code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code array="var"><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code><code class="parameterName">initials</code>)</code><i class="j"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
-					<li class="n"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createNodeAfter(reincarnation.Node,java.lang.Iterable)">createNodeAfter</a></code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>?</code><code class="extends"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code></code><code class="parameterName">initials</code>)</code><i class="j"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
-					<li class="n"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createSplitterNodeAfter(reincarnation.Node,java.util.Collection)">createSplitterNodeAfter</a></code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></code></code><code class="parameterName">outgoings</code>)</code><i class="j"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
-					<li class="n"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#isDisposed(reincarnation.Node)">isDisposed</a></code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">node</code>)</code><i class="j"><code>boolean</code></i></li>
-					<li class="n"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#dispose(reincarnation.Node)">dispose</a></code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">target</code>)</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#dispose(reincarnation.Node,boolean,boolean)">dispose</a></code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">target</code>, <code>boolean</code><code class="parameterName">clearStack</code>, <code>boolean</code><code class="parameterName">previousRecursively</code>)</code><i class="j"><code>void</code></i></li>
-					<li class="n"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#link(reincarnation.Node...)">link</a></code><code class="q">(<code array="var"><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">nodes</code>)</code><i class="j"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
-					<li class="n"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#mergePrevious(reincarnation.Node)">mergePrevious</a></code><code class="q">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">target</code>)</code><i class="j"><code>void</code></i></li>
+					<li class="FB"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createNodeBefore(reincarnation.Node,boolean)">createNodeBefore</a></code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code>boolean</code><code class="parameterName">connectable</code>)</code><i class="l"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
+					<li class="FB"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createNodeBefore(reincarnation.Node,boolean,boolean)">createNodeBefore</a></code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code>boolean</code><code class="parameterName">connectable</code>, <code>boolean</code><code class="parameterName">transferOperands</code>)</code><i class="l"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
+					<li class="FB"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createNodeBefore(reincarnation.Node,reincarnation.Operand...)">createNodeBefore</a></code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code array="var"><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code><code class="parameterName">initials</code>)</code><i class="l"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
+					<li class="FB"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createNodeBefore(reincarnation.Node,java.lang.Iterable)">createNodeBefore</a></code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>?</code><code class="extends"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code></code><code class="parameterName">initials</code>)</code><i class="l"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
+					<li class="FB"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createSplitterNodeBefore(reincarnation.Node,java.util.Collection)">createSplitterNodeBefore</a></code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></code></code><code class="parameterName">incomings</code>)</code><i class="l"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
+					<li class="FB"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createNodeAfter(reincarnation.Node,boolean)">createNodeAfter</a></code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code>boolean</code><code class="parameterName">connectable</code>)</code><i class="l"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
+					<li class="FB"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createNodeAfter(reincarnation.Node,boolean,boolean)">createNodeAfter</a></code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code>boolean</code><code class="parameterName">connectable</code>, <code>boolean</code><code class="parameterName">transferOperands</code>)</code><i class="l"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
+					<li class="FB"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createNodeAfter(reincarnation.Node,reincarnation.Operand...)">createNodeAfter</a></code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code array="var"><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code><code class="parameterName">initials</code>)</code><i class="l"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
+					<li class="FB"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createNodeAfter(reincarnation.Node,java.lang.Iterable)">createNodeAfter</a></code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code><a aria-label="java.lang.Iterable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Iterable.html">Iterable</a><code class="parameters"><code>?</code><code class="extends"><code><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></code></code></code><code class="parameterName">initials</code>)</code><i class="l"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
+					<li class="FB"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#createSplitterNodeAfter(reincarnation.Node,java.util.Collection)">createSplitterNodeAfter</a></code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">index</code>, <code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a><code class="parameters"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></code></code><code class="parameterName">outgoings</code>)</code><i class="l"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
+					<li class="FB"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#isDisposed(reincarnation.Node)">isDisposed</a></code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">node</code>)</code><i class="l"><code>boolean</code></i></li>
+					<li class="FB"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#dispose(reincarnation.Node)">dispose</a></code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">target</code>)</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#dispose(reincarnation.Node,boolean,boolean)">dispose</a></code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">target</code>, <code>boolean</code><code class="parameterName">clearStack</code>, <code>boolean</code><code class="parameterName">previousRecursively</code>)</code><i class="l"><code>void</code></i></li>
+					<li class="FB"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#link(reincarnation.Node...)">link</a></code><code class="KB">(<code array="var"><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">nodes</code>)</code><i class="l"><code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code></i></li>
+					<li class="FB"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.NodeManipulator.html#mergePrevious(reincarnation.Node)">mergePrevious</a></code><code class="KB">(<code><a aria-label="reincarnation.Node" href="api/reincarnation.Node.html">Node</a></code><code class="parameterName">target</code>)</code><i class="l"><code>void</code></i></li>
 				</ul>
 			</div>
 		</aside>
-		<footer class="s"/>
+		<footer class="P">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
 	</body>
 	<script src="root.js"></script>
 	<script src="main.js" type="module"></script>

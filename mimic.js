@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 The JAVADNG Development Team
+ * Copyright (C) 2025 The EVERGARDEN Development Team
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with the License.
@@ -142,6 +142,7 @@ Mimic.prototype = {
 	each: self((e, action) => action(e)),
 
 	contain: flat((e, selector) => e.querySelector(selector) ? e : [], 9),
+	none: flat((e, selector) => e.querySelector(selector) ? [] : e, 9),
 	filter: flat((e, condition) => condition(e) ? e : [], 9),
 	is: flat((e, selector) => e.matches(selector) ? e : [], 9),
 
@@ -181,6 +182,7 @@ Mimic.prototype = {
 	css: self((e, style) => isString(style) ? e.style.cssText = style : Object.keys(style).forEach(name => e.style[name] = style[name])),
 	model: value((e, value) => value !== undefined ? e.model = value : e.model),
 	value: value((e, value) => value !== undefined ? e.value = value : e.value),
+	size: function() {return this.nodes.length},
 	toString: value(e => e.outerHTML),
 
 	add: value((e, name) => e.classList.add(name)),

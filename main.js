@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 The JAVADNG Development Team
+ * Copyright (C) 2025 The EVERGARDEN Development Team
  *
  * Licensed under the MIT License (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,8 @@ const
 	prefix = import.meta.url.substring(location.protocol.length + location.host.length + 2, import.meta.url.length - 7),
 	user = JSON.parse(localStorage.getItem("user")) || {"theme": "light"},
 	save = () => localStorage.setItem("user", JSON.stringify(user))
-hljs.configure({ignoreUnescapedHTML: true})
-history.scrollRestoration = "manual"
+	hljs.configure({ignoreUnescapedHTML: true})
+	history.scrollRestoration = "manual"
 	
 // =====================================================
 // View Mode
@@ -31,11 +31,13 @@ $("#theme").click(e => save($("html").reset(user.theme = user.theme == "light" ?
 // =====================================================
 const navi = new IntersectionObserver(e => {
 	e.forEach(i => {
-		var x = $(`:is(nav,aside) a[href$='#${i.target.id}']`);
+		var x = $(`:is(nav,aside) a[href$='#${i.target.id}']`), p = x.parent().is(".sub");
 		if (i.isIntersecting) {
 			x.add("now").each(n => n.scrollIntoView({block: "nearest"}))
+			p.each(n => n.style.height = n.scrollHeight + "px")
 		} else {
 			x.remove("now")
+			p.none(".now").each(n => n.style.height = 0)
 		}
 	})
 }, {rootMargin: "-15% 0px -20% 0px", threshold: 0.1})
@@ -113,8 +115,13 @@ function FlashMan({ paged, cacheSize = 20, preload = "mouseover", preview = "sec
 		let e = v.target.closest("a");
 		if (e != null && location.origin == e.origin) {
 			if (location.href != e.href) {
-				history.pushState(null, null, e.href)
-				changed()
+				if (location.pathname.endsWith("doc/one.html") && e.pathname.includes("/doc/")) {
+					location.hash = e.hash || e.nextSibling.firstChild.hash
+					hashed()
+				} else {
+					history.pushState(null, null, e.href)
+					changed()
+				}
 			}
 			v.preventDefault()
 		}
@@ -134,16 +141,6 @@ FlashMan({
 	paged: () => {
 		$("#APINavi").each(e => e.dataset.hide = !location.pathname.startsWith(prefix + "api/"));
 		$("#DocNavi").each(e => e.dataset.hide = !location.pathname.startsWith(prefix + "doc/"));
-		$("#DocNavi>div").each(e => {
-			const sub = e.lastElementChild;
-
-			if (location.pathname.endsWith(e.id)) {
-				sub.style.height = sub.scrollHeight + "px";
-			} else {
-				sub.style.height = 0;
-			}
-		});
-
 		$("#Article section").each(e => navi.observe(e));
 	},
 
@@ -279,7 +276,7 @@ class APITree extends $ {
 	 * Initialize by user configuration.
 	 */
 	constructor(items) {
-		super("<o-tree>")
+		super("<o-tree data-hide='true'>")
 
 		this.moduleFilter = new Select({ placeholder: "Select Module", model: root.modules })
 		this.packageFilter = new Select({ placeholder: "Select Package", model: root.packages })
@@ -320,7 +317,7 @@ class APITree extends $ {
 
 $("body>nav")
 	.append(new APITree(root))
-	.make("div").id("DocNavi")
+	.make("div").id("DocNavi").data("hide",true)
 	.make("div", root.docs, (doc, div) => {
 		div.add("doc").id(doc.path)
 			.make("a").href(doc.path).text(doc.title).parent()
