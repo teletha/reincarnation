@@ -194,6 +194,13 @@ The output method of the analyzed code is not limited to Java, but is designed t
 		</dependency>
 		<dependency>
 			<groupId>com.caoccao.javet</groupId>
+			<artifactId>javet-node-linux-x86_64</artifactId>
+			<version>6.0.2</version>
+			<scope>test</scope>
+			<exclusions/>
+		</dependency>
+		<dependency>
+			<groupId>com.caoccao.javet</groupId>
 			<artifactId>javet-node-windows-x86_64</artifactId>
 			<version>6.0.2</version>
 			<scope>test</scope>
@@ -209,6 +216,13 @@ The output method of the analyzed code is not limited to Java, but is designed t
 		<dependency>
 			<groupId>com.caoccao.javet</groupId>
 			<artifactId>swc4j</artifactId>
+			<version>2.2.0</version>
+			<scope>test</scope>
+			<exclusions/>
+		</dependency>
+		<dependency>
+			<groupId>com.caoccao.javet</groupId>
+			<artifactId>swc4j-linux-x86_64</artifactId>
 			<version>2.2.0</version>
 			<scope>test</scope>
 			<exclusions/>
