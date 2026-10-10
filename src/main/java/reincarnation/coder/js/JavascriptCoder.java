@@ -102,26 +102,22 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         this.reincarnation = reincarnation;
 
         writeType(reincarnation.clazz, () -> {
-            // Separate anonymous classes into Enum subclasses and non-Enum subclasses
-            List<Class> enums = new ArrayList();
-            List<Class> anons = new ArrayList();
-            for (Class clazz : reincarnation.anonymous) {
-                Class superclass = clazz.getSuperclass();
-                if (superclass != null && superclass.isEnum()) {
-                    enums.add(clazz);
-                } else {
-                    anons.add(clazz);
-                }
-            }
-
             reincarnation.staticFields.forEach(this::writeStaticField);
             reincarnation.staticInitializer.forEach(this::writeStaticInitializer);
             reincarnation.fields.forEach(this::writeField);
             reincarnation.initializer.forEach(this::writeInitializer);
             reincarnation.constructors.forEach(this::writeConstructor);
             reincarnation.methods.forEach(this::writeMethod);
-            anons.forEach(e -> writeOne(Reincarnation.exhume(e)));
         });
+
+        // In JavaScript, a class cannot be declared inside another class body, so the anonymous
+        // classes are written as independent top-level classes after the enclosing class.
+        for (Class clazz : reincarnation.anonymous) {
+            Class superclass = clazz.getSuperclass();
+            if (superclass == null || !superclass.isEnum()) {
+                writeOne(Reincarnation.exhume(clazz));
+            }
+        }
 
         // pop decompiler info
         this.reincarnation = old;
@@ -132,7 +128,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writePackage(Package info) {
-        line("package", space, info.getName(), ";");
+        // JavaScript has no package concept.
     }
 
     /**
@@ -142,43 +138,14 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     public void writeType(Class type, Runnable inner) {
         Class prev = current.set(type);
 
-        String kind;
-        String extend = "";
-        Join accessor = modifier(type);
-        Join variable = name(type.getTypeParameters());
-
-        if (type.isRecord()) {
-            kind = "record";
-            accessor.remove("static", "final");
-
-            boolean vararg = type.getDeclaredConstructors()[0].isVarArgs();
-            int max = type.getRecordComponents().length - 1;
-            variable = Join.of(type.getRecordComponents())
-                    .prefix("(")
-                    .separator("," + space)
-                    .suffix(")")
-                    .converter((index, x) -> qualify(x.getGenericType(), vararg && index == max) + " " + x.getName());
-            throw new UnsupportedOperationException();
-        } else if (type.isAnnotation()) {
-            kind = "@interface";
-            accessor.remove("static", "abstract");
-            throw new UnsupportedOperationException();
-        } else if (type.isInterface()) {
-            kind = "interface";
-            accessor.remove("static", "abstract");
-            throw new UnsupportedOperationException();
-        } else if (type.isEnum()) {
-            kind = "enum";
-            accessor.remove("static", "final", "abstract", "sealed");
-            throw new UnsupportedOperationException();
-        } else {
-            kind = "class";
-            extend = type.getSuperclass() == Object.class ? "" : " extends " + name(type.getGenericSuperclass());
-        }
+        // JavaScript has no interface, enum, record and annotation, so every type is written as a
+        // class declaration.
+        String extend = type.getSuperclass() == null || type.getSuperclass() == Object.class
+                ? ""
+                : " extends " + simpleName(type.getSuperclass());
 
         line();
-        writeAnnotation(reincarnation.annotations.get(type));
-        line(accessor, kind, space, simpleName(type), variable, extend, space, "{");
+        line("class", space, simpleName(type), extend, space, "{");
         indent(inner);
         line("}");
 
@@ -299,7 +266,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         vars.start();
 
         line();
-        lineNB(name(method.getTypeParameters()), " ", method.getName(), buildParameter(method, naming(code)));
+        lineNB(Classes.isStatic(method) ? "static" + space : "", method.getName(), buildParameter(method, naming(code)));
         lineNI(space, "{");
         placeholders.get(method).forEach(this::writeLocalClass);
         indent(code::write);
@@ -332,7 +299,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             vars.declare("arg" + i, contexts.get(i).toString());
         }
 
-        lineNI(param, space, "->", space, "{");
+        lineNI(param, space, "=>", space, "{");
         indent(code::write);
         lineNB("}");
 
@@ -433,7 +400,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeChar(char code) {
-        write("'", code, "'");
+        write("\"", code, "\"");
     }
 
     /**
@@ -449,7 +416,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeLong(long code) {
-        write(code, "L");
+        write(code);
     }
 
     /**
@@ -457,7 +424,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeFloat(float code) {
-        write(code, "F");
+        write(code);
     }
 
     /**
@@ -465,7 +432,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeDouble(double code) {
-        write(code, "D");
+        write(code);
     }
 
     /**
@@ -481,12 +448,12 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeTextBlock(List<String> code) {
-        write("\"\"\"", EoL);
+        write("`", EoL);
         indent(() -> {
-            for (String line : code) {
-                line(line.replaceAll(" $", "\\\\s"));
+            for (String lineText : code) {
+                line(lineText);
             }
-            lineNB("\"\"\"");
+            lineNB("`");
         });
     }
 
@@ -509,7 +476,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeClass(Class code) {
-        write(name(code), ".class");
+        write(name(code));
     }
 
     /**
@@ -608,8 +575,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         if (vars.isDeclared(name)) {
             prefix = "";
         } else {
-            boolean needInfer = (type instanceof Class clazz && clazz.getTypeParameters().length != 0);
-            prefix = (needInfer ? "var" : name(type)).concat(space);
+            prefix = "let".concat(space);
             vars.declare(name);
         }
         write(prefix, vars.use(name));
@@ -637,7 +603,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 break;
 
             default:
-                write("((", name(field.getDeclaringClass()), ")", space, context, ").", field.getName());
+                write(context, ".", field.getName());
                 break;
             }
         }
@@ -704,7 +670,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeConstructorReference(Constructor constructor) {
-        write(name(constructor.getDeclaringClass()), "::new");
+        write("(...args)", space, "=>", space, "new", space, name(constructor.getDeclaringClass()), "(...args)");
     }
 
     /**
@@ -797,7 +763,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeMethodReference(Method method, Code context) {
-        write(context, "::", method.getName());
+        write(context, ".", method.getName(), ".bind(", context, ")");
     }
 
     /**
@@ -805,7 +771,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeStaticMethodReference(Method method) {
-        write(name(method.getDeclaringClass()), "::", method.getName());
+        write(name(method.getDeclaringClass()), ".", method.getName());
     }
 
     /**
@@ -813,7 +779,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeCreateArray(Class type, boolean shorthandable, List<Code> dimensions) {
-        write("new", space, name(type), join("[", dimensions, "][", "]"));
+        // JavaScript has no array type, so we create an array with the given size.
+        write("new", space, "Array", join("(", dimensions, ",", ")"));
     }
 
     /**
@@ -822,9 +789,11 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     @Override
     public void writeCreateArray(Class type, boolean shorthandable, List<Code> dimensions, List<Code> initialValues) {
         if (shorthandable) {
-            write(join("{", initialValues, ", ", "}"));
+            // e.g. [1, 2, 3]
+            write(join("[", initialValues, ", ", "]"));
         } else {
-            write("new", space, name(type), join("[", dimensions, "][", "]"), space, join("{", initialValues, ", ", "}"));
+            // e.g. new Array(3) [1, 2, 3]
+            write("new", space, "Array", join("(", dimensions, ",", ")"), space, join("[", initialValues, ", ", "]"));
         }
     }
 
@@ -841,7 +810,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeCast(Class type, Code code) {
-        write("(", name(type), ")", space, "(", code, ")");
+        // JavaScript has no cast expression. Casting is implicitly performed on assignment, so we
+        // only need to output the original code.
+        write(code);
     }
 
     /**
@@ -858,9 +829,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     @Override
     public void writeAssert(Code code, Variable<Code> message) {
         if (message.isAbsent()) {
-            write("assert", space, code);
+            write("console.assert", "(", code, ")");
         } else {
-            write("assert", space, code, space, ":", space, message.get());
+            write("console.assert", "(", code, ",", space, message.get(), ")");
         }
     }
 
@@ -936,7 +907,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     public void writeIterableFor(Optional<String> label, Code variable, Code iterable, Runnable inner, Code follow) {
         vars.start();
 
-        line(label(label), "for", space, "(", variable, space, ":", space, iterable, ")", space, "{");
+        line(label(label), "for", space, "(", variable, space, "of", space, iterable, ")", space, "{");
         indent(inner);
         line("}");
 
@@ -1018,9 +989,13 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             line("}");
             write(follow);
         } else {
+            // JavaScript has no switch expression, so we emulate it with an immediately invoked
+            // arrow function which returns the matched case value.
+            lineNI("(()", space, "=>", space, "{");
             lineNI("switch", space, "(", condition, ")", space, "{");
             indent(caseProcess);
-            lineNB("}");
+            line("}");
+            lineNI("})()");
         }
     }
 
@@ -1035,8 +1010,10 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             }
             indent(() -> write(caseBlock));
         } else {
-            Join labels = Join.of(values).prefix("case ").separator("," + space);
-            writeSwitchExpressionBlock(labels, caseBlock);
+            for (int value : values) {
+                line("case ", value, ":");
+            }
+            indent(() -> writeSwitchExpressionReturn(caseBlock));
         }
     }
 
@@ -1047,12 +1024,14 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     protected void writeCharCase(boolean statement, List<Character> values, Code caseBlock) {
         if (statement) {
             for (char value : values) {
-                line("case '", value, "':");
+                line("case \"", value, "\":");
             }
             indent(() -> write(caseBlock));
         } else {
-            Join labels = Join.of(values).prefix("case ").separator("," + space).converter(v -> "'" + v + "'");
-            writeSwitchExpressionBlock(labels, caseBlock);
+            for (char value : values) {
+                line("case \"", value, "\":");
+            }
+            indent(() -> writeSwitchExpressionReturn(caseBlock));
         }
     }
 
@@ -1061,20 +1040,18 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     protected <E extends Enum> void writeEnumCase(boolean statement, Class<E> type, List<E> values, Code caseBlock) {
-        String name = name(type);
-        boolean qualified = type.getName().equals(name);
+        String typeName = simpleName(type);
 
         if (statement) {
             for (E value : values) {
-                line("case ", qualified ? name + "." : "", value.name(), ":");
+                line("case ", typeName, ".", value.name(), ":");
             }
             indent(() -> write(caseBlock));
         } else {
-            Join labels = Join.of(values)
-                    .prefix("case ")
-                    .separator("," + space)
-                    .converter(v -> qualified ? name + "." + v.name() : v.name());
-            writeSwitchExpressionBlock(labels, caseBlock);
+            for (E value : values) {
+                line("case ", typeName, ".", value.name(), ":");
+            }
+            indent(() -> writeSwitchExpressionReturn(caseBlock));
         }
     }
 
@@ -1089,8 +1066,10 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             }
             indent(() -> write(caseBlock));
         } else {
-            Join labels = Join.of(values).prefix("case ").separator("," + space);
-            writeSwitchExpressionBlock(labels, caseBlock);
+            for (String value : values) {
+                line("case ", value, ":");
+            }
+            indent(() -> writeSwitchExpressionReturn(caseBlock));
         }
     }
 
@@ -1105,28 +1084,23 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 indent(() -> write(defaultBlock));
             }
         } else {
-            Join labels = Join.of().prefix("default");
-            writeSwitchExpressionBlock(labels, defaultBlock);
+            line("default", ":");
+            indent(() -> writeSwitchExpressionReturn(defaultBlock));
         }
     }
 
     /**
      * Write the given case or default block for switch expression.
+     * <p>
+     * Since JavaScript has no switch expression, each matched case returns the given block as the
+     * value of the emulated switch expression.
+     * </p>
      * 
-     * @param labels
-     * @param block
+     * @param block A case or default block.
      */
-    private void writeSwitchExpressionBlock(Join labels, Code block) {
+    private void writeSwitchExpressionReturn(Code block) {
         vars.start();
-
-        if (block instanceof Fragment frag && !frag.hasFollower()) {
-            line(labels, space, "->", space, expression(block));
-        } else {
-            line(labels, space, "->", space, "{");
-            indent(block::write);
-            line("}");
-        }
-
+        write("return", space, expressions(block), ";");
         vars.end();
     }
 
