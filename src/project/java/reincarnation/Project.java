@@ -34,8 +34,10 @@ public class Project extends bee.api.Project {
         require("io.github.java-diff-utils", "java-diff-utils").atTest();
         require("com.caoccao.javet", "javet").atTest();
         require("com.caoccao.javet", "javet-node-windows-x86_64").atTest();
+        require("com.caoccao.javet", "javet-node-linux-x86_64").atTest();
         require("com.caoccao.javet", "swc4j").atTest();
         require("com.caoccao.javet", "swc4j-windows-x86_64").atTest();
+        require("com.caoccao.javet", "swc4j-linux-x86_64").atTest();
 
         // for jetbrains fernflower
         require("org.jetbrains", "annotations").atTest();
