@@ -40,7 +40,28 @@ import reincarnation.TestCode;
 import reincarnation.TestCode.Param;
 import reincarnation.coder.ts.TypeScriptCodingOption;
 
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
 public class JavetTestSupport {
+
+    /** The availability of the swc4j native library. */
+    private static final boolean Swc4jAvailable = loadSwc4j();
+
+    /**
+     * Check whether the swc4j native library can be loaded on the current platform. The native
+     * library is only declared for some platforms (see the project definition), so the tests using
+     * it must be skipped on the other platforms.
+     * 
+     * @return The availability of the swc4j native library.
+     */
+    private static boolean loadSwc4j() {
+        try {
+            new Swc4j().transpile("var x = 1;", new Swc4jTranspileOptions());
+            return true;
+        } catch (Throwable e) {
+            return false;
+        }
+    }
 
     /** No parameter. */
     private static final Object NoParam = new Object();
@@ -93,6 +114,10 @@ public class JavetTestSupport {
      * @param code A target code to verify.
      */
     protected final void verify(TestCode code) {
+        // The JS transpilation tests use the swc4j native library, so they are skipped on the
+        // platforms where it is not available.
+        assumeTrue(Swc4jAvailable, "The swc4j native library is not available on this platform.");
+
         Class target = code.getClass();
 
         // ========================================================
