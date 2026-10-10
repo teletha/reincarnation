@@ -64,7 +64,7 @@ class OperandReturn extends Operand {
      */
     @Override
     protected String info() {
-        return super.info() + " - " + value.map(v -> v.info()).v;
+        return super.info() + " - " + value.map(v -> v.info()).get();
     }
 
     /**

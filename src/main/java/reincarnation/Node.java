@@ -1203,7 +1203,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
             // Block
             // =============================================================
             if (isSwitchStatement()) {
-                return child(OperandSwitch.class).v.structurize();
+                return child(OperandSwitch.class).get().structurize();
             } else if (isSwitchExpression()) {
                 return Structure.Empty;
             }
@@ -1446,7 +1446,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
             if (!isReturnable()) {
                 // continue
                 if (next.loopHeader.isPresent()) {
-                    Loopable loopable = next.loopHeader.v;
+                    Loopable loopable = next.loopHeader.get();
 
                     if (loopable.containsAsHeader(next) && hasDominator(loopable.entrance)) {
                         Continue continuer = new Continue(this, loopable);
@@ -1461,7 +1461,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
 
                 // break
                 if (next.loopExit.isPresent()) {
-                    Breakable breakable = next.loopExit.v;
+                    Breakable breakable = next.loopExit.get();
 
                     if (breakable instanceof Loopable loopable) {
                         if (loopable.exit == next && !loopable.containsAsHeader(this) && hasDominator(loopable.entrance)) {

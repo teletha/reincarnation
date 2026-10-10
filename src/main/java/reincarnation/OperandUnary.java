@@ -37,7 +37,7 @@ class OperandUnary extends Operand {
         this.value = Objects.requireNonNull(value);
         this.operator = Objects.requireNonNull(operator);
 
-        fix(value.type.v);
+        fix(value.type.get());
     }
 
     /**

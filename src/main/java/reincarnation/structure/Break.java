@@ -28,6 +28,6 @@ public class Break extends Jumpable<Breakable> {
      */
     @Override
     public void writeCode(Coder coder) {
-        coder.writeBreak(breakable.label(), omitLabel.v);
+        coder.writeBreak(breakable.label(), omitLabel.get());
     }
 }

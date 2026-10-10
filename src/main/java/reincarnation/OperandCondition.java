@@ -174,8 +174,8 @@ class OperandCondition extends Operand {
     @Override
     protected void writeCode(Coder coder) {
         // convert int to char if needed
-        Type leftType = left.type.v;
-        Type rightType = right.type.v;
+        Type leftType = left.type.get();
+        Type rightType = right.type.get();
 
         if (leftType == char.class && rightType != char.class) {
             right = right.fix(char.class);

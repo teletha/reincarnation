@@ -67,7 +67,7 @@ class OperandMethodCall extends Operand {
         this.owner = owner;
         this.params = parameters;
 
-        fix(Inference.specialize(method, owner.type.v, parameters));
+        fix(Inference.specialize(method, owner.type.get(), parameters));
         for (int i = 0; i < parameterTypes.length; i++) {
             parameters.get(i).fix(parameterTypes[i]);
         }

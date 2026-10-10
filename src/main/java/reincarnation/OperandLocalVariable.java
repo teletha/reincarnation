@@ -89,10 +89,10 @@ class OperandLocalVariable extends Operand {
      */
     @Override
     protected void writeCode(Coder coder) {
-        if (name.v.equals("this")) {
+        if (name.get().equals("this")) {
             coder.writeThis();
         } else {
-            coder.writeLocalVariable(type.v, index.v, original.isAbsent() ? name.v : original.v);
+            coder.writeLocalVariable(type.get(), index.get(), original.isAbsent() ? name.get() : original.get());
         }
     }
 
@@ -109,7 +109,7 @@ class OperandLocalVariable extends Operand {
      */
     @Override
     public int hashCode() {
-        return index.v;
+        return index.get();
     }
 
     /**
@@ -117,7 +117,7 @@ class OperandLocalVariable extends Operand {
      */
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof OperandLocalVariable op ? index.v == op.index.v : false;
+        return obj instanceof OperandLocalVariable op ? index.get() == op.index.get() : false;
     }
 
     /**
@@ -126,6 +126,6 @@ class OperandLocalVariable extends Operand {
     @Override
     public String toString() {
         // don't call #write, it will throw error in debug mode.
-        return original.isAbsent() ? name.v : original.v;
+        return original.isAbsent() ? name.get() : original.get();
     }
 }

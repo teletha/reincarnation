@@ -40,7 +40,7 @@ class OperandFieldAccess extends Operand {
         this.field = find(ownerType, name);
         this.context = Objects.requireNonNull(context);
 
-        Type contextType = context.type.v;
+        Type contextType = context.type.get();
 
         if (contextType == ownerType) {
             this.mode = AccessMode.THIS;

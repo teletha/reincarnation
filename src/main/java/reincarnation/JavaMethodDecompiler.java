@@ -526,7 +526,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             if (node.stack.size() == 2) {
                 Operand last = node.peek(0);
                 Operand first = node.peek(1);
-                if (first instanceof OperandAssign assign && last instanceof OperandReturn op && assign.isAssignedTo(op.value.v)) {
+                if (first instanceof OperandAssign assign && last instanceof OperandReturn op && assign.isAssignedTo(op.value.get())) {
                     node.clear().addOperand(new OperandReturn(assign.right));
                 }
 
@@ -1556,7 +1556,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
                         for (int i = consumableStackSize - 1; 0 <= i; i--) {
                             Operand removed = current.remove(i);
-                            if (removed instanceof OperandLocalVariable local && local.index.v == 0) {
+                            if (removed instanceof OperandLocalVariable local && local.index.get() == 0) {
                                 // ignore "this" variable
                             } else {
                                 params.add(removed);
@@ -1684,7 +1684,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             } else {
                 // others
                 Operand left = current.remove(0);
-                current.condition(left, EQ, new OperandNumber(0).fix(left.type.v), node);
+                current.condition(left, EQ, new OperandNumber(0).fix(left.type.get()), node);
             }
             break;
         case IFNE: // != 0
@@ -1694,7 +1694,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             } else {
                 // others
                 Operand left = current.remove(0);
-                current.condition(left, NE, new OperandNumber(0).fix(left.type.v), node);
+                current.condition(left, NE, new OperandNumber(0).fix(left.type.get()), node);
             }
             break;
 
@@ -2087,7 +2087,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             if (current.peek(1) instanceof OperandAssign assign) {
                 stringSwitchForJavac = operand;
 
-                operand.condition.set(assign.right.as(OperandMethodCall.class).v);
+                operand.condition.set(assign.right.as(OperandMethodCall.class).get());
                 operand.condition.fix();
 
                 current.addOperand(operand);
@@ -2575,14 +2575,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             // Search and merge the sequencial conditional operands in this node from right to left.
             int start = info.start;
             OperandCondition left = null;
-            OperandCondition right = node.peek(start).as(OperandCondition.class).v;
+            OperandCondition right = node.peek(start).as(OperandCondition.class).get();
 
             for (int index = 1; index < info.conditions.size(); index++) {
                 left = (OperandCondition) node.peek(start + index);
 
                 if (info.canMerge(left, right)) {
                     // Merge two adjucent conditional operands.
-                    right = new OperandCondition(left, node.remove(--start + index).as(OperandCondition.class).v);
+                    right = new OperandCondition(left, node.remove(--start + index).as(OperandCondition.class).get());
 
                     node.set(start + index, right);
                 } else {
@@ -3009,7 +3009,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 }
 
                 // conditional operand is found
-                OperandCondition condition = operand.as(OperandCondition.class).v;
+                OperandCondition condition = operand.as(OperandCondition.class).get();
 
                 if (conditions.isEmpty()) {
                     // this is first condition

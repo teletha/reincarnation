@@ -239,7 +239,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             EnumStaticInitializer coder = new EnumStaticInitializer(this);
             code.write(coder);
 
-            I.signal(current.v.getDeclaredFields()).skip(Field::isSynthetic).skip(Field::isEnumConstant).to(this::writeFieldDefinition);
+            I.signal(current.get().getDeclaredFields()).skip(Field::isSynthetic).skip(Field::isEnumConstant).to(this::writeFieldDefinition);
 
             if (!coder.codes.isEmpty()) {
                 line();
@@ -860,7 +860,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         if (message.isAbsent()) {
             write("assert", space, code);
         } else {
-            write("assert", space, code, space, ":", space, message.v);
+            write("assert", space, code, space, ":", space, message.get());
         }
     }
 
@@ -1645,7 +1645,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         public void writeConstructorCall(Constructor constructor, List<Code> params) {
             if (whileInitializing()) {
                 Class owner = constructor.getDeclaringClass();
-                if (current.v.isAssignableFrom(owner) && 2 <= params.size()) {
+                if (current.get().isAssignableFrom(owner) && 2 <= params.size()) {
                     if (initialized <= constants.size()) {
                         // remove implicit parameters
                         params.remove(0);

@@ -132,11 +132,11 @@ final class LocalVariables implements Naming {
     }
 
     boolean isLocal(OperandLocalVariable variable) {
-        return offset <= variable.index.v;
+        return offset <= variable.index.get();
     }
 
     boolean isParam(OperandLocalVariable variable) {
-        return variable.index.v < offset;
+        return variable.index.get() < offset;
     }
 
     /**
@@ -173,7 +173,7 @@ final class LocalVariables implements Naming {
      */
     void analyzeVariableDeclarationNode(NodeManipulator manipulator) {
         root: for (OperandLocalVariable variable : variables.values()) {
-            if (unregistered.contains(variable.index.v)) continue;
+            if (unregistered.contains(variable.index.get())) continue;
 
             // Determine if you need to add a node for variable declarations. For example, if the
             // same variable is referenced by multiple child nodes, you must consider whether you
@@ -203,7 +203,7 @@ final class LocalVariables implements Naming {
                 // If multiple types use the same variable, a common variable declaration cannot be
                 // used if one header node is the dominator of the other header node.
                 for (OperandLocalVariable other : variables.values()) {
-                    if (other.index.v == variable.index.v && !other.type.equals(variable.type)) {
+                    if (other.index.get() == variable.index.get() && !other.type.equals(variable.type)) {
                         Node otherHeader = Node.getLowestCommonDominator(other.referrers);
                         if (header.hasDominator(otherHeader) || (otherHeader != null && otherHeader.hasDominator(header))) {
                             continue root;

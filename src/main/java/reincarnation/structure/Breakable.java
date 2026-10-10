@@ -51,7 +51,7 @@ public abstract class Breakable extends Structure {
         if (label == null) {
             Variable<Boolean> requireLabel = I.signal(jumpers).any(jumper -> jumper.omitLabel.is(false)).to();
 
-            label = requireLabel.v ? Optional.of(String.valueOf(labelReference++)) : Optional.empty();
+            label = requireLabel.get() ? Optional.of(String.valueOf(labelReference++)) : Optional.empty();
         }
         return label;
     }

@@ -195,7 +195,7 @@ class OperandSwitch extends Operand {
         } else {
             MultiMap<Structure, Object> caseBlocks = cases.convertKeys(entrance::process);
 
-            coder.writeSwitch(false, Optional.empty(), condition.v, condition.v.type(), caseBlocks, null);
+            coder.writeSwitch(false, Optional.empty(), condition.get(), condition.get().type(), caseBlocks, null);
         }
     }
 
@@ -203,7 +203,7 @@ class OperandSwitch extends Operand {
      * @return
      */
     public Switch structurize() {
-        return new Switch(entrance, condition.v, cases, follower);
+        return new Switch(entrance, condition.get(), cases, follower);
     }
 
     /**
@@ -378,7 +378,7 @@ class OperandSwitch extends Operand {
     }
 
     private boolean hasFallThrough(Node node) {
-        return nodes().skip(n -> n == node || n.isBefore(node)).any(n -> node.canReachTo(n)).to().v;
+        return nodes().skip(n -> n == node || n.isBefore(node)).any(n -> node.canReachTo(n)).to().get();
     }
 
     /**
@@ -465,7 +465,7 @@ class OperandSwitch extends Operand {
         List<OperandLocalVariable> variables = entrance.children(OperandLocalVariable.class).toList();
         entrance.stack.removeAll(variables);
 
-        condition.v.as(OperandMethodCall.class).to(call -> {
+        condition.get().as(OperandMethodCall.class).to(call -> {
             if (call.owner instanceof OperandAssign assign) {
                 this.condition.set(assign.right);
             } else {
@@ -484,7 +484,7 @@ class OperandSwitch extends Operand {
         List<OperandLocalVariable> variables = entrance.children(OperandLocalVariable.class).toList();
         entrance.stack.removeAll(variables);
 
-        condition.v.as(OperandMethodCall.class).to(call -> {
+        condition.get().as(OperandMethodCall.class).to(call -> {
             if (call.owner instanceof OperandAssign assign) {
                 this.condition.set(assign.right);
             } else {
@@ -523,7 +523,7 @@ class OperandSwitch extends Operand {
      */
     @Override
     protected String view() {
-        return "switch" + (isExpression() ? "-expression" : "") + " (" + condition.v.view() + ")";
+        return "switch" + (isExpression() ? "-expression" : "") + " (" + condition.get().view() + ")";
     }
 
     /**

@@ -37,7 +37,7 @@ public class JavaVerifier<T> implements Verifier {
         WiseSupplier instantiator = () -> c.newInstance((Object[]) Array.newInstance(Object.class, c.getParameterCount()));
 
         // search verifier method
-        method = I.signal(clazz.getDeclaredMethods()).take(m -> m.getName().equals("run")).first().to().v;
+        method = I.signal(clazz.getDeclaredMethods()).take(m -> m.getName().equals("run")).first().to().get();
         method.setAccessible(true);
 
         switch (method.getParameterCount()) {

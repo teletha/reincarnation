@@ -30,7 +30,7 @@ public class Continue extends Jumpable<Loopable> {
     @Override
     public void writeCode(Coder coder) {
         if (hasFollowers.is(true) || omitLabel.is(false)) {
-            coder.writeContinue(breakable.label(), omitLabel.v);
+            coder.writeContinue(breakable.label(), omitLabel.get());
         }
     }
 }

@@ -64,7 +64,7 @@ class OperandAssert extends Operand {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof OperandAssert other) {
-            return Objects.equals(condition, other.condition) && Objects.equals(message.v, other.message.v);
+            return Objects.equals(condition, other.condition) && Objects.equals(message.get(), other.message.get());
         } else {
             return false;
         }

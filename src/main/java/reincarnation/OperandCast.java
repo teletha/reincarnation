@@ -39,7 +39,7 @@ class OperandCast extends Operand {
         this.value = value;
         this.type = type;
         fix(type);
-        this.needCast = !Inference.instanceOf(value.type.v, type);
+        this.needCast = !Inference.instanceOf(value.type.get(), type);
 
         if (needCast) {
             encolose();

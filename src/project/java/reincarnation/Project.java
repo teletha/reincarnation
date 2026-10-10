@@ -18,16 +18,16 @@ import bee.task.Compile;
 public class Project extends bee.api.Project {
 
     {
-        product("com.github.teletha", "reincarnation", ref("version.txt"));
+        product("io.github.teletha", "reincarnation", ref("version.txt"));
         license(MIT);
         require(SourceVersion.RELEASE_21);
 
         require("org.ow2.asm", "asm");
-        require("com.github.teletha", "sinobu");
+        require("io.github.teletha", "sinobu");
 
-        require("com.github.teletha", "bee", "[0.61.1,)").atTest();
-        require("com.github.teletha", "antibug").atTest();
-        require("com.github.teletha", "viewtify").atTest();
+        require("io.github.teletha", "bee", "[0.61.1,)").atTest();
+        require("io.github.teletha", "antibug").atTest();
+        require("io.github.teletha", "viewtify").atTest();
         require("org.ow2.asm", "asm-util").atTest();
         require("com.github.javaparser", "javaparser-core").atTest();
         require("org.vineflower", "vineflower").atTest();

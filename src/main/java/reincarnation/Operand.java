@@ -64,7 +64,7 @@ public abstract class Operand implements Code<Operand> {
      * @return Chainable API.
      */
     protected final Operand fix() {
-        return fix(type.v);
+        return fix(type.get());
     }
 
     /**
@@ -100,11 +100,11 @@ public abstract class Operand implements Code<Operand> {
                 if (other.isFixed()) {
                     // do nothing
                 } else {
-                    other.fix(type.v);
+                    other.fix(type.get());
                 }
             } else {
                 if (other.isFixed()) {
-                    fix(other.type.v);
+                    fix(other.type.get());
                 } else {
                     type.observing().skip(Object.class).to(other.type::set);
                 }
@@ -149,7 +149,7 @@ public abstract class Operand implements Code<Operand> {
      * @return
      */
     public final Class type() {
-        return type.v instanceof Class clazz ? clazz : Object.class;
+        return type.get() instanceof Class clazz ? clazz : Object.class;
     }
 
     /**
