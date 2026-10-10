@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://docs.oracle.com/en/java/javase/21/"><img src="https://img.shields.io/badge/Java-Release%2021-green"/></a>
+    <a href="https://docs.oracle.com/en/java/javase/25/"><img src="https://img.shields.io/badge/Java-Release%2025-green"/></a>
     <span>&nbsp;</span>
     <a href="https://jitpack.io/#io.github.teletha/reincarnation"><img src="https://img.shields.io/jitpack/version/io.github.teletha/reincarnation?label=Repository&color=green"></a>
     <span>&nbsp;</span>
@@ -139,7 +139,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
 
 
 ## Prerequisites
-Reincarnation runs on all major operating systems and requires only [Java version 21](https://docs.oracle.com/en/java/javase/21/) or later to run.
+Reincarnation runs on all major operating systems and requires only [Java version 25](https://docs.oracle.com/en/java/javase/25/) or later to run.
 To check, please run `java -version` on your terminal.
 <p align="right"><a href="#top">back to top</a></p>
 

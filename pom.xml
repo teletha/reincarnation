@@ -1,6 +1,6 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.github.teletha</groupId>
+	<groupId>io.github.teletha</groupId>
 	<artifactId>reincarnation</artifactId>
 	<version>1.10.0</version>
 	<packaging>jar</packaging>
@@ -39,7 +39,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
     - [ ] Explicit receiver parameters on inner class
 - [x] Field
 - [x] Method
-    - [x] Variable arity method (a.k.a. &#34;varargs&#34;)
+    - [x] Variable arity method (a.k.a. &quot;varargs&quot;)
     - [ ] Explicit receiver parameters
 - [x] Statement
     - [x] if-else
@@ -75,23 +75,23 @@ The output method of the analyzed code is not limited to Java, but is designed t
     - [x] Unary operators ( +  -  ++  --  ~  ! )
     - [x] Multiplicative operators ( *  /  % )
     - [x] Additive operators ( +  - )
-    - [x] Shift operators ( &#60;&#60;  &#62;&#62;  &#62;&#62;&#62; )
-    - [x] Relational operators ( &#60;  &#62;  &#60;=  &#62;=  instanceof )
+    - [x] Shift operators ( &lt;&lt;  &gt;&gt;  &gt;&gt;&gt; )
+    - [x] Relational operators ( &lt;  &gt;  &lt;=  &gt;=  instanceof )
     - [x] Equality operators ( ==  != )
-    - [x] Logical operators and Integer bitwise operators ( &#38;  ^  !  |  ~ )
-    - [x] Conditional operator ( ||  &#38;&#38;  ? ... : ... )
-    - [x] Assignment operators ( =  *=  /=  %=  +=  -=  &#60;&#60;=  &#62;&#62;=  &#62;&#62;&#62;=  &#38;=  ^=  |= )
+    - [x] Logical operators and Integer bitwise operators ( &amp;  ^  !  |  ~ )
+    - [x] Conditional operator ( ||  &amp;&amp;  ? ... : ... )
+    - [x] Assignment operators ( =  *=  /=  %=  +=  -=  &lt;&lt;=  &gt;&gt;=  &gt;&gt;&gt;=  &amp;=  ^=  |= )
     - [x] String concatenation operator ( + )
 - [x] Superclass member access (e.g. super.meth(), super.field)
 - [x] this (reference to current instance)
 - [x] Constructor invocation (e.g. this(a, b),  super(a)
-- [x] Method invocation (e.g. System.out.println(&#34;Hello&#34;))
+- [x] Method invocation (e.g. System.out.println(&quot;Hello&quot;))
 - [x] Class Instance Creation Expression (e.g. new Foo())
 - [x] Array Creation and Access Expression (e.g. new int[],  new Object[10][5][],  args[1])
-- [x] Array initializer (e.g. String[] array = { &#34;x&#34;, &#34;y&#34;, &#34;z&#34; })
+- [x] Array initializer (e.g. String[] array = { &quot;x&quot;, &quot;y&quot;, &quot;z&quot; })
 - [x] Field Access Expression (e.g. System.out)
 - [x] Local variable access
-- [x] Local variable type inference (a.k.a. &#34;var&#34;)
+- [x] Local variable type inference (a.k.a. &quot;var&quot;)
 - [x] Literal
     - [x] integer
     - [x] floating-point
@@ -109,11 +109,11 @@ The output method of the analyzed code is not limited to Java, but is designed t
     - [x] narrowing
     - [x] auto-boxing and auto-unboxing
 - [x] Generics
-    - [x] Type variable (e.g. &#60;S, T, R&#62;)
-    - [x] Parameterized type (e.g. Foo&#60;X&#62;)
+    - [x] Type variable (e.g. &lt;S, T, R&gt;)
+    - [x] Parameterized type (e.g. Foo&lt;X&gt;)
     - [x] Wildcard type (e.g. ? extends Closeable)
     - [x] Generic array type (e.g. T[])
-    - [x] Intersection type (e.g. X extends List &#38; Serializable)
+    - [x] Intersection type (e.g. X extends List &amp; Serializable)
 - [x] Annotation
     - [x] on Type
     - [x] on Constructor
@@ -126,7 +126,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
     - [ ] on Type Parameter
     - [ ] on Type Use
     - [x] Repeatable declaration
-- [ ] Type interference for generic instance creation (a.k.a. the &#34;diamond operator&#34;) (JLS11 15.9.1)
+- [ ] Type interference for generic instance creation (a.k.a. the &quot;diamond operator&quot;) (JLS11 15.9.1)
 - [x] Lambda expression
 - [x] Method reference (e.g. this::method, String::concat, Type::new, int[]::new)</description>
 	<licenses>
@@ -139,70 +139,98 @@ The output method of the analyzed code is not limited to Java, but is designed t
 		<dependency>
 			<groupId>org.jetbrains</groupId>
 			<artifactId>annotations</artifactId>
-			<version>26.0.2</version>
+			<version>26.1.0</version>
 			<scope>test</scope>
 			<exclusions/>
 		</dependency>
 		<dependency>
-			<groupId>com.github.teletha</groupId>
+			<groupId>io.github.teletha</groupId>
 			<artifactId>antibug</artifactId>
-			<version>1.13.1</version>
+			<version>1.16.1</version>
 			<scope>test</scope>
 			<exclusions/>
 		</dependency>
 		<dependency>
 			<groupId>org.ow2.asm</groupId>
 			<artifactId>asm</artifactId>
-			<version>9.8</version>
+			<version>9.11</version>
 			<scope>compile</scope>
 			<exclusions/>
 		</dependency>
 		<dependency>
 			<groupId>org.ow2.asm</groupId>
 			<artifactId>asm-util</artifactId>
-			<version>9.8</version>
+			<version>9.11</version>
 			<scope>test</scope>
 			<exclusions/>
 		</dependency>
 		<dependency>
-			<groupId>com.github.teletha</groupId>
+			<groupId>io.github.teletha</groupId>
 			<artifactId>bee</artifactId>
-			<version>[0.61.1,)</version>
+			<version>0.85.4</version>
 			<scope>test</scope>
 			<exclusions/>
 		</dependency>
 		<dependency>
 			<groupId>io.github.java-diff-utils</groupId>
 			<artifactId>java-diff-utils</artifactId>
-			<version>4.15</version>
+			<version>4.17</version>
 			<scope>test</scope>
 			<exclusions/>
 		</dependency>
 		<dependency>
 			<groupId>com.github.javaparser</groupId>
 			<artifactId>javaparser-core</artifactId>
-			<version>3.26.4</version>
+			<version>3.28.2</version>
 			<scope>test</scope>
 			<exclusions/>
 		</dependency>
 		<dependency>
-			<groupId>com.github.teletha</groupId>
+			<groupId>com.caoccao.javet</groupId>
+			<artifactId>javet</artifactId>
+			<version>6.0.2</version>
+			<scope>test</scope>
+			<exclusions/>
+		</dependency>
+		<dependency>
+			<groupId>com.caoccao.javet</groupId>
+			<artifactId>javet-node-windows-x86_64</artifactId>
+			<version>6.0.2</version>
+			<scope>test</scope>
+			<exclusions/>
+		</dependency>
+		<dependency>
+			<groupId>io.github.teletha</groupId>
 			<artifactId>sinobu</artifactId>
-			<version>4.7.0</version>
+			<version>4.14.0</version>
 			<scope>compile</scope>
 			<exclusions/>
 		</dependency>
 		<dependency>
-			<groupId>com.github.teletha</groupId>
+			<groupId>com.caoccao.javet</groupId>
+			<artifactId>swc4j</artifactId>
+			<version>2.2.0</version>
+			<scope>test</scope>
+			<exclusions/>
+		</dependency>
+		<dependency>
+			<groupId>com.caoccao.javet</groupId>
+			<artifactId>swc4j-windows-x86_64</artifactId>
+			<version>2.2.0</version>
+			<scope>test</scope>
+			<exclusions/>
+		</dependency>
+		<dependency>
+			<groupId>io.github.teletha</groupId>
 			<artifactId>viewtify</artifactId>
-			<version>2.34.0</version>
+			<version>2.35.1</version>
 			<scope>test</scope>
 			<exclusions/>
 		</dependency>
 		<dependency>
 			<groupId>org.vineflower</groupId>
 			<artifactId>vineflower</artifactId>
-			<version>1.11.1</version>
+			<version>1.12.0</version>
 			<scope>test</scope>
 			<exclusions/>
 		</dependency>
@@ -232,7 +260,6 @@ The output method of the analyzed code is not limited to Java, but is designed t
 	<developers>
 		<developer>
 			<name>teletha</name>
-			<email/>
 			<url>https://github.com/teletha</url>
 		</developer>
 	</developers>
@@ -243,7 +270,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.14.0</version>
 				<configuration>
-					<release>24</release>
+					<release>25</release>
 					<encoding>UTF-8</encoding>
 					<compilerId>eclipse</compilerId>
 					<compilerArgs>
@@ -255,12 +282,12 @@ The output method of the analyzed code is not limited to Java, but is designed t
 					<dependency>
 						<groupId>org.codehaus.plexus</groupId>
 						<artifactId>plexus-compiler-eclipse</artifactId>
-						<version>2.15.0</version>
+						<version>2.17.1</version>
 					</dependency>
 					<dependency>
 						<groupId>org.eclipse.jdt</groupId>
 						<artifactId>ecj</artifactId>
-						<version>3.41.0</version>
+						<version>3.46.100</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -269,7 +296,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.5.2</version>
 				<configuration>
-					<argLine>-ea   -Dfile.encoding=UTF-8</argLine>
+					<argLine>-ea --enable-native-access=ALL-UNNAMED -Dfile.encoding=UTF-8</argLine>
 					<reportFormat>plain</reportFormat>
 					<consoleOutputReporter>
 						<disable>true</disable>
