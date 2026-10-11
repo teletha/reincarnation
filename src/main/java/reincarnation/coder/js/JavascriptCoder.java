@@ -835,12 +835,24 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             write(context, " === ", buildCallParameter(method, params));
             break;
 
+        case "equalsIgnoreCase":
+            // The equalsIgnoreCase method has no counterpart in JavaScript, so both sides are
+            // converted to lower case.
+            write(context, ".toLowerCase()", " === ", params.get(0), ".toLowerCase()");
+            break;
+
         case "contains":
             write(context, ".includes", buildCallParameter(method, params));
             break;
 
         case "concat":
             write(context, space, "+", space, buildCallParameter(method, params));
+            break;
+
+        case "replace":
+            // The replace method replaces all occurrences in Java, but the same-named method of
+            // JavaScript replaces only the first occurrence. So split().join() is used instead.
+            write(context, ".split(", params.get(0), ").join(", params.get(1), ")");
             break;
 
         default:

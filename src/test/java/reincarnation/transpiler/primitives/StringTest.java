@@ -109,4 +109,147 @@ class StringTest extends JavascriptCodeVerifier {
             }
         });
     }
+
+    @Test
+    void charAt() throws Exception {
+        verify(new TestCode.TextParamBoolean() {
+
+            @Override
+            public boolean run(@Param(strings = {"abc", "xyz"}) String value) {
+                return value.charAt(0) == 'a';
+            }
+        });
+    }
+
+    @Test
+    void codePointAt() throws Exception {
+        verify(new TestCode.TextParamInt() {
+
+            @Override
+            public int run(@Param(strings = {"a", "ab"}) String value) {
+                return value.codePointAt(0);
+            }
+        });
+    }
+
+    @Test
+    void startsWith() throws Exception {
+        verify(new TestCode.TextParamBoolean() {
+
+            @Override
+            public boolean run(@Param(strings = {"abc", "xyz"}) String value) {
+                return value.startsWith("a");
+            }
+        });
+    }
+
+    @Test
+    void endsWith() throws Exception {
+        verify(new TestCode.TextParamBoolean() {
+
+            @Override
+            public boolean run(@Param(strings = {"abc", "xyz"}) String value) {
+                return value.endsWith("c");
+            }
+        });
+    }
+
+    @Test
+    void indexOfFrom() throws Exception {
+        verify(new TestCode.TextParamInt() {
+
+            @Override
+            public int run(@Param(strings = {"abc", "xyzb", "zzz"}) String value) {
+                return value.indexOf("b", 1);
+            }
+        });
+    }
+
+    @Test
+    void lastIndexOf() throws Exception {
+        verify(new TestCode.TextParamInt() {
+
+            @Override
+            public int run(@Param(strings = {"abc", "aba", "xyz"}) String value) {
+                return value.lastIndexOf("a");
+            }
+        });
+    }
+
+    @Test
+    void repeat() throws Exception {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"a", "ab"}) String value) {
+                return value.repeat(2);
+            }
+        });
+    }
+
+    @Test
+    void replace() throws Exception {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"abc", "aba"}) String value) {
+                return value.replace('a', 'X');
+            }
+        });
+    }
+
+    @Test
+    void substringFrom() throws Exception {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"abc", "xyz"}) String value) {
+                return value.substring(1);
+            }
+        });
+    }
+
+    @Test
+    void toLowerCase() throws Exception {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"AbC", "xyz"}) String value) {
+                return value.toLowerCase();
+            }
+        });
+    }
+
+    @Test
+    void trim() throws Exception {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"  a  ", "abc"}) String value) {
+                return value.trim();
+            }
+        });
+    }
+
+    @Test
+    void equalsIgnoreCase() throws Exception {
+        verify(new TestCode.TextParamBoolean() {
+
+            @Override
+            public boolean run(@Param(strings = {"abc", "xyz"}) String value) {
+                return value.equalsIgnoreCase("AbC");
+            }
+        });
+    }
+
+    @Test
+    void split() throws Exception {
+        verify(new TestCode.TextArray() {
+
+            @Override
+            public String[] run() {
+                return "a,b,c".split(",");
+            }
+        });
+    }
 }
