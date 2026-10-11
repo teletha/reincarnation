@@ -163,6 +163,11 @@ const root = {
 			"type": "AbstractClass"
 		},
 		{
+			"name": "Synchronized",
+			"packageName": "reincarnation.structure",
+			"type": "Class"
+		},
+		{
 			"name": "For",
 			"packageName": "reincarnation.structure",
 			"type": "Class"
