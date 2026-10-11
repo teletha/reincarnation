@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.RecordComponent;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
@@ -141,10 +142,11 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         Class prev = current.set(type);
 
         // JavaScript has no interface, enum, record and annotation, so every type is written as a
-        // class declaration.
-        String extend = type.getSuperclass() == null || type.getSuperclass() == Object.class
-                ? ""
-                : " extends " + simpleName(type.getSuperclass());
+        // class declaration. The superclass of the enum and the record is also dropped.
+        Class superclass = type.getSuperclass();
+        String extend = superclass == null || superclass == Object.class //
+                || superclass == Enum.class || superclass == Record.class //
+                ? "" : " extends " + simpleName(superclass);
 
         line();
         line("class", space, simpleName(type), extend, space, "{");
@@ -167,7 +169,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeStaticField(Field field) {
-        // ignore compiler generated code
+        // ignore compiler generated code. The record fields are not declared, because a record
+        // field and its accessor method have the same name in JavaScript.
         if (GeneratedCodes.isRecordField(field) || GeneratedCodes.isEnumField(field) || GeneratedCodes.isAssertionField(field)) {
             return;
         }
@@ -256,8 +259,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     @Override
     public void writeConstructor(Constructor con, Code<Code> code) {
         // ignore compiler generated code
-        if (GeneratedCodes.isRecordConstructor(con, code) //
-                || GeneratedCodes.isEnumConstructor(con, code) //
+        if (GeneratedCodes.isEnumConstructor(con, code) //
                 || GeneratedCodes.isImplicitConstructor(con, code)) {
             return;
         }
@@ -285,7 +287,13 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     @Override
     public void writeMethod(Method method, Code<Code> code) {
         // ignore compiler generated code
-        if (method.isSynthetic() || GeneratedCodes.isRecordMethod(method, code) || GeneratedCodes.isEnumMethod(method, code)) {
+        if (method.isSynthetic() || GeneratedCodes.isEnumMethod(method, code)) {
+            return;
+        }
+
+        // The record accessors are kept, but the state-driven Object methods cannot be converted.
+        if (method.getDeclaringClass().isRecord()
+                && (method.getName().equals("toString") || method.getName().equals("hashCode") || method.getName().equals("equals"))) {
             return;
         }
 
@@ -721,6 +729,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     public void writeMethodCall(Method method, Code context, List<Code> params, AccessMode mode) {
         if (method.isSynthetic()) {
             write(context, ".", method.getName(), buildCallParameter(method, params));
+        } else if (isRecordAccessor(method)) {
+            // The record accessor (e.g. point.x()) is replaced by the field access (point.x).
+            write(context, ".", method.getName());
         } else if (isStringMethod(method)) {
             writeStringMethod(method, context, params);
         } else {
@@ -769,6 +780,25 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 "shortValue", "byteValue", "booleanValue", "charValue" -> true;
         default -> false;
         };
+    }
+
+    /**
+     * Check whether the given method is the accessor method of a record. In JavaScript, the record
+     * is written as a plain class, so the value is accessed by the field instead of the method.
+     * 
+     * @param method A target method.
+     * @return A result.
+     */
+    private boolean isRecordAccessor(Method method) {
+        if (!method.getDeclaringClass().isRecord() || method.getParameterCount() != 0) {
+            return false;
+        }
+        for (RecordComponent component : method.getDeclaringClass().getRecordComponents()) {
+            if (component.getName().equals(method.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -1802,7 +1832,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         @Override
         public void writeAssignOperation(Code left, AssignOperator operator, Code right) {
             if (whileInitializing()) {
-                write(left, right);
+                // In JavaScript, the enum constant is written as a static field definition.
+                Enum constant = constants.get(Math.min(initialized - 1, constants.size() - 1));
+                write("static", space, constant.name(), space, "=", space, "new", space, simpleName(type), space, right);
             } else {
                 super.writeAssignOperation(left, operator, right);
             }
@@ -1820,26 +1852,10 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                         // remove implicit parameters
                         params.remove(0);
                         params.remove(0);
-                        Join parameters = Join.of(params).ignoreEmpty().prefix("(").separator("," + space).suffix(")");
+                        Join parameters = Join.of(params).prefix("(").separator("," + space).suffix(")");
 
                         write(parameters);
-                        if (!owner.isEnum()) {
-                            // We assume it is a customized Enum since it uses subclasses for
-                            // constant definitions.
-                            lineNI(space, "{");
-                            indent(() -> {
-                                Class prev = current.set(owner);
-                                Reincarnation exhumed = Reincarnation.exhume(owner);
-
-                                exhumed.staticFields.forEach(this::writeStaticField);
-                                exhumed.fields.forEach(this::writeField);
-                                exhumed.constructors.forEach(new EnumConstantClassConstructor(coder)::writeConstructor);
-                                exhumed.methods.forEach(this::writeMethod);
-                                current.set(prev);
-                            });
-                            lineNB("}");
-                        }
-                        write(initialized < constants.size() ? "," + space : ";");
+                        write(";");
                     }
                 }
             } else {
