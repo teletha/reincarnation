@@ -788,12 +788,12 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeCreateArray(Class type, boolean shorthandable, List<Code> dimensions, List<Code> initialValues) {
-        if (shorthandable) {
+        if (initialValues.isEmpty()) {
+            // e.g. new Array(3)
+            write("new", space, "Array", join("(", dimensions, ",", ")"));
+        } else {
             // e.g. [1, 2, 3]
             write(join("[", initialValues, ", ", "]"));
-        } else {
-            // e.g. new Array(3) [1, 2, 3]
-            write("new", space, "Array", join("(", dimensions, ",", ")"), space, join("[", initialValues, ", ", "]"));
         }
     }
 
