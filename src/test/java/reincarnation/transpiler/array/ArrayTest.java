@@ -55,6 +55,28 @@ class ArrayTest extends JavascriptCodeVerifier {
     }
 
     @Test
+    void longArray() throws Exception {
+        verify(new TestCode.LongArray() {
+
+            @Override
+            public long[] run() {
+                return new long[] {1L, 2L, 3L};
+            }
+        });
+    }
+
+    @Test
+    void doubleArray() throws Exception {
+        verify(new TestCode.DoubleArray() {
+
+            @Override
+            public double[] run() {
+                return new double[] {1.5, 2.5};
+            }
+        });
+    }
+
+    @Test
     void arrayLength() throws Exception {
         verify(new TestCode.Int() {
 

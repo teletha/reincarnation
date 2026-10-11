@@ -242,6 +242,12 @@ public class JavascriptCodeVerifier {
             return String.valueOf(((Number) value).doubleValue());
         } else if (type == String.class) {
             return "\"" + String.valueOf(value).replace("\\", "\\\\").replace("\"", "\\\"") + "\"";
+        } else if (value == null) {
+            return "null";
+        } else if (value instanceof String) {
+            return "\"" + String.valueOf(value).replace("\\", "\\\\").replace("\"", "\\\"") + "\"";
+        } else if (value instanceof Number) {
+            return String.valueOf(value);
         } else {
             return String.valueOf(value);
         }

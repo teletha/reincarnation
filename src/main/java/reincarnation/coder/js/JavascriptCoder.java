@@ -189,7 +189,27 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         if (field.isSynthetic()) {
             return;
         }
-        line(Classes.isStatic(field) ? "static" + space : "", field.getName(), ";");
+        line(Classes.isStatic(field) ? "static" + space : "", field.getName(), space, "=", space, jsDefault(field.getType()), ";");
+    }
+
+    /**
+     * Compute the JavaScript initial value of the given field type. In JavaScript, the uninitialized
+     * field becomes {@code undefined}, so the initial value must be written explicitly to match the
+     * Java behavior.
+     * 
+     * @param type A field type.
+     * @return An initial value.
+     */
+    private String jsDefault(Class type) {
+        if (type == boolean.class) {
+            return "false";
+        } else if (type == char.class) {
+            return "\"\\u0000\"";
+        } else if (type.isPrimitive()) {
+            return "0";
+        } else {
+            return "null";
+        }
     }
 
     /**
@@ -538,7 +558,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeNegativeOperation(Code code) {
-        write("!", code);
+        // In JavaScript, the unary operator is applied before the comparison operator, so the
+        // whole condition must be enclosed. (e.g. "!value.equals(\"\")" -> "!(value === \"\")")
+        write("!", "(", code, ")");
     }
 
     /**
@@ -1108,7 +1130,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             vars.start();
             vars.declare(catchBlock.ⅱ);
             if (catchBlock.ⅰ != null) {
-                line("}", space, "catch(", name(catchBlock.ⅰ), space, vars.use(catchBlock.ⅱ), ")", space, "{");
+                // JavaScript cannot specify the caught type, so only the variable name is written.
+                line("}", space, "catch(", vars.use(catchBlock.ⅱ), ")", space, "{");
             } else {
                 line("}", space, "finally", space, "{");
             }
@@ -1241,8 +1264,40 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     private void writeSwitchExpressionReturn(Code block) {
         vars.start();
-        write("return", space, expressions(block), ";");
+        write("return", space);
+        block.write(new SwitchResult(this));
+        write(";", EoL);
         vars.end();
+    }
+
+    /**
+     * Write the value of the switch expression. The statements and the yield operators are written
+     * as a single expression.
+     */
+    private class SwitchResult extends DelegatableCoder<CodingOption> {
+
+        /**
+         * @param coder
+         */
+        private SwitchResult(Coder coder) {
+            super(coder);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeStatement(Code code) {
+            write(code);
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void writeYield(Code code) {
+            write(code);
+        }
     }
 
     /**
