@@ -144,15 +144,20 @@ jobs:
     - name: Create the version tag
       env:
         PRODUCT_VERSION: ${{ steps.release.outputs.version }}
-      run: |
-        # The tag is created only after the build has succeeded, so a failed release
-        # does not leave a tag. JReleaser then creates the GitHub Release for it.
-        if git rev-parse -q --verify "refs/tags/${PRODUCT_VERSION}" >/dev/null; then
-          echo "The tag ${PRODUCT_VERSION} already exists."
-        else
-          git tag "${PRODUCT_VERSION}"
-          git push origin "${PRODUCT_VERSION}"
-        fi
+      uses: actions/github-script@v7
+      with:
+        script: |
+          // The tag is created only after the build has succeeded, so a failed
+          // release does not leave a tag. JReleaser then creates the GitHub
+          // Release for it. The tag is created through the API so that GitHub
+          // signs it and shows it as verified.
+          const version = process.env.PRODUCT_VERSION;
+          try {
+            await github.rest.git.getRef({ owner: context.repo.owner, repo: context.repo.repo, ref: `tags/${version}` });
+            console.log(`The tag ${version} already exists.`);
+          } catch (error) {
+            await github.rest.git.createRef({ owner: context.repo.owner, repo: context.repo.repo, ref: `refs/tags/${version}`, sha: context.sha });
+          }
 
     - name: Release with JReleaser
       uses: jreleaser/release-action@v2
