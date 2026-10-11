@@ -281,6 +281,14 @@ public class Classes {
                 System.arraycopy(params, 0, fixed, 0, params.length);
                 return fixed;
             }
+
+            // An anonymous class constructor may have no generic signature, in which case the
+            // generic parameter types are empty while the erased parameter types are available.
+            if (clazz.isAnonymousClass() && Constructor.class.isInstance(executable)) {
+                Type[] fixed = new Type[params.length];
+                System.arraycopy(params, 0, fixed, 0, params.length);
+                return fixed;
+            }
         }
 
         return executable.getGenericParameterTypes();

@@ -74,7 +74,15 @@ class Inference {
 
             for (int i = 0; i < declaredParameters.length; i++) {
                 if (declaredParameters[i].equals(variable)) {
-                    return Model.collectParameters(parameterized, declaration)[i];
+                    Type[] resolved = Model.collectParameters(parameterized, declaration);
+
+                    // The type variable may be declared by a different generic declaration than
+                    // the owner type (e.g. an inherited interface method), in which case the
+                    // parameters can not be resolved here.
+                    if (i < resolved.length) {
+                        return resolved[i];
+                    }
+                    break;
                 }
             }
         }

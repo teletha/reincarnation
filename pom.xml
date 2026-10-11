@@ -214,6 +214,13 @@ The output method of the analyzed code is not limited to Java, but is designed t
 			<exclusions/>
 		</dependency>
 		<dependency>
+			<groupId>org.teavm</groupId>
+			<artifactId>teavm-classlib</artifactId>
+			<version>0.16.0</version>
+			<scope>compile</scope>
+			<exclusions/>
+		</dependency>
+		<dependency>
 			<groupId>com.caoccao.javet</groupId>
 			<artifactId>swc4j</artifactId>
 			<version>2.2.0</version>
@@ -302,6 +309,11 @@ The output method of the analyzed code is not limited to Java, but is designed t
 						<groupId>org.eclipse.jdt</groupId>
 						<artifactId>ecj</artifactId>
 						<version>3.46.100</version>
+					</dependency>
+					<dependency>
+						<groupId>org.codehaus.plexus</groupId>
+						<artifactId>plexus-compiler-api</artifactId>
+						<version>2.17.1</version>
 					</dependency>
 				</dependencies>
 			</plugin>

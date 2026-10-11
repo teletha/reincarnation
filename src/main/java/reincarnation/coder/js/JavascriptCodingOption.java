@@ -15,4 +15,13 @@ public class JavascriptCodingOption extends CodingOption {
 
     /** The write member class from top level class, this is mainly used for test. */
     public boolean writeMemberFromTopLevel;
+
+    /**
+     * Whether the output targets the TeaVM class library emulation (mangled method names, type
+     * substitution and constructor initialization methods) instead of idiomatic JavaScript.
+     */
+    public boolean classlib;
+
+    /** The reachable method keys ({@code owner#name#desc}) in the class library mode, or null. */
+    public java.util.Set<String> methods;
 }

@@ -24,9 +24,12 @@ import java.lang.reflect.RecordComponent;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -83,6 +86,76 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     /** Whether the standard runtime (currently List and Map) is required or not. */
     private boolean runtime;
 
+    /** The declared local variable scopes in the class library mode (per method/lambda). */
+    private final Deque<Set<String>> classlibScopes = new ArrayDeque();
+
+    /**
+     * Start the class library variable scope (method or lambda).
+     */
+    private void classlibScopeStart() {
+        classlibScopes.addLast(new HashSet());
+    }
+
+    /**
+     * End the class library variable scope.
+     */
+    private void classlibScopeEnd() {
+        classlibScopes.pollLast();
+    }
+
+    /**
+     * Mark the variable as declared in the current scope.
+     * 
+     * @param name A variable name.
+     */
+    private void classlibMark(String name) {
+        if (!classlibScopes.isEmpty()) {
+            classlibScopes.peekLast().add(name);
+        }
+    }
+
+    /**
+     * Declare the variable in the current scope unless it is already declared in an outer scope.
+     * 
+     * @param name A variable name.
+     * @return True if the variable is newly declared.
+     */
+    private boolean classlibDeclare(String name) {
+        for (Set<String> scope : classlibScopes) {
+            if (scope.contains(name)) {
+                return false;
+            }
+        }
+        classlibMark(name);
+        return true;
+    }
+
+    /**
+     * Check whether the method is reachable in the class library mode.
+     * 
+     * @param method A target method.
+     * @return A result.
+     */
+    private boolean isReachable(Method method) {
+        if (!classlib() || options.methods == null) {
+            return true;
+        }
+        return options.methods.contains(method.getName() + "#" + Classlib.params(org.objectweb.asm.Type.getMethodDescriptor(method)));
+    }
+
+    /**
+     * Check whether the constructor is reachable in the class library mode.
+     * 
+     * @param constructor A target constructor.
+     * @return A result.
+     */
+    private boolean isReachable(Constructor constructor) {
+        if (!classlib() || options.methods == null) {
+            return true;
+        }
+        return options.methods.contains("<init>#" + Classlib.params(org.objectweb.asm.Type.getConstructorDescriptor(constructor)));
+    }
+
     /** The decompiled abstract code. */
     private Reincarnation reincarnation;
 
@@ -125,11 +198,14 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         });
 
         // In JavaScript, a class cannot be declared inside another class body, so the anonymous
-        // classes are written as independent top-level classes after the enclosing class.
-        for (Class clazz : reincarnation.anonymous) {
-            Class superclass = clazz.getSuperclass();
-            if (superclass == null || !superclass.isEnum()) {
-                writeOne(Reincarnation.exhume(clazz));
+        // classes are written as independent top-level classes after the enclosing class. In the
+        // class library mode, every class is written separately by the program driver instead.
+        if (!classlib()) {
+            for (Class clazz : reincarnation.anonymous) {
+                Class superclass = clazz.getSuperclass();
+                if (superclass == null || !superclass.isEnum()) {
+                    writeOne(Reincarnation.exhume(clazz));
+                }
             }
         }
 
@@ -169,6 +245,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         Class superclass = type.getSuperclass();
         String extend = superclass == null || superclass == Object.class //
                 || superclass == Enum.class || superclass == Record.class //
+                || (classlib() && superclass.getName().startsWith("java.")) //
                 ? "" : " extends " + simpleName(superclass);
 
         line();
@@ -251,6 +328,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     @Override
     public void writeStaticInitializer(Code code) {
         vars.start();
+        classlibScopeStart();
 
         if (current.is(Class::isInterface)) {
             code.write(new InterfaceStaticInitiailizer(this));
@@ -273,6 +351,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             line("}");
         }
 
+        classlibScopeEnd();
         vars.end();
     }
 
@@ -287,10 +366,16 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             return;
         }
 
+        // ignore the constructors which are not reachable in the class library mode
+        if (!isReachable(con)) {
+            return;
+        }
+
         vars.start();
+        classlibScopeStart();
 
         line();
-        line("constructor", buildParameter(con, naming(code)), space, "{");
+        line(classlib() ? constructorName(con) : "constructor", buildParameter(con, naming(code)), space, "{");
         indent(() -> {
             Class owner = con.getDeclaringClass();
             if (Classes.isMemberLike(owner) && Classes.isNonStatic(owner)) {
@@ -301,6 +386,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         });
         line("}");
 
+        classlibScopeEnd();
         vars.end();
     }
 
@@ -314,6 +400,11 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             return;
         }
 
+        // ignore the methods which are not reachable in the class library mode
+        if (!isReachable(method)) {
+            return;
+        }
+
         // The record accessors are kept, but the state-driven Object methods cannot be converted.
         if (method.getDeclaringClass().isRecord()
                 && (method.getName().equals("toString") || method.getName().equals("hashCode") || method.getName().equals("equals"))) {
@@ -321,14 +412,16 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         }
 
         vars.start();
+        classlibScopeStart();
 
         line();
-        lineNB(Classes.isStatic(method) ? "static" + space : "", method.getName(), buildParameter(method, naming(code)));
+        lineNB(Classes.isStatic(method) ? "static" + space : "", methodName(method), buildParameter(method, naming(code)));
         lineNI(space, "{");
         placeholders.get(method).forEach(this::writeLocalClass);
         indent(code::write);
         line("}");
 
+        classlibScopeEnd();
         vars.end();
     }
 
@@ -338,6 +431,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     @Override
     public void writeLambda(Method method, List<Code> contexts, Code code) {
         vars.start();
+        classlibScopeStart();
 
         Naming naming = naming(code);
         Join<Parameter> param = Join.of(method.getParameters())
@@ -349,17 +443,24 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 .converter(p -> {
                     String name = safeVariable(naming.name(p.getName()));
                     vars.declare(name);
+                    if (classlib()) {
+                        classlibMark(name);
+                    }
                     return name;
                 });
 
         for (int i = 0; i < contexts.size(); i++) {
             vars.declare("arg" + i, contexts.get(i).toString());
+            if (classlib()) {
+                classlibMark(contexts.get(i).toString());
+            }
         }
 
         lineNI(param, space, "=>", space, "{");
         indent(code::write);
         lineNB("}");
 
+        classlibScopeEnd();
         vars.end();
     }
 
@@ -395,6 +496,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                     Parameter param = p.ⅰ;
                     String name = safeVariable(strategy.name(param.getName()));
                     vars.declare(name);
+                    if (classlib()) {
+                        classlibMark(name);
+                    }
 
                     return name;
                 });
@@ -455,7 +559,39 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeChar(char code) {
-        write("\"", code, "\"");
+        write("\"", escapeChar(code), "\"");
+    }
+
+    /**
+     * Escape the character for the JavaScript string literal.
+     * 
+     * @param code A target character.
+     * @return An escaped text.
+     */
+    private String escapeChar(char code) {
+        switch (code) {
+        case '"':
+            return "\\\"";
+        case '\\':
+            return "\\\\";
+        case '\n':
+            return "\\n";
+        case '\r':
+            return "\\r";
+        case '\t':
+            return "\\t";
+        case '\b':
+            return "\\b";
+        case '\f':
+            return "\\f";
+        default:
+            // line separator and paragraph separator must be escaped, and other control
+            // characters are escaped for readability.
+            if (code < 0x20 || code == 0x7f || code == 0x2028 || code == 0x2029) {
+                return String.format("\\u%04x", (int) code);
+            }
+            return String.valueOf(code);
+        }
     }
 
     /**
@@ -629,6 +765,16 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     @Override
     public void writeLocalVariable(Type type, int index, String name) {
         String variable = safeVariable(name);
+        if (classlib()) {
+            // Java local variables are method scoped, so the class library mode uses var with the
+            // declaration scope stack to avoid the block scope mismatch of let.
+            if (classlibDeclare(variable)) {
+                write("var", space, variable);
+            } else {
+                write(variable);
+            }
+            return;
+        }
         String prefix;
         if (vars.isDeclared(variable)) {
             prefix = "";
@@ -713,7 +859,24 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         if (isRuntimeType(constructor.getDeclaringClass())) {
             requireRuntime();
         }
-        write("new", space, name(constructor.getDeclaringClass()), buildCallParameter(constructor, params));
+        // The throwable classes are not emulated, so they are mapped to the native Error.
+        if (classlib() && Throwable.class.isAssignableFrom(constructor.getDeclaringClass())) {
+            write("new", space, "Error", buildCallParameter(constructor, params));
+            return;
+        }
+        // The string builders are mapped to the native string accumulator.
+        if (classlib() && isStringBuilder(constructor.getDeclaringClass())) {
+            write("$rt_sb()");
+            return;
+        }
+        if (classlib()) {
+            // The constructor is emitted as an initialization method, so the allocation and the
+            // initialization are separated to support the overloaded constructors.
+            write("(", "o", space, "=>", space, "(o.", constructorName(constructor), buildCallParameter(constructor, params), ",", space, "o))(", "new", space, name(constructor
+                    .getDeclaringClass()), "()", ")");
+        } else {
+            write("new", space, name(constructor.getDeclaringClass()), buildCallParameter(constructor, params));
+        }
     }
 
     /**
@@ -721,7 +884,18 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeSuperConstructorCall(Constructor constructor, List<Code> params) {
-        if (params.isEmpty() || constructor.getDeclaringClass() == Enum.class) {
+        Class owner = constructor.getDeclaringClass();
+        if (owner == Enum.class) {
+            revert();
+        } else if (classlib()) {
+            if (owner.getName().startsWith("java.")) {
+                revert();
+            } else {
+                // In the class library mode the super constructor initializes the fields, so it
+                // must not be omitted even when it has no parameter.
+                write("super.", constructorName(constructor), buildCallParameter(constructor, params));
+            }
+        } else if (params.isEmpty()) {
             revert();
         } else {
             write("super", buildCallParameter(constructor, params));
@@ -733,7 +907,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeThisConstructorCall(Constructor constructor, List<Code> params) {
-        if (constructor.getDeclaringClass().isEnum()) {
+        if (classlib()) {
+            write("this.", constructorName(constructor), buildCallParameter(constructor, params));
+        } else if (constructor.getDeclaringClass().isEnum()) {
             write("this", buildCallParameter(constructor, params, 2));
         } else {
             write("this", buildCallParameter(constructor, params));
@@ -745,7 +921,12 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeConstructorReference(Constructor constructor) {
-        write("(...args)", space, "=>", space, "new", space, name(constructor.getDeclaringClass()), "(...args)");
+        if (classlib()) {
+            write("(...args)", space, "=>", space, "(o", space, "=>", space, "(o.", constructorName(constructor), "(...args)", ",", space, "o))(", "new", space, name(constructor
+                    .getDeclaringClass()), "()", ")");
+        } else {
+            write("(...args)", space, "=>", space, "new", space, name(constructor.getDeclaringClass()), "(...args)");
+        }
     }
 
     /**
@@ -758,21 +939,27 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         }
 
         if (method.isSynthetic()) {
-            write(context, ".", method.getName(), buildCallParameter(method, params));
+            write(context, ".", methodName(method), buildCallParameter(method, params));
         } else if (isRecordAccessor(method)) {
             // The record accessor (e.g. point.x()) is replaced by the field access (point.x).
             write(context, ".", method.getName());
         } else if (isStringMethod(method)) {
             writeStringMethod(method, context, params);
+        } else if (classlib() && isObjectMethod(method)) {
+            writeObjectMethod(method, context, params);
+        } else if (classlib() && isStringBuilder(method.getDeclaringClass())) {
+            writeStringBuilderMethod(method, context, params);
+        } else if (classlib() && isThrowableMethod(method)) {
+            writeThrowableMethod(method, context, params);
         } else {
             if (mode == AccessMode.SUPER) {
-                write("super.", method.getName(), buildCallParameter(method, params));
+                write("super.", methodName(method), buildCallParameter(method, params));
             } else {
                 if (Classes.isWrapper(method)) {
                     write(params.get(0));
                 } else {
                     if (Classes.isStatic(method) && current.is(method.getDeclaringClass())) {
-                        write(simpleName(method.getDeclaringClass()), ".", method.getName(), buildCallParameter(method, params));
+                        write(simpleName(method.getDeclaringClass()), ".", methodName(method), buildCallParameter(method, params));
                     } else if (isUnboxing(method)) {
                         // JavaScript has no wrapper class, so the unboxing method (e.g.
                         // Integer.intValue) is completely unnecessary.
@@ -785,7 +972,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                         // JavaScript has no overloading, so the Java remove(int) is renamed.
                         write(context, ".removeAt", buildCallParameter(method, params));
                     } else {
-                        write(context, ".", method.getName(), buildCallParameter(method, params));
+                        write(context, ".", methodName(method), buildCallParameter(method, params));
                     }
                 }
             }
@@ -819,7 +1006,43 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * Mark that the standard runtime (List and Map) is required.
      */
     private void requireRuntime() {
-        runtime = true;
+        if (!classlib()) {
+            runtime = true;
+        }
+    }
+
+    /**
+     * Check whether the class library mode is enabled.
+     * 
+     * @return A result.
+     */
+    private boolean classlib() {
+        return options.classlib;
+    }
+
+    /** The cache of substituted class library types. */
+    private Class substitute(Class type) {
+        return classlib() ? Classlib.substitute(type) : type;
+    }
+
+    /**
+     * Compute the JavaScript method name.
+     * 
+     * @param method A target method.
+     * @return A method name.
+     */
+    private String methodName(Method method) {
+        return classlib() ? Classlib.mangle(method.getName(), method.getParameterTypes()) : method.getName();
+    }
+
+    /**
+     * Compute the JavaScript constructor method name.
+     * 
+     * @param constructor A target constructor.
+     * @return A method name.
+     */
+    private String constructorName(Constructor constructor) {
+        return Classlib.mangle("$init", constructor.getParameterTypes());
     }
 
     /**
@@ -863,7 +1086,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A result.
      */
     private boolean isListRemoveAt(Method method) {
-        return isList(method.getDeclaringClass()) && method.getName().equals("remove") //
+        return !classlib() && isList(method.getDeclaringClass()) && method.getName().equals("remove") //
                 && method.getParameterCount() == 1 && method.getParameterTypes()[0] == int.class;
     }
 
@@ -894,7 +1117,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A result.
      */
     private boolean isStringMethod(Method method) {
-        return method.getDeclaringClass() == String.class;
+        Class owner = method.getDeclaringClass();
+        return owner == String.class || owner.getName().equals("org.teavm.classlib.java.lang.TString");
     }
 
     /**
@@ -954,6 +1178,125 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     }
 
     /**
+     * Check whether the given type is the string builder which must be overlaid to the native
+     * string accumulator in the class library mode.
+     * 
+     * @param type A target type.
+     * @return A result.
+     */
+    private boolean isStringBuilder(Class type) {
+        String name = type.getName();
+        return name.equals("org.teavm.classlib.java.lang.TAbstractStringBuilder") //
+                || name.equals("org.teavm.classlib.java.lang.TStringBuilder") //
+                || name.equals("org.teavm.classlib.java.lang.TStringBuffer") //
+                || name.equals("org.teavm.classlib.java.lang.TAppendable") //
+                || name.equals("java.lang.AbstractStringBuilder") //
+                || type == StringBuilder.class || type == StringBuffer.class || type == Appendable.class;
+    }
+
+    /**
+     * Write the overlaid string builder method.
+     * 
+     * @param method A target method.
+     * @param context A target object.
+     * @param params A list of parameters.
+     */
+    private void writeStringBuilderMethod(Method method, Code context, List<Code> params) {
+        switch (method.getName()) {
+        case "append":
+            write("$rt_sbAppend", "(", context, ",", space, params.get(0), ")");
+            break;
+        case "toString":
+            write("$rt_sbValue", "(", context, ")");
+            break;
+        case "length":
+            write("$rt_sbValue", "(", context, ")", ".length");
+            break;
+        default:
+            write(context, ".", method.getName(), buildCallParameter(method, params));
+            break;
+        }
+    }
+
+    /**
+     * Check whether the given method is the Throwable method which must be overlaid to the native
+     * Error in the class library mode.
+     * 
+     * @param method A target method.
+     * @return A result.
+     */
+    private boolean isThrowableMethod(Method method) {
+        if (!Throwable.class.isAssignableFrom(method.getDeclaringClass())) {
+            return false;
+        }
+        return switch (method.getName()) {
+        case "getMessage", "getLocalizedMessage", "getCause", "printStackTrace" -> true;
+        default -> false;
+        };
+    }
+
+    /**
+     * Write the overlaid Throwable method.
+     * 
+     * @param method A target method.
+     * @param context A target object.
+     * @param params A list of parameters.
+     */
+    private void writeThrowableMethod(Method method, Code context, List<Code> params) {
+        switch (method.getName()) {
+        case "getMessage":
+        case "getLocalizedMessage":
+            write(context, ".message");
+            break;
+        case "getCause":
+            write(context, ".cause", "||", space, "null");
+            break;
+        default:
+            write("undefined");
+            break;
+        }
+    }
+
+    /**
+     * Check whether the given method is the Object method which must be overlaid to the native
+     * value in the class library mode.
+     * 
+     * @param method A target method.
+     * @return A result.
+     */
+    private boolean isObjectMethod(Method method) {
+        if (method.getDeclaringClass() != Object.class) {
+            return false;
+        }
+        return switch (method.getName()) {
+        case "equals" -> method.getParameterCount() == 1;
+        case "hashCode", "toString" -> method.getParameterCount() == 0;
+        default -> false;
+        };
+    }
+
+    /**
+     * Write the overlaid Object method.
+     * 
+     * @param method A target method.
+     * @param context A target object.
+     * @param params A list of parameters.
+     */
+    private void writeObjectMethod(Method method, Code context, List<Code> params) {
+        switch (method.getName()) {
+        case "equals":
+            write("$rt_equals", "(", context, ",", space, params.get(0), ")");
+            break;
+        case "hashCode":
+            write("$rt_hashCode", "(", context, ")");
+            break;
+        default:
+            write("$rt_toString", "(", context, ")");
+            break;
+        }
+    }
+
+    /**
      * Check whether the given method is the single abstract method of a functional interface. Such
      * methods correspond to a lambda in JavaScript, so they are invoked directly.
      * 
@@ -961,6 +1304,11 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A result.
      */
     private boolean isFunctionalMethod(Method method) {
+        // In the class library mode, the interface method (e.g. Iterable.iterator) is not a
+        // functional interface method, so it must not be invoked directly.
+        if (classlib()) {
+            return false;
+        }
         Class owner = method.getDeclaringClass();
         if (!owner.isInterface()) {
             return false;
@@ -1037,7 +1385,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeMethodReference(Method method, Code context) {
-        write(context, ".", method.getName(), ".bind(", context, ")");
+        write(context, ".", methodName(method), ".bind(", context, ")");
     }
 
     /**
@@ -1045,7 +1393,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeStaticMethodReference(Method method) {
-        write(name(method.getDeclaringClass()), ".", method.getName());
+        write(name(method.getDeclaringClass()), ".", methodName(method));
     }
 
     /**
@@ -1123,6 +1471,16 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeAssert(Code code, Variable<Code> message) {
+        if (classlib()) {
+            // The Java assert throws an AssertionError, so it must throw in JavaScript as well.
+            write("if", space, "(!(", code, "))", space, "throw", space, "new", space, "Error");
+            if (message.isAbsent()) {
+                write("()");
+            } else {
+                write("(", message.get(), ")");
+            }
+            return;
+        }
         if (message.isAbsent()) {
             write("console.assert", "(", code, ")");
         } else {
@@ -1202,7 +1560,13 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     public void writeIterableFor(Optional<String> label, Code variable, Code iterable, Runnable inner, Code follow) {
         vars.start();
 
-        line(label(label), "for", space, "(", variable, space, "of", space, iterable, ")", space, "{");
+        if (classlib()) {
+            // The class library collections do not have the JavaScript iterator protocol, so they
+            // are converted through the Java iterator.
+            line(label(label), "for", space, "(", variable, space, "of", space, "$rt_iterable", "(", iterable, ")", ")", space, "{");
+        } else {
+            line(label(label), "for", space, "(", variable, space, "of", space, iterable, ")", space, "{");
+        }
         indent(inner);
         line("}");
 
@@ -1260,8 +1624,11 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         vars.end();
         for (Ⅲ<Class, String, Code> catchBlock : catchBlocks) {
             vars.start();
-            vars.declare(catchBlock.ⅱ);
-            if (catchBlock.ⅰ != null) {
+            if (catchBlock.ⅱ != null) {
+                vars.declare(catchBlock.ⅱ);
+                classlibMark(catchBlock.ⅱ);
+            }
+            if (catchBlock.ⅰ != null && catchBlock.ⅱ != null) {
                 // JavaScript cannot specify the caught type, so only the variable name is written.
                 line("}", space, "catch(", vars.use(catchBlock.ⅱ), ")", space, "{");
             } else {
@@ -1617,7 +1984,11 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             if (isRuntimeType(clazz)) {
                 requireRuntime();
             }
-            builder.append(imports.name(clazz));
+            if (classlib()) {
+                builder.append(uniqueName(substitute(clazz)));
+            } else {
+                builder.append(imports.name(clazz));
+            }
         } else if (type instanceof TypeVariable variable) {
             builder.append(variable);
             if (level != 0) {
@@ -1675,7 +2046,21 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return
      */
     private String simpleName(Class type) {
+        if (classlib()) {
+            return uniqueName(type);
+        }
         return computeSimpleName(type);
+    }
+
+    /**
+     * Compute the unique JavaScript class name for the class library mode. The simple names collide
+     * across the packages, so the fully qualified name is sanitized.
+     * 
+     * @param type A target type.
+     * @return A unique class name.
+     */
+    private String uniqueName(Class type) {
+        return Classlib.uniqueName(type);
     }
 
     /**

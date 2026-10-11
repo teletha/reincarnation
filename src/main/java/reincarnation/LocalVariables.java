@@ -14,8 +14,10 @@ import static reincarnation.OperandUtil.*;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -212,7 +214,15 @@ final class LocalVariables implements Naming {
                 }
 
                 // Create additional nodes for declarations to use common variable declarations.
-                manipulator.createNodeBefore(header, variable);
+                List<Node> backedges = new ArrayList(header.backedges);
+                Node created = manipulator.createNodeBefore(header, variable);
+
+                // The back edges must not pass through the declaration node, otherwise the
+                // declaration becomes a part of the loop and breaks the control flow analysis.
+                for (Node back : backedges) {
+                    back.disconnect(created);
+                    back.connect(header);
+                }
             }
         }
     }

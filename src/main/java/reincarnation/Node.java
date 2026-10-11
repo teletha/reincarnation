@@ -1190,8 +1190,8 @@ public class Node implements Code<Operand>, Comparable<Node> {
             if (!tries.isEmpty()) {
                 TryCatchFinally removed = tries.remove(0);
                 List<Ⅲ<Class, String, Structure>> catches = I.signal(removed.blocks)
-                        .map(catchOrFinally -> I
-                                .pair(catchOrFinally.exception, catchOrFinally.variable.toString(), process(catchOrFinally.node)))
+                        .map(catchOrFinally -> I.pair(catchOrFinally.exception, catchOrFinally.variable == null ? null
+                                : catchOrFinally.variable.toString(), process(catchOrFinally.node)))
                         .toList();
                 if (removed.exit != null) {
                     removed.exit.additionalCall++;
@@ -1566,7 +1566,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
                 .takeIf(x -> entrance.children(OperandAssign.class, OperandArrayAccess.class).take(access -> access.array.equals(x.ⅰ)))
 
                 // Summarize only information that will be used later.
-                .combine(entrance.children(OperandAssign.class, OperandLocalVariable.class).as(Operand.class), (a, b) -> I.pair(a.ⅰ, b))
+                .combine(entrance.children(OperandAssign.class, OperandLocalVariable.class).as(Operand.class), (a, b) -> I.pair(resolveLoopSource(a.ⅰ, current), b))
 
                 // The contents of the entrance and incoming nodes should be deleted as they
                 // are no longer needed.
@@ -1609,7 +1609,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
                         .take(m -> m.checkCaller(x.ⅱ) && m.checkMethod(Iterator.class, "next")))
 
                 // Summarize only information that will be used later.
-                .combine(entrance.children(OperandAssign.class, OperandLocalVariable.class).as(Operand.class), (a, b) -> I.pair(a.ⅰ, b))
+                .combine(entrance.children(OperandAssign.class, OperandLocalVariable.class).as(Operand.class), (a, b) -> I.pair(resolveLoopSource(a.ⅰ, current), b))
 
                 // The contents of the entrance and incoming nodes should be deleted as they are no
                 // longer needed.
@@ -1651,6 +1651,45 @@ public class Node implements Code<Operand>, Comparable<Node> {
         } else {
             return I.signal();
         }
+    }
+
+    /**
+     * Resolve the source expression of the enhanced for loop. A compiler generated temporary array
+     * may share the local variable slot with another variable (e.g. the result array), in which
+     * case the merged variable must be replaced by its initializer to avoid referring to the wrong
+     * variable.
+     * 
+     * @param owner An iterable source operand.
+     * @return A resolved source operand.
+     */
+    private static Operand resolveLoopSource(Operand owner, Node current) {
+        if (owner instanceof OperandLocalVariable variable) {
+            Operand initializer = null;
+            boolean inHeader = false;
+            int definitions = 0;
+
+            for (Node node : variable.referrers) {
+                for (OperandAssign assign : node.children(OperandAssign.class).toList()) {
+                    if (assign.left == variable) {
+                        definitions++;
+                        if (initializer == null) {
+                            initializer = assign.right;
+                        }
+                        if (current.incoming.contains(node)) {
+                            inHeader = true;
+                        }
+                    }
+                }
+            }
+
+            // Resolve if the defining node is cleared as a part of the loop header (the
+            // declaration would be lost) or if the variable is a compiler generated temporary
+            // which shares the local variable slot with another variable.
+            if (initializer != null && (inHeader || 1 < definitions)) {
+                return initializer;
+            }
+        }
+        return owner;
     }
 
     /**

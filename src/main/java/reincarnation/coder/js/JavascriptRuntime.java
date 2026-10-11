@@ -18,7 +18,38 @@ package reincarnation.coder.js;
  * them, so the output of the code which does not use collections remains unchanged.
  * </p>
  */
-final class JavascriptRuntime {
+public final class JavascriptRuntime {
+
+    /** The class library runtime source code. */
+    public static final String ClasslibStandard = """
+            const $rt_equals = (a, b) => a === b || (a !== null && a !== undefined && typeof a.equals$Ljava_lang_Object_ === "function" && a.equals$Ljava_lang_Object_(b));
+            const $rt_hashCode = (a) => {
+                if (a === null || a === undefined) return 0;
+                if (typeof a === "number") return a | 0;
+                if (typeof a === "string") {
+                    let hash = 0;
+                    for (let index = 0; index < a.length; index++) hash = (hash * 31 + a.charCodeAt(index)) | 0;
+                    return hash;
+                }
+                return typeof a.hashCode$ === "function" ? a.hashCode$() : 0;
+            };
+            const $rt_toString = (a) => a === null || a === undefined ? "null" : (typeof a.toString$ === "function" ? a.toString$() : String(a));
+            const $rt_sb = () => ({ $value: "" });
+            const $rt_sbAppend = (builder, value) => {
+                builder.$value += value === null || value === undefined ? "null" : String(value);
+                return builder;
+            };
+            const $rt_sbValue = (builder) => builder.$value;
+            const $rt_iterable = (o) => {
+                if (o === null || o === undefined) return [];
+                if (Array.isArray(o) || typeof o[Symbol.iterator] === "function") return o;
+                const list = [];
+                if (typeof o.iterator$ === "function") {
+                    const iterator = o.iterator$();
+                    while (iterator.hasNext$()) list.push(iterator.next$());
+                }
+                return list;
+            };""";
 
     /** The standard runtime source code. */
     static final String Standard = """

@@ -275,6 +275,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     /** The flag whether the next jump instruction is used for assert statement or not. */
     private boolean assertJump = false;
 
+    /** Whether the assertion guard field is seen or not (for assert reconstruction). */
+    private boolean assertGuard = false;
+
     /** The default debugger. */
     private final Debugger debugger = Debugger.current();
 
@@ -553,6 +556,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         // compiler generated extra code.
         if (opcode == GETSTATIC && name.equals("$assertionsDisabled")) {
             assertJump = true;
+            assertGuard = true;
             return;
         }
 
@@ -1388,15 +1392,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         // throw
         case ATHROW:
-            if (match(INVOKESPECIAL, ATHROW)) {
+            if (assertGuard && match(INVOKESPECIAL, ATHROW)) {
                 Operand o = current.peek(0);
                 if (o instanceof OperandConstructorCall con && con.type.is(AssertionError.class)) {
+                    assertGuard = false;
                     current.remove(0); // remove new AssertionError()
                     mergeConditions(current);
                     current.addOperand(new OperandAssert(current.remove(0), con.children().to()));
                     break;
                 }
             }
+            assertGuard = false;
 
             current.addOperand(new OperandThrow(current.remove(0)));
             current.destination = Termination;

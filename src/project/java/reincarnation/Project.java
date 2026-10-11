@@ -24,6 +24,7 @@ public class Project extends bee.api.Project {
 
         require("org.ow2.asm", "asm");
         require("io.github.teletha", "sinobu");
+        require("org.teavm", "teavm-classlib");
 
         require("io.github.teletha", "bee").atTest();
         require("io.github.teletha", "antibug").atTest();
