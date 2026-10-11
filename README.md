@@ -67,7 +67,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
             - [x] yield
             - [x] arrow syntax
             - [x] multiple comma-separated labels
-    - [ ] synchronized
+    - [x ] synchronized
     - [x] assert
     - [x] labeled statement
 - [x] Types, Values, and Variables
