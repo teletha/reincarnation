@@ -186,6 +186,10 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @param field
      */
     private void writeFieldDefinition(Field field) {
+        if (field.isSynthetic()) {
+            return;
+        }
+        line(Classes.isStatic(field) ? "static" + space : "", field.getName(), ";");
     }
 
     /**
@@ -603,7 +607,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     public void writeAccessField(Field field, Code context, AccessMode mode) {
         if (Classes.isStatic(field)) {
             if (current.is(field.getDeclaringClass())) {
-                write(field.getName());
+                write(simpleName(field.getDeclaringClass()), ".", field.getName());
             } else {
                 write(context, ".", field.getName());
             }
@@ -695,6 +699,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     public void writeMethodCall(Method method, Code context, List<Code> params, AccessMode mode) {
         if (method.isSynthetic()) {
             write(context, ".", method.getName(), buildCallParameter(method, params));
+        } else if (isStringMethod(method)) {
+            writeStringMethod(method, context, params);
         } else {
             if (mode == AccessMode.SUPER) {
                 write("super.", method.getName(), buildCallParameter(method, params));
@@ -703,7 +709,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                     write(params.get(0));
                 } else {
                     if (Classes.isStatic(method) && current.is(method.getDeclaringClass())) {
-                        write(method.getName(), buildCallParameter(method, params));
+                        write(simpleName(method.getDeclaringClass()), ".", method.getName(), buildCallParameter(method, params));
                     } else if (isUnboxing(method)) {
                         // JavaScript has no wrapper class, so the unboxing method (e.g.
                         // Integer.intValue) is completely unnecessary.
@@ -741,6 +747,56 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 "shortValue", "byteValue", "booleanValue", "charValue" -> true;
         default -> false;
         };
+    }
+
+    /**
+     * Check whether the given method is declared in {@link String}. Some of them have no
+     * corresponding method in JavaScript, so they are converted explicitly.
+     * 
+     * @param method A target method.
+     * @return A result.
+     */
+    private boolean isStringMethod(Method method) {
+        return method.getDeclaringClass() == String.class;
+    }
+
+    /**
+     * Write the invocation of the given {@link String} method. The same-named methods of
+     * JavaScript are used as is, and the methods with no counterpart are converted explicitly.
+     * 
+     * @param method A target method.
+     * @param context A target object.
+     * @param params A list of parameter objects.
+     */
+    private void writeStringMethod(Method method, Code context, List<Code> params) {
+        switch (method.getName()) {
+        case "length":
+            // length() method is replaced by the length property.
+            write(context, ".length");
+            break;
+
+        case "isEmpty":
+            write(context, ".length", " === 0");
+            break;
+
+        case "equals":
+            write(context, " === ", buildCallParameter(method, params));
+            break;
+
+        case "contains":
+            write(context, ".includes", buildCallParameter(method, params));
+            break;
+
+        case "concat":
+            write(context, space, "+", space, buildCallParameter(method, params));
+            break;
+
+        default:
+            // e.g. charAt(), substring(), indexOf(), toUpperCase() etc. have the same API in
+            // JavaScript.
+            write(context, ".", method.getName(), buildCallParameter(method, params));
+            break;
+        }
     }
 
     /**
@@ -843,8 +899,29 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeCreateArray(Class type, boolean shorthandable, List<Code> dimensions) {
-        // JavaScript has no array type, so we create an array with the given size.
-        write("new", space, "Array", join("(", dimensions, ",", ")"));
+        if (dimensions.size() <= 1) {
+            // e.g. new Array(3)
+            write("new", space, "Array", join("(", dimensions, ",", ")"));
+        } else {
+            // e.g. new int[2][3] is converted to nested arrays.
+            writeJSDimensionArray(dimensions, 0);
+        }
+    }
+
+    /**
+     * Write the nested array creation for multiple dimensions.
+     * 
+     * @param dimensions A list of dimension sizes.
+     * @param index A current dimension index.
+     */
+    private void writeJSDimensionArray(List<Code> dimensions, int index) {
+        if (index == dimensions.size() - 1) {
+            write("new", space, "Array", "(", dimensions.get(index), ")");
+        } else {
+            write("Array.from({length: ", dimensions.get(index), "}, () => ");
+            writeJSDimensionArray(dimensions, index + 1);
+            write(")");
+        }
     }
 
     /**

@@ -93,4 +93,46 @@ class ArrayTest extends JavascriptCodeVerifier {
             }
         });
     }
+
+    @Test
+    void multiDimensionAccess() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                int[][] values = new int[2][3];
+                values[1][2] = 5;
+                return values[1][2];
+            }
+        });
+    }
+
+    @Test
+    void multiDimensionLiteral() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                int[][] values = new int[][] {{1, 2}, {3, 4}};
+                return values[0][1] + values[1][0];
+            }
+        });
+    }
+
+    @Test
+    void multiDimensionIterableFor() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                int total = 0;
+                for (int[] row : new int[][] {{1, 2, 3}, {4, 5, 6}}) {
+                    for (int value : row) {
+                        total += value;
+                    }
+                }
+                return total;
+            }
+        });
+    }
 }
