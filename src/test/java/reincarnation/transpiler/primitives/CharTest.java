@@ -15,25 +15,36 @@ import reincarnation.TestCode;
 import reincarnation.transpiler.JavascriptCodeVerifier;
 
 /**
- * Test the JavaScript output for boolean and char operations.
+ * Test the JavaScript output for char operations.
  * 
- * @version 2026/10/11 11:20:00
+ * @version 2026/10/11 13:00:00
  */
-class BooleanCharTest extends JavascriptCodeVerifier {
+class CharTest extends JavascriptCodeVerifier {
 
     @Test
-    void negation() throws Exception {
-        verify(new TestCode.BooleanParam() {
+    void identityNoParam() throws Exception {
+        verify(new TestCode.Char() {
 
             @Override
-            public boolean run(boolean value) {
-                return !value;
+            public char run() {
+                return 'A';
             }
         });
     }
 
     @Test
-    void charEquality() throws Exception {
+    void identity() throws Exception {
+        verify(new TestCode.CharParam() {
+
+            @Override
+            public char run(char value) {
+                return value;
+            }
+        });
+    }
+
+    @Test
+    void equality() throws Exception {
         verify(new TestCode.CharParamBoolean() {
 
             @Override
@@ -44,7 +55,7 @@ class BooleanCharTest extends JavascriptCodeVerifier {
     }
 
     @Test
-    void charRange() throws Exception {
+    void range() throws Exception {
         verify(new TestCode.CharParamBoolean() {
 
             @Override
