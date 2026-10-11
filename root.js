@@ -18,12 +18,32 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "JavascriptRuntime",
+			"packageName": "reincarnation.coder.js",
+			"type": "Class"
+		},
+		{
 			"name": "JavascriptCodingOption",
 			"packageName": "reincarnation.coder.js",
 			"type": "Class"
 		},
 		{
 			"name": "JavascriptCoder",
+			"packageName": "reincarnation.coder.js",
+			"type": "Class"
+		},
+		{
+			"name": "ClasslibReachability",
+			"packageName": "reincarnation.coder.js",
+			"type": "Class"
+		},
+		{
+			"name": "ClasslibReachability.Result",
+			"packageName": "reincarnation.coder.js",
+			"type": "Class"
+		},
+		{
+			"name": "Classlib",
 			"packageName": "reincarnation.coder.js",
 			"type": "Class"
 		},

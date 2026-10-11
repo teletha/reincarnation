@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="s">
+		<header class="f" date="2026-10-11">
+			<h1 class="g"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="h"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="O"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="i"></nav>
+		<article class="t" id="Article">
+			<section class="FB"><code class="u">reincarnation.coder.js</code>
+				<h2 class="Class m"><code class="Q">Classlib</code></h2>
+				<div class="JB"></div><span class="A"><p>Utilities for the TeaVM class library based JavaScript output.</p></span></section>
+			<section class="FB" id="substitute(java.lang.Class)">
+				<h2 class="T"><i class="STATIC PUBLIC"></i><code class="Q">substitute</code><code class="V">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="x"><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code></i></h2>
+				<table class="c">
+					<tr class="Z">
+						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code></td>
+						<td><span><p>A target type.</p></span></td>
+					</tr>
+					<tr class="GB">
+						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code></td>
+						<td><span><p>A substituted type.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Substitute the given standard class with the corresponding TeaVM class library class if it
+exists.</p></span></section>
+			<section class="FB" id="mangle(java.lang.String,java.lang.Class[])">
+				<h2 class="T"><i class="STATIC PUBLIC"></i><code class="Q">mangle</code><code class="V">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>, <code array="fix"><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">params</code>)</code><i class="x"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="c">
+					<tr class="Z">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code></td>
+						<td><span><p>A method name.</p></span></td>
+					</tr>
+					<tr class="Z">
+						<td><code array="fix"><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">params</code></td>
+						<td><span><p>Parameter types.</p></span></td>
+					</tr>
+					<tr class="GB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A mangled name.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Mangle the method name to make the overloaded methods unique in JavaScript.</p></span></section>
+			<section class="FB" id="params(java.lang.String)">
+				<h2 class="T"><i class="STATIC PUBLIC"></i><code class="Q">params</code><code class="V">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">descriptor</code>)</code><i class="x"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="c">
+					<tr class="Z">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">descriptor</code></td>
+						<td><span><p>A method descriptor.</p></span></td>
+					</tr>
+					<tr class="GB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A parameter descriptor (e.g. <code>(I)V</code>).</p></span></td>
+					</tr>
+				</table><span class="A"><p>Extract the parameter part of the method descriptor (the Java method identity ignores the
+return type).</p></span></section>
+			<section class="FB" id="isClasslib(java.lang.Class)">
+				<h2 class="T"><i class="STATIC PUBLIC"></i><code class="Q">isClasslib</code><code class="V">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="x"><code>boolean</code></i></h2>
+				<table class="c">
+					<tr class="Z">
+						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code></td>
+						<td><span><p>A target type.</p></span></td>
+					</tr>
+					<tr class="GB">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the given type belongs to the TeaVM class library.</p></span></section>
+			<section class="FB" id="uniqueName(java.lang.Class)">
+				<h2 class="T"><i class="STATIC PUBLIC"></i><code class="Q">uniqueName</code><code class="V">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="x"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="c">
+					<tr class="Z">
+						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code></td>
+						<td><span><p>A target type.</p></span></td>
+					</tr>
+					<tr class="GB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A unique class name.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Compute the unique JavaScript class name for the class library mode. The simple names collide
+across the packages, so the fully qualified name is sanitized.</p></span></section>
+		</article>
+		<aside class="r">
+			<div class="LB">
+				<h5 class="EB">Static Methods</h5>
+				<ul>
+					<li class="d"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.coder.js.Classlib.html#substitute(java.lang.Class)">substitute</a></code><code class="V">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="S"><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code></i></li>
+					<li class="d"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.coder.js.Classlib.html#mangle(java.lang.String,java.lang.Class[])">mangle</a></code><code class="V">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>, <code array="fix"><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">params</code>)</code><i class="S"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="d"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.coder.js.Classlib.html#params(java.lang.String)">params</a></code><code class="V">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">descriptor</code>)</code><i class="S"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="d"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.coder.js.Classlib.html#isClasslib(java.lang.Class)">isClasslib</a></code><code class="V">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="S"><code>boolean</code></i></li>
+					<li class="d"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.coder.js.Classlib.html#uniqueName(java.lang.Class)">uniqueName</a></code><code class="V">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="S"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="Y">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

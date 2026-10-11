@@ -19,10 +19,10 @@
 		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="GB">
-		<header class="e" date="2026-10-11">
-			<h1 class="f"><a href="index.html"><code>Reincarnation</code></a></h1>
-			<nav class="c"><a href="api/main.html" id="API"><svg class="package">
+	<body class="s">
+		<header class="f" date="2026-10-11">
+			<h1 class="g"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="h"><a href="api/main.html" id="API"><svg class="package">
 						<use href="main.svg#package"/>
 					</svg>
 				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
@@ -35,16 +35,16 @@
 						<use href="main.svg#github"/>
 					</svg>
 				</a></nav>
-			<div class="g"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+			<div class="O"><a aria-label="Change color scheme" id="theme"><svg class="sun">
 						<use href="main.svg#sun"/>
 					</svg><svg class="moon">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<nav class="d"></nav>
-		<article class="HB" id="Article">
-			<div class="a">
+		<nav class="i"></nav>
+		<article class="t" id="Article">
+			<div class="FB">
 				<section class="A">
 					<h2>Reincarnation API Overview</h2>
 					<p>This page provides a concise overview of the available APIs, including their purpose, key functionalities, and usage patterns. It serves as a starting point for developers to understand how to integrate and interact with the system effectively.</p>
@@ -78,12 +78,31 @@
 								<td>no description</td>
 							</tr>
 							<tr>
+								<td><code><a href="api/reincarnation.coder.js.JavascriptRuntime.html">JavascriptRuntime</a></code></td>
+								<td>The JavaScript runtime that emulates the Java standard library APIs which the JavaScript coder
+maps to JavaScript.</td>
+							</tr>
+							<tr>
 								<td><code><a href="api/reincarnation.coder.js.JavascriptCodingOption.html">JavascriptCodingOption</a></code></td>
 								<td>no description</td>
 							</tr>
 							<tr>
 								<td><code><a href="api/reincarnation.coder.js.JavascriptCoder.html">JavascriptCoder</a></code></td>
 								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/reincarnation.coder.js.ClasslibReachability.html">ClasslibReachability</a></code></td>
+								<td>Computes the method level reachability for the TeaVM class library based JavaScript program. The
+whole class based closure pulls almost every class through java.lang.Object, so the
+reachable methods (and the classes which declare them) are computed here to prune the output.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/reincarnation.coder.js.ClasslibReachability.Result.html">ClasslibReachability.Result</a></code></td>
+								<td>The reachability result.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/reincarnation.coder.js.Classlib.html">Classlib</a></code></td>
+								<td>Utilities for the TeaVM class library based JavaScript output.</td>
 							</tr>
 							<tr>
 								<td><code><a href="api/reincarnation.coder.VariableNaming.html">VariableNaming</a></code></td>
@@ -218,8 +237,8 @@ test code, but due to unavoidable circumstances, it has been exposed in the impl
 				</section>
 			</div>
 		</article>
-		<aside class="h"></aside>
-		<footer class="z">
+		<aside class="r"></aside>
+		<footer class="Y">
 			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
 		</footer>
 	</body>

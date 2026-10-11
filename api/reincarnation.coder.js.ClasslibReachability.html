@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="s">
+		<header class="f" date="2026-10-11">
+			<h1 class="g"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="h"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="O"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="i"></nav>
+		<article class="t" id="Article">
+			<section class="FB"><code class="u">reincarnation.coder.js</code>
+				<h2 class="Class m"><code class="Q">ClasslibReachability</code></h2>
+				<div class="JB"></div><span class="A"><p>Computes the method level reachability for the TeaVM class library based JavaScript program. The
+whole class based closure pulls almost every class through <code>java.lang.Object</code>, so the
+reachable methods (and the classes which declare them) are computed here to prune the output.</p><p>
+The virtual dispatch is taken into account by propagating the reachable method signatures to the
+overriding methods of every reachable class.
+</p></span></section>
+			<section class="FB" id="analyze(java.lang.Class)">
+				<h2 class="T"><i class="STATIC PUBLIC"></i><code class="Q">analyze</code><code class="V">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>?</code></code></code><code class="parameterName">root</code>)</code><i class="x"><code><a aria-label="reincarnation.coder.js.ClasslibReachability.Result" href="api/reincarnation.coder.js.ClasslibReachability.Result.html">Result</a></code></i></h2>
+				<table class="c">
+					<tr class="Z">
+						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>?</code></code></code><code class="parameterName">root</code></td>
+						<td><span><p>A root class.</p></span></td>
+					</tr>
+					<tr class="GB">
+						<td><code><a aria-label="reincarnation.coder.js.ClasslibReachability.Result" href="api/reincarnation.coder.js.ClasslibReachability.Result.html">Result</a></code></td>
+						<td><span><p>A reachability result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Analyze the method level reachability from the specified root class.</p></span></section>
+		</article>
+		<aside class="r">
+			<div class="LB">
+				<h5 class="EB">Static Methods</h5>
+				<ul>
+					<li class="d"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.coder.js.ClasslibReachability.html#analyze(java.lang.Class)">analyze</a></code><code class="V">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a><code class="parameters"><code>?</code></code></code><code class="parameterName">root</code>)</code><i class="S"><code><a aria-label="reincarnation.coder.js.ClasslibReachability.Result" href="api/reincarnation.coder.js.ClasslibReachability.Result.html">Result</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="Y">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>
