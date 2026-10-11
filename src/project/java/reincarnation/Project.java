@@ -106,7 +106,7 @@ public class Project extends bee.api.Project {
                             - [x] yield
                             - [x] arrow syntax
                             - [x] multiple comma-separated labels
-                    - [x ] synchronized
+                    - [x] synchronized
                     - [x] assert
                     - [x] labeled statement
                 - [x] Types, Values, and Variables
