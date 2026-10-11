@@ -1034,6 +1034,18 @@ public class TypeScriptCoder extends Coder<TypeScriptCodingOption> {
      * {@inheritDoc}
      */
     @Override
+    public void writeSynchronized(Code lock, Code body, Code follow) {
+        // TypeScript has no synchronized, so it is emitted as a plain block.
+        line("{");
+        indent(body::write);
+        line("}");
+        write(follow);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void writeSwitch(boolean statement, Optional<String> label, Code condition, Class conditionType, Runnable caseProcess, Code follow) {
         if (statement) {
             line(label(label), "switch", space, "(", condition, ")", space, "{");

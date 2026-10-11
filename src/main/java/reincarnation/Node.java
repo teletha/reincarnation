@@ -42,6 +42,7 @@ import reincarnation.structure.If;
 import reincarnation.structure.InfiniteLoop;
 import reincarnation.structure.Loopable;
 import reincarnation.structure.Structure;
+import reincarnation.structure.Synchronized;
 import reincarnation.structure.Try;
 import reincarnation.structure.While;
 import reincarnation.util.Classes;
@@ -1189,6 +1190,15 @@ public class Node implements Code<Operand>, Comparable<Node> {
             // =============================================================
             if (!tries.isEmpty()) {
                 TryCatchFinally removed = tries.remove(0);
+
+                // A synchronized block is a try-finally whose finally is the monitor exit.
+                if (removed.synchronizedLock != null) {
+                    if (removed.exit != null) {
+                        removed.exit.additionalCall++;
+                    }
+                    return new Synchronized(this, removed.synchronizedLock, removed.start, removed.exit);
+                }
+
                 List<Ⅲ<Class, String, Structure>> catches = I.signal(removed.blocks)
                         .map(catchOrFinally -> I.pair(catchOrFinally.exception, catchOrFinally.variable == null ? null
                                 : catchOrFinally.variable.toString(), process(catchOrFinally.node)))

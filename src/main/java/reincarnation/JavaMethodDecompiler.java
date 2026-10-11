@@ -25,10 +25,12 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -272,6 +274,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     /** The synchronized block related nodes. */
     private Set<Node> synchronizer = new HashSet();
 
+    /** The lock operand by the monitor exit node. */
+    private final Map<Node, Operand> monitorExitLocks = new HashMap();
+
+    /** The lock operand by the monitor enter node. */
+    private final Map<Node, Operand> monitorEnterLocks = new HashMap();
+
     /** The flag whether the next jump instruction is used for assert statement or not. */
     private boolean assertJump = false;
 
@@ -403,9 +411,40 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         debugger.printMethod();
         debugger.print(nodes);
 
+        // Detect the synchronized blocks (a finally block whose body is the monitor exit).
+        for (TryCatchFinally block : tries.blocks) {
+            if (block.blocks.size() == 1 && block.blocks.get(0).exception == null) {
+                Node catcher = block.blocks.get(0).node;
+                Operand lock = monitorExitLocks.get(catcher);
+                if (lock != null) {
+                    // Prefer the original lock expression captured at the monitor enter.
+                    for (Map.Entry<Node, Operand> entry : monitorEnterLocks.entrySet()) {
+                        if (entry.getKey().outgoing.contains(block.start)) {
+                            lock = entry.getValue();
+                            break;
+                        }
+                    }
+
+                    // The monitor enter operand is the temporary variable assignment (e.g. `tmp = lock`),
+                    // so the actual lock expression is its right hand side.
+                    if (lock instanceof OperandAssign assign) {
+                        lock = assign.right;
+                    }
+                    block.synchronizedLock = lock;
+                    // Determine the following node before the monitor nodes are disposed,
+                    // because the normal monitor exit (which indicates the end of the block) is removed.
+                    block.searchExit();
+                }
+            }
+        }
+
         // Dispose all nodes which contains synchronized block.
         for (Node node : synchronizer) {
-            dispose(node, true, false);
+            if (node.tries.isEmpty()) {
+                dispose(node, true, false);
+            }
+            // Otherwise, the node is also a boundary of a try-catch-finally (e.g. nested
+            // synchronized), so it must be kept. Its monitor operand has already been removed.
         }
 
         tries.disposeCopiedFinallyBlock();
@@ -1417,12 +1456,27 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             break; // ignore, because we should handle it in visitJumpInsn method
 
         case MONITORENTER:
-            current.remove(0);
+            Operand enter = current.remove(0);
+
+            // `dup; astore; monitorenter` leaves the temporary variable on the stack. It is only
+            // needed when the assignment is used as a value, so remove it here.
+            if (enter instanceof OperandAssign assign && assign.left.equals(current.peek(0))) {
+                current.remove(0);
+            }
+            monitorEnterLocks.put(current, enter);
             synchronizer.add(current);
             break;
 
         case MONITOREXIT:
+            Operand exit = current.peek(0);
+            monitorExitLocks.put(current, exit);
             synchronizer.add(current);
+
+            // The monitor exit in an exception handler leaves the lock as the operand of the
+            // following athrow (the thrown exception is not modeled), so it must be kept there.
+            if (!tries.isFinally(current) && !tries.isCatch(current)) {
+                current.remove(0);
+            }
             break;
 
         case I2C:
@@ -3439,7 +3493,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 // Then, we can analyze.
                 for (TryCatchFinally block : blocks) {
                     // Associate node with block.
-                    block.searchExit();
+                    if (block.synchronizedLock == null) {
+                        block.searchExit();
+                    }
                     block.purgeUnreachableCatch();
                 }
 
@@ -3519,6 +3575,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         /** The exit node. */
         Node exit;
+
+        /** The lock operand when this is a synchronized block, otherwise null. */
+        Operand synchronizedLock;
 
         /**
          * @param start

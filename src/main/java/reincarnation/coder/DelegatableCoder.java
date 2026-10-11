@@ -525,6 +525,14 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
+    public void writeSynchronized(Code lock, Code body, Code follow) {
+        coder.writeSynchronized(lock, body, follow);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void writeSwitch(boolean statement, Optional<String> label, Code condition, Class conditionType, Runnable caseProcess, Code follow) {
         coder.writeSwitch(statement, label, condition, conditionType, caseProcess, follow);
     }

@@ -1080,6 +1080,19 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
+    public void writeSynchronized(Code lock, Code body, Code follow) {
+        line("synchronized", space, "(", lock, ")", space, "{");
+        vars.start();
+        indent(body::write);
+        vars.end();
+        line("}");
+        write(follow);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void writeSwitch(boolean statement, Optional<String> label, Code condition, Class conditionType, Runnable caseProcess, Code follow) {
         if (statement) {
             line(label(label), "switch", space, "(", condition, ")", space, "{");

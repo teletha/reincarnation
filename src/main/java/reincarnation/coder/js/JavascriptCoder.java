@@ -1645,6 +1645,18 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * {@inheritDoc}
      */
     @Override
+    public void writeSynchronized(Code lock, Code body, Code follow) {
+        // JavaScript is single threaded, so the synchronized block is emitted as a plain block.
+        line("{");
+        indent(body::write);
+        line("}");
+        write(follow);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void writeSwitch(boolean statement, Optional<String> label, Code condition, Class conditionType, Runnable caseProcess, Code follow) {
         if (statement) {
             line(label(label), "switch", space, "(", condition, ")", space, "{");

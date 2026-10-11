@@ -763,6 +763,15 @@ public abstract class Coder<O extends CodingOption> {
     public abstract void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code follow);
 
     /**
+     * Synchronized block.
+     * 
+     * @param lock A lock object.
+     * @param body A synchronized body.
+     * @param follow A following structure.
+     */
+    public abstract void writeSynchronized(Code lock, Code body, Code follow);
+
+    /**
      * Writes switch statement.
      * 
      * @param statement True means statement mode, False means expression mode.
