@@ -26,12 +26,20 @@ import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Stack;
 import java.util.StringJoiner;
+import java.util.TreeMap;
+import java.util.Vector;
 
 import kiss.I;
 import kiss.Variable;
@@ -71,6 +79,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
 
     /** The import manager. */
     private final Imports imports = new Imports();
+
+    /** Whether the standard runtime (currently List and Map) is required or not. */
+    private boolean runtime;
 
     /** The decompiled abstract code. */
     private Reincarnation reincarnation;
@@ -124,6 +135,18 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
 
         // pop decompiler info
         this.reincarnation = old;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        String code = super.toString();
+
+        // The runtime must be prepended after the lazy writers run, because they may reference the
+        // collection types.
+        return runtime ? JavascriptRuntime.Standard + EoL + code : code;
     }
 
     /**
@@ -687,6 +710,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeConstructorCall(Constructor constructor, List<Code> params) {
+        if (isRuntimeType(constructor.getDeclaringClass())) {
+            requireRuntime();
+        }
         write("new", space, name(constructor.getDeclaringClass()), buildCallParameter(constructor, params));
     }
 
@@ -727,6 +753,10 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeMethodCall(Method method, Code context, List<Code> params, AccessMode mode) {
+        if (isRuntimeType(method.getDeclaringClass())) {
+            requireRuntime();
+        }
+
         if (method.isSynthetic()) {
             write(context, ".", method.getName(), buildCallParameter(method, params));
         } else if (isRecordAccessor(method)) {
@@ -751,6 +781,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                         // The lambda is invoked directly in JavaScript, e.g. the Java code
                         // "supplier.get()" is converted to "supplier()".
                         write(context, buildCallParameter(method, params));
+                    } else if (isListRemoveAt(method)) {
+                        // JavaScript has no overloading, so the Java remove(int) is renamed.
+                        write(context, ".removeAt", buildCallParameter(method, params));
                     } else {
                         write(context, ".", method.getName(), buildCallParameter(method, params));
                     }
@@ -780,6 +813,58 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 "shortValue", "byteValue", "booleanValue", "charValue" -> true;
         default -> false;
         };
+    }
+
+    /**
+     * Mark that the standard runtime (List and Map) is required.
+     */
+    private void requireRuntime() {
+        runtime = true;
+    }
+
+    /**
+     * Check whether the given type is a {@link List} implementation supported by the runtime.
+     * 
+     * @param type A target type.
+     * @return A result.
+     */
+    private boolean isList(Class type) {
+        return type == List.class || type == ArrayList.class || type == LinkedList.class //
+                || type == Vector.class || type == Stack.class;
+    }
+
+    /**
+     * Check whether the given type is a {@link Map} implementation supported by the runtime.
+     * 
+     * @param type A target type.
+     * @return A result.
+     */
+    private boolean isMap(Class type) {
+        return type == Map.class || type == HashMap.class || type == LinkedHashMap.class //
+                || type == TreeMap.class || type == Hashtable.class;
+    }
+
+    /**
+     * Check whether the given type is supported by the standard runtime.
+     * 
+     * @param type A target type.
+     * @return A result.
+     */
+    private boolean isRuntimeType(Class type) {
+        return isList(type) || isMap(type) || type == Map.Entry.class;
+    }
+
+    /**
+     * Check whether the given method is the index based removal of {@link List}. JavaScript has no
+     * method overloading, so the Java {@code remove(int)} must be distinguished from
+     * {@code remove(Object)} explicitly.
+     * 
+     * @param method A target method.
+     * @return A result.
+     */
+    private boolean isListRemoveAt(Method method) {
+        return isList(method.getDeclaringClass()) && method.getName().equals("remove") //
+                && method.getParameterCount() == 1 && method.getParameterTypes()[0] == int.class;
     }
 
     /**
@@ -853,6 +938,11 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             // The replace method replaces all occurrences in Java, but the same-named method of
             // JavaScript replaces only the first occurrence. So split().join() is used instead.
             write(context, ".split(", params.get(0), ").join(", params.get(1), ")");
+            break;
+
+        case "valueOf":
+            // JavaScript has no String.valueOf, so the global String function is used instead.
+            write("String", buildCallParameter(method, params));
             break;
 
         default:
@@ -1524,6 +1614,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     private void qualify(int level, Type type, StringBuilder builder) {
         if (type instanceof Class clazz) {
+            if (isRuntimeType(clazz)) {
+                requireRuntime();
+            }
             builder.append(imports.name(clazz));
         } else if (type instanceof TypeVariable variable) {
             builder.append(variable);
