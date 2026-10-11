@@ -1600,9 +1600,12 @@ public class Node implements Code<Operand>, Comparable<Node> {
                 .takeIf(x -> current.children(OperandCondition.class, OperandMethodCall.class)
                         .take(m -> m.checkCaller(x.ⅱ) && m.checkMethod(Iterator.class, "hasNext")))
 
-                // Check whether the entrance node calls the iterator's next method.
-                .takeIf(x -> entrance.children(OperandAssign.class, OperandMethodCall.class)
-                        .flatMap(Node::throughUnwrapper)
+                // Check whether the entrance node calls the iterator's next method. The loop
+                // variable of a typed element is casted (e.g. (Map.Entry) iterator.next()), so
+                // the cast is ignored here.
+                .takeIf(x -> entrance.children(OperandAssign.class)
+                        .flatMap(OperandAssign::right)
+                        .flatMap(Node::throughCast)
                         .take(m -> m.checkCaller(x.ⅱ) && m.checkMethod(Iterator.class, "next")))
 
                 // Summarize only information that will be used later.
@@ -1628,6 +1631,25 @@ public class Node implements Code<Operand>, Comparable<Node> {
             return call.owner.children(OperandMethodCall.class);
         } else {
             return I.signal(call);
+        }
+    }
+
+    /**
+     * If the specified operand is a cast or a primitive wrapper method, it is ignored and its
+     * internal method calls are searched further. The loop variable of the enhanced for loop over
+     * a typed element is casted (e.g. {@code (Map.Entry) iterator.next()}), so the cast must be
+     * ignored to detect the loop.
+     * 
+     * @param operand A target operand.
+     * @return Method calls.
+     */
+    static Signal<OperandMethodCall> throughCast(Operand operand) {
+        if (operand instanceof OperandCast cast) {
+            return cast.children().flatMap(Node::throughCast);
+        } else if (operand instanceof OperandMethodCall call) {
+            return throughUnwrapper(call);
+        } else {
+            return I.signal();
         }
     }
 

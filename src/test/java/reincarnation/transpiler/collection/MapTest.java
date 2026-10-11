@@ -197,6 +197,25 @@ class MapTest extends JavascriptCodeVerifier {
     }
 
     @Test
+    void entrySet() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                Map<String, Integer> map = new LinkedHashMap<>();
+                map.put("a", 1);
+                map.put("b", 2);
+                map.put("c", 3);
+                int sum = 0;
+                for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                    sum += entry.getValue();
+                }
+                return sum;
+            }
+        });
+    }
+
+    @Test
     void linkedHashMapToString() throws Exception {
         verify(new TestCode.Text() {
 
