@@ -24,10 +24,12 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.StringJoiner;
 
 import kiss.I;
@@ -290,7 +292,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 .suffix(")")
                 .take((index, item) -> contexts.size() <= index)
                 .converter(p -> {
-                    String name = naming.name(p.getName());
+                    String name = safeVariable(naming.name(p.getName()));
                     vars.declare(name);
                     return name;
                 });
@@ -336,12 +338,10 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 .skip(x -> GeneratedCodes.isEnumParameter(x.ⅰ))
                 .converter(p -> {
                     Parameter param = p.ⅰ;
-                    String name = strategy.name(param.getName());
+                    String name = safeVariable(strategy.name(param.getName()));
                     vars.declare(name);
 
-                    return new StringBuilder() //
-                            .append(name)
-                            .toString();
+                    return name;
                 });
     }
 
@@ -571,15 +571,30 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeLocalVariable(Type type, int index, String name) {
+        String variable = safeVariable(name);
         String prefix;
-        if (vars.isDeclared(name)) {
+        if (vars.isDeclared(variable)) {
             prefix = "";
         } else {
             prefix = "let".concat(space);
-            vars.declare(name);
+            vars.declare(variable);
         }
-        write(prefix, vars.use(name));
+        write(prefix, vars.use(variable));
     }
+
+    /**
+     * Convert the given variable name into a valid JavaScript identifier. Some Java parameter names
+     * are reserved words in JavaScript (e.g. {@code function}), so they are escaped.
+     * 
+     * @param name A variable name.
+     * @return A safe variable name.
+     */
+    private String safeVariable(String name) {
+        return reservedWords.contains(name) ? name + "$" : name;
+    }
+
+    /** The JavaScript reserved words. */
+    private static final Set<String> reservedWords = Set.of("await", "break", "case", "catch", "class", "const", "continue", "debugger", "default", "delete", "do", "else", "enum", "export", "extends", "false", "finally", "for", "function", "if", "implements", "import", "in", "instanceof", "interface", "let", "new", "null", "package", "private", "protected", "public", "return", "static", "super", "switch", "this", "throw", "true", "try", "typeof", "var", "void", "while", "with", "yield");
 
     /**
      * {@inheritDoc}
@@ -689,12 +704,61 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 } else {
                     if (Classes.isStatic(method) && current.is(method.getDeclaringClass())) {
                         write(method.getName(), buildCallParameter(method, params));
+                    } else if (isUnboxing(method)) {
+                        // JavaScript has no wrapper class, so the unboxing method (e.g.
+                        // Integer.intValue) is completely unnecessary.
+                        write(context);
+                    } else if (isFunctionalMethod(method)) {
+                        // The lambda is invoked directly in JavaScript, e.g. the Java code
+                        // "supplier.get()" is converted to "supplier()".
+                        write(context, buildCallParameter(method, params));
                     } else {
                         write(context, ".", method.getName(), buildCallParameter(method, params));
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Check whether the given method is an unboxing method of the wrapper class. JavaScript has no
+     * wrapper class, so such method invocations are completely unnecessary.
+     * 
+     * @param method A target method.
+     * @return A result.
+     */
+    private boolean isUnboxing(Method method) {
+        if (method.getParameterCount() != 0) {
+            return false;
+        }
+        Class type = method.getDeclaringClass();
+        if (type != Integer.class && type != Long.class && type != Double.class && type != Float.class //
+                && type != Short.class && type != Byte.class && type != Boolean.class && type != Character.class) {
+            return false;
+        }
+        return switch (method.getName()) {
+        case "intValue", "longValue", "doubleValue", "floatValue", //
+                "shortValue", "byteValue", "booleanValue", "charValue" -> true;
+        default -> false;
+        };
+    }
+
+    /**
+     * Check whether the given method is the single abstract method of a functional interface. Such
+     * methods correspond to a lambda in JavaScript, so they are invoked directly.
+     * 
+     * @param method A target method.
+     * @return A result.
+     */
+    private boolean isFunctionalMethod(Method method) {
+        Class owner = method.getDeclaringClass();
+        if (!owner.isInterface()) {
+            return false;
+        }
+        return Arrays.stream(owner.getDeclaredMethods())
+                .filter(m -> Modifier.isAbstract(m.getModifiers()))
+                .filter(m -> !m.isDefault())
+                .count() == 1;
     }
 
     /**

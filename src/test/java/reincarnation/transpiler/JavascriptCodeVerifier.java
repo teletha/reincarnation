@@ -7,9 +7,9 @@
  *
  *          https://opensource.org/licenses/MIT
  */
-package reincarnation.coder.js;
+package reincarnation.transpiler;
 
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.*;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
@@ -36,6 +36,8 @@ import reincarnation.Reincarnation;
 import reincarnation.ShowJavaResultOnly;
 import reincarnation.TestCode;
 import reincarnation.TestCode.Param;
+import reincarnation.coder.js.JavascriptCoder;
+import reincarnation.coder.js.JavascriptCodingOption;
 
 /**
  * <p>
@@ -150,10 +152,7 @@ public class JavascriptCodeVerifier {
 
                 // The decompiled code is wrapped in a fresh function scope so the same class
                 // (i.e. the anonymous inner class) is never declared twice in the shared runtime.
-                String script = "(function () {\r\n" + javascript + "\r\n"
-                        + " const instance = new " + className + "();\r\n"
-                        + " return instance." + methodName + "(" + arguments + ");\r\n"
-                        + "})()";
+                String script = "(function () {\r\n" + javascript + "\r\n" + " const instance = new " + className + "();\r\n" + " return instance." + methodName + "(" + arguments + ");\r\n" + "})()";
 
                 try (V8Value value = runtime.getExecutor(script).execute()) {
                     Object actual = toJava(value);

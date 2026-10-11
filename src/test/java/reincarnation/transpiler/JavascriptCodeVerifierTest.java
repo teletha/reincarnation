@@ -7,7 +7,7 @@
  *
  *          https://opensource.org/licenses/MIT
  */
-package reincarnation.coder.js;
+package reincarnation.transpiler;
 
 import org.junit.jupiter.api.Test;
 
