@@ -70,6 +70,19 @@ public interface TestCode<Self extends TestCode> {
     /**
      * @version 2018/04/04 16:29:00
      */
+    public interface ObjectParamText extends TestCode {
+
+        /**
+         * Write testable code.
+         * 
+         * @return A result.
+         */
+        String run(java.lang.Object param);
+    }
+
+    /**
+     * @version 2018/04/04 16:29:00
+     */
     public interface Int extends TestCode {
 
         /**

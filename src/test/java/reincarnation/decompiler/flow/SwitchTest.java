@@ -1785,4 +1785,24 @@ class SwitchTest extends CodeVerifier {
             }
         });
     }
+
+    @CrossDecompilerTest
+    void typePatternStatement() {
+        verify(new TestCode.ObjectParamText() {
+
+            @Override
+            public String run(java.lang.Object param) {
+                switch (param) {
+                case Integer i:
+                    return "int " + i;
+
+                case String s:
+                    return "str " + s;
+
+                default:
+                    return "other";
+                }
+            }
+        });
+    }
 }

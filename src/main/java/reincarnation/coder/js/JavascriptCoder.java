@@ -1752,6 +1752,27 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * {@inheritDoc}
      */
     @Override
+    protected void writeTypeCase(boolean statement, List<Ⅱ<Class, String>> patterns, Code caseBlock) {
+        // JavaScript cannot express type patterns, so emit the case with the bound variable.
+        if (statement) {
+            for (Ⅱ<Class, String> pattern : patterns) {
+                vars.declare(pattern.ⅱ);
+                line("case ", vars.use(pattern.ⅱ), ":");
+            }
+            indent(() -> write(caseBlock));
+        } else {
+            for (Ⅱ<Class, String> pattern : patterns) {
+                vars.declare(pattern.ⅱ);
+                line("case ", vars.use(pattern.ⅱ), ":");
+            }
+            indent(() -> writeSwitchExpressionReturn(caseBlock));
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void writeDefaultCase(boolean statement, Code defaultBlock) {
         if (statement) {
             if (defaultBlock != null && defaultBlock.isNotEmpty()) {

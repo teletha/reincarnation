@@ -2119,12 +2119,19 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         Operand switchCondition = current.remove(0);
 
         // Pattern matching for switch (JDK 21): the dispatch index is computed by the typeSwitch
-        // bootstrap from the actual value, so the switch condition is that value itself.
-        if (switchCondition instanceof OperandMethodCall typeSwitch && typeSwitch.method.getName().equals("typeSwitch")) {
-            switchCondition = typeSwitch.params.get(0);
+        // bootstrap from the actual value, so the switch condition is that value itself and the
+        // index labels are replaced with the type patterns of each case.
+        boolean typeSwitchDetected = switchCondition instanceof OperandMethodCall typeSwitch && typeSwitch.method.getName()
+                .equals("typeSwitch");
+        if (typeSwitchDetected) {
+            switchCondition = ((OperandMethodCall) switchCondition).params.get(0);
         }
 
         OperandSwitch operand = new OperandSwitch(current, switchCondition, keys, caseNodes, defaultNode);
+
+        if (typeSwitchDetected) {
+            operand.convertToTypeSwitch();
+        }
 
         // for ECJ
         if (match(DUP, ASTORE, INVOKEVIRTUAL, SWITCH)) {

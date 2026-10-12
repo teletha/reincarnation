@@ -1133,6 +1133,27 @@ public class TypeScriptCoder extends Coder<TypeScriptCodingOption> {
      * {@inheritDoc}
      */
     @Override
+    protected void writeTypeCase(boolean statement, List<Ⅱ<Class, String>> patterns, Code caseBlock) {
+        // TypeScript cannot express type patterns, so emit the case with the bound variable.
+        if (statement) {
+            for (Ⅱ<Class, String> pattern : patterns) {
+                vars.declare(pattern.ⅱ);
+                line("case ", vars.use(pattern.ⅱ), ":");
+            }
+            indent(() -> write(caseBlock));
+        } else {
+            for (Ⅱ<Class, String> pattern : patterns) {
+                vars.declare(pattern.ⅱ);
+            }
+            Join labels = Join.of(patterns).prefix("case ").separator("," + space).converter(p -> vars.use(p.ⅱ));
+            writeSwitchExpressionBlock(labels, caseBlock);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void writeDefaultCase(boolean statement, Code defaultBlock) {
         if (statement) {
             if (defaultBlock != null && defaultBlock.isNotEmpty()) {

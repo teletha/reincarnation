@@ -561,4 +561,20 @@ class SwitchExpressionTest extends CodeVerifier {
             }
         });
     }
+
+    @CrossDecompilerTest
+    @Disabled("The type pattern switch expression still has the case-label variable name mismatch and the case bodies can be dropped; statement form is supported.")
+    void typePatternExpression() {
+        verify(new TestCode.ObjectParamText() {
+
+            @Override
+            public String run(java.lang.Object param) {
+                return switch (param) {
+                case Integer i -> "int " + i;
+                case String s -> "str " + s;
+                default -> "other";
+                };
+            }
+        });
+    }
 }

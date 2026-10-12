@@ -27,6 +27,7 @@ import java.util.function.Consumer;
 import kiss.I;
 import kiss.Model;
 import kiss.Variable;
+import kiss.Ⅱ;
 import kiss.Ⅲ;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AccessMode;
@@ -783,7 +784,16 @@ public abstract class Coder<O extends CodingOption> {
      */
     public final void writeSwitch(boolean statement, Optional<String> label, Code condition, Class type, MultiMap<Code, Object> caseBlocks, Code follow) {
         writeSwitch(statement, label, condition, type, () -> {
-            if (Enum.class.isAssignableFrom(type)) {
+            if (caseBlocks.values().skipNull().toList().stream().anyMatch(keys -> !keys.isEmpty() && keys.get(0) instanceof Ⅱ)) {
+                // pattern matching for switch (e.g. `case Integer i ->`)
+                caseBlocks.forEach((code, keys) -> {
+                    if (keys.isEmpty()) {
+                        writeDefaultCase(statement, code);
+                    } else {
+                        writeTypeCase(statement, keys.stream().map(x -> (Ⅱ<Class, String>) x).toList(), code);
+                    }
+                });
+            } else if (Enum.class.isAssignableFrom(type)) {
                 caseBlocks.forEach((code, keys) -> {
                     if (keys.isEmpty()) {
                         writeDefaultCase(statement, code);
@@ -866,6 +876,15 @@ public abstract class Coder<O extends CodingOption> {
      * @param caseBlock A code for case block.
      */
     protected abstract void writeStringCase(boolean statement, List<String> values, Code caseBlock);
+
+    /**
+     * Write case block for a type pattern (e.g. {@code case Integer i:}).
+     * 
+     * @param statement True means statement mode, False means expression mode.
+     * @param patterns A key type patterns.
+     * @param caseBlock A code for case block.
+     */
+    protected abstract void writeTypeCase(boolean statement, List<Ⅱ<Class, String>> patterns, Code caseBlock);
 
     /**
      * Write case block for default value.

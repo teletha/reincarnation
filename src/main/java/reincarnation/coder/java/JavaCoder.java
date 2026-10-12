@@ -1184,6 +1184,29 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
+    protected void writeTypeCase(boolean statement, List<Ⅱ<Class, String>> patterns, Code caseBlock) {
+        if (statement) {
+            for (Ⅱ<Class, String> pattern : patterns) {
+                vars.declare(pattern.ⅱ);
+                line("case ", name(pattern.ⅰ), space, vars.use(pattern.ⅱ), ":");
+            }
+            indent(() -> write(caseBlock));
+        } else {
+            for (Ⅱ<Class, String> pattern : patterns) {
+                vars.declare(pattern.ⅱ);
+            }
+            Join labels = Join.of(patterns)
+                    .prefix("case ")
+                    .separator("," + space)
+                    .converter(p -> name(p.ⅰ) + space + vars.use(p.ⅱ));
+            writeSwitchExpressionBlock(labels, caseBlock);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void writeDefaultCase(boolean statement, Code defaultBlock) {
         if (statement) {
             if (defaultBlock != null && defaultBlock.isNotEmpty()) {
