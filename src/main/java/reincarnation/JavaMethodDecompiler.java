@@ -827,6 +827,11 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             while (iterator.hasNext()) {
                 OperandSwitch op = iterator.next();
 
+                // Dismantle the type pattern structure (bindings, guards and re-dispatch edges)
+                // before the switch expression analysis below, otherwise the re-dispatch edge of a
+                // guarded pattern confuses the expression conversion.
+                op.convertToTypeSwitch();
+
                 if (op.canBeExpression(current)) {
                     Node start = op.entrance;
                     Node end = op.tails(current).sort(Comparator.naturalOrder()).last().to().exact();
@@ -2120,17 +2125,18 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         // Pattern matching for switch (JDK 21): the dispatch index is computed by the typeSwitch
         // bootstrap from the actual value, so the switch condition is that value itself and the
-        // index labels are replaced with the type patterns of each case.
-        boolean typeSwitchDetected = switchCondition instanceof OperandMethodCall typeSwitch && typeSwitch.method.getName()
-                .equals("typeSwitch");
-        if (typeSwitchDetected) {
-            switchCondition = ((OperandMethodCall) switchCondition).params.get(0);
+        // index labels are replaced with the type patterns of each case (convertToTypeSwitch). The
+        // label variable is kept to recognize the re-dispatch structure of guarded patterns.
+        Operand patternLabel = null;
+        if (switchCondition instanceof OperandMethodCall typeSwitch && typeSwitch.method.getName().equals("typeSwitch")) {
+            patternLabel = typeSwitch.params.get(1);
+            switchCondition = typeSwitch.params.get(0);
         }
 
         OperandSwitch operand = new OperandSwitch(current, switchCondition, keys, caseNodes, defaultNode);
 
-        if (typeSwitchDetected) {
-            operand.convertToTypeSwitch();
+        if (patternLabel != null) {
+            operand.markTypeSwitch(patternLabel);
         }
 
         // for ECJ

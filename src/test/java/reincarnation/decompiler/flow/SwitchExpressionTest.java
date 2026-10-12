@@ -576,4 +576,20 @@ class SwitchExpressionTest extends CodeVerifier {
             }
         });
     }
+
+    @CrossDecompilerTest
+    void typePatternGuardExpression() {
+        verify(new TestCode.ObjectParamText() {
+
+            @Override
+            public String run(java.lang.Object param) {
+                return switch (param) {
+                case null -> "null";
+                case String s when s.length() > 3 -> "long";
+                case Integer i -> "int " + i;
+                default -> "other";
+                };
+            }
+        });
+    }
 }

@@ -37,7 +37,7 @@ import kiss.Ⅲ;
 import reincarnation.Debuggable;
 import reincarnation.Operand;
 import reincarnation.OperandConstructorCall;
-import reincarnation.OperandLocalVariable;
+import reincarnation.PatternCase;
 import reincarnation.Reincarnation;
 import reincarnation.coder.AnnotationLike;
 import reincarnation.coder.Code;
@@ -1185,23 +1185,70 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    protected void writeTypeCase(boolean statement, List<Ⅱ<Class, OperandLocalVariable>> patterns, Code caseBlock) {
+    protected void writeTypeCase(boolean statement, List<PatternCase> patterns, Code caseBlock) {
+        patterns.forEach(p -> {
+            if (!p.isNull()) {
+                vars.declare(p.variable.toString());
+            }
+        });
+
         if (statement) {
-            for (Ⅱ<Class, OperandLocalVariable> pattern : patterns) {
-                String name = pattern.ⅱ.toString();
-                vars.declare(name);
-                line("case ", name(pattern.ⅰ), space, vars.use(name), ":");
+            for (PatternCase pattern : patterns) {
+                List<Object> parts = new ArrayList();
+                parts.add("case ");
+                if (pattern.isNull()) {
+                    parts.add("null");
+                } else {
+                    parts.add(name(pattern.type));
+                    parts.add(space);
+                    parts.add(vars.use(pattern.variable.toString()));
+                    if (pattern.guard != null) {
+                        parts.add(space);
+                        parts.add("when");
+                        parts.add(space);
+                        parts.add(pattern.guard);
+                    }
+                }
+                parts.add(":");
+                line(parts.toArray());
             }
             indent(() -> write(caseBlock));
         } else {
-            for (Ⅱ<Class, OperandLocalVariable> pattern : patterns) {
-                vars.declare(pattern.ⅱ.toString());
+            vars.start();
+            List<Object> parts = new ArrayList();
+            parts.add("case ");
+            patterns.forEach(pattern -> {
+                if (parts.size() > 1) {
+                    parts.add("," + space);
+                }
+                if (pattern.isNull()) {
+                    parts.add("null");
+                } else {
+                    parts.add(name(pattern.type));
+                    parts.add(space);
+                    parts.add(vars.use(pattern.variable.toString()));
+                    if (pattern.guard != null) {
+                        parts.add(space);
+                        parts.add("when");
+                        parts.add(space);
+                        parts.add(pattern.guard);
+                    }
+                }
+            });
+            parts.add(space);
+            parts.add("->");
+            parts.add(space);
+
+            if (caseBlock instanceof Fragment frag && !frag.hasFollower()) {
+                parts.add(expression(caseBlock));
+                line(parts.toArray());
+            } else {
+                parts.add("{");
+                line(parts.toArray());
+                indent(caseBlock::write);
+                line("}");
             }
-            Join labels = Join.of(patterns)
-                    .prefix("case ")
-                    .separator("," + space)
-                    .converter(p -> name(p.ⅰ) + space + vars.use(p.ⅱ.toString()));
-            writeSwitchExpressionBlock(labels, caseBlock);
+            vars.end();
         }
     }
 

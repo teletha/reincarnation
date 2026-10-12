@@ -1807,6 +1807,29 @@ class SwitchTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    void typePatternGuardStatement() {
+        verify(new TestCode.ObjectParamText() {
+
+            @Override
+            public String run(java.lang.Object param) {
+                switch (param) {
+                case null:
+                    return "null";
+
+                case String s when s.length() > 3:
+                    return "long";
+
+                case Integer i:
+                    return "int " + i;
+
+                default:
+                    return "other";
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     void stringSwitchMultiCase() {
         verify(new TestCode.TextParam() {
 

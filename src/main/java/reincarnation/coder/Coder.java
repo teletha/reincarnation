@@ -27,9 +27,10 @@ import java.util.function.Consumer;
 import kiss.I;
 import kiss.Model;
 import kiss.Variable;
+import kiss.Ⅲ;
 import kiss.Ⅱ;
 import kiss.Ⅲ;
-import reincarnation.OperandLocalVariable;
+import reincarnation.PatternCase;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
@@ -785,13 +786,13 @@ public abstract class Coder<O extends CodingOption> {
      */
     public final void writeSwitch(boolean statement, Optional<String> label, Code condition, Class type, MultiMap<Code, Object> caseBlocks, Code follow) {
         writeSwitch(statement, label, condition, type, () -> {
-            if (caseBlocks.values().skipNull().toList().stream().anyMatch(keys -> !keys.isEmpty() && keys.get(0) instanceof Ⅱ)) {
+            if (caseBlocks.values().skipNull().toList().stream().anyMatch(keys -> !keys.isEmpty() && keys.get(0) instanceof PatternCase)) {
                 // pattern matching for switch (e.g. `case Integer i ->`)
                 caseBlocks.forEach((code, keys) -> {
                     if (keys.isEmpty()) {
                         writeDefaultCase(statement, code);
                     } else {
-                        writeTypeCase(statement, keys.stream().map(x -> (Ⅱ<Class, OperandLocalVariable>) x).toList(), code);
+                        writeTypeCase(statement, keys.stream().map(x -> (PatternCase) x).toList(), code);
                     }
                 });
             } else if (Enum.class.isAssignableFrom(type)) {
@@ -885,7 +886,7 @@ public abstract class Coder<O extends CodingOption> {
      * @param patterns A key type patterns.
      * @param caseBlock A code for case block.
      */
-    protected abstract void writeTypeCase(boolean statement, List<Ⅱ<Class, OperandLocalVariable>> patterns, Code caseBlock);
+    protected abstract void writeTypeCase(boolean statement, List<PatternCase> patterns, Code caseBlock);
 
     /**
      * Write case block for default value.
