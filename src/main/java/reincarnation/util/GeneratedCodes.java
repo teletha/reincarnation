@@ -316,4 +316,14 @@ public class GeneratedCodes {
      * @return
      */
     public static native String makeConcatWithConstants();
+
+    /**
+     * Bootstrap for pattern matching for switch (JDK 21 or later). Computes the dispatch index of
+     * the given value for the type patterns.
+     * 
+     * @param value A value to be matched.
+     * @param target An initial dispatch index.
+     * @return A dispatch index.
+     */
+    public static native int typeSwitch(Object value, int target);
 }

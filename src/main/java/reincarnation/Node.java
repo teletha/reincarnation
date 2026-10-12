@@ -1391,7 +1391,18 @@ public class Node implements Code<Operand>, Comparable<Node> {
      * Build if statement.
      */
     private Structure writeIf() {
-        OperandCondition condition = (OperandCondition) stack.peekLast().disclose();
+        // The conditional operand is usually the last stack operand, but it may be followed by a
+        // re-dispatch assignment (e.g. a guarded pattern switch). Search for it in that case.
+        Operand peek = stack.peekLast();
+        if (!(peek instanceof OperandCondition)) {
+            for (int i = stack.size() - 2; 0 <= i; i--) {
+                if (stack.get(i) instanceof OperandCondition op) {
+                    peek = op;
+                    break;
+                }
+            }
+        }
+        OperandCondition condition = (OperandCondition) peek.disclose();
 
         Node then = null;
         Node elze = null;

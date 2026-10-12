@@ -74,12 +74,16 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
     /** The reusable reference to record method. */
     static final Method MakeConcatWithConstants;
 
+    /** The reusable reference to pattern-switch dispatch method. */
+    static final Method SwitchTypeSwitch;
+
     static {
         try {
             RecordToString = GeneratedCodes.class.getMethod("recordToString", Object.class);
             RecordEquals = GeneratedCodes.class.getMethod("recordEquals", Object.class, Object.class);
             RecordHashCode = GeneratedCodes.class.getMethod("recordHashCode", Object.class);
             MakeConcatWithConstants = GeneratedCodes.class.getMethod("makeConcatWithConstants");
+            SwitchTypeSwitch = GeneratedCodes.class.getMethod("typeSwitch", Object.class, int.class);
         } catch (Exception e) {
             throw I.quiet(e);
         }
@@ -1607,6 +1611,15 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         } else if (bootstrap.getOwner().equals("java/lang/invoke/StringConcatFactory") && bootstrap.getName()
                 .equals("makeConcatWithConstants")) {
             current.addOperand(OperandUtil.convertMethod(MakeConcatWithConstants, parseConcatString(bootstrapMethodArguments)));
+        } else if (bootstrap.getOwner().equals("java/lang/runtime/SwitchBootstraps")) {
+            // Pattern matching for switch (JDK 21 or later) is compiled by the typeSwitch or
+            // enumSwitch bootstraps. `typeSwitch(Object value, int target)` computes the dispatch
+            // index of the pattern, so it is recorded as the switch index operand and the switch
+            // itself (whose cases are the type patterns) is reconstructed by the following
+            // tableswitch.
+            Operand target = current.remove(0);
+            Operand value = current.remove(0);
+            current.addOperand(OperandUtil.convertMethod(SwitchTypeSwitch, value, target));
         } else {
             Handle handle = (Handle) bootstrapMethodArguments[1];
             Type callerType = Type.getMethodType(description);
@@ -2104,6 +2117,13 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         Node defaultNode = getNode(defaultLabel);
 
         Operand switchCondition = current.remove(0);
+
+        // Pattern matching for switch (JDK 21): the dispatch index is computed by the typeSwitch
+        // bootstrap from the actual value, so the switch condition is that value itself.
+        if (switchCondition instanceof OperandMethodCall typeSwitch && typeSwitch.method.getName().equals("typeSwitch")) {
+            switchCondition = typeSwitch.params.get(0);
+        }
+
         OperandSwitch operand = new OperandSwitch(current, switchCondition, keys, caseNodes, defaultNode);
 
         // for ECJ

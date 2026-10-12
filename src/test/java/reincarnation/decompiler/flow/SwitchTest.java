@@ -1765,4 +1765,24 @@ class SwitchTest extends CodeVerifier {
             }
         });
     }
+
+    @CrossDecompilerTest
+    void stringSwitchStatement() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"a", "bb", "other"}) String param) {
+                switch (param) {
+                case "a":
+                    return "A";
+
+                case "bb":
+                    return "BB";
+
+                default:
+                    return "?";
+                }
+            }
+        });
+    }
 }
