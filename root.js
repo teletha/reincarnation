@@ -238,6 +238,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "OperandLocalVariable",
+			"packageName": "reincarnation",
+			"type": "Class"
+		},
+		{
 			"name": "Node",
 			"packageName": "reincarnation",
 			"type": "Class"
