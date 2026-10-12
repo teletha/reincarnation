@@ -433,4 +433,156 @@ class TryCatchFinallyTest extends CodeVerifier {
             }
         });
     }
+
+    @CrossDecompilerTest
+    void tryFinallyOnly() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                try {
+                    value += 1;
+                } finally {
+                    value += 2;
+                }
+                return value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void returnInTryFinallyNoCatch() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                try {
+                    value += 2;
+                    return value;
+                } finally {
+                    value += 100;
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void nestedAfter() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int value) {
+                try {
+                    try {
+                        value += 1;
+                    } finally {
+                        value += 2;
+                    }
+                    value += 3;
+                } finally {
+                    value += 4;
+                }
+                return value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void nestedFinallyInLoop() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int value) {
+                int result = 0;
+                for (int i = 0; i < value; i++) {
+                    try {
+                        try {
+                            result += 1;
+                        } finally {
+                            result += 2;
+                        }
+                    } finally {
+                        result += 4;
+                    }
+                }
+                return result;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void nestedCatchFinally() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                try {
+                    try {
+                        value = check(value);
+                    } catch (Error e) {
+                        value += 1;
+                    } finally {
+                        value += 2;
+                    }
+                } catch (Error e) {
+                    value += 3;
+                } finally {
+                    value += 4;
+                }
+                return value;
+            }
+
+            private int check(int value) {
+                if (value % 2 == 0) {
+                    throw new Error();
+                }
+                return value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void finallyContinueStatement() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int value) {
+                int result = 0;
+                for (int i = 0; i < 5; i++) {
+                    try {
+                        result += i;
+                        if (i == value) {
+                            continue;
+                        }
+                        result += 10;
+                    } finally {
+                        result += 100;
+                    }
+                }
+                return result;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void whileBreakFinally() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                int result = 0;
+                while (result < value) {
+                    try {
+                        if (3 <= result) {
+                            break;
+                        }
+                        result += 2;
+                    } finally {
+                        result += 1;
+                    }
+                }
+                return result;
+            }
+        });
+    }
 }
