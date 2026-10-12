@@ -634,6 +634,53 @@ class TryCatchFinallyTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    void tryFinallyInDoWhile() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int value) {
+                int result = 0;
+                do {
+                    try {
+                        result += 1;
+                    } finally {
+                        result += 2;
+                    }
+                } while (result < value);
+                return result;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void tryCatchFinallyInWhile() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                int result = 0;
+                while (result < value) {
+                    try {
+                        result += check(result);
+                    } catch (Error e) {
+                        result += 2;
+                    } finally {
+                        result += 3;
+                    }
+                }
+                return result;
+            }
+
+            private int check(int value) {
+                if (value % 2 == 0) {
+                    throw new Error();
+                }
+                return 1;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     void finallyInSwitchWithoutCatch() {
         verify(new TestCode.IntParam() {
 

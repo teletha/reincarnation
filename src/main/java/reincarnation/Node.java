@@ -1189,6 +1189,13 @@ public class Node implements Code<Operand>, Comparable<Node> {
             // Try-Catch-Finally Block
             // =============================================================
             if (!tries.isEmpty()) {
+                // When this node is both a try start and a do-while first node, the do-while must be
+                // the outer structure (the try is built inside its body).
+                if (outgoing.size() == 1 && backedges.size() == 1 && backedges.get(0).outgoing.size() == 2
+                        && new BackedgeGroup(this).exit == null) {
+                    return writeDoWhile();
+                }
+
                 TryCatchFinally removed = tries.remove(0);
 
                 // A synchronized block is a try-finally whose finally is the monitor exit.
@@ -1203,10 +1210,18 @@ public class Node implements Code<Operand>, Comparable<Node> {
                         .map(catchOrFinally -> I.pair(catchOrFinally.exception, catchOrFinally.variable == null ? null
                                 : catchOrFinally.variable.toString(), process(catchOrFinally.node)))
                         .toList();
-                if (removed.exit != null) {
-                    removed.exit.additionalCall++;
+
+                Node exit = removed.exit;
+                if (exit != null) {
+                    // A continuation to the loop checkpoint is written by the loop structure itself,
+                    // so the duplicated follow (e.g. an unreachable continue) must not be emitted.
+                    if (!exit.loopHeader.isPresent()) {
+                        exit.additionalCall++;
+                    } else {
+                        exit = null;
+                    }
                 }
-                return new Try(this, removed.start, catches, removed.exit);
+                return new Try(this, removed.start, catches, exit);
             }
 
             // =============================================================
@@ -1441,7 +1456,14 @@ public class Node implements Code<Operand>, Comparable<Node> {
 
                 if (!candidates.isEmpty()) {
                     follow = candidates.get(0);
-                    follow.additionalCall++;
+
+                    // A fall-through to the loop checkpoint is written by the loop structure itself,
+                    // so the duplicated follow (e.g. an unreachable continue) must not be emitted.
+                    if (!follow.loopHeader.isPresent()) {
+                        follow.additionalCall++;
+                    } else {
+                        follow = null;
+                    }
                 }
             }
         }

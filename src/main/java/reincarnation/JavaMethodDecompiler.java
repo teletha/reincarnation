@@ -3386,6 +3386,7 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                         key.handler.tails()
                                 .last()
                                 .map(n -> n.next)
+                                .skipNull()
                                 .flatMap(Node::outgoingRecursively)
                                 .take(Node::isNotEmpty)
                                 .take(deletables.size())
