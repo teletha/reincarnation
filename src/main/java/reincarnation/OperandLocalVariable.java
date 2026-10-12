@@ -16,7 +16,7 @@ import java.util.List;
 import kiss.Variable;
 import reincarnation.coder.Coder;
 
-class OperandLocalVariable extends Operand {
+public class OperandLocalVariable extends Operand {
 
     /** The variable index. */
     final Variable<Integer> index;;

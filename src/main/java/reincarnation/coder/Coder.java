@@ -29,6 +29,7 @@ import kiss.Model;
 import kiss.Variable;
 import kiss.Ⅱ;
 import kiss.Ⅲ;
+import reincarnation.OperandLocalVariable;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
@@ -790,7 +791,7 @@ public abstract class Coder<O extends CodingOption> {
                     if (keys.isEmpty()) {
                         writeDefaultCase(statement, code);
                     } else {
-                        writeTypeCase(statement, keys.stream().map(x -> (Ⅱ<Class, String>) x).toList(), code);
+                        writeTypeCase(statement, keys.stream().map(x -> (Ⅱ<Class, OperandLocalVariable>) x).toList(), code);
                     }
                 });
             } else if (Enum.class.isAssignableFrom(type)) {
@@ -884,7 +885,7 @@ public abstract class Coder<O extends CodingOption> {
      * @param patterns A key type patterns.
      * @param caseBlock A code for case block.
      */
-    protected abstract void writeTypeCase(boolean statement, List<Ⅱ<Class, String>> patterns, Code caseBlock);
+    protected abstract void writeTypeCase(boolean statement, List<Ⅱ<Class, OperandLocalVariable>> patterns, Code caseBlock);
 
     /**
      * Write case block for default value.

@@ -21,6 +21,7 @@ import java.util.Optional;
 import kiss.Variable;
 import kiss.Ⅱ;
 import kiss.Ⅲ;
+import reincarnation.OperandLocalVariable;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AccessMode;
 import reincarnation.operator.AssignOperator;
@@ -574,7 +575,7 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
      * {@inheritDoc}
      */
     @Override
-    protected void writeTypeCase(boolean statement, List<Ⅱ<Class, String>> patterns, Code caseBlock) {
+    protected void writeTypeCase(boolean statement, List<Ⅱ<Class, OperandLocalVariable>> patterns, Code caseBlock) {
         coder.writeTypeCase(statement, patterns, caseBlock);
     }
 

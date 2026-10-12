@@ -37,6 +37,7 @@ import kiss.Ⅲ;
 import reincarnation.Debuggable;
 import reincarnation.Operand;
 import reincarnation.OperandConstructorCall;
+import reincarnation.OperandLocalVariable;
 import reincarnation.Reincarnation;
 import reincarnation.coder.AnnotationLike;
 import reincarnation.coder.Code;
@@ -1184,21 +1185,22 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    protected void writeTypeCase(boolean statement, List<Ⅱ<Class, String>> patterns, Code caseBlock) {
+    protected void writeTypeCase(boolean statement, List<Ⅱ<Class, OperandLocalVariable>> patterns, Code caseBlock) {
         if (statement) {
-            for (Ⅱ<Class, String> pattern : patterns) {
-                vars.declare(pattern.ⅱ);
-                line("case ", name(pattern.ⅰ), space, vars.use(pattern.ⅱ), ":");
+            for (Ⅱ<Class, OperandLocalVariable> pattern : patterns) {
+                String name = pattern.ⅱ.toString();
+                vars.declare(name);
+                line("case ", name(pattern.ⅰ), space, vars.use(name), ":");
             }
             indent(() -> write(caseBlock));
         } else {
-            for (Ⅱ<Class, String> pattern : patterns) {
-                vars.declare(pattern.ⅱ);
+            for (Ⅱ<Class, OperandLocalVariable> pattern : patterns) {
+                vars.declare(pattern.ⅱ.toString());
             }
             Join labels = Join.of(patterns)
                     .prefix("case ")
                     .separator("," + space)
-                    .converter(p -> name(p.ⅰ) + space + vars.use(p.ⅱ));
+                    .converter(p -> name(p.ⅰ) + space + vars.use(p.ⅱ.toString()));
             writeSwitchExpressionBlock(labels, caseBlock);
         }
     }

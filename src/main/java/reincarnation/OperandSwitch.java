@@ -551,18 +551,12 @@ class OperandSwitch extends Operand {
             MultiMap<Node, Object> renewed = new MultiMap(true);
             cases.keys().toList().forEach(node -> {
                 OperandAssign assign = (OperandAssign) node.stack.remove(0);
-                if (isExpression()) {
-                    // The switch-expression analysis detaches the case nodes from the entrance, so
-                    // the case node keeps its incoming count; grant a call allowance to render the
-                    // case body instead of dropping it.
-                    node.additionalCall++;
-                }
                 OperandLocalVariable variable = (OperandLocalVariable) assign.left;
                 OperandCast cast = (OperandCast) assign.right;
 
                 // The compiler may name the binding and the body references differently through the
                 // local variable table (e.g. the binding is local4 while the body refers to i), so
-                // the case label uses the name referenced in the case body.
+                // the case label uses the local referenced in the case body.
                 OperandLocalVariable referenced = variable;
                 for (OperandLocalVariable v : node.children(OperandLocalVariable.class).toList()) {
                     if (v.index.get().equals(variable.index.get())) {
@@ -570,7 +564,17 @@ class OperandSwitch extends Operand {
                         break;
                     }
                 }
-                renewed.put(node, I.pair(cast.type, referenced.toString()));
+                if (referenced == variable) {
+                    for (Node out : node.outgoing) {
+                        for (OperandLocalVariable v : out.children(OperandLocalVariable.class).toList()) {
+                            if (v.index.get().equals(variable.index.get())) {
+                                referenced = v;
+                                break;
+                            }
+                        }
+                    }
+                }
+                renewed.put(node, I.pair(cast.type, referenced));
             });
             return renewed;
         };

@@ -51,6 +51,7 @@ import kiss.Ⅲ;
 import reincarnation.Debuggable;
 import reincarnation.Operand;
 import reincarnation.OperandConstructorCall;
+import reincarnation.OperandLocalVariable;
 import reincarnation.Reincarnation;
 import reincarnation.coder.AnnotationLike;
 import reincarnation.coder.Code;
@@ -1752,18 +1753,20 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    protected void writeTypeCase(boolean statement, List<Ⅱ<Class, String>> patterns, Code caseBlock) {
+    protected void writeTypeCase(boolean statement, List<Ⅱ<Class, OperandLocalVariable>> patterns, Code caseBlock) {
         // JavaScript cannot express type patterns, so emit the case with the bound variable.
         if (statement) {
-            for (Ⅱ<Class, String> pattern : patterns) {
-                vars.declare(pattern.ⅱ);
-                line("case ", vars.use(pattern.ⅱ), ":");
+            for (Ⅱ<Class, OperandLocalVariable> pattern : patterns) {
+                String name = pattern.ⅱ.toString();
+                vars.declare(name);
+                line("case ", vars.use(name), ":");
             }
             indent(() -> write(caseBlock));
         } else {
-            for (Ⅱ<Class, String> pattern : patterns) {
-                vars.declare(pattern.ⅱ);
-                line("case ", vars.use(pattern.ⅱ), ":");
+            for (Ⅱ<Class, OperandLocalVariable> pattern : patterns) {
+                String name = pattern.ⅱ.toString();
+                vars.declare(name);
+                line("case ", vars.use(name), ":");
             }
             indent(() -> writeSwitchExpressionReturn(caseBlock));
         }
