@@ -1362,6 +1362,22 @@ public class Node implements Code<Operand>, Comparable<Node> {
         Node one = outgoing.get(0);
         Node other = outgoing.get(1);
 
+        // A branch to the loop exit from inside the loop body is a break, so it must be written as
+        // the else clause instead of the following node.
+        for (Node node : new Node[] {one, other}) {
+            if (node.loopExit.isPresent() && node.loopExit.get() instanceof Loopable loopable) {
+                if (loopable.exit == node && !loopable.isHeader(this) && hasDominator(loopable.entrance)) {
+                    then = node == one ? other : one;
+                    elze = node;
+
+                    if (condition.then != then) {
+                        condition = condition.invert();
+                    }
+                    return new If(this, condition, then, elze, follow);
+                }
+            }
+        }
+
         if (one.getPureIncoming().size() != 1) {
             /**
              * no else <pre>
@@ -1474,7 +1490,7 @@ public class Node implements Code<Operand>, Comparable<Node> {
                     Breakable breakable = next.loopExit.get();
 
                     if (breakable instanceof Loopable loopable) {
-                        if (loopable.exit == next && !loopable.containsAsHeader(this) && hasDominator(loopable.entrance)) {
+                        if (loopable.exit == next && !loopable.isHeader(this) && hasDominator(loopable.entrance)) {
                             // check whether the current node connects to the exit node directly or
                             // not
                             if (loopable.exit.incoming.contains(this)) {

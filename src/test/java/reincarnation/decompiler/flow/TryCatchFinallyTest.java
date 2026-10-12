@@ -394,6 +394,28 @@ class TryCatchFinallyTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    void breakInTry() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int value) {
+                int result = 0;
+                for (int i = 0; i < 10; i++) {
+                    try {
+                        if (i == value) {
+                            break;
+                        }
+                        result += i;
+                    } finally {
+                        result += 100;
+                    }
+                }
+                return result;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     void finallyInLoop() {
         verify(new TestCode.IntParam() {
 

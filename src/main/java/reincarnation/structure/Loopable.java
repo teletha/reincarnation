@@ -64,6 +64,18 @@ public abstract class Loopable extends Breakable {
     }
 
     /**
+     * Detect whether the specified node is the entrance or the checkpoint of this loop. Unlike
+     * {@link #containsAsHeader(Node)}, the first body node is not regarded as a header, because the
+     * break from the first body node is a valid control flow.
+     * 
+     * @param node A target node.
+     * @return A result.
+     */
+    public final boolean isHeader(Node node) {
+        return node == entrance || node == checkpoint;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
