@@ -3293,6 +3293,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 // without finally block
                 for (TryCatchFinally block : blocks) {
                     if (block.catcher == catcher) {
+                        // The same handler may be referenced by multiple exception types
+                        // (i.e. a union multi-catch `catch (A | B e)`), so record every type.
+                        block.addCatchOrFinallyBlock(exception, catcher);
                         return;
                     }
 
@@ -3649,8 +3652,14 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 }
             }
             catcherOrFinally.disposable = false;
-            catcherOrFinally.additionalCall++;
-            catcherOrFinally.dominator = start;
+
+            // The same handler node may be referenced by multiple exception types
+            // (i.e. a union multi-catch `catch (A | B e)`), so the call allowance
+            // must be counted once per handler node.
+            if (blocks.stream().noneMatch(b -> b.node == catcherOrFinally)) {
+                catcherOrFinally.additionalCall++;
+                catcherOrFinally.dominator = start;
+            }
             blocks.add(new CatchOrFinally(exception, catcherOrFinally));
         }
 

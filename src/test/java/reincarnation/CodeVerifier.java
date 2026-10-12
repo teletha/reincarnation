@@ -77,6 +77,9 @@ public class CodeVerifier {
     /** The debugged class manager. */
     private static final Set<Class> debugged = ConcurrentHashMap.newKeySet();
 
+    /** The required code fragments which must appear in the decompiled output. */
+    private List<String> requiredFragments;
+
     /** The current debbuger. */
     private final Debugger debugger = Debugger.current();
 
@@ -98,6 +101,22 @@ public class CodeVerifier {
     @AfterEach
     void disableDebugMode(TestInfo info) {
         debuggable = null;
+    }
+
+    /**
+     * Verify decompiled code and check that all required code fragments appear in the decompiled
+     * output.
+     * 
+     * @param code A target code to verify.
+     * @param fragments Required code fragments (e.g. the expected catch clause of a multi-catch).
+     */
+    protected final void verify(TestCode code, String... fragments) {
+        requiredFragments = List.of(fragments);
+        try {
+            verify(code);
+        } finally {
+            requiredFragments = null;
+        }
     }
 
     /**
@@ -158,6 +177,16 @@ public class CodeVerifier {
                 // Decompile code.
                 // ========================================================
                 info.decompiled = decompile(target, debuggable != null);
+
+                // ========================================================
+                // Check the required code fragments.
+                // ========================================================
+                if (requiredFragments != null) {
+                    for (String fragment : requiredFragments) {
+                        assert info.decompiled
+                                .contains(fragment) : "The required code fragment is not found. \n" + fragment + "\n\n" + info.decompiled;
+                    }
+                }
 
                 // ========================================================
                 // Recompile java code.

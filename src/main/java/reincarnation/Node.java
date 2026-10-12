@@ -13,6 +13,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -28,6 +29,7 @@ import kiss.Signal;
 import kiss.Variable;
 import kiss.Ⅱ;
 import kiss.Ⅲ;
+import reincarnation.JavaMethodDecompiler.CatchOrFinally;
 import reincarnation.JavaMethodDecompiler.TryCatchFinally;
 import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
@@ -1206,10 +1208,30 @@ public class Node implements Code<Operand>, Comparable<Node> {
                     return new Synchronized(this, removed.synchronizedLock, removed.start, removed.exit);
                 }
 
-                List<Ⅲ<Class, String, Structure>> catches = I.signal(removed.blocks)
-                        .map(catchOrFinally -> I.pair(catchOrFinally.exception, catchOrFinally.variable == null ? null
-                                : catchOrFinally.variable.toString(), process(catchOrFinally.node)))
-                        .toList();
+                // Group the same handler nodes with their exception types to build a union multi-catch
+                // (e.g. `catch (IOException | SQLException e)`).
+                List<Ⅲ<List<Class>, String, Structure>> catches = new ArrayList<>();
+                List<Node> catchNodes = new ArrayList<>();
+                for (CatchOrFinally catchOrFinally : removed.blocks) {
+                    Node node = catchOrFinally.node;
+                    int index = catchNodes.indexOf(node);
+
+                    if (index < 0) {
+                        catchNodes.add(node);
+                        catches.add(I.pair(catchOrFinally.exception == null ? null : new ArrayList<>(List.of(catchOrFinally.exception)),
+                                catchOrFinally.variable == null ? null : catchOrFinally.variable.toString(), process(node)));
+                    } else if (catchOrFinally.exception != null) {
+                        catches.get(index).ⅰ.add(catchOrFinally.exception);
+                    }
+                }
+
+                // A catch clause alternatives are order-independent, so sort them alphabetically to
+                // make the output deterministic regardless of the compiler's exception table order.
+                for (Ⅲ<List<Class>, String, Structure> catchBlock : catches) {
+                    if (catchBlock.ⅰ != null) {
+                        catchBlock.ⅰ.sort(Comparator.comparing(Class::getName));
+                    }
+                }
 
                 Node exit = removed.exit;
                 if (exit != null) {

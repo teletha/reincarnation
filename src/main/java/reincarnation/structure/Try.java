@@ -21,7 +21,7 @@ public class Try extends Structure {
 
     private final Structure tryBlock;
 
-    private final List<Ⅲ<Class, String, Structure>> catchBlocks;
+    private final List<Ⅲ<List<Class>, String, Structure>> catchBlocks;
 
     private final Structure follow;
 
@@ -31,7 +31,7 @@ public class Try extends Structure {
      * @param catchBlocks
      * @param follow
      */
-    public Try(Node that, Node tryBlock, List<Ⅲ<Class, String, Structure>> catchBlocks, Node follow) {
+    public Try(Node that, Node tryBlock, List<Ⅲ<List<Class>, String, Structure>> catchBlocks, Node follow) {
         super(that);
 
         this.tryBlock = tryBlock.analyze();

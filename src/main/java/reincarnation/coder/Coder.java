@@ -760,7 +760,7 @@ public abstract class Coder<O extends CodingOption> {
     /**
      * Try-Catch-Finally structure.
      */
-    public abstract void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code follow);
+    public abstract void writeTryCatchFinally(Code tryBlock, List<Ⅲ<List<Class>, String, Code>> catchBlocks, Code follow);
 
     /**
      * Synchronized block.

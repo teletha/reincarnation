@@ -1010,16 +1010,16 @@ public class TypeScriptCoder extends Coder<TypeScriptCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code follow) {
+    public void writeTryCatchFinally(Code tryBlock, List<Ⅲ<List<Class>, String, Code>> catchBlocks, Code follow) {
         line("try", space, "{");
         vars.start();
         indent(tryBlock::write);
         vars.end();
-        for (Ⅲ<Class, String, Code> catchBlock : catchBlocks) {
+        for (Ⅲ<List<Class>, String, Code> catchBlock : catchBlocks) {
             vars.start();
             vars.declare(catchBlock.ⅱ);
             if (catchBlock.ⅰ != null) {
-                line("}", space, "catch(", name(catchBlock.ⅰ), space, vars.use(catchBlock.ⅱ), ")", space, "{");
+                line("}", space, "catch(", name(catchBlock.ⅰ.get(0)), space, vars.use(catchBlock.ⅱ), ")", space, "{");
             } else {
                 line("}", space, "finally", space, "{");
             }

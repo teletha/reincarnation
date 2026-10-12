@@ -1617,12 +1617,12 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * {@inheritDoc}
      */
     @Override
-    public void writeTryCatchFinally(Code tryBlock, List<Ⅲ<Class, String, Code>> catchBlocks, Code follow) {
+    public void writeTryCatchFinally(Code tryBlock, List<Ⅲ<List<Class>, String, Code>> catchBlocks, Code follow) {
         line("try", space, "{");
         vars.start();
         indent(tryBlock::write);
         vars.end();
-        for (Ⅲ<Class, String, Code> catchBlock : catchBlocks) {
+        for (Ⅲ<List<Class>, String, Code> catchBlock : catchBlocks) {
             vars.start();
             if (catchBlock.ⅱ != null) {
                 vars.declare(catchBlock.ⅱ);

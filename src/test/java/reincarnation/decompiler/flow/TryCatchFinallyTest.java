@@ -323,6 +323,29 @@ class TryCatchFinallyTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    void multiCatchUnion() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                try {
+                    return check(value);
+                } catch (java.lang.ArithmeticException | java.lang.NumberFormatException ex) {
+                    return value + 1;
+                }
+            }
+
+            private int check(int value) {
+                if (value % 2 == 0) {
+                    throw new java.lang.ArithmeticException();
+                } else {
+                    throw new java.lang.NumberFormatException();
+                }
+            }
+        }, "ArithmeticException | NumberFormatException");
+    }
+
+    @CrossDecompilerTest
     void catchVariableUse() {
         verify(new TestCode.Boolean() {
 
