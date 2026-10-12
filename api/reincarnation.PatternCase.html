@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="KB">
+		<header class="g" date="2026-10-12">
+			<h1 class="h"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="i"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="j"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="q"></nav>
+		<article class="x" id="Article">
+			<section class="y"><code class="CB">reincarnation</code>
+				<h2 class="Class u"><code class="f">PatternCase</code></h2>
+				<div class="v"></div><span class="A"><p>A case label of pattern matching for switch (JDK 21), such as <code>case String s when
+s.length() &gt; 3</code>, <code>case Integer i</code> or <code>case null</code>.</p></span></section>
+			<section class="y" id="NULL">
+				<h2 class="U"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code class="f">NULL</code><i class="Z"><code class="return"><a aria-label="reincarnation.PatternCase" href="api/reincarnation.PatternCase.html">PatternCase</a></code></i></h2><span class="A"><p>The special pattern for the null case.</p></span></section>
+			<section class="y" id="type">
+				<h2 class="U"><i class="FINAL"><i class="PUBLIC"></i></i><code class="f">type</code><i class="Z"><code class="return"><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code></i></h2><span class="A"><p>The pattern type. It is null for the null case.</p></span></section>
+			<section class="y" id="variable">
+				<h2 class="U"><i class="FINAL"><i class="PUBLIC"></i></i><code class="f">variable</code><i class="Z"><code class="return"><a aria-label="reincarnation.OperandLocalVariable" href="api/reincarnation.OperandLocalVariable.html">OperandLocalVariable</a></code></i></h2><span class="A"><p>The pattern variable bound to the matched value. It is null for the null case.</p></span></section>
+			<section class="y" id="guard">
+				<h2 class="U"><i class="FINAL"><i class="PUBLIC"></i></i><code class="f">guard</code><i class="Z"><code class="return"><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></h2><span class="A"><p>The guard condition (the <code>when</code> clause) of this case. It is null if unguarded.</p></span></section>
+			<section class="y" id="isNull()">
+				<h2 class="U"><i class="PUBLIC"></i><code class="f">isNull</code><code class="BB">()</code><i class="Z"><code>boolean</code></i></h2>
+				<table class="K">
+					<tr class="a">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Test whether this case is the null case or not.</p></span></section>
+		</article>
+		<aside class="GB">
+			<div class="o">
+				<h5 class="m">Static Fields</h5>
+				<ul>
+					<li class="FB"><i class="FINAL"><i class="STATIC PUBLIC"></i></i><code><a href="api/reincarnation.PatternCase.html#NULL">NULL</a></code><i class="AB"><code class="return"><a aria-label="reincarnation.PatternCase" href="api/reincarnation.PatternCase.html">PatternCase</a></code></i></li>
+				</ul>
+				<h5 class="m">Fields</h5>
+				<ul>
+					<li class="FB"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.PatternCase.html#type">type</a></code><i class="AB"><code class="return"><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code></i></li>
+					<li class="FB"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.PatternCase.html#variable">variable</a></code><i class="AB"><code class="return"><a aria-label="reincarnation.OperandLocalVariable" href="api/reincarnation.OperandLocalVariable.html">OperandLocalVariable</a></code></i></li>
+					<li class="FB"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.PatternCase.html#guard">guard</a></code><i class="AB"><code class="return"><a aria-label="reincarnation.Operand" href="api/reincarnation.Operand.html">Operand</a></code></i></li>
+				</ul>
+				<h5 class="m">Methods</h5>
+				<ul>
+					<li class="FB"><i class="PUBLIC"></i><code><a href="api/reincarnation.PatternCase.html#isNull()">isNull</a></code><code class="BB">()</code><i class="AB"><code>boolean</code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="EB">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

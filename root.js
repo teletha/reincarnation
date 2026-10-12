@@ -13,6 +13,11 @@ const root = {
 	],
 	"types": [
 		{
+			"name": "PatternCase",
+			"packageName": "reincarnation",
+			"type": "Class"
+		},
+		{
 			"name": "OperandConstructorCall",
 			"packageName": "reincarnation",
 			"type": "Class"
