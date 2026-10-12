@@ -551,6 +551,11 @@ class OperandSwitch extends Operand {
             MultiMap<Node, Object> renewed = new MultiMap(true);
             cases.keys().toList().forEach(node -> {
                 OperandAssign assign = (OperandAssign) node.stack.remove(0);
+                if (isExpression()) {
+                    // The switch-expression analysis detaches the case nodes from the entrance, so
+                    // grant a call allowance to render the case body instead of dropping it.
+                    node.additionalCall++;
+                }
                 OperandLocalVariable variable = (OperandLocalVariable) assign.left;
                 OperandCast cast = (OperandCast) assign.right;
 

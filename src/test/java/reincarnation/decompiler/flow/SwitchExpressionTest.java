@@ -563,7 +563,7 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    @Disabled("The type pattern switch expression renders the case labels but the case bodies are dropped by the switch-expression rewire; statement form is supported.")
+    @Disabled("The type pattern switch expression renders the case labels and bodies, but the default body is dropped by the switch-expression rewire; statement form is supported.")
     void typePatternExpression() {
         verify(new TestCode.ObjectParamText() {
 
