@@ -303,4 +303,93 @@ class TryCatchFinallyTest extends CodeVerifier {
             }
         });
     }
+
+    @CrossDecompilerTest
+    void multiCatch() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                try {
+                    value = MaybeThrow.error(value);
+                } catch (Error | RuntimeException e) {
+                    value += 1;
+                } finally {
+                    value += 2;
+                }
+                return value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void catchVariableUse() {
+        verify(new TestCode.Boolean() {
+
+            @Override
+            public boolean run() {
+                try {
+                    MaybeThrow.error(2);
+                    return false;
+                } catch (Error e) {
+                    return e instanceof Error;
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void returnInFinally() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                try {
+                    return value;
+                } finally {
+                    return value + 1;
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void finallyOverridesCatchReturn() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                try {
+                    value = MaybeThrow.error(value);
+                    return value;
+                } catch (Error e) {
+                    return 10;
+                } finally {
+                    return 20;
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void continueInTry() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int value) {
+                int result = 0;
+                for (int i = 0; i < 10; i++) {
+                    try {
+                        if (i == value) {
+                            continue;
+                        }
+                        result += i;
+                    } finally {
+                        result += 100;
+                    }
+                }
+                return result;
+            }
+        });
+    }
 }

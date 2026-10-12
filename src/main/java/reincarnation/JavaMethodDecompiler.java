@@ -1119,7 +1119,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         case POP2:
             // One sequence of expressions was finished, so we must write out one remaining
             // operand. (e.g. Method invocation which returns some operands but it is not used ever)
-            current.addExpression(current.remove(0));
+            //
+            // For a finally handler, the compiler inserts pop to discard the caught exception.
+            // A pop on an empty stack is generated at that time, so nothing must be written.
+            if (current.peek(0) != null) {
+                current.addExpression(current.remove(0));
+            }
             break;
 
         // 0
