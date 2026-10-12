@@ -1133,8 +1133,8 @@ public class JavaCoder extends Coder<JavaCodingOption> {
 
     /**
      * Build the header pieces of a try-with-resources statement, e.g.
-     * {@code try (InputStream in = new ...) {}. The resource variables are declared in the header so
-     * that the try block can reference them.
+     * {@code try (InputStream in = new InputStrema();)}. The resource variables are declared in the
+     * header so that the try block can reference them.
      * 
      * @param resources The resource declarations as (variable, initializer) pairs.
      * @return The header pieces.
