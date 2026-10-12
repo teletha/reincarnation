@@ -585,4 +585,102 @@ class TryCatchFinallyTest extends CodeVerifier {
             }
         });
     }
+
+    @CrossDecompilerTest
+    void synchronizedWithTryFinally() {
+        verify(new TestCode.IntParam() {
+
+            private final java.lang.Object lock = new java.lang.Object();
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                synchronized (lock) {
+                    try {
+                        value += 1;
+                    } finally {
+                        value += 2;
+                    }
+                }
+                return value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void multipleCatchFinally() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                try {
+                    value = check(value);
+                } catch (Error e) {
+                    value += 1;
+                } catch (RuntimeException e) {
+                    value += 2;
+                } finally {
+                    value += 3;
+                }
+                return value;
+            }
+
+            private int check(int value) {
+                if (value % 2 == 0) {
+                    throw new Error();
+                }
+                return value;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void finallyInSwitchWithoutCatch() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int value) {
+                switch (value) {
+                case 0, 1:
+                    try {
+                        value += 1;
+                    } finally {
+                        value += 2;
+                    }
+                    return value;
+
+                default:
+                    return value + 10;
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void nestedFinallyInCatch() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 10) int value) {
+                try {
+                    value = check(value);
+                } catch (Error e) {
+                    try {
+                        value += 1;
+                    } finally {
+                        value += 2;
+                    }
+                } finally {
+                    value += 3;
+                }
+                return value;
+            }
+
+            private int check(int value) {
+                if (value % 2 == 0) {
+                    throw new Error();
+                }
+                return value;
+            }
+        });
+    }
 }
