@@ -563,7 +563,7 @@ class SwitchExpressionTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
-    @Disabled("The type pattern switch expression still has the case-label variable name mismatch and the case bodies can be dropped; statement form is supported.")
+    @Disabled("The type pattern switch expression has the case-label variable name mismatch (the LVT scope excludes the binding store); statement form is supported.")
     void typePatternExpression() {
         verify(new TestCode.ObjectParamText() {
 

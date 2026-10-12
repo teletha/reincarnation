@@ -1805,4 +1805,46 @@ class SwitchTest extends CodeVerifier {
             }
         });
     }
+
+    @CrossDecompilerTest
+    void stringSwitchMultiCase() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"a", "b", "ccc", "other"}) String param) {
+                switch (param) {
+                case "a":
+                case "b":
+                    return "short";
+
+                case "ccc":
+                    return "long";
+
+                default:
+                    return "?";
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void stringSwitchFallThrough() {
+        verify(new TestCode.TextParam() {
+
+            @Override
+            public String run(@Param(strings = {"a", "b", "ccc", "other"}) String param) {
+                String result = "?";
+                switch (param) {
+                case "a":
+                    result = "AF";
+
+                case "b":
+                    return result + param;
+
+                default:
+                    return "default";
+                }
+            }
+        });
+    }
 }
