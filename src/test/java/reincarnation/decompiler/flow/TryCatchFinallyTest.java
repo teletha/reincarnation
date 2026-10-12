@@ -9,7 +9,10 @@
  */
 package reincarnation.decompiler.flow;
 
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
 import reincarnation.CodeVerifier;
+import reincarnation.CompilerType;
 import reincarnation.CrossDecompilerTest;
 import reincarnation.TestCode;
 
@@ -752,5 +755,117 @@ class TryCatchFinallyTest extends CodeVerifier {
                 return value;
             }
         });
+    }
+
+    @CrossDecompilerTest
+    void tryWithResources() {
+        assumeTrue(CompilerType.isJavac());// ECJ expands with null-guarded close calls.
+
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int value) {
+                try (AutoClose close = new AutoClose(value)) {
+                    return close.get() + 1;
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void tryWithResourcesWithCatch() {
+        assumeTrue(CompilerType.isJavac());// ECJ expands with null-guarded close calls.
+
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int value) {
+                try (AutoClose close = new AutoClose(value)) {
+                    return close.get() + 1;
+                } catch (RuntimeException e) {
+                    return -1;
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void tryWithResourcesWithFinally() {
+        assumeTrue(CompilerType.isJavac());// ECJ expands with null-guarded close calls.
+
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int value) {
+                int result = 0;
+                try (AutoClose close = new AutoClose(value)) {
+                    result = close.get() + 1;
+                } finally {
+                    result++;
+                }
+                return result;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void tryWithResourcesMulti() {
+        assumeTrue(CompilerType.isJavac());// ECJ expands with null-guarded close calls.
+
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int value) {
+                try (AutoClose first = new AutoClose(value);
+                        AutoClose second = new AutoClose(value + 1)) {
+                    return first.get() + second.get();
+                }
+            }
+        });
+    }
+
+    @CrossDecompilerTest
+    void tryWithResourcesFromFactory() {
+        assumeTrue(CompilerType.isJavac());// ECJ expands with null-guarded close calls.
+
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int value) {
+                try (AutoClose close = create(value)) {
+                    return close.get() + 1;
+                }
+            }
+
+            /**
+             * Create an {@link AutoClose} instance.
+             * 
+             * @param value A value.
+             * @return A new instance.
+             */
+            private AutoClose create(int value) {
+                return new AutoClose(value);
+            }
+        });
+    }
+
+    /**
+     * A simple closeable resource for the try-with-resources tests.
+     */
+    static final class AutoClose implements AutoCloseable {
+
+        private final int value;
+
+        AutoClose(int value) {
+            this.value = value;
+        }
+
+        int get() {
+            return value;
+        }
+
+        @Override
+        public void close() {
+        }
     }
 }

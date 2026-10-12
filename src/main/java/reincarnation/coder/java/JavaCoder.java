@@ -52,6 +52,7 @@ import reincarnation.operator.AssignOperator;
 import reincarnation.operator.BinaryOperator;
 import reincarnation.operator.UnaryOperator;
 import reincarnation.structure.Fragment;
+import reincarnation.structure.TryWithResources;
 import reincarnation.util.Classes;
 import reincarnation.util.GeneratedCodes;
 import reincarnation.util.MultiMap;
@@ -1058,6 +1059,31 @@ public class JavaCoder extends Coder<JavaCodingOption> {
      */
     @Override
     public void writeTryCatchFinally(Code tryBlock, List<Ⅲ<List<Class>, String, Code>> catchBlocks, Code follow) {
+        if (tryBlock instanceof TryWithResources withResources) {
+            // The resource header is merged into this try statement.
+            line(writeTryWithResourcesHeader(withResources.getResources()).toArray());
+            indent(withResources.getTryBlock()::write);
+            line("}");
+            for (Ⅲ<List<Class>, String, Code> catchBlock : catchBlocks) {
+                vars.start();
+                vars.declare(catchBlock.ⅱ);
+                if (catchBlock.ⅰ != null) {
+                    StringJoiner types = new StringJoiner(" | ");
+                    for (Class type : catchBlock.ⅰ) {
+                        types.add(name(type));
+                    }
+                    line("}", space, "catch(", types, space, vars.use(catchBlock.ⅱ), ")", space, "{");
+                } else {
+                    line("}", space, "finally", space, "{");
+                }
+                indent(catchBlock.ⅲ::write);
+                vars.end();
+            }
+            line("}");
+            write(follow);
+            return;
+        }
+
         line("try", space, "{");
         vars.start();
         indent(tryBlock::write);
@@ -1092,6 +1118,57 @@ public class JavaCoder extends Coder<JavaCodingOption> {
         vars.end();
         line("}");
         write(follow);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeTryWithResources(List<Ⅱ<Operand, Operand>> resources, Code tryBlock, Code follow) {
+        line(writeTryWithResourcesHeader(resources).toArray());
+        indent(tryBlock::write);
+        line("}");
+        write(follow);
+    }
+
+    /**
+     * Build the header pieces of a try-with-resources statement, e.g.
+     * {@code try (InputStream in = new ...) {}. The resource variables are declared in the header so
+     * that the try block can reference them.
+     * 
+     * @param resources The resource declarations as (variable, initializer) pairs.
+     * @return The header pieces.
+     */
+    private List<Object> writeTryWithResourcesHeader(List<Ⅱ<Operand, Operand>> resources) {
+        List<Object> parts = new ArrayList();
+        parts.add("try");
+        parts.add(space);
+        parts.add("(");
+
+        for (int i = 0; i < resources.size(); i++) {
+            if (i > 0) {
+                parts.add(";");
+                parts.add(space);
+            }
+
+            Ⅱ<Operand, Operand> resource = resources.get(i);
+            Operand variable = resource.ⅰ;
+            Operand initializer = resource.ⅱ;
+            String varName = variable.toString();
+            vars.declare(varName);
+            parts.add(name(initializer.type()));
+            parts.add(space);
+            parts.add(vars.use(varName));
+            parts.add(space);
+            parts.add("=");
+            parts.add(space);
+            parts.add(initializer);
+        }
+
+        parts.add(")");
+        parts.add(space);
+        parts.add("{");
+        return parts;
     }
 
     /**

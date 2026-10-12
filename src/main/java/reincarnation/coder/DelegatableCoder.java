@@ -19,7 +19,9 @@ import java.util.Objects;
 import java.util.Optional;
 
 import kiss.Variable;
+import kiss.Ⅱ;
 import kiss.Ⅲ;
+import reincarnation.Operand;
 import reincarnation.PatternCase;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AccessMode;
@@ -528,6 +530,14 @@ public abstract class DelegatableCoder<O extends CodingOption> extends Coder<O> 
     @Override
     public void writeSynchronized(Code lock, Code body, Code follow) {
         coder.writeSynchronized(lock, body, follow);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeTryWithResources(List<Ⅱ<Operand, Operand>> resources, Code tryBlock, Code follow) {
+        coder.writeTryWithResources(resources, tryBlock, follow);
     }
 
     /**

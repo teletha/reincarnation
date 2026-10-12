@@ -27,9 +27,9 @@ import java.util.function.Consumer;
 import kiss.I;
 import kiss.Model;
 import kiss.Variable;
-import kiss.Ⅲ;
 import kiss.Ⅱ;
 import kiss.Ⅲ;
+import reincarnation.Operand;
 import reincarnation.PatternCase;
 import reincarnation.Reincarnation;
 import reincarnation.operator.AccessMode;
@@ -766,11 +766,21 @@ public abstract class Coder<O extends CodingOption> {
     public abstract void writeTryCatchFinally(Code tryBlock, List<Ⅲ<List<Class>, String, Code>> catchBlocks, Code follow);
 
     /**
-     * Synchronized block.
+     * Write a try-with-resources statement, e.g.
+     * {@code try (InputStream in = new FileInputStream(...)) { ... }}.
+     * 
+     * @param resources The resource declarations as (variable, initializer) pairs.
+     * @param tryBlock The try block.
+     * @param follow The following code.
+     */
+    public abstract void writeTryWithResources(List<Ⅱ<Operand, Operand>> resources, Code tryBlock, Code follow);
+
+    /**
+     * Write a synchronized block.
      * 
      * @param lock A lock object.
-     * @param body A synchronized body.
-     * @param follow A following structure.
+     * @param body A body block.
+     * @param follow The following code.
      */
     public abstract void writeSynchronized(Code lock, Code body, Code follow);
 

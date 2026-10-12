@@ -1658,6 +1658,31 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * {@inheritDoc}
      */
     @Override
+    public void writeTryWithResources(List<Ⅱ<Operand, Operand>> resources, Code tryBlock, Code follow) {
+        // JavaScript cannot express try-with-resources, so the resources are declared up front and
+        // closed in a finally block.
+        for (Ⅱ<Operand, Operand> resource : resources) {
+            String varName = resource.ⅰ.toString();
+            vars.declare(varName);
+            line("var ", vars.use(varName), space, "=", space, resource.ⅱ, ";");
+        }
+        line("try", space, "{");
+        indent(tryBlock::write);
+        line("}");
+        if (!resources.isEmpty()) {
+            line("finally", space, "{");
+            for (Ⅱ<Operand, Operand> resource : resources) {
+                line(vars.use(resource.ⅰ.toString()), ".close();");
+            }
+            line("}");
+        }
+        write(follow);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void writeSwitch(boolean statement, Optional<String> label, Code condition, Class conditionType, Runnable caseProcess, Code follow) {
         if (statement) {
             line(label(label), "switch", space, "(", condition, ")", space, "{");

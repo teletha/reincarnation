@@ -46,6 +46,7 @@ import org.objectweb.asm.Type;
 import kiss.I;
 import kiss.Signal;
 import kiss.WiseConsumer;
+import kiss.Ⅱ;
 import reincarnation.Debugger.Printable;
 import reincarnation.coder.AnnotationLike;
 import reincarnation.coder.Code;
@@ -3518,6 +3519,8 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             if (analyzed == false) {
                 analyzed = true;
 
+                disposeTryWithResources();
+
                 // To analyze try-catch-finally statement tree, we must connect each nodes.
                 // But these connections disturb the analysis of other statements (e.g. if, for).
                 // So we must disconnect them immediately after analysis of try-catch-finally
@@ -3525,10 +3528,12 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
                 // At first, do connecting only.
                 for (TryCatchFinally block : blocks) {
-                    block.start.connect(block.catcher);
+                    if (block.isTryWithResources() == false) {
+                        block.start.connect(block.catcher);
 
-                    for (CatchOrFinally catchBlock : block.blocks) {
-                        block.start.connect(catchBlock.node);
+                        for (CatchOrFinally catchBlock : block.blocks) {
+                            block.start.connect(catchBlock.node);
+                        }
                     }
                 }
 
@@ -3538,20 +3543,28 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                     if (block.synchronizedLock == null) {
                         block.searchExit();
                     }
-                    block.purgeUnreachableCatch();
+                    if (block.isTryWithResources() == false) {
+                        block.purgeUnreachableCatch();
+                    }
                 }
 
                 // At last, disconnect immediately after analysis.
                 for (TryCatchFinally block : blocks) {
-                    block.start.disconnect(block.catcher);
+                    if (block.isTryWithResources() == false) {
+                        block.start.disconnect(block.catcher);
 
-                    for (CatchOrFinally catchBlock : block.blocks) {
-                        block.start.disconnect(catchBlock.node);
+                        for (CatchOrFinally catchBlock : block.blocks) {
+                            block.start.disconnect(catchBlock.node);
+                        }
                     }
                 }
 
                 // Purge the catch block which is inside loop structure directly.
                 for (TryCatchFinally block : blocks) {
+                    if (block.isTryWithResources()) {
+                        continue;
+                    }
+
                     for (CatchOrFinally catchOrFinally : block.blocks) {
                         Set<Node> recorder = new HashSet<>();
                         recorder.add(catchOrFinally.node);
@@ -3578,6 +3591,174 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                         }
                     }
                 }
+            }
+        }
+
+        /**
+         * Detect the try-with-resources blocks. The compiler expands
+         * {@code try (R r = init) { body }} into {@code r = init; try { body; r.close(); } catch
+         * (Throwable e) { try { r.close(); } catch (Throwable suppressed) {
+         * e.addSuppressed(suppressed); } throw e; }}. Such blocks are removed from the ordinary
+         * try-catch handling: the resource initialization is folded into the start node (which is
+         * rebuilt as a {@link reincarnation.structure.TryWithResources} by Node.analyze), and the
+         * compiler-generated close and suppression handlers are discarded.
+         */
+        private void disposeTryWithResources() {
+            for (TryCatchFinally block : blocks) {
+                if (block.blocks.size() != 1) {
+                    continue;
+                }
+
+                CatchOrFinally caught = block.blocks.get(0);
+                if (caught.exception != Throwable.class) {
+                    continue;
+                }
+
+                // The handler of a try-with-resources closes the resource and calls addSuppressed.
+                // The suppressed handler is compiled into a nested block, so the addSuppressed call
+                // is searched method-wide.
+                OperandLocalVariable resource = findClosedVariable(caught.node);
+                if (resource == null || !hasAddSuppressed()) {
+                    continue;
+                }
+
+                Operand initializer = findResourceInitializer(block.start, resource);
+                if (initializer == null) {
+                    continue;
+                }
+
+                collapseNullGuards(resource);
+                removeCloseCalls(resource);
+
+                block.tryWithResources = new ArrayList<>();
+                block.tryWithResources.add(I.pair(resource, initializer));
+            }
+        }
+
+        /**
+         * Find the resource variable that is closed inside the given handler node tree.
+         * 
+         * @param handler A catch handler node.
+         * @return A closed local variable, or null.
+         */
+        private OperandLocalVariable findClosedVariable(Node handler) {
+            for (Node node : I.signal(handler).merge(handler.outgoingRecursively()).toList()) {
+                for (OperandMethodCall call : node.children(OperandMethodCall.class).toList()) {
+                    if (call.method.getName().equals("close") && call.owner instanceof OperandLocalVariable variable) {
+                        return variable;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /**
+         * Remove the disconnected nodes from the flow recursively. The removed branch is a
+         * compiler-generated close of the resource, so all of its downstream edges are also
+         * discarded as long as the downstream nodes are not reachable from anywhere else.
+         * 
+         * @param node A disconnected node.
+         */
+        private void orphanPrune(Node node) {
+            for (Node out : new ArrayList<>(node.outgoing)) {
+                node.outgoing.remove(out);
+                out.incoming.remove(node);
+
+                if (out.incoming.isEmpty() && out != node) {
+                    orphanPrune(out);
+                }
+            }
+        }
+
+        /**
+         * Test whether the method contains an addSuppressed call, the signature of the suppression
+         * handler of a try-with-resources.
+         * 
+         * @return A result.
+         */
+        private boolean hasAddSuppressed() {
+            for (Node node : nodes) {
+                for (OperandMethodCall call : node.children(OperandMethodCall.class).toList()) {
+                    if (call.method.getName().equals("addSuppressed")) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Find the initialization {@code variable = init} of the resource in the node itself or in
+         * the nodes preceding the try block, and remove it from its node because the initialization
+         * is emitted as the try-with-resources header by the structure. Only a constructor or
+         * factory call is accepted as the initializer, so the ECJ layout (which initializes the
+         * resource variable to null and assigns it inside the try) is left untouched.
+         * 
+         * @param start The try block start node.
+         * @param variable A resource variable.
+         * @return The initializer operand, or null.
+         */
+        private Operand findResourceInitializer(Node start, OperandLocalVariable variable) {
+            for (Node node : I.signal(start).merge(I.signal(start.incoming)).toList()) {
+                for (Iterator<Operand> iterator = node.stack.iterator(); iterator.hasNext();) {
+                    Operand operand = iterator.next();
+
+                    if (operand instanceof OperandAssign assign && assign.left instanceof OperandLocalVariable left
+                            && left.index.get().equals(variable.index.get())
+                            && (assign.right instanceof OperandConstructorCall || assign.right instanceof OperandMethodCall)) {
+                        iterator.remove();
+                        return assign.right;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /**
+         * Remove the null-guard conditionals such as {@code if (variable != null) variable.close()}
+         * which are emitted by the compiler before the close of a resource whose initializer is a
+         * method call (it may return null). The guarded close branch is removed together with the
+         * condition, because the try-with-resources structure closes the resource implicitly.
+         * 
+         * @param variable A resource variable.
+         */
+        private void collapseNullGuards(OperandLocalVariable variable) {
+            for (Node node : nodes) {
+                for (Iterator<Operand> iterator = node.stack.iterator(); iterator.hasNext();) {
+                    Operand operand = iterator.next();
+
+                    if (operand instanceof OperandCondition condition
+                            && condition.right == Operand.Null
+                            && condition.left instanceof OperandLocalVariable var
+                            && var.index.get().equals(variable.index.get())) {
+                        // One of the outgoing branches must be a close of the resource only.
+                        for (Node branch : new ArrayList<>(node.outgoing)) {
+                            if (branch.stack.size() == 1
+                                    && branch.stack.get(0) instanceof OperandMethodCall close
+                                    && close.method.getName().equals("close")
+                                    && close.owner instanceof OperandLocalVariable owner
+                                    && owner.index.get().equals(variable.index.get())) {
+                                node.outgoing.remove(branch);
+                                orphanPrune(branch);
+                                iterator.remove();
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * Remove the compiler-generated close calls of the resource from the code nodes.
+         * 
+         * @param variable A resource variable.
+         */
+        private void removeCloseCalls(OperandLocalVariable variable) {
+            for (Node node : nodes) {
+                node.stack.removeIf(operand -> operand instanceof OperandMethodCall call
+                        && call.method.getName().equals("close")
+                        && call.owner instanceof OperandLocalVariable var && var.index.get().equals(variable.index.get()));
             }
         }
 
@@ -3620,6 +3801,18 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
 
         /** The lock operand when this is a synchronized block, otherwise null. */
         Operand synchronizedLock;
+
+        /** The resources of a try-with-resources block, or null when this is not one. */
+        List<Ⅱ<Operand, Operand>> tryWithResources;
+
+        /**
+         * Test whether this block is a try-with-resources or not.
+         * 
+         * @return A result.
+         */
+        boolean isTryWithResources() {
+            return tryWithResources != null;
+        }
 
         /**
          * @param start

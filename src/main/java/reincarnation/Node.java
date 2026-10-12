@@ -46,6 +46,7 @@ import reincarnation.structure.Loopable;
 import reincarnation.structure.Structure;
 import reincarnation.structure.Synchronized;
 import reincarnation.structure.Try;
+import reincarnation.structure.TryWithResources;
 import reincarnation.structure.While;
 import reincarnation.util.Classes;
 
@@ -1199,6 +1200,17 @@ public class Node implements Code<Operand>, Comparable<Node> {
                 }
 
                 TryCatchFinally removed = tries.remove(0);
+
+                // A try-with-resources block is compiled as the resource initialization followed by
+                // a try-catch(Throwable) whose handler closes the resource and adds suppressed
+                // exceptions. Disposal (TryCatchFinallyManager) has recorded the resources on the
+                // block and removed the generated handlers, so rebuild it as a TryWithResources.
+                if (removed.isTryWithResources()) {
+                    if (removed.exit != null) {
+                        removed.exit.additionalCall++;
+                    }
+                    return new TryWithResources(this, removed.tryWithResources, analyze(), process(removed.exit));
+                }
 
                 // A synchronized block is a try-finally whose finally is the monitor exit.
                 if (removed.synchronizedLock != null) {
