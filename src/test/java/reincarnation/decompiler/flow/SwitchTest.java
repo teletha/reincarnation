@@ -44,6 +44,38 @@ class SwitchTest extends CodeVerifier {
     }
 
     @CrossDecompilerTest
+    void fallThroughThenLoop() {
+        verify(new TestCode.IntParam() {
+
+            @Override
+            public int run(@Param(from = 0, to = 5) int param) {
+                int index = param;
+                boolean negative = false;
+                switch (param) {
+                case 1:
+                    negative = true;
+                    index++;
+                    break;
+
+                case 2:
+                    index++;
+                    break;
+                }
+                int result = 0;
+                int max = 1 + 100 / (param + 1);
+                if (index == max) {
+                    return -1;
+                }
+                while (index < max) {
+                    result += index;
+                    index++;
+                }
+                return negative ? -result : result;
+            }
+        });
+    }
+
+    @CrossDecompilerTest
     void firstDefault() {
         verify(new TestCode.IntParam() {
 

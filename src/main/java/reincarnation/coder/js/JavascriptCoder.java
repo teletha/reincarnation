@@ -668,7 +668,12 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeClass(Class code) {
-        write(name(code));
+        if (classlib() && code.isPrimitive()) {
+            // JavaScript has no primitive class, so its name is used as a placeholder.
+            write("\"", code.getSimpleName(), "\"");
+        } else {
+            write(name(code));
+        }
     }
 
     /**

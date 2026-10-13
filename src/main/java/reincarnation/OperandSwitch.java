@@ -455,9 +455,48 @@ class OperandSwitch extends Operand {
             }
         }
 
-        for (Node node : collectYieldables(follow)) {
+        Set<Node> yieldables = collectYieldables(follow);
+        for (Node node : yieldables) {
             if (!node.isValue()) {
                 return false;
+            }
+        }
+
+        // The default case must yield into the follow through only yielded values. If it reaches
+        // the follow through other statements, the switch is a statement whose default falls
+        // through to the code after the switch (not a switch expression).
+        if (defaultNode != null && !reachesThroughYields(defaultNode, follow, yieldables)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Test whether the specified node reaches the follow node through only empty nodes and yielded
+     * value nodes.
+     * 
+     * @param start A start node.
+     * @param follow A follow node.
+     * @param yieldables The yielded value nodes.
+     * @return A result.
+     */
+    private boolean reachesThroughYields(Node start, Node follow, Set<Node> yieldables) {
+        Set<Node> recorder = new HashSet();
+        recorder.add(start);
+
+        Deque<Node> queue = new ArrayDeque();
+        queue.add(start);
+
+        while (!queue.isEmpty()) {
+            for (Node out : queue.pollFirst().outgoing) {
+                if (out == follow || !recorder.add(out)) {
+                    continue;
+                }
+
+                if (!out.isEmpty() && !yieldables.contains(out)) {
+                    return false;
+                }
+                queue.addLast(out);
             }
         }
         return true;
