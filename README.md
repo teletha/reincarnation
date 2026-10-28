@@ -133,27 +133,6 @@ The output method of the analyzed code is not limited to Java, but is designed t
 - [x] Method reference (e.g. this::method, String::concat, Type::new, int[]::new)
 <p align="right"><a href="#top">back to top</a></p>
 
-## JavaScript output
-Reincarnation can transpile the analyzed bytecode into JavaScript.
-
-```java
-// A single class (idiomatic JavaScript)
-String js = Reincarnation.rebirth(Foo.class, new JavascriptCodingOption());
-
-// The class and its dependencies as one program using the TeaVM class library
-String program = Reincarnation.rebirthProgram(Foo.class);
-```
-
-The class library mode overlays the core JDK APIs which TeaVM implements natively onto a small
-JavaScript runtime, including `Math`, `Character`, the wrapper classes' parsing and formatting,
-`String` / `StringBuilder`, `System.arraycopy`, `Arrays` sorting and formatting, and `Collections`
-sorting and searching. Collections themselves are emitted through the TeaVM class library.
-
-Known limitations: `long` values and integer overflow follow JavaScript number semantics, Unicode
-character classification covers the BMP/Latin ranges, `synchronized` and unmodifiable views are
-no-ops, and regex based `String` methods follow JavaScript regular expression semantics.
-
-
 
 
 
@@ -244,7 +223,7 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 
 ## Dependency
 Reincarnation depends on the following products on runtime.
-* [asm-9.11](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.11)
+* [asm-9.11.1](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.11.1)
 * [asm-analysis-9.10.1](https://mvnrepository.com/artifact/org.ow2.asm/asm-analysis/9.10.1)
 * [asm-commons-9.10.1](https://mvnrepository.com/artifact/org.ow2.asm/asm-commons/9.10.1)
 * [asm-tree-9.10.1](https://mvnrepository.com/artifact/org.ow2.asm/asm-tree/9.10.1)
