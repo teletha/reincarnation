@@ -133,6 +133,27 @@ The output method of the analyzed code is not limited to Java, but is designed t
 - [x] Method reference (e.g. this::method, String::concat, Type::new, int[]::new)
 <p align="right"><a href="#top">back to top</a></p>
 
+## JavaScript output
+Reincarnation can transpile the analyzed bytecode into JavaScript.
+
+```java
+// A single class (idiomatic JavaScript)
+String js = Reincarnation.rebirth(Foo.class, new JavascriptCodingOption());
+
+// The class and its dependencies as one program using the TeaVM class library
+String program = Reincarnation.rebirthProgram(Foo.class);
+```
+
+The class library mode overlays the core JDK APIs which TeaVM implements natively onto a small
+JavaScript runtime, including `Math`, `Character`, the wrapper classes' parsing and formatting,
+`String` / `StringBuilder`, `System.arraycopy`, `Arrays` sorting and formatting, and `Collections`
+sorting and searching. Collections themselves are emitted through the TeaVM class library.
+
+Known limitations: `long` values and integer overflow follow JavaScript number semantics, Unicode
+character classification covers the BMP/Latin ranges, `synchronized` and unmodifiable views are
+no-ops, and regex based `String` methods follow JavaScript regular expression semantics.
+
+
 
 
 

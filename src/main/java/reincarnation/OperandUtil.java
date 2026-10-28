@@ -235,9 +235,8 @@ class OperandUtil {
             return new OperandNumber(0D);
         }
         if (type == char.class) {
-            // If this exception will be thrown, it is bug of this program. So we must rethrow the
-            // wrapped error in here.
-            throw new Error();
+            // A char value is represented by a number operand fixed to char.
+            return new OperandNumber(0).fix(char.class);
         }
         if (type == byte.class) {
             return new OperandNumber((byte) 0);

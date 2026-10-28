@@ -190,6 +190,9 @@ public final class ClasslibReachability {
          * @return A substituted class or null.
          */
         private static Class sub(Class clazz) {
+            if (clazz == null || clazz.isArray()) {
+                return null;
+            }
             Class substituted = Classlib.substitute(clazz);
             return substituted == null || isJdk(substituted.getName()) || isUnsupported(substituted.getName()) ? null
                     : substituted;
@@ -217,7 +220,12 @@ public final class ClasslibReachability {
                     || normalized.equals("org.teavm.classlib.java.lang.TAbstractStringBuilder") //
                     || normalized.equals("org.teavm.classlib.java.lang.TStringBuilder") //
                     || normalized.equals("org.teavm.classlib.java.lang.TStringBuffer") //
-                    || normalized.equals("org.teavm.classlib.java.lang.TAppendable");
+                    || normalized.equals("org.teavm.classlib.java.lang.TAppendable") //
+                    || normalized.equals("org.teavm.classlib.java.lang.TMath") //
+                    || normalized.equals("org.teavm.classlib.java.lang.TCharacter") //
+                    || normalized.equals("org.teavm.classlib.java.lang.TSystem") //
+                    || normalized.equals("org.teavm.classlib.java.lang.TDouble") //
+                    || normalized.equals("org.teavm.classlib.java.lang.TFloat");
         }
 
         /**
@@ -239,7 +247,7 @@ public final class ClasslibReachability {
          * @param clazz A target class.
          */
         private void addClass(Class clazz) {
-            if (clazz == null || isJdk(clazz.getName()) || isUnsupported(clazz.getName())) {
+            if (clazz == null || clazz.isArray() || isJdk(clazz.getName()) || isUnsupported(clazz.getName())) {
                 return;
             }
             if (result.classes.add(clazz)) {

@@ -35,8 +35,9 @@ public final class JavascriptRuntime {
             };
             const $rt_toString = (a) => a === null || a === undefined ? "null" : (typeof a.toString$ === "function" ? a.toString$() : String(a));
             const $rt_sb = () => ({ $value: "" });
+            const $rt_sbWith = (value) => ({ $value: value === null || value === undefined ? "null" : String(value) });
             const $rt_sbAppend = (builder, value) => {
-                builder.$value += value === null || value === undefined ? "null" : String(value);
+                builder.$value += $rt_toString(value);
                 return builder;
             };
             const $rt_sbValue = (builder) => builder.$value;
@@ -49,6 +50,506 @@ public final class JavascriptRuntime {
                     while (iterator.hasNext$()) list.push(iterator.next$());
                 }
                 return list;
+            };
+            const $rt_compareString = (a, b) => {
+                a = String(a);
+                b = String(b);
+                const length = Math.min(a.length, b.length);
+                for (let i = 0; i < length; i++) {
+                    const diff = a.charCodeAt(i) - b.charCodeAt(i);
+                    if (diff !== 0) return diff;
+                }
+                return a.length - b.length;
+            };
+            const $rt_compare = (a, b) => {
+                if (a === b) return 0;
+                if (a === null || a === undefined) return -1;
+                if (b === null || b === undefined) return 1;
+                if (typeof a === "number" && typeof b === "number") return a < b ? -1 : a > b ? 1 : 0;
+                if (typeof a === "string" && typeof b === "string") return $rt_compareString(a, b);
+                if (typeof a.compareTo$ === "function") return a.compareTo$(b);
+                if (typeof a.compareTo$Ljava_lang_Object_ === "function") return a.compareTo$Ljava_lang_Object_(b);
+                if (typeof a.compareTo === "function") return a.compareTo(b);
+                const left = String(a);
+                const right = String(b);
+                return left < right ? -1 : left > right ? 1 : 0;
+            };
+            const $rt_compareBoolean = (a, b) => a === b ? 0 : a ? 1 : -1;
+            const $rt_compareUnsigned = (a, b) => (a >>> 0) < (b >>> 0) ? -1 : (a >>> 0) > (b >>> 0) ? 1 : 0;
+            const $rt_doubleCompare = (a, b) => {
+                if (Number.isNaN(a)) return Number.isNaN(b) ? 0 : 1;
+                if (Number.isNaN(b)) return -1;
+                if (a === b) return 0;
+                return a < b ? -1 : 1;
+            };
+            const $rt_char = (c) => typeof c === "number" ? String.fromCharCode(c) : String(c);
+            const $rt_charCode = (c) => typeof c === "number" ? c : (c === null || c === undefined ? 0 : String(c).charCodeAt(0));
+            const $rt_chars = (text) => String(text).split("");
+            const $rt_charsToString = (array, from, to) => (array || []).slice(from === undefined ? 0 : from, to === undefined ? undefined : to).join("");
+            const $rt_parseInt = (text, radix) => {
+                const value = String(text).trim();
+                const base = radix === undefined ? 10 : radix;
+                if (value.length === 0 || base < 2 || base > 36 || !/^[+-]?[0-9a-zA-Z]+$/.test(value)) throw new Error("NumberFormatException");
+                const number = parseInt(value, base);
+                if (Number.isNaN(number) || number < -2147483648 || number > 2147483647) throw new Error("NumberFormatException");
+                return number;
+            };
+            const $rt_parseLong = (text, radix) => {
+                const value = String(text).trim();
+                const base = radix === undefined ? 10 : radix;
+                if (value.length === 0 || base < 2 || base > 36 || !/^[+-]?[0-9a-zA-Z]+$/.test(value)) throw new Error("NumberFormatException");
+                const number = parseInt(value, base);
+                if (Number.isNaN(number)) throw new Error("NumberFormatException");
+                return number;
+            };
+            const $rt_parseIntRange = (text, begin, end, radix) => $rt_parseInt(String(text).substring(begin, end), radix);
+            const $rt_parseLongRange = (text, begin, end, radix) => $rt_parseLong(String(text).substring(begin, end), radix);
+            const $rt_parseDouble = (text) => {
+                const value = String(text).trim();
+                if (value.length === 0) throw new Error("NumberFormatException");
+                const number = Number(value);
+                if (Number.isNaN(number) && !/^[+-]?NaN$/i.test(value)) throw new Error("NumberFormatException");
+                return number;
+            };
+            const $rt_parseBoolean = (text) => text !== null && text !== undefined && String(text).toLowerCase() === "true";
+            const $rt_toRadixString = (value, radix) => Math.trunc(Number(value)).toString(radix);
+            const $rt_unsignedString = (value, radix, bits) => {
+                let number = Number(value);
+                if (bits === 32) {
+                    number = number >>> 0;
+                } else if (number < 0) {
+                    number += 18446744073709551616;
+                }
+                return Math.trunc(number).toString(radix);
+            };
+            const $rt_doubleToString = (value) => {
+                if (Number.isNaN(value)) return "NaN";
+                if (value === Infinity) return "Infinity";
+                if (value === -Infinity) return "-Infinity";
+                if (Number.isInteger(value) && Math.abs(value) < 1e21) return value.toFixed(1);
+                return String(value);
+            };
+            const $rt_numberHash = (value) => typeof value === "boolean" ? (value ? 1231 : 1237) : (Math.trunc(Number(value)) | 0);
+            const $rt_bitCount = (value) => {
+                let n = value | 0;
+                n = n - ((n >> 1) & 0x55555555);
+                n = (n & 0x33333333) + ((n >> 2) & 0x33333333);
+                return (((n + (n >> 4)) & 0x0F0F0F0F) * 0x01010101) >> 24;
+            };
+            const $rt_highestOneBit = (value) => {
+                const n = value | 0;
+                return n === 0 ? 0 : 1 << (31 - Math.clz32(n));
+            };
+            const $rt_lowestOneBit = (value) => (value | 0) & -(value | 0);
+            const $rt_numberOfLeadingZeros = (value) => Math.clz32(value | 0);
+            const $rt_numberOfTrailingZeros = (value) => {
+                const n = value | 0;
+                return n === 0 ? 32 : 31 - Math.clz32(n & -n);
+            };
+            const $rt_reverseBits = (value) => {
+                let n = value | 0;
+                n = ((n >>> 1) & 0x55555555) | ((n & 0x55555555) << 1);
+                n = ((n >>> 2) & 0x33333333) | ((n & 0x33333333) << 2);
+                n = ((n >>> 4) & 0x0F0F0F0F) | ((n & 0x0F0F0F0F) << 4);
+                n = ((n >>> 8) & 0x00FF00FF) | ((n & 0x00FF00FF) << 8);
+                return (n >>> 16) | (n << 16);
+            };
+            const $rt_reverseBytes = (value) => {
+                const n = value | 0;
+                return ((n & 0xFF) << 24) | ((n & 0xFF00) << 8) | ((n >>> 8) & 0xFF00) | ((n >>> 24) & 0xFF);
+            };
+            const $rt_rotateLeft = (value, distance) => {
+                const n = value | 0;
+                const d = distance & 31;
+                return (n << d) | (n >>> (32 - d));
+            };
+            const $rt_rotateRight = (value, distance) => {
+                const n = value | 0;
+                const d = distance & 31;
+                return (n >>> d) | (n << (32 - d));
+            };
+            const $rt_divideUnsigned = (a, b) => ((a >>> 0) / (b >>> 0)) | 0;
+            const $rt_remainderUnsigned = (a, b) => ((a >>> 0) % (b >>> 0)) | 0;
+            const $rt_doubleToLongBits = (value) => {
+                const buffer = new ArrayBuffer(8);
+                const view = new DataView(buffer);
+                view.setFloat64(0, value);
+                return Number(view.getBigInt64(0));
+            };
+            const $rt_longBitsToDouble = (value) => {
+                const buffer = new ArrayBuffer(8);
+                const view = new DataView(buffer);
+                view.setBigInt64(0, BigInt(Math.trunc(value)));
+                return view.getFloat64(0);
+            };
+            const $rt_toRadians = (value) => value * Math.PI / 180;
+            const $rt_toDegrees = (value) => value * 180 / Math.PI;
+            const $rt_rint = (value) => {
+                if (!Number.isFinite(value)) return value;
+                const floor = Math.floor(value);
+                const fraction = value - floor;
+                if (fraction < 0.5) return floor;
+                if (fraction > 0.5) return floor + 1;
+                return floor % 2 === 0 ? floor : floor + 1;
+            };
+            const $rt_ieeeRemainder = (x, y) => x - $rt_rint(x / y) * y;
+            const $rt_ulp = (value) => {
+                if (Number.isNaN(value)) return NaN;
+                const x = Math.abs(value);
+                if (x === Infinity) return Infinity;
+                if (x === 0) return Number.MIN_VALUE;
+                return Math.pow(2, Math.floor(Math.log2(x)) - 52);
+            };
+            const $rt_nextUp = (value) => {
+                if (Number.isNaN(value) || value === Infinity) return value;
+                if (value === 0) return Number.MIN_VALUE;
+                return value + $rt_ulp(value);
+            };
+            const $rt_nextDown = (value) => {
+                if (Number.isNaN(value) || value === -Infinity) return value;
+                if (value === 0) return -Number.MIN_VALUE;
+                return value - $rt_ulp(value);
+            };
+            const $rt_nextAfter = (value, direction) => direction > value ? $rt_nextUp(value) : direction < value ? $rt_nextDown(value) : direction;
+            const $rt_getExponent = (value) => {
+                if (!Number.isFinite(value) || value === 0) return 0;
+                return Math.floor(Math.log2(Math.abs(value)));
+            };
+            const $rt_scalb = (value, scale) => value * Math.pow(2, scale);
+            const $rt_floorDiv = (a, b) => Math.floor(a / b);
+            const $rt_floorMod = (a, b) => a - Math.floor(a / b) * b;
+            const $rt_ceilDiv = (a, b) => -Math.floor(-a / b);
+            const $rt_ceilMod = (a, b) => a - $rt_ceilDiv(a, b) * b;
+            const $rt_clamp = (value, min, max) => value < min ? min : value > max ? max : value;
+            const $rt_isDigit = (c) => {
+                const code = $rt_charCode(c);
+                return (code >= 48 && code <= 57) || (code >= 0x0660 && code <= 0x0669) || (code >= 0x06F0 && code <= 0x06F9);
+            };
+            const $rt_isLetter = (c) => {
+                const code = $rt_charCode(c);
+                return (code >= 65 && code <= 90) || (code >= 97 && code <= 122)
+                        || (code >= 0xC0 && code <= 0x24F && code !== 0xD7 && code !== 0xF7);
+            };
+            const $rt_isLetterOrDigit = (c) => $rt_isLetter(c) || $rt_isDigit(c);
+            const $rt_isWhitespace = (c) => {
+                const code = $rt_charCode(c);
+                return code === 32 || (code >= 9 && code <= 13) || code === 0x1680 || (code >= 0x2000 && code <= 0x2006)
+                        || (code >= 0x2008 && code <= 0x200a) || code === 0x2028 || code === 0x2029 || code === 0x205f || code === 0x3000;
+            };
+            const $rt_isSpaceChar = (c) => {
+                const code = $rt_charCode(c);
+                return code === 32 || code === 0xA0 || code === 0x1680 || (code >= 0x2000 && code <= 0x200A) || code === 0x202F || code === 0x205F || code === 0x3000;
+            };
+            const $rt_charUpper = (c) => $rt_char(c).toUpperCase().charAt(0);
+            const $rt_charLower = (c) => $rt_char(c).toLowerCase().charAt(0);
+            const $rt_charTitle = (c) => $rt_charUpper(c);
+            const $rt_codePointUpper = (c) => String.fromCodePoint(c).toUpperCase().codePointAt(0);
+            const $rt_codePointLower = (c) => String.fromCodePoint(c).toLowerCase().codePointAt(0);
+            const $rt_codePointTitle = (c) => $rt_codePointUpper(c);
+            const $rt_isUpperCase = (c) => {
+                const text = $rt_char(c);
+                return text !== text.toLowerCase() && text === text.toUpperCase();
+            };
+            const $rt_isLowerCase = (c) => {
+                const text = $rt_char(c);
+                return text !== text.toUpperCase() && text === text.toLowerCase();
+            };
+            const $rt_isTitleCase = (c) => false;
+            const $rt_charDigit = (c, radix) => {
+                const code = $rt_charCode(c);
+                let value;
+                if (code >= 48 && code <= 57) value = code - 48;
+                else if (code >= 65 && code <= 90) value = code - 55;
+                else if (code >= 97 && code <= 122) value = code - 87;
+                else return -1;
+                return value < radix ? value : -1;
+            };
+            const $rt_charNumeric = (c) => $rt_charDigit(c, 36);
+            const $rt_forDigit = (digit, radix) => digit < 0 || digit >= radix ? "\\0" : String.fromCharCode(digit < 10 ? 48 + digit : 87 + digit);
+            const $rt_compareChar = (a, b) => $rt_charCode(a) - $rt_charCode(b);
+            const $rt_isSurrogate = (c) => { const code = $rt_charCode(c); return code >= 0xD800 && code <= 0xDFFF; };
+            const $rt_isHighSurrogate = (c) => { const code = $rt_charCode(c); return code >= 0xD800 && code <= 0xDBFF; };
+            const $rt_isLowSurrogate = (c) => { const code = $rt_charCode(c); return code >= 0xDC00 && code <= 0xDFFF; };
+            const $rt_isSurrogatePair = (a, b) => $rt_isHighSurrogate(a) && $rt_isLowSurrogate(b);
+            const $rt_isBmpCodePoint = (c) => c >= 0 && c <= 0xFFFF;
+            const $rt_isValidCodePoint = (c) => c >= 0 && c <= 0x10FFFF;
+            const $rt_charCount = (c) => c >= 0x10000 ? 2 : 1;
+            const $rt_toCodePoint = (high, low) => 0x10000 + (($rt_charCode(high) - 0xD800) << 10) + ($rt_charCode(low) - 0xDC00);
+            const $rt_highSurrogate = (c) => String.fromCharCode(0xD800 + ((c - 0x10000) >> 10));
+            const $rt_lowSurrogate = (c) => String.fromCharCode(0xDC00 + ((c - 0x10000) & 0x3FF));
+            const $rt_codePointAt = (value, index) => Array.isArray(value) ? $rt_codePointAt(value.join(""), index) : String(value).codePointAt(index);
+            const $rt_codePointBefore = (value, index) => {
+                const text = Array.isArray(value) ? value.join("") : String(value);
+                const low = text.charCodeAt(index - 1);
+                if (low >= 0xDC00 && low <= 0xDFFF && index >= 2) {
+                    const high = text.charCodeAt(index - 2);
+                    if (high >= 0xD800 && high <= 0xDBFF) return 0x10000 + ((high - 0xD800) << 10) + (low - 0xDC00);
+                }
+                return low;
+            };
+            const $rt_codePointCount = (value, begin, end) => {
+                const text = Array.isArray(value) ? value.join("") : String(value);
+                let count = end - begin;
+                for (let i = begin; i < end - 1; i++) {
+                    const code = text.charCodeAt(i);
+                    if (code >= 0xD800 && code <= 0xDBFF) {
+                        const low = text.charCodeAt(i + 1);
+                        if (low >= 0xDC00 && low <= 0xDFFF) {
+                            count--;
+                            i++;
+                        }
+                    }
+                }
+                return count;
+            };
+            const $rt_offsetByCodePoints = (value, index, offset) => {
+                const text = Array.isArray(value) ? value.join("") : String(value);
+                let position = index;
+                while (offset > 0) {
+                    position += text.charCodeAt(position) >= 0xD800 && text.charCodeAt(position) <= 0xDBFF ? 2 : 1;
+                    offset--;
+                }
+                while (offset < 0) {
+                    position -= 1;
+                    if (position > 0 && text.charCodeAt(position) >= 0xDC00 && text.charCodeAt(position) <= 0xDFFF
+                            && text.charCodeAt(position - 1) >= 0xD800 && text.charCodeAt(position - 1) <= 0xDBFF) position--;
+                    offset++;
+                }
+                return position;
+            };
+            const $rt_codePointToChars = (c, destination, index) => {
+                if (c < 0x10000) {
+                    destination[index] = String.fromCharCode(c);
+                    return 1;
+                }
+                destination[index] = $rt_highSurrogate(c);
+                destination[index + 1] = $rt_lowSurrogate(c);
+                return 2;
+            };
+            const $rt_reverseBytes16 = (c) => {
+                const code = $rt_charCode(c);
+                return String.fromCharCode(((code & 0xFF) << 8) | ((code >>> 8) & 0xFF));
+            };
+            const $rt_isISOControl = (c) => { const code = $rt_charCode(c); return code <= 0x1F || (code >= 0x7F && code <= 0x9F); };
+            const $rt_isJavaIdentifier = (c, start) => {
+                const code = $rt_charCode(c);
+                return code === 36 || code === 95 || $rt_isLetter(c) || (start === false && $rt_isDigit(c));
+            };
+            const $rt_join = (separator, values) => {
+                if (values === null || values === undefined) return "";
+                if (!Array.isArray(values)) {
+                    values = $rt_listValues(values);
+                }
+                return values.map(value => $rt_toString(value)).join(separator);
+            };
+            const $rt_format = (format, ...args) => {
+                if (args.length === 1 && Array.isArray(args[0])) args = args[0];
+                let index = 0;
+                return String(format).replace(/%([0-9]+\\$)?([-#+ 0,(<]*)?(\\d+)?(?:\\.(\\d+))?([a-zA-Z%])/g, (match, position, flags, width, precision, type) => {
+                    if (type === "%") return "%";
+                    if (type === "n") return "\\n";
+                    let value = position ? args[parseInt(position) - 1] : args[index++];
+                    switch (type) {
+                    case "d":
+                        value = String(Math.trunc(Number(value)));
+                        break;
+                    case "o":
+                        value = (Math.trunc(Number(value)) >>> 0).toString(8);
+                        break;
+                    case "x":
+                    case "X":
+                        value = (Math.trunc(Number(value)) >>> 0).toString(16);
+                        if (type === "X") value = value.toUpperCase();
+                        break;
+                    case "f":
+                        value = Number(value).toFixed(precision === undefined ? 6 : parseInt(precision));
+                        break;
+                    case "e":
+                    case "E":
+                        value = Number(value).toExponential(precision === undefined ? 6 : parseInt(precision));
+                        if (type === "E") value = value.toUpperCase();
+                        break;
+                    case "g":
+                    case "G":
+                        value = String(Number(value));
+                        if (type === "G") value = value.toUpperCase();
+                        break;
+                    case "b":
+                        value = value === null || value === false || value === undefined ? "false" : "true";
+                        break;
+                    case "c":
+                        value = $rt_char(value);
+                        break;
+                    default:
+                        value = $rt_toString(value);
+                        break;
+                    }
+                    if (width) {
+                        const length = parseInt(width);
+                        const padding = flags && flags.includes("0") ? "0" : " ";
+                        while (value.length < length) value = padding + value;
+                    }
+                    return value;
+                });
+            };
+            const $rt_replaceAll = (text, pattern, replacement, all) => String(text).replace(new RegExp(pattern, all ? "g" : ""), replacement);
+            const $rt_matches = (text, pattern) => new RegExp("^(?:" + pattern + ")$").test(String(text));
+            const $rt_sbReverse = (builder) => { builder.$value = builder.$value.split("").reverse().join(""); return builder; };
+            const $rt_sbAppendChars = (builder, chars, offset, length) => {
+                const start = offset === undefined ? 0 : offset;
+                builder.$value += (chars || []).slice(start, length === undefined ? undefined : start + length).join("");
+                return builder;
+            };
+            const $rt_sbInsertChars = (builder, index, chars, offset, length) => $rt_sbInsert(builder, index, (chars || []).slice(offset, offset + length).join(""));
+            const $rt_sbInsert = (builder, index, value) => {
+                const text = value === null || value === undefined ? "null" : String(value);
+                builder.$value = builder.$value.slice(0, index) + text + builder.$value.slice(index);
+                return builder;
+            };
+            const $rt_sbDelete = (builder, start, end) => {
+                builder.$value = builder.$value.slice(0, start) + builder.$value.slice(end);
+                return builder;
+            };
+            const $rt_sbDeleteCharAt = (builder, index) => $rt_sbDelete(builder, index, index + 1);
+            const $rt_sbReplace = (builder, start, end, value) => {
+                builder.$value = builder.$value.slice(0, start) + String(value) + builder.$value.slice(end);
+                return builder;
+            };
+            const $rt_sbSetCharAt = (builder, index, value) => {
+                builder.$value = builder.$value.slice(0, index) + $rt_char(value) + builder.$value.slice(index + 1);
+                return builder;
+            };
+            const $rt_sbSetLength = (builder, length) => {
+                if (length <= builder.$value.length) {
+                    builder.$value = builder.$value.slice(0, length);
+                } else {
+                    builder.$value += String.fromCharCode(0).repeat(length - builder.$value.length);
+                }
+                return builder;
+            };
+            const $rt_sbCharAt = (builder, index) => builder.$value.charAt(index);
+            const $rt_sbIndexOf = (builder, value, from) => from === undefined ? builder.$value.indexOf($rt_char(value)) : builder.$value.indexOf($rt_char(value), from);
+            const $rt_sbLastIndexOf = (builder, value, from) => from === undefined ? builder.$value.lastIndexOf($rt_char(value)) : builder.$value.lastIndexOf($rt_char(value), from);
+            const $rt_sbSubstring = (builder, start, end) => builder.$value.substring(start, end);
+            const $rt_sbCapacity = (builder) => builder.$value.length;
+            const $rt_sbGetChars = (builder, start, end, destination, index) => {
+                const text = builder.$value.substring(start, end);
+                for (let i = 0; i < text.length; i++) destination[index + i] = text.charAt(i);
+            };
+            const $rt_arraycopy = (source, sourceIndex, destination, destinationIndex, length) => {
+                if (source === null || destination === null) throw new Error("NullPointerException");
+                const copy = source.slice(sourceIndex, sourceIndex + length);
+                for (let i = 0; i < copy.length; i++) destination[destinationIndex + i] = copy[i];
+            };
+            const $rt_arrayToString = (array, deep) => {
+                if (array === null || array === undefined) return "null";
+                const values = [];
+                for (let i = 0; i < array.length; i++) {
+                    const value = array[i];
+                    if (Array.isArray(value)) {
+                        values.push(deep ? $rt_arrayToString(value, true) : String(value));
+                    } else {
+                        values.push($rt_toString(value));
+                    }
+                }
+                return "[" + values.join(", ") + "]";
+            };
+            const $rt_sortArray = (array, from, to, comparator) => {
+                const start = from === undefined ? 0 : from;
+                const end = to === undefined ? array.length : to;
+                const values = array.slice(start, end);
+                values.sort((a, b) => $rt_compareWith(comparator, a, b));
+                for (let i = 0; i < values.length; i++) array[start + i] = values[i];
+                return array;
+            };
+            const $rt_compareWith = (comparator, a, b) => {
+                if (comparator === null || comparator === undefined) return $rt_compare(a, b);
+                if (typeof comparator === "function") return comparator(a, b);
+                if (typeof comparator.compare$Ljava_lang_Object_Ljava_lang_Object_ === "function") return comparator.compare$Ljava_lang_Object_Ljava_lang_Object_(a, b);
+                return comparator.compare(a, b);
+            };
+            const $rt_listValues = (list) => {
+                if (list === null || list === undefined) return [];
+                if (Array.isArray(list)) return list.slice();
+                if (list.array !== undefined && list.size !== undefined) return list.array.slice(0, list.size);
+                const values = [];
+                if (typeof list.iterator$ === "function") {
+                    const iterator = list.iterator$();
+                    while (iterator.hasNext$()) values.push(iterator.next$());
+                } else {
+                    values.push(...Array.from($rt_iterable(list)));
+                }
+                return values;
+            };
+            const $rt_listReplace = (list, values) => {
+                if (list.array !== undefined && list.size !== undefined) {
+                    list.array = values;
+                    list.size = values.length;
+                } else {
+                    if (typeof list.clear$ === "function") list.clear$();
+                    if (typeof list.add$Ljava_lang_Object_ === "function") {
+                        for (const value of values) list.add$Ljava_lang_Object_(value);
+                    }
+                }
+                return list;
+            };
+            const $rt_sort = (list, comparator) => $rt_listReplace(list, $rt_listValues(list).sort((a, b) => $rt_compareWith(comparator, a, b)));
+            const $rt_reverse = (list) => $rt_listReplace(list, $rt_listValues(list).reverse());
+            const $rt_swap = (list, first, second) => {
+                const values = $rt_listValues(list);
+                const value = values[first];
+                values[first] = values[second];
+                values[second] = value;
+                return $rt_listReplace(list, values);
+            };
+            const $rt_fillList = (list, value) => $rt_listReplace(list, $rt_listValues(list).map(() => value));
+            const $rt_copyList = (destination, source) => {
+                const values = $rt_listValues(source);
+                if (destination.array !== undefined && destination.size !== undefined) {
+                    for (let i = 0; i < values.length; i++) destination.array[i] = values[i];
+                } else if (typeof destination.set$intLjava_lang_Object_ === "function") {
+                    for (let i = 0; i < values.length; i++) destination.set$intLjava_lang_Object_(i, values[i]);
+                }
+                return undefined;
+            };
+            const $rt_max = (collection, comparator) => {
+                const values = $rt_listValues(collection);
+                if (values.length === 0) throw new Error("NoSuchElementException");
+                return values.reduce((a, b) => $rt_compareWith(comparator, a, b) >= 0 ? a : b);
+            };
+            const $rt_min = (collection, comparator) => {
+                const values = $rt_listValues(collection);
+                if (values.length === 0) throw new Error("NoSuchElementException");
+                return values.reduce((a, b) => $rt_compareWith(comparator, a, b) <= 0 ? a : b);
+            };
+            const $rt_binarySearch = (list, key, comparator) => {
+                const values = $rt_listValues(list);
+                let low = 0;
+                let high = values.length - 1;
+                while (low <= high) {
+                    const middle = (low + high) >>> 1;
+                    const diff = $rt_compareWith(comparator, values[middle], key);
+                    if (diff < 0) low = middle + 1;
+                    else if (diff > 0) high = middle - 1;
+                    else return middle;
+                }
+                return -(low + 1);
+            };
+            const $rt_reverseOrder = (comparator) => (a, b) => -$rt_compareWith(comparator, a, b);
+            const $rt_nanoTime = () => Date.now() * 1000000;
+            const $rt_identityIds = new WeakMap();
+            let $rt_identityNext = 1;
+            const $rt_identityHashCode = (value) => {
+                if (value === null) return 0;
+                if (typeof value === "number") return value | 0;
+                if (typeof value === "string") return $rt_hashCode(value);
+                if (typeof value !== "object" && typeof value !== "function") return 0;
+                let id = $rt_identityIds.get(value);
+                if (id === undefined) {
+                    id = $rt_identityNext++;
+                    $rt_identityIds.set(value, id);
+                }
+                return id;
             };""";
 
     /** The standard runtime source code. */
