@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="P">
+		<header class="Q" date="2026-10-29">
+			<h1 class="b"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="AB"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="BB"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="J"></nav>
+		<article class="R" id="Article">
+			<section class="HB"><code class="N">js.lang</code>
+				<h2 class="Class O"><code class="q">NativeSet</code></h2>
+				<div class="IB"></div><span class="A"><p>The JavaScript <code>Set</code>.</p><p>
+The Java implementation uses a <code><a aria-label="java.util.LinkedHashSet 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/LinkedHashSet.html">LinkedHashSet</a></code> so that the same test can run on the JVM.
+</p></span></section>
+			<section class="HB" id="NativeSet()">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">NativeSet</code><code class="JB">()</code></h2><span class="A"><p>Create an empty set.</p></span></section>
+			<section class="HB" id="NativeSet(js.lang.NativeArray)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">NativeSet</code><code class="JB">(<code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code><code class="parameterName">array</code>)</code></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code><code class="parameterName">array</code></td>
+						<td><span><p>An array.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create a set from the array.</p></span></section>
+			<section class="HB" id="add(java.lang.Object)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">add</code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="k"><code><a aria-label="js.lang.NativeSet" href="api/js.lang.NativeSet.html">NativeSet</a></code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code><a aria-label="js.lang.NativeSet" href="api/js.lang.NativeSet.html">NativeSet</a></code></td>
+						<td><span><p>This set.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Add the value.</p></span></section>
+			<section class="HB" id="has(java.lang.Object)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">has</code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="k"><code>boolean</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the value exists.</p></span></section>
+			<section class="HB" id="delete(java.lang.Object)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">delete</code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="k"><code>boolean</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>boolean</code></td>
+						<td><span><p>Whether the value was removed.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Remove the value.</p></span></section>
+			<section class="HB" id="clear()">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">clear</code><code class="JB">()</code><i class="k"><code>void</code></i></h2><span class="A"><p>Clear this set.</p></span></section>
+			<section class="HB" id="size()">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">size</code><code class="JB">()</code><i class="k"><code>int</code></i></h2>
+				<table class="c">
+					<tr class="v">
+						<td><code>int</code></td>
+						<td><span><p>A size.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the size.</p></span></section>
+			<section class="HB" id="values()">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">values</code><code class="JB">()</code><i class="k"><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></i></h2>
+				<table class="c">
+					<tr class="v">
+						<td><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></td>
+						<td><span><p>An array of values.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get all values.</p></span></section>
+			<section class="HB" id="forEach(java.util.function.Consumer)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">forEach</code><code class="JB">(<code><a aria-label="java.util.function.Consumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Consumer.html">Consumer</a><code class="parameters"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></code></code><code class="parameterName">action</code>)</code><i class="k"><code>void</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.util.function.Consumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Consumer.html">Consumer</a><code class="parameters"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></code></code><code class="parameterName">action</code></td>
+						<td><span><p>An action.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Invoke the action for each value.</p></span></section>
+			<section class="HB" id="isSet(java.lang.Object)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">isSet</code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="k"><code>boolean</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A target value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the specified value is a set.</p></span></section>
+		</article>
+		<aside class="T">
+			<div class="CB">
+				<h5 class="LB">Constructors</h5>
+				<ul>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeSet.html#NativeSet()">NativeSet</a></code><code class="JB">()</code></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeSet.html#NativeSet(js.lang.NativeArray)">NativeSet</a></code><code class="JB">(<code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code><code class="parameterName">array</code>)</code></li>
+				</ul>
+				<h5 class="LB">Static Methods</h5>
+				<ul>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeSet.html#isSet(java.lang.Object)">isSet</a></code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="s"><code>boolean</code></i></li>
+				</ul>
+				<h5 class="LB">Methods</h5>
+				<ul>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeSet.html#add(java.lang.Object)">add</a></code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="s"><code><a aria-label="js.lang.NativeSet" href="api/js.lang.NativeSet.html">NativeSet</a></code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeSet.html#has(java.lang.Object)">has</a></code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="s"><code>boolean</code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeSet.html#delete(java.lang.Object)">delete</a></code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="s"><code>boolean</code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeSet.html#clear()">clear</a></code><code class="JB">()</code><i class="s"><code>void</code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeSet.html#size()">size</a></code><code class="JB">()</code><i class="s"><code>int</code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeSet.html#values()">values</a></code><code class="JB">()</code><i class="s"><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeSet.html#forEach(java.util.function.Consumer)">forEach</a></code><code class="JB">(<code><a aria-label="java.util.function.Consumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Consumer.html">Consumer</a><code class="parameters"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></code></code><code class="parameterName">action</code>)</code><i class="s"><code>void</code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="S">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

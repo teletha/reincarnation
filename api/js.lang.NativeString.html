@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="P">
+		<header class="Q" date="2026-10-29">
+			<h1 class="b"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="AB"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="BB"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="J"></nav>
+		<article class="R" id="Article">
+			<section class="HB"><code class="N">js.lang</code>
+				<h2 class="Class O"><code class="q">NativeString</code></h2>
+				<div class="IB"></div><span class="A"><p>The JavaScript <code>String</code>.</p><p>
+The Java implementation mimics the JavaScript behavior so that the same test can run on the JVM.
+</p></span></section>
+			<section class="HB" id="fromCharCode(int)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">fromCharCode</code><code class="JB">(<code>int</code><code class="parameterName">code</code>)</code><i class="k"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">code</code></td>
+						<td><span><p>A character code.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A string.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create a string from the character code.</p></span></section>
+			<section class="HB" id="fromCodePoint(int)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">fromCodePoint</code><code class="JB">(<code>int</code><code class="parameterName">code</code>)</code><i class="k"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">code</code></td>
+						<td><span><p>A code point.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A string.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create a string from the code point.</p></span></section>
+			<section class="HB" id="length(java.lang.String)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">length</code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="k"><code>int</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A string.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>int</code></td>
+						<td><span><p>A length.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the length.</p></span></section>
+			<section class="HB" id="charCodeAt(java.lang.String,int)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">charCodeAt</code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code>int</code><code class="parameterName">index</code>)</code><i class="k"><code>int</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A string.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">index</code></td>
+						<td><span><p>An index.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>int</code></td>
+						<td><span><p>A character code.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the character code at the specified index.</p></span></section>
+			<section class="HB" id="codePointAt(java.lang.String,int)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">codePointAt</code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code>int</code><code class="parameterName">index</code>)</code><i class="k"><code>int</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A string.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">index</code></td>
+						<td><span><p>An index.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>int</code></td>
+						<td><span><p>A code point.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the code point at the specified index.</p></span></section>
+			<section class="HB" id="charAt(java.lang.String,int)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">charAt</code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code>int</code><code class="parameterName">index</code>)</code><i class="k"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A string.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">index</code></td>
+						<td><span><p>An index.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A character.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the character at the specified index.</p></span></section>
+			<section class="HB" id="substring(java.lang.String,int)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">substring</code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code>int</code><code class="parameterName">start</code>)</code><i class="k"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A string.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">start</code></td>
+						<td><span><p>A start index.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A substring.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Extract a substring.</p></span></section>
+			<section class="HB" id="substring(java.lang.String,int,int)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">substring</code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code>int</code><code class="parameterName">start</code>, <code>int</code><code class="parameterName">end</code>)</code><i class="k"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A string.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">start</code></td>
+						<td><span><p>A start index.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">end</code></td>
+						<td><span><p>An end index.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A substring.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Extract a substring.</p></span></section>
+			<section class="HB" id="indexOf(java.lang.String,java.lang.String)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">indexOf</code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">search</code>)</code><i class="k"><code>int</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A string.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">search</code></td>
+						<td><span><p>A search text.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>int</code></td>
+						<td><span><p>An index or -1.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Find the index of the specified text.</p></span></section>
+			<section class="HB" id="includes(java.lang.String,java.lang.String)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">includes</code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">search</code>)</code><i class="k"><code>boolean</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A string.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">search</code></td>
+						<td><span><p>A search text.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the string contains the specified text.</p></span></section>
+			<section class="HB" id="startsWith(java.lang.String,java.lang.String)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">startsWith</code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">search</code>)</code><i class="k"><code>boolean</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A string.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">search</code></td>
+						<td><span><p>A search text.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the string starts with the specified text.</p></span></section>
+			<section class="HB" id="endsWith(java.lang.String,java.lang.String)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">endsWith</code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">search</code>)</code><i class="k"><code>boolean</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A string.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">search</code></td>
+						<td><span><p>A search text.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the string ends with the specified text.</p></span></section>
+			<section class="HB" id="toLowerCase(java.lang.String)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">toLowerCase</code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="k"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A string.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A converted string.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Convert to lower case.</p></span></section>
+			<section class="HB" id="toUpperCase(java.lang.String)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">toUpperCase</code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="k"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A string.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A converted string.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Convert to upper case.</p></span></section>
+			<section class="HB" id="trim(java.lang.String)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">trim</code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="k"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A string.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A trimmed string.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Trim the whitespace.</p></span></section>
+			<section class="HB" id="split(java.lang.String,java.lang.String)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">split</code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code>)</code><i class="k"><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A string.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code></td>
+						<td><span><p>A separator.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></td>
+						<td><span><p>An array.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Split the string.</p></span></section>
+		</article>
+		<aside class="T">
+			<div class="CB">
+				<h5 class="LB">Static Methods</h5>
+				<ul>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeString.html#fromCharCode(int)">fromCharCode</a></code><code class="JB">(<code>int</code><code class="parameterName">code</code>)</code><i class="s"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeString.html#fromCodePoint(int)">fromCodePoint</a></code><code class="JB">(<code>int</code><code class="parameterName">code</code>)</code><i class="s"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeString.html#length(java.lang.String)">length</a></code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="s"><code>int</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeString.html#charCodeAt(java.lang.String,int)">charCodeAt</a></code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code>int</code><code class="parameterName">index</code>)</code><i class="s"><code>int</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeString.html#codePointAt(java.lang.String,int)">codePointAt</a></code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code>int</code><code class="parameterName">index</code>)</code><i class="s"><code>int</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeString.html#charAt(java.lang.String,int)">charAt</a></code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code>int</code><code class="parameterName">index</code>)</code><i class="s"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeString.html#substring(java.lang.String,int)">substring</a></code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code>int</code><code class="parameterName">start</code>)</code><i class="s"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeString.html#substring(java.lang.String,int,int)">substring</a></code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code>int</code><code class="parameterName">start</code>, <code>int</code><code class="parameterName">end</code>)</code><i class="s"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeString.html#indexOf(java.lang.String,java.lang.String)">indexOf</a></code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">search</code>)</code><i class="s"><code>int</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeString.html#includes(java.lang.String,java.lang.String)">includes</a></code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">search</code>)</code><i class="s"><code>boolean</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeString.html#startsWith(java.lang.String,java.lang.String)">startsWith</a></code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">search</code>)</code><i class="s"><code>boolean</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeString.html#endsWith(java.lang.String,java.lang.String)">endsWith</a></code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">search</code>)</code><i class="s"><code>boolean</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeString.html#toLowerCase(java.lang.String)">toLowerCase</a></code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="s"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeString.html#toUpperCase(java.lang.String)">toUpperCase</a></code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="s"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeString.html#trim(java.lang.String)">trim</a></code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="s"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeString.html#split(java.lang.String,java.lang.String)">split</a></code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code>)</code><i class="s"><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="S">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

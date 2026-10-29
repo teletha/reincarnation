@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="P">
+		<header class="Q" date="2026-10-29">
+			<h1 class="b"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="AB"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="BB"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="J"></nav>
+		<article class="R" id="Article">
+			<section class="HB"><code class="N">js.lang</code>
+				<h2 class="Class O"><code class="q">NativeConsole</code></h2>
+				<div class="IB"></div><span class="A"><p>The JavaScript <code>console</code>.</p><p>
+The Java implementation writes to the standard output or error so that the same test can run on
+the JVM.
+</p></span></section>
+			<section class="HB" id="log(java.lang.Object...)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">log</code><code class="JB">(<code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code>)</code><i class="k"><code>void</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code></td>
+						<td><span><p>Values.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Log the values.</p></span></section>
+			<section class="HB" id="error(java.lang.Object...)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">error</code><code class="JB">(<code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code>)</code><i class="k"><code>void</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code></td>
+						<td><span><p>Values.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Log the values as an error.</p></span></section>
+			<section class="HB" id="warn(java.lang.Object...)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">warn</code><code class="JB">(<code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code>)</code><i class="k"><code>void</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code></td>
+						<td><span><p>Values.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Log the values as a warning.</p></span></section>
+			<section class="HB" id="info(java.lang.Object...)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">info</code><code class="JB">(<code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code>)</code><i class="k"><code>void</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code></td>
+						<td><span><p>Values.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Log the values as information.</p></span></section>
+			<section class="HB" id="debug(java.lang.Object...)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">debug</code><code class="JB">(<code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code>)</code><i class="k"><code>void</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code></td>
+						<td><span><p>Values.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Log the values for debugging.</p></span></section>
+			<section class="HB" id="write(boolean,java.lang.String)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">write</code><code class="JB">(<code>boolean</code><code class="parameterName">error</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">text</code>)</code><i class="k"><code>void</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>boolean</code><code class="parameterName">error</code></td>
+						<td><span><p>Whether the error stream is used.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">text</code></td>
+						<td><span><p>A text.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Write the text without a newline.</p></span></section>
+		</article>
+		<aside class="T">
+			<div class="CB">
+				<h5 class="LB">Static Methods</h5>
+				<ul>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeConsole.html#log(java.lang.Object...)">log</a></code><code class="JB">(<code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code>)</code><i class="s"><code>void</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeConsole.html#error(java.lang.Object...)">error</a></code><code class="JB">(<code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code>)</code><i class="s"><code>void</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeConsole.html#warn(java.lang.Object...)">warn</a></code><code class="JB">(<code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code>)</code><i class="s"><code>void</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeConsole.html#info(java.lang.Object...)">info</a></code><code class="JB">(<code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code>)</code><i class="s"><code>void</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeConsole.html#debug(java.lang.Object...)">debug</a></code><code class="JB">(<code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code>)</code><i class="s"><code>void</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeConsole.html#write(boolean,java.lang.String)">write</a></code><code class="JB">(<code>boolean</code><code class="parameterName">error</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">text</code>)</code><i class="s"><code>void</code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="S">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

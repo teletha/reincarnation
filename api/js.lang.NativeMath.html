@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="P">
+		<header class="Q" date="2026-10-29">
+			<h1 class="b"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="AB"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="BB"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="J"></nav>
+		<article class="R" id="Article">
+			<section class="HB"><code class="N">js.lang</code>
+				<h2 class="Class O"><code class="q">NativeMath</code></h2>
+				<div class="IB"></div><span class="A"><p>The JavaScript <code>Math</code>.</p><p>
+The Java implementation mimics the JavaScript behavior so that the same test can run on the JVM.
+</p></span></section>
+			<section class="HB" id="abs(double)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">abs</code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="k"><code>double</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>double</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>double</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Compute the absolute value.</p></span></section>
+			<section class="HB" id="ceil(double)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">ceil</code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="k"><code>double</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>double</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>double</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Compute the smallest integer greater than or equal to the value.</p></span></section>
+			<section class="HB" id="floor(double)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">floor</code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="k"><code>double</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>double</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>double</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Compute the largest integer less than or equal to the value.</p></span></section>
+			<section class="HB" id="trunc(double)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">trunc</code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="k"><code>double</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>double</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>double</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Truncate the fractional part.</p></span></section>
+			<section class="HB" id="round(double)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">round</code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="k"><code>double</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>double</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>double</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Round the value.</p></span></section>
+			<section class="HB" id="sqrt(double)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">sqrt</code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="k"><code>double</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>double</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>double</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Compute the square root.</p></span></section>
+			<section class="HB" id="cbrt(double)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">cbrt</code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="k"><code>double</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>double</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>double</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Compute the cube root.</p></span></section>
+			<section class="HB" id="pow(double,double)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">pow</code><code class="JB">(<code>double</code><code class="parameterName">value</code>, <code>double</code><code class="parameterName">exponent</code>)</code><i class="k"><code>double</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>double</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code>double</code><code class="parameterName">exponent</code></td>
+						<td><span><p>An exponent.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>double</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Compute the power.</p></span></section>
+			<section class="HB" id="min(double,double)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">min</code><code class="JB">(<code>double</code><code class="parameterName">left</code>, <code>double</code><code class="parameterName">right</code>)</code><i class="k"><code>double</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>double</code><code class="parameterName">left</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code>double</code><code class="parameterName">right</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>double</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Compute the minimum.</p></span></section>
+			<section class="HB" id="max(double,double)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">max</code><code class="JB">(<code>double</code><code class="parameterName">left</code>, <code>double</code><code class="parameterName">right</code>)</code><i class="k"><code>double</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>double</code><code class="parameterName">left</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code>double</code><code class="parameterName">right</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>double</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Compute the maximum.</p></span></section>
+			<section class="HB" id="random()">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">random</code><code class="JB">()</code><i class="k"><code>double</code></i></h2>
+				<table class="c">
+					<tr class="v">
+						<td><code>double</code></td>
+						<td><span><p>A random number.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Generate a random number.</p></span></section>
+			<section class="HB" id="sign(double)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">sign</code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="k"><code>double</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>double</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>double</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Compute the sign.</p></span></section>
+			<section class="HB" id="isNaN(double)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">isNaN</code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="k"><code>boolean</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>double</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the value is NaN.</p></span></section>
+			<section class="HB" id="isFinite(double)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">isFinite</code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="k"><code>boolean</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>double</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the value is finite.</p></span></section>
+		</article>
+		<aside class="T">
+			<div class="CB">
+				<h5 class="LB">Static Methods</h5>
+				<ul>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeMath.html#abs(double)">abs</a></code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="s"><code>double</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeMath.html#ceil(double)">ceil</a></code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="s"><code>double</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeMath.html#floor(double)">floor</a></code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="s"><code>double</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeMath.html#trunc(double)">trunc</a></code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="s"><code>double</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeMath.html#round(double)">round</a></code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="s"><code>double</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeMath.html#sqrt(double)">sqrt</a></code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="s"><code>double</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeMath.html#cbrt(double)">cbrt</a></code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="s"><code>double</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeMath.html#pow(double,double)">pow</a></code><code class="JB">(<code>double</code><code class="parameterName">value</code>, <code>double</code><code class="parameterName">exponent</code>)</code><i class="s"><code>double</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeMath.html#min(double,double)">min</a></code><code class="JB">(<code>double</code><code class="parameterName">left</code>, <code>double</code><code class="parameterName">right</code>)</code><i class="s"><code>double</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeMath.html#max(double,double)">max</a></code><code class="JB">(<code>double</code><code class="parameterName">left</code>, <code>double</code><code class="parameterName">right</code>)</code><i class="s"><code>double</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeMath.html#random()">random</a></code><code class="JB">()</code><i class="s"><code>double</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeMath.html#sign(double)">sign</a></code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="s"><code>double</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeMath.html#isNaN(double)">isNaN</a></code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="s"><code>boolean</code></i></li>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeMath.html#isFinite(double)">isFinite</a></code><code class="JB">(<code>double</code><code class="parameterName">value</code>)</code><i class="s"><code>boolean</code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="S">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

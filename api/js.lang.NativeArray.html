@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="P">
+		<header class="Q" date="2026-10-29">
+			<h1 class="b"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="AB"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="BB"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="J"></nav>
+		<article class="R" id="Article">
+			<section class="HB"><code class="N">js.lang</code>
+				<h2 class="Class O"><code class="q">NativeArray</code></h2>
+				<div class="IB"></div><span class="A"><p>The JavaScript <code>Array</code>.</p><p>
+The Java implementation uses a list so that the same test can run on the JVM, and the
+<code><a aria-label="js.lang.Native" href="api/js.lang.Native.html">Native</a></code> template maps the operation to the real JavaScript array.
+</p></span></section>
+			<section class="HB" id="NativeArray()">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">NativeArray</code><code class="JB">()</code></h2><span class="A"><p>Create an empty array.</p></span></section>
+			<section class="HB" id="NativeArray(int)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">NativeArray</code><code class="JB">(<code>int</code><code class="parameterName">length</code>)</code></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">length</code></td>
+						<td><span><p>A length.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create an array with the specified length.</p></span></section>
+			<section class="HB" id="length()">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">length</code><code class="JB">()</code><i class="k"><code>int</code></i></h2>
+				<table class="c">
+					<tr class="v">
+						<td><code>int</code></td>
+						<td><span><p>A length.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the length.</p></span></section>
+			<section class="HB" id="get(int)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">get</code><code class="JB">(<code>int</code><code class="parameterName">index</code>)</code><i class="k"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">index</code></td>
+						<td><span><p>An index.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value or <code><a aria-label="js.lang.NativeUndefined" href="api/js.lang.NativeUndefined.html">NativeUndefined</a></code>.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the value at the specified index.</p></span></section>
+			<section class="HB" id="set(int,java.lang.Object)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">set</code><code class="JB">(<code>int</code><code class="parameterName">index</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="k"><code>void</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">index</code></td>
+						<td><span><p>An index.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set the value at the specified index.</p></span></section>
+			<section class="HB" id="push(java.lang.Object)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">push</code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="k"><code>int</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>int</code></td>
+						<td><span><p>The new length.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Append the value.</p></span></section>
+			<section class="HB" id="pop()">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">pop</code><code class="JB">()</code><i class="k"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="c">
+					<tr class="v">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value or <code><a aria-label="js.lang.NativeUndefined" href="api/js.lang.NativeUndefined.html">NativeUndefined</a></code>.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Remove and return the last value.</p></span></section>
+			<section class="HB" id="shift()">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">shift</code><code class="JB">()</code><i class="k"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="c">
+					<tr class="v">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value or <code><a aria-label="js.lang.NativeUndefined" href="api/js.lang.NativeUndefined.html">NativeUndefined</a></code>.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Remove and return the first value.</p></span></section>
+			<section class="HB" id="unshift(java.lang.Object)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">unshift</code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="k"><code>int</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>int</code></td>
+						<td><span><p>The new length.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Insert the value at the beginning.</p></span></section>
+			<section class="HB" id="slice(int)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">slice</code><code class="JB">(<code>int</code><code class="parameterName">start</code>)</code><i class="k"><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">start</code></td>
+						<td><span><p>A start index.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></td>
+						<td><span><p>A new array.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Extract a part of this array.</p></span></section>
+			<section class="HB" id="slice(int,int)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">slice</code><code class="JB">(<code>int</code><code class="parameterName">start</code>, <code>int</code><code class="parameterName">end</code>)</code><i class="k"><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">start</code></td>
+						<td><span><p>A start index.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">end</code></td>
+						<td><span><p>An end index.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></td>
+						<td><span><p>A new array.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Extract a part of this array.</p></span></section>
+			<section class="HB" id="indexOf(java.lang.Object)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">indexOf</code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="k"><code>int</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>int</code></td>
+						<td><span><p>An index or -1.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Find the index of the specified value.</p></span></section>
+			<section class="HB" id="includes(java.lang.Object)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">includes</code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="k"><code>boolean</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether this array contains the specified value.</p></span></section>
+			<section class="HB" id="join(java.lang.String)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">join</code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code>)</code><i class="k"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code></td>
+						<td><span><p>A separator.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A joined text.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Join all values.</p></span></section>
+			<section class="HB" id="reverse()">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">reverse</code><code class="JB">()</code><i class="k"><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></i></h2>
+				<table class="c">
+					<tr class="v">
+						<td><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></td>
+						<td><span><p>This array.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Reverse this array.</p></span></section>
+			<section class="HB" id="forEach(java.util.function.Consumer)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">forEach</code><code class="JB">(<code><a aria-label="java.util.function.Consumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Consumer.html">Consumer</a><code class="parameters"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></code></code><code class="parameterName">action</code>)</code><i class="k"><code>void</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.util.function.Consumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Consumer.html">Consumer</a><code class="parameters"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></code></code><code class="parameterName">action</code></td>
+						<td><span><p>An action.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Invoke the action for each value.</p></span></section>
+			<section class="HB" id="map(java.util.function.Function)">
+				<h2 class="Y"><i class="PUBLIC"></i><code class="q">map</code><code class="JB">(<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></code></code><code class="parameterName">mapper</code>)</code><i class="k"><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></code></code><code class="parameterName">mapper</code></td>
+						<td><span><p>A mapper.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></td>
+						<td><span><p>A new array.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Map each value.</p></span></section>
+			<section class="HB" id="isArray(java.lang.Object)">
+				<h2 class="Y"><i class="STATIC PUBLIC"></i><code class="q">isArray</code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="k"><code>boolean</code></i></h2>
+				<table class="c">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A target value.</p></span></td>
+					</tr>
+					<tr class="v">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the specified value is an array.</p></span></section>
+			<section class="HB" id="toString()">
+				<h2 class="Y"><i class="OVERRIDE PUBLIC"></i><code class="q">toString</code><code class="JB">()</code><i class="k"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="c">
+					<tr class="v">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+		</article>
+		<aside class="T">
+			<div class="CB">
+				<h5 class="LB">Constructors</h5>
+				<ul>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#NativeArray()">NativeArray</a></code><code class="JB">()</code></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#NativeArray(int)">NativeArray</a></code><code class="JB">(<code>int</code><code class="parameterName">length</code>)</code></li>
+				</ul>
+				<h5 class="LB">Static Methods</h5>
+				<ul>
+					<li class="f"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#isArray(java.lang.Object)">isArray</a></code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="s"><code>boolean</code></i></li>
+				</ul>
+				<h5 class="LB">Methods</h5>
+				<ul>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#length()">length</a></code><code class="JB">()</code><i class="s"><code>int</code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#get(int)">get</a></code><code class="JB">(<code>int</code><code class="parameterName">index</code>)</code><i class="s"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#set(int,java.lang.Object)">set</a></code><code class="JB">(<code>int</code><code class="parameterName">index</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="s"><code>void</code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#push(java.lang.Object)">push</a></code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="s"><code>int</code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#pop()">pop</a></code><code class="JB">()</code><i class="s"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#shift()">shift</a></code><code class="JB">()</code><i class="s"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#unshift(java.lang.Object)">unshift</a></code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="s"><code>int</code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#slice(int)">slice</a></code><code class="JB">(<code>int</code><code class="parameterName">start</code>)</code><i class="s"><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#slice(int,int)">slice</a></code><code class="JB">(<code>int</code><code class="parameterName">start</code>, <code>int</code><code class="parameterName">end</code>)</code><i class="s"><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#indexOf(java.lang.Object)">indexOf</a></code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="s"><code>int</code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#includes(java.lang.Object)">includes</a></code><code class="JB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="s"><code>boolean</code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#join(java.lang.String)">join</a></code><code class="JB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">separator</code>)</code><i class="s"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#reverse()">reverse</a></code><code class="JB">()</code><i class="s"><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#forEach(java.util.function.Consumer)">forEach</a></code><code class="JB">(<code><a aria-label="java.util.function.Consumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Consumer.html">Consumer</a><code class="parameters"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></code></code><code class="parameterName">action</code>)</code><i class="s"><code>void</code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#map(java.util.function.Function)">map</a></code><code class="JB">(<code><a aria-label="java.util.function.Function 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Function.html">Function</a><code class="parameters"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></code></code><code class="parameterName">mapper</code>)</code><i class="s"><code><a aria-label="js.lang.NativeArray" href="api/js.lang.NativeArray.html">NativeArray</a></code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/js.lang.NativeArray.html#toString()">toString</a></code><code class="JB">()</code><i class="s"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="S">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

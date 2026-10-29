@@ -19,10 +19,10 @@
 		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="HB">
-		<header class="v" date="2026-10-29">
-			<h1 class="L"><a href="index.html"><code>Reincarnation</code></a></h1>
-			<nav class="i"><a href="api/main.html" id="API"><svg class="package">
+	<body class="P">
+		<header class="Q" date="2026-10-29">
+			<h1 class="b"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="AB"><a href="api/main.html" id="API"><svg class="package">
 						<use href="main.svg#package"/>
 					</svg>
 				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
@@ -35,16 +35,16 @@
 						<use href="main.svg#github"/>
 					</svg>
 				</a></nav>
-			<div class="w"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+			<div class="BB"><a aria-label="Change color scheme" id="theme"><svg class="sun">
 						<use href="main.svg#sun"/>
 					</svg><svg class="moon">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<nav class="X"></nav>
-		<article class="FB" id="Article">
-			<div class="b">
+		<nav class="J"></nav>
+		<article class="R" id="Article">
+			<div class="HB">
 				<section class="A">
 					<h2>Reincarnation API Overview</h2>
 					<p>This page provides a concise overview of the available APIs, including their purpose, key functionalities, and usage patterns. It serves as a starting point for developers to understand how to integrate and interact with the system effectively.</p>
@@ -73,6 +73,38 @@
 					<section class="A">
 						<h4>🛠️ Class</h4>
 						<table>
+							<tr>
+								<td><code><a href="api/js.lang.NativeArray.html">NativeArray</a></code></td>
+								<td>The JavaScript Array.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/js.lang.NativeString.html">NativeString</a></code></td>
+								<td>The JavaScript String.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/js.lang.NativeConsole.html">NativeConsole</a></code></td>
+								<td>The JavaScript console.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/js.lang.NativeUndefined.html">NativeUndefined</a></code></td>
+								<td>The JavaScript undefined value.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/js.lang.NativeSet.html">NativeSet</a></code></td>
+								<td>The JavaScript Set.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/js.lang.NativeMath.html">NativeMath</a></code></td>
+								<td>The JavaScript Math.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/js.lang.NativeRegExp.html">NativeRegExp</a></code></td>
+								<td>The JavaScript RegExp.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/js.lang.NativeMap.html">NativeMap</a></code></td>
+								<td>The JavaScript Map.</td>
+							</tr>
 							<tr>
 								<td><code><a href="api/reincarnation.structure.Switch.html">Switch</a></code></td>
 								<td>Represents a switch statement structure in the abstract syntax tree of a Java program.</td>
@@ -121,6 +153,31 @@ try (InputStream in = new ...) { ... }.</td>
 							<tr>
 								<td><code><a href="api/reincarnation.structure.Fragment.html">Fragment</a></code></td>
 								<td>no description</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/reincarnation.classlib.java.util.regex.Matcher.html">Matcher</a></code></td>
+								<td>The Java implementation of java.util.regex.Matcher which is transpiled into JavaScript.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/reincarnation.classlib.java.util.regex.Pattern.html">Pattern</a></code></td>
+								<td>The Java implementation of java.util.regex.Pattern which is transpiled into JavaScript.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/reincarnation.classlib.java.util.stream.Collectors.html">Collectors</a></code></td>
+								<td>The Java implementation of java.util.stream.Collectors which is transpiled into
+JavaScript.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/reincarnation.classlib.java.util.StringJoiner.html">StringJoiner</a></code></td>
+								<td>The Java implementation of java.util.StringJoiner which is transpiled into JavaScript.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/reincarnation.classlib.java.lang.StringBuffer.html">StringBuffer</a></code></td>
+								<td>The Java implementation of java.lang.StringBuffer which is transpiled into JavaScript.</td>
+							</tr>
+							<tr>
+								<td><code><a href="api/reincarnation.classlib.java.lang.StringBuilder.html">StringBuilder</a></code></td>
+								<td>The Java implementation of java.lang.StringBuilder which is transpiled into JavaScript.</td>
 							</tr>
 							<tr>
 								<td><code><a href="api/reincarnation.util.GeneratedCodes.html">GeneratedCodes</a></code></td>
@@ -186,7 +243,7 @@ class.</td>
 							</tr>
 							<tr>
 								<td><code><a href="api/reincarnation.coder.js.NameAllocator.html">NameAllocator</a></code></td>
-								<td>Allocates a unique and valid JavaScript identifier for every Java class.</td>
+								<td>Allocates a unique and valid JavaScript identifier for every class, method and field.</td>
 							</tr>
 							<tr>
 								<td><code><a href="api/reincarnation.coder.VariableNaming.html">VariableNaming</a></code></td>
@@ -243,6 +300,10 @@ class.</td>
 						<h4>🛠️ Annotation</h4>
 						<table>
 							<tr>
+								<td><code><a href="api/js.lang.Native.html">Native</a></code></td>
+								<td>Marks the Java implementation of a JavaScript native API.</td>
+							</tr>
+							<tr>
 								<td><code><a href="api/reincarnation.Debuggable.html">Debuggable</a></code></td>
 								<td>
 This annotation is provided for Reicarnation developers. Normally, it should be included in the
@@ -264,8 +325,8 @@ the bytecode (for example, a class which is instantiated by reflection).</td>
 				</section>
 			</div>
 		</article>
-		<aside class="CB"></aside>
-		<footer class="Y">
+		<aside class="T"></aside>
+		<footer class="S">
 			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
 		</footer>
 	</body>

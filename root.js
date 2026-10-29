@@ -2,7 +2,12 @@ const root = {
 	"docs": [],
 	"modules": [],
 	"packages": [
+		"js.lang",
 		"reincarnation.structure",
+		"reincarnation.classlib.java.util.regex",
+		"reincarnation.classlib.java.util.stream",
+		"reincarnation.classlib.java.util",
+		"reincarnation.classlib.java.lang",
 		"reincarnation",
 		"reincarnation.util",
 		"reincarnation.operator",
@@ -12,6 +17,51 @@ const root = {
 		"reincarnation.coder.ts"
 	],
 	"types": [
+		{
+			"name": "NativeArray",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "NativeString",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "Native",
+			"packageName": "js.lang",
+			"type": "Annotation"
+		},
+		{
+			"name": "NativeConsole",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "NativeUndefined",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "NativeSet",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "NativeMath",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "NativeRegExp",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "NativeMap",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
 		{
 			"name": "Jumpable",
 			"packageName": "reincarnation.structure",
@@ -90,6 +140,36 @@ const root = {
 		{
 			"name": "Fragment",
 			"packageName": "reincarnation.structure",
+			"type": "Class"
+		},
+		{
+			"name": "Matcher",
+			"packageName": "reincarnation.classlib.java.util.regex",
+			"type": "Class"
+		},
+		{
+			"name": "Pattern",
+			"packageName": "reincarnation.classlib.java.util.regex",
+			"type": "Class"
+		},
+		{
+			"name": "Collectors",
+			"packageName": "reincarnation.classlib.java.util.stream",
+			"type": "Class"
+		},
+		{
+			"name": "StringJoiner",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "StringBuffer",
+			"packageName": "reincarnation.classlib.java.lang",
+			"type": "Class"
+		},
+		{
+			"name": "StringBuilder",
+			"packageName": "reincarnation.classlib.java.lang",
 			"type": "Class"
 		},
 		{
