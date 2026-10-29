@@ -152,7 +152,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         defined.addAll(reincarnation.locals);
 
         allocator.seed(reincarnation.clazz);
-        reincarnation.classes.forEach(allocator::seed);
+        reincarnation.classes.forEach(type -> allocator.seed(Classlib.replace(type)));
         reincarnation.locals.forEach(allocator::seed);
         reincarnation.anonymous.forEach(allocator::seed);
     }
@@ -1226,6 +1226,18 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     @Override
     public void writeAccessField(Field field, Code context, AccessMode mode) {
         if (Classes.isStatic(field)) {
+            if (field.getDeclaringClass() == System.class) {
+                // The standard output and error streams are provided by the runtime.
+                if (field.getName().equals("out")) {
+                    requireRuntime();
+                    write("$rt_out");
+                    return;
+                } else if (field.getName().equals("err")) {
+                    requireRuntime();
+                    write("$rt_err");
+                    return;
+                }
+            }
             if (current.is(field.getDeclaringClass())) {
                 write(classRef(field.getDeclaringClass()), ".", field.getName());
             } else {
@@ -1279,7 +1291,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeConstructorCall(Constructor constructor, List<Code> params) {
-        Class owner = constructor.getDeclaringClass();
+        Class owner = Classlib.replace(constructor.getDeclaringClass());
 
         if (options.strictApi && isUnmappedApi(owner) && !isRuntimeType(owner) && !isStringBuilder(owner)
                 && !Throwable.class.isAssignableFrom(owner)) {
@@ -1383,6 +1395,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             writeObjectMethod(method, context, params);
         } else if (isStringBuilder(method.getDeclaringClass())) {
             writeStringBuilderMethod(method, context, params);
+        } else if (isPrintStream(method.getDeclaringClass())) {
+            writePrintStreamMethod(method, context, params);
         } else if (isThrowableMethod(method)) {
             writeThrowableMethod(method, context, params);
         } else if (isMathMethod(method)) {
@@ -1501,7 +1515,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @param params A list of parameters.
      */
     private void writeDefaultMethodCall(Method method, Code context, List<Code> params) {
-        if (options.strictApi && isUnmappedApi(method.getDeclaringClass()) && !isNativeApi(method.getDeclaringClass())) {
+        Class owner = Classlib.replace(method.getDeclaringClass());
+        if (options.strictApi && isUnmappedApi(owner) && !isNativeApi(owner)) {
             throw new TranslationException(method);
         }
         write(context, ".", methodName(method), buildCallParameter(method, params));
@@ -1532,6 +1547,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 || type == Integer.class || type == Long.class || type == Short.class || type == Byte.class //
                 || type == Float.class || type == Double.class //
                 || type == System.class || type == Arrays.class || type == Collections.class //
+                || type == java.io.PrintStream.class || type == java.io.PrintWriter.class //
                 || type == Comparable.class || type == Iterable.class || type == Iterator.class //
                 || isStringBuilder(type) || Throwable.class.isAssignableFrom(type) //
                 || isRuntimeType(type) //
@@ -1631,6 +1647,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A result.
      */
     private boolean isRuntimeType(Class type) {
+        if (Classlib.isReplaced(type)) {
+            return false;
+        }
         return isList(type) || isSet(type) || isQueue(type) || isMap(type) //
                 || type == Map.Entry.class || type == java.util.Collection.class //
                 || type == java.util.Iterator.class || type == java.util.ListIterator.class //
@@ -3127,6 +3146,67 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     }
 
     /**
+     * Check whether the given type is a print stream which must be overlaid to the runtime.
+     * 
+     * @param type A target type.
+     * @return A result.
+     */
+    private boolean isPrintStream(Class type) {
+        return type == java.io.PrintStream.class || type == java.io.PrintWriter.class;
+    }
+
+    /**
+     * Write the overlaid print stream method.
+     * 
+     * @param method A target method.
+     * @param context A target object.
+     * @param params A list of parameters.
+     */
+    private void writePrintStreamMethod(Method method, Code context, List<Code> params) {
+        String name = method.getName();
+
+        switch (name) {
+        case "print":
+        case "println":
+            if (params.isEmpty()) {
+                write(context, ".", name, "()");
+            } else {
+                Code value = params.get(0);
+                Class type = method.getParameterTypes()[0];
+
+                if (type == char[].class) {
+                    value = new CharArrayCode(value);
+                } else if (type == double.class || type == float.class) {
+                    Code original = value;
+                    value = (Code) coder -> coder.write("$rt_doubleToString", "(", original, ")");
+                }
+                write(context, ".", name, "(", value, ")");
+            }
+            break;
+
+        case "printf":
+        case "format": {
+            // The optional Locale argument is the first one, so the format string follows it.
+            int index = method.getParameterTypes().length == 3 ? 1 : 0;
+            if (params.size() <= index + 1) {
+                write(context, ".", name, "(", params.get(index), ")");
+            } else {
+                write(context, ".", name, "(", params.get(index), ",", space, params.get(params.size() - 1), ")");
+            }
+            break;
+        }
+
+        case "write":
+            write(context, ".write", buildCallParameter(method, params));
+            break;
+
+        default:
+            write(context, ".", name, buildCallParameter(method, params));
+            break;
+        }
+    }
+
+    /**
      * Check whether the given method is the Throwable method which must be overlaid to the native
      * Error in the class library mode.
      * 
@@ -4066,6 +4146,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A JavaScript expression.
      */
     private String classRef(Class type) {
+        type = Classlib.replace(type);
+
         if (options.reflection && isReflectionType(type)) {
             return "$rt." + type.getSimpleName();
         }
@@ -4412,10 +4494,12 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 Class owner = constructor.getDeclaringClass();
                 if (current.get().isAssignableFrom(owner) && 2 <= params.size()) {
                     if (initialized <= constants.size()) {
-                        // remove implicit parameters
-                        params.remove(0);
-                        params.remove(0);
-                        write(buildCallParameter(constructor, params, 0, constructorIndex(constructor)));
+                        // The parameter list is shared with the cached code, so it must be copied
+                        // before removing the implicit parameters.
+                        List<Code> actual = new ArrayList(params);
+                        actual.remove(0);
+                        actual.remove(0);
+                        write(buildCallParameter(constructor, actual, 0, constructorIndex(constructor)));
                     }
                 }
             } else {

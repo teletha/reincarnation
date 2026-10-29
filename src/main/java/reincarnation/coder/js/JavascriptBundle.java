@@ -119,7 +119,14 @@ public final class JavascriptBundle {
      * @param visited A visited classes.
      */
     private static void collect(Class type, Set<Class> order, Set<Class> visited) {
-        if (type == null || type.isPrimitive() || type.isArray() || !visited.add(type)) {
+        if (type == null || type.isPrimitive() || type.isArray()) {
+            return;
+        }
+
+        // Map the standard API to the Java implementation which is transpiled into JavaScript.
+        type = Classlib.replace(type);
+
+        if (!visited.add(type)) {
             return;
         }
 

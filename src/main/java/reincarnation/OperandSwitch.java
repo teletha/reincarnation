@@ -115,6 +115,9 @@ class OperandSwitch extends Operand {
     /** The post processor for default block. */
     private UnaryOperator<Node> defaultConverter = UnaryOperator.identity();
 
+    /** The converted case blocks. The conversion processes the nodes, so it must not be repeated. */
+    private MultiMap<Structure, Object> convertedCases;
+
     /**
      * Creates a new {@code OperandSwitch} instance.
      *
@@ -194,9 +197,13 @@ class OperandSwitch extends Operand {
         if (Debugger.whileDebug) {
             coder.write(toString());
         } else {
-            MultiMap<Structure, Object> caseBlocks = cases.convertKeys(entrance::process);
-
-            coder.writeSwitch(false, Optional.empty(), condition.get(), condition.get().type(), caseBlocks, null);
+            // The node processing mutates the node state, so the converted case blocks are cached
+            // and reused when the same code is written again (e.g. the bundle contains the class
+            // as a dependency of another class).
+            if (convertedCases == null) {
+                convertedCases = cases.convertKeys(entrance::process);
+            }
+            coder.writeSwitch(false, Optional.empty(), condition.get(), condition.get().type(), convertedCases, null);
         }
     }
 

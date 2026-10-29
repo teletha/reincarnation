@@ -119,6 +119,79 @@ public class BundleVerifier {
     }
 
     /**
+     * Verify the standard output of the bundled JavaScript program.
+     * 
+     * @param target An entry class.
+     * @param method A static method name.
+     * @param expected An expected output.
+     * @param args Arguments.
+     * @throws Exception If the verification fails.
+     */
+    protected final void verifyOutput(Class<?> target, String method, String expected, Object... args) throws Exception {
+        verifyOutput(target, method, expected, false, args);
+    }
+
+    /**
+     * Verify the standard error output of the bundled JavaScript program.
+     * 
+     * @param target An entry class.
+     * @param method A static method name.
+     * @param expected An expected output.
+     * @param args Arguments.
+     * @throws Exception If the verification fails.
+     */
+    protected final void verifyErrorOutput(Class<?> target, String method, String expected, Object... args) throws Exception {
+        verifyOutput(target, method, expected, true, args);
+    }
+
+    /**
+     * Verify the output of the bundled JavaScript program.
+     * 
+     * @param target An entry class.
+     * @param method A static method name.
+     * @param expected An expected output.
+     * @param error Whether the standard error is verified.
+     * @param args Arguments.
+     * @throws Exception If the verification fails.
+     */
+    private void verifyOutput(Class<?> target, String method, String expected, boolean error, Object... args) throws Exception {
+        Method entry = find(target, method, args.length);
+        entry.setAccessible(true);
+
+        assumeTrue(V8Available, "The V8 runtime is not available on this platform.");
+
+        String javascript = JavascriptBundle.build(target);
+        String className = JavascriptCoder.computeSimpleName(target);
+
+        StringBuilder literal = new StringBuilder();
+        for (int i = 0; i < args.length; i++) {
+            if (i != 0) {
+                literal.append(", ");
+            }
+            literal.append(toJSLiteral(args[i], entry.getParameterTypes()[i]));
+        }
+
+        String stream = error ? "process.stderr" : "process.stdout";
+        String script = "(function () {\r\n" //
+                + "let output = \"\";\r\n" //
+                + "const original = " + stream + ".write;\r\n" //
+                + stream + ".write = (text) => { output += text; };\r\n" //
+                + "try {\r\n" //
+                + javascript + "\r\n" //
+                + "$c." + className + "." + method + "(" + literal + ");\r\n" //
+                + "} finally { " + stream + ".write = original; }\r\n" //
+                + "return output;\r\n" //
+                + "})()";
+
+        try (V8Runtime runtime = V8Host.getNodeInstance().createV8Runtime()) {
+            try (V8Value value = runtime.getExecutor(script).execute()) {
+                String actual = String.valueOf(toJava(value));
+                assert expected.equals(actual) : "Expected output '" + expected + "', but actual is '" + actual + "'";
+            }
+        }
+    }
+
+    /**
      * Find the static entry method.
      * 
      * @param target A target class.

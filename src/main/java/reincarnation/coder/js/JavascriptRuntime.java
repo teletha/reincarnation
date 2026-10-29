@@ -757,7 +757,33 @@ public final class JavascriptRuntime {
                 const view = new DataView(buffer);
                 view.setBigInt64(0, $rt_l(value));
                 return view.getFloat64(0);
-            };""";
+            };
+            const $rt_printText = (error, text) => {
+                if (typeof process !== "undefined" && process.stdout) {
+                    (error ? process.stderr : process.stdout).write(text);
+                } else if (typeof console !== "undefined") {
+                    if (text.endsWith("\\n")) text = text.substring(0, text.length - 1);
+                    (error ? console.error : console.log)(text);
+                }
+            };
+            const $rt_printValue = (value) => {
+                if (value === null || value === undefined) return "null";
+                if (Array.isArray(value)) return value.join("");
+                return String(value);
+            };
+            const $rt_printStream = (error) => ({
+                print(...values) { $rt_printText(error, values.map($rt_printValue).join("")); },
+                println(...values) { $rt_printText(error, values.map($rt_printValue).join("") + "\\n"); },
+                printf(format, ...args) { $rt_printText(error, $rt_format(format, ...args)); },
+                format(format, ...args) { $rt_printText(error, $rt_format(format, ...args)); },
+                write(value) { $rt_printText(error, typeof value === "number" ? String.fromCharCode(value) : $rt_printValue(value)); },
+                append(value) { this.print(value); return this; },
+                flush() {},
+                close() {},
+                checkError() { return false; }
+            });
+            const $rt_out = $rt_printStream(false);
+            const $rt_err = $rt_printStream(true);""";
 
     /** The core runtime source code for the class registration based output. */
     static final String Core = """
@@ -2016,18 +2042,6 @@ public final class JavascriptRuntime {
                     };
                 }
                 [Symbol.iterator]() { return this.values[Symbol.iterator](); }
-            }
-
-            class Collectors {
-                static toList() { return values => List.of(values); }
-                static toSet() { return values => new Set(values); }
-                static counting() { return values => values.length; }
-                static joining(...args) {
-                    const delimiter = args.length >= 1 ? args[0] : "";
-                    const prefix = args.length >= 2 ? args[1] : "";
-                    const suffix = args.length >= 3 ? args[2] : "";
-                    return values => prefix + values.map(value => List.$string(value)).join(delimiter) + suffix;
-                }
             }
 
             class Pattern {
