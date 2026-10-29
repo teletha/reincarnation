@@ -321,7 +321,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         }
 
         StringBuilder methods = new StringBuilder("ms:[");
-        Join.of(type.getDeclaredMethods())
+        Class memberSource = origin == null ? type : origin;
+        Join.of(memberSource.getDeclaredMethods())
                 .skip(Method::isSynthetic)
                 .skip(Method::isBridge)
                 .separator(",")
@@ -335,7 +336,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         builder.append(",").append(methods).append("]");
 
         StringBuilder fields = new StringBuilder("fs:[");
-        Join.of(type.getDeclaredFields())
+        Join.of(memberSource.getDeclaredFields())
                 .skip(Field::isSynthetic)
                 .separator(",")
                 .converter(f -> "[" + quote(f.getName()) + "," + quote(org.objectweb.asm.Type.getDescriptor(f.getType())) + "," + f
