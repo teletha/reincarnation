@@ -63,6 +63,16 @@ class ClasslibReflectionTest extends BundleVerifier {
         verifyReflection(DeclaredField.class, "run");
     }
 
+    @Test
+    void invokeMethod() throws Exception {
+        verifyReflection(InvokeMethod.class, "run");
+    }
+
+    @Test
+    void invokeConstructor() throws Exception {
+        verifyReflection(InvokeConstructor.class, "run");
+    }
+
     /** Verify the hierarchy of {@link java.util.ArrayList}. */
     static class ArrayListType {
 
@@ -134,6 +144,39 @@ class ClasslibReflectionTest extends BundleVerifier {
         static String run() throws Exception {
             java.lang.reflect.Field field = java.lang.System.class.getDeclaredField("out");
             return field.getName() + "|" + field.getType().getName();
+        }
+    }
+
+    /** Verify the method invocation of the classlib type. */
+    static class InvokeMethod {
+
+        static int run() throws Exception {
+            java.util.List<Object> list = new java.util.ArrayList<>();
+            java.lang.reflect.Method add = java.util.ArrayList.class.getDeclaredMethod("add", Object.class);
+            add.invoke(list, "a");
+            add.invoke(list, "b");
+
+            java.util.Map<String, Integer> map = new java.util.LinkedHashMap<>();
+            java.lang.reflect.Method put = java.util.HashMap.class.getDeclaredMethod("put", Object.class, Object.class);
+            put.invoke(map, "a", 1);
+            return list.size() * 10 + map.get("a");
+        }
+    }
+
+    /** Verify the constructor invocation of the classlib type. */
+    static class InvokeConstructor {
+
+        static int run() throws Exception {
+            java.util.List<Object> list = (java.util.List<Object>) java.util.ArrayList.class.getDeclaredConstructor(int.class)
+                    .newInstance(10);
+            list.add("a");
+            list.add("b");
+
+            java.lang.StringBuilder builder = (java.lang.StringBuilder) java.lang.StringBuilder.class
+                    .getDeclaredConstructor().newInstance();
+            java.lang.reflect.Method append = java.lang.StringBuilder.class.getDeclaredMethod("append", String.class);
+            append.invoke(builder, "abc");
+            return list.size() * 10 + builder.toString().length();
         }
     }
 }
