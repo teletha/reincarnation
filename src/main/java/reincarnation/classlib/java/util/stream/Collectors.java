@@ -66,26 +66,54 @@ public final class Collectors {
     /**
      * Join the values.
      * 
-     * @param first The delimiter.
-     * @param second The prefix.
-     * @param third The suffix.
      * @return A collector.
      */
-    public static Object joining(Object first, Object second, Object third) {
-        String delimiter = first == null ? "" : String.valueOf(first);
-        String prefix = second == null ? "" : String.valueOf(second);
-        String suffix = third == null ? "" : String.valueOf(third);
+    public static Object joining() {
+        return join("", "", "");
+    }
 
+    /**
+     * Join the values.
+     * 
+     * @param delimiter A delimiter.
+     * @return A collector.
+     */
+    public static Object joining(CharSequence delimiter) {
+        return join(String.valueOf(delimiter), "", "");
+    }
+
+    /**
+     * Join the values.
+     * 
+     * @param delimiter A delimiter.
+     * @param prefix A prefix.
+     * @param suffix A suffix.
+     * @return A collector.
+     */
+    public static Object joining(CharSequence delimiter, CharSequence prefix, CharSequence suffix) {
+        return join(String.valueOf(delimiter), String.valueOf(prefix), String.valueOf(suffix));
+    }
+
+    /**
+     * Join the values.
+     * 
+     * @param delimiter A delimiter.
+     * @param prefix A prefix.
+     * @param suffix A suffix.
+     * @return A collector.
+     */
+    private static Object join(String delimiter, String prefix, String suffix) {
+        String[] settings = {delimiter, prefix, suffix};
         return (Function<Object, Object>) values -> {
             Object[] array = (Object[]) values;
-            StringBuilder builder = new StringBuilder(prefix);
+            StringBuilder builder = new StringBuilder(settings[1]);
             for (int i = 0; i < array.length; i++) {
                 if (i != 0) {
-                    builder.append(delimiter);
+                    builder.append(settings[0]);
                 }
                 builder.append(String.valueOf(array[i]));
             }
-            return builder.append(suffix).toString();
+            return builder.append(settings[2]).toString();
         };
     }
 }

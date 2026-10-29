@@ -9,6 +9,9 @@
  */
 package reincarnation.coder.js;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -90,6 +93,39 @@ class NameAllocatorTest {
         assert name.startsWith("NameAllocatorTest$");
     }
 
+    @Test
+    void methodOverride() throws Exception {
+        NameAllocator names = new NameAllocator();
+
+        Method base = MethodBase.class.getDeclaredMethod("f", int.class);
+        Method override = MethodSub.class.getDeclaredMethod("f", int.class);
+        Method overload = MethodBase.class.getDeclaredMethod("f", String.class);
+
+        assert names.allocate(base).equals(names.allocate(override));
+        assert !names.allocate(base).equals(names.allocate(overload));
+    }
+
+    @Test
+    void staticMethodIsUnique() throws Exception {
+        NameAllocator names = new NameAllocator();
+
+        Method first = StaticMethodFirst.class.getDeclaredMethod("g", int.class);
+        Method second = StaticMethodSecond.class.getDeclaredMethod("g", int.class);
+
+        assert !names.allocate(first).equals(names.allocate(second));
+    }
+
+    @Test
+    void hiddenField() throws Exception {
+        NameAllocator names = new NameAllocator();
+
+        Field base = FieldBase.class.getDeclaredField("x");
+        Field sub = FieldSub.class.getDeclaredField("x");
+
+        assert !names.allocate(base).equals(names.allocate(sub));
+        assert names.allocate(base).equals(names.allocate(base));
+    }
+
     /**
      * Check whether the given name is a valid JavaScript identifier.
      * 
@@ -125,5 +161,49 @@ class NameAllocatorTest {
         /** A twin. */
         static class Twin {
         }
+    }
+
+    /** The base method. */
+    static class MethodBase {
+
+        void f(int value) {
+        }
+
+        void f(String value) {
+        }
+    }
+
+    /** The derived method. */
+    static class MethodSub extends MethodBase {
+
+        @Override
+        void f(int value) {
+        }
+    }
+
+    /** The first static method. */
+    static class StaticMethodFirst {
+
+        static void g(int value) {
+        }
+    }
+
+    /** The second static method. */
+    static class StaticMethodSecond {
+
+        static void g(int value) {
+        }
+    }
+
+    /** The base field. */
+    static class FieldBase {
+
+        int x;
+    }
+
+    /** The derived field. */
+    static class FieldSub extends FieldBase {
+
+        int x;
     }
 }

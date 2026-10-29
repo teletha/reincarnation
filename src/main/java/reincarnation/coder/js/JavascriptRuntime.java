@@ -2044,79 +2044,6 @@ public final class JavascriptRuntime {
                 [Symbol.iterator]() { return this.values[Symbol.iterator](); }
             }
 
-            class Pattern {
-                constructor(pattern, flags) {
-                    this.pattern = pattern;
-                    this.flags = flags === undefined ? "" : flags;
-                    this.regexp = new RegExp(pattern, this.flags);
-                }
-                static compile(value, flags) { return new Pattern(value, $rt_patternFlags(flags)); }
-                static quote(value) { return String(value).replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&"); }
-                matcher(input) { return new Matcher(this, String(input)); }
-                pattern() { return this.pattern; }
-                split(input, limit) {
-                    const result = String(input).split(this.regexp);
-                    return limit === undefined || limit <= 0 ? result : result.slice(0, limit);
-                }
-                toString() { return this.pattern; }
-            }
-
-            class Matcher {
-                constructor(pattern, input) {
-                    this.pattern = pattern;
-                    this.input = input;
-                    this.match = null;
-                    this.index = 0;
-                }
-                matches() {
-                    this.match = new RegExp("^(?:" + this.pattern.pattern + ")$", this.pattern.flags).exec(this.input);
-                    return this.match !== null;
-                }
-                find() {
-                    const regexp = new RegExp(this.pattern.pattern, this.pattern.flags + "g");
-                    regexp.lastIndex = this.index;
-                    this.match = regexp.exec(this.input);
-                    if (this.match === null) {
-                        return false;
-                    }
-                    this.index = regexp.lastIndex === this.index ? this.index + 1 : regexp.lastIndex;
-                    return true;
-                }
-                group(index) {
-                    if (this.match === null) throw new Error("IllegalStateException");
-                    return this.match[index === undefined ? 0 : index];
-                }
-                start() {
-                    if (this.match === null) throw new Error("IllegalStateException");
-                    return this.match.index;
-                }
-                end() {
-                    if (this.match === null) throw new Error("IllegalStateException");
-                    return this.match.index + this.match[0].length;
-                }
-                replaceAll(replacement) {
-                    return this.input.replace(new RegExp(this.pattern.pattern, this.pattern.flags + "g"), replacement);
-                }
-                replaceFirst(replacement) {
-                    return this.input.replace(new RegExp(this.pattern.pattern, this.pattern.flags), replacement);
-                }
-                reset(input) {
-                    this.input = String(input);
-                    this.index = 0;
-                    this.match = null;
-                    return this;
-                }
-            }
-
-            const $rt_patternFlags = (flags) => {
-                let result = "";
-                if (flags === undefined || flags === null) return result;
-                if ((flags & 2) !== 0) result += "i";
-                if ((flags & 8) !== 0) result += "m";
-                if ((flags & 32) !== 0) result += "s";
-                return result;
-            };
-
             const $rt_reflectCache = new WeakMap();
             const $rt_primitiveClasses = Object.create(null);
             const $rt_args = (args) => args.length === 1 && Array.isArray(args[0]) ? args[0] : args;
@@ -2130,7 +2057,7 @@ public final class JavascriptRuntime {
                     }
                     if (value.e !== undefined) {
                         const type = $rt.names[value.e];
-                        return type ? type[value.n] : null;
+                        return type ? type[value.j || value.n] : null;
                     }
                 }
                 return value;
@@ -2245,6 +2172,39 @@ public final class JavascriptRuntime {
                 D: "double",
                 V: "void"
             })[code];
+            const $rt_typeDescriptor = (type) => {
+                if (type === null || type === undefined) return "";
+                const name = type.getName();
+                switch (name) {
+                case "boolean": return "Z";
+                case "char": return "C";
+                case "byte": return "B";
+                case "short": return "S";
+                case "int": return "I";
+                case "long": return "J";
+                case "float": return "F";
+                case "double": return "D";
+                case "void": return "V";
+                }
+                let dimensions = 0;
+                while (name.charAt(dimensions) === "[") dimensions++;
+                const component = name.substring(dimensions);
+                let base;
+                switch (component) {
+                case "boolean": base = "Z"; break;
+                case "char": base = "C"; break;
+                case "byte": base = "B"; break;
+                case "short": base = "S"; break;
+                case "int": base = "I"; break;
+                case "long": base = "J"; break;
+                case "float": base = "F"; break;
+                case "double": base = "D"; break;
+                default: base = "L" + component.replace(/\\./g, "/") + ";"; break;
+                }
+                for (let i = 0; i < dimensions; i++) base = "[" + base;
+                return base;
+            };
+            const $rt_parameterDescriptor = (types) => "(" + (types || []).map($rt_typeDescriptor).join("") + ")";
             const $rt_classByName = (name) => {
                 if (!name) return null;
                 if (name.charAt(0) === "[") return $rt_arrayClass(name);
@@ -2390,7 +2350,7 @@ public final class JavascriptRuntime {
                     if (this.$methods) return this.$methods;
                     const metadata = this.metadata();
                     if (!metadata || !metadata.ms) return this.$methods = [];
-                    this.$methods = metadata.ms.map(m => new Method(this, m[0], m[1], m[2], m[3], $rt_annotations(m[4]), m[5], m[6], m[7], m[8], m[9]));
+                    this.$methods = metadata.ms.map(m => new Method(this, m[0], m[1], m[2], m[3], $rt_annotations(m[4]), m[5], m[6], m[7], m[8], m[9], m[10] || m[0]));
                     return this.$methods;
                 }
                 getMethods() {
@@ -2402,7 +2362,9 @@ public final class JavascriptRuntime {
                 }
                 getDeclaredMethod(name, ...types) {
                     types = $rt_args(types);
-                    const found = this.getDeclaredMethods().find(m => m.name === name && m.params === types.length);
+                    const descriptor = $rt_parameterDescriptor(types);
+                    let found = this.getDeclaredMethods().find(m => m.name === name && m.descriptor.substring(0, m.descriptor.indexOf(")") + 1) === descriptor);
+                    if (!found) found = this.getDeclaredMethods().find(m => m.name === name && m.params === types.length);
                     if (!found) throw new Error("NoSuchMethodException: " + name);
                     return found;
                 }
@@ -2417,7 +2379,7 @@ public final class JavascriptRuntime {
                     if (this.$fields) return this.$fields;
                     const metadata = this.metadata();
                     if (!metadata || !metadata.fs) return this.$fields = [];
-                    this.$fields = metadata.fs.map(f => new Field(this, f[0], f[1], f[2], $rt_annotations(f[3]), f[4]));
+                    this.$fields = metadata.fs.map(f => new Field(this, f[0], f[1], f[2], $rt_annotations(f[3]), f[4], f[5] || f[0]));
                     return this.$fields;
                 }
                 getFields() {
@@ -2450,7 +2412,9 @@ public final class JavascriptRuntime {
                 }
                 getDeclaredConstructor(...types) {
                     types = $rt_args(types);
-                    const found = this.getDeclaredConstructors().find(c => c.params === types.length);
+                    const descriptor = $rt_parameterDescriptor(types) + "V";
+                    let found = this.getDeclaredConstructors().find(c => c.descriptor === descriptor);
+                    if (!found) found = this.getDeclaredConstructors().find(c => c.params === types.length);
                     if (!found) throw new Error("NoSuchMethodException: <init>");
                     return found;
                 }
@@ -2466,7 +2430,7 @@ public final class JavascriptRuntime {
             }
 
             class Method {
-                constructor(owner, name, descriptor, modifiers, params, annotations, typeParameters, genericParameters, genericReturn, genericExceptions, exceptionTypes) {
+                constructor(owner, name, descriptor, modifiers, params, annotations, typeParameters, genericParameters, genericReturn, genericExceptions, exceptionTypes, jsName) {
                     this.owner = owner;
                     this.name = name;
                     this.descriptor = descriptor;
@@ -2478,6 +2442,7 @@ public final class JavascriptRuntime {
                     this.genericReturn = genericReturn;
                     this.genericExceptions = genericExceptions;
                     this.exceptionTypes = exceptionTypes;
+                    this.jsName = jsName;
                     this.$parameterTypes = undefined;
                     this.$exceptionTypes = undefined;
                     $rt_annotated(this);
@@ -2500,30 +2465,38 @@ public final class JavascriptRuntime {
                 getParameterCount() { return this.params; }
                 invoke(target, ...args) {
                     args = $rt_args(args);
-                    const fn = target === null || target === undefined ? this.owner.jsClass[this.name] : target[this.name];
+                    const holder = target === null || target === undefined ? this.owner.jsClass : target;
+                    const fn = holder[this.jsName];
                     if (typeof fn !== "function") throw new Error("IllegalArgumentException: " + this.name);
-                    return fn.apply(target, args);
+                    return fn.apply(holder, args);
                 }
                 setAccessible(value) { return this; }
                 toString() { return this.owner.getName() + "." + this.name; }
             }
 
             class Field {
-                constructor(owner, name, descriptor, modifiers, annotations, genericType) {
+                constructor(owner, name, descriptor, modifiers, annotations, genericType, jsName) {
                     this.owner = owner;
                     this.name = name;
                     this.descriptor = descriptor;
                     this.modifiers = modifiers;
                     this.annotations = annotations || [];
                     this.genericType = genericType;
+                    this.jsName = jsName;
                     $rt_annotated(this);
                 }
                 getGenericType() { if (this.owner) this.owner.getTypeParameters(); return $rt_type(this.genericType, this.owner); }
                 getName() { return this.name; }
                 getModifiers() { return this.modifiers; }
                 getType() { return $rt_classForDescriptor(this.descriptor); }
-                get(target) { return target[this.name]; }
-                set(target, value) { target[this.name] = value; }
+                get(target) {
+                    const holder = target === null || target === undefined ? this.owner.jsClass : target;
+                    return holder[this.jsName];
+                }
+                set(target, value) {
+                    const holder = target === null || target === undefined ? this.owner.jsClass : target;
+                    holder[this.jsName] = value;
+                }
                 setAccessible(value) { return this; }
                 toString() { return this.owner.getName() + "." + this.name; }
             }

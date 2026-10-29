@@ -54,6 +54,7 @@ import kiss.I;
 import kiss.Variable;
 import kiss.Ⅱ;
 import kiss.Ⅲ;
+import js.lang.Native;
 import reincarnation.Debuggable;
 import reincarnation.Operand;
 import reincarnation.OperandConstructorCall;
@@ -152,9 +153,17 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         defined.addAll(reincarnation.locals);
 
         allocator.seed(reincarnation.clazz);
-        reincarnation.classes.forEach(type -> allocator.seed(Classlib.replace(type)));
+        reincarnation.classes.forEach(type -> {
+            if (!Classlib.isNative(type)) {
+                allocator.seed(Classlib.replace(type));
+            }
+        });
         reincarnation.locals.forEach(allocator::seed);
         reincarnation.anonymous.forEach(allocator::seed);
+
+        // Allocate the member names before writing the class so that the declaration and every
+        // reference share the same name.
+        allocator.seedMembers(reincarnation.clazz);
     }
 
     private void writeOne(Reincarnation reincarnation) {
@@ -304,7 +313,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                         .getModifiers() + "," + m.getParameterCount() + "," + annotations(m) + "," + genericTypeParameters(m
                                 .getTypeParameters()) + ",[" + genericTypes(m.getGenericParameterTypes()) + "]," + genericType(m
                                         .getGenericReturnType()) + ",[" + genericTypes(m
-                                                .getGenericExceptionTypes()) + "]," + exceptionTypes(m.getExceptionTypes()) + "]")
+                                                .getGenericExceptionTypes()) + "]," + exceptionTypes(m.getExceptionTypes()) + ","
+                                                + quote(methodName(m)) + "]")
                 .write(methods);
         builder.append(",").append(methods).append("]");
 
@@ -313,7 +323,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 .skip(Field::isSynthetic)
                 .separator(",")
                 .converter(f -> "[" + quote(f.getName()) + "," + quote(org.objectweb.asm.Type.getDescriptor(f.getType())) + "," + f
-                        .getModifiers() + "," + annotations(f) + "," + genericType(f.getGenericType()) + "]")
+                        .getModifiers() + "," + annotations(f) + "," + genericType(f.getGenericType()) + ","
+                        + quote(fieldName(f)) + "]")
                 .write(fields);
         builder.append(",").append(fields).append("]");
 
@@ -406,7 +417,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         } else if (value instanceof Class clazz) {
             return "{c:" + quote(clazz.getName()) + "}";
         } else if (value instanceof Enum constant) {
-            return "{e:" + quote(constant.getDeclaringClass().getName()) + ",n:" + quote(constant.name()) + "}";
+            return "{e:" + quote(constant.getDeclaringClass().getName()) + ",n:" + quote(constant.name()) + ",j:"
+                    + quote(enumFieldName(constant.getDeclaringClass(), constant.name())) + "}";
         } else if (value instanceof java.lang.annotation.Annotation annotation) {
             return annotation(annotation);
         } else if (value.getClass().isArray()) {
@@ -538,7 +550,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
 
         // Instance fields are stored as the prototype default, static fields are stored on the
         // class object. The underscore prefix distinguishes the static member in the definition.
-        line(Classes.isStatic(field) ? "_" : "", field.getName(), ":", space, jsDefault(field.getType()), ",");
+        line(Classes.isStatic(field) ? "_" : "", fieldName(field), ":", space, jsDefault(field.getType()), ",");
     }
 
 
@@ -607,7 +619,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             Class type = current.exact();
             Join values = Join.of(type.getEnumConstants())
                     .separator("," + space)
-                    .converter(x -> "$c." + simpleName(type) + "." + ((Enum) x).name());
+                    .converter(x -> "$c." + simpleName(type) + "." + enumFieldName(type, ((Enum) x).name()));
 
             line();
             line("_values: function() { return [", values, "]; },");
@@ -1225,6 +1237,11 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeAccessField(Field field, Code context, AccessMode mode) {
+        Native nativeCode = field.getAnnotation(Native.class);
+        if (nativeCode != null) {
+            writeNative(nativeCode.value(), context, List.of());
+            return;
+        }
         if (Classes.isStatic(field)) {
             if (field.getDeclaringClass() == System.class) {
                 // The standard output and error streams are provided by the runtime.
@@ -1239,24 +1256,24 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 }
             }
             if (current.is(field.getDeclaringClass())) {
-                write(classRef(field.getDeclaringClass()), ".", field.getName());
+                write(classRef(field.getDeclaringClass()), ".", fieldName(field));
             } else {
-                write(context, ".", field.getName());
+                write(context, ".", fieldName(field));
             }
         } else {
             switch (mode) {
             case THIS:
-                write(context, ".", field.getName());
+                write(context, ".", fieldName(field));
                 break;
 
             case SUPER:
                 // The generated class has no extends clause, so the super field is accessed
-                // through this. Java field hiding can not be expressed by JavaScript.
-                write("this.", field.getName());
+                // through this. The field names are unique per declaring class.
+                write("this.", fieldName(field));
                 break;
 
             default:
-                write(context, ".", field.getName());
+                write(context, ".", fieldName(field));
                 break;
             }
         }
@@ -1291,6 +1308,12 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeConstructorCall(Constructor constructor, List<Code> params) {
+        Native nativeCode = (Native) constructor.getAnnotation(Native.class);
+        if (nativeCode != null) {
+            writeNative(nativeCode.value(), null, params);
+            return;
+        }
+
         Class owner = Classlib.replace(constructor.getDeclaringClass());
 
         if (options.strictApi && isUnmappedApi(owner) && !isRuntimeType(owner) && !isStringBuilder(owner)
@@ -1304,16 +1327,6 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         // The throwable classes are not emulated, so they are mapped to the native Error.
         if (Throwable.class.isAssignableFrom(owner)) {
             write("new", space, "Error", buildCallParameter(constructor, params));
-            return;
-        }
-        // The string builders are mapped to the native string accumulator.
-        if (isStringBuilder(owner)) {
-            Class[] types = constructor.getParameterTypes();
-            if (types.length == 1 && (types[0] == String.class || types[0] == CharSequence.class)) {
-                write("$rt_sbWith", "(", params.get(0), ")");
-            } else {
-                write("$rt_sb()");
-            }
             return;
         }
         // The runtime type is a plain JavaScript class, so it must not receive the constructor
@@ -1372,6 +1385,12 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeMethodCall(Method method, Code context, List<Code> params, AccessMode mode) {
+        Native nativeCode = method.getAnnotation(Native.class);
+        if (nativeCode != null) {
+            writeNative(nativeCode.value(), context, params);
+            return;
+        }
+
         if (isRuntimeType(method.getDeclaringClass())) {
             requireRuntime();
         }
@@ -1381,7 +1400,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             write("$rt.reflect($rt.classOf(", context, "))");
         } else if (isRecordAccessor(method)) {
             // The record accessor (e.g. point.x()) is replaced by the field access (point.x).
-            write(context, ".", method.getName());
+            write(context, ".", fieldName(recordField(method)));
         } else if (method.getDeclaringClass() == Enum.class && method.getName().equals("valueOf")) {
             // Enum.valueOf(Class, String) is delegated to the runtime.
             write("$rt.enumValueOf(", params.get(0), ",", space, params.get(1), ")");
@@ -1393,8 +1412,6 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             write("$rt_compare", "(", context, ",", space, params.get(0), ")");
         } else if (isObjectMethod(method)) {
             writeObjectMethod(method, context, params);
-        } else if (isStringBuilder(method.getDeclaringClass())) {
-            writeStringBuilderMethod(method, context, params);
         } else if (isPrintStream(method.getDeclaringClass())) {
             writePrintStreamMethod(method, context, params);
         } else if (isThrowableMethod(method)) {
@@ -1439,6 +1456,14 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                     } else if (isListRemoveAt(method)) {
                         // JavaScript has no overloading, so the Java remove(int) is renamed.
                         write(context, ".removeAt", buildCallParameter(method, params));
+                    } else if (Modifier.isPrivate(method.getModifiers()) && !Classes.isStatic(method)) {
+                        // A private method is not dynamically dispatched, so invoke the declaring
+                        // class directly instead of looking up the method in the receiver.
+                        write(classRef(method.getDeclaringClass()), ".prototype.", methodName(method), ".call(", context);
+                        if (!params.isEmpty()) {
+                            write(",", space, buildArgument(method, params, 0, null));
+                        }
+                        write(")");
                     } else {
                         writeDefaultMethodCall(method, context, params);
                     }
@@ -1507,6 +1532,47 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     }
 
     /**
+     * Write the native JavaScript expression.
+     * 
+     * @param template A JavaScript expression template.
+     * @param receiver A receiver code. It may be null for a static member.
+     * @param params A list of parameters.
+     */
+    private void writeNative(String template, Code receiver, List<Code> params) {
+        for (int i = 0; i < template.length();) {
+            char code = template.charAt(i);
+
+            if (code == '$' && template.startsWith("$this", i)) {
+                if (receiver == null) {
+                    throw new IllegalStateException("The native template '" + template + "' requires a receiver.");
+                }
+                write("(", receiver, ")");
+                i += 5;
+                continue;
+            }
+
+            if (code == '$') {
+                int end = i + 1;
+                while (end < template.length() && Character.isDigit(template.charAt(end))) {
+                    end++;
+                }
+                if (i + 1 < end) {
+                    int index = Integer.parseInt(template.substring(i + 1, end));
+                    if (params.size() <= index) {
+                        throw new IllegalStateException("The native template '" + template + "' requires argument " + index + ".");
+                    }
+                    write("(", params.get(index), ")");
+                    i = end;
+                    continue;
+                }
+            }
+
+            write(String.valueOf(code));
+            i++;
+        }
+    }
+
+    /**
      * Write the default method invocation. In the strict mode, the unmapped Java API is rejected
      * instead of being emitted as an undefined JavaScript call.
      * 
@@ -1561,7 +1627,46 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A method name.
      */
     private String methodName(Method method) {
-        return safeVariable(method.getName());
+        return names().allocate(method);
+    }
+
+    /**
+     * Compute the JavaScript field name.
+     * 
+     * @param field A target field.
+     * @return A field name.
+     */
+    private String fieldName(Field field) {
+        return names().allocate(field);
+    }
+
+    /**
+     * Compute the JavaScript field name of the enum constant.
+     * 
+     * @param type An enum type.
+     * @param name A constant name.
+     * @return A field name.
+     */
+    private String enumFieldName(Class type, String name) {
+        try {
+            return fieldName(type.getDeclaredField(name));
+        } catch (NoSuchFieldException e) {
+            throw new IllegalStateException("Unknown enum constant: " + type.getName() + "." + name, e);
+        }
+    }
+
+    /**
+     * Get the field of the record component.
+     * 
+     * @param accessor A record accessor.
+     * @return A field.
+     */
+    private Field recordField(Method accessor) {
+        try {
+            return accessor.getDeclaringClass().getDeclaredField(accessor.getName());
+        } catch (NoSuchFieldException e) {
+            throw new IllegalStateException("Unknown record component: " + accessor, e);
+        }
     }
 
     /**
@@ -1647,7 +1752,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A result.
      */
     private boolean isRuntimeType(Class type) {
-        if (Classlib.isReplaced(type)) {
+        if (Classlib.isNative(type) || Classlib.isReplaced(type)) {
             return false;
         }
         return isList(type) || isSet(type) || isQueue(type) || isMap(type) //
@@ -3778,12 +3883,12 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
 
         if (statement) {
             for (E value : values) {
-                line("case ", typeName, ".", value.name(), ":");
+                line("case ", typeName, ".", enumFieldName(type, value.name()), ":");
             }
             indent(() -> write(caseBlock));
         } else {
             for (E value : values) {
-                line("case ", typeName, ".", value.name(), ":");
+                line("case ", typeName, ".", enumFieldName(type, value.name()), ":");
             }
             indent(() -> writeSwitchExpressionReturn(caseBlock));
         }
@@ -4428,7 +4533,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
          */
         @Override
         public void writeAccessField(Field field, Code context, AccessMode mode) {
-            write(simpleName(field.getType()), space, field.getName());
+            write(simpleName(field.getType()), space, fieldName(field));
         }
 
         /**
@@ -4478,7 +4583,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 // The enum constants are created in the deferred static initializer, so they are
                 // assigned to the class object. The name and ordinal are stored to the instance
                 // because they are not a part of the user defined constructor.
-                write(classRef(type), ".", constant.name(), space, "=", space, "$rt.enumValue(new", space, classRef(type), space, right, ",",
+                write(classRef(type), ".", enumFieldName(type, constant.name()), space, "=", space, "$rt.enumValue(new", space, classRef(type), space, right, ",",
                         space, quote(constant.name()), ",", space, constants.indexOf(constant), ");");
             } else {
                 super.writeAssignOperation(left, operator, right);

@@ -50,7 +50,7 @@ public final class JavascriptBundle {
      * @param options A coding options.
      * @return A JavaScript program.
      */
-    public static String build(Class entry, JavascriptCodingOption options) {
+    public static synchronized String build(Class entry, JavascriptCodingOption options) {
         Set<Class> closure = new LinkedHashSet();
         Set<Class> visited = new HashSet();
 
@@ -73,6 +73,13 @@ public final class JavascriptBundle {
         // The entry class keeps its preferred name even if a dependency declares the same simple
         // name, so the caller can refer to the entry by the simple name.
         names.seed(entry);
+        names.seedMembers(entry);
+
+        for (Class type : closure) {
+            if (!Classlib.isNative(type)) {
+                names.seedMembers(type);
+            }
+        }
 
         StringBuilder classes = new StringBuilder();
         boolean runtime = false;
@@ -101,7 +108,7 @@ public final class JavascriptBundle {
                 java.lang.reflect.Method main = entry.getDeclaredMethod("main", String[].class);
                 if (java.lang.reflect.Modifier.isStatic(main.getModifiers()) && java.lang.reflect.Modifier.isPublic(main.getModifiers())) {
                     bundle.append("\r\nif (typeof process !== \"undefined\" && process.argv) {\r\n");
-                    bundle.append("    $c.").append(names.allocate(entry)).append(".main(process.argv.slice(2));\r\n");
+                    bundle.append("    $c.").append(names.allocate(entry)).append(".").append(names.allocate(main)).append("(process.argv.slice(2));\r\n");
                     bundle.append("}\r\n");
                 }
             } catch (NoSuchMethodException e) {
@@ -125,6 +132,11 @@ public final class JavascriptBundle {
 
         // Map the standard API to the Java implementation which is transpiled into JavaScript.
         type = Classlib.replace(type);
+
+        // The native bridge is available only at compile time, so it is not emitted.
+        if (Classlib.isNative(type)) {
+            return;
+        }
 
         if (!visited.add(type)) {
             return;
