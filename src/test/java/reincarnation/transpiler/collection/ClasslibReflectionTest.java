@@ -73,6 +73,11 @@ class ClasslibReflectionTest extends BundleVerifier {
         verifyReflection(InvokeConstructor.class, "run");
     }
 
+    @Test
+    void fieldAccess() throws Exception {
+        verifyReflection(FieldAccess.class, "run");
+    }
+
     /** Verify the hierarchy of {@link java.util.ArrayList}. */
     static class ArrayListType {
 
@@ -177,6 +182,16 @@ class ClasslibReflectionTest extends BundleVerifier {
             java.lang.reflect.Method append = java.lang.StringBuilder.class.getDeclaredMethod("append", String.class);
             append.invoke(builder, "abc");
             return list.size() * 10 + builder.toString().length();
+        }
+    }
+
+    /** Verify the field access of the classlib type. */
+    static class FieldAccess {
+
+        static String run() throws Exception {
+            java.lang.reflect.Field field = java.lang.System.class.getDeclaredField("out");
+            java.lang.Object value = field.get(null);
+            return value == null ? "null" : "present";
         }
     }
 }

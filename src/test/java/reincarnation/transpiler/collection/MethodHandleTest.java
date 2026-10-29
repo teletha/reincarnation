@@ -30,6 +30,11 @@ class MethodHandleTest extends BundleVerifier {
     }
 
     @Test
+    void invokeExact() throws Exception {
+        verifyReflection(InvokeExact.class, "run");
+    }
+
+    @Test
     void virtualClasslib() throws Exception {
         verifyReflection(VirtualClasslib.class, "run");
     }
@@ -55,6 +60,15 @@ class MethodHandleTest extends BundleVerifier {
         static String run() throws Throwable {
             MethodHandle handle = MethodHandles.lookup().findVirtual(String.class, "toString", MethodType.methodType(String.class));
             return (String) handle.invoke("ok");
+        }
+    }
+
+    /** Invoke the native method exactly. */
+    static class InvokeExact {
+
+        static String run() throws Throwable {
+            MethodHandle handle = MethodHandles.lookup().findVirtual(String.class, "toString", MethodType.methodType(String.class));
+            return (String) handle.invokeExact("ok");
         }
     }
 
