@@ -184,6 +184,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "Collections",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
 			"name": "StringBuffer",
 			"packageName": "reincarnation.classlib.java.lang",
 			"type": "Class"
