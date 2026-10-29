@@ -10,6 +10,7 @@
 package reincarnation.classlib.java.util;
 
 import js.lang.NativeDate;
+import js.lang.NativeTemporal;
 import reincarnation.classlib.java.io.Serializable;
 import reincarnation.classlib.java.lang.Cloneable;
 import reincarnation.classlib.java.lang.Comparable;
@@ -491,7 +492,11 @@ public class Date implements Serializable, Cloneable, Comparable<Date> {
      */
     private static String zone(int offset) {
         if (offset == 0) {
-            return "GMT";
+            String id = NativeTemporal.systemZone();
+            if (id != null && (id.equalsIgnoreCase("GMT") || id.equalsIgnoreCase("Etc/GMT"))) {
+                return "GMT";
+            }
+            return "UTC";
         }
         int absolute = offset < 0 ? -offset : offset;
         StringBuilder builder = new StringBuilder("GMT");
