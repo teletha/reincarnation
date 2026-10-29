@@ -40,6 +40,10 @@ final class Classlib {
             Map.entry(java.lang.StringBuffer.class, reincarnation.classlib.java.lang.StringBuffer.class), //
             Map.entry(java.lang.System.class, reincarnation.classlib.java.lang.System.class), //
             Map.entry(java.io.PrintStream.class, reincarnation.classlib.java.io.PrintStream.class), //
+            Map.entry(java.io.OutputStream.class, reincarnation.classlib.java.io.OutputStream.class), //
+            Map.entry(java.io.FilterOutputStream.class, reincarnation.classlib.java.io.FilterOutputStream.class), //
+            Map.entry(java.io.Closeable.class, reincarnation.classlib.java.io.Closeable.class), //
+            Map.entry(java.io.Flushable.class, reincarnation.classlib.java.io.Flushable.class), //
             Map.entry(java.util.Objects.class, reincarnation.classlib.java.util.Objects.class), //
             Map.entry(java.util.Arrays.class, reincarnation.classlib.java.util.Arrays.class), //
             Map.entry(java.util.Collections.class, reincarnation.classlib.java.util.Collections.class), //
@@ -156,6 +160,10 @@ final class Classlib {
             Map.entry(reincarnation.classlib.java.lang.StringBuilder.class, java.lang.StringBuilder.class), //
             Map.entry(reincarnation.classlib.java.lang.StringBuffer.class, java.lang.StringBuffer.class), //
             Map.entry(reincarnation.classlib.java.io.PrintStream.class, java.io.PrintStream.class), //
+            Map.entry(reincarnation.classlib.java.io.OutputStream.class, java.io.OutputStream.class), //
+            Map.entry(reincarnation.classlib.java.io.FilterOutputStream.class, java.io.FilterOutputStream.class), //
+            Map.entry(reincarnation.classlib.java.io.Closeable.class, java.io.Closeable.class), //
+            Map.entry(reincarnation.classlib.java.io.Flushable.class, java.io.Flushable.class), //
             Map.entry(reincarnation.classlib.java.util.Objects.class, java.util.Objects.class), //
             Map.entry(reincarnation.classlib.java.util.Arrays.class, java.util.Arrays.class), //
             Map.entry(reincarnation.classlib.java.util.Collections.class, java.util.Collections.class), //

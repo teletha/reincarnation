@@ -17,7 +17,7 @@ import js.lang.NativeString;
 /**
  * The Java implementation of {@link java.io.PrintStream} which is transpiled into JavaScript.
  */
-public final class PrintStream {
+public class PrintStream extends FilterOutputStream implements reincarnation.classlib.java.lang.Appendable, Closeable {
 
     /** Whether the error stream is used. */
     private final boolean error;
@@ -28,6 +28,7 @@ public final class PrintStream {
      * @param error Whether the error stream is used.
      */
     public PrintStream(boolean error) {
+        super(null);
         this.error = error;
     }
 
