@@ -1180,7 +1180,7 @@ public final class JavascriptRuntime {
                 }
 
                 stream() {
-                    return Stream.of(this.elements);
+                    return $c.Stream.of(this.elements);
                 }
 
                 check(index) {
@@ -1703,7 +1703,7 @@ public final class JavascriptRuntime {
                 }
 
                 stream() {
-                    return Stream.of(this.elements);
+                    return $c.Stream.of(this.elements);
                 }
 
                 static of(...values) {
@@ -1876,7 +1876,7 @@ public final class JavascriptRuntime {
                 }
 
                 stream() {
-                    return Stream.of(this.elements);
+                    return $c.Stream.of(this.elements);
                 }
             }
 
@@ -1941,108 +1941,6 @@ public final class JavascriptRuntime {
                 }
             }
 
-            class Optional {
-                constructor(value) {
-                    this.value = value;
-                }
-                static of(value) {
-                    if (value === null || value === undefined) throw new Error("NullPointerException");
-                    return new Optional(value);
-                }
-                static ofNullable(value) { return new Optional(value); }
-                static empty() { return new Optional(null); }
-                isPresent() { return this.value !== null && this.value !== undefined; }
-                isEmpty() { return !this.isPresent(); }
-                get() {
-                    if (!this.isPresent()) throw new Error("NoSuchElementException");
-                    return this.value;
-                }
-                orElse(other) { return this.isPresent() ? this.value : other; }
-                orElseGet(supplier) { return this.isPresent() ? this.value : supplier(); }
-                orElseThrow() {
-                    if (!this.isPresent()) throw new Error("NoSuchElementException");
-                    return this.value;
-                }
-                ifPresent(action) { if (this.isPresent()) action(this.value); }
-                ifPresentOrElse(action, emptyAction) { if (this.isPresent()) action(this.value); else emptyAction(); }
-                map(mapper) { return this.isPresent() ? Optional.ofNullable(mapper(this.value)) : this; }
-                flatMap(mapper) { return this.isPresent() ? mapper(this.value) : this; }
-                filter(predicate) { return this.isPresent() && predicate(this.value) ? this : Optional.empty(); }
-                stream() { return Stream.of(this.isPresent() ? [this.value] : []); }
-                equals(other) { return other instanceof Optional && List.$equals(this.value, other.value); }
-                hashCode() { return this.isPresent() ? List.$hash(this.value) : 0; }
-                toString() { return this.isPresent() ? "Optional[" + List.$string(this.value) + "]" : "Optional.empty"; }
-            }
-
-            class Stream {
-                constructor(values) {
-                    this.values = values;
-                }
-                static of(...values) {
-                    return new Stream(values.length === 1 && Array.isArray(values[0]) ? values[0].slice() : values.slice());
-                }
-                static empty() { return new Stream([]); }
-                static iterate(seed, operator) { return new Stream([seed]); }
-                map(mapper) { return new Stream(this.values.map(value => mapper(value))); }
-                flatMap(mapper) {
-                    const result = [];
-                    for (const value of this.values) {
-                        for (const item of $rt_iterable(mapper(value))) result.push(item);
-                    }
-                    return new Stream(result);
-                }
-                filter(predicate) { return new Stream(this.values.filter(value => predicate(value))); }
-                distinct() {
-                    const result = [];
-                    for (const value of this.values) {
-                        if (!result.some(x => List.$equals(x, value))) result.push(value);
-                    }
-                    return new Stream(result);
-                }
-                sorted(comparator) {
-                    const result = this.values.slice();
-                    result.sort((a, b) => $rt_compareWith(comparator, a, b));
-                    return new Stream(result);
-                }
-                limit(max) { return new Stream(this.values.slice(0, max)); }
-                skip(count) { return new Stream(this.values.slice(count)); }
-                peek(action) { this.values.forEach(action); return this; }
-                forEach(action) { this.values.forEach(action); }
-                forEachOrdered(action) { this.values.forEach(action); }
-                count() { return this.values.length; }
-                anyMatch(predicate) { return this.values.some(value => predicate(value)); }
-                allMatch(predicate) { return this.values.every(value => predicate(value)); }
-                noneMatch(predicate) { return !this.values.some(value => predicate(value)); }
-                findFirst() { return new Optional(this.values.length === 0 ? null : this.values[0]); }
-                findAny() { return this.findFirst(); }
-                reduce(...args) {
-                    let identity;
-                    let accumulator;
-                    if (args.length === 1) {
-                        accumulator = args[0];
-                        let result;
-                        for (const value of this.values) result = result === undefined ? value : accumulator(result, value);
-                        return new Optional(result);
-                    }
-                    identity = args[0];
-                    accumulator = args[1];
-                    let result = identity;
-                    for (const value of this.values) result = accumulator(result, value);
-                    return result;
-                }
-                collect(collector) { return collector(this.values); }
-                toArray(generator) { return this.values.slice(); }
-                toList() { return List.of(this.values); }
-                iterator() {
-                    let index = 0;
-                    const values = this.values;
-                    return {
-                        hasNext() { return index < values.length; },
-                        next() { return values[index++]; }
-                    };
-                }
-                [Symbol.iterator]() { return this.values[Symbol.iterator](); }
-            }
 
             const $rt_reflectCache = new WeakMap();
             const $rt_primitiveClasses = Object.create(null);

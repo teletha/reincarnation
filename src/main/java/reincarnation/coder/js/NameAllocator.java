@@ -220,6 +220,9 @@ public final class NameAllocator {
         if (owner.isEnum() && (method.getName().equals("values") || method.getName().equals("valueOf"))) {
             return true;
         }
+        if (owner.getName().equals("reincarnation.classlib.java.util.stream.Stream") && method.getName().equals("of")) {
+            return true;
+        }
         String descriptor = org.objectweb.asm.Type.getMethodDescriptor(method);
         return switch (method.getName()) {
         case "equals" -> descriptor.equals("(Ljava/lang/Object;)Z");

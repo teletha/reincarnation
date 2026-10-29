@@ -52,6 +52,8 @@ final class Classlib {
             Map.entry(java.util.Objects.class, reincarnation.classlib.java.util.Objects.class), //
             Map.entry(java.util.Arrays.class, reincarnation.classlib.java.util.Arrays.class), //
             Map.entry(java.util.Collections.class, reincarnation.classlib.java.util.Collections.class), //
+            Map.entry(java.util.Optional.class, reincarnation.classlib.java.util.Optional.class), //
+            Map.entry(java.util.stream.Stream.class, reincarnation.classlib.java.util.stream.Stream.class), //
             Map.entry(java.util.StringJoiner.class, reincarnation.classlib.java.util.StringJoiner.class), //
             Map.entry(java.util.regex.Pattern.class, reincarnation.classlib.java.util.regex.Pattern.class), //
             Map.entry(java.util.regex.Matcher.class, reincarnation.classlib.java.util.regex.Matcher.class), //
