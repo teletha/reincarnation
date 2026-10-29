@@ -394,7 +394,6 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
         try {
             analyze(nodes);
         } catch (Throwable e) {
-            e.printStackTrace();
             throw new Error("Failed to decompile [" + executable + "]", e);
         }
 
