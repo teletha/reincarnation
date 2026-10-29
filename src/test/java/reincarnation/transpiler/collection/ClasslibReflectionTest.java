@@ -53,6 +53,16 @@ class ClasslibReflectionTest extends BundleVerifier {
         verifyReflection(MatcherType.class, "run");
     }
 
+    @Test
+    void declaredMethod() throws Exception {
+        verifyReflection(DeclaredMethod.class, "run");
+    }
+
+    @Test
+    void declaredField() throws Exception {
+        verifyReflection(DeclaredField.class, "run");
+    }
+
     /** Verify the hierarchy of {@link java.util.ArrayList}. */
     static class ArrayListType {
 
@@ -106,6 +116,24 @@ class ClasslibReflectionTest extends BundleVerifier {
 
         static String run() {
             return TypeDescriber.describe(java.util.regex.Matcher.class);
+        }
+    }
+
+    /** Verify the declared method of the classlib type. */
+    static class DeclaredMethod {
+
+        static String run() throws Exception {
+            java.lang.reflect.Method method = java.util.ArrayList.class.getDeclaredMethod("add", java.lang.Object.class);
+            return method.getName() + "|" + method.getParameterCount() + "|" + method.getDeclaringClass().getName();
+        }
+    }
+
+    /** Verify the declared field of the classlib type. */
+    static class DeclaredField {
+
+        static String run() throws Exception {
+            java.lang.reflect.Field field = java.lang.System.class.getDeclaredField("out");
+            return field.getName() + "|" + field.getType().getName();
         }
     }
 }

@@ -1387,6 +1387,7 @@ public final class JavascriptRuntime {
                     this.$exceptionTypes = undefined;
                     $rt_annotated(this);
                 }
+                getDeclaringClass() { return this.owner; }
                 getTypeParameters() { return $rt_typeParameters(this.typeParameters, this, this.owner); }
                 getGenericParameterTypes() { this.getTypeParameters(); return $rt_types(this.genericParameters, this, this.owner); }
                 getGenericReturnType() { this.getTypeParameters(); return $rt_type(this.genericReturn, this, this.owner); }
@@ -1426,6 +1427,7 @@ public final class JavascriptRuntime {
                     $rt_annotated(this);
                 }
                 getGenericType() { if (this.owner) this.owner.getTypeParameters(); return $rt_type(this.genericType, this.owner); }
+                getDeclaringClass() { return this.owner; }
                 getName() { return this.name; }
                 getModifiers() { return this.modifiers; }
                 getType() { return $rt_classForDescriptor(this.descriptor); }
@@ -1457,6 +1459,7 @@ public final class JavascriptRuntime {
                     this.$exceptionTypes = undefined;
                     $rt_annotated(this);
                 }
+                getDeclaringClass() { return this.owner; }
                 getTypeParameters() { return $rt_typeParameters(this.typeParameters, this, this.owner); }
                 getGenericParameterTypes() { this.getTypeParameters(); return $rt_types(this.genericParameters, this, this.owner); }
                 getGenericExceptionTypes() { this.getTypeParameters(); return $rt_types(this.genericExceptions, this, this.owner); }

@@ -304,11 +304,42 @@ final class Classlib {
         if (target == field.getDeclaringClass()) {
             return field;
         }
-        try {
-            return target.getDeclaredField(field.getName());
-        } catch (NoSuchFieldException e) {
-            return field;
+
+        java.lang.reflect.Field resolved = findField(target, field.getName(), new java.util.HashSet());
+        return resolved == null ? field : resolved;
+    }
+
+    /**
+     * Find the field in the class and its super classes and interfaces.
+     * 
+     * @param type A target class.
+     * @param name A field name.
+     * @param visited A visited classes.
+     * @return A found field or null.
+     */
+    private static java.lang.reflect.Field findField(Class type, String name, Set<Class> visited) {
+        if (type == null || type == Object.class || !visited.add(type)) {
+            return null;
         }
+
+        try {
+            return type.getDeclaredField(name);
+        } catch (NoSuchFieldException e) {
+            // search the super types
+        }
+
+        java.lang.reflect.Field resolved = findField(type.getSuperclass(), name, visited);
+        if (resolved != null) {
+            return resolved;
+        }
+
+        for (Class inf : type.getInterfaces()) {
+            resolved = findField(inf, name, visited);
+            if (resolved != null) {
+                return resolved;
+            }
+        }
+        return null;
     }
 
     /**
