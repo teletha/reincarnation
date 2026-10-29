@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="n">
+		<header class="d" date="2026-10-29">
+			<h1 class="e"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="f"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="g"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="k"></nav>
+		<article class="j" id="Article">
+			<section class="m"><code class="b">js.lang</code>
+				<h2 class="Class c"><code class="u">NativeURLSearchParams</code></h2>
+				<div class="x"></div><span class="A"><p>The JavaScript <code>URLSearchParams</code>.</p></span></section>
+			<section class="m" id="NativeURLSearchParams()">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">NativeURLSearchParams</code><code class="T">()</code></h2><span class="A"><p>Create the empty search parameters.</p></span></section>
+			<section class="m" id="NativeURLSearchParams(java.lang.String)">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">NativeURLSearchParams</code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">query</code>)</code></h2>
+				<table class="BB">
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">query</code></td>
+						<td><span><p>A query.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the search parameters.</p></span></section>
+			<section class="m" id="append(java.lang.String,java.lang.String)">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">append</code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="JB"><code>void</code></i></h2>
+				<table class="BB">
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code></td>
+						<td><span><p>A name.</p></span></td>
+					</tr>
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Append the value.</p></span></section>
+			<section class="m" id="delete(java.lang.String)">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">delete</code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>)</code><i class="JB"><code>void</code></i></h2>
+				<table class="BB">
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code></td>
+						<td><span><p>A name.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Delete the values.</p></span></section>
+			<section class="m" id="get(java.lang.String)">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">get</code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>)</code><i class="JB"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="BB">
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code></td>
+						<td><span><p>A name.</p></span></td>
+					</tr>
+					<tr class="KB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A value or null.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the value.</p></span></section>
+			<section class="m" id="getAll(java.lang.String)">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">getAll</code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>)</code><i class="JB"><code array="fix"><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="BB">
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code></td>
+						<td><span><p>A name.</p></span></td>
+					</tr>
+					<tr class="KB">
+						<td><code array="fix"><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>Values.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the values.</p></span></section>
+			<section class="m" id="has(java.lang.String)">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">has</code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>)</code><i class="JB"><code>boolean</code></i></h2>
+				<table class="BB">
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code></td>
+						<td><span><p>A name.</p></span></td>
+					</tr>
+					<tr class="KB">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the name exists.</p></span></section>
+			<section class="m" id="set(java.lang.String,java.lang.String)">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">set</code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="JB"><code>void</code></i></h2>
+				<table class="BB">
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code></td>
+						<td><span><p>A name.</p></span></td>
+					</tr>
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set the value.</p></span></section>
+			<section class="m" id="size()">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">size</code><code class="T">()</code><i class="JB"><code>int</code></i></h2>
+				<table class="BB">
+					<tr class="KB">
+						<td><code>int</code></td>
+						<td><span><p>A size.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the size.</p></span></section>
+			<section class="m" id="sort()">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">sort</code><code class="T">()</code><i class="JB"><code>void</code></i></h2><span class="A"><p>Sort the values.</p></span></section>
+			<section class="m" id="toString()">
+				<h2 class="W"><i class="OVERRIDE PUBLIC"></i><code class="u">toString</code><code class="T">()</code><i class="JB"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="BB">
+					<tr class="KB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+		</article>
+		<aside class="P">
+			<div class="R">
+				<h5 class="LB">Constructors</h5>
+				<ul>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeURLSearchParams.html#NativeURLSearchParams()">NativeURLSearchParams</a></code><code class="T">()</code></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeURLSearchParams.html#NativeURLSearchParams(java.lang.String)">NativeURLSearchParams</a></code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">query</code>)</code></li>
+				</ul>
+				<h5 class="LB">Methods</h5>
+				<ul>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeURLSearchParams.html#append(java.lang.String,java.lang.String)">append</a></code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="a"><code>void</code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeURLSearchParams.html#delete(java.lang.String)">delete</a></code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>)</code><i class="a"><code>void</code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeURLSearchParams.html#get(java.lang.String)">get</a></code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>)</code><i class="a"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeURLSearchParams.html#getAll(java.lang.String)">getAll</a></code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>)</code><i class="a"><code array="fix"><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeURLSearchParams.html#has(java.lang.String)">has</a></code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>)</code><i class="a"><code>boolean</code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeURLSearchParams.html#set(java.lang.String,java.lang.String)">set</a></code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">name</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="a"><code>void</code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeURLSearchParams.html#size()">size</a></code><code class="T">()</code><i class="a"><code>int</code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeURLSearchParams.html#sort()">sort</a></code><code class="T">()</code><i class="a"><code>void</code></i></li>
+					<li class="i"><i class="OVERRIDE PUBLIC"></i><code><a href="api/js.lang.NativeURLSearchParams.html#toString()">toString</a></code><code class="T">()</code><i class="a"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="Z">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

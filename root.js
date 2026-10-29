@@ -45,6 +45,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "NativeWindow",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
 			"name": "NativeObject",
 			"packageName": "js.lang",
 			"type": "Class"
@@ -65,7 +70,27 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "NativeDocument",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "NativeStorage",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
 			"name": "NativeSet",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "NativeURL",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "NativeURLSearchParams",
 			"packageName": "js.lang",
 			"type": "Class"
 		},

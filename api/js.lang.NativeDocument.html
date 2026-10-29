@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="n">
+		<header class="d" date="2026-10-29">
+			<h1 class="e"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="f"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="g"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="k"></nav>
+		<article class="j" id="Article">
+			<section class="m"><code class="b">js.lang</code>
+				<h2 class="Class c"><code class="u">NativeDocument</code></h2>
+				<div class="x"></div><span class="A"><p>The JavaScript <code>Document</code>.</p></span></section>
+			<section class="m" id="getElementById(java.lang.String)">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">getElementById</code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">id</code>)</code><i class="JB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="BB">
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">id</code></td>
+						<td><span><p>An id.</p></span></td>
+					</tr>
+					<tr class="KB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>An element or null.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the element by the id.</p></span></section>
+			<section class="m" id="querySelector(java.lang.String)">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">querySelector</code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">selector</code>)</code><i class="JB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="BB">
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">selector</code></td>
+						<td><span><p>A selector.</p></span></td>
+					</tr>
+					<tr class="KB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>An element or null.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the first matched element.</p></span></section>
+			<section class="m" id="querySelectorAll(java.lang.String)">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">querySelectorAll</code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">selector</code>)</code><i class="JB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="BB">
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">selector</code></td>
+						<td><span><p>A selector.</p></span></td>
+					</tr>
+					<tr class="KB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>Elements.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the matched elements.</p></span></section>
+			<section class="m" id="createElement(java.lang.String)">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">createElement</code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">tagName</code>)</code><i class="JB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="BB">
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">tagName</code></td>
+						<td><span><p>A tag name.</p></span></td>
+					</tr>
+					<tr class="KB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>An element.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the element.</p></span></section>
+			<section class="m" id="createTextNode(java.lang.String)">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">createTextNode</code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">text</code>)</code><i class="JB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="BB">
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">text</code></td>
+						<td><span><p>A text.</p></span></td>
+					</tr>
+					<tr class="KB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A text node.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the text node.</p></span></section>
+			<section class="m" id="body()">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">body</code><code class="T">()</code><i class="JB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="BB">
+					<tr class="KB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A body or null.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the body.</p></span></section>
+			<section class="m" id="head()">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">head</code><code class="T">()</code><i class="JB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="BB">
+					<tr class="KB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A head or null.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the head.</p></span></section>
+			<section class="m" id="documentElement()">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">documentElement</code><code class="T">()</code><i class="JB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="BB">
+					<tr class="KB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A document element or null.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the document element.</p></span></section>
+			<section class="m" id="title()">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">title</code><code class="T">()</code><i class="JB"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="BB">
+					<tr class="KB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A title.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the title.</p></span></section>
+			<section class="m" id="title(java.lang.String)">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">title</code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">title</code>)</code><i class="JB"><code>void</code></i></h2>
+				<table class="BB">
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">title</code></td>
+						<td><span><p>A title.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set the title.</p></span></section>
+			<section class="m" id="cookie()">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">cookie</code><code class="T">()</code><i class="JB"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="BB">
+					<tr class="KB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A cookie.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the cookie.</p></span></section>
+			<section class="m" id="cookie(java.lang.String)">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">cookie</code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">cookie</code>)</code><i class="JB"><code>void</code></i></h2>
+				<table class="BB">
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">cookie</code></td>
+						<td><span><p>A cookie.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set the cookie.</p></span></section>
+			<section class="m" id="readyState()">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">readyState</code><code class="T">()</code><i class="JB"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="BB">
+					<tr class="KB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A ready state.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the ready state.</p></span></section>
+			<section class="m" id="url()">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">url</code><code class="T">()</code><i class="JB"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="BB">
+					<tr class="KB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A URL.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the URL.</p></span></section>
+			<section class="m" id="baseURI()">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">baseURI</code><code class="T">()</code><i class="JB"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="BB">
+					<tr class="KB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A base URI.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the base URI.</p></span></section>
+			<section class="m" id="write(java.lang.String)">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">write</code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">text</code>)</code><i class="JB"><code>void</code></i></h2>
+				<table class="BB">
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">text</code></td>
+						<td><span><p>A text.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Write the text.</p></span></section>
+			<section class="m" id="writeln(java.lang.String)">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">writeln</code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">text</code>)</code><i class="JB"><code>void</code></i></h2>
+				<table class="BB">
+					<tr class="y">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">text</code></td>
+						<td><span><p>A text.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Write the text with a newline.</p></span></section>
+			<section class="m" id="open()">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">open</code><code class="T">()</code><i class="JB"><code>void</code></i></h2><span class="A"><p>Open the document.</p></span></section>
+			<section class="m" id="close()">
+				<h2 class="W"><i class="PUBLIC"></i><code class="u">close</code><code class="T">()</code><i class="JB"><code>void</code></i></h2><span class="A"><p>Close the document.</p></span></section>
+		</article>
+		<aside class="P">
+			<div class="R">
+				<h5 class="LB">Methods</h5>
+				<ul>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#getElementById(java.lang.String)">getElementById</a></code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">id</code>)</code><i class="a"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#querySelector(java.lang.String)">querySelector</a></code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">selector</code>)</code><i class="a"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#querySelectorAll(java.lang.String)">querySelectorAll</a></code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">selector</code>)</code><i class="a"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#createElement(java.lang.String)">createElement</a></code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">tagName</code>)</code><i class="a"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#createTextNode(java.lang.String)">createTextNode</a></code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">text</code>)</code><i class="a"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#body()">body</a></code><code class="T">()</code><i class="a"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#head()">head</a></code><code class="T">()</code><i class="a"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#documentElement()">documentElement</a></code><code class="T">()</code><i class="a"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#title()">title</a></code><code class="T">()</code><i class="a"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#title(java.lang.String)">title</a></code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">title</code>)</code><i class="a"><code>void</code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#cookie()">cookie</a></code><code class="T">()</code><i class="a"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#cookie(java.lang.String)">cookie</a></code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">cookie</code>)</code><i class="a"><code>void</code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#readyState()">readyState</a></code><code class="T">()</code><i class="a"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#url()">url</a></code><code class="T">()</code><i class="a"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#baseURI()">baseURI</a></code><code class="T">()</code><i class="a"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#write(java.lang.String)">write</a></code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">text</code>)</code><i class="a"><code>void</code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#writeln(java.lang.String)">writeln</a></code><code class="T">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">text</code>)</code><i class="a"><code>void</code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#open()">open</a></code><code class="T">()</code><i class="a"><code>void</code></i></li>
+					<li class="i"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDocument.html#close()">close</a></code><code class="T">()</code><i class="a"><code>void</code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="Z">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>
