@@ -732,11 +732,6 @@ const root = {
 			"type": "Annotation"
 		},
 		{
-			"name": "LongMode",
-			"packageName": "reincarnation.coder.js",
-			"type": "Enum"
-		},
-		{
 			"name": "JavascriptBundle",
 			"packageName": "reincarnation.coder.js",
 			"type": "Class"
