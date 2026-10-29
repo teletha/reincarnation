@@ -259,6 +259,11 @@ const root = {
 			"type": "AbstractClass"
 		},
 		{
+			"name": "Date",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
 			"name": "Set",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Interface"

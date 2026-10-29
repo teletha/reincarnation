@@ -19,10 +19,10 @@
 		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="EB">
-		<header class="J" date="2026-10-29">
-			<h1 class="K"><a href="index.html"><code>Reincarnation</code></a></h1>
-			<nav class="L"><a href="api/main.html" id="API"><svg class="package">
+	<body class="T">
+		<header class="U" date="2026-10-29">
+			<h1 class="f"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="g"><a href="api/main.html" id="API"><svg class="package">
 						<use href="main.svg#package"/>
 					</svg>
 				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
@@ -35,45 +35,215 @@
 						<use href="main.svg#github"/>
 					</svg>
 				</a></nav>
-			<div class="M"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+			<div class="h"><a aria-label="Change color scheme" id="theme"><svg class="sun">
 						<use href="main.svg#sun"/>
 					</svg><svg class="moon">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<nav class="Z"></nav>
-		<article class="w" id="Article">
-			<section class="x"><code class="m">js.lang</code>
-				<h2 class="Class T"><code class="u">NativeDate</code></h2>
-				<div class="FB"></div><span class="A"><p>The JavaScript date and time functions.</p></span></section>
-			<section class="x" id="now()">
-				<h2 class="P"><i class="STATIC PUBLIC"></i><code class="u">now</code><code class="e">()</code><i class="l"><code>long</code></i></h2>
-				<table class="t">
-					<tr class="z">
+		<nav class="X"></nav>
+		<article class="V" id="Article">
+			<section class="BB"><code class="d">js.lang</code>
+				<h2 class="Class JB"><code class="w">NativeDate</code></h2>
+				<div class="AB"></div><span class="A"><p>The JavaScript date and time functions.</p></span></section>
+			<section class="BB" id="now()">
+				<h2 class="Q"><i class="PUBLIC STATIC"></i><code class="w">now</code><code class="m">()</code><i class="o"><code>long</code></i></h2>
+				<table class="J">
+					<tr class="a">
 						<td><code>long</code></td>
 						<td><span><p>A time.</p></span></td>
 					</tr>
 				</table><span class="A"><p>Get the current time in milliseconds.</p></span></section>
-			<section class="x" id="nanoTime()">
-				<h2 class="P"><i class="STATIC PUBLIC"></i><code class="u">nanoTime</code><code class="e">()</code><i class="l"><code>long</code></i></h2>
-				<table class="t">
-					<tr class="z">
+			<section class="BB" id="nanoTime()">
+				<h2 class="Q"><i class="PUBLIC STATIC"></i><code class="w">nanoTime</code><code class="m">()</code><i class="o"><code>long</code></i></h2>
+				<table class="J">
+					<tr class="a">
 						<td><code>long</code></td>
 						<td><span><p>A time.</p></span></td>
 					</tr>
 				</table><span class="A"><p>Get the current time in nanoseconds.</p></span></section>
+			<section class="BB" id="year(long)">
+				<h2 class="Q"><i class="PUBLIC STATIC"></i><code class="w">year</code><code class="m">(<code>long</code><code class="parameterName">time</code>)</code><i class="o"><code>int</code></i></h2>
+				<table class="J">
+					<tr class="HB">
+						<td><code>long</code><code class="parameterName">time</code></td>
+						<td><span><p>Epoch milliseconds.</p></span></td>
+					</tr>
+					<tr class="a">
+						<td><code>int</code></td>
+						<td><span><p>A year.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the year of the local time.</p></span></section>
+			<section class="BB" id="month(long)">
+				<h2 class="Q"><i class="PUBLIC STATIC"></i><code class="w">month</code><code class="m">(<code>long</code><code class="parameterName">time</code>)</code><i class="o"><code>int</code></i></h2>
+				<table class="J">
+					<tr class="HB">
+						<td><code>long</code><code class="parameterName">time</code></td>
+						<td><span><p>Epoch milliseconds.</p></span></td>
+					</tr>
+					<tr class="a">
+						<td><code>int</code></td>
+						<td><span><p>A month.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the month of the local time.</p></span></section>
+			<section class="BB" id="dayOfMonth(long)">
+				<h2 class="Q"><i class="PUBLIC STATIC"></i><code class="w">dayOfMonth</code><code class="m">(<code>long</code><code class="parameterName">time</code>)</code><i class="o"><code>int</code></i></h2>
+				<table class="J">
+					<tr class="HB">
+						<td><code>long</code><code class="parameterName">time</code></td>
+						<td><span><p>Epoch milliseconds.</p></span></td>
+					</tr>
+					<tr class="a">
+						<td><code>int</code></td>
+						<td><span><p>A day of month.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the day of month of the local time.</p></span></section>
+			<section class="BB" id="dayOfWeek(long)">
+				<h2 class="Q"><i class="PUBLIC STATIC"></i><code class="w">dayOfWeek</code><code class="m">(<code>long</code><code class="parameterName">time</code>)</code><i class="o"><code>int</code></i></h2>
+				<table class="J">
+					<tr class="HB">
+						<td><code>long</code><code class="parameterName">time</code></td>
+						<td><span><p>Epoch milliseconds.</p></span></td>
+					</tr>
+					<tr class="a">
+						<td><code>int</code></td>
+						<td><span><p>A day of week.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the day of week of the local time.</p></span></section>
+			<section class="BB" id="hour(long)">
+				<h2 class="Q"><i class="PUBLIC STATIC"></i><code class="w">hour</code><code class="m">(<code>long</code><code class="parameterName">time</code>)</code><i class="o"><code>int</code></i></h2>
+				<table class="J">
+					<tr class="HB">
+						<td><code>long</code><code class="parameterName">time</code></td>
+						<td><span><p>Epoch milliseconds.</p></span></td>
+					</tr>
+					<tr class="a">
+						<td><code>int</code></td>
+						<td><span><p>An hour.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the hour of the local time.</p></span></section>
+			<section class="BB" id="minute(long)">
+				<h2 class="Q"><i class="PUBLIC STATIC"></i><code class="w">minute</code><code class="m">(<code>long</code><code class="parameterName">time</code>)</code><i class="o"><code>int</code></i></h2>
+				<table class="J">
+					<tr class="HB">
+						<td><code>long</code><code class="parameterName">time</code></td>
+						<td><span><p>Epoch milliseconds.</p></span></td>
+					</tr>
+					<tr class="a">
+						<td><code>int</code></td>
+						<td><span><p>A minute.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the minute of the local time.</p></span></section>
+			<section class="BB" id="second(long)">
+				<h2 class="Q"><i class="PUBLIC STATIC"></i><code class="w">second</code><code class="m">(<code>long</code><code class="parameterName">time</code>)</code><i class="o"><code>int</code></i></h2>
+				<table class="J">
+					<tr class="HB">
+						<td><code>long</code><code class="parameterName">time</code></td>
+						<td><span><p>Epoch milliseconds.</p></span></td>
+					</tr>
+					<tr class="a">
+						<td><code>int</code></td>
+						<td><span><p>A second.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the second of the local time.</p></span></section>
+			<section class="BB" id="timezoneOffset(long)">
+				<h2 class="Q"><i class="PUBLIC STATIC"></i><code class="w">timezoneOffset</code><code class="m">(<code>long</code><code class="parameterName">time</code>)</code><i class="o"><code>int</code></i></h2>
+				<table class="J">
+					<tr class="HB">
+						<td><code>long</code><code class="parameterName">time</code></td>
+						<td><span><p>Epoch milliseconds.</p></span></td>
+					</tr>
+					<tr class="a">
+						<td><code>int</code></td>
+						<td><span><p>An offset in minutes.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the time zone offset.</p></span></section>
+			<section class="BB" id="localTime(int,int,int,int,int,int)">
+				<h2 class="Q"><i class="PUBLIC STATIC"></i><code class="w">localTime</code><code class="m">(<code>int</code><code class="parameterName">year</code>, <code>int</code><code class="parameterName">month</code>, <code>int</code><code class="parameterName">day</code>, <code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="o"><code>long</code></i></h2>
+				<table class="J">
+					<tr class="HB">
+						<td><code>int</code><code class="parameterName">year</code></td>
+						<td><span><p>A year.</p></span></td>
+					</tr>
+					<tr class="HB">
+						<td><code>int</code><code class="parameterName">month</code></td>
+						<td><span><p>A month.</p></span></td>
+					</tr>
+					<tr class="HB">
+						<td><code>int</code><code class="parameterName">day</code></td>
+						<td><span><p>A day.</p></span></td>
+					</tr>
+					<tr class="HB">
+						<td><code>int</code><code class="parameterName">hour</code></td>
+						<td><span><p>An hour.</p></span></td>
+					</tr>
+					<tr class="HB">
+						<td><code>int</code><code class="parameterName">minute</code></td>
+						<td><span><p>A minute.</p></span></td>
+					</tr>
+					<tr class="HB">
+						<td><code>int</code><code class="parameterName">second</code></td>
+						<td><span><p>A second.</p></span></td>
+					</tr>
+					<tr class="a">
+						<td><code>long</code></td>
+						<td><span><p>Epoch milliseconds.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the epoch milliseconds of the local time.</p></span></section>
+			<section class="BB" id="utcTime(int,int,int,int,int,int)">
+				<h2 class="Q"><i class="PUBLIC STATIC"></i><code class="w">utcTime</code><code class="m">(<code>int</code><code class="parameterName">year</code>, <code>int</code><code class="parameterName">month</code>, <code>int</code><code class="parameterName">day</code>, <code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="o"><code>long</code></i></h2>
+				<table class="J">
+					<tr class="HB">
+						<td><code>int</code><code class="parameterName">year</code></td>
+						<td><span><p>A year.</p></span></td>
+					</tr>
+					<tr class="HB">
+						<td><code>int</code><code class="parameterName">month</code></td>
+						<td><span><p>A month.</p></span></td>
+					</tr>
+					<tr class="HB">
+						<td><code>int</code><code class="parameterName">day</code></td>
+						<td><span><p>A day.</p></span></td>
+					</tr>
+					<tr class="HB">
+						<td><code>int</code><code class="parameterName">hour</code></td>
+						<td><span><p>An hour.</p></span></td>
+					</tr>
+					<tr class="HB">
+						<td><code>int</code><code class="parameterName">minute</code></td>
+						<td><span><p>A minute.</p></span></td>
+					</tr>
+					<tr class="HB">
+						<td><code>int</code><code class="parameterName">second</code></td>
+						<td><span><p>A second.</p></span></td>
+					</tr>
+					<tr class="a">
+						<td><code>long</code></td>
+						<td><span><p>Epoch milliseconds.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the epoch milliseconds of the UTC time.</p></span></section>
 		</article>
-		<aside class="o">
-			<div class="U">
-				<h5 class="LB">Static Methods</h5>
+		<aside class="S">
+			<div class="t">
+				<h5 class="v">Static Methods</h5>
 				<ul>
-					<li class="s"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeDate.html#now()">now</a></code><code class="e">()</code><i class="f"><code>long</code></i></li>
-					<li class="s"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeDate.html#nanoTime()">nanoTime</a></code><code class="e">()</code><i class="f"><code>long</code></i></li>
+					<li class="y"><i class="PUBLIC STATIC"></i><code><a href="api/js.lang.NativeDate.html#now()">now</a></code><code class="m">()</code><i class="GB"><code>long</code></i></li>
+					<li class="y"><i class="PUBLIC STATIC"></i><code><a href="api/js.lang.NativeDate.html#nanoTime()">nanoTime</a></code><code class="m">()</code><i class="GB"><code>long</code></i></li>
+					<li class="y"><i class="PUBLIC STATIC"></i><code><a href="api/js.lang.NativeDate.html#year(long)">year</a></code><code class="m">(<code>long</code><code class="parameterName">time</code>)</code><i class="GB"><code>int</code></i></li>
+					<li class="y"><i class="PUBLIC STATIC"></i><code><a href="api/js.lang.NativeDate.html#month(long)">month</a></code><code class="m">(<code>long</code><code class="parameterName">time</code>)</code><i class="GB"><code>int</code></i></li>
+					<li class="y"><i class="PUBLIC STATIC"></i><code><a href="api/js.lang.NativeDate.html#dayOfMonth(long)">dayOfMonth</a></code><code class="m">(<code>long</code><code class="parameterName">time</code>)</code><i class="GB"><code>int</code></i></li>
+					<li class="y"><i class="PUBLIC STATIC"></i><code><a href="api/js.lang.NativeDate.html#dayOfWeek(long)">dayOfWeek</a></code><code class="m">(<code>long</code><code class="parameterName">time</code>)</code><i class="GB"><code>int</code></i></li>
+					<li class="y"><i class="PUBLIC STATIC"></i><code><a href="api/js.lang.NativeDate.html#hour(long)">hour</a></code><code class="m">(<code>long</code><code class="parameterName">time</code>)</code><i class="GB"><code>int</code></i></li>
+					<li class="y"><i class="PUBLIC STATIC"></i><code><a href="api/js.lang.NativeDate.html#minute(long)">minute</a></code><code class="m">(<code>long</code><code class="parameterName">time</code>)</code><i class="GB"><code>int</code></i></li>
+					<li class="y"><i class="PUBLIC STATIC"></i><code><a href="api/js.lang.NativeDate.html#second(long)">second</a></code><code class="m">(<code>long</code><code class="parameterName">time</code>)</code><i class="GB"><code>int</code></i></li>
+					<li class="y"><i class="PUBLIC STATIC"></i><code><a href="api/js.lang.NativeDate.html#timezoneOffset(long)">timezoneOffset</a></code><code class="m">(<code>long</code><code class="parameterName">time</code>)</code><i class="GB"><code>int</code></i></li>
+					<li class="y"><i class="PUBLIC STATIC"></i><code><a href="api/js.lang.NativeDate.html#localTime(int,int,int,int,int,int)">localTime</a></code><code class="m">(<code>int</code><code class="parameterName">year</code>, <code>int</code><code class="parameterName">month</code>, <code>int</code><code class="parameterName">day</code>, <code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="GB"><code>long</code></i></li>
+					<li class="y"><i class="PUBLIC STATIC"></i><code><a href="api/js.lang.NativeDate.html#utcTime(int,int,int,int,int,int)">utcTime</a></code><code class="m">(<code>int</code><code class="parameterName">year</code>, <code>int</code><code class="parameterName">month</code>, <code>int</code><code class="parameterName">day</code>, <code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="GB"><code>long</code></i></li>
 				</ul>
 			</div>
 		</aside>
-		<footer class="i">
+		<footer class="W">
 			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
 		</footer>
 	</body>
