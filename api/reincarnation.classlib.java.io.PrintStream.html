@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="x">
+		<header class="p" date="2026-10-29">
+			<h1 class="q"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="J"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="r"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="N"></nav>
+		<article class="K" id="Article">
+			<section class="z"><code class="T">reincarnation.classlib.java.io</code>
+				<h2 class="Class O"><code class="l">PrintStream</code></h2>
+				<div class="V"></div><span class="A"><p>The Java implementation of <code><a aria-label="java.io.PrintStream 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/io/PrintStream.html">java.io.PrintStream</a></code> which is transpiled into JavaScript.</p></span></section>
+			<section class="z" id="PrintStream(boolean)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">PrintStream</code><code class="d">(<code>boolean</code><code class="parameterName">error</code>)</code></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code>boolean</code><code class="parameterName">error</code></td>
+						<td><span><p>Whether the error stream is used.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create a print stream.</p></span></section>
+			<section class="z" id="print(java.lang.Object)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">print</code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the value.</p></span></section>
+			<section class="z" id="print(java.lang.String)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">print</code><code class="d">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the value.</p></span></section>
+			<section class="z" id="print(boolean)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">print</code><code class="d">(<code>boolean</code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code>boolean</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the value.</p></span></section>
+			<section class="z" id="print(char)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">print</code><code class="d">(<code>char</code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code>char</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the value.</p></span></section>
+			<section class="z" id="print(int)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">print</code><code class="d">(<code>int</code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code>int</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the value.</p></span></section>
+			<section class="z" id="print(long)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">print</code><code class="d">(<code>long</code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code>long</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the value.</p></span></section>
+			<section class="z" id="print(float)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">print</code><code class="d">(<code>float</code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code>float</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the value.</p></span></section>
+			<section class="z" id="print(double)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">print</code><code class="d">(<code>double</code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code>double</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the value.</p></span></section>
+			<section class="z" id="print(char[])">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">print</code><code class="d">(<code array="fix">char</code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code array="fix">char</code><code class="parameterName">value</code></td>
+						<td><span><p>Characters.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the characters.</p></span></section>
+			<section class="z" id="println()">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">println</code><code class="d">()</code><i class="h"><code>void</code></i></h2><span class="A"><p>Print the newline.</p></span></section>
+			<section class="z" id="println(java.lang.Object)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">println</code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the value and the newline.</p></span></section>
+			<section class="z" id="println(java.lang.String)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">println</code><code class="d">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the value and the newline.</p></span></section>
+			<section class="z" id="println(boolean)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">println</code><code class="d">(<code>boolean</code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code>boolean</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the value and the newline.</p></span></section>
+			<section class="z" id="println(char)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">println</code><code class="d">(<code>char</code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code>char</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the value and the newline.</p></span></section>
+			<section class="z" id="println(int)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">println</code><code class="d">(<code>int</code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code>int</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the value and the newline.</p></span></section>
+			<section class="z" id="println(long)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">println</code><code class="d">(<code>long</code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code>long</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the value and the newline.</p></span></section>
+			<section class="z" id="println(float)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">println</code><code class="d">(<code>float</code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code>float</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the value and the newline.</p></span></section>
+			<section class="z" id="println(double)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">println</code><code class="d">(<code>double</code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code>double</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the value and the newline.</p></span></section>
+			<section class="z" id="println(char[])">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">println</code><code class="d">(<code array="fix">char</code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code array="fix">char</code><code class="parameterName">value</code></td>
+						<td><span><p>Characters.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the characters and the newline.</p></span></section>
+			<section class="z" id="printf(java.lang.String,java.lang.Object...)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">printf</code><code class="d">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">format</code>, <code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">args</code>)</code><i class="h"><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">format</code></td>
+						<td><span><p>A format.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">args</code></td>
+						<td><span><p>Arguments.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></td>
+						<td><span><p>This stream.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the formatted text.</p></span></section>
+			<section class="z" id="printf(java.util.Locale,java.lang.String,java.lang.Object...)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">printf</code><code class="d">(<code><a aria-label="java.util.Locale 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html">Locale</a></code><code class="parameterName">locale</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">format</code>, <code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">args</code>)</code><i class="h"><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.util.Locale 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html">Locale</a></code><code class="parameterName">locale</code></td>
+						<td><span><p>A locale.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">format</code></td>
+						<td><span><p>A format.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">args</code></td>
+						<td><span><p>Arguments.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></td>
+						<td><span><p>This stream.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the formatted text.</p></span></section>
+			<section class="z" id="format(java.lang.String,java.lang.Object...)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">format</code><code class="d">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">format</code>, <code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">args</code>)</code><i class="h"><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">format</code></td>
+						<td><span><p>A format.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">args</code></td>
+						<td><span><p>Arguments.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></td>
+						<td><span><p>This stream.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the formatted text.</p></span></section>
+			<section class="z" id="format(java.util.Locale,java.lang.String,java.lang.Object...)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">format</code><code class="d">(<code><a aria-label="java.util.Locale 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html">Locale</a></code><code class="parameterName">locale</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">format</code>, <code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">args</code>)</code><i class="h"><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.util.Locale 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html">Locale</a></code><code class="parameterName">locale</code></td>
+						<td><span><p>A locale.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">format</code></td>
+						<td><span><p>A format.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">args</code></td>
+						<td><span><p>Arguments.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></td>
+						<td><span><p>This stream.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Print the formatted text.</p></span></section>
+			<section class="z" id="write(int)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">write</code><code class="d">(<code>int</code><code class="parameterName">value</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code>int</code><code class="parameterName">value</code></td>
+						<td><span><p>A character code.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Write the character.</p></span></section>
+			<section class="z" id="write(byte[])">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">write</code><code class="d">(<code array="fix">byte</code><code class="parameterName">values</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code array="fix">byte</code><code class="parameterName">values</code></td>
+						<td><span><p>Bytes.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Write the bytes.</p></span></section>
+			<section class="z" id="write(byte[],int,int)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">write</code><code class="d">(<code array="fix">byte</code><code class="parameterName">values</code>, <code>int</code><code class="parameterName">offset</code>, <code>int</code><code class="parameterName">length</code>)</code><i class="h"><code>void</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code array="fix">byte</code><code class="parameterName">values</code></td>
+						<td><span><p>Bytes.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code>int</code><code class="parameterName">offset</code></td>
+						<td><span><p>An offset.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code>int</code><code class="parameterName">length</code></td>
+						<td><span><p>A length.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Write the bytes.</p></span></section>
+			<section class="z" id="append(java.lang.CharSequence)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">append</code><code class="d">(<code><a aria-label="java.lang.CharSequence 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code><code class="parameterName">value</code>)</code><i class="h"><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.CharSequence 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></td>
+						<td><span><p>This stream.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Append the value.</p></span></section>
+			<section class="z" id="append(char)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">append</code><code class="d">(<code>char</code><code class="parameterName">value</code>)</code><i class="h"><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code>char</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></td>
+						<td><span><p>This stream.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Append the value.</p></span></section>
+			<section class="z" id="append(java.lang.CharSequence,int,int)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">append</code><code class="d">(<code><a aria-label="java.lang.CharSequence 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code><code class="parameterName">value</code>, <code>int</code><code class="parameterName">start</code>, <code>int</code><code class="parameterName">end</code>)</code><i class="h"><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.CharSequence 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code>int</code><code class="parameterName">start</code></td>
+						<td><span><p>A start index.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code>int</code><code class="parameterName">end</code></td>
+						<td><span><p>An end index.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></td>
+						<td><span><p>This stream.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Append the range of the value.</p></span></section>
+			<section class="z" id="flush()">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">flush</code><code class="d">()</code><i class="h"><code>void</code></i></h2><span class="A"><p>Flush this stream.</p></span></section>
+			<section class="z" id="close()">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">close</code><code class="d">()</code><i class="h"><code>void</code></i></h2><span class="A"><p>Close this stream.</p></span></section>
+			<section class="z" id="checkError()">
+				<h2 class="s"><i class="PUBLIC"></i><code class="l">checkError</code><code class="d">()</code><i class="h"><code>boolean</code></i></h2>
+				<table class="IB">
+					<tr class="n">
+						<td><code>boolean</code></td>
+						<td><span><p>Always false.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check the error state.</p></span></section>
+		</article>
+		<aside class="R">
+			<div class="i">
+				<h5 class="HB">Constructors</h5>
+				<ul>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#PrintStream(boolean)">PrintStream</a></code><code class="d">(<code>boolean</code><code class="parameterName">error</code>)</code></li>
+				</ul>
+				<h5 class="HB">Methods</h5>
+				<ul>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#print(java.lang.Object)">print</a></code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#print(java.lang.String)">print</a></code><code class="d">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#print(boolean)">print</a></code><code class="d">(<code>boolean</code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#print(char)">print</a></code><code class="d">(<code>char</code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#print(int)">print</a></code><code class="d">(<code>int</code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#print(long)">print</a></code><code class="d">(<code>long</code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#print(float)">print</a></code><code class="d">(<code>float</code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#print(double)">print</a></code><code class="d">(<code>double</code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#print(char[])">print</a></code><code class="d">(<code array="fix">char</code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#println()">println</a></code><code class="d">()</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#println(java.lang.Object)">println</a></code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#println(java.lang.String)">println</a></code><code class="d">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#println(boolean)">println</a></code><code class="d">(<code>boolean</code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#println(char)">println</a></code><code class="d">(<code>char</code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#println(int)">println</a></code><code class="d">(<code>int</code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#println(long)">println</a></code><code class="d">(<code>long</code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#println(float)">println</a></code><code class="d">(<code>float</code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#println(double)">println</a></code><code class="d">(<code>double</code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#println(char[])">println</a></code><code class="d">(<code array="fix">char</code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#printf(java.lang.String,java.lang.Object...)">printf</a></code><code class="d">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">format</code>, <code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">args</code>)</code><i class="Q"><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#printf(java.util.Locale,java.lang.String,java.lang.Object...)">printf</a></code><code class="d">(<code><a aria-label="java.util.Locale 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html">Locale</a></code><code class="parameterName">locale</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">format</code>, <code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">args</code>)</code><i class="Q"><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#format(java.lang.String,java.lang.Object...)">format</a></code><code class="d">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">format</code>, <code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">args</code>)</code><i class="Q"><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#format(java.util.Locale,java.lang.String,java.lang.Object...)">format</a></code><code class="d">(<code><a aria-label="java.util.Locale 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Locale.html">Locale</a></code><code class="parameterName">locale</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">format</code>, <code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">args</code>)</code><i class="Q"><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#write(int)">write</a></code><code class="d">(<code>int</code><code class="parameterName">value</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#write(byte[])">write</a></code><code class="d">(<code array="fix">byte</code><code class="parameterName">values</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#write(byte[],int,int)">write</a></code><code class="d">(<code array="fix">byte</code><code class="parameterName">values</code>, <code>int</code><code class="parameterName">offset</code>, <code>int</code><code class="parameterName">length</code>)</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#append(java.lang.CharSequence)">append</a></code><code class="d">(<code><a aria-label="java.lang.CharSequence 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code><code class="parameterName">value</code>)</code><i class="Q"><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#append(char)">append</a></code><code class="d">(<code>char</code><code class="parameterName">value</code>)</code><i class="Q"><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#append(java.lang.CharSequence,int,int)">append</a></code><code class="d">(<code><a aria-label="java.lang.CharSequence 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code><code class="parameterName">value</code>, <code>int</code><code class="parameterName">start</code>, <code>int</code><code class="parameterName">end</code>)</code><i class="Q"><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#flush()">flush</a></code><code class="d">()</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#close()">close</a></code><code class="d">()</code><i class="Q"><code>void</code></i></li>
+					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.PrintStream.html#checkError()">checkError</a></code><code class="d">()</code><i class="Q"><code>boolean</code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="M">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

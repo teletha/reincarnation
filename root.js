@@ -8,6 +8,7 @@ const root = {
 		"reincarnation.classlib.java.util.stream",
 		"reincarnation.classlib.java.util",
 		"reincarnation.classlib.java.lang",
+		"reincarnation.classlib.java.io",
 		"reincarnation",
 		"reincarnation.util",
 		"reincarnation.operator",
@@ -24,6 +25,11 @@ const root = {
 		},
 		{
 			"name": "NativeString",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "NativeObject",
 			"packageName": "js.lang",
 			"type": "Class"
 		},
@@ -59,6 +65,11 @@ const root = {
 		},
 		{
 			"name": "NativeMap",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "NativeDate",
 			"packageName": "js.lang",
 			"type": "Class"
 		},
@@ -158,6 +169,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "Objects",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
 			"name": "StringJoiner",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
@@ -170,6 +186,16 @@ const root = {
 		{
 			"name": "StringBuilder",
 			"packageName": "reincarnation.classlib.java.lang",
+			"type": "Class"
+		},
+		{
+			"name": "System",
+			"packageName": "reincarnation.classlib.java.lang",
+			"type": "Class"
+		},
+		{
+			"name": "PrintStream",
+			"packageName": "reincarnation.classlib.java.io",
 			"type": "Class"
 		},
 		{

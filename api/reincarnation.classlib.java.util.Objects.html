@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="x">
+		<header class="p" date="2026-10-29">
+			<h1 class="q"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="J"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="r"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="N"></nav>
+		<article class="K" id="Article">
+			<section class="z"><code class="T">reincarnation.classlib.java.util</code>
+				<h2 class="Class O"><code class="l">Objects</code></h2>
+				<div class="V"></div><span class="A"><p>The Java implementation of <code><a aria-label="java.util.Objects 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Objects.html">java.util.Objects</a></code> which is transpiled into JavaScript.</p></span></section>
+			<section class="z" id="equals(java.lang.Object,java.lang.Object)">
+				<h2 class="s"><i class="PUBLIC STATIC"></i><code class="l">equals</code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">left</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">right</code>)</code><i class="h"><code>boolean</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">left</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">right</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the values are equal.</p></span></section>
+			<section class="z" id="deepEquals(java.lang.Object,java.lang.Object)">
+				<h2 class="s"><i class="PUBLIC STATIC"></i><code class="l">deepEquals</code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">left</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">right</code>)</code><i class="h"><code>boolean</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">left</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">right</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the values are deeply equal.</p></span></section>
+			<section class="z" id="hashCode(java.lang.Object)">
+				<h2 class="s"><i class="PUBLIC STATIC"></i><code class="l">hashCode</code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="h"><code>int</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code>int</code></td>
+						<td><span><p>A hash code.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the hash code.</p></span></section>
+			<section class="z" id="hash(java.lang.Object...)">
+				<h2 class="s"><i class="PUBLIC STATIC"></i><code class="l">hash</code><code class="d">(<code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code>)</code><i class="h"><code>int</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code></td>
+						<td><span><p>Values.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code>int</code></td>
+						<td><span><p>A hash code.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the combined hash code.</p></span></section>
+			<section class="z" id="toString(java.lang.Object)">
+				<h2 class="s"><i class="PUBLIC STATIC"></i><code class="l">toString</code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="h"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A text.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the text.</p></span></section>
+			<section class="z" id="toString(java.lang.Object,java.lang.String)">
+				<h2 class="s"><i class="PUBLIC STATIC"></i><code class="l">toString</code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">defaultValue</code>)</code><i class="h"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">defaultValue</code></td>
+						<td><span><p>A default value.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A text.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the text.</p></span></section>
+			<section class="z" id="isNull(java.lang.Object)">
+				<h2 class="s"><i class="PUBLIC STATIC"></i><code class="l">isNull</code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="h"><code>boolean</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the value is null.</p></span></section>
+			<section class="z" id="nonNull(java.lang.Object)">
+				<h2 class="s"><i class="PUBLIC STATIC"></i><code class="l">nonNull</code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="h"><code>boolean</code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the value is not null.</p></span></section>
+			<section class="z" id="requireNonNull(java.lang.Object)">
+				<h2 class="s"><i class="PUBLIC STATIC"></i><code class="l">requireNonNull</code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="h"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Require the non-null value.</p></span></section>
+			<section class="z" id="requireNonNull(java.lang.Object,java.lang.String)">
+				<h2 class="s"><i class="PUBLIC STATIC"></i><code class="l">requireNonNull</code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">message</code>)</code><i class="h"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">message</code></td>
+						<td><span><p>A message.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Require the non-null value.</p></span></section>
+			<section class="z" id="requireNonNull(java.lang.Object,java.util.function.Supplier)">
+				<h2 class="s"><i class="PUBLIC STATIC"></i><code class="l">requireNonNull</code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>, <code><a aria-label="java.util.function.Supplier 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Supplier.html">Supplier</a><code class="parameters"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></code></code><code class="parameterName">message</code>)</code><i class="h"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code><a aria-label="java.util.function.Supplier 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Supplier.html">Supplier</a><code class="parameters"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></code></code><code class="parameterName">message</code></td>
+						<td><span><p>A message supplier.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Require the non-null value.</p></span></section>
+			<section class="z" id="requireNonNullElse(java.lang.Object,java.lang.Object)">
+				<h2 class="s"><i class="PUBLIC STATIC"></i><code class="l">requireNonNullElse</code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">defaultValue</code>)</code><i class="h"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">defaultValue</code></td>
+						<td><span><p>A default value.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Return the value or the default value.</p></span></section>
+			<section class="z" id="requireNonNullElseGet(java.lang.Object,java.util.function.Supplier)">
+				<h2 class="s"><i class="PUBLIC STATIC"></i><code class="l">requireNonNullElseGet</code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>, <code><a aria-label="java.util.function.Supplier 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Supplier.html">Supplier</a><code class="parameters"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></code></code><code class="parameterName">supplier</code>)</code><i class="h"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="IB">
+					<tr class="t">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="t">
+						<td><code><a aria-label="java.util.function.Supplier 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Supplier.html">Supplier</a><code class="parameters"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></code></code><code class="parameterName">supplier</code></td>
+						<td><span><p>A supplier.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Return the value or the supplied value.</p></span></section>
+		</article>
+		<aside class="R">
+			<div class="i">
+				<h5 class="HB">Static Methods</h5>
+				<ul>
+					<li class="LB"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.util.Objects.html#equals(java.lang.Object,java.lang.Object)">equals</a></code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">left</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">right</code>)</code><i class="Q"><code>boolean</code></i></li>
+					<li class="LB"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.util.Objects.html#deepEquals(java.lang.Object,java.lang.Object)">deepEquals</a></code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">left</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">right</code>)</code><i class="Q"><code>boolean</code></i></li>
+					<li class="LB"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.util.Objects.html#hashCode(java.lang.Object)">hashCode</a></code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Q"><code>int</code></i></li>
+					<li class="LB"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.util.Objects.html#hash(java.lang.Object...)">hash</a></code><code class="d">(<code array="var"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">values</code>)</code><i class="Q"><code>int</code></i></li>
+					<li class="LB"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.util.Objects.html#toString(java.lang.Object)">toString</a></code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Q"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="LB"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.util.Objects.html#toString(java.lang.Object,java.lang.String)">toString</a></code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">defaultValue</code>)</code><i class="Q"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="LB"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.util.Objects.html#isNull(java.lang.Object)">isNull</a></code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Q"><code>boolean</code></i></li>
+					<li class="LB"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.util.Objects.html#nonNull(java.lang.Object)">nonNull</a></code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Q"><code>boolean</code></i></li>
+					<li class="LB"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.util.Objects.html#requireNonNull(java.lang.Object)">requireNonNull</a></code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Q"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="LB"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.util.Objects.html#requireNonNull(java.lang.Object,java.lang.String)">requireNonNull</a></code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">message</code>)</code><i class="Q"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="LB"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.util.Objects.html#requireNonNull(java.lang.Object,java.util.function.Supplier)">requireNonNull</a></code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>, <code><a aria-label="java.util.function.Supplier 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Supplier.html">Supplier</a><code class="parameters"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></code></code><code class="parameterName">message</code>)</code><i class="Q"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="LB"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.util.Objects.html#requireNonNullElse(java.lang.Object,java.lang.Object)">requireNonNullElse</a></code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">defaultValue</code>)</code><i class="Q"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="LB"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.util.Objects.html#requireNonNullElseGet(java.lang.Object,java.util.function.Supplier)">requireNonNullElseGet</a></code><code class="d">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>, <code><a aria-label="java.util.function.Supplier 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Supplier.html">Supplier</a><code class="parameters"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></code></code><code class="parameterName">supplier</code>)</code><i class="Q"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="M">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>
