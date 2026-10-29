@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
 /**
  * The {@link ListIterator} of {@link AbstractCollection}.
  */
-final class ArrayIterator implements ListIterator {
+public final class ArrayIterator implements ListIterator {
 
     /** The collection. */
     private final AbstractCollection owner;
@@ -34,7 +34,7 @@ final class ArrayIterator implements ListIterator {
      * @param owner A collection.
      * @param descending Whether this iterator walks from the last value to the first one.
      */
-    ArrayIterator(AbstractCollection owner, boolean descending) {
+    public ArrayIterator(AbstractCollection owner, boolean descending) {
         this.owner = owner;
         this.descending = descending;
         this.index = descending ? owner.size() - 1 : 0;

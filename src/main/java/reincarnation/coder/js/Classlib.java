@@ -92,6 +92,42 @@ final class Classlib {
             Map.entry(java.util.SequencedMap.class, reincarnation.classlib.java.util.SequencedMap.class), //
             Map.entry(java.util.concurrent.ConcurrentMap.class,
                     reincarnation.classlib.java.util.concurrent.ConcurrentMap.class), //
+            Map.entry(java.util.concurrent.ConcurrentHashMap.class,
+                    reincarnation.classlib.java.util.concurrent.ConcurrentHashMap.class), //
+            Map.entry(java.util.concurrent.ConcurrentSkipListMap.class,
+                    reincarnation.classlib.java.util.concurrent.ConcurrentSkipListMap.class), //
+            Map.entry(java.util.concurrent.ConcurrentSkipListSet.class,
+                    reincarnation.classlib.java.util.concurrent.ConcurrentSkipListSet.class), //
+            Map.entry(java.util.concurrent.ConcurrentNavigableMap.class,
+                    reincarnation.classlib.java.util.concurrent.ConcurrentNavigableMap.class), //
+            Map.entry(java.util.concurrent.CopyOnWriteArrayList.class,
+                    reincarnation.classlib.java.util.concurrent.CopyOnWriteArrayList.class), //
+            Map.entry(java.util.concurrent.CopyOnWriteArraySet.class,
+                    reincarnation.classlib.java.util.concurrent.CopyOnWriteArraySet.class), //
+            Map.entry(java.util.concurrent.ConcurrentLinkedQueue.class,
+                    reincarnation.classlib.java.util.concurrent.ConcurrentLinkedQueue.class), //
+            Map.entry(java.util.concurrent.ConcurrentLinkedDeque.class,
+                    reincarnation.classlib.java.util.concurrent.ConcurrentLinkedDeque.class), //
+            Map.entry(java.util.concurrent.BlockingQueue.class,
+                    reincarnation.classlib.java.util.concurrent.BlockingQueue.class), //
+            Map.entry(java.util.concurrent.BlockingDeque.class,
+                    reincarnation.classlib.java.util.concurrent.BlockingDeque.class), //
+            Map.entry(java.util.concurrent.TransferQueue.class,
+                    reincarnation.classlib.java.util.concurrent.TransferQueue.class), //
+            Map.entry(java.util.concurrent.ArrayBlockingQueue.class,
+                    reincarnation.classlib.java.util.concurrent.ArrayBlockingQueue.class), //
+            Map.entry(java.util.concurrent.LinkedBlockingQueue.class,
+                    reincarnation.classlib.java.util.concurrent.LinkedBlockingQueue.class), //
+            Map.entry(java.util.concurrent.LinkedBlockingDeque.class,
+                    reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.class), //
+            Map.entry(java.util.concurrent.PriorityBlockingQueue.class,
+                    reincarnation.classlib.java.util.concurrent.PriorityBlockingQueue.class), //
+            Map.entry(java.util.concurrent.SynchronousQueue.class,
+                    reincarnation.classlib.java.util.concurrent.SynchronousQueue.class), //
+            Map.entry(java.util.concurrent.DelayQueue.class,
+                    reincarnation.classlib.java.util.concurrent.DelayQueue.class), //
+            Map.entry(java.util.concurrent.LinkedTransferQueue.class,
+                    reincarnation.classlib.java.util.concurrent.LinkedTransferQueue.class), //
             Map.entry(java.util.Map.Entry.class, reincarnation.classlib.java.util.Map.Entry.class), //
             Map.entry(java.lang.reflect.Proxy.class, reincarnation.classlib.java.lang.reflect.Proxy.class), //
             Map.entry(java.lang.reflect.InvocationHandler.class,
@@ -168,6 +204,42 @@ final class Classlib {
             Map.entry(reincarnation.classlib.java.util.SequencedMap.class, java.util.SequencedMap.class), //
             Map.entry(reincarnation.classlib.java.util.concurrent.ConcurrentMap.class,
                     java.util.concurrent.ConcurrentMap.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.ConcurrentHashMap.class,
+                    java.util.concurrent.ConcurrentHashMap.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.ConcurrentSkipListMap.class,
+                    java.util.concurrent.ConcurrentSkipListMap.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.ConcurrentSkipListSet.class,
+                    java.util.concurrent.ConcurrentSkipListSet.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.ConcurrentNavigableMap.class,
+                    java.util.concurrent.ConcurrentNavigableMap.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.CopyOnWriteArrayList.class,
+                    java.util.concurrent.CopyOnWriteArrayList.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.CopyOnWriteArraySet.class,
+                    java.util.concurrent.CopyOnWriteArraySet.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.ConcurrentLinkedQueue.class,
+                    java.util.concurrent.ConcurrentLinkedQueue.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.ConcurrentLinkedDeque.class,
+                    java.util.concurrent.ConcurrentLinkedDeque.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.BlockingQueue.class,
+                    java.util.concurrent.BlockingQueue.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.BlockingDeque.class,
+                    java.util.concurrent.BlockingDeque.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.TransferQueue.class,
+                    java.util.concurrent.TransferQueue.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.ArrayBlockingQueue.class,
+                    java.util.concurrent.ArrayBlockingQueue.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.LinkedBlockingQueue.class,
+                    java.util.concurrent.LinkedBlockingQueue.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.class,
+                    java.util.concurrent.LinkedBlockingDeque.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.PriorityBlockingQueue.class,
+                    java.util.concurrent.PriorityBlockingQueue.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.SynchronousQueue.class,
+                    java.util.concurrent.SynchronousQueue.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.DelayQueue.class,
+                    java.util.concurrent.DelayQueue.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.LinkedTransferQueue.class,
+                    java.util.concurrent.LinkedTransferQueue.class), //
             Map.entry(reincarnation.classlib.java.util.Map.Entry.class, java.util.Map.Entry.class), //
             Map.entry(reincarnation.classlib.java.lang.reflect.Proxy.class, java.lang.reflect.Proxy.class), //
             Map.entry(reincarnation.classlib.java.lang.reflect.InvocationHandler.class,
