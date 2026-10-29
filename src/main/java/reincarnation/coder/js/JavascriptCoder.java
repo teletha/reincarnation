@@ -1410,8 +1410,6 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             writeCharacterMethod(method, context, params);
         } else if (isNumberMethod(method)) {
             writeNumberMethod(method, context, params);
-        } else if (isArrayMethod(method)) {
-            writeArrayMethod(method, context, params);
         } else if (isCollectionsMethod(method)) {
             writeCollectionsMethod(method, context, params);
         } else if (method.isSynthetic()) {

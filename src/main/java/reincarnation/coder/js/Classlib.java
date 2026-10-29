@@ -50,6 +50,7 @@ final class Classlib {
             Map.entry(java.lang.System.class, reincarnation.classlib.java.lang.System.class), //
             Map.entry(java.io.PrintStream.class, reincarnation.classlib.java.io.PrintStream.class), //
             Map.entry(java.util.Objects.class, reincarnation.classlib.java.util.Objects.class), //
+            Map.entry(java.util.Arrays.class, reincarnation.classlib.java.util.Arrays.class), //
             Map.entry(java.util.StringJoiner.class, reincarnation.classlib.java.util.StringJoiner.class), //
             Map.entry(java.util.regex.Pattern.class, reincarnation.classlib.java.util.regex.Pattern.class), //
             Map.entry(java.util.regex.Matcher.class, reincarnation.classlib.java.util.regex.Matcher.class), //

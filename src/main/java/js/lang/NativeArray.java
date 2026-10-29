@@ -273,6 +273,114 @@ public final class NativeArray {
     }
 
     /**
+     * Copy the array.
+     * 
+     * @param array A source array.
+     * @param length A new length.
+     * @param defaultValue A default value.
+     * @return A copied array.
+     */
+    @Native("$rt_arrayCopyOf($0, $1, $2)")
+    public static Object copyOf(Object array, int length, Object defaultValue) {
+        return java.util.Arrays.copyOf((Object[]) array, length);
+    }
+
+    /**
+     * Copy the range of the array.
+     * 
+     * @param array A source array.
+     * @param from A start index.
+     * @param to An end index.
+     * @param defaultValue A default value.
+     * @return A copied array.
+     */
+    @Native("$rt_arrayCopyOfRange($0, $1, $2, $3)")
+    public static Object copyOfRange(Object array, int from, int to, Object defaultValue) {
+        return java.util.Arrays.copyOfRange((Object[]) array, from, to);
+    }
+
+    /**
+     * Fill the array.
+     * 
+     * @param array A target array.
+     * @param from A start index.
+     * @param to An end index.
+     * @param value A value.
+     */
+    @Native("$rt_arrayFill($0, $1, $2, $3)")
+    public static void fill(Object array, int from, int to, Object value) {
+        java.util.Arrays.fill((Object[]) array, from, to, value);
+    }
+
+    /**
+     * Compare the arrays.
+     * 
+     * @param left A left array.
+     * @param right A right array.
+     * @param deep Whether the comparison is deep.
+     * @return A result.
+     */
+    @Native("$rt_arrayEquals($0, $1, $2)")
+    public static boolean arrayEquals(Object left, Object right, boolean deep) {
+        return deep ? java.util.Arrays.deepEquals((Object[]) left, (Object[]) right)
+                : java.util.Arrays.equals((Object[]) left, (Object[]) right);
+    }
+
+    /**
+     * Compute the hash code of the array.
+     * 
+     * @param array A target array.
+     * @param deep Whether the hash code is deep.
+     * @return A hash code.
+     */
+    @Native("$rt_arrayHash($0, $1)")
+    public static int arrayHash(Object array, boolean deep) {
+        return deep ? java.util.Arrays.deepHashCode((Object[]) array) : java.util.Arrays.hashCode((Object[]) array);
+    }
+
+    /**
+     * Convert the array into the text.
+     * 
+     * @param array A target array.
+     * @param deep Whether the conversion is deep.
+     * @return A text.
+     */
+    @Native("$rt_arrayToString($0, $1)")
+    public static String arrayToString(Object array, boolean deep) {
+        return deep ? java.util.Arrays.deepToString((Object[]) array) : java.util.Arrays.toString((Object[]) array);
+    }
+
+    /**
+     * Sort the array.
+     * 
+     * @param array A target array.
+     * @param from A start index.
+     * @param to An end index.
+     * @param comparator A comparator. It may be null.
+     */
+    @Native("$rt_sortArray($0, $1, $2, $3)")
+    public static void sort(Object array, int from, int to, Object comparator) {
+        if (comparator == null) {
+            java.util.Arrays.sort((Object[]) array, from, to);
+        } else {
+            java.util.Arrays.sort((Object[]) array, from, to, (java.util.Comparator) comparator);
+        }
+    }
+
+    /**
+     * Extract the range of the array.
+     * 
+     * @param array A target array.
+     * @param from A start index.
+     * @param to An end index.
+     * @return An extracted array.
+     */
+    @Native("$0.slice($1, $2)")
+    public static Object slice(Object array, int from, int to) {
+        return java.util.Arrays.copyOfRange((Object[]) array, from, to);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
