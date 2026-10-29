@@ -4254,7 +4254,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A JavaScript expression.
      */
     private String registryRef(Class type) {
-        return "$c." + names().allocate(type);
+        return "$c." + names().allocate(Classlib.replace(type));
     }
 
     /**

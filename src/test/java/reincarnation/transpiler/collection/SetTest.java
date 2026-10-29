@@ -261,4 +261,16 @@ class SetTest extends JavascriptCodeVerifier {
             }
         });
     }
+
+    @Test
+    void instanceOfSet() throws Exception {
+        verify(new TestCode.Boolean() {
+
+            @Override
+            public boolean run() {
+                java.lang.Object value = new HashSet<Integer>();
+                return value instanceof Set;
+            }
+        });
+    }
 }

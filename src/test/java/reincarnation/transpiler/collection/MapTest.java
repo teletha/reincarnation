@@ -435,4 +435,16 @@ class MapTest extends JavascriptCodeVerifier {
             }
         });
     }
+
+    @Test
+    void instanceOfMap() throws Exception {
+        verify(new TestCode.Boolean() {
+
+            @Override
+            public boolean run() {
+                java.lang.Object value = new HashMap<String, Integer>();
+                return value instanceof Map;
+            }
+        });
+    }
 }

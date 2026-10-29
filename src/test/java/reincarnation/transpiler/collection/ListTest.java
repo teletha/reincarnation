@@ -474,4 +474,16 @@ class ListTest extends JavascriptCodeVerifier {
             }
         });
     }
+
+    @Test
+    void instanceOfList() throws Exception {
+        verify(new TestCode.Boolean() {
+
+            @Override
+            public boolean run() {
+                java.lang.Object value = new ArrayList<Integer>();
+                return value instanceof List;
+            }
+        });
+    }
 }
