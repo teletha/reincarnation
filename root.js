@@ -197,7 +197,17 @@ const root = {
 		{
 			"name": "Stream",
 			"packageName": "reincarnation.classlib.java.util.stream",
+			"type": "Interface"
+		},
+		{
+			"name": "StreamImpl",
+			"packageName": "reincarnation.classlib.java.util.stream",
 			"type": "Class"
+		},
+		{
+			"name": "BaseStream",
+			"packageName": "reincarnation.classlib.java.util.stream",
+			"type": "Functional"
 		},
 		{
 			"name": "Collectors",
@@ -416,6 +426,11 @@ const root = {
 		},
 		{
 			"name": "Comparable",
+			"packageName": "reincarnation.classlib.java.lang",
+			"type": "Functional"
+		},
+		{
+			"name": "AutoCloseable",
 			"packageName": "reincarnation.classlib.java.lang",
 			"type": "Functional"
 		},
