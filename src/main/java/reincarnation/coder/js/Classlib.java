@@ -45,6 +45,7 @@ final class Classlib {
             Map.entry(java.io.Closeable.class, reincarnation.classlib.java.io.Closeable.class), //
             Map.entry(java.io.Flushable.class, reincarnation.classlib.java.io.Flushable.class), //
             Map.entry(java.util.Objects.class, reincarnation.classlib.java.util.Objects.class), //
+            Map.entry(java.util.Date.class, reincarnation.classlib.java.util.Date.class), //
             Map.entry(java.util.Arrays.class, reincarnation.classlib.java.util.Arrays.class), //
             Map.entry(java.util.Collections.class, reincarnation.classlib.java.util.Collections.class), //
             Map.entry(java.lang.Iterable.class, reincarnation.classlib.java.lang.Iterable.class), //
@@ -284,6 +285,7 @@ final class Classlib {
             Map.entry(reincarnation.classlib.java.io.Closeable.class, java.io.Closeable.class), //
             Map.entry(reincarnation.classlib.java.io.Flushable.class, java.io.Flushable.class), //
             Map.entry(reincarnation.classlib.java.util.Objects.class, java.util.Objects.class), //
+            Map.entry(reincarnation.classlib.java.util.Date.class, java.util.Date.class), //
             Map.entry(reincarnation.classlib.java.util.Arrays.class, java.util.Arrays.class), //
             Map.entry(reincarnation.classlib.java.util.Collections.class, java.util.Collections.class), //
             Map.entry(reincarnation.classlib.java.util.StringJoiner.class, java.util.StringJoiner.class), //

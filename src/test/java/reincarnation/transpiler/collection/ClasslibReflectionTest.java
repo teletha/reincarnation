@@ -64,6 +64,11 @@ class ClasslibReflectionTest extends BundleVerifier {
     }
 
     @Test
+    void dateHierarchy() throws Exception {
+        verifyReflection(DateType.class, "run");
+    }
+
+    @Test
     void declaredMethod() throws Exception {
         verifyReflection(DeclaredMethod.class, "run");
     }
@@ -157,6 +162,14 @@ class ClasslibReflectionTest extends BundleVerifier {
 
         static String run() {
             return TypeDescriber.describe(java.time.Duration.class);
+        }
+    }
+
+    /** Verify the hierarchy of {@link java.util.Date}. */
+    static class DateType {
+
+        static String run() {
+            return TypeDescriber.describe(java.util.Date.class);
         }
     }
 

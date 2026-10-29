@@ -404,7 +404,7 @@ public final class Instant implements Temporal, TemporalAdjuster, Comparable<Ins
      * @param divisor A divisor.
      * @return A quotient.
      */
-    static long floorDiv(long value, long divisor) {
+    public static long floorDiv(long value, long divisor) {
         long quotient = value / divisor;
         if ((value % divisor != 0L) && ((value < 0L) != (divisor < 0L))) {
             quotient--;
@@ -419,7 +419,7 @@ public final class Instant implements Temporal, TemporalAdjuster, Comparable<Ins
      * @param divisor A divisor.
      * @return A remainder.
      */
-    static long floorMod(long value, long divisor) {
+    public static long floorMod(long value, long divisor) {
         long remainder = value % divisor;
         if (remainder != 0L && ((value < 0L) != (divisor < 0L))) {
             remainder += divisor;

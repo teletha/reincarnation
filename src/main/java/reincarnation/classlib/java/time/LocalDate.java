@@ -597,7 +597,7 @@ public final class LocalDate implements Temporal, TemporalAdjuster, Comparable<L
      * @param divisor A divisor.
      * @return A quotient.
      */
-    static int divide(int value, int divisor) {
+    public static int divide(int value, int divisor) {
         return (int) ((long) value / (long) divisor);
     }
 
@@ -607,7 +607,7 @@ public final class LocalDate implements Temporal, TemporalAdjuster, Comparable<L
      * @param builder A builder.
      * @param year A year.
      */
-    static void appendYear(StringBuilder builder, int year) {
+    public static void appendYear(StringBuilder builder, int year) {
         if (year >= 0 && year <= 9999) {
             pad(builder, year, 4);
             return;
@@ -631,7 +631,7 @@ public final class LocalDate implements Temporal, TemporalAdjuster, Comparable<L
      * @param builder A builder.
      * @param value A value.
      */
-    static void appendTwoDigits(StringBuilder builder, int value) {
+    public static void appendTwoDigits(StringBuilder builder, int value) {
         pad(builder, value, 2);
     }
 
@@ -642,7 +642,7 @@ public final class LocalDate implements Temporal, TemporalAdjuster, Comparable<L
      * @param value A value.
      * @param width A width.
      */
-    static void pad(StringBuilder builder, int value, int width) {
+    public static void pad(StringBuilder builder, int value, int width) {
         if (width >= 9) {
             if (value < 100000000) {
                 builder.append('0');
