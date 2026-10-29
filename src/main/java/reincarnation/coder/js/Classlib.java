@@ -174,6 +174,10 @@ final class Classlib {
             Map.entry(reincarnation.classlib.java.util.regex.MatchResult.class, java.util.regex.MatchResult.class), //
             Map.entry(reincarnation.classlib.java.util.stream.Collectors.class, java.util.stream.Collectors.class));
 
+    /** The JDK names of the implementations which are not accessible from the source. */
+    private static final Map<Class, String> externalNames = Map
+            .of(reincarnation.classlib.java.lang.AbstractStringBuilder.class, "java.lang.AbstractStringBuilder");
+
     /**
      * Hide constructor.
      */
@@ -198,6 +202,16 @@ final class Classlib {
      */
     static Class origin(Class type) {
         return origins.get(type);
+    }
+
+    /**
+     * Get the JDK name of the implementation class which is not accessible from the source.
+     * 
+     * @param type A target class.
+     * @return A JDK name or null.
+     */
+    static String name(Class type) {
+        return externalNames.get(type);
     }
 
     /**

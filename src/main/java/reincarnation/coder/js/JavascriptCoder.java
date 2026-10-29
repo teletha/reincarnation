@@ -297,9 +297,11 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     private String metadata(Class type) {
         Class origin = Classlib.origin(type);
         Class identity = origin == null ? type : origin;
+        String external = Classlib.name(type);
         StringBuilder builder = new StringBuilder("{n:");
-        builder.append(quote(identity.getName()));
-        builder.append(",m:").append(identity.getModifiers());
+        builder.append(quote(external == null ? identity.getName() : external));
+        builder.append(",m:")
+                .append(external == null ? identity.getModifiers() : identity.getModifiers() & ~java.lang.reflect.Modifier.PUBLIC);
         builder.append(",e:").append(type.isEnum());
         builder.append(",as:").append(annotations(type));
         builder.append(",tp:").append(genericTypeParameters(identity.getTypeParameters()));
@@ -314,7 +316,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             interfaces.append(quote(simpleName(Classlib.replace(identityInterfaces[i]))));
         }
         builder.append(interfaces).append("]");
-        if (origin != null) {
+        if (origin != null || external != null) {
             builder.append(",a:[").append(quote(type.getName())).append("]");
         }
 
