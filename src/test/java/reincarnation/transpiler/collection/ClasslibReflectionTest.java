@@ -54,6 +54,16 @@ class ClasslibReflectionTest extends BundleVerifier {
     }
 
     @Test
+    void instantHierarchy() throws Exception {
+        verifyReflection(InstantType.class, "run");
+    }
+
+    @Test
+    void durationHierarchy() throws Exception {
+        verifyReflection(DurationType.class, "run");
+    }
+
+    @Test
     void declaredMethod() throws Exception {
         verifyReflection(DeclaredMethod.class, "run");
     }
@@ -131,6 +141,22 @@ class ClasslibReflectionTest extends BundleVerifier {
 
         static String run() {
             return TypeDescriber.describe(java.util.regex.Matcher.class);
+        }
+    }
+
+    /** Verify the hierarchy of {@link java.time.Instant}. */
+    static class InstantType {
+
+        static String run() {
+            return TypeDescriber.describe(java.time.Instant.class);
+        }
+    }
+
+    /** Verify the hierarchy of {@link java.time.Duration}. */
+    static class DurationType {
+
+        static String run() {
+            return TypeDescriber.describe(java.time.Duration.class);
         }
     }
 

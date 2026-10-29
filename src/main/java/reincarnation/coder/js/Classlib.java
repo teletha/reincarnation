@@ -146,6 +146,33 @@ final class Classlib {
             Map.entry(java.util.regex.Pattern.class, reincarnation.classlib.java.util.regex.Pattern.class), //
             Map.entry(java.util.regex.Matcher.class, reincarnation.classlib.java.util.regex.Matcher.class), //
             Map.entry(java.util.regex.MatchResult.class, reincarnation.classlib.java.util.regex.MatchResult.class), //
+            Map.entry(java.time.Instant.class, reincarnation.classlib.java.time.Instant.class), //
+            Map.entry(java.time.LocalDate.class, reincarnation.classlib.java.time.LocalDate.class), //
+            Map.entry(java.time.LocalTime.class, reincarnation.classlib.java.time.LocalTime.class), //
+            Map.entry(java.time.LocalDateTime.class, reincarnation.classlib.java.time.LocalDateTime.class), //
+            Map.entry(java.time.ZonedDateTime.class, reincarnation.classlib.java.time.ZonedDateTime.class), //
+            Map.entry(java.time.Duration.class, reincarnation.classlib.java.time.Duration.class), //
+            Map.entry(java.time.Period.class, reincarnation.classlib.java.time.Period.class), //
+            Map.entry(java.time.ZoneId.class, reincarnation.classlib.java.time.ZoneId.class), //
+            Map.entry(java.time.ZoneOffset.class, reincarnation.classlib.java.time.ZoneOffset.class), //
+            Map.entry(java.time.Month.class, reincarnation.classlib.java.time.Month.class), //
+            Map.entry(java.time.DayOfWeek.class, reincarnation.classlib.java.time.DayOfWeek.class), //
+            Map.entry(java.time.temporal.TemporalAccessor.class,
+                    reincarnation.classlib.java.time.temporal.TemporalAccessor.class), //
+            Map.entry(java.time.temporal.Temporal.class,
+                    reincarnation.classlib.java.time.temporal.Temporal.class), //
+            Map.entry(java.time.temporal.TemporalAdjuster.class,
+                    reincarnation.classlib.java.time.temporal.TemporalAdjuster.class), //
+            Map.entry(java.time.temporal.TemporalAmount.class,
+                    reincarnation.classlib.java.time.temporal.TemporalAmount.class), //
+            Map.entry(java.time.temporal.TemporalUnit.class,
+                    reincarnation.classlib.java.time.temporal.TemporalUnit.class), //
+            Map.entry(java.time.temporal.TemporalField.class,
+                    reincarnation.classlib.java.time.temporal.TemporalField.class), //
+            Map.entry(java.time.temporal.ChronoUnit.class,
+                    reincarnation.classlib.java.time.temporal.ChronoUnit.class), //
+            Map.entry(java.time.temporal.ChronoField.class,
+                    reincarnation.classlib.java.time.temporal.ChronoField.class), //
             Map.entry(java.util.stream.Collectors.class, reincarnation.classlib.java.util.stream.Collectors.class));
 
     /** The original JDK classes of the implementations. */
@@ -264,6 +291,32 @@ final class Classlib {
             Map.entry(reincarnation.classlib.java.util.regex.Pattern.class, java.util.regex.Pattern.class), //
             Map.entry(reincarnation.classlib.java.util.regex.Matcher.class, java.util.regex.Matcher.class), //
             Map.entry(reincarnation.classlib.java.util.regex.MatchResult.class, java.util.regex.MatchResult.class), //
+            Map.entry(reincarnation.classlib.java.time.Instant.class, java.time.Instant.class), //
+            Map.entry(reincarnation.classlib.java.time.LocalDate.class, java.time.LocalDate.class), //
+            Map.entry(reincarnation.classlib.java.time.LocalTime.class, java.time.LocalTime.class), //
+            Map.entry(reincarnation.classlib.java.time.LocalDateTime.class, java.time.LocalDateTime.class), //
+            Map.entry(reincarnation.classlib.java.time.ZonedDateTime.class, java.time.ZonedDateTime.class), //
+            Map.entry(reincarnation.classlib.java.time.Duration.class, java.time.Duration.class), //
+            Map.entry(reincarnation.classlib.java.time.Period.class, java.time.Period.class), //
+            Map.entry(reincarnation.classlib.java.time.ZoneId.class, java.time.ZoneId.class), //
+            Map.entry(reincarnation.classlib.java.time.ZoneOffset.class, java.time.ZoneOffset.class), //
+            Map.entry(reincarnation.classlib.java.time.Month.class, java.time.Month.class), //
+            Map.entry(reincarnation.classlib.java.time.DayOfWeek.class, java.time.DayOfWeek.class), //
+            Map.entry(reincarnation.classlib.java.time.temporal.TemporalAccessor.class,
+                    java.time.temporal.TemporalAccessor.class), //
+            Map.entry(reincarnation.classlib.java.time.temporal.Temporal.class, java.time.temporal.Temporal.class), //
+            Map.entry(reincarnation.classlib.java.time.temporal.TemporalAdjuster.class,
+                    java.time.temporal.TemporalAdjuster.class), //
+            Map.entry(reincarnation.classlib.java.time.temporal.TemporalAmount.class,
+                    java.time.temporal.TemporalAmount.class), //
+            Map.entry(reincarnation.classlib.java.time.temporal.TemporalUnit.class,
+                    java.time.temporal.TemporalUnit.class), //
+            Map.entry(reincarnation.classlib.java.time.temporal.TemporalField.class,
+                    java.time.temporal.TemporalField.class), //
+            Map.entry(reincarnation.classlib.java.time.temporal.ChronoUnit.class,
+                    java.time.temporal.ChronoUnit.class), //
+            Map.entry(reincarnation.classlib.java.time.temporal.ChronoField.class,
+                    java.time.temporal.ChronoField.class), //
             Map.entry(reincarnation.classlib.java.util.stream.Collectors.class, java.util.stream.Collectors.class));
 
     /** The JDK names of the implementations which are not accessible from the source. */
