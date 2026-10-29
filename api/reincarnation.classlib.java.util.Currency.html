@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="Z">
+		<header class="a" date="2026-10-29">
+			<h1 class="p"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="q"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="r"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="R"></nav>
+		<article class="b" id="Article">
+			<section class="g"><code class="l">reincarnation.classlib.java.util</code>
+				<h2 class="Class y"><code class="v">Currency</code></h2>
+				<div class="DB">
+					<ul class="E H">
+						<li><code><a aria-label="reincarnation.classlib.java.io.Serializable" href="api/reincarnation.classlib.java.io.Serializable.html">Serializable</a></code></li>
+					</ul>
+				</div><span class="A"><p>The Java implementation of <code><a aria-label="java.util.Currency 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Currency.html">java.util.Currency</a></code> which is transpiled into JavaScript.</p></span></section>
+			<section class="g" id="getInstance(java.lang.String)">
+				<h2 class="U"><i class="PUBLIC STATIC"></i><code class="v">getInstance</code><code class="V">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">currencyCode</code>)</code><i class="x"><code><a aria-label="reincarnation.classlib.java.util.Currency" href="api/reincarnation.classlib.java.util.Currency.html">Currency</a></code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">currencyCode</code></td>
+						<td><span><p>A currency code.</p></span></td>
+					</tr>
+					<tr class="CB">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Currency" href="api/reincarnation.classlib.java.util.Currency.html">Currency</a></code></td>
+						<td><span><p>A currency.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the currency of the code.</p></span></section>
+			<section class="g" id="getInstance(reincarnation.classlib.java.util.Locale)">
+				<h2 class="U"><i class="PUBLIC STATIC"></i><code class="v">getInstance</code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code>)</code><i class="x"><code><a aria-label="reincarnation.classlib.java.util.Currency" href="api/reincarnation.classlib.java.util.Currency.html">Currency</a></code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code></td>
+						<td><span><p>A locale.</p></span></td>
+					</tr>
+					<tr class="CB">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Currency" href="api/reincarnation.classlib.java.util.Currency.html">Currency</a></code></td>
+						<td><span><p>A currency.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the currency of the locale.</p></span></section>
+			<section class="g" id="getAvailableCurrencies()">
+				<h2 class="U"><i class="PUBLIC STATIC"></i><code class="v">getAvailableCurrencies</code><code class="V">()</code><i class="x"><code array="fix"><a aria-label="reincarnation.classlib.java.util.Currency" href="api/reincarnation.classlib.java.util.Currency.html">Currency</a></code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code array="fix"><a aria-label="reincarnation.classlib.java.util.Currency" href="api/reincarnation.classlib.java.util.Currency.html">Currency</a></code></td>
+						<td><span><p>Currencies.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the available currencies.</p></span></section>
+			<section class="g" id="getCurrencyCode()">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">getCurrencyCode</code><code class="V">()</code><i class="x"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A currency code.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the currency code.</p></span></section>
+			<section class="g" id="getSymbol()">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">getSymbol</code><code class="V">()</code><i class="x"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A symbol.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the symbol.</p></span></section>
+			<section class="g" id="getSymbol(reincarnation.classlib.java.util.Locale)">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">getSymbol</code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code>)</code><i class="x"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code></td>
+						<td><span><p>A locale.</p></span></td>
+					</tr>
+					<tr class="CB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A symbol.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the symbol.</p></span></section>
+			<section class="g" id="getDisplayName()">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">getDisplayName</code><code class="V">()</code><i class="x"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A display name.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the display name.</p></span></section>
+			<section class="g" id="getDisplayName(reincarnation.classlib.java.util.Locale)">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">getDisplayName</code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code>)</code><i class="x"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code></td>
+						<td><span><p>A locale.</p></span></td>
+					</tr>
+					<tr class="CB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A display name.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the display name.</p></span></section>
+			<section class="g" id="getDefaultFractionDigits()">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">getDefaultFractionDigits</code><code class="V">()</code><i class="x"><code>int</code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code>int</code></td>
+						<td><span><p>Fraction digits.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the default fraction digits.</p></span></section>
+			<section class="g" id="getNumericCode()">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">getNumericCode</code><code class="V">()</code><i class="x"><code>int</code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code>int</code></td>
+						<td><span><p>A numeric code.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the numeric code.</p></span></section>
+			<section class="g" id="equals(java.lang.Object)">
+				<h2 class="U"><i class="OVERRIDE PUBLIC"></i><code class="v">equals</code><code class="V">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code>)</code><i class="x"><code>boolean</code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code></td>
+						<td></td>
+					</tr>
+					<tr class="CB">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="g" id="hashCode()">
+				<h2 class="U"><i class="OVERRIDE PUBLIC"></i><code class="v">hashCode</code><code class="V">()</code><i class="x"><code>int</code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code>int</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="g" id="toString()">
+				<h2 class="U"><i class="OVERRIDE PUBLIC"></i><code class="v">toString</code><code class="V">()</code><i class="x"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+		</article>
+		<aside class="d">
+			<div class="Q">
+				<h5 class="i">Static Methods</h5>
+				<ul>
+					<li class="h"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.util.Currency.html#getInstance(java.lang.String)">getInstance</a></code><code class="V">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">currencyCode</code>)</code><i class="z"><code><a aria-label="reincarnation.classlib.java.util.Currency" href="api/reincarnation.classlib.java.util.Currency.html">Currency</a></code></i></li>
+					<li class="h"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.util.Currency.html#getInstance(reincarnation.classlib.java.util.Locale)">getInstance</a></code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code>)</code><i class="z"><code><a aria-label="reincarnation.classlib.java.util.Currency" href="api/reincarnation.classlib.java.util.Currency.html">Currency</a></code></i></li>
+					<li class="h"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.util.Currency.html#getAvailableCurrencies()">getAvailableCurrencies</a></code><code class="V">()</code><i class="z"><code array="fix"><a aria-label="reincarnation.classlib.java.util.Currency" href="api/reincarnation.classlib.java.util.Currency.html">Currency</a></code></i></li>
+				</ul>
+				<h5 class="i">Methods</h5>
+				<ul>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Currency.html#getCurrencyCode()">getCurrencyCode</a></code><code class="V">()</code><i class="z"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Currency.html#getSymbol()">getSymbol</a></code><code class="V">()</code><i class="z"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Currency.html#getSymbol(reincarnation.classlib.java.util.Locale)">getSymbol</a></code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code>)</code><i class="z"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Currency.html#getDisplayName()">getDisplayName</a></code><code class="V">()</code><i class="z"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Currency.html#getDisplayName(reincarnation.classlib.java.util.Locale)">getDisplayName</a></code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code>)</code><i class="z"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Currency.html#getDefaultFractionDigits()">getDefaultFractionDigits</a></code><code class="V">()</code><i class="z"><code>int</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Currency.html#getNumericCode()">getNumericCode</a></code><code class="V">()</code><i class="z"><code>int</code></i></li>
+					<li class="h"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Currency.html#equals(java.lang.Object)">equals</a></code><code class="V">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code>)</code><i class="z"><code>boolean</code></i></li>
+					<li class="h"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Currency.html#hashCode()">hashCode</a></code><code class="V">()</code><i class="z"><code>int</code></i></li>
+					<li class="h"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Currency.html#toString()">toString</a></code><code class="V">()</code><i class="z"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="c">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

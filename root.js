@@ -8,6 +8,7 @@ const root = {
 		"reincarnation.classlib.java.util.regex",
 		"reincarnation.classlib.java.util.stream",
 		"reincarnation.classlib.java.util.concurrent",
+		"reincarnation.classlib.java.text",
 		"reincarnation.classlib.java.time",
 		"reincarnation.classlib.java.time.temporal",
 		"reincarnation.classlib.java.lang.invoke",
@@ -25,6 +26,11 @@ const root = {
 	"types": [
 		{
 			"name": "NativeProxy",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "NativeIntl",
 			"packageName": "js.lang",
 			"type": "Class"
 		},
@@ -519,9 +525,44 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "Currency",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "Locale",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "Locale.Category",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Enum"
+		},
+		{
 			"name": "AbstractList",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "AbstractClass"
+		},
+		{
+			"name": "Format",
+			"packageName": "reincarnation.classlib.java.text",
+			"type": "AbstractClass"
+		},
+		{
+			"name": "Collator",
+			"packageName": "reincarnation.classlib.java.text",
+			"type": "Class"
+		},
+		{
+			"name": "NumberFormat",
+			"packageName": "reincarnation.classlib.java.text",
+			"type": "Class"
+		},
+		{
+			"name": "DateFormat",
+			"packageName": "reincarnation.classlib.java.text",
+			"type": "Class"
 		},
 		{
 			"name": "LocalTime",

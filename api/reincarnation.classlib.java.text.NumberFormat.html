@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="Z">
+		<header class="a" date="2026-10-29">
+			<h1 class="p"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="q"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="r"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="R"></nav>
+		<article class="b" id="Article">
+			<section class="g"><code class="l">reincarnation.classlib.java.text</code>
+				<h2 class="Class y"><code class="v">NumberFormat</code></h2>
+				<div class="DB">
+					<ul class="E G">
+						<li><code><a aria-label="reincarnation.classlib.java.text.Format" href="api/reincarnation.classlib.java.text.Format.html">Format</a></code></li>
+					</ul>
+					<ul class="E H">
+						<li><code><a aria-label="reincarnation.classlib.java.lang.Cloneable" href="api/reincarnation.classlib.java.lang.Cloneable.html">Cloneable</a></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.io.Serializable" href="api/reincarnation.classlib.java.io.Serializable.html">Serializable</a></code></li>
+					</ul>
+				</div><span class="A"><p>The Java implementation of <code><a aria-label="java.text.NumberFormat 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/text/NumberFormat.html">java.text.NumberFormat</a></code> which is transpiled into JavaScript.</p></span></section>
+			<section class="g" id="getInstance()">
+				<h2 class="U"><i class="PUBLIC STATIC"></i><code class="v">getInstance</code><code class="V">()</code><i class="x"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></td>
+						<td><span><p>A number format.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the number format.</p></span></section>
+			<section class="g" id="getInstance(reincarnation.classlib.java.util.Locale)">
+				<h2 class="U"><i class="PUBLIC STATIC"></i><code class="v">getInstance</code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code>)</code><i class="x"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code></td>
+						<td><span><p>A locale.</p></span></td>
+					</tr>
+					<tr class="CB">
+						<td><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></td>
+						<td><span><p>A number format.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the number format.</p></span></section>
+			<section class="g" id="getNumberInstance()">
+				<h2 class="U"><i class="PUBLIC STATIC"></i><code class="v">getNumberInstance</code><code class="V">()</code><i class="x"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></td>
+						<td><span><p>A number format.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the number format.</p></span></section>
+			<section class="g" id="getNumberInstance(reincarnation.classlib.java.util.Locale)">
+				<h2 class="U"><i class="PUBLIC STATIC"></i><code class="v">getNumberInstance</code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code>)</code><i class="x"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code></td>
+						<td><span><p>A locale.</p></span></td>
+					</tr>
+					<tr class="CB">
+						<td><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></td>
+						<td><span><p>A number format.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the number format.</p></span></section>
+			<section class="g" id="getIntegerInstance()">
+				<h2 class="U"><i class="PUBLIC STATIC"></i><code class="v">getIntegerInstance</code><code class="V">()</code><i class="x"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></td>
+						<td><span><p>An integer format.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the integer format.</p></span></section>
+			<section class="g" id="getIntegerInstance(reincarnation.classlib.java.util.Locale)">
+				<h2 class="U"><i class="PUBLIC STATIC"></i><code class="v">getIntegerInstance</code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code>)</code><i class="x"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code></td>
+						<td><span><p>A locale.</p></span></td>
+					</tr>
+					<tr class="CB">
+						<td><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></td>
+						<td><span><p>An integer format.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the integer format.</p></span></section>
+			<section class="g" id="getCurrencyInstance()">
+				<h2 class="U"><i class="PUBLIC STATIC"></i><code class="v">getCurrencyInstance</code><code class="V">()</code><i class="x"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></td>
+						<td><span><p>A currency format.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the currency format.</p></span></section>
+			<section class="g" id="getCurrencyInstance(reincarnation.classlib.java.util.Locale)">
+				<h2 class="U"><i class="PUBLIC STATIC"></i><code class="v">getCurrencyInstance</code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code>)</code><i class="x"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code></td>
+						<td><span><p>A locale.</p></span></td>
+					</tr>
+					<tr class="CB">
+						<td><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></td>
+						<td><span><p>A currency format.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the currency format.</p></span></section>
+			<section class="g" id="getPercentInstance()">
+				<h2 class="U"><i class="PUBLIC STATIC"></i><code class="v">getPercentInstance</code><code class="V">()</code><i class="x"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></td>
+						<td><span><p>A percent format.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the percent format.</p></span></section>
+			<section class="g" id="getPercentInstance(reincarnation.classlib.java.util.Locale)">
+				<h2 class="U"><i class="PUBLIC STATIC"></i><code class="v">getPercentInstance</code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code>)</code><i class="x"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code></td>
+						<td><span><p>A locale.</p></span></td>
+					</tr>
+					<tr class="CB">
+						<td><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></td>
+						<td><span><p>A percent format.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the percent format.</p></span></section>
+			<section class="g" id="getAvailableLocales()">
+				<h2 class="U"><i class="PUBLIC STATIC"></i><code class="v">getAvailableLocales</code><code class="V">()</code><i class="x"><code array="fix"><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code array="fix"><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code></td>
+						<td><span><p>Locales.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the available locales.</p></span></section>
+			<section class="g" id="format(java.lang.Object)">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">format</code><code class="V">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="x"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="CB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A formatted text.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Format the value.</p></span></section>
+			<section class="g" id="format(long)">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">format</code><code class="V">(<code>long</code><code class="parameterName">value</code>)</code><i class="x"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code>long</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="CB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A formatted text.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Format the value.</p></span></section>
+			<section class="g" id="format(double)">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">format</code><code class="V">(<code>double</code><code class="parameterName">value</code>)</code><i class="x"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code>double</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="CB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A formatted text.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Format the value.</p></span></section>
+			<section class="g" id="getCurrency()">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">getCurrency</code><code class="V">()</code><i class="x"><code><a aria-label="reincarnation.classlib.java.util.Currency" href="api/reincarnation.classlib.java.util.Currency.html">Currency</a></code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Currency" href="api/reincarnation.classlib.java.util.Currency.html">Currency</a></code></td>
+						<td><span><p>A currency or null.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the currency.</p></span></section>
+			<section class="g" id="setCurrency(reincarnation.classlib.java.util.Currency)">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">setCurrency</code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Currency" href="api/reincarnation.classlib.java.util.Currency.html">Currency</a></code><code class="parameterName">currency</code>)</code><i class="x"><code>void</code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Currency" href="api/reincarnation.classlib.java.util.Currency.html">Currency</a></code><code class="parameterName">currency</code></td>
+						<td><span><p>A currency.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set the currency.</p></span></section>
+			<section class="g" id="getMaximumFractionDigits()">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">getMaximumFractionDigits</code><code class="V">()</code><i class="x"><code>int</code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code>int</code></td>
+						<td><span><p>Maximum fraction digits.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the maximum fraction digits.</p></span></section>
+			<section class="g" id="setMaximumFractionDigits(int)">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">setMaximumFractionDigits</code><code class="V">(<code>int</code><code class="parameterName">digits</code>)</code><i class="x"><code>void</code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code>int</code><code class="parameterName">digits</code></td>
+						<td><span><p>Digits.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set the maximum fraction digits.</p></span></section>
+			<section class="g" id="getMinimumFractionDigits()">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">getMinimumFractionDigits</code><code class="V">()</code><i class="x"><code>int</code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code>int</code></td>
+						<td><span><p>Minimum fraction digits.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the minimum fraction digits.</p></span></section>
+			<section class="g" id="setMinimumFractionDigits(int)">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">setMinimumFractionDigits</code><code class="V">(<code>int</code><code class="parameterName">digits</code>)</code><i class="x"><code>void</code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code>int</code><code class="parameterName">digits</code></td>
+						<td><span><p>Digits.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set the minimum fraction digits.</p></span></section>
+			<section class="g" id="getMaximumIntegerDigits()">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">getMaximumIntegerDigits</code><code class="V">()</code><i class="x"><code>int</code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code>int</code></td>
+						<td><span><p>Maximum integer digits.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the maximum integer digits.</p></span></section>
+			<section class="g" id="setMaximumIntegerDigits(int)">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">setMaximumIntegerDigits</code><code class="V">(<code>int</code><code class="parameterName">digits</code>)</code><i class="x"><code>void</code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code>int</code><code class="parameterName">digits</code></td>
+						<td><span><p>Digits.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set the maximum integer digits.</p></span></section>
+			<section class="g" id="getMinimumIntegerDigits()">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">getMinimumIntegerDigits</code><code class="V">()</code><i class="x"><code>int</code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code>int</code></td>
+						<td><span><p>Minimum integer digits.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the minimum integer digits.</p></span></section>
+			<section class="g" id="setMinimumIntegerDigits(int)">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">setMinimumIntegerDigits</code><code class="V">(<code>int</code><code class="parameterName">digits</code>)</code><i class="x"><code>void</code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code>int</code><code class="parameterName">digits</code></td>
+						<td><span><p>Digits.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set the minimum integer digits.</p></span></section>
+			<section class="g" id="isGroupingUsed()">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">isGroupingUsed</code><code class="V">()</code><i class="x"><code>boolean</code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the grouping is used.</p></span></section>
+			<section class="g" id="setGroupingUsed(boolean)">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">setGroupingUsed</code><code class="V">(<code>boolean</code><code class="parameterName">grouping</code>)</code><i class="x"><code>void</code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code>boolean</code><code class="parameterName">grouping</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set whether the grouping is used.</p></span></section>
+			<section class="g" id="isParseIntegerOnly()">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">isParseIntegerOnly</code><code class="V">()</code><i class="x"><code>boolean</code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether only integers are parsed.</p></span></section>
+			<section class="g" id="setParseIntegerOnly(boolean)">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">setParseIntegerOnly</code><code class="V">(<code>boolean</code><code class="parameterName">parseIntegerOnly</code>)</code><i class="x"><code>void</code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code>boolean</code><code class="parameterName">parseIntegerOnly</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set whether only integers are parsed.</p></span></section>
+			<section class="g" id="parse(java.lang.String)">
+				<h2 class="U"><i class="PUBLIC"></i><code class="v">parse</code><code class="V">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">source</code>)</code><i class="x"><code><a aria-label="java.lang.Number 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Number.html">Number</a></code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">source</code></td>
+						<td><span><p>A text.</p></span></td>
+					</tr>
+					<tr class="CB">
+						<td><code><a aria-label="java.lang.Number 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Number.html">Number</a></code></td>
+						<td><span><p>A number.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Parse the text.</p></span></section>
+			<section class="g" id="clone()">
+				<h2 class="U"><i class="OVERRIDE PUBLIC"></i><code class="v">clone</code><code class="V">()</code><i class="x"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="g" id="equals(java.lang.Object)">
+				<h2 class="U"><i class="OVERRIDE PUBLIC"></i><code class="v">equals</code><code class="V">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code>)</code><i class="x"><code>boolean</code></i></h2>
+				<table class="n">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code></td>
+						<td></td>
+					</tr>
+					<tr class="CB">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="g" id="hashCode()">
+				<h2 class="U"><i class="OVERRIDE PUBLIC"></i><code class="v">hashCode</code><code class="V">()</code><i class="x"><code>int</code></i></h2>
+				<table class="n">
+					<tr class="CB">
+						<td><code>int</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+		</article>
+		<aside class="d">
+			<div class="Q">
+				<h5 class="i">Static Methods</h5>
+				<ul>
+					<li class="h"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#getInstance()">getInstance</a></code><code class="V">()</code><i class="z"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></li>
+					<li class="h"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#getInstance(reincarnation.classlib.java.util.Locale)">getInstance</a></code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code>)</code><i class="z"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></li>
+					<li class="h"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#getNumberInstance()">getNumberInstance</a></code><code class="V">()</code><i class="z"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></li>
+					<li class="h"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#getNumberInstance(reincarnation.classlib.java.util.Locale)">getNumberInstance</a></code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code>)</code><i class="z"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></li>
+					<li class="h"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#getIntegerInstance()">getIntegerInstance</a></code><code class="V">()</code><i class="z"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></li>
+					<li class="h"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#getIntegerInstance(reincarnation.classlib.java.util.Locale)">getIntegerInstance</a></code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code>)</code><i class="z"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></li>
+					<li class="h"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#getCurrencyInstance()">getCurrencyInstance</a></code><code class="V">()</code><i class="z"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></li>
+					<li class="h"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#getCurrencyInstance(reincarnation.classlib.java.util.Locale)">getCurrencyInstance</a></code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code>)</code><i class="z"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></li>
+					<li class="h"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#getPercentInstance()">getPercentInstance</a></code><code class="V">()</code><i class="z"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></li>
+					<li class="h"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#getPercentInstance(reincarnation.classlib.java.util.Locale)">getPercentInstance</a></code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code><code class="parameterName">locale</code>)</code><i class="z"><code><a aria-label="reincarnation.classlib.java.text.NumberFormat" href="api/reincarnation.classlib.java.text.NumberFormat.html">NumberFormat</a></code></i></li>
+					<li class="h"><i class="PUBLIC STATIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#getAvailableLocales()">getAvailableLocales</a></code><code class="V">()</code><i class="z"><code array="fix"><a aria-label="reincarnation.classlib.java.util.Locale" href="api/reincarnation.classlib.java.util.Locale.html">Locale</a></code></i></li>
+				</ul>
+				<h5 class="i">Methods</h5>
+				<ul>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#format(java.lang.Object)">format</a></code><code class="V">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="z"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#format(long)">format</a></code><code class="V">(<code>long</code><code class="parameterName">value</code>)</code><i class="z"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#format(double)">format</a></code><code class="V">(<code>double</code><code class="parameterName">value</code>)</code><i class="z"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#getCurrency()">getCurrency</a></code><code class="V">()</code><i class="z"><code><a aria-label="reincarnation.classlib.java.util.Currency" href="api/reincarnation.classlib.java.util.Currency.html">Currency</a></code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#setCurrency(reincarnation.classlib.java.util.Currency)">setCurrency</a></code><code class="V">(<code><a aria-label="reincarnation.classlib.java.util.Currency" href="api/reincarnation.classlib.java.util.Currency.html">Currency</a></code><code class="parameterName">currency</code>)</code><i class="z"><code>void</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#getMaximumFractionDigits()">getMaximumFractionDigits</a></code><code class="V">()</code><i class="z"><code>int</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#setMaximumFractionDigits(int)">setMaximumFractionDigits</a></code><code class="V">(<code>int</code><code class="parameterName">digits</code>)</code><i class="z"><code>void</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#getMinimumFractionDigits()">getMinimumFractionDigits</a></code><code class="V">()</code><i class="z"><code>int</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#setMinimumFractionDigits(int)">setMinimumFractionDigits</a></code><code class="V">(<code>int</code><code class="parameterName">digits</code>)</code><i class="z"><code>void</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#getMaximumIntegerDigits()">getMaximumIntegerDigits</a></code><code class="V">()</code><i class="z"><code>int</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#setMaximumIntegerDigits(int)">setMaximumIntegerDigits</a></code><code class="V">(<code>int</code><code class="parameterName">digits</code>)</code><i class="z"><code>void</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#getMinimumIntegerDigits()">getMinimumIntegerDigits</a></code><code class="V">()</code><i class="z"><code>int</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#setMinimumIntegerDigits(int)">setMinimumIntegerDigits</a></code><code class="V">(<code>int</code><code class="parameterName">digits</code>)</code><i class="z"><code>void</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#isGroupingUsed()">isGroupingUsed</a></code><code class="V">()</code><i class="z"><code>boolean</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#setGroupingUsed(boolean)">setGroupingUsed</a></code><code class="V">(<code>boolean</code><code class="parameterName">grouping</code>)</code><i class="z"><code>void</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#isParseIntegerOnly()">isParseIntegerOnly</a></code><code class="V">()</code><i class="z"><code>boolean</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#setParseIntegerOnly(boolean)">setParseIntegerOnly</a></code><code class="V">(<code>boolean</code><code class="parameterName">parseIntegerOnly</code>)</code><i class="z"><code>void</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#parse(java.lang.String)">parse</a></code><code class="V">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">source</code>)</code><i class="z"><code><a aria-label="java.lang.Number 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Number.html">Number</a></code></i></li>
+					<li class="h"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#clone()">clone</a></code><code class="V">()</code><i class="z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="h"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#equals(java.lang.Object)">equals</a></code><code class="V">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code>)</code><i class="z"><code>boolean</code></i></li>
+					<li class="h"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.text.NumberFormat.html#hashCode()">hashCode</a></code><code class="V">()</code><i class="z"><code>int</code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="c">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>
