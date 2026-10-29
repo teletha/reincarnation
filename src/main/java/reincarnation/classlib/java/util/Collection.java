@@ -135,7 +135,7 @@ public interface Collection<E> extends reincarnation.classlib.java.lang.Iterable
      * 
      * @return A stream.
      */
-    java.util.stream.Stream stream();
+    reincarnation.classlib.java.util.stream.Stream stream();
 
     /**
      * {@inheritDoc}

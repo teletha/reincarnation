@@ -198,8 +198,8 @@ public final class Optional {
      * 
      * @return A stream.
      */
-    public java.util.stream.Stream stream() {
-        return java.util.stream.Stream
+    public reincarnation.classlib.java.util.stream.Stream stream() {
+        return reincarnation.classlib.java.util.stream.Stream
                 .of(value == null ? new Object[0] : new Object[] {value});
     }
 

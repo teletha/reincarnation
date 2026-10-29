@@ -11,7 +11,7 @@ package reincarnation.classlib.java.util;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Stream;
+import reincarnation.classlib.java.util.stream.Stream;
 
 import js.lang.NativeArray;
 

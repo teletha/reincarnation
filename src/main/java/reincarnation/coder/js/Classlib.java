@@ -47,6 +47,7 @@ final class Classlib {
             Map.entry(java.lang.Appendable.class, reincarnation.classlib.java.lang.Appendable.class), //
             Map.entry(java.lang.CharSequence.class, reincarnation.classlib.java.lang.CharSequence.class), //
             Map.entry(java.lang.Comparable.class, reincarnation.classlib.java.lang.Comparable.class), //
+            Map.entry(java.lang.AutoCloseable.class, reincarnation.classlib.java.lang.AutoCloseable.class), //
             Map.entry(java.util.Collection.class, reincarnation.classlib.java.util.Collection.class), //
             Map.entry(java.util.AbstractCollection.class, reincarnation.classlib.java.util.AbstractCollection.class), //
             Map.entry(java.util.SequencedCollection.class,
@@ -91,6 +92,7 @@ final class Classlib {
             Map.entry(java.util.PriorityQueue.class, reincarnation.classlib.java.util.PriorityQueue.class), //
             Map.entry(java.util.Optional.class, reincarnation.classlib.java.util.Optional.class), //
             Map.entry(java.util.stream.Stream.class, reincarnation.classlib.java.util.stream.Stream.class), //
+            Map.entry(java.util.stream.BaseStream.class, reincarnation.classlib.java.util.stream.BaseStream.class), //
             Map.entry(java.util.StringJoiner.class, reincarnation.classlib.java.util.StringJoiner.class), //
             Map.entry(java.util.regex.Pattern.class, reincarnation.classlib.java.util.regex.Pattern.class), //
             Map.entry(java.util.regex.Matcher.class, reincarnation.classlib.java.util.regex.Matcher.class), //
@@ -103,6 +105,9 @@ final class Classlib {
             Map.entry(reincarnation.classlib.java.lang.Appendable.class, java.lang.Appendable.class), //
             Map.entry(reincarnation.classlib.java.lang.CharSequence.class, java.lang.CharSequence.class), //
             Map.entry(reincarnation.classlib.java.lang.Comparable.class, java.lang.Comparable.class), //
+            Map.entry(reincarnation.classlib.java.lang.AutoCloseable.class, java.lang.AutoCloseable.class), //
+            Map.entry(reincarnation.classlib.java.util.stream.Stream.class, java.util.stream.Stream.class), //
+            Map.entry(reincarnation.classlib.java.util.stream.BaseStream.class, java.util.stream.BaseStream.class), //
             Map.entry(reincarnation.classlib.java.util.Collection.class, java.util.Collection.class), //
             Map.entry(reincarnation.classlib.java.util.AbstractCollection.class, java.util.AbstractCollection.class), //
             Map.entry(reincarnation.classlib.java.util.SequencedCollection.class,

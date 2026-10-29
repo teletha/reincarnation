@@ -9,11 +9,7 @@
  */
 package reincarnation.classlib.java.util.stream;
 
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
@@ -21,22 +17,13 @@ import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.function.Predicate;
 
+import reincarnation.classlib.java.util.List;
+import reincarnation.classlib.java.util.Optional;
+
 /**
  * The Java implementation of {@link java.util.stream.Stream} which is transpiled into JavaScript.
  */
-public final class Stream {
-
-    /** The values. */
-    private final Object[] values;
-
-    /**
-     * Create the stream.
-     * 
-     * @param values Values.
-     */
-    private Stream(Object[] values) {
-        this.values = values;
-    }
+public interface Stream<T> extends BaseStream<T, Stream<T>> {
 
     /**
      * Create the stream.
@@ -44,8 +31,8 @@ public final class Stream {
      * @param values Values.
      * @return A stream.
      */
-    public static Stream of(Object... values) {
-        return new Stream(values);
+    static Stream of(Object... values) {
+        return new StreamImpl(values);
     }
 
     /**
@@ -54,8 +41,8 @@ public final class Stream {
      * @param value A value.
      * @return A stream.
      */
-    public static Stream of(Object value) {
-        return new Stream(new Object[] {value});
+    static Stream of(Object value) {
+        return new StreamImpl(new Object[] {value});
     }
 
     /**
@@ -64,8 +51,8 @@ public final class Stream {
      * @param value A value.
      * @return A stream.
      */
-    public static Stream ofNullable(Object value) {
-        return value == null ? empty() : new Stream(new Object[] {value});
+    static Stream ofNullable(Object value) {
+        return value == null ? empty() : new StreamImpl(new Object[] {value});
     }
 
     /**
@@ -73,8 +60,8 @@ public final class Stream {
      * 
      * @return A stream.
      */
-    public static Stream empty() {
-        return new Stream(new Object[0]);
+    static Stream empty() {
+        return new StreamImpl(new Object[0]);
     }
 
     /**
@@ -83,13 +70,7 @@ public final class Stream {
      * @param mapper A mapper.
      * @return A stream.
      */
-    public Stream map(Function mapper) {
-        Object[] result = new Object[values.length];
-        for (int i = 0; i < values.length; i++) {
-            result[i] = mapper.apply(values[i]);
-        }
-        return new Stream(result);
-    }
+    Stream map(Function mapper);
 
     /**
      * Flat-map the values.
@@ -97,17 +78,7 @@ public final class Stream {
      * @param mapper A mapper.
      * @return A stream.
      */
-    public Stream flatMap(Function mapper) {
-        Object[] result = new Object[values.length];
-        int size = 0;
-        for (Object value : values) {
-            Stream mapped = (Stream) mapper.apply(value);
-            for (Object item : mapped.values) {
-                result[size++] = item;
-            }
-        }
-        return new Stream(Arrays.copyOf(result, size));
-    }
+    Stream flatMap(Function mapper);
 
     /**
      * Filter the values.
@@ -115,50 +86,21 @@ public final class Stream {
      * @param predicate A predicate.
      * @return A stream.
      */
-    public Stream filter(Predicate predicate) {
-        Object[] result = new Object[values.length];
-        int size = 0;
-        for (Object value : values) {
-            if (predicate.test(value)) {
-                result[size++] = value;
-            }
-        }
-        return new Stream(Arrays.copyOf(result, size));
-    }
+    Stream filter(Predicate predicate);
 
     /**
      * Remove the duplicated values.
      * 
      * @return A stream.
      */
-    public Stream distinct() {
-        Object[] result = new Object[values.length];
-        int size = 0;
-        for (Object value : values) {
-            boolean duplicated = false;
-            for (int i = 0; i < size; i++) {
-                if (Objects.equals(result[i], value)) {
-                    duplicated = true;
-                    break;
-                }
-            }
-            if (!duplicated) {
-                result[size++] = value;
-            }
-        }
-        return new Stream(Arrays.copyOf(result, size));
-    }
+    Stream distinct();
 
     /**
      * Sort the values.
      * 
      * @return A stream.
      */
-    public Stream sorted() {
-        Object[] result = Arrays.copyOf(values, values.length);
-        Arrays.sort(result);
-        return new Stream(result);
-    }
+    Stream sorted();
 
     /**
      * Sort the values.
@@ -166,11 +108,7 @@ public final class Stream {
      * @param comparator A comparator.
      * @return A stream.
      */
-    public Stream sorted(Comparator comparator) {
-        Object[] result = Arrays.copyOf(values, values.length);
-        Arrays.sort(result, comparator);
-        return new Stream(result);
-    }
+    Stream sorted(Comparator comparator);
 
     /**
      * Limit the values.
@@ -178,9 +116,7 @@ public final class Stream {
      * @param max A maximum count.
      * @return A stream.
      */
-    public Stream limit(long max) {
-        return new Stream(Arrays.copyOf(values, (int) Math.min(values.length, max)));
-    }
+    Stream limit(long max);
 
     /**
      * Skip the values.
@@ -188,10 +124,7 @@ public final class Stream {
      * @param count A count.
      * @return A stream.
      */
-    public Stream skip(long count) {
-        int start = (int) Math.min(values.length, Math.max(0, count));
-        return new Stream(Arrays.copyOfRange(values, start, values.length));
-    }
+    Stream skip(long count);
 
     /**
      * Peek the values.
@@ -199,41 +132,28 @@ public final class Stream {
      * @param action An action.
      * @return This stream.
      */
-    public Stream peek(Consumer action) {
-        for (Object value : values) {
-            action.accept(value);
-        }
-        return this;
-    }
+    Stream peek(Consumer action);
 
     /**
      * Invoke the action for each value.
      * 
      * @param action An action.
      */
-    public void forEach(Consumer action) {
-        for (Object value : values) {
-            action.accept(value);
-        }
-    }
+    void forEach(Consumer action);
 
     /**
      * Invoke the action for each value.
      * 
      * @param action An action.
      */
-    public void forEachOrdered(Consumer action) {
-        forEach(action);
-    }
+    void forEachOrdered(Consumer action);
 
     /**
      * Count the values.
      * 
      * @return A count.
      */
-    public long count() {
-        return values.length;
-    }
+    long count();
 
     /**
      * Check whether any value matches.
@@ -241,14 +161,7 @@ public final class Stream {
      * @param predicate A predicate.
      * @return A result.
      */
-    public boolean anyMatch(Predicate predicate) {
-        for (Object value : values) {
-            if (predicate.test(value)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    boolean anyMatch(Predicate predicate);
 
     /**
      * Check whether all values match.
@@ -256,14 +169,7 @@ public final class Stream {
      * @param predicate A predicate.
      * @return A result.
      */
-    public boolean allMatch(Predicate predicate) {
-        for (Object value : values) {
-            if (!predicate.test(value)) {
-                return false;
-            }
-        }
-        return true;
-    }
+    boolean allMatch(Predicate predicate);
 
     /**
      * Check whether no value matches.
@@ -271,27 +177,21 @@ public final class Stream {
      * @param predicate A predicate.
      * @return A result.
      */
-    public boolean noneMatch(Predicate predicate) {
-        return !anyMatch(predicate);
-    }
+    boolean noneMatch(Predicate predicate);
 
     /**
      * Get the first value.
      * 
      * @return An optional.
      */
-    public Optional findFirst() {
-        return Optional.ofNullable(values.length == 0 ? null : values[0]);
-    }
+    Optional findFirst();
 
     /**
      * Get any value.
      * 
      * @return An optional.
      */
-    public Optional findAny() {
-        return findFirst();
-    }
+    Optional findAny();
 
     /**
      * Reduce the values.
@@ -299,16 +199,7 @@ public final class Stream {
      * @param accumulator An accumulator.
      * @return An optional.
      */
-    public Optional reduce(BinaryOperator accumulator) {
-        if (values.length == 0) {
-            return Optional.empty();
-        }
-        Object result = values[0];
-        for (int i = 1; i < values.length; i++) {
-            result = accumulator.apply(result, values[i]);
-        }
-        return Optional.ofNullable(result);
-    }
+    Optional reduce(BinaryOperator accumulator);
 
     /**
      * Reduce the values.
@@ -317,13 +208,7 @@ public final class Stream {
      * @param accumulator An accumulator.
      * @return A result.
      */
-    public Object reduce(Object identity, BinaryOperator accumulator) {
-        Object result = identity;
-        for (Object value : values) {
-            result = accumulator.apply(result, value);
-        }
-        return result;
-    }
+    Object reduce(Object identity, BinaryOperator accumulator);
 
     /**
      * Reduce the values.
@@ -333,13 +218,7 @@ public final class Stream {
      * @param combiner A combiner.
      * @return A result.
      */
-    public Object reduce(Object identity, BiFunction accumulator, BinaryOperator combiner) {
-        Object result = identity;
-        for (Object value : values) {
-            result = accumulator.apply(result, value);
-        }
-        return result;
-    }
+    Object reduce(Object identity, BiFunction accumulator, BinaryOperator combiner);
 
     /**
      * Collect the values.
@@ -347,18 +226,14 @@ public final class Stream {
      * @param collector A collector.
      * @return A result.
      */
-    public Object collect(java.util.stream.Collector collector) {
-        return ((Function) collector).apply(values);
-    }
+    Object collect(java.util.stream.Collector collector);
 
     /**
      * Create the array.
      * 
      * @return An array.
      */
-    public Object[] toArray() {
-        return Arrays.copyOf(values, values.length);
-    }
+    Object[] toArray();
 
     /**
      * Create the array.
@@ -366,20 +241,18 @@ public final class Stream {
      * @param generator A generator.
      * @return An array.
      */
-    public Object[] toArray(IntFunction generator) {
-        Object[] result = (Object[]) generator.apply(values.length);
-        for (int i = 0; i < values.length; i++) {
-            result[i] = values[i];
-        }
-        return result;
-    }
+    Object[] toArray(IntFunction generator);
 
     /**
      * Create the list.
      * 
      * @return A list.
      */
-    public List toList() {
-        return List.of(values);
-    }
+    List toList();
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    void close();
 }

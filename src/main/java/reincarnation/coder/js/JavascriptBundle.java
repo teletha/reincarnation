@@ -149,6 +149,9 @@ public final class JavascriptBundle {
                 collect(inf, order, visited);
             }
         }
+        if (type == reincarnation.classlib.java.util.stream.Stream.class) {
+            collect(reincarnation.classlib.java.util.stream.StreamImpl.class, order, visited);
+        }
 
         // The map views are returned as the classlib collections.
         if (reincarnation.classlib.java.util.Map.class.isAssignableFrom(type)) {

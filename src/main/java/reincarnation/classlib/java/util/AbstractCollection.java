@@ -203,8 +203,8 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * {@inheritDoc}
      */
     @Override
-    public java.util.stream.Stream stream() {
-        return java.util.stream.Stream.of(toArray());
+    public reincarnation.classlib.java.util.stream.Stream stream() {
+        return reincarnation.classlib.java.util.stream.Stream.of(toArray());
     }
 
     /**
