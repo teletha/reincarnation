@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assumptions.*;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import com.caoccao.javet.interop.V8Host;
 import com.caoccao.javet.interop.V8Runtime;
 import com.caoccao.javet.values.V8Value;
 import com.caoccao.javet.values.primitive.V8ValueBigInteger;
@@ -38,21 +37,7 @@ import reincarnation.coder.js.JavascriptCodingOption;
 public class BundleVerifier {
 
     /** The availability of the V8 runtime. */
-    private static final boolean V8Available = loadV8();
-
-    /**
-     * Check whether the V8 runtime is available.
-     * 
-     * @return A result.
-     */
-    private static boolean loadV8() {
-        try {
-            V8Host.getNodeInstance();
-            return true;
-        } catch (Throwable e) {
-            return false;
-        }
-    }
+    private static final boolean V8Available = JavetSupport.available();
 
     /**
      * Verify the bundled JavaScript program.
@@ -111,7 +96,7 @@ public class BundleVerifier {
 
         String script = "(function () {\r\n" + javascript + "\r\n return $c." + className + "." + method + "(" + literal + ");\r\n})()";
 
-        try (V8Runtime runtime = V8Host.getNodeInstance().createV8Runtime()) {
+        try (V8Runtime runtime = JavetSupport.create()) {
             try (V8Value value = runtime.getExecutor(script).execute()) {
                 assertObject(expected, toJava(value));
             }
@@ -183,7 +168,7 @@ public class BundleVerifier {
                 + "return output;\r\n" //
                 + "})()";
 
-        try (V8Runtime runtime = V8Host.getNodeInstance().createV8Runtime()) {
+        try (V8Runtime runtime = JavetSupport.create()) {
             try (V8Value value = runtime.getExecutor(script).execute()) {
                 String actual = String.valueOf(toJava(value));
                 assert expected.equals(actual) : "Expected output '" + expected + "', but actual is '" + actual + "'";

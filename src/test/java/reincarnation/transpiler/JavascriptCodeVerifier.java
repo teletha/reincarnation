@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.caoccao.javet.interop.V8Host;
 import com.caoccao.javet.interop.V8Runtime;
 import com.caoccao.javet.values.V8Value;
 import com.caoccao.javet.values.primitive.V8ValueBigInteger;
@@ -87,21 +86,7 @@ public class JavascriptCodeVerifier {
     private static final Map<Class, List> cache = new ConcurrentHashMap();
 
     /** The availability of the V8 runtime. */
-    private static final boolean V8Available = loadV8();
-
-    /**
-     * Check whether the V8 runtime can be loaded on the current platform.
-     * 
-     * @return The availability of the V8 runtime.
-     */
-    private static boolean loadV8() {
-        try {
-            V8Host.getNodeInstance();
-            return true;
-        } catch (Throwable e) {
-            return false;
-        }
-    }
+    private static final boolean V8Available = JavetSupport.available();
 
     /**
      * Verify the decompiled JavaScript code.
@@ -147,7 +132,7 @@ public class JavascriptCodeVerifier {
         // ========================================================
         // Execute the decompiled JavaScript and compare the results.
         // ========================================================
-        try (V8Runtime runtime = V8Host.getNodeInstance().createV8Runtime()) {
+        try (V8Runtime runtime = JavetSupport.create()) {
             for (int i = 0; i < inputs.size(); i++) {
                 Object input = inputs.get(i);
                 String arguments = parameterTypes.length == 0 ? "" : toJSLiteral(input, parameterTypes[0]);
