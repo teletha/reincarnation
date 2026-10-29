@@ -302,4 +302,137 @@ class MapTest extends JavascriptCodeVerifier {
             }
         });
     }
+
+    @Test
+    void copyConstructor() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                Map<String, Integer> source = new HashMap<>();
+                source.put("a", 1);
+                Map<String, Integer> copy = new HashMap<>(source);
+                copy.put("b", 2);
+                return copy.size() * 10 + copy.get("a");
+            }
+        });
+    }
+
+    @Test
+    void hashtable() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                Map<String, Integer> map = new java.util.Hashtable<>();
+                map.put("a", 1);
+                map.put("b", 2);
+                return map.size() * 10 + map.get("b");
+            }
+        });
+    }
+
+    @Test
+    void removeByKeyAndValue() throws Exception {
+        verify(new TestCode.Boolean() {
+
+            @Override
+            public boolean run() {
+                Map<String, Integer> map = new HashMap<>();
+                map.put("a", 1);
+                map.put("b", 2);
+                return map.remove("a", 1) && !map.remove("b", 1) && map.size() == 1;
+            }
+        });
+    }
+
+    @Test
+    void replace() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                Map<String, Integer> map = new HashMap<>();
+                map.put("a", 1);
+                map.replace("a", 10);
+                boolean replaced = map.replace("a", 10, 20);
+                return replaced ? map.get("a") : -1;
+            }
+        });
+    }
+
+    @Test
+    void compute() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                Map<String, Integer> map = new HashMap<>();
+                map.put("a", 1);
+                map.compute("a", (key, value) -> value + 10);
+                map.computeIfPresent("a", (key, value) -> value + 100);
+                return map.get("a");
+            }
+        });
+    }
+
+    @Test
+    void forEach() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                Map<String, Integer> map = new LinkedHashMap<>();
+                map.put("a", 1);
+                map.put("b", 2);
+
+                int[] sum = new int[1];
+                for (java.util.Map.Entry<String, Integer> entry : map.entrySet()) {
+                    sum[0] += entry.getValue();
+                }
+                map.forEach((key, value) -> sum[0] += value);
+                return sum[0];
+            }
+        });
+    }
+
+    @Test
+    void entryFactory() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                Map<String, Integer> map = new LinkedHashMap<>();
+                map.put("a", 1);
+                java.util.Map.Entry<String, Integer> entry = map.entrySet().iterator().next();
+                entry.setValue(2);
+                return entry.getKey() + entry.getValue();
+            }
+        });
+    }
+
+    @Test
+    void ofEntries() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                Map<String, Integer> map = Map.ofEntries(Map.entry("a", 1), Map.entry("b", 2));
+                return map.size() * 10 + map.get("b");
+            }
+        });
+    }
+
+    @Test
+    void copyOf() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                Map<String, Integer> source = new HashMap<>();
+                source.put("a", 1);
+                return Map.copyOf(source).get("a");
+            }
+        });
+    }
 }

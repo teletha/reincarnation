@@ -26,10 +26,8 @@ final class Classlib {
 
     /** The classes which are provided as the hand-written JavaScript runtime. */
     private static final Set<Class> runtimes = Set.of(java.util.Queue.class, java.util.Deque.class,
-            java.util.ArrayDeque.class, java.util.PriorityQueue.class, java.util.Map.class, java.util.HashMap.class,
-            java.util.LinkedHashMap.class, java.util.TreeMap.class, java.util.Hashtable.class,
-            java.util.SortedMap.class, java.util.NavigableMap.class, java.util.concurrent.ConcurrentMap.class,
-            java.util.Map.Entry.class, java.util.ListIterator.class, java.lang.Enum.class);
+            java.util.ArrayDeque.class, java.util.PriorityQueue.class, java.util.ListIterator.class,
+            java.lang.Enum.class);
 
     /** The classes which are provided as the reflection runtime. */
     private static final Set<Class> reflections = Set.of(java.lang.Class.class, java.lang.reflect.Method.class,
@@ -62,6 +60,15 @@ final class Classlib {
             Map.entry(java.util.TreeSet.class, reincarnation.classlib.java.util.TreeSet.class), //
             Map.entry(java.util.SortedSet.class, reincarnation.classlib.java.util.Set.class), //
             Map.entry(java.util.NavigableSet.class, reincarnation.classlib.java.util.Set.class), //
+            Map.entry(java.util.Map.class, reincarnation.classlib.java.util.Map.class), //
+            Map.entry(java.util.HashMap.class, reincarnation.classlib.java.util.HashMap.class), //
+            Map.entry(java.util.LinkedHashMap.class, reincarnation.classlib.java.util.LinkedHashMap.class), //
+            Map.entry(java.util.TreeMap.class, reincarnation.classlib.java.util.TreeMap.class), //
+            Map.entry(java.util.Hashtable.class, reincarnation.classlib.java.util.Hashtable.class), //
+            Map.entry(java.util.SortedMap.class, reincarnation.classlib.java.util.Map.class), //
+            Map.entry(java.util.NavigableMap.class, reincarnation.classlib.java.util.Map.class), //
+            Map.entry(java.util.concurrent.ConcurrentMap.class, reincarnation.classlib.java.util.Map.class), //
+            Map.entry(java.util.Map.Entry.class, reincarnation.classlib.java.util.Entry.class), //
             Map.entry(java.util.Optional.class, reincarnation.classlib.java.util.Optional.class), //
             Map.entry(java.util.stream.Stream.class, reincarnation.classlib.java.util.stream.Stream.class), //
             Map.entry(java.util.StringJoiner.class, reincarnation.classlib.java.util.StringJoiner.class), //

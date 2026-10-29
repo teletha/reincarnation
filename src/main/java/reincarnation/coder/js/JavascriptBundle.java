@@ -148,9 +148,10 @@ public final class JavascriptBundle {
             collect(java.util.stream.Stream.class, order, visited);
             collect(java.util.Optional.class, order, visited);
         }
-        if (java.util.Map.class.isAssignableFrom(type)) {
+        if (reincarnation.classlib.java.util.Map.class.isAssignableFrom(type)) {
             collect(java.util.List.class, order, visited);
             collect(java.util.Set.class, order, visited);
+            collect(java.util.Map.Entry.class, order, visited);
         }
 
         // The explicitly excluded class is not emitted.
