@@ -10,6 +10,7 @@
 package reincarnation.classlib.java.util;
 
 import js.lang.NativeDate;
+import js.lang.NativeIntl;
 import js.lang.NativeTemporal;
 import reincarnation.classlib.java.io.Serializable;
 import reincarnation.classlib.java.lang.Cloneable;
@@ -478,7 +479,7 @@ public class Date implements Serializable, Cloneable, Comparable<Date> {
         builder.append(':');
         LocalDate.appendTwoDigits(builder, second);
         builder.append(' ');
-        builder.append(zone(offset));
+        builder.append(zone(time, offset));
         builder.append(' ');
         LocalDate.appendYear(builder, date.getYear());
         return builder.toString();
@@ -487,16 +488,19 @@ public class Date implements Serializable, Cloneable, Comparable<Date> {
     /**
      * Get the zone text.
      * 
+     * @param time Epoch milliseconds.
      * @param offset An offset in minutes.
      * @return A text.
      */
-    private static String zone(int offset) {
+    private static String zone(long time, int offset) {
+        String id = NativeTemporal.systemZone();
+        String shortName = NativeIntl.systemZoneShort(time);
+        boolean fixed = id == null || id.equals("GMT") || id.startsWith("Etc/");
+        if (shortName != null && isAlpha(shortName) && !(fixed && shortName.equals("UTC"))) {
+            return shortName;
+        }
         if (offset == 0) {
-            String id = NativeTemporal.systemZone();
-            if (id != null && (id.equalsIgnoreCase("GMT") || id.equalsIgnoreCase("Etc/GMT"))) {
-                return "GMT";
-            }
-            return "UTC";
+            return id != null && (id.equals("GMT") || id.equals("Etc/GMT")) ? "GMT" : "UTC";
         }
         int absolute = offset < 0 ? -offset : offset;
         StringBuilder builder = new StringBuilder("GMT");
@@ -505,6 +509,25 @@ public class Date implements Serializable, Cloneable, Comparable<Date> {
         builder.append(':');
         LocalDate.appendTwoDigits(builder, absolute % 60);
         return builder.toString();
+    }
+
+    /**
+     * Check whether the text is alphabetic.
+     * 
+     * @param text A text.
+     * @return A result.
+     */
+    private static boolean isAlpha(String text) {
+        if (text.isEmpty()) {
+            return false;
+        }
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

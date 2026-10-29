@@ -54,6 +54,17 @@ public final class NativeIntl {
     }
 
     /**
+     * Get the short name of the system time zone.
+     * 
+     * @param millis Epoch milliseconds.
+     * @return A short name or null.
+     */
+    @Native("typeof Intl === 'undefined' ? null : (() => { const p = new Intl.DateTimeFormat(undefined, {timeZoneName: 'short'}).formatToParts(new Date(Number($0))); const v = p.find(x => x.type === 'timeZoneName'); return v ? v.value : null; })()")
+    public static String systemZoneShort(long millis) {
+        return null;
+    }
+
+    /**
      * Get the display name.
      * 
      * @param locale A display locale.
