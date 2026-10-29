@@ -9,6 +9,9 @@
  */
 package reincarnation.transpiler;
 
+import java.io.File;
+import java.net.URL;
+
 import com.caoccao.javet.exceptions.JavetException;
 import com.caoccao.javet.interop.V8Host;
 import com.caoccao.javet.interop.V8Runtime;
@@ -17,9 +20,9 @@ import com.caoccao.javet.interop.options.NodeRuntimeOptions;
 /**
  * Provides the i18n-enabled Javet runtime used by the JavaScript verification.
  * <p>
- * The ICU data directory can be configured by the {@code javet.icu.dir} system property or the
- * {@code JAVET_ICU_DIR} environment variable. The i18n native library of Javet 6.0.2 contains the
- * ICU data, so the configuration is optional on the supported platforms.
+ * The ICU data directory is resolved from the {@code javet.icu.dir} system property, the
+ * {@code JAVET_ICU_DIR} environment variable, or the bundled {@code icu/icudt78l.dat} test
+ * resource. It must be configured before the first runtime is created.
  * </p>
  */
 final class JavetSupport {
@@ -62,6 +65,9 @@ final class JavetSupport {
             if (directory == null) {
                 directory = System.getenv("JAVET_ICU_DIR");
             }
+            if (directory == null) {
+                directory = resourceDirectory();
+            }
             if (directory != null && !directory.isEmpty()) {
                 NodeRuntimeOptions.NODE_FLAGS.setIcuDataDir(directory);
             }
@@ -69,6 +75,23 @@ final class JavetSupport {
             return true;
         } catch (Throwable e) {
             return false;
+        }
+    }
+
+    /**
+     * Find the directory of the bundled ICU data.
+     * 
+     * @return A directory or null.
+     */
+    private static String resourceDirectory() {
+        URL resource = JavetSupport.class.getResource("/icu/icudt78l.dat");
+        if (resource == null) {
+            return null;
+        }
+        try {
+            return new File(resource.toURI()).getParent();
+        } catch (Throwable e) {
+            return null;
         }
     }
 }
