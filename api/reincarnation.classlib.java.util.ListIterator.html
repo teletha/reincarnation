@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="z">
+		<header class="d" date="2026-10-29">
+			<h1 class="Z"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="e"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="f"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="Y"></nav>
+		<article class="M" id="Article">
+			<section class="J"><code class="DB">reincarnation.classlib.java.util</code>
+				<h2 class="Interface i"><code class="o">ListIterator</code><code class="AB">&lt;<code>E</code>&gt;</code></h2>
+				<div class="v">
+					<ul class="E F">
+						<li><code>E</code></li>
+					</ul>
+					<ul class="E H">
+						<li><code><a aria-label="reincarnation.classlib.java.util.Iterator" href="api/reincarnation.classlib.java.util.Iterator.html">Iterator</a><code class="parameters"><code>E</code></code></code></li>
+					</ul>
+				</div><span class="A"><p>The Java implementation of <code><a aria-label="java.util.ListIterator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/ListIterator.html">java.util.ListIterator</a></code> which is transpiled into JavaScript.</p></span></section>
+			<section class="J" id="hasPrevious()">
+				<h2 class="U"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="o">hasPrevious</code><code class="AB">()</code><i class="n"><code>boolean</code></i></h2>
+				<table class="FB">
+					<tr class="p">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the previous value exists.</p></span></section>
+			<section class="J" id="previous()">
+				<h2 class="U"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="o">previous</code><code class="AB">()</code><i class="n"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="FB">
+					<tr class="p">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the previous value.</p></span></section>
+			<section class="J" id="nextIndex()">
+				<h2 class="U"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="o">nextIndex</code><code class="AB">()</code><i class="n"><code>int</code></i></h2>
+				<table class="FB">
+					<tr class="p">
+						<td><code>int</code></td>
+						<td><span><p>An index.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the next index.</p></span></section>
+			<section class="J" id="previousIndex()">
+				<h2 class="U"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="o">previousIndex</code><code class="AB">()</code><i class="n"><code>int</code></i></h2>
+				<table class="FB">
+					<tr class="p">
+						<td><code>int</code></td>
+						<td><span><p>An index.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the previous index.</p></span></section>
+			<section class="J" id="set(java.lang.Object)">
+				<h2 class="U"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="o">set</code><code class="AB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="n"><code>void</code></i></h2>
+				<table class="FB">
+					<tr class="EB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set the current value.</p></span></section>
+			<section class="J" id="add(java.lang.Object)">
+				<h2 class="U"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code class="o">add</code><code class="AB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="n"><code>void</code></i></h2>
+				<table class="FB">
+					<tr class="EB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Add the value.</p></span></section>
+		</article>
+		<aside class="T">
+			<div class="IB">
+				<h5 class="JB">Methods</h5>
+				<ul>
+					<li class="c"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.util.ListIterator.html#hasPrevious()">hasPrevious</a></code><code class="AB">()</code><i class="g"><code>boolean</code></i></li>
+					<li class="c"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.util.ListIterator.html#previous()">previous</a></code><code class="AB">()</code><i class="g"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="c"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.util.ListIterator.html#nextIndex()">nextIndex</a></code><code class="AB">()</code><i class="g"><code>int</code></i></li>
+					<li class="c"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.util.ListIterator.html#previousIndex()">previousIndex</a></code><code class="AB">()</code><i class="g"><code>int</code></i></li>
+					<li class="c"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.util.ListIterator.html#set(java.lang.Object)">set</a></code><code class="AB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="g"><code>void</code></i></li>
+					<li class="c"><i class="ABSTRACT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.util.ListIterator.html#add(java.lang.Object)">add</a></code><code class="AB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="g"><code>void</code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="m">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

@@ -180,6 +180,11 @@ const root = {
 			"type": "Interface"
 		},
 		{
+			"name": "ListIterator",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Interface"
+		},
+		{
 			"name": "SortedMap",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Interface"
