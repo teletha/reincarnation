@@ -10,6 +10,7 @@
 package reincarnation.transpiler.collection;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -317,6 +318,159 @@ class ListTest extends JavascriptCodeVerifier {
                 list.add(4);
                 List<Integer> sub = list.subList(1, 3);
                 return sub.size() * 10 + sub.get(0);
+            }
+        });
+    }
+
+    @Test
+    void iterator() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                List<Integer> list = new ArrayList<>();
+                list.add(1);
+                list.add(2);
+                list.add(3);
+                Iterator<Integer> iterator = list.iterator();
+                int sum = 0;
+                while (iterator.hasNext()) {
+                    sum += iterator.next();
+                }
+                return sum;
+            }
+        });
+    }
+
+    @Test
+    void iteratorRemove() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                List<Integer> list = new ArrayList<>();
+                list.add(1);
+                list.add(2);
+                list.add(3);
+                list.add(4);
+                Iterator<Integer> iterator = list.iterator();
+                while (iterator.hasNext()) {
+                    if (iterator.next() % 2 == 0) {
+                        iterator.remove();
+                    }
+                }
+                return list.toString();
+            }
+        });
+    }
+
+    @Test
+    void addAllAt() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                List<Integer> list = new ArrayList<>();
+                list.add(1);
+                list.add(4);
+                list.addAll(1, List.of(2, 3));
+                return list.toString();
+            }
+        });
+    }
+
+    @Test
+    void removeAll() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                List<Integer> list = new ArrayList<>();
+                list.add(1);
+                list.add(2);
+                list.add(3);
+                list.removeAll(List.of(2, 3));
+                return list.toString();
+            }
+        });
+    }
+
+    @Test
+    void retainAll() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                List<Integer> list = new ArrayList<>();
+                list.add(1);
+                list.add(2);
+                list.add(3);
+                list.retainAll(List.of(2, 3));
+                return list.toString();
+            }
+        });
+    }
+
+    @Test
+    void containsAll() throws Exception {
+        verify(new TestCode.Boolean() {
+
+            @Override
+            public boolean run() {
+                List<Integer> list = new ArrayList<>();
+                list.add(1);
+                list.add(2);
+                list.add(3);
+                return list.containsAll(List.of(1, 3));
+            }
+        });
+    }
+
+    @Test
+    void toArray() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                List<String> list = new ArrayList<>();
+                list.add("a");
+                list.add("b");
+                String[] array = list.toArray(new String[0]);
+                return array[1];
+            }
+        });
+    }
+
+    @Test
+    void factoryEmptyAndSingle() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return List.of().size() + List.of(9).get(0);
+            }
+        });
+    }
+
+    @Test
+    void factoryMany() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                List<Integer> list = List.of(1, 2, 3, 4, 5);
+                return list.size() * 10 + list.get(4);
+            }
+        });
+    }
+
+    @Test
+    void copyOf() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                return List.copyOf(List.of(1, 2)).toString();
             }
         });
     }

@@ -1435,9 +1435,6 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                         // The lambda is invoked directly in JavaScript, e.g. the Java code
                         // "supplier.get()" is converted to "supplier()".
                         write(context, buildCallParameter(method, params));
-                    } else if (isListRemoveAt(method)) {
-                        // JavaScript has no overloading, so the Java remove(int) is renamed.
-                        write(context, ".removeAt", buildCallParameter(method, params));
                     } else if (Modifier.isPrivate(method.getModifiers()) && !Classes.isStatic(method)) {
                         // A private method is not dynamically dispatched, so invoke the declaring
                         // class directly instead of looking up the method in the receiver.
@@ -1744,19 +1741,6 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 || type == java.util.stream.Stream.class || type == java.util.stream.Collectors.class //
                 || type == java.util.regex.Pattern.class || type == java.util.regex.Matcher.class //
                 || (options.reflection && isReflectionType(type));
-    }
-
-    /**
-     * Check whether the given method is the index based removal of {@link List}. JavaScript has no
-     * method overloading, so the Java {@code remove(int)} must be distinguished from
-     * {@code remove(Object)} explicitly.
-     * 
-     * @param method A target method.
-     * @return A result.
-     */
-    private boolean isListRemoveAt(Method method) {
-        return isList(method.getDeclaringClass()) && method.getName().equals("remove") //
-                && method.getParameterCount() == 1 && method.getParameterTypes()[0] == int.class;
     }
 
     /**

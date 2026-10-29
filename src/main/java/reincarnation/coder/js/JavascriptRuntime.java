@@ -25,6 +25,12 @@ public final class JavascriptRuntime {
             const $rt_equals = (a, b) => a === b || (a !== null && a !== undefined && (
                 typeof a.equals === "function" ? a.equals(b) :
                 typeof a.equals$Ljava_lang_Object_ === "function" ? a.equals$Ljava_lang_Object_(b) : false));
+            const $rt_contains = (collection, value) => {
+                for (const element of $rt_iterable(collection)) {
+                    if ($rt_equals(element, value)) return true;
+                }
+                return false;
+            };
             const $rt_hashCode = (a) => {
                 if (a === null || a === undefined) return 0;
                 if (typeof a === "number") return a | 0;
@@ -971,296 +977,6 @@ public final class JavascriptRuntime {
 
     /** The standard runtime source code. */
     static final String Standard = """
-            class List {
-                constructor(...args) {
-                    this.elements = [];
-                    if (args.length !== 0) {
-                        const source = args[0];
-                        if (source !== null && source !== undefined && typeof source !== "number") {
-                            for (const value of source) {
-                                this.elements.push(value);
-                            }
-                        }
-                    }
-                }
-
-                add(...args) {
-                    if (args.length === 1) {
-                        this.elements.push(args[0]);
-                        return true;
-                    }
-                    this.elements.splice(args[0], 0, args[1]);
-                }
-
-                get(index) {
-                    this.check(index);
-                    return this.elements[index];
-                }
-
-                set(index, value) {
-                    this.check(index);
-                    const previous = this.elements[index];
-                    this.elements[index] = value;
-                    return previous;
-                }
-
-                remove(value) {
-                    const index = this.indexOf(value);
-                    if (index < 0) {
-                        return false;
-                    }
-                    this.elements.splice(index, 1);
-                    return true;
-                }
-
-                removeAt(index) {
-                    this.check(index);
-                    return this.elements.splice(index, 1)[0];
-                }
-
-                size() {
-                    return this.elements.length;
-                }
-
-                isEmpty() {
-                    return this.elements.length === 0;
-                }
-
-                contains(value) {
-                    return this.indexOf(value) >= 0;
-                }
-
-                indexOf(value) {
-                    return this.elements.findIndex(x => List.$equals(x, value));
-                }
-
-                lastIndexOf(value) {
-                    for (let index = this.elements.length - 1; 0 <= index; index--) {
-                        if (List.$equals(this.elements[index], value)) {
-                            return index;
-                        }
-                    }
-                    return -1;
-                }
-
-                clear() {
-                    this.elements.length = 0;
-                }
-
-                addAll(...args) {
-                    if (args.length === 1) {
-                        let changed = false;
-                        for (const value of args[0]) {
-                            this.elements.push(value);
-                            changed = true;
-                        }
-                        return changed;
-                    }
-                    let index = args[0];
-                    for (const value of args[1]) {
-                        this.elements.splice(index++, 0, value);
-                    }
-                    return true;
-                }
-
-                removeAll(collection) {
-                    let changed = false;
-                    for (const value of collection) {
-                        let index;
-                        while (0 <= (index = this.indexOf(value))) {
-                            this.elements.splice(index, 1);
-                            changed = true;
-                        }
-                    }
-                    return changed;
-                }
-
-                retainAll(collection) {
-                    const retained = [];
-                    for (const value of this.elements) {
-                        if (List.$contains(collection, value)) {
-                            retained.push(value);
-                        }
-                    }
-                    const changed = retained.length !== this.elements.length;
-                    this.elements = retained;
-                    return changed;
-                }
-
-                containsAll(collection) {
-                    for (const value of collection) {
-                        if (!this.contains(value)) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-
-                toArray(array) {
-                    if (array === undefined || array === null) {
-                        return this.elements.slice();
-                    }
-                    for (let index = 0; index < this.elements.length; index++) {
-                        array[index] = this.elements[index];
-                    }
-                    return array;
-                }
-
-                iterator() {
-                    let index = 0;
-                    const elements = this.elements;
-                    return {
-                        hasNext() { return index < elements.length; },
-                        next() { return elements[index++]; },
-                        remove() { elements.splice(--index, 1); }
-                    };
-                }
-
-                forEach(action) {
-                    for (const value of this.elements) {
-                        action(value);
-                    }
-                }
-
-                equals(other) {
-                    if (other instanceof List) {
-                        if (this.elements.length !== other.elements.length) {
-                            return false;
-                        }
-                        for (let index = 0; index < this.elements.length; index++) {
-                            if (!List.$equals(this.elements[index], other.elements[index])) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    }
-                    return false;
-                }
-
-                hashCode() {
-                    let hash = 1;
-                    for (const value of this.elements) {
-                        hash = (hash * 31 + List.$hash(value)) | 0;
-                    }
-                    return hash;
-                }
-
-                toString() {
-                    return "[" + this.elements.map(List.$string).join(", ") + "]";
-                }
-
-                [Symbol.iterator]() {
-                    return this.elements[Symbol.iterator]();
-                }
-
-                sort(comparator) {
-                    this.elements.sort((a, b) => $rt_compareWith(comparator, a, b));
-                }
-
-                replaceAll(operator) {
-                    this.elements = this.elements.map(value => operator(value));
-                }
-
-                removeIf(predicate) {
-                    const retained = [];
-                    for (const value of this.elements) {
-                        if (!predicate(value)) {
-                            retained.push(value);
-                        }
-                    }
-                    const changed = retained.length !== this.elements.length;
-                    this.elements = retained;
-                    return changed;
-                }
-
-                subList(from, to) {
-                    const list = new List();
-                    list.elements = this.elements.slice(from, to);
-                    return list;
-                }
-
-                stream() {
-                    return $c.Stream.of(this.elements);
-                }
-
-                check(index) {
-                    if (index < 0 || this.elements.length <= index) {
-                        throw new Error("IndexOutOfBoundsException: Index " + index);
-                    }
-                }
-
-                static of(...values) {
-                    const list = new List();
-                    if (values.length === 1 && Array.isArray(values[0])) {
-                        list.elements = values[0].slice();
-                    } else {
-                        list.elements = values.slice();
-                    }
-                    return list;
-                }
-
-                static copyOf(collection) {
-                    return new List(collection);
-                }
-
-                static $equals(left, right) {
-                    if (left === right) {
-                        return true;
-                    }
-                    if (left === null || left === undefined || right === null || right === undefined) {
-                        return false;
-                    }
-                    return typeof left.equals === "function" && left.equals(right);
-                }
-
-                static $contains(collection, value) {
-                    for (const element of collection) {
-                        if (List.$equals(element, value)) {
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-
-                static $hash(value) {
-                    if (value === null || value === undefined) {
-                        return 0;
-                    }
-                    if (typeof value.hashCode === "function") {
-                        return value.hashCode();
-                    }
-                    if (typeof value === "number") {
-                        return value | 0;
-                    }
-                    const text = String(value);
-                    let hash = 0;
-                    for (let index = 0; index < text.length; index++) {
-                        hash = (hash * 31 + text.charCodeAt(index)) | 0;
-                    }
-                    return hash;
-                }
-
-                static $string(value) {
-                    return value === null || value === undefined ? "null" : String(value);
-                }
-            }
-
-            class ArrayList extends List {}
-            class LinkedList extends List {}
-            class Vector extends List {}
-            class Stack extends List {
-                push(value) {
-                    this.elements.push(value);
-                    return value;
-                }
-                pop() {
-                    return this.elements.pop();
-                }
-                peek() {
-                    return this.elements[this.elements.length - 1];
-                }
-            }
-
             class Entry {
                 constructor(key, value) {
                     this.key = key;
@@ -1278,13 +994,13 @@ public final class JavascriptRuntime {
                     return previous;
                 }
                 equals(other) {
-                    return other instanceof Entry && List.$equals(this.key, other.key) && List.$equals(this.value, other.value);
+                    return other instanceof Entry && $rt_equals(this.key, other.key) && $rt_equals(this.value, other.value);
                 }
                 hashCode() {
-                    return List.$hash(this.key) ^ List.$hash(this.value);
+                    return $rt_hashCode(this.key) ^ $rt_hashCode(this.value);
                 }
                 toString() {
-                    return List.$string(this.key) + "=" + List.$string(this.value);
+                    return $rt_toString(this.key) + "=" + $rt_toString(this.value);
                 }
             }
 
@@ -1307,7 +1023,7 @@ public final class JavascriptRuntime {
                 }
 
                 indexOfKey(key) {
-                    return this.$keys.findIndex(x => List.$equals(x, key));
+                    return this.$keys.findIndex(x => $rt_equals(x, key));
                 }
 
                 put(key, value) {
@@ -1338,7 +1054,7 @@ public final class JavascriptRuntime {
                         return args.length === 1 ? null : false;
                     }
                     if (args.length !== 1) {
-                        if (!List.$equals(this.$values[index], args[1])) {
+                        if (!$rt_equals(this.$values[index], args[1])) {
                             return false;
                         }
                         this.$keys.splice(index, 1);
@@ -1355,7 +1071,7 @@ public final class JavascriptRuntime {
 
                 containsValue(value) {
                     for (const current of this.$values) {
-                        if (List.$equals(current, value)) {
+                        if ($rt_equals(current, value)) {
                             return true;
                         }
                     }
@@ -1394,9 +1110,7 @@ public final class JavascriptRuntime {
                 }
 
                 values() {
-                    const list = new List();
-                    list.elements = this.$values.slice();
-                    return list;
+                    return $c.List.of(this.$values);
                 }
 
                 entrySet() {
@@ -1420,7 +1134,7 @@ public final class JavascriptRuntime {
                         }
                         for (let index = 0; index < this.$keys.length; index++) {
                             const found = other.indexOfKey(this.$keys[index]);
-                            if (found < 0 || !List.$equals(this.$values[index], other.$values[found])) {
+                            if (found < 0 || !$rt_equals(this.$values[index], other.$values[found])) {
                                 return false;
                             }
                         }
@@ -1432,7 +1146,7 @@ public final class JavascriptRuntime {
                 hashCode() {
                     let hash = 0;
                     for (let index = 0; index < this.$keys.length; index++) {
-                        hash = (hash + (List.$hash(this.$keys[index]) ^ List.$hash(this.$values[index]))) | 0;
+                        hash = (hash + ($rt_hashCode(this.$keys[index]) ^ $rt_hashCode(this.$values[index]))) | 0;
                     }
                     return hash;
                 }
@@ -1440,7 +1154,7 @@ public final class JavascriptRuntime {
                 toString() {
                     const parts = [];
                     for (let index = 0; index < this.$keys.length; index++) {
-                        parts.push(List.$string(this.$keys[index]) + "=" + List.$string(this.$values[index]));
+                        parts.push($rt_toString(this.$keys[index]) + "=" + $rt_toString(this.$values[index]));
                     }
                     return "{" + parts.join(", ") + "}";
                 }
@@ -1520,7 +1234,7 @@ public final class JavascriptRuntime {
                         return args.length === 1 ? null : false;
                     }
                     if (args.length !== 1) {
-                        if (!List.$equals(this.$values[index], args[0])) {
+                        if (!$rt_equals(this.$values[index], args[0])) {
                             return false;
                         }
                         this.$values[index] = args[1];
@@ -1603,7 +1317,7 @@ public final class JavascriptRuntime {
                 size() { return this.elements.length; }
                 isEmpty() { return this.elements.length === 0; }
                 contains(value) { return this.indexOf(value) >= 0; }
-                indexOf(value) { return this.elements.findIndex(x => List.$equals(x, value)); }
+                indexOf(value) { return this.elements.findIndex(x => $rt_equals(x, value)); }
                 clear() { this.elements.length = 0; }
 
                 addAll(collection) {
@@ -1627,7 +1341,7 @@ public final class JavascriptRuntime {
                 retainAll(collection) {
                     const retained = [];
                     for (const value of this.elements) {
-                        if (List.$contains(collection, value)) {
+                        if ($rt_contains(collection, value)) {
                             retained.push(value);
                         }
                     }
@@ -1689,13 +1403,13 @@ public final class JavascriptRuntime {
                 hashCode() {
                     let hash = 0;
                     for (const value of this.elements) {
-                        hash = (hash + List.$hash(value)) | 0;
+                        hash = (hash + $rt_hashCode(value)) | 0;
                     }
                     return hash;
                 }
 
                 toString() {
-                    return "[" + this.elements.map(List.$string).join(", ") + "]";
+                    return "[" + this.elements.map($rt_toString).join(", ") + "]";
                 }
 
                 [Symbol.iterator]() {
@@ -1776,7 +1490,7 @@ public final class JavascriptRuntime {
                 size() { return this.elements.length; }
                 isEmpty() { return this.elements.length === 0; }
                 contains(value) { return this.indexOf(value) >= 0; }
-                indexOf(value) { return this.elements.findIndex(x => List.$equals(x, value)); }
+                indexOf(value) { return this.elements.findIndex(x => $rt_equals(x, value)); }
                 clear() { this.elements.length = 0; }
 
                 addAll(collection) {
@@ -1800,7 +1514,7 @@ public final class JavascriptRuntime {
                 retainAll(collection) {
                     const retained = [];
                     for (const value of this.elements) {
-                        if (List.$contains(collection, value)) {
+                        if ($rt_contains(collection, value)) {
                             retained.push(value);
                         }
                     }
@@ -1850,7 +1564,7 @@ public final class JavascriptRuntime {
                             return false;
                         }
                         for (let index = 0; index < this.elements.length; index++) {
-                            if (!List.$equals(this.elements[index], other.elements[index])) {
+                            if (!$rt_equals(this.elements[index], other.elements[index])) {
                                 return false;
                             }
                         }
@@ -1862,13 +1576,13 @@ public final class JavascriptRuntime {
                 hashCode() {
                     let hash = 1;
                     for (const value of this.elements) {
-                        hash = (hash * 31 + List.$hash(value)) | 0;
+                        hash = (hash * 31 + $rt_hashCode(value)) | 0;
                     }
                     return hash;
                 }
 
                 toString() {
-                    return "[" + this.elements.map(List.$string).join(", ") + "]";
+                    return "[" + this.elements.map($rt_toString).join(", ") + "]";
                 }
 
                 [Symbol.iterator]() {

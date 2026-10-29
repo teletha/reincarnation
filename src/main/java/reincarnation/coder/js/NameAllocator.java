@@ -40,7 +40,7 @@ public final class NameAllocator {
 
     /** The member names which are used by the JavaScript runtime directly. */
     private static final Set<String> fixedNames = Set.of("equals", "hashCode", "toString", "compareTo", "iterator",
-            "hasNext", "next", "close");
+            "hasNext", "next", "close", "of");
 
     /** The allocated class names. */
     private final Map<Class, String> classes = new HashMap();
@@ -220,7 +220,12 @@ public final class NameAllocator {
         if (owner.isEnum() && (method.getName().equals("values") || method.getName().equals("valueOf"))) {
             return true;
         }
-        if (owner.getName().equals("reincarnation.classlib.java.util.stream.Stream") && method.getName().equals("of")) {
+        if (owner.getName().equals("reincarnation.classlib.java.util.stream.Stream") && method.getName().equals("of")
+                && method.isVarArgs()) {
+            return true;
+        }
+        if (owner.getName().equals("reincarnation.classlib.java.util.List") && method.getName().equals("of")
+                && method.isVarArgs()) {
             return true;
         }
         String descriptor = org.objectweb.asm.Type.getMethodDescriptor(method);

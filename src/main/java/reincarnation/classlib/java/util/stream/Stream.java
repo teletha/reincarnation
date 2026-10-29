@@ -49,6 +49,26 @@ public final class Stream {
     }
 
     /**
+     * Create the stream.
+     * 
+     * @param value A value.
+     * @return A stream.
+     */
+    public static Stream of(Object value) {
+        return new Stream(new Object[] {value});
+    }
+
+    /**
+     * Create the stream.
+     * 
+     * @param value A value.
+     * @return A stream.
+     */
+    public static Stream ofNullable(Object value) {
+        return value == null ? empty() : new Stream(new Object[] {value});
+    }
+
+    /**
      * Create the empty stream.
      * 
      * @return A stream.
