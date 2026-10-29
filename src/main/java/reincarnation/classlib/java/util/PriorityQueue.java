@@ -15,7 +15,7 @@ import java.util.Comparator;
 /**
  * The Java implementation of {@link java.util.PriorityQueue}.
  */
-public final class PriorityQueue extends Queue {
+public class PriorityQueue<E> extends AbstractQueue<E> implements reincarnation.classlib.java.io.Serializable {
 
     /**
      * Create an empty queue.
@@ -58,7 +58,10 @@ public final class PriorityQueue extends Queue {
      * @param collection A collection.
      */
     public PriorityQueue(Collection collection) {
-        super(collection);
+        super();
+        for (Object value : collection) {
+            add(value);
+        }
     }
 
     /**
@@ -67,7 +70,10 @@ public final class PriorityQueue extends Queue {
      * @param queue A priority queue.
      */
     public PriorityQueue(java.util.PriorityQueue queue) {
-        super(queue);
+        super();
+        for (Object value : queue) {
+            add(value);
+        }
     }
 
     /**
@@ -76,7 +82,10 @@ public final class PriorityQueue extends Queue {
      * @param set A sorted set.
      */
     public PriorityQueue(java.util.SortedSet set) {
-        super(set);
+        super();
+        for (Object value : set) {
+            add(value);
+        }
     }
 
     /**

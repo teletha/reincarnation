@@ -14,7 +14,8 @@ import java.util.Collection;
 /**
  * The Java implementation of {@link java.util.LinkedHashSet}.
  */
-public final class LinkedHashSet extends Set {
+public class LinkedHashSet<E> extends HashSet<E> implements SequencedSet<E>,
+        reincarnation.classlib.java.lang.Cloneable, reincarnation.classlib.java.io.Serializable {
 
     /**
      * Create an empty set.

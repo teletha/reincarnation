@@ -14,7 +14,8 @@ import java.util.Collection;
 /**
  * The Java implementation of {@link java.util.ArrayList}.
  */
-public final class ArrayList extends List {
+public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAccess,
+        reincarnation.classlib.java.lang.Cloneable, reincarnation.classlib.java.io.Serializable {
 
     /**
      * Create an empty list.
@@ -38,6 +39,9 @@ public final class ArrayList extends List {
      * @param collection A collection.
      */
     public ArrayList(Collection collection) {
-        super(collection);
+        super();
+        for (Object value : collection) {
+            add(value);
+        }
     }
 }

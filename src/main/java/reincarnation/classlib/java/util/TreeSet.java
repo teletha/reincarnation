@@ -16,7 +16,8 @@ import java.util.Comparator;
 /**
  * The Java implementation of {@link java.util.TreeSet}.
  */
-public final class TreeSet extends Set {
+public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E>,
+        reincarnation.classlib.java.lang.Cloneable, reincarnation.classlib.java.io.Serializable {
 
     /**
      * Create an empty set.
@@ -31,7 +32,10 @@ public final class TreeSet extends Set {
      * @param collection A collection.
      */
     public TreeSet(Collection collection) {
-        super(collection);
+        super();
+        for (Object value : collection) {
+            add(value);
+        }
     }
 
     /**
@@ -49,7 +53,10 @@ public final class TreeSet extends Set {
      * @param set A sorted set.
      */
     public TreeSet(java.util.SortedSet set) {
-        super(set);
+        super();
+        for (Object value : set) {
+            add(value);
+        }
     }
 
     /**
@@ -71,5 +78,53 @@ public final class TreeSet extends Set {
             Arrays.sort(elements, 0, size());
         }
         return changed;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object comparator() {
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object first() {
+        if (isEmpty()) {
+            throw new java.util.NoSuchElementException();
+        }
+        return elements[0];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object last() {
+        if (isEmpty()) {
+            throw new java.util.NoSuchElementException();
+        }
+        return elements[size() - 1];
+    }
+
+    /**
+     * Remove and return the first value.
+     * 
+     * @return A value or null.
+     */
+    public Object pollFirst() {
+        return isEmpty() ? null : removeAt(0);
+    }
+
+    /**
+     * Remove and return the last value.
+     * 
+     * @return A value or null.
+     */
+    public Object pollLast() {
+        return isEmpty() ? null : removeAt(size() - 1);
     }
 }

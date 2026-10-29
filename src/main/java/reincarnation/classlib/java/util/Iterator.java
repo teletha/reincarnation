@@ -9,30 +9,10 @@
  */
 package reincarnation.classlib.java.util;
 
-import java.util.NoSuchElementException;
-
 /**
  * The Java implementation of {@link java.util.Iterator} which is transpiled into JavaScript.
  */
-public final class Iterator implements java.util.Iterator {
-
-    /** The list. */
-    private final List owner;
-
-    /** The current index. */
-    private int index;
-
-    /** The index of the value which was returned by the last {@code next} call. */
-    private int last = -1;
-
-    /**
-     * Create the iterator.
-     * 
-     * @param owner A list.
-     */
-    Iterator(List owner) {
-        this.owner = owner;
-    }
+public interface Iterator<E> extends java.util.Iterator<E> {
 
     /**
      * Check whether the next value exists.
@@ -40,9 +20,7 @@ public final class Iterator implements java.util.Iterator {
      * @return A result.
      */
     @Override
-    public boolean hasNext() {
-        return index < owner.size();
-    }
+    boolean hasNext();
 
     /**
      * Get the next value.
@@ -50,24 +28,11 @@ public final class Iterator implements java.util.Iterator {
      * @return A value.
      */
     @Override
-    public Object next() {
-        if (!hasNext()) {
-            throw new NoSuchElementException();
-        }
-        last = index;
-        return owner.get(index++);
-    }
+    E next();
 
     /**
      * Remove the current value.
      */
     @Override
-    public void remove() {
-        if (last < 0) {
-            throw new IllegalStateException();
-        }
-        owner.remove(last);
-        index = last;
-        last = -1;
-    }
+    void remove();
 }

@@ -9,47 +9,24 @@
  */
 package reincarnation.classlib.java.util;
 
-import java.util.Collection;
-import java.util.NoSuchElementException;
-
 /**
  * The Java implementation of {@link java.util.Deque} which is transpiled into JavaScript.
  */
-public class Deque extends Queue {
-
-    /**
-     * Create an empty deque.
-     */
-    public Deque() {
-        super();
-    }
-
-    /**
-     * Create a deque from the collection.
-     * 
-     * @param collection A collection.
-     */
-    public Deque(Collection collection) {
-        super(collection);
-    }
+public interface Deque<E> extends Queue<E>, SequencedCollection<E> {
 
     /**
      * Add the value at the first.
      * 
      * @param value A value.
      */
-    public void addFirst(Object value) {
-        insert(0, value);
-    }
+    void addFirst(Object value);
 
     /**
      * Add the value at the last.
      * 
      * @param value A value.
      */
-    public void addLast(Object value) {
-        add(value);
-    }
+    void addLast(Object value);
 
     /**
      * Offer the value at the first.
@@ -57,10 +34,7 @@ public class Deque extends Queue {
      * @param value A value.
      * @return A result.
      */
-    public boolean offerFirst(Object value) {
-        insert(0, value);
-        return true;
-    }
+    boolean offerFirst(Object value);
 
     /**
      * Offer the value at the last.
@@ -68,118 +42,82 @@ public class Deque extends Queue {
      * @param value A value.
      * @return A result.
      */
-    public boolean offerLast(Object value) {
-        return add(value);
-    }
-
-    /**
-     * Poll the first value.
-     * 
-     * @return A value or null.
-     */
-    public Object pollFirst() {
-        return poll();
-    }
-
-    /**
-     * Poll the last value.
-     * 
-     * @return A value or null.
-     */
-    public Object pollLast() {
-        return isEmpty() ? null : removeAt(size() - 1);
-    }
-
-    /**
-     * Peek the first value.
-     * 
-     * @return A value or null.
-     */
-    public Object peekFirst() {
-        return peek();
-    }
-
-    /**
-     * Peek the last value.
-     * 
-     * @return A value or null.
-     */
-    public Object peekLast() {
-        return isEmpty() ? null : get(size() - 1);
-    }
-
-    /**
-     * Push the value.
-     * 
-     * @param value A value.
-     */
-    public void push(Object value) {
-        addFirst(value);
-    }
-
-    /**
-     * Pop the first value.
-     * 
-     * @return A value.
-     */
-    public Object pop() {
-        return removeFirst();
-    }
+    boolean offerLast(Object value);
 
     /**
      * Remove the first value.
      * 
      * @return A value.
      */
-    public Object removeFirst() {
-        if (isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        return poll();
-    }
+    Object removeFirst();
 
     /**
      * Remove the last value.
      * 
      * @return A value.
      */
-    public Object removeLast() {
-        if (isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        return removeAt(size() - 1);
-    }
+    Object removeLast();
+
+    /**
+     * Poll the first value.
+     * 
+     * @return A value or null.
+     */
+    Object pollFirst();
+
+    /**
+     * Poll the last value.
+     * 
+     * @return A value or null.
+     */
+    Object pollLast();
 
     /**
      * Get the first value.
      * 
      * @return A value.
      */
-    public Object getFirst() {
-        if (isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        return get(0);
-    }
+    Object getFirst();
 
     /**
      * Get the last value.
      * 
      * @return A value.
      */
-    public Object getLast() {
-        if (isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        return get(size() - 1);
-    }
+    Object getLast();
+
+    /**
+     * Peek the first value.
+     * 
+     * @return A value or null.
+     */
+    Object peekFirst();
+
+    /**
+     * Peek the last value.
+     * 
+     * @return A value or null.
+     */
+    Object peekLast();
+
+    /**
+     * Push the value.
+     * 
+     * @param value A value.
+     */
+    void push(Object value);
+
+    /**
+     * Pop the first value.
+     * 
+     * @return A value.
+     */
+    Object pop();
 
     /**
      * Create the descending iterator.
      * 
      * @return An iterator.
      */
-    public java.util.Iterator descendingIterator() {
-        return new QueueIterator(this, true);
-    }
+    Iterator descendingIterator();
 }

@@ -12,7 +12,7 @@ package reincarnation.classlib.java.util;
 /**
  * The Java implementation of {@link java.util.Stack}.
  */
-public final class Stack extends List {
+public class Stack<E> extends Vector<E> {
 
     /**
      * Create an empty stack.

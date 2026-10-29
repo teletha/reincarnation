@@ -3369,7 +3369,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     private boolean isFunctionalMethod(Method method) {
         Class owner = method.getDeclaringClass();
-        if (!owner.isInterface() || owner.isAnnotation() || (options.reflection && isReflectionType(owner))) {
+        if (!owner.isInterface() || owner.isAnnotation() || (options.reflection && isReflectionType(owner))
+                || Classlib.isReplaced(owner) || owner.getName().startsWith("reincarnation.classlib.")) {
             return false;
         }
         return Arrays.stream(owner.getDeclaredMethods())

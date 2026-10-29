@@ -12,12 +12,12 @@ package reincarnation.classlib.java.util;
 import java.util.NoSuchElementException;
 
 /**
- * The {@link java.util.Iterator} of {@link Queue}.
+ * The {@link Iterator} of {@link AbstractCollection}.
  */
-final class QueueIterator implements java.util.Iterator {
+final class ArrayIterator implements Iterator {
 
-    /** The queue. */
-    private final Queue owner;
+    /** The collection. */
+    private final AbstractCollection owner;
 
     /** Whether this iterator walks from the last value to the first one. */
     private final boolean descending;
@@ -31,19 +31,17 @@ final class QueueIterator implements java.util.Iterator {
     /**
      * Create the iterator.
      * 
-     * @param owner A queue.
+     * @param owner A collection.
      * @param descending Whether this iterator walks from the last value to the first one.
      */
-    QueueIterator(Queue owner, boolean descending) {
+    ArrayIterator(AbstractCollection owner, boolean descending) {
         this.owner = owner;
         this.descending = descending;
         this.index = descending ? owner.size() - 1 : 0;
     }
 
     /**
-     * Check whether the next value exists.
-     * 
-     * @return A result.
+     * {@inheritDoc}
      */
     @Override
     public boolean hasNext() {
@@ -51,9 +49,7 @@ final class QueueIterator implements java.util.Iterator {
     }
 
     /**
-     * Get the next value.
-     * 
-     * @return A value.
+     * {@inheritDoc}
      */
     @Override
     public Object next() {
@@ -65,7 +61,7 @@ final class QueueIterator implements java.util.Iterator {
     }
 
     /**
-     * Remove the current value.
+     * {@inheritDoc}
      */
     @Override
     public void remove() {

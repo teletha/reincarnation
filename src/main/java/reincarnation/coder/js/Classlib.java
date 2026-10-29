@@ -43,21 +43,29 @@ final class Classlib {
             Map.entry(java.util.Objects.class, reincarnation.classlib.java.util.Objects.class), //
             Map.entry(java.util.Arrays.class, reincarnation.classlib.java.util.Arrays.class), //
             Map.entry(java.util.Collections.class, reincarnation.classlib.java.util.Collections.class), //
+            Map.entry(java.lang.Iterable.class, reincarnation.classlib.java.lang.Iterable.class), //
+            Map.entry(java.util.Collection.class, reincarnation.classlib.java.util.Collection.class), //
+            Map.entry(java.util.AbstractCollection.class, reincarnation.classlib.java.util.AbstractCollection.class), //
+            Map.entry(java.util.SequencedCollection.class,
+                    reincarnation.classlib.java.util.SequencedCollection.class), //
             Map.entry(java.util.List.class, reincarnation.classlib.java.util.List.class), //
+            Map.entry(java.util.AbstractList.class, reincarnation.classlib.java.util.AbstractList.class), //
+            Map.entry(java.util.AbstractSequentialList.class,
+                    reincarnation.classlib.java.util.AbstractSequentialList.class), //
             Map.entry(java.util.ArrayList.class, reincarnation.classlib.java.util.ArrayList.class), //
             Map.entry(java.util.LinkedList.class, reincarnation.classlib.java.util.LinkedList.class), //
             Map.entry(java.util.Vector.class, reincarnation.classlib.java.util.Vector.class), //
             Map.entry(java.util.Stack.class, reincarnation.classlib.java.util.Stack.class), //
-            Map.entry(java.util.AbstractList.class, reincarnation.classlib.java.util.List.class), //
-            Map.entry(java.util.Collection.class, reincarnation.classlib.java.util.List.class), //
-            Map.entry(java.lang.Iterable.class, reincarnation.classlib.java.util.List.class), //
+            Map.entry(java.util.RandomAccess.class, reincarnation.classlib.java.util.RandomAccess.class), //
             Map.entry(java.util.Iterator.class, reincarnation.classlib.java.util.Iterator.class), //
             Map.entry(java.util.Set.class, reincarnation.classlib.java.util.Set.class), //
+            Map.entry(java.util.AbstractSet.class, reincarnation.classlib.java.util.AbstractSet.class), //
             Map.entry(java.util.HashSet.class, reincarnation.classlib.java.util.HashSet.class), //
             Map.entry(java.util.LinkedHashSet.class, reincarnation.classlib.java.util.LinkedHashSet.class), //
             Map.entry(java.util.TreeSet.class, reincarnation.classlib.java.util.TreeSet.class), //
-            Map.entry(java.util.SortedSet.class, reincarnation.classlib.java.util.Set.class), //
-            Map.entry(java.util.NavigableSet.class, reincarnation.classlib.java.util.Set.class), //
+            Map.entry(java.util.SortedSet.class, reincarnation.classlib.java.util.SortedSet.class), //
+            Map.entry(java.util.NavigableSet.class, reincarnation.classlib.java.util.NavigableSet.class), //
+            Map.entry(java.util.SequencedSet.class, reincarnation.classlib.java.util.SequencedSet.class), //
             Map.entry(java.util.Map.class, reincarnation.classlib.java.util.Map.class), //
             Map.entry(java.util.AbstractMap.class, reincarnation.classlib.java.util.AbstractMap.class), //
             Map.entry(java.util.HashMap.class, reincarnation.classlib.java.util.HashMap.class), //
@@ -75,6 +83,7 @@ final class Classlib {
             Map.entry(java.io.Serializable.class, reincarnation.classlib.java.io.Serializable.class), //
             Map.entry(java.util.Queue.class, reincarnation.classlib.java.util.Queue.class), //
             Map.entry(java.util.Deque.class, reincarnation.classlib.java.util.Deque.class), //
+            Map.entry(java.util.AbstractQueue.class, reincarnation.classlib.java.util.AbstractQueue.class), //
             Map.entry(java.util.ArrayDeque.class, reincarnation.classlib.java.util.ArrayDeque.class), //
             Map.entry(java.util.PriorityQueue.class, reincarnation.classlib.java.util.PriorityQueue.class), //
             Map.entry(java.util.Optional.class, reincarnation.classlib.java.util.Optional.class), //
@@ -86,6 +95,34 @@ final class Classlib {
 
     /** The original JDK classes of the implementations. */
     private static final Map<Class, Class> origins = Map.ofEntries( //
+            Map.entry(reincarnation.classlib.java.lang.Iterable.class, java.lang.Iterable.class), //
+            Map.entry(reincarnation.classlib.java.util.Collection.class, java.util.Collection.class), //
+            Map.entry(reincarnation.classlib.java.util.AbstractCollection.class, java.util.AbstractCollection.class), //
+            Map.entry(reincarnation.classlib.java.util.SequencedCollection.class,
+                    java.util.SequencedCollection.class), //
+            Map.entry(reincarnation.classlib.java.util.List.class, java.util.List.class), //
+            Map.entry(reincarnation.classlib.java.util.AbstractList.class, java.util.AbstractList.class), //
+            Map.entry(reincarnation.classlib.java.util.AbstractSequentialList.class,
+                    java.util.AbstractSequentialList.class), //
+            Map.entry(reincarnation.classlib.java.util.ArrayList.class, java.util.ArrayList.class), //
+            Map.entry(reincarnation.classlib.java.util.LinkedList.class, java.util.LinkedList.class), //
+            Map.entry(reincarnation.classlib.java.util.Vector.class, java.util.Vector.class), //
+            Map.entry(reincarnation.classlib.java.util.Stack.class, java.util.Stack.class), //
+            Map.entry(reincarnation.classlib.java.util.RandomAccess.class, java.util.RandomAccess.class), //
+            Map.entry(reincarnation.classlib.java.util.Iterator.class, java.util.Iterator.class), //
+            Map.entry(reincarnation.classlib.java.util.Set.class, java.util.Set.class), //
+            Map.entry(reincarnation.classlib.java.util.AbstractSet.class, java.util.AbstractSet.class), //
+            Map.entry(reincarnation.classlib.java.util.HashSet.class, java.util.HashSet.class), //
+            Map.entry(reincarnation.classlib.java.util.LinkedHashSet.class, java.util.LinkedHashSet.class), //
+            Map.entry(reincarnation.classlib.java.util.TreeSet.class, java.util.TreeSet.class), //
+            Map.entry(reincarnation.classlib.java.util.SortedSet.class, java.util.SortedSet.class), //
+            Map.entry(reincarnation.classlib.java.util.NavigableSet.class, java.util.NavigableSet.class), //
+            Map.entry(reincarnation.classlib.java.util.SequencedSet.class, java.util.SequencedSet.class), //
+            Map.entry(reincarnation.classlib.java.util.Queue.class, java.util.Queue.class), //
+            Map.entry(reincarnation.classlib.java.util.Deque.class, java.util.Deque.class), //
+            Map.entry(reincarnation.classlib.java.util.AbstractQueue.class, java.util.AbstractQueue.class), //
+            Map.entry(reincarnation.classlib.java.util.ArrayDeque.class, java.util.ArrayDeque.class), //
+            Map.entry(reincarnation.classlib.java.util.PriorityQueue.class, java.util.PriorityQueue.class), //
             Map.entry(reincarnation.classlib.java.util.Map.class, java.util.Map.class), //
             Map.entry(reincarnation.classlib.java.util.AbstractMap.class, java.util.AbstractMap.class), //
             Map.entry(reincarnation.classlib.java.util.HashMap.class, java.util.HashMap.class), //
