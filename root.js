@@ -5,8 +5,8 @@ const root = {
 		"js.lang",
 		"reincarnation.structure",
 		"reincarnation.classlib.java.util.regex",
-		"reincarnation.classlib.java.util.stream",
 		"reincarnation.classlib.java.util",
+		"reincarnation.classlib.java.util.stream",
 		"reincarnation.classlib.java.lang",
 		"reincarnation.classlib.java.io",
 		"reincarnation",
@@ -164,6 +164,16 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "LinkedList",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "Stack",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
 			"name": "Stream",
 			"packageName": "reincarnation.classlib.java.util.stream",
 			"type": "Class"
@@ -171,6 +181,11 @@ const root = {
 		{
 			"name": "Collectors",
 			"packageName": "reincarnation.classlib.java.util.stream",
+			"type": "Class"
+		},
+		{
+			"name": "List",
+			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
 		},
 		{
@@ -184,12 +199,27 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "ArrayList",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
 			"name": "Objects",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
 		},
 		{
+			"name": "Iterator",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
 			"name": "StringJoiner",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "Vector",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
 		},
