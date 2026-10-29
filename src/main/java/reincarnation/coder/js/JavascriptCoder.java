@@ -951,7 +951,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     public void writeClass(Class code) {
         if (options.reflection) {
             requireRuntime();
-            if (isReflectionType(code)) {
+            if (isWrapperType(code)) {
+                write("$rt_wrapperClass(", quote(code.getName()), ")");
+            } else if (isReflectionType(code)) {
                 write(classRef(code));
             } else if (code.isPrimitive()) {
                 write("$rt.Class.primitive(", quote(code.getName()), ")");
@@ -1206,6 +1208,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             write("typeof ", code, " === \"string\"");
         } else if (type.isArray()) {
             write("Array.isArray(", code, ")");
+        } else if (isWrapperType(type)) {
+            write("$rt_wrapperInstance(", quote(type.getName()), ",", space, code, ")");
         } else if (type.isInterface()) {
             // The registry lookup returns undefined for an interface which is not emitted, so the
             // check fails safely instead of throwing a ReferenceError.
@@ -1257,6 +1261,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             writeNative(nativeCode.value(), context, List.of());
             return;
         }
+        if (writeWrapperConstant(field)) {
+            return;
+        }
         if (Classes.isStatic(field)) {
             if (current.is(field.getDeclaringClass())) {
                 write(classRef(field.getDeclaringClass()), ".", fieldName(field));
@@ -1288,6 +1295,67 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     @Override
     public void writeAccessType(Class type) {
         write(name(type));
+    }
+
+    /**
+     * Write the static constant of the wrapper class.
+     * 
+     * @param field A target field.
+     * @return Whether the field is written.
+     */
+    private boolean writeWrapperConstant(Field field) {
+        if (!Classes.isStatic(field) || !Modifier.isFinal(field.getModifiers()) || !isWrapperType(field.getDeclaringClass())) {
+            return false;
+        }
+
+        Object value;
+        try {
+            value = field.get(null);
+        } catch (Throwable e) {
+            return false;
+        }
+
+        if (value instanceof Class type) {
+            if (type.isPrimitive()) {
+                write("$rt.Class.primitive(", quote(type.getName()), ")");
+            } else {
+                write("$rt_wrapperClass(", quote(type.getName()), ")");
+            }
+        } else if (value instanceof Long number) {
+            writeLong(number);
+        } else if (value instanceof Double number) {
+            writeFloatingConstant(number);
+        } else if (value instanceof Float number) {
+            writeFloatingConstant(number.doubleValue());
+        } else if (value instanceof Number number) {
+            write(String.valueOf(number.intValue()));
+        } else if (value instanceof Boolean bool) {
+            write(String.valueOf(bool));
+        } else if (value instanceof Character character) {
+            write(quote(String.valueOf(character)));
+        } else if (value instanceof String text) {
+            write(quote(text));
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Write the floating value.
+     * 
+     * @param value A value.
+     */
+    private void writeFloatingConstant(double value) {
+        if (Double.isNaN(value)) {
+            write("NaN");
+        } else if (value == Double.POSITIVE_INFINITY) {
+            write("Infinity");
+        } else if (value == Double.NEGATIVE_INFINITY) {
+            write("-Infinity");
+        } else {
+            write(String.valueOf(value));
+        }
     }
 
     /**
@@ -1474,6 +1542,18 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 }
             }
         }
+    }
+
+    /**
+     * Check whether the given type is a primitive wrapper.
+     * 
+     * @param type A target type.
+     * @return A result.
+     */
+    private static boolean isWrapperType(Class type) {
+        return type == Integer.class || type == Long.class || type == Short.class || type == Byte.class //
+                || type == Float.class || type == Double.class || type == Boolean.class || type == Character.class //
+                || type == Number.class || type == Void.class;
     }
 
     /**
@@ -2450,10 +2530,10 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             if (method.getParameterCount() == 2) {
                 // The Locale-aware overload ignores the locale.
                 write("$rt_char", suffix, "(", params.get(0), ")");
-            } else if (method.getParameterTypes()[0] == int.class) {
+            } else if (method.getParameterCount() == 1 && method.getParameterTypes()[0] == int.class) {
                 write("$rt_codePoint", suffix, "(", params.get(0), ")");
             } else {
-                write("$rt_char", suffix, "(", params.get(0), ")");
+                write("$rt_char", suffix, "(", params.isEmpty() ? context : params.get(0), ")");
             }
             break;
 
@@ -2474,11 +2554,19 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             break;
 
         case "hashCode":
-            write("$rt_charCode", "(", params.get(0), ")");
+            write("$rt_charCode", "(", params.isEmpty() ? context : params.get(0), ")");
             break;
 
         case "toString":
-            write("String", "(", params.get(0), ")");
+            write("String", "(", params.isEmpty() ? context : params.get(0), ")");
+            break;
+
+        case "valueOf":
+            write(params.get(0));
+            break;
+
+        case "charValue":
+            write(context);
             break;
 
         case "isSurrogate":

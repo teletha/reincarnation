@@ -33,6 +33,28 @@ public final class JavascriptRuntime {
             };
             const $rt_invokeHandle = (handle, args) => handle.invokeArray(args);
             const $rt_invokeHandleArguments = (handle, args) => handle.invokeWithArgumentsArray(args);
+            const $rt_wrapperInstance = (name, value) => {
+                switch (name) {
+                case "java.lang.Integer":
+                case "java.lang.Short":
+                case "java.lang.Byte":
+                    return typeof value === "number" && Number.isInteger(value);
+                case "java.lang.Long":
+                    return typeof value === "bigint";
+                case "java.lang.Float":
+                case "java.lang.Double":
+                    return typeof value === "number";
+                case "java.lang.Number":
+                    return typeof value === "number" || typeof value === "bigint";
+                case "java.lang.Boolean":
+                    return typeof value === "boolean";
+                case "java.lang.Character":
+                    return (typeof value === "string" && value.length === 1)
+                        || (typeof value === "number" && Number.isInteger(value) && 0 <= value && value <= 0xFFFF);
+                default:
+                    return false;
+                }
+            };
             const $rt_hashCode = (a) => {
                 if (a === null || a === undefined) return 0;
                 if (typeof a === "number") return a | 0;
@@ -1221,13 +1243,18 @@ public final class JavascriptRuntime {
             };
 
             class Class {
-                constructor(jsClass, name, primitive, array, annotations, component) {
+                constructor(jsClass, name, primitive, array, annotations, component, predicate, metadata, superName, interfaceNames, modifiers) {
                     this.jsClass = jsClass;
                     this.name = name;
                     this.primitive = primitive === true;
                     this.array = array === true;
                     this.annotations = annotations || [];
                     this.component = component;
+                    this.predicate = predicate;
+                    this.$metadata = metadata;
+                    this.$superName = superName;
+                    this.$interfaceNames = interfaceNames;
+                    this.$modifiers = modifiers;
                     $rt_annotated(this);
                 }
                 static forName(name) {
@@ -1250,7 +1277,7 @@ public final class JavascriptRuntime {
                 getTypeName() { return this.name; }
                 getSimpleName() { return this.name.substring(this.name.lastIndexOf('.') + 1).substring(this.name.substring(this.name.lastIndexOf('.') + 1).lastIndexOf('$') + 1); }
                 getCanonicalName() { return this.name.replace(/\\$/g, "."); }
-                metadata() { return this.jsClass && this.jsClass.$meta ? this.jsClass.$meta.metadata : null; }
+                metadata() { return this.$metadata || (this.jsClass && this.jsClass.$meta ? this.jsClass.$meta.metadata : null); }
                 getTypeParameters() {
                     const metadata = this.metadata();
                     return $rt_typeParameters(metadata ? metadata.tp : null, this);
@@ -1265,24 +1292,45 @@ public final class JavascriptRuntime {
                     const metadata = this.metadata();
                     return $rt_types(metadata ? metadata.gi : null, this);
                 }
-                getModifiers() { return this.jsClass && this.jsClass.$meta && this.jsClass.$meta.metadata ? this.jsClass.$meta.metadata.m : 0; }
+                getModifiers() { return this.$modifiers !== undefined ? this.$modifiers : (this.jsClass && this.jsClass.$meta && this.jsClass.$meta.metadata ? this.jsClass.$meta.metadata.m : 0); }
                 isPrimitive() { return this.primitive; }
                 isArray() { return this.array; }
                 getComponentType() { return this.component || null; }
                 isInterface() { return (this.getModifiers() & 512) !== 0; }
                 isEnum() { return this.jsClass && this.jsClass.$meta && this.jsClass.$meta.metadata ? this.jsClass.$meta.metadata.e === true : false; }
                 isAnnotation() { return (this.getModifiers() & 8192) !== 0; }
-                isInstance(value) { return this.jsClass !== null && $rt.isInstance(this.jsClass, value); }
+                isInstance(value) { return this.predicate ? this.predicate(value) : (this.jsClass !== null && $rt.isInstance(this.jsClass, value)); }
                 isAssignableFrom(other) {
-                    return other instanceof Class && this.jsClass !== null && other.jsClass !== null && $rt.isAssignableFrom(this.jsClass, other.jsClass);
+                    if (!(other instanceof Class)) return false;
+                    const left = this.metadata();
+                    const right = other.metadata();
+                    if (left && left.w && right && right.w) {
+                        if (this.name === other.name || this.name === "java.lang.Object") return true;
+                        if (this.name === "java.lang.Number") {
+                            return other.name === "java.lang.Integer" || other.name === "java.lang.Long"
+                                || other.name === "java.lang.Short" || other.name === "java.lang.Byte"
+                                || other.name === "java.lang.Float" || other.name === "java.lang.Double";
+                        }
+                        if (this.name === "java.io.Serializable") {
+                            return other.name !== "java.lang.Void";
+                        }
+                        return other.$interfaceNames ? other.$interfaceNames.indexOf(this.name) >= 0 : false;
+                    }
+                    return this.jsClass !== null && other.jsClass !== null && $rt.isAssignableFrom(this.jsClass, other.jsClass);
                 }
                 cast(value) { return value; }
                 getSuperclass() {
                     if (this.primitive || this.array || this.isInterface()) return null;
+                    if (this.$superName !== undefined) {
+                        return this.$superName === "" ? null : $rt_wrapperClass(this.$superName);
+                    }
                     const parent = this.jsClass && this.jsClass.$super;
                     return parent ? $rt.reflect(parent) : null;
                 }
                 getInterfaces() {
+                    if (this.$interfaceNames) {
+                        return this.$interfaceNames.map(name => $rt_wrapperClass(name));
+                    }
                     if (!this.jsClass) return [];
                     const metadata = this.metadata();
                     const interfaces = metadata && metadata.i ? metadata.i : (this.jsClass.$meta ? this.jsClass.$meta.interfaces : []);
@@ -1638,6 +1686,45 @@ public final class JavascriptRuntime {
             };
 
             const $rt_proxyClass = (interfaces) => $rt.reflect($rt_proxyType(interfaces));
+
+            const $rt_wrapperDescriptors = {
+                "java.lang.Object": { jsClass: Object, superName: "", interfaces: [], modifiers: 1 },
+                "java.lang.Number": { jsClass: Number, superName: "java.lang.Object", interfaces: ["java.io.Serializable"], modifiers: 1025, predicate: v => typeof v === "number" || typeof v === "bigint" },
+                "java.lang.Integer": { jsClass: Number, superName: "java.lang.Number", interfaces: ["java.lang.Comparable", "java.lang.constant.Constable", "java.lang.constant.ConstantDesc"], modifiers: 17, predicate: v => typeof v === "number" && Number.isInteger(v) },
+                "java.lang.Long": { jsClass: BigInt, superName: "java.lang.Number", interfaces: ["java.lang.Comparable", "java.lang.constant.Constable", "java.lang.constant.ConstantDesc"], modifiers: 17, predicate: v => typeof v === "bigint" },
+                "java.lang.Short": { jsClass: Number, superName: "java.lang.Number", interfaces: ["java.lang.Comparable", "java.lang.constant.Constable", "java.lang.constant.ConstantDesc"], modifiers: 17, predicate: v => typeof v === "number" && Number.isInteger(v) },
+                "java.lang.Byte": { jsClass: Number, superName: "java.lang.Number", interfaces: ["java.lang.Comparable", "java.lang.constant.Constable", "java.lang.constant.ConstantDesc"], modifiers: 17, predicate: v => typeof v === "number" && Number.isInteger(v) },
+                "java.lang.Float": { jsClass: Number, superName: "java.lang.Number", interfaces: ["java.lang.Comparable", "java.lang.constant.Constable", "java.lang.constant.ConstantDesc"], modifiers: 17, predicate: v => typeof v === "number" },
+                "java.lang.Double": { jsClass: Number, superName: "java.lang.Number", interfaces: ["java.lang.Comparable", "java.lang.constant.Constable", "java.lang.constant.ConstantDesc"], modifiers: 17, predicate: v => typeof v === "number" },
+                "java.lang.Boolean": { jsClass: Boolean, superName: "java.lang.Object", interfaces: ["java.io.Serializable", "java.lang.Comparable", "java.lang.constant.Constable"], modifiers: 17, predicate: v => typeof v === "boolean" },
+                "java.lang.Character": { jsClass: String, superName: "java.lang.Object", interfaces: ["java.io.Serializable", "java.lang.Comparable", "java.lang.constant.Constable"], modifiers: 17, predicate: v => (typeof v === "string" && v.length === 1) || (typeof v === "number" && Number.isInteger(v) && 0 <= v && v <= 0xFFFF) },
+                "java.lang.Void": { jsClass: Object, superName: "java.lang.Object", interfaces: [], modifiers: 17, predicate: v => v === null || v === undefined },
+                "java.lang.Comparable": { jsClass: Object, superName: "", interfaces: [], modifiers: 1537 },
+                "java.lang.constant.Constable": { jsClass: Object, superName: "", interfaces: [], modifiers: 1537 },
+                "java.lang.constant.ConstantDesc": { jsClass: Object, superName: "", interfaces: [], modifiers: 1537 },
+                "java.io.Serializable": { jsClass: Object, superName: "", interfaces: [], modifiers: 1537 }
+            };
+            const $rt_wrapperClasses = Object.create(null);
+            const $rt_wrapperClass = (name) => {
+                let found = $rt_wrapperClasses[name];
+                if (!found) {
+                    const descriptor = $rt_wrapperDescriptors[name];
+                    if (!descriptor) {
+                        return $rt_standardClass(name);
+                    }
+                    found = new Class(descriptor.jsClass, name, false, false, [], undefined, descriptor.predicate, {
+                        n: name,
+                        m: descriptor.modifiers,
+                        ms: [],
+                        fs: [],
+                        cs: [],
+                        i: descriptor.interfaces,
+                        w: true
+                    }, descriptor.superName, descriptor.interfaces, descriptor.modifiers);
+                    $rt_wrapperClasses[name] = found;
+                }
+                return found;
+            };
 
             $rt.reflect = $rt_reflect;""";
 
