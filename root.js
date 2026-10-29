@@ -170,6 +170,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "MatchResult",
+			"packageName": "reincarnation.classlib.java.util.regex",
+			"type": "Interface"
+		},
+		{
 			"name": "RandomAccess",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Interface"
