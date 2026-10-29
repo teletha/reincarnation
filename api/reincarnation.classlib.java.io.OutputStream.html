@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="DB">
+		<header class="h" date="2026-10-29">
+			<h1 class="i"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="V"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="j"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="T"></nav>
+		<article class="a" id="Article">
+			<section class="r"><code class="LB">reincarnation.classlib.java.io</code>
+				<h2 class="AbstractClass CB"><code class="c">OutputStream</code></h2>
+				<div class="z">
+					<ul class="E H">
+						<li><code><a aria-label="reincarnation.classlib.java.lang.AutoCloseable" href="api/reincarnation.classlib.java.lang.AutoCloseable.html">AutoCloseable</a></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.io.Closeable" href="api/reincarnation.classlib.java.io.Closeable.html">Closeable</a></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.io.Flushable" href="api/reincarnation.classlib.java.io.Flushable.html">Flushable</a></code></li>
+					</ul>
+					<ul class="E I">
+						<li><code><a aria-label="reincarnation.classlib.java.io.FilterOutputStream" href="api/reincarnation.classlib.java.io.FilterOutputStream.html">FilterOutputStream</a></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.io.PrintStream" href="api/reincarnation.classlib.java.io.PrintStream.html">PrintStream</a></code></li>
+					</ul>
+				</div><span class="A"><p>The Java implementation of <code><a aria-label="java.io.OutputStream 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/io/OutputStream.html">java.io.OutputStream</a></code> which is transpiled into JavaScript.</p></span></section>
+			<section class="r" id="OutputStream()">
+				<h2 class="M"><i class="PROTECTED"></i><code class="c">OutputStream</code><code class="JB">()</code></h2><span class="A"><p>Create an empty stream.</p></span></section>
+			<section class="r" id="write(int)">
+				<h2 class="M"><i class="PUBLIC"></i><code class="c">write</code><code class="JB">(<code>int</code><code class="parameterName">value</code>)</code><i class="b"><code>void</code></i></h2>
+				<table class="x">
+					<tr class="d">
+						<td><code>int</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Write the value.</p></span></section>
+			<section class="r" id="write(byte[])">
+				<h2 class="M"><i class="PUBLIC"></i><code class="c">write</code><code class="JB">(<code array="fix">byte</code><code class="parameterName">values</code>)</code><i class="b"><code>void</code></i></h2>
+				<table class="x">
+					<tr class="d">
+						<td><code array="fix">byte</code><code class="parameterName">values</code></td>
+						<td><span><p>Values.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Write the values.</p></span></section>
+			<section class="r" id="write(byte[],int,int)">
+				<h2 class="M"><i class="PUBLIC"></i><code class="c">write</code><code class="JB">(<code array="fix">byte</code><code class="parameterName">values</code>, <code>int</code><code class="parameterName">offset</code>, <code>int</code><code class="parameterName">length</code>)</code><i class="b"><code>void</code></i></h2>
+				<table class="x">
+					<tr class="d">
+						<td><code array="fix">byte</code><code class="parameterName">values</code></td>
+						<td><span><p>Values.</p></span></td>
+					</tr>
+					<tr class="d">
+						<td><code>int</code><code class="parameterName">offset</code></td>
+						<td><span><p>An offset.</p></span></td>
+					</tr>
+					<tr class="d">
+						<td><code>int</code><code class="parameterName">length</code></td>
+						<td><span><p>A length.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Write the values.</p></span></section>
+			<section class="r" id="flush()">
+				<h2 class="M"><i class="OVERRIDE PUBLIC"></i><code class="c">flush</code><code class="JB">()</code><i class="b"><code>void</code></i></h2>
+			</section>
+			<section class="r" id="close()">
+				<h2 class="M"><i class="OVERRIDE PUBLIC"></i><code class="c">close</code><code class="JB">()</code><i class="b"><code>void</code></i></h2>
+			</section>
+		</article>
+		<aside class="FB">
+			<div class="BB">
+				<h5 class="y">Constructors</h5>
+				<ul>
+					<li class="S"><i class="PROTECTED"></i><code><a href="api/reincarnation.classlib.java.io.OutputStream.html#OutputStream()">OutputStream</a></code><code class="JB">()</code></li>
+				</ul>
+				<h5 class="y">Methods</h5>
+				<ul>
+					<li class="S"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.OutputStream.html#write(int)">write</a></code><code class="JB">(<code>int</code><code class="parameterName">value</code>)</code><i class="X"><code>void</code></i></li>
+					<li class="S"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.OutputStream.html#write(byte[])">write</a></code><code class="JB">(<code array="fix">byte</code><code class="parameterName">values</code>)</code><i class="X"><code>void</code></i></li>
+					<li class="S"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.OutputStream.html#write(byte[],int,int)">write</a></code><code class="JB">(<code array="fix">byte</code><code class="parameterName">values</code>, <code>int</code><code class="parameterName">offset</code>, <code>int</code><code class="parameterName">length</code>)</code><i class="X"><code>void</code></i></li>
+					<li class="S"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.OutputStream.html#flush()">flush</a></code><code class="JB">()</code><i class="X"><code>void</code></i></li>
+					<li class="S"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.io.OutputStream.html#close()">close</a></code><code class="JB">()</code><i class="X"><code>void</code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="EB">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

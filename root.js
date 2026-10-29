@@ -460,6 +460,26 @@ const root = {
 			"type": "Interface"
 		},
 		{
+			"name": "FilterOutputStream",
+			"packageName": "reincarnation.classlib.java.io",
+			"type": "Class"
+		},
+		{
+			"name": "OutputStream",
+			"packageName": "reincarnation.classlib.java.io",
+			"type": "AbstractClass"
+		},
+		{
+			"name": "Flushable",
+			"packageName": "reincarnation.classlib.java.io",
+			"type": "Functional"
+		},
+		{
+			"name": "Closeable",
+			"packageName": "reincarnation.classlib.java.io",
+			"type": "Functional"
+		},
+		{
 			"name": "PrintStream",
 			"packageName": "reincarnation.classlib.java.io",
 			"type": "Class"
