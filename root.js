@@ -164,12 +164,22 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "Stream",
+			"packageName": "reincarnation.classlib.java.util.stream",
+			"type": "Class"
+		},
+		{
 			"name": "Collectors",
 			"packageName": "reincarnation.classlib.java.util.stream",
 			"type": "Class"
 		},
 		{
 			"name": "Arrays",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "Optional",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
 		},
@@ -202,6 +212,11 @@ const root = {
 			"name": "System",
 			"packageName": "reincarnation.classlib.java.lang",
 			"type": "Class"
+		},
+		{
+			"name": "AbstractStringBuilder",
+			"packageName": "reincarnation.classlib.java.lang",
+			"type": "AbstractClass"
 		},
 		{
 			"name": "PrintStream",
