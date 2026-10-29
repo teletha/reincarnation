@@ -31,6 +31,8 @@ public final class JavascriptRuntime {
                 }
                 return false;
             };
+            const $rt_invokeHandle = (handle, args) => handle.invokeArray(args);
+            const $rt_invokeHandleArguments = (handle, args) => handle.invokeWithArgumentsArray(args);
             const $rt_hashCode = (a) => {
                 if (a === null || a === undefined) return 0;
                 if (typeof a === "number") return a | 0;

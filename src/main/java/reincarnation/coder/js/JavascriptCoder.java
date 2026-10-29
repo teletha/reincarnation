@@ -1398,6 +1398,18 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             return;
         }
 
+        if (method.getDeclaringClass() == java.lang.invoke.MethodHandle.class) {
+            Join arguments = Join.of(params).separator("," + space);
+            if (method.getName().equals("invoke") || method.getName().equals("invokeExact")) {
+                write("$rt_invokeHandle(", context, ",", space, "[", arguments, "])");
+                return;
+            }
+            if (method.getName().equals("invokeWithArguments")) {
+                write("$rt_invokeHandleArguments(", context, ",", space, "[", arguments, "])");
+                return;
+            }
+        }
+
         if (isRuntimeType(method.getDeclaringClass())) {
             requireRuntime();
         }

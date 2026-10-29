@@ -52,6 +52,11 @@ final class Classlib {
             Map.entry(java.lang.CharSequence.class, reincarnation.classlib.java.lang.CharSequence.class), //
             Map.entry(java.lang.Comparable.class, reincarnation.classlib.java.lang.Comparable.class), //
             Map.entry(java.lang.AutoCloseable.class, reincarnation.classlib.java.lang.AutoCloseable.class), //
+            Map.entry(java.lang.invoke.MethodHandle.class, reincarnation.classlib.java.lang.invoke.MethodHandle.class), //
+            Map.entry(java.lang.invoke.MethodHandles.class, reincarnation.classlib.java.lang.invoke.MethodHandles.class), //
+            Map.entry(java.lang.invoke.MethodHandles.Lookup.class,
+                    reincarnation.classlib.java.lang.invoke.MethodHandles.Lookup.class), //
+            Map.entry(java.lang.invoke.MethodType.class, reincarnation.classlib.java.lang.invoke.MethodType.class), //
             Map.entry(java.util.Collection.class, reincarnation.classlib.java.util.Collection.class), //
             Map.entry(java.util.AbstractCollection.class, reincarnation.classlib.java.util.AbstractCollection.class), //
             Map.entry(java.util.SequencedCollection.class,
@@ -111,6 +116,13 @@ final class Classlib {
             Map.entry(reincarnation.classlib.java.lang.CharSequence.class, java.lang.CharSequence.class), //
             Map.entry(reincarnation.classlib.java.lang.Comparable.class, java.lang.Comparable.class), //
             Map.entry(reincarnation.classlib.java.lang.AutoCloseable.class, java.lang.AutoCloseable.class), //
+            Map.entry(reincarnation.classlib.java.lang.invoke.MethodHandle.class,
+                    java.lang.invoke.MethodHandle.class), //
+            Map.entry(reincarnation.classlib.java.lang.invoke.MethodHandles.class,
+                    java.lang.invoke.MethodHandles.class), //
+            Map.entry(reincarnation.classlib.java.lang.invoke.MethodHandles.Lookup.class,
+                    java.lang.invoke.MethodHandles.Lookup.class), //
+            Map.entry(reincarnation.classlib.java.lang.invoke.MethodType.class, java.lang.invoke.MethodType.class), //
             Map.entry(reincarnation.classlib.java.util.stream.Stream.class, java.util.stream.Stream.class), //
             Map.entry(reincarnation.classlib.java.util.stream.BaseStream.class, java.util.stream.BaseStream.class), //
             Map.entry(reincarnation.classlib.java.util.Collection.class, java.util.Collection.class), //

@@ -31,4 +31,40 @@ public final class NativeObject {
     public static int identityHashCode(Object value) {
         return java.lang.System.identityHashCode(value);
     }
+
+    /**
+     * Invoke the named function of the receiver.
+     * 
+     * @param receiver A receiver.
+     * @param name A function name.
+     * @param args Arguments.
+     * @return A result.
+     */
+    @Native("$0[$1](...$2)")
+    public static Object invoke(Object receiver, String name, Object[] args) {
+        return null;
+    }
+
+    /**
+     * Get the JavaScript class of the reflection class.
+     * 
+     * @param type A reflection class.
+     * @return A JavaScript class.
+     */
+    @Native("$0.jsClass")
+    public static Object classObject(Object type) {
+        return null;
+    }
+
+    /**
+     * Create the instance of the JavaScript class.
+     * 
+     * @param type A JavaScript class.
+     * @param args Arguments.
+     * @return An instance.
+     */
+    @Native("new $0(...$1)")
+    public static Object construct(Object type, Object[] args) {
+        return null;
+    }
 }
