@@ -224,14 +224,6 @@ If you think something might be a bug, but you're not sure, ask on StackOverflow
 ## Dependency
 Reincarnation depends on the following products on runtime.
 * [asm-9.11.1](https://mvnrepository.com/artifact/org.ow2.asm/asm/9.11.1)
-* [asm-analysis-9.10.1](https://mvnrepository.com/artifact/org.ow2.asm/asm-analysis/9.10.1)
-* [asm-commons-9.10.1](https://mvnrepository.com/artifact/org.ow2.asm/asm-commons/9.10.1)
-* [asm-tree-9.10.1](https://mvnrepository.com/artifact/org.ow2.asm/asm-tree/9.10.1)
-* [asm-util-9.10.1](https://mvnrepository.com/artifact/org.ow2.asm/asm-util/9.10.1)
-* [hppc-0.10.0](https://mvnrepository.com/artifact/com.carrotsearch/hppc/0.10.0)
-* [joda-time-2.12.2](https://mvnrepository.com/artifact/joda-time/joda-time/2.12.2)
-* [jzlib-1.1.3](https://mvnrepository.com/artifact/com.jcraft/jzlib/1.1.3)
-* [rhino-1.9.1](https://mvnrepository.com/artifact/org.mozilla/rhino/1.9.1)
 * [sinobu-4.14.0](https://mvnrepository.com/artifact/io.github.teletha/sinobu/4.14.0)
 <p align="right"><a href="#top">back to top</a></p>
 
