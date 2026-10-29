@@ -169,6 +169,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "Arrays",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
 			"name": "Objects",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
