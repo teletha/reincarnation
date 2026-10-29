@@ -768,6 +768,9 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                 } else if (owner == Byte.class) {
                     current.addOperand(new OperandClass(byte.class));
                     break;
+                } else if (owner == Void.class) {
+                    current.addOperand(new OperandClass(void.class));
+                    break;
                 }
             }
             current.addOperand(accessClassField(owner, name));

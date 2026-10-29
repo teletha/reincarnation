@@ -24,9 +24,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.caoccao.javet.interop.V8Host;
 import com.caoccao.javet.interop.V8Runtime;
 import com.caoccao.javet.values.V8Value;
+import com.caoccao.javet.values.primitive.V8ValueBigInteger;
 import com.caoccao.javet.values.primitive.V8ValueBoolean;
 import com.caoccao.javet.values.primitive.V8ValueDouble;
 import com.caoccao.javet.values.primitive.V8ValueInteger;
+import com.caoccao.javet.values.primitive.V8ValueLong;
 import com.caoccao.javet.values.primitive.V8ValueNull;
 import com.caoccao.javet.values.primitive.V8ValueString;
 import com.caoccao.javet.values.reference.V8ValueArray;
@@ -152,7 +154,7 @@ public class JavascriptCodeVerifier {
 
                 // The decompiled code is wrapped in a fresh function scope so the same class
                 // (i.e. the anonymous inner class) is never declared twice in the shared runtime.
-                String script = "(function () {\r\n" + javascript + "\r\n" + " const instance = new " + className + "();\r\n" + " return instance." + methodName + "(" + arguments + ");\r\n" + "})()";
+                String script = "(function () {\r\n" + javascript + "\r\n" + " const instance = new $c." + className + "();\r\n" + " return instance." + methodName + "(" + arguments + ");\r\n" + "})()";
 
                 try (V8Value value = runtime.getExecutor(script).execute()) {
                     Object actual = toJava(value);
@@ -172,6 +174,10 @@ public class JavascriptCodeVerifier {
     private Object toJava(V8Value value) throws Exception {
         if (value instanceof V8ValueBoolean v) {
             return v.toPrimitive();
+        } else if (value instanceof V8ValueLong v) {
+            return v.toPrimitive();
+        } else if (value instanceof V8ValueBigInteger v) {
+            return v.toPrimitive().longValue();
         } else if (value instanceof V8ValueInteger v) {
             return v.toPrimitive();
         } else if (value instanceof V8ValueDouble v) {
@@ -236,7 +242,9 @@ public class JavascriptCodeVerifier {
             return value.toString();
         } else if (type == char.class) {
             return "\"" + value + "\"";
-        } else if (type == int.class || type == long.class || type == short.class || type == byte.class) {
+        } else if (type == long.class) {
+            return ((Number) value).longValue() + "n";
+        } else if (type == int.class || type == short.class || type == byte.class) {
             return String.valueOf(((Number) value).longValue());
         } else if (type == float.class || type == double.class) {
             return String.valueOf(((Number) value).doubleValue());

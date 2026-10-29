@@ -10,6 +10,7 @@
 package reincarnation.coder.js;
 
 import java.lang.annotation.Repeatable;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
@@ -24,6 +25,7 @@ import java.lang.reflect.RecordComponent;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.util.AbstractList;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,15 +36,18 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.StringJoiner;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.Vector;
 
 import kiss.I;
@@ -82,110 +87,14 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     /** The placeholder of local classes. */
     private final MultiMap<Executable, Class> placeholders = new MultiMap(false);
 
-    /** The import manager. */
-    private final Imports imports = new Imports();
+    /** The class name allocator. It is shared by every class written by this coder. */
+    private NameAllocator names;
 
-    /** Whether the standard runtime (currently List and Map) is required or not. */
+    /** The classes which are defined by this coder. */
+    private final Set<Class> defined = new HashSet();
+
+    /** Whether the standard runtime (collections) is required or not. */
     private boolean runtime;
-
-    /** The declared local variable scopes in the class library mode (per method/lambda). */
-    private final Deque<Set<String>> classlibScopes = new ArrayDeque();
-
-    /**
-     * Start the class library variable scope (method or lambda).
-     */
-    private void classlibScopeStart() {
-        classlibScopes.addLast(new HashSet());
-    }
-
-    /**
-     * End the class library variable scope.
-     */
-    private void classlibScopeEnd() {
-        classlibScopes.pollLast();
-    }
-
-    /**
-     * Mark the variable as declared in the current scope.
-     * 
-     * @param name A variable name.
-     */
-    private void classlibMark(String name) {
-        if (!classlibScopes.isEmpty()) {
-            classlibScopes.peekLast().add(name);
-        }
-    }
-
-    /**
-     * Declare the variable in the current scope unless it is already declared in an outer scope.
-     * 
-     * @param name A variable name.
-     * @return True if the variable is newly declared.
-     */
-    private boolean classlibDeclare(String name) {
-        for (Set<String> scope : classlibScopes) {
-            if (scope.contains(name)) {
-                return false;
-            }
-        }
-        classlibMark(name);
-        return true;
-    }
-
-    /**
-     * Check whether the method is reachable in the class library mode.
-     * 
-     * @param method A target method.
-     * @return A result.
-     */
-    private boolean isReachable(Method method) {
-        if (classlib() && isOverlaid(method)) {
-            // The method is emitted as a runtime helper call at the invocation site, so the class
-            // library implementation must not be emitted (some of them use unsupported bytecode).
-            return false;
-        }
-
-        // The runtime helpers ($rt_toString, $rt_equals and $rt_hashCode) invoke these methods by
-        // name, so they are never referenced from the analyzed bytecode and would be pruned
-        // otherwise.
-        if (method.getParameterCount() == 0 && (method.getName().equals("toString") || method.getName().equals("hashCode"))) {
-            return true;
-        }
-        if (method.getParameterCount() == 1 && method.getName().equals("equals")) {
-            return true;
-        }
-
-        if (!classlib() || options.methods == null) {
-            return true;
-        }
-        return options.methods.contains(method.getName() + "#" + Classlib.params(org.objectweb.asm.Type.getMethodDescriptor(method)));
-    }
-
-    /**
-     * Check whether the given method is overlaid by the JavaScript runtime helper.
-     * 
-     * @param method A target method.
-     * @return A result.
-     */
-    private boolean isOverlaid(Method method) {
-        return isStringMethod(method) || isCharSequenceMethod(method) || isComparableMethod(method) //
-                || isObjectMethod(method) || isStringBuilder(method.getDeclaringClass()) || isThrowableMethod(method) //
-                || isMathMethod(method) || isCharacterMethod(method) || isNumberMethod(method) //
-                || isSystemMethod(method) || isArrayMethod(method) || isCollectionsMethod(method);
-    }
-
-    /**
-     * Check whether the constructor is reachable in the class library mode.
-     * 
-     * @param constructor A target constructor.
-     * @return A result.
-     */
-    private boolean isReachable(Constructor constructor) {
-        if (!classlib() || options.methods == null) {
-            return true;
-        }
-        return options.methods.contains("<init>#" + Classlib.params(org.objectweb.asm.Type.getConstructorDescriptor(constructor)));
-    }
 
     /** The decompiled abstract code. */
     private Reincarnation reincarnation;
@@ -208,10 +117,44 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             if (method != null) placeholders.put(method, e);
         });
 
+        // Seed the class names in a stable order. The root class keeps its preferred name even if
+        // a dependency declares the same simple name.
+        seed(reincarnation);
+
         writeOne(reincarnation);
 
         // pop decompiler info
         this.reincarnation = old;
+    }
+
+    /**
+     * Obtain the class name allocator of this coder.
+     * 
+     * @return A class name allocator.
+     */
+    private NameAllocator names() {
+        if (names == null) {
+            names = new NameAllocator();
+        }
+        return names;
+    }
+
+    /**
+     * Pre-allocate the class names in a stable order.
+     * 
+     * @param reincarnation A target class.
+     */
+    private void seed(Reincarnation reincarnation) {
+        NameAllocator allocator = names();
+
+        defined.add(reincarnation.clazz);
+        defined.addAll(reincarnation.anonymous);
+        defined.addAll(reincarnation.locals);
+
+        allocator.seed(reincarnation.clazz);
+        reincarnation.classes.forEach(allocator::seed);
+        reincarnation.locals.forEach(allocator::seed);
+        reincarnation.anonymous.forEach(allocator::seed);
     }
 
     private void writeOne(Reincarnation reincarnation) {
@@ -230,8 +173,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
 
         // In JavaScript, a class cannot be declared inside another class body, so the anonymous
         // classes are written as independent top-level classes after the enclosing class. In the
-        // class library mode, every class is written separately by the program driver instead.
-        if (!classlib()) {
+        // bundle mode, every class is written separately by the driver.
+        if (!options.bundle) {
             for (Class clazz : reincarnation.anonymous) {
                 Class superclass = clazz.getSuperclass();
                 if (superclass == null || !superclass.isEnum()) {
@@ -251,9 +194,38 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     public String toString() {
         String code = super.toString();
 
-        // The runtime must be prepended after the lazy writers run, because they may reference the
-        // collection types.
-        return runtime ? JavascriptRuntime.Standard + EoL + code : code;
+        // A bundle embeds the runtime once at its header.
+        if (!options.embedRuntime) {
+            return code;
+        }
+
+        StringBuilder builder = new StringBuilder(JavascriptRuntime.Core).append(EoL).append(EoL);
+        builder.append(JavascriptRuntime.Intrinsics).append(EoL).append(EoL);
+
+        if (runtime) {
+            builder.append(JavascriptRuntime.Standard).append(EoL).append(EoL);
+        }
+        return builder.append(code).toString();
+    }
+
+    /**
+     * Share the class names and the defined classes with the other coders of the same bundle.
+     * 
+     * @param names A shared name allocator.
+     * @param defined The classes which are defined by the bundle.
+     */
+    void share(NameAllocator names, Set<Class> defined) {
+        this.names = names;
+        this.defined.addAll(defined);
+    }
+
+    /**
+     * Check whether the standard runtime is required.
+     * 
+     * @return A result.
+     */
+    boolean requiresRuntime() {
+        return runtime;
     }
 
     /**
@@ -270,21 +242,261 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     @Override
     public void writeType(Class type, Runnable inner) {
         Class prev = current.set(type);
+        defined.add(type);
 
         // JavaScript has no interface, enum, record and annotation, so every type is written as a
         // class declaration. The superclass of the enum and the record is also dropped.
         Class superclass = type.getSuperclass();
-        String extend = superclass == null || superclass == Object.class //
-                || superclass == Enum.class || superclass == Record.class //
-                || (classlib() && superclass.getName().startsWith("java.")) //
-                ? "" : " extends " + simpleName(superclass);
+        boolean object = superclass == null || superclass == Object.class //
+                || superclass == Enum.class || superclass == Record.class;
+
+        // JavaScript has no class declaration which can be referenced before its definition,
+        // so the class is registered by name. The super class is resolved by its name at the
+        // registration time, which removes the temporal dead zone problem.
+        String parent;
+        if (superclass == Enum.class) {
+            parent = "$rt.Enum";
+        } else if (object) {
+            parent = "";
+        } else {
+            parent = names().allocate(superclass);
+        }
+        Join interfaces = Join.of(type.getInterfaces())
+                .prefix("[")
+                .separator("," + space)
+                .suffix("]")
+                .converter(x -> quote(simpleName(x)));
 
         line();
-        line("class", space, simpleName(type), extend, space, "{");
+        line("$rt.define(", quote(simpleName(type)), ",", space, quote(parent), ",", space, interfaces, ",", space, "{");
         indent(inner);
-        line("}");
+        if (options.reflection) {
+            line("},", space, metadata(type), ");");
+        } else {
+            line("});");
+        }
 
         current.set(prev);
+    }
+
+    /**
+     * Build the reflection metadata of the specified class.
+     * 
+     * @param type A target class.
+     * @return A JavaScript object literal.
+     */
+    private String metadata(Class type) {
+        StringBuilder builder = new StringBuilder("{n:");
+        builder.append(quote(type.getName()));
+        builder.append(",m:").append(type.getModifiers());
+        builder.append(",e:").append(type.isEnum());
+        builder.append(",as:").append(annotations(type));
+        builder.append(",tp:").append(genericTypeParameters(type.getTypeParameters()));
+        builder.append(",gs:").append(genericType(type.getGenericSuperclass()));
+        builder.append(",gi:[").append(genericTypes(type.getGenericInterfaces())).append("]");
+
+        StringBuilder methods = new StringBuilder("ms:[");
+        Join.of(type.getDeclaredMethods())
+                .skip(Method::isSynthetic)
+                .skip(Method::isBridge)
+                .separator(",")
+                .converter(m -> "[" + quote(m.getName()) + "," + quote(org.objectweb.asm.Type.getMethodDescriptor(m)) + "," + m
+                        .getModifiers() + "," + m.getParameterCount() + "," + annotations(m) + "," + genericTypeParameters(m
+                                .getTypeParameters()) + ",[" + genericTypes(m.getGenericParameterTypes()) + "]," + genericType(m
+                                        .getGenericReturnType()) + ",[" + genericTypes(m
+                                                .getGenericExceptionTypes()) + "]," + exceptionTypes(m.getExceptionTypes()) + "]")
+                .write(methods);
+        builder.append(",").append(methods).append("]");
+
+        StringBuilder fields = new StringBuilder("fs:[");
+        Join.of(type.getDeclaredFields())
+                .skip(Field::isSynthetic)
+                .separator(",")
+                .converter(f -> "[" + quote(f.getName()) + "," + quote(org.objectweb.asm.Type.getDescriptor(f.getType())) + "," + f
+                        .getModifiers() + "," + annotations(f) + "," + genericType(f.getGenericType()) + "]")
+                .write(fields);
+        builder.append(",").append(fields).append("]");
+
+        StringBuilder constructors = new StringBuilder("cs:[");
+        Join.of(type.getDeclaredConstructors())
+                .skip(Constructor::isSynthetic)
+                .separator(",")
+                .converter(c -> "[" + quote(org.objectweb.asm.Type.getConstructorDescriptor(c)) + "," + c.getModifiers() + "," + constructorIndex(c) + "," + c
+                        .getParameterCount() + "," + annotations(c) + "," + genericTypeParameters(c
+                                .getTypeParameters()) + ",[" + genericTypes(c.getGenericParameterTypes()) + "],[" + genericTypes(c
+                                        .getGenericExceptionTypes()) + "]," + exceptionTypes(c.getExceptionTypes()) + "]")
+                .write(constructors);
+        builder.append(",").append(constructors).append("]");
+
+        return builder.append("}").toString();
+    }
+
+    /**
+     * Build the annotation metadata of the specified element.
+     * 
+     * @param element A target element.
+     * @return A JavaScript array literal.
+     */
+    private String annotations(AnnotatedElement element) {
+        java.lang.annotation.Annotation[] annotations = element.getDeclaredAnnotations();
+        StringBuilder builder = new StringBuilder("[");
+        boolean first = true;
+
+        for (java.lang.annotation.Annotation annotation : annotations) {
+            // The meta annotation (e.g. @Retention and @Target) is not a part of the application
+            // metadata, and its enum value references the JDK class.
+            if (annotation.annotationType().getName().startsWith("java.lang.annotation.")) {
+                continue;
+            }
+            if (!first) {
+                builder.append(",");
+            }
+            first = false;
+            builder.append(annotation(annotation));
+        }
+        return builder.append("]").toString();
+    }
+
+    /**
+     * Build the annotation metadata.
+     * 
+     * @param annotation A target annotation.
+     * @return A JavaScript object literal.
+     */
+    private String annotation(java.lang.annotation.Annotation annotation) {
+        Class<?> type = annotation.annotationType();
+        StringBuilder builder = new StringBuilder("{t:").append(quote(type.getName())).append(",v:{");
+        boolean first = true;
+
+        for (Method attribute : type.getDeclaredMethods()) {
+            if (attribute.getParameterCount() != 0 || attribute.isSynthetic()) {
+                continue;
+            }
+            try {
+                attribute.setAccessible(true);
+                Object value = attribute.invoke(annotation);
+
+                if (!first) {
+                    builder.append(",");
+                }
+                first = false;
+                builder.append(quote(attribute.getName())).append(":").append(annotationValue(value));
+            } catch (Throwable e) {
+                // The annotation value may reference a missing class, so it is ignored.
+            }
+        }
+        return builder.append("}}").toString();
+    }
+
+    /**
+     * Build the annotation attribute value.
+     * 
+     * @param value A target value.
+     * @return A JavaScript expression.
+     */
+    private String annotationValue(Object value) {
+        if (value == null) {
+            return "null";
+        } else if (value instanceof String text) {
+            return quote(text);
+        } else if (value instanceof Character ch) {
+            return quote(String.valueOf(ch));
+        } else if (value instanceof Boolean || value instanceof Number) {
+            return String.valueOf(value);
+        } else if (value instanceof Class clazz) {
+            return "{c:" + quote(clazz.getName()) + "}";
+        } else if (value instanceof Enum constant) {
+            return "{e:" + quote(constant.getDeclaringClass().getName()) + ",n:" + quote(constant.name()) + "}";
+        } else if (value instanceof java.lang.annotation.Annotation annotation) {
+            return annotation(annotation);
+        } else if (value.getClass().isArray()) {
+            StringBuilder builder = new StringBuilder("[");
+            int length = java.lang.reflect.Array.getLength(value);
+
+            for (int i = 0; i < length; i++) {
+                if (i != 0) {
+                    builder.append(",");
+                }
+                builder.append(annotationValue(java.lang.reflect.Array.get(value, i)));
+            }
+            return builder.append("]").toString();
+        }
+        return "null";
+    }
+
+    /**
+     * Build the generic type metadata.
+     * 
+     * @param type A target type.
+     * @return A JavaScript object literal.
+     */
+    private String genericType(Type type) {
+        if (type instanceof Class clazz) {
+            return "{k:\"c\",n:" + quote(clazz.getName()) + "}";
+        } else if (type instanceof TypeVariable variable) {
+            return "{k:\"v\",n:" + quote(variable.getName()) + "}";
+        } else if (type instanceof ParameterizedType parameterized) {
+            return "{k:\"p\",r:" + genericType(parameterized.getRawType()) + ",a:[" + genericTypes(parameterized
+                    .getActualTypeArguments()) + "]}";
+        } else if (type instanceof GenericArrayType array) {
+            return "{k:\"a\",c:" + genericType(array.getGenericComponentType()) + "}";
+        } else if (type instanceof WildcardType wild) {
+            return "{k:\"w\",u:[" + genericTypes(wild.getUpperBounds()) + "],l:[" + genericTypes(wild.getLowerBounds()) + "]}";
+        }
+        return "null";
+    }
+
+    /**
+     * Build the generic type metadata array.
+     * 
+     * @param types A target types.
+     * @return A JavaScript array literal.
+     */
+    private String genericTypes(Type[] types) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < types.length; i++) {
+            if (i != 0) {
+                builder.append(",");
+            }
+            builder.append(genericType(types[i]));
+        }
+        return builder.toString();
+    }
+
+    /**
+     * Build the type parameter metadata.
+     * 
+     * @param variables A target type variables.
+     * @return A JavaScript array literal.
+     */
+    private String genericTypeParameters(TypeVariable<?>[] variables) {
+        StringBuilder builder = new StringBuilder("[");
+        for (int i = 0; i < variables.length; i++) {
+            if (i != 0) {
+                builder.append(",");
+            }
+            TypeVariable<?> variable = variables[i];
+            builder.append("{k:\"v\",n:").append(quote(variable.getName())).append(",b:[").append(genericTypes(variable
+                    .getBounds())).append("]}");
+        }
+        return builder.append("]").toString();
+    }
+
+    /**
+     * Build the exception type metadata.
+     * 
+     * @param types A target exception types.
+     * @return A JavaScript array literal.
+     */
+    private String exceptionTypes(Class[] types) {
+        StringBuilder builder = new StringBuilder("[");
+        for (int i = 0; i < types.length; i++) {
+            if (i != 0) {
+                builder.append(",");
+            }
+            builder.append("{k:\"c\",n:").append(quote(types[i].getName())).append("}");
+        }
+        return builder.append("]").toString();
     }
 
     /**
@@ -324,52 +536,11 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             return;
         }
 
-        Object constant = constantValue(field);
-        line(Classes.isStatic(field) ? "static" + space : "", field.getName(), space, "=", space, constant != null ? constant : jsDefault(field
-                .getType()), ";");
+        // Instance fields are stored as the prototype default, static fields are stored on the
+        // class object. The underscore prefix distinguishes the static member in the definition.
+        line(Classes.isStatic(field) ? "_" : "", field.getName(), ":", space, jsDefault(field.getType()), ",");
     }
 
-    /**
-     * Compute the compile time constant value of the specified field. JavaScript has no constant
-     * field, so the value is written directly as the initial value.
-     * 
-     * @param field A target field.
-     * @return A JavaScript literal or null if the field is not a compile time constant.
-     */
-    private String constantValue(Field field) {
-        if (!classlib() || !field.getDeclaringClass().getName().startsWith("org.teavm.classlib.")) {
-            return null;
-        }
-        if (!Classes.isStatic(field) || !Modifier.isFinal(field.getModifiers())) {
-            return null;
-        }
-
-        Class type = field.getType();
-        if (!type.isPrimitive() && type != String.class) {
-            return null;
-        }
-
-        try {
-            field.setAccessible(true);
-            Object value = field.get(null);
-            if (value == null) {
-                return null;
-            } else if (value instanceof String text) {
-                return "\"" + text.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r")
-                        .replace("\t", "\\t") + "\"";
-            } else if (value instanceof Character ch) {
-                return "\"" + escapeChar(ch) + "\"";
-            } else if (value instanceof Double d) {
-                return doubleLiteral(d);
-            } else if (value instanceof Float f) {
-                return doubleLiteral(f.doubleValue());
-            } else {
-                return String.valueOf(value);
-            }
-        } catch (Throwable e) {
-            return null;
-        }
-    }
 
     /**
      * Write the double value as a JavaScript literal. JavaScript has no NaN, Infinity or -Infinity
@@ -403,6 +574,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             return "false";
         } else if (type == char.class) {
             return "\"\\u0000\"";
+        } else if (type == long.class && bigint()) {
+            return "0n";
         } else if (type.isPrimitive()) {
             return "0";
         } else {
@@ -423,30 +596,41 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     @Override
     public void writeStaticInitializer(Code code) {
         vars.start();
-        classlibScopeStart();
 
-        if (current.is(Class::isInterface)) {
-            code.write(new InterfaceStaticInitiailizer(this));
-        } else if (current.is(Class::isEnum)) {
-            EnumStaticInitializer coder = new EnumStaticInitializer(this);
-            code.write(coder);
-
+        // The static fields of an enum are not written by writeStaticField, so they are written
+        // here as the definition entries.
+        if (current.is(Class::isEnum)) {
             I.signal(current.get().getDeclaredFields()).skip(Field::isSynthetic).skip(Field::isEnumConstant).to(this::writeFieldDefinition);
 
-            if (!coder.codes.isEmpty()) {
-                line();
-                line("static {");
-                indent(() -> coder.codes.forEach(this::writeStatement));
-                line("}");
-            }
-        } else {
+            // values() and valueOf() are removed as the generated methods, so they are
+            // synthesized here.
+            Class type = current.exact();
+            Join values = Join.of(type.getEnumConstants())
+                    .separator("," + space)
+                    .converter(x -> "$c." + simpleName(type) + "." + ((Enum) x).name());
+
             line();
-            line("static {");
-            indent(code::write);
-            line("}");
+            line("_values: function() { return [", values, "]; },");
+            line("_valueOf: function(name) { return $rt.enumValueOf(", classRef(type), ", name); },");
         }
 
-        classlibScopeEnd();
+        // The static initializer is deferred until the class is accessed for the first time,
+        // which reproduces the Java class initialization semantics.
+        line();
+        line("_: function() {");
+        indent(() -> {
+            if (current.is(Class::isInterface)) {
+                code.write(new InterfaceStaticInitiailizer(this));
+            } else if (current.is(Class::isEnum)) {
+                EnumStaticInitializer coder = new EnumStaticInitializer(this);
+                code.write(coder);
+                coder.codes.forEach(this::writeStatement);
+            } else {
+                code.write(this);
+            }
+        });
+        line("},");
+
         vars.end();
     }
 
@@ -456,21 +640,14 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     @Override
     public void writeConstructor(Constructor con, Code<Code> code) {
         // ignore compiler generated code
-        if (GeneratedCodes.isEnumConstructor(con, code) //
-                || (!classlib() && GeneratedCodes.isImplicitConstructor(con, code))) {
-            return;
-        }
-
-        // ignore the constructors which are not reachable in the class library mode
-        if (!isReachable(con)) {
+        if (GeneratedCodes.isEnumConstructor(con, code)) {
             return;
         }
 
         vars.start();
-        classlibScopeStart();
 
         line();
-        line(classlib() ? constructorName(con) : "constructor", buildParameter(con, naming(code)), space, "{");
+        line(constructorName(con), ":", space, "function", buildParameter(con, naming(code)), space, "{");
         indent(() -> {
             Class owner = con.getDeclaringClass();
             if (Classes.isMemberLike(owner) && Classes.isNonStatic(owner)) {
@@ -479,9 +656,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 code.write(this);
             }
         });
-        line("}");
+        line("},");
 
-        classlibScopeEnd();
         vars.end();
     }
 
@@ -495,11 +671,6 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             return;
         }
 
-        // ignore the methods which are not reachable in the class library mode
-        if (!isReachable(method)) {
-            return;
-        }
-
         // The record accessors are kept, but the state-driven Object methods cannot be converted.
         if (method.getDeclaringClass().isRecord()
                 && (method.getName().equals("toString") || method.getName().equals("hashCode") || method.getName().equals("equals"))) {
@@ -507,16 +678,15 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         }
 
         vars.start();
-        classlibScopeStart();
 
         line();
-        lineNB(Classes.isStatic(method) ? "static" + space : "", methodName(method), buildParameter(method, naming(code)));
-        lineNI(space, "{");
-        placeholders.get(method).forEach(this::writeLocalClass);
+        line(Classes.isStatic(method) ? "_" : "", methodName(method), ":", space, "function", buildParameter(method, naming(code)), space, "{");
+        if (!options.bundle) {
+            placeholders.get(method).forEach(this::writeLocalClass);
+        }
         indent(code::write);
-        line("}");
+        line("},");
 
-        classlibScopeEnd();
         vars.end();
     }
 
@@ -526,7 +696,6 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     @Override
     public void writeLambda(Method method, List<Code> contexts, Code code) {
         vars.start();
-        classlibScopeStart();
 
         Naming naming = naming(code);
         Join<Parameter> param = Join.of(method.getParameters())
@@ -538,24 +707,17 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 .converter(p -> {
                     String name = safeVariable(naming.name(p.getName()));
                     vars.declare(name);
-                    if (classlib()) {
-                        classlibMark(name);
-                    }
                     return name;
                 });
 
         for (int i = 0; i < contexts.size(); i++) {
             vars.declare("arg" + i, contexts.get(i).toString());
-            if (classlib()) {
-                classlibMark(contexts.get(i).toString());
-            }
         }
 
         lineNI(param, space, "=>", space, "{");
         indent(code::write);
         lineNB("}");
 
-        classlibScopeEnd();
         vars.end();
     }
 
@@ -591,10 +753,6 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                     Parameter param = p.ⅰ;
                     String name = safeVariable(strategy.name(param.getName()));
                     vars.declare(name);
-                    if (classlib()) {
-                        classlibMark(name);
-                    }
-
                     return name;
                 });
     }
@@ -702,7 +860,11 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeLong(long code) {
-        write(code);
+        if (bigint()) {
+            write(code, "n");
+        } else {
+            write(code);
+        }
     }
 
     /**
@@ -749,19 +911,10 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     @Override
     public void writeStringConcatenation(Iterator<Code> codes) {
         if (codes.hasNext()) {
-            if (classlib()) {
-                write("$rt_toString", "(", codes.next(), ")");
-            } else {
-                write(codes.next());
-            }
+            write(codes.next());
 
             while (codes.hasNext()) {
-                write(space, "+", space);
-                if (classlib()) {
-                    write("$rt_toString", "(", codes.next(), ")");
-                } else {
-                    write(codes.next());
-                }
+                write(space, "+", space, codes.next());
             }
         }
     }
@@ -771,11 +924,35 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeClass(Class code) {
-        if (classlib() && code.isPrimitive()) {
-            // JavaScript has no primitive class, so its name is used as a placeholder.
-            write("\"", code.getSimpleName(), "\"");
+        if (options.reflection) {
+            requireRuntime();
+            if (isReflectionType(code)) {
+                write(classRef(code));
+            } else if (code.isPrimitive()) {
+                write("$rt.Class.primitive(", quote(code.getName()), ")");
+            } else if (code.isArray()) {
+                write("$rt.Class.array(", buildClass(code.getComponentType()), ")");
+            } else {
+                write("$rt.reflect(", classRef(code), ")");
+            }
         } else {
-            write(name(code));
+            write(classRef(code));
+        }
+    }
+
+    /**
+     * Build the class expression for the reflection.
+     * 
+     * @param code A target class.
+     * @return A JavaScript expression.
+     */
+    private String buildClass(Class code) {
+        if (code.isPrimitive()) {
+            return "$rt.Class.primitive(" + quote(code.getName()) + ")";
+        } else if (code.isArray()) {
+            return "$rt.Class.array(" + buildClass(code.getComponentType()) + ")";
+        } else {
+            return "$rt.reflect(" + classRef(code) + ")";
         }
     }
 
@@ -810,6 +987,33 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeAssignOperation(Code left, AssignOperator operator, Code right) {
+        if (bigint() && isLong(left)) {
+            if (operator == AssignOperator.ASSIGN) {
+                write(left, space, "=", space, longOperand(right));
+                return;
+            }
+
+            switch (operator) {
+            case PLUS:
+                write(left, space, "=", space, "$rt_lr(", left, " + ", longOperand(right), ")");
+                return;
+            case MINUS:
+                write(left, space, "=", space, "$rt_lr(", left, " - ", longOperand(right), ")");
+                return;
+            case MULTIPLY:
+                write(left, space, "=", space, "$rt_lr(", left, " * ", longOperand(right), ")");
+                return;
+            case DIVIDE:
+                write(left, space, "=", space, "$rt_ldiv(", left, ",", space, longOperand(right), ")");
+                return;
+            case REMAINDER:
+                write(left, space, "=", space, "$rt_lrem(", left, ",", space, longOperand(right), ")");
+                return;
+            default:
+                write(left, space, operator, space, longOperand(right));
+                return;
+            }
+        }
         write(left, space, operator, space, right);
     }
 
@@ -818,7 +1022,80 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeBinaryOperation(Code left, BinaryOperator operator, Code right) {
-        write(left, space, operator, space, right);
+        if (bigint() && (isLong(left) || isLong(right)) && operator != BinaryOperator.AND && operator != BinaryOperator.OR) {
+            writeLongOperation(operator, left, right);
+        } else {
+            write(left, space, operator, space, right);
+        }
+    }
+
+    /**
+     * Write the binary operation on the {@code long} values.
+     * 
+     * @param operator A target operator.
+     * @param left A left value.
+     * @param right A right value.
+     */
+    private void writeLongOperation(BinaryOperator operator, Code left, Code right) {
+        Code l = longOperand(left);
+        Code r = longOperand(right);
+
+        switch (operator) {
+        case PLUS:
+            write("$rt_lr(", l, " + ", r, ")");
+            break;
+        case MINUS:
+            write("$rt_lr(", l, " - ", r, ")");
+            break;
+        case MULTIPLY:
+            write("$rt_lr(", l, " * ", r, ")");
+            break;
+        case DIVIDE:
+            write("$rt_ldiv(", l, ",", space, r, ")");
+            break;
+        case REMAINDER:
+            write("$rt_lrem(", l, ",", space, r, ")");
+            break;
+        case BINARY_AND:
+            write("(", l, " & ", r, ")");
+            break;
+        case BINARY_OR:
+            write("(", l, " | ", r, ")");
+            break;
+        case XOR:
+            write("(", l, " ^ ", r, ")");
+            break;
+        case LEFT_SHIFT:
+            write("$rt_lr(", l, " << (", r, " & 63n))");
+            break;
+        case RIGHT_SHIFT:
+            write("(", l, " >> (", r, " & 63n))");
+            break;
+        case UNSIGNED_RIGHT_SHIFT:
+            write("$rt_lushr(", l, ",", space, r, ")");
+            break;
+        case EQUAL:
+            write(l, space, "===", space, r);
+            break;
+        case NOT_EQUALS:
+            write(l, space, "!==", space, r);
+            break;
+        case LESS:
+            write(l, space, "<", space, r);
+            break;
+        case LESS_EQUALS:
+            write(l, space, "<=", space, r);
+            break;
+        case GREATER:
+            write(l, space, ">", space, r);
+            break;
+        case GREATER_EQUALS:
+            write(l, space, ">=", space, r);
+            break;
+        default:
+            write(left, space, operator, space, right);
+            break;
+        }
     }
 
     /**
@@ -844,6 +1121,31 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeUnaryOperation(Code code, UnaryOperator operator) {
+        if (bigint() && isLong(code)) {
+            switch (operator) {
+            case MINUS:
+                write("$rt_lr(-", code, ")");
+                return;
+            case BITWISE_COMPLEMENT:
+                write("(~", code, ")");
+                return;
+            case PRE_INCREMENT:
+                write("(", code, space, "=", space, "$rt_lr(", code, " + 1n))");
+                return;
+            case PRE_DECREMENT:
+                write("(", code, space, "=", space, "$rt_lr(", code, " - 1n))");
+                return;
+            case POST_INCREMENT:
+                write("(() => { const $t = ", code, "; ", code, " = $rt_lr($t + 1n); return $t; })()");
+                return;
+            case POST_DECREMENT:
+                write("(() => { const $t = ", code, "; ", code, " = $rt_lr($t - 1n); return $t; })()");
+                return;
+            default:
+                break;
+            }
+        }
+
         switch (operator) {
         case POST_DECREMENT:
         case POST_INCREMENT:
@@ -861,10 +1163,30 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeInstanceof(Code code, Class type, Code cast) {
-        if (cast == null) {
-            write(code, space, "instanceof", space, name(type));
-        } else {
+        if (cast != null) {
             write(code, space, "instanceof", space, cast);
+            return;
+        }
+
+        // JavaScript has no interface at runtime, so the interface check is delegated to the
+        // runtime which walks the type metadata. The arrays are checked structurally.
+        if (options.reflection && isReflectionType(type)) {
+            write(code, space, "instanceof", space, classRef(type));
+        } else if (type == Object.class) {
+            write("(", code, ") != null");
+        } else if (type == String.class) {
+            write("typeof ", code, " === \"string\"");
+        } else if (type == CharSequence.class) {
+            // The Java string is a JavaScript string in this mode.
+            write("typeof ", code, " === \"string\"");
+        } else if (type.isArray()) {
+            write("Array.isArray(", code, ")");
+        } else if (type.isInterface()) {
+            // The registry lookup returns undefined for an interface which is not emitted, so the
+            // check fails safely instead of throwing a ReferenceError.
+            write("$rt.isInstance(", registryRef(type), ",", space, code, ")");
+        } else {
+            write(code, space, "instanceof", space, classRef(type));
         }
     }
 
@@ -874,16 +1196,6 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     @Override
     public void writeLocalVariable(Type type, int index, String name) {
         String variable = safeVariable(name);
-        if (classlib()) {
-            // Java local variables are method scoped, so the class library mode uses var with the
-            // declaration scope stack to avoid the block scope mismatch of let.
-            if (classlibDeclare(variable)) {
-                write("var", space, variable);
-            } else {
-                write(variable);
-            }
-            return;
-        }
         String prefix;
         if (vars.isDeclared(variable)) {
             prefix = "";
@@ -915,7 +1227,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     public void writeAccessField(Field field, Code context, AccessMode mode) {
         if (Classes.isStatic(field)) {
             if (current.is(field.getDeclaringClass())) {
-                write(simpleName(field.getDeclaringClass()), ".", field.getName());
+                write(classRef(field.getDeclaringClass()), ".", field.getName());
             } else {
                 write(context, ".", field.getName());
             }
@@ -926,7 +1238,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                 break;
 
             case SUPER:
-                write("super.", field.getName());
+                // The generated class has no extends clause, so the super field is accessed
+                // through this. Java field hiding can not be expressed by JavaScript.
+                write("this.", field.getName());
                 break;
 
             default:
@@ -965,16 +1279,23 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeConstructorCall(Constructor constructor, List<Code> params) {
-        if (isRuntimeType(constructor.getDeclaringClass())) {
+        Class owner = constructor.getDeclaringClass();
+
+        if (options.strictApi && isUnmappedApi(owner) && !isRuntimeType(owner) && !isStringBuilder(owner)
+                && !Throwable.class.isAssignableFrom(owner)) {
+            throw new TranslationException(constructor);
+        }
+
+        if (isRuntimeType(owner)) {
             requireRuntime();
         }
         // The throwable classes are not emulated, so they are mapped to the native Error.
-        if (classlib() && Throwable.class.isAssignableFrom(constructor.getDeclaringClass())) {
+        if (Throwable.class.isAssignableFrom(owner)) {
             write("new", space, "Error", buildCallParameter(constructor, params));
             return;
         }
         // The string builders are mapped to the native string accumulator.
-        if (classlib() && isStringBuilder(constructor.getDeclaringClass())) {
+        if (isStringBuilder(owner)) {
             Class[] types = constructor.getParameterTypes();
             if (types.length == 1 && (types[0] == String.class || types[0] == CharSequence.class)) {
                 write("$rt_sbWith", "(", params.get(0), ")");
@@ -983,13 +1304,12 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             }
             return;
         }
-        if (classlib()) {
-            // The constructor is emitted as an initialization method, so the allocation and the
-            // initialization are separated to support the overloaded constructors.
-            write("(", "o", space, "=>", space, "(o.", constructorName(constructor), buildCallParameter(constructor, params), ",", space, "o))(", "new", space, name(constructor
-                    .getDeclaringClass()), "()", ")");
+        // The runtime type is a plain JavaScript class, so it must not receive the constructor
+        // index. Only the generated class uses the index based constructor dispatch.
+        if (isRuntimeType(owner)) {
+            write("new", space, classRef(owner), buildCallParameter(constructor, params));
         } else {
-            write("new", space, name(constructor.getDeclaringClass()), buildCallParameter(constructor, params));
+            write("new", space, classRef(owner), buildCallParameter(constructor, params, 0, constructorIndex(constructor)));
         }
     }
 
@@ -999,20 +1319,18 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     @Override
     public void writeSuperConstructorCall(Constructor constructor, List<Code> params) {
         Class owner = constructor.getDeclaringClass();
+
         if (owner == Enum.class) {
-            revert();
-        } else if (classlib()) {
-            if (owner.getName().startsWith("java.")) {
-                revert();
-            } else {
-                // In the class library mode the super constructor initializes the fields, so it
-                // must not be omitted even when it has no parameter.
-                write("super.", constructorName(constructor), buildCallParameter(constructor, params));
-            }
-        } else if (params.isEmpty()) {
-            revert();
+            return;
+        } else if (owner == Object.class || owner == Record.class //
+                || owner.getName().startsWith("java.") || owner.getName().startsWith("javax.")) {
+            // The standard classes are not emitted, so their constructors are not invoked.
+            return;
         } else {
-            write("super", buildCallParameter(constructor, params));
+            // The super constructor is invoked directly because the generated class does not use
+            // the extends clause. It also initializes the fields of the super class.
+            write(classRef(owner), ".prototype.", constructorName(constructor), ".call(this,", space,
+                    buildArgument(constructor, params, 0, constructorIndex(constructor)), ")");
         }
     }
 
@@ -1021,13 +1339,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeThisConstructorCall(Constructor constructor, List<Code> params) {
-        if (classlib()) {
-            write("this.", constructorName(constructor), buildCallParameter(constructor, params));
-        } else if (constructor.getDeclaringClass().isEnum()) {
-            write("this", buildCallParameter(constructor, params, 2));
-        } else {
-            write("this", buildCallParameter(constructor, params));
-        }
+        int start = constructor.getDeclaringClass().isEnum() ? 2 : 0;
+        write("this.", constructorName(constructor), buildCallParameter(constructor, params, start, constructorIndex(constructor)));
     }
 
     /**
@@ -1035,11 +1348,10 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeConstructorReference(Constructor constructor) {
-        if (classlib()) {
-            write("(...args)", space, "=>", space, "(o", space, "=>", space, "(o.", constructorName(constructor), "(...args)", ",", space, "o))(", "new", space, name(constructor
-                    .getDeclaringClass()), "()", ")");
+        if (isRuntimeType(constructor.getDeclaringClass())) {
+            write("(...args)", space, "=>", space, "new", space, classRef(constructor.getDeclaringClass()), "(...args)");
         } else {
-            write("(...args)", space, "=>", space, "new", space, name(constructor.getDeclaringClass()), "(...args)");
+            write("(...args)", space, "=>", space, "new", space, classRef(constructor.getDeclaringClass()), "(...args,", space, constructorIndex(constructor), ")");
         }
     }
 
@@ -1051,44 +1363,57 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         if (isRuntimeType(method.getDeclaringClass())) {
             requireRuntime();
         }
-        if (isRecordAccessor(method)) {
+        if (options.reflection && method.getDeclaringClass() == Object.class && method.getName().equals("getClass")
+                && method.getParameterCount() == 0) {
+            requireRuntime();
+            write("$rt.reflect($rt.classOf(", context, "))");
+        } else if (isRecordAccessor(method)) {
             // The record accessor (e.g. point.x()) is replaced by the field access (point.x).
             write(context, ".", method.getName());
+        } else if (method.getDeclaringClass() == Enum.class && method.getName().equals("valueOf")) {
+            // Enum.valueOf(Class, String) is delegated to the runtime.
+            write("$rt.enumValueOf(", params.get(0), ",", space, params.get(1), ")");
         } else if (isStringMethod(method)) {
             writeStringMethod(method, context, params);
-        } else if (classlib() && isCharSequenceMethod(method)) {
+        } else if (isCharSequenceMethod(method)) {
             writeCharSequenceMethod(method, context, params);
-        } else if (classlib() && isComparableMethod(method)) {
+        } else if (isComparableMethod(method)) {
             write("$rt_compare", "(", context, ",", space, params.get(0), ")");
-        } else if (classlib() && isObjectMethod(method)) {
+        } else if (isObjectMethod(method)) {
             writeObjectMethod(method, context, params);
-        } else if (classlib() && isStringBuilder(method.getDeclaringClass())) {
+        } else if (isStringBuilder(method.getDeclaringClass())) {
             writeStringBuilderMethod(method, context, params);
-        } else if (classlib() && isThrowableMethod(method)) {
+        } else if (isThrowableMethod(method)) {
             writeThrowableMethod(method, context, params);
-        } else if (classlib() && isMathMethod(method)) {
+        } else if (isMathMethod(method)) {
             writeMathMethod(method, context, params);
-        } else if (classlib() && isCharacterMethod(method)) {
+        } else if (isCharacterMethod(method)) {
             writeCharacterMethod(method, context, params);
-        } else if (classlib() && isNumberMethod(method)) {
+        } else if (isNumberMethod(method)) {
             writeNumberMethod(method, context, params);
-        } else if (classlib() && isSystemMethod(method)) {
+        } else if (isSystemMethod(method)) {
             writeSystemMethod(method, context, params);
-        } else if (classlib() && isArrayMethod(method)) {
+        } else if (isArrayMethod(method)) {
             writeArrayMethod(method, context, params);
-        } else if (classlib() && isCollectionsMethod(method)) {
+        } else if (isCollectionsMethod(method)) {
             writeCollectionsMethod(method, context, params);
         } else if (method.isSynthetic()) {
             write(context, ".", methodName(method), buildCallParameter(method, params));
         } else {
             if (mode == AccessMode.SUPER) {
-                write("super.", methodName(method), buildCallParameter(method, params));
+                // The generated class has no extends clause, so the super method is invoked
+                // through the prototype of the declaring class.
+                write(classRef(method.getDeclaringClass()), ".prototype.", methodName(method), ".call(this");
+                if (!params.isEmpty()) {
+                    write(",", space, buildArgument(method, params, 0, null));
+                }
+                write(")");
             } else {
                 if (Classes.isWrapper(method)) {
                     write(params.get(0));
                 } else {
                     if (Classes.isStatic(method) && current.is(method.getDeclaringClass())) {
-                        write(simpleName(method.getDeclaringClass()), ".", methodName(method), buildCallParameter(method, params));
+                        write(classRef(method.getDeclaringClass()), ".", methodName(method), buildCallParameter(method, params));
                     } else if (isUnboxing(method)) {
                         // JavaScript has no wrapper class, so the unboxing method (e.g.
                         // Integer.intValue) is completely unnecessary.
@@ -1101,7 +1426,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                         // JavaScript has no overloading, so the Java remove(int) is renamed.
                         write(context, ".removeAt", buildCallParameter(method, params));
                     } else {
-                        write(context, ".", methodName(method), buildCallParameter(method, params));
+                        writeDefaultMethodCall(method, context, params);
                     }
                 }
             }
@@ -1132,26 +1457,85 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     }
 
     /**
-     * Mark that the standard runtime (List and Map) is required.
+     * Mark that the standard runtime (collections) is required.
      */
     private void requireRuntime() {
-        if (!classlib()) {
-            runtime = true;
-        }
+        runtime = true;
     }
 
     /**
-     * Check whether the class library mode is enabled.
+     * Check whether the Java {@code long} is represented by the JavaScript BigInt.
      * 
      * @return A result.
      */
-    private boolean classlib() {
-        return options.classlib;
+    private boolean bigint() {
+        return options.longMode == LongMode.BIGINT;
     }
 
-    /** The cache of substituted class library types. */
-    private Class substitute(Class type) {
-        return classlib() ? Classlib.substitute(type) : type;
+    /**
+     * Check whether the specified code has the {@code long} type.
+     * 
+     * @param code A target code.
+     * @return A result.
+     */
+    private boolean isLong(Code code) {
+        return code instanceof Operand operand && operand.type() == long.class;
+    }
+
+    /**
+     * Convert the specified code into the BigInt expression if needed.
+     * 
+     * @param code A target code.
+     * @return A BigInt expression.
+     */
+    private Code longOperand(Code code) {
+        return isLong(code) ? code : (Code) coder -> coder.write("$rt_l(", code, ")");
+    }
+
+    /**
+     * Write the default method invocation. In the strict mode, the unmapped Java API is rejected
+     * instead of being emitted as an undefined JavaScript call.
+     * 
+     * @param method A target method.
+     * @param context A target object.
+     * @param params A list of parameters.
+     */
+    private void writeDefaultMethodCall(Method method, Code context, List<Code> params) {
+        if (options.strictApi && isUnmappedApi(method.getDeclaringClass()) && !isNativeApi(method.getDeclaringClass())) {
+            throw new TranslationException(method);
+        }
+        write(context, ".", methodName(method), buildCallParameter(method, params));
+    }
+
+    /**
+     * Check whether the specified class belongs to the Java standard library.
+     * 
+     * @param type A target class.
+     * @return A result.
+     */
+    private static boolean isUnmappedApi(Class type) {
+        String name = type.getName();
+        return name.startsWith("java.") || name.startsWith("javax.");
+    }
+
+    /**
+     * Check whether the specified standard class is mapped to a native JavaScript API or the
+     * standard runtime.
+     * 
+     * @param type A target class.
+     * @return A result.
+     */
+    private boolean isNativeApi(Class type) {
+        return type == Object.class || type == Math.class || type == StrictMath.class //
+                || type == Enum.class || type == String.class || type == CharSequence.class //
+                || type == Number.class || type == Character.class || type == Boolean.class //
+                || type == Integer.class || type == Long.class || type == Short.class || type == Byte.class //
+                || type == Float.class || type == Double.class //
+                || type == System.class || type == Arrays.class || type == Collections.class //
+                || type == Comparable.class || type == Iterable.class || type == Iterator.class //
+                || isStringBuilder(type) || Throwable.class.isAssignableFrom(type) //
+                || isRuntimeType(type) //
+                || type.getName().startsWith("java.util.function.");
     }
 
     /**
@@ -1161,7 +1545,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A method name.
      */
     private String methodName(Method method) {
-        return classlib() ? Classlib.mangle(method.getName(), method.getParameterTypes()) : method.getName();
+        return safeVariable(method.getName());
     }
 
     /**
@@ -1171,7 +1555,26 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A method name.
      */
     private String constructorName(Constructor constructor) {
-        return Classlib.mangle("$init", constructor.getParameterTypes());
+        return "$" + constructorIndex(constructor);
+    }
+
+    /**
+     * Compute the stable index of the specified constructor. The index is derived only from the
+     * constructor descriptor, so every coder computes the same index for the same constructor.
+     * 
+     * @param constructor A target constructor.
+     * @return A constructor index.
+     */
+    private static int constructorIndex(Constructor constructor) {
+        String descriptor = org.objectweb.asm.Type.getConstructorDescriptor(constructor);
+        int index = 0;
+
+        for (Constructor other : constructor.getDeclaringClass().getDeclaredConstructors()) {
+            if (org.objectweb.asm.Type.getConstructorDescriptor(other).compareTo(descriptor) < 0) {
+                index++;
+            }
+        }
+        return index;
     }
 
     /**
@@ -1182,7 +1585,31 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     private boolean isList(Class type) {
         return type == List.class || type == ArrayList.class || type == LinkedList.class //
-                || type == Vector.class || type == Stack.class;
+                || type == Vector.class || type == Stack.class || type == AbstractList.class;
+    }
+
+    /**
+     * Check whether the given type is a {@link Set} implementation supported by the runtime.
+     * 
+     * @param type A target type.
+     * @return A result.
+     */
+    private boolean isSet(Class type) {
+        return type == Set.class || type == HashSet.class || type == LinkedHashSet.class //
+                || type == TreeSet.class || type == java.util.SortedSet.class //
+                || type == java.util.NavigableSet.class;
+    }
+
+    /**
+     * Check whether the given type is a {@link Queue} or {@link Deque} implementation supported by
+     * the runtime.
+     * 
+     * @param type A target type.
+     * @return A result.
+     */
+    private boolean isQueue(Class type) {
+        return type == java.util.Queue.class || type == java.util.Deque.class //
+                || type == ArrayDeque.class || type == PriorityQueue.class;
     }
 
     /**
@@ -1193,7 +1620,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     private boolean isMap(Class type) {
         return type == Map.class || type == HashMap.class || type == LinkedHashMap.class //
-                || type == TreeMap.class || type == Hashtable.class;
+                || type == TreeMap.class || type == Hashtable.class || type == java.util.SortedMap.class //
+                || type == java.util.NavigableMap.class || type == java.util.concurrent.ConcurrentMap.class;
     }
 
     /**
@@ -1203,7 +1631,13 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A result.
      */
     private boolean isRuntimeType(Class type) {
-        return isList(type) || isMap(type) || type == Map.Entry.class;
+        return isList(type) || isSet(type) || isQueue(type) || isMap(type) //
+                || type == Map.Entry.class || type == java.util.Collection.class //
+                || type == java.util.Iterator.class || type == java.util.ListIterator.class //
+                || type == Iterable.class || type == Optional.class //
+                || type == java.util.stream.Stream.class || type == java.util.stream.Collectors.class //
+                || type == java.util.regex.Pattern.class || type == java.util.regex.Matcher.class //
+                || (options.reflection && isReflectionType(type));
     }
 
     /**
@@ -1215,7 +1649,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A result.
      */
     private boolean isListRemoveAt(Method method) {
-        return !classlib() && isList(method.getDeclaringClass()) && method.getName().equals("remove") //
+        return isList(method.getDeclaringClass()) && method.getName().equals("remove") //
                 && method.getParameterCount() == 1 && method.getParameterTypes()[0] == int.class;
     }
 
@@ -1246,21 +1680,18 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A result.
      */
     private boolean isStringMethod(Method method) {
-        Class owner = method.getDeclaringClass();
-        return owner == String.class || owner.getName().equals("org.teavm.classlib.java.lang.TString");
+        return method.getDeclaringClass() == String.class;
     }
 
     /**
-     * Check whether the given method is declared in {@link CharSequence}. The class library uses
-     * {@code TCharSequence} internally, and its methods are overlaid to the native JavaScript
-     * string in the class library mode.
+     * Check whether the given method is declared in {@link CharSequence}. Its methods are
+     * overlaid to the native JavaScript string.
      * 
      * @param method A target method.
      * @return A result.
      */
     private boolean isCharSequenceMethod(Method method) {
-        Class owner = method.getDeclaringClass();
-        if (owner != CharSequence.class && !owner.getName().equals("org.teavm.classlib.java.lang.TCharSequence")) {
+        if (method.getDeclaringClass() != CharSequence.class) {
             return false;
         }
         return switch (method.getName()) {
@@ -1311,8 +1742,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A result.
      */
     private boolean isComparableMethod(Method method) {
-        Class owner = method.getDeclaringClass();
-        return (owner == Comparable.class || owner.getName().equals("org.teavm.classlib.java.lang.TComparable")) //
+        return method.getDeclaringClass() == Comparable.class //
                 && method.getName().equals("compareTo") && method.getParameterCount() == 1;
     }
 
@@ -1439,23 +1869,11 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         case "valueOf":
         case "copyValueOf":
             if (parameterTypes.length == 1 && parameterTypes[0] == Object.class) {
-                if (classlib()) {
-                    write("$rt_toString", "(", params.get(0), ")");
-                } else {
-                    write("String", "(", params.get(0), ")");
-                }
+                write("String", "(", params.get(0), ")");
             } else if (parameterTypes.length == 1 && parameterTypes[0] == char[].class) {
-                if (classlib()) {
-                    write("$rt_charsToString", "(", params.get(0), ")");
-                } else {
-                    write(params.get(0), ".join(\"\")");
-                }
+                write(params.get(0), ".join(\"\")");
             } else if (parameterTypes.length == 3 && parameterTypes[0] == char[].class) {
-                if (classlib()) {
-                    write("$rt_charsToString", "(", params.get(0), ",", space, params.get(1), ",", space, params.get(2), ")");
-                } else {
-                    write(params.get(0), ".slice", "(", params.get(1), ",", space, params.get(1), space, "+", space, params.get(2), ").join(\"\")");
-                }
+                write(params.get(0), ".slice", "(", params.get(1), ",", space, params.get(1), space, "+", space, params.get(2), ").join(\"\")");
             } else {
                 // JavaScript has no String.valueOf, so the global String function is used instead.
                 write("String", buildCallParameter(method, params));
@@ -1502,13 +1920,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A result.
      */
     private boolean isStringBuilder(Class type) {
-        String name = type.getName();
-        return name.equals("org.teavm.classlib.java.lang.TAbstractStringBuilder") //
-                || name.equals("org.teavm.classlib.java.lang.TStringBuilder") //
-                || name.equals("org.teavm.classlib.java.lang.TStringBuffer") //
-                || name.equals("org.teavm.classlib.java.lang.TAppendable") //
-                || name.equals("java.lang.AbstractStringBuilder") //
-                || type == StringBuilder.class || type == StringBuffer.class || type == Appendable.class;
+        return type == StringBuilder.class || type == StringBuffer.class || type == Appendable.class;
     }
 
     /**
@@ -1667,13 +2079,12 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A result.
      */
     private boolean isMathMethod(Method method) {
-        Class owner = method.getDeclaringClass();
-        return owner == Math.class || owner.getName().equals("org.teavm.classlib.java.lang.TMath");
+        return method.getDeclaringClass() == Math.class;
     }
 
     /**
-     * Write the overlaid {@link Math} method. The TeaVM class library implements several math
-     * functions as native methods, so they are mapped to the native JavaScript Math object.
+     * Write the overlaid {@link Math} method. The Java math functions are mapped to the native
+     * JavaScript Math object.
      * 
      * @param method A target method.
      * @param context A target object.
@@ -1681,6 +2092,55 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     private void writeMathMethod(Method method, Code context, List<Code> params) {
         String name = method.getName();
+
+        // The JavaScript Math object does not accept a BigInt, so the long argument is handled
+        // explicitly.
+        if (bigint() && method.getParameterCount() != 0 && method.getParameterTypes()[0] == long.class) {
+            switch (name) {
+            case "abs":
+            case "absExact":
+                write("$rt_lr(", params.get(0), " < 0n ? -", params.get(0), " : ", params.get(0), ")");
+                return;
+            case "max":
+                write("$rt_lr(", params.get(0), " > ", params.get(1), " ? ", params.get(0), " : ", params.get(1), ")");
+                return;
+            case "min":
+                write("$rt_lr(", params.get(0), " < ", params.get(1), " ? ", params.get(0), " : ", params.get(1), ")");
+                return;
+            case "signum":
+                write("$rt_lsignum(", params.get(0), ")");
+                return;
+            case "negateExact":
+                write("$rt_lr(-", params.get(0), ")");
+                return;
+            case "addExact":
+                write("$rt_lr(", params.get(0), " + ", params.get(1), ")");
+                return;
+            case "subtractExact":
+                write("$rt_lr(", params.get(0), " - ", params.get(1), ")");
+                return;
+            case "multiplyExact":
+                write("$rt_lr(", params.get(0), " * ", params.get(1), ")");
+                return;
+            case "incrementExact":
+                write("$rt_lr(", params.get(0), " + 1n)");
+                return;
+            case "decrementExact":
+                write("$rt_lr(", params.get(0), " - 1n)");
+                return;
+            case "floorDiv":
+                write("$rt_lfloorDiv(", params.get(0), ",", space, params.get(1), ")");
+                return;
+            case "floorMod":
+                write("$rt_lfloorMod(", params.get(0), ",", space, params.get(1), ")");
+                return;
+            case "toIntExact":
+                write("$rt_ltoi(", params.get(0), ")");
+                return;
+            default:
+                break;
+            }
+        }
 
         switch (name) {
         case "abs":
@@ -1829,14 +2289,12 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A result.
      */
     private boolean isCharacterMethod(Method method) {
-        Class owner = method.getDeclaringClass();
-        return owner == Character.class || owner.getName().equals("org.teavm.classlib.java.lang.TCharacter");
+        return method.getDeclaringClass() == Character.class;
     }
 
     /**
-     * Write the overlaid {@link Character} method. The TeaVM class library uses native Unicode
-     * tables which are not available in the JavaScript output, so they are mapped to runtime
-     * helpers.
+     * Write the overlaid {@link Character} method. The Java Unicode tables are not available in
+     * the JavaScript output, so they are mapped to the runtime helpers.
      * 
      * @param method A target method.
      * @param context A target object.
@@ -2025,17 +2483,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     private boolean isNumberMethod(Method method) {
         Class owner = method.getDeclaringClass();
-        String name = owner.getName();
         return owner == Integer.class || owner == Long.class || owner == Short.class || owner == Byte.class //
-                || owner == Double.class || owner == Float.class || owner == Boolean.class || owner == Number.class //
-                || name.equals("org.teavm.classlib.java.lang.TInteger") //
-                || name.equals("org.teavm.classlib.java.lang.TLong") //
-                || name.equals("org.teavm.classlib.java.lang.TShort") //
-                || name.equals("org.teavm.classlib.java.lang.TByte") //
-                || name.equals("org.teavm.classlib.java.lang.TDouble") //
-                || name.equals("org.teavm.classlib.java.lang.TFloat") //
-                || name.equals("org.teavm.classlib.java.lang.TBoolean") //
-                || name.equals("org.teavm.classlib.java.lang.TNumber");
+                || owner == Double.class || owner == Float.class || owner == Boolean.class || owner == Number.class;
     }
 
     /**
@@ -2050,6 +2499,132 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         String owner = method.getDeclaringClass().getSimpleName();
         boolean floating = owner.endsWith("Double") || owner.endsWith("Float");
         boolean bool = owner.endsWith("Boolean");
+        boolean longValue = owner.endsWith("Long");
+
+        if (longValue && bigint()) {
+            switch (name) {
+            case "parseLong":
+                if (params.size() == 4) {
+                    write("$rt_lparse(String(", params.get(0), ").substring(", params.get(1), ",", space, params.get(2), "),", space, params
+                            .get(3), ")");
+                } else if (params.size() == 2) {
+                    write("$rt_lparse(", params.get(0), ",", space, params.get(1), ")");
+                } else {
+                    write("$rt_lparse(", params.get(0), ")");
+                }
+                return;
+            case "toString":
+                if (Modifier.isStatic(method.getModifiers())) {
+                    if (params.size() == 2) {
+                        write("$rt_ltoString(", params.get(0), ",", space, params.get(1), ")");
+                    } else {
+                        write("$rt_ltoString(", params.get(0), ")");
+                    }
+                } else {
+                    write("$rt_ltoString(", context, ")");
+                }
+                return;
+            case "toHexString":
+                write("$rt_lunsigned(", params.get(0), ",", space, "16", ")");
+                return;
+            case "toOctalString":
+                write("$rt_lunsigned(", params.get(0), ",", space, "8", ")");
+                return;
+            case "toBinaryString":
+                write("$rt_lunsigned(", params.get(0), ",", space, "2", ")");
+                return;
+            case "toUnsignedString":
+                if (params.size() == 2) {
+                    write("$rt_lunsigned(", params.get(0), ",", space, params.get(1), ")");
+                } else {
+                    write("$rt_lunsigned(", params.get(0), ",", space, "10", ")");
+                }
+                return;
+            case "hashCode":
+                write("$rt_lhash(", params.isEmpty() ? context : params.get(0), ")");
+                return;
+            case "compare":
+                write("$rt_lcmp(", params.get(0), ",", space, params.get(1), ")");
+                return;
+            case "compareTo":
+                write("$rt_lcmp(", context, ",", space, params.get(0), ")");
+                return;
+            case "compareUnsigned":
+                write("$rt_lcompareUnsigned(", params.get(0), ",", space, params.get(1), ")");
+                return;
+            case "sum":
+                write("$rt_lr(", params.get(0), " + ", params.get(1), ")");
+                return;
+            case "max":
+            case "min":
+                write("$rt_lr(", params.get(0), name.equals("max") ? " > " : " < ", params.get(1), space, "?", space, params.get(0), space, ":",
+                        space, params.get(1), ")");
+                return;
+            case "signum":
+                write("$rt_lsignum(", params.get(0), ")");
+                return;
+            case "bitCount":
+                write("$rt_lbitCount(", params.get(0), ")");
+                return;
+            case "numberOfLeadingZeros":
+                write("$rt_lnumberOfLeadingZeros(", params.get(0), ")");
+                return;
+            case "numberOfTrailingZeros":
+                write("$rt_lnumberOfTrailingZeros(", params.get(0), ")");
+                return;
+            case "reverse":
+                write("$rt_lreverse(", params.get(0), ")");
+                return;
+            case "reverseBytes":
+                write("$rt_lreverseBytes(", params.get(0), ")");
+                return;
+            case "rotateLeft":
+                write("$rt_lrotateLeft(", params.get(0), ",", space, params.get(1), ")");
+                return;
+            case "rotateRight":
+                write("$rt_lrotateRight(", params.get(0), ",", space, params.get(1), ")");
+                return;
+            case "divideUnsigned":
+                write("$rt_ldivideUnsigned(", params.get(0), ",", space, params.get(1), ")");
+                return;
+            case "remainderUnsigned":
+                write("$rt_lremainderUnsigned(", params.get(0), ",", space, params.get(1), ")");
+                return;
+            case "doubleToLongBits":
+            case "doubleToRawLongBits":
+                write("$rt_doubleToLongBitsBig(", params.get(0), ")");
+                return;
+            case "longBitsToDouble":
+                write("$rt_longBitsToDoubleBig(", params.get(0), ")");
+                return;
+            case "valueOf":
+                if (params.size() == 1 && method.getParameterTypes()[0] == long.class) {
+                    write(params.get(0));
+                } else if (params.size() == 2) {
+                    write("$rt_lparse(", params.get(0), ",", space, params.get(1), ")");
+                } else {
+                    write("$rt_lparse(", params.get(0), ")");
+                }
+                return;
+            case "decode":
+                write("$rt_lparse(", params.get(0), ")");
+                return;
+            case "longValue":
+                write(context);
+                return;
+            case "intValue":
+            case "shortValue":
+            case "byteValue":
+                write("$rt_ltoi(", context, ")");
+                return;
+            case "doubleValue":
+            case "floatValue":
+                write("$rt_ltod(", context, ")");
+                return;
+            default:
+                break;
+            }
+        }
 
         switch (name) {
         case "parseInt":
@@ -2120,7 +2695,11 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             break;
 
         case "toUnsignedLong":
-            write("(", params.get(0), space, ">>>", space, "0", ")");
+            if (bigint()) {
+                write("$rt_l(", params.get(0), space, ">>>", space, "0", ")");
+            } else {
+                write("(", params.get(0), space, ">>>", space, "0", ")");
+            }
             break;
 
         case "compare":
@@ -2305,8 +2884,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A result.
      */
     private boolean isSystemMethod(Method method) {
-        Class owner = method.getDeclaringClass();
-        return owner == System.class || owner.getName().equals("org.teavm.classlib.java.lang.TSystem");
+        return method.getDeclaringClass() == System.class;
     }
 
     /**
@@ -2375,12 +2953,15 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A result.
      */
     private boolean isArrayMethod(Method method) {
-        Class owner = method.getDeclaringClass();
-        if (owner != Arrays.class && !owner.getName().equals("org.teavm.classlib.java.util.TArrays")) {
+        if (method.getDeclaringClass() != Arrays.class) {
             return false;
         }
-        return method.getName().equals("sort") || method.getName().equals("parallelSort") //
-                || method.getName().equals("toString") || method.getName().equals("deepToString");
+        return switch (method.getName()) {
+        case "sort", "parallelSort", "toString", "deepToString" //
+                , "asList", "copyOf", "copyOfRange", "fill" //
+                , "equals", "deepEquals", "hashCode", "deepHashCode", "stream" -> true;
+        default -> false;
+        };
     }
 
     /**
@@ -2391,13 +2972,55 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @param params A list of parameters.
      */
     private void writeArrayMethod(Method method, Code context, List<Code> params) {
-        if (method.getName().equals("toString")) {
+        String name = method.getName();
+        Class component = method.getParameterTypes()[0].getComponentType();
+
+        switch (name) {
+        case "toString":
             write("$rt_arrayToString", "(", params.get(0), ")");
             return;
-        }
-        if (method.getName().equals("deepToString")) {
+        case "deepToString":
             write("$rt_arrayToString", "(", params.get(0), ",", space, "true", ")");
             return;
+        case "asList":
+            write("List.of", join("(", params, "," + space, ")"));
+            return;
+        case "copyOf":
+            write("$rt_arrayCopyOf", "(", params.get(0), ",", space, params.get(1), ",", space,
+                    jsDefault(component == null ? Object.class : component), ")");
+            return;
+        case "copyOfRange":
+            write("$rt_arrayCopyOfRange", "(", params.get(0), ",", space, params.get(1), ",", space, params.get(2), ",", space,
+                    jsDefault(component == null ? Object.class : component), ")");
+            return;
+        case "fill":
+            if (params.size() == 2) {
+                write("$rt_arrayFill", "(", params.get(0), ",", space, "0,", space, params.get(0), ".length,", space, params.get(1), ")");
+            } else {
+                write("$rt_arrayFill", "(", params.get(0), ",", space, params.get(1), ",", space, params.get(2), ",", space, params.get(3), ")");
+            }
+            return;
+        case "equals":
+            write("$rt_arrayEquals", "(", params.get(0), ",", space, params.get(1), ",", space, "false", ")");
+            return;
+        case "deepEquals":
+            write("$rt_arrayEquals", "(", params.get(0), ",", space, params.get(1), ",", space, "true", ")");
+            return;
+        case "hashCode":
+            write("$rt_arrayHash", "(", params.get(0), ")");
+            return;
+        case "deepHashCode":
+            write("$rt_arrayHash", "(", params.get(0), ",", space, "true", ")");
+            return;
+        case "stream":
+            if (params.size() == 3) {
+                write("Stream.of(", params.get(0), ".slice(", params.get(1), ",", space, params.get(2), "))");
+            } else {
+                write("Stream.of(", params.get(0), ")");
+            }
+            return;
+        default:
+            break;
         }
 
         Class[] types = method.getParameterTypes();
@@ -2425,8 +3048,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A result.
      */
     private boolean isCollectionsMethod(Method method) {
-        Class owner = method.getDeclaringClass();
-        if (owner != Collections.class && !owner.getName().equals("org.teavm.classlib.java.util.TCollections")) {
+        if (method.getDeclaringClass() != Collections.class) {
             return false;
         }
         return switch (method.getName()) {
@@ -2590,13 +3212,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A result.
      */
     private boolean isFunctionalMethod(Method method) {
-        // In the class library mode, the interface method (e.g. Iterable.iterator) is not a
-        // functional interface method, so it must not be invoked directly.
-        if (classlib()) {
-            return false;
-        }
         Class owner = method.getDeclaringClass();
-        if (!owner.isInterface()) {
+        if (!owner.isInterface() || owner.isAnnotation() || (options.reflection && isReflectionType(owner))) {
             return false;
         }
         return Arrays.stream(owner.getDeclaredMethods())
@@ -2624,7 +3241,33 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return
      */
     private Join buildCallParameter(Executable executable, List<Code> params, int start) {
-        Join concat = new Join().prefix("(").suffix(")").separator("," + space);
+        return buildCallParameter(executable, params, start, null);
+    }
+
+    /**
+     * Build parameter expresison with the trailing value.
+     * 
+     * @param executable
+     * @param params
+     * @param start
+     * @param trailing A trailing value.
+     * @return
+     */
+    private Join buildCallParameter(Executable executable, List<Code> params, int start, Object trailing) {
+        return buildArgument(executable, params, start, trailing).prefix("(").suffix(")");
+    }
+
+    /**
+     * Build the argument list without the enclosing parentheses.
+     * 
+     * @param executable
+     * @param params
+     * @param start
+     * @param trailing A trailing value.
+     * @return
+     */
+    private Join buildArgument(Executable executable, List<Code> params, int start, Object trailing) {
+        Join concat = new Join().separator("," + space);
 
         Parameter[] parameters = executable.getParameters();
         for (int i = start; i < params.size(); i++) {
@@ -2632,9 +3275,16 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
 
             if (param == Operand.Null) {
                 concat.add(new InferedCode(parameters[i].getType(), param));
+            } else if (bigint() && i < parameters.length && parameters[i].getType() == long.class && !isLong(param)) {
+                // The int value must be promoted to the BigInt at the long parameter.
+                concat.add((Code) coder -> coder.write("$rt_l(", param, ")"));
             } else {
                 concat.add(param);
             }
+        }
+
+        if (trailing != null) {
+            concat.add((Code) coder -> coder.write(trailing));
         }
         return concat;
     }
@@ -2679,7 +3329,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeStaticMethodReference(Method method) {
-        write(name(method.getDeclaringClass()), ".", methodName(method));
+        write(classRef(method.getDeclaringClass()), ".", methodName(method));
     }
 
     /**
@@ -2722,6 +3372,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         if (initialValues.isEmpty()) {
             // e.g. new Array(3).fill(0)
             write("new", space, "Array", join("(", dimensions, ",", ")"), ".fill(", jsDefault(type), ")");
+        } else if (bigint() && type == long.class) {
+            // The int values in the long array initializer must be promoted to the BigInt.
+            write(Join.of(initialValues).prefix("[").separator(", ").suffix("]").converter(this::longOperand));
         } else {
             // e.g. [1, 2, 3]
             write(join("[", initialValues, ", ", "]"));
@@ -2733,7 +3386,9 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeTernary(Code condition, Code then, Code elze) {
-        write(condition, space, "?", space, then, space, ":", space, elze);
+        // The conditional operator has a lower precedence than the arithmetic and relational
+        // operators, so the whole expression is enclosed to keep the meaning when it is nested.
+        write("(", condition, space, "?", space, then, space, ":", space, elze, ")");
     }
 
     /**
@@ -2741,6 +3396,31 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeCast(Class type, Code code) {
+        if (bigint()) {
+            boolean source = isLong(code);
+
+            if (type == long.class) {
+                if (!source) {
+                    write("$rt_dtol(", code, ")");
+                    return;
+                }
+            } else if (source) {
+                if (type == int.class || type == short.class || type == byte.class) {
+                    write("$rt_ltoi(", code, ")");
+                    return;
+                } else if (type == double.class) {
+                    write("$rt_ltod(", code, ")");
+                    return;
+                } else if (type == float.class) {
+                    write("Math.fround($rt_ltod(", code, "))");
+                    return;
+                } else if (type == char.class) {
+                    write("String.fromCharCode($rt_ltoi(", code, "))");
+                    return;
+                }
+            }
+        }
+
         // JavaScript has no cast expression. Casting is implicitly performed on assignment, so we
         // only need to output the original code.
         write(code);
@@ -2759,20 +3439,12 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeAssert(Code code, Variable<Code> message) {
-        if (classlib()) {
-            // The Java assert throws an AssertionError, so it must throw in JavaScript as well.
-            write("if", space, "(!(", code, "))", space, "throw", space, "new", space, "Error");
-            if (message.isAbsent()) {
-                write("()");
-            } else {
-                write("(", message.get(), ")");
-            }
-            return;
-        }
+        // The Java assert throws an AssertionError, so it must throw in JavaScript as well.
+        write("if", space, "(!(", code, "))", space, "throw", space, "new", space, "Error");
         if (message.isAbsent()) {
-            write("console.assert", "(", code, ")");
+            write("()");
         } else {
-            write("console.assert", "(", code, ",", space, message.get(), ")");
+            write("(", message.get(), ")");
         }
     }
 
@@ -2848,13 +3520,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
     public void writeIterableFor(Optional<String> label, Code variable, Code iterable, Runnable inner, Code follow) {
         vars.start();
 
-        if (classlib()) {
-            // The class library collections do not have the JavaScript iterator protocol, so they
-            // are converted through the Java iterator.
-            line(label(label), "for", space, "(", variable, space, "of", space, "$rt_iterable", "(", iterable, ")", ")", space, "{");
-        } else {
-            line(label(label), "for", space, "(", variable, space, "of", space, iterable, ")", space, "{");
-        }
+        // The runtime iterable supports the array, the runtime collection and the Java iterator.
+        line(label(label), "for", space, "(", variable, space, "of", space, "$rt_iterable", "(", iterable, ")", ")", space, "{");
         indent(inner);
         line("}");
 
@@ -2914,7 +3581,6 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             vars.start();
             if (catchBlock.ⅱ != null) {
                 vars.declare(catchBlock.ⅱ);
-                classlibMark(catchBlock.ⅱ);
             }
             if (catchBlock.ⅰ != null && catchBlock.ⅱ != null) {
                 // JavaScript cannot specify the caught type, so only the variable name is written.
@@ -3028,7 +3694,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     protected <E extends Enum> void writeEnumCase(boolean statement, Class<E> type, List<E> values, Code caseBlock) {
-        String typeName = simpleName(type);
+        String typeName = classRef(type);
 
         if (statement) {
             for (E value : values) {
@@ -3331,11 +3997,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             if (isRuntimeType(clazz)) {
                 requireRuntime();
             }
-            if (classlib()) {
-                builder.append(uniqueName(substitute(clazz)));
-            } else {
-                builder.append(imports.name(clazz));
-            }
+            builder.append(classRef(clazz));
         } else if (type instanceof TypeVariable variable) {
             builder.append(variable);
             if (level != 0) {
@@ -3393,21 +4055,88 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return
      */
     private String simpleName(Class type) {
-        if (classlib()) {
-            return uniqueName(type);
-        }
-        return computeSimpleName(type);
+        return names().allocate(type);
     }
 
     /**
-     * Compute the unique JavaScript class name for the class library mode. The simple names collide
-     * across the packages, so the fully qualified name is sanitized.
+     * Write the reference to the specified class. In the class registration mode, the class which
+     * is defined by this coder is accessed through the runtime registry.
+     * 
+     * @param type A target class.
+     * @return A JavaScript expression.
+     */
+    private String classRef(Class type) {
+        if (options.reflection && isReflectionType(type)) {
+            return "$rt." + type.getSimpleName();
+        }
+
+        if (type.isArray()) {
+            return classRef(type.getComponentType()) + "[]";
+        }
+
+        String name = names().allocate(type);
+        return defined.contains(type) ? "$c." + name : name;
+    }
+
+    /**
+     * Check whether the given type is the reflection type which is provided by the runtime.
      * 
      * @param type A target type.
-     * @return A unique class name.
+     * @return A result.
      */
-    private String uniqueName(Class type) {
-        return Classlib.uniqueName(type);
+    private static boolean isReflectionType(Class type) {
+        return type == Class.class || type == java.lang.reflect.Method.class //
+                || type == java.lang.reflect.Field.class || type == java.lang.reflect.Constructor.class //
+                || type == java.lang.reflect.Modifier.class || type == java.lang.reflect.Array.class //
+                || type == Type.class || type == TypeVariable.class //
+                || type == ParameterizedType.class || type == GenericArrayType.class //
+                || type == WildcardType.class;
+    }
+
+    /**
+     * Write the registry reference of the specified class. It never throws even if the class is not
+     * defined, so it is suitable for the interface check.
+     * 
+     * @param type A target class.
+     * @return A JavaScript expression.
+     */
+    private String registryRef(Class type) {
+        return "$c." + names().allocate(type);
+    }
+
+    /**
+     * Quote the specified text as a JavaScript string literal.
+     * 
+     * @param text A target text.
+     * @return A string literal.
+     */
+    private static String quote(String text) {
+        StringBuilder builder = new StringBuilder(text.length() + 2).append('"');
+
+        for (int i = 0; i < text.length(); i++) {
+            char code = text.charAt(i);
+            switch (code) {
+            case '"':
+                builder.append("\\\"");
+                break;
+            case '\\':
+                builder.append("\\\\");
+                break;
+            case '\n':
+                builder.append("\\n");
+                break;
+            case '\r':
+                builder.append("\\r");
+                break;
+            case '\t':
+                builder.append("\\t");
+                break;
+            default:
+                builder.append(code);
+                break;
+            }
+        }
+        return builder.append('"').toString();
     }
 
     /**
@@ -3522,14 +4251,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A simple class name.
      */
     public static final String computeSimpleName(Class clazz) {
-        if (clazz.isLocalClass()) {
-            return clazz.getSimpleName();
-        } else if (clazz.isAnonymousClass()) {
-            String name = clazz.getName();
-            return name.substring(name.lastIndexOf(".") + 1);
-        } else {
-            return clazz.getSimpleName();
-        }
+        return new NameAllocator().allocate(clazz);
     }
 
     /**
@@ -3624,7 +4346,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
          */
         @Override
         public void writeAccessField(Field field, Code context, AccessMode mode) {
-            write(name(field.getType()), space, field.getName());
+            write(simpleName(field.getType()), space, field.getName());
         }
 
         /**
@@ -3669,9 +4391,13 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         @Override
         public void writeAssignOperation(Code left, AssignOperator operator, Code right) {
             if (whileInitializing()) {
-                // In JavaScript, the enum constant is written as a static field definition.
                 Enum constant = constants.get(Math.min(initialized - 1, constants.size() - 1));
-                write("static", space, constant.name(), space, "=", space, "new", space, simpleName(type), space, right);
+
+                // The enum constants are created in the deferred static initializer, so they are
+                // assigned to the class object. The name and ordinal are stored to the instance
+                // because they are not a part of the user defined constructor.
+                write(classRef(type), ".", constant.name(), space, "=", space, "$rt.enumValue(new", space, classRef(type), space, right, ",",
+                        space, quote(constant.name()), ",", space, constants.indexOf(constant), ");");
             } else {
                 super.writeAssignOperation(left, operator, right);
             }
@@ -3689,10 +4415,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
                         // remove implicit parameters
                         params.remove(0);
                         params.remove(0);
-                        Join parameters = Join.of(params).prefix("(").separator("," + space).suffix(")");
-
-                        write(parameters);
-                        write(";");
+                        write(buildCallParameter(constructor, params, 0, constructorIndex(constructor)));
                     }
                 }
             } else {

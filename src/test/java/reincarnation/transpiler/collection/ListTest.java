@@ -254,4 +254,70 @@ class ListTest extends JavascriptCodeVerifier {
             }
         });
     }
+
+    @Test
+    void sort() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                List<Integer> list = new ArrayList<>();
+                list.add(3);
+                list.add(1);
+                list.add(2);
+                list.sort(null);
+                return list.get(0) * 100 + list.get(1) * 10 + list.get(2);
+            }
+        });
+    }
+
+    @Test
+    void replaceAll() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                List<Integer> list = new ArrayList<>();
+                list.add(1);
+                list.add(2);
+                list.add(3);
+                list.replaceAll(value -> value * 2);
+                return list.get(2);
+            }
+        });
+    }
+
+    @Test
+    void removeIf() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                List<Integer> list = new ArrayList<>();
+                list.add(1);
+                list.add(2);
+                list.add(3);
+                list.add(4);
+                list.removeIf(value -> value % 2 == 0);
+                return list.size() * 10 + list.get(1);
+            }
+        });
+    }
+
+    @Test
+    void subList() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                List<Integer> list = new ArrayList<>();
+                list.add(1);
+                list.add(2);
+                list.add(3);
+                list.add(4);
+                List<Integer> sub = list.subList(1, 3);
+                return sub.size() * 10 + sub.get(0);
+            }
+        });
+    }
 }

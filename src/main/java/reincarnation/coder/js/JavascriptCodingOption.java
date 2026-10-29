@@ -13,15 +13,30 @@ import reincarnation.coder.CodingOption;
 
 public class JavascriptCodingOption extends CodingOption {
 
-    /** The write member class from top level class, this is mainly used for test. */
-    public boolean writeMemberFromTopLevel;
+    /** Whether the runtime is embedded in the output. A bundle embeds it once by itself. */
+    public boolean embedRuntime = true;
+
+    /** Whether the output is a bundle of the whole dependency closure. */
+    public boolean bundle;
 
     /**
-     * Whether the output targets the TeaVM class library emulation (mangled method names, type
-     * substitution and constructor initialization methods) instead of idiomatic JavaScript.
+     * Whether an unmapped Java API is rejected as an error instead of being emitted as an
+     * undefined JavaScript call.
      */
-    public boolean classlib;
+    public boolean strictApi;
 
-    /** The reachable method keys ({@code owner#name#desc}) in the class library mode, or null. */
-    public java.util.Set<String> methods;
+    /** The representation of the Java {@code long} primitive. */
+    public LongMode longMode = LongMode.BIGINT;
+
+    /** Whether the classes annotated by {@link Necessary} are scanned automatically. */
+    public boolean scanNecessary;
+
+    /** The additional classes which must be included in the bundle. */
+    public java.util.Set<Class> necessary = java.util.Set.of();
+
+    /** Whether the {@code main(String[])} method is invoked at the end of the bundle. */
+    public boolean emitMain = true;
+
+    /** Whether the class metadata is emitted for the reflection support. */
+    public boolean reflection;
 }

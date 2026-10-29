@@ -240,4 +240,66 @@ class MapTest extends JavascriptCodeVerifier {
             }
         });
     }
+
+    @Test
+    void computeIfAbsent() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                Map<String, Integer> map = new HashMap<>();
+                map.computeIfAbsent("a", key -> 1);
+                map.computeIfAbsent("a", key -> 2);
+                return map.get("a");
+            }
+        });
+    }
+
+    @Test
+    void merge() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                Map<String, Integer> map = new HashMap<>();
+                map.merge("a", 1, (left, right) -> left + right);
+                map.merge("a", 2, (left, right) -> left + right);
+                return map.get("a");
+            }
+        });
+    }
+
+    @Test
+    void putIfAbsent() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                Map<String, Integer> map = new HashMap<>();
+                map.putIfAbsent("a", 1);
+                map.putIfAbsent("a", 2);
+                return map.get("a");
+            }
+        });
+    }
+
+    @Test
+    void treeOrder() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                Map<Integer, String> map = new java.util.TreeMap<>();
+                map.put(3, "c");
+                map.put(1, "a");
+                map.put(2, "b");
+
+                int value = 0;
+                for (int key : map.keySet()) {
+                    value = value * 10 + key;
+                }
+                return value;
+            }
+        });
+    }
 }

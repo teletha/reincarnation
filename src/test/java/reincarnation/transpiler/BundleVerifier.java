@@ -7,35 +7,41 @@
  *
  *          https://opensource.org/licenses/MIT
  */
-package reincarnation.transpiler.classlib;
+package reincarnation.transpiler;
 
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.*;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 import com.caoccao.javet.interop.V8Host;
 import com.caoccao.javet.interop.V8Runtime;
 import com.caoccao.javet.values.V8Value;
+import com.caoccao.javet.values.primitive.V8ValueBigInteger;
 import com.caoccao.javet.values.primitive.V8ValueBoolean;
 import com.caoccao.javet.values.primitive.V8ValueDouble;
 import com.caoccao.javet.values.primitive.V8ValueInteger;
+import com.caoccao.javet.values.primitive.V8ValueLong;
 import com.caoccao.javet.values.primitive.V8ValueNull;
 import com.caoccao.javet.values.primitive.V8ValueString;
 
-import reincarnation.Reincarnation;
-import reincarnation.coder.js.Classlib;
+import reincarnation.coder.js.JavascriptBundle;
+import reincarnation.coder.js.JavascriptCoder;
+import reincarnation.coder.js.JavascriptCodingOption;
 
 /**
- * Verify the TeaVM class library based JavaScript program by comparing the invocation result of a
- * static method of the original Java class with the one of the decompiled JavaScript program.
+ * Verifies the bundled JavaScript program which contains the whole dependency closure.
+ * <p>
+ * The entry class must declare a static method.
+ * </p>
  */
-public class ClasslibProgramVerifier {
+public class BundleVerifier {
 
     /** The availability of the V8 runtime. */
     private static final boolean V8Available = loadV8();
 
     /**
-     * Check whether the V8 runtime can be loaded.
+     * Check whether the V8 runtime is available.
      * 
      * @return A result.
      */
@@ -49,23 +55,51 @@ public class ClasslibProgramVerifier {
     }
 
     /**
-     * Verify the class library based JavaScript program.
+     * Verify the bundled JavaScript program.
      * 
-     * @param target A target class which has a static entry method.
-     * @param method A method name.
+     * @param target An entry class.
+     * @param method A static method name.
      * @param args Arguments.
      * @throws Exception If the verification fails.
      */
     protected final void verify(Class<?> target, String method, Object... args) throws Exception {
+        verify(target, method, new JavascriptCodingOption(), args);
+    }
+
+    /**
+     * Verify the bundled JavaScript program with the reflection support.
+     * 
+     * @param target An entry class.
+     * @param method A static method name.
+     * @param args Arguments.
+     * @throws Exception If the verification fails.
+     */
+    protected final void verifyReflection(Class<?> target, String method, Object... args) throws Exception {
+        JavascriptCodingOption options = new JavascriptCodingOption();
+        options.reflection = true;
+        options.scanNecessary = true;
+        verify(target, method, options, args);
+    }
+
+    /**
+     * Verify the bundled JavaScript program.
+     * 
+     * @param target An entry class.
+     * @param method A static method name.
+     * @param options A coding options.
+     * @param args Arguments.
+     * @throws Exception If the verification fails.
+     */
+    private void verify(Class<?> target, String method, JavascriptCodingOption options, Object... args) throws Exception {
         Method entry = find(target, method, args.length);
         entry.setAccessible(true);
+
         Object expected = entry.invoke(null, args);
 
         assumeTrue(V8Available, "The V8 runtime is not available on this platform.");
 
-        String javascript = Reincarnation.rebirthProgram(target);
-        String className = Classlib.uniqueName(target);
-        String methodName = Classlib.mangle(method, entry.getParameterTypes());
+        String javascript = JavascriptBundle.build(target, options);
+        String className = JavascriptCoder.computeSimpleName(target);
 
         StringBuilder literal = new StringBuilder();
         for (int i = 0; i < args.length; i++) {
@@ -75,7 +109,8 @@ public class ClasslibProgramVerifier {
             literal.append(toJSLiteral(args[i], entry.getParameterTypes()[i]));
         }
 
-        String script = "(function () {\r\n" + javascript + "\r\n return " + className + "." + methodName + "(" + literal + ");\r\n})()";
+        String script = "(function () {\r\n" + javascript + "\r\n return $c." + className + "." + method + "(" + literal + ");\r\n})()";
+
         try (V8Runtime runtime = V8Host.getNodeInstance().createV8Runtime()) {
             try (V8Value value = runtime.getExecutor(script).execute()) {
                 assertObject(expected, toJava(value));
@@ -94,7 +129,7 @@ public class ClasslibProgramVerifier {
      */
     private Method find(Class<?> target, String name, int arity) throws NoSuchMethodException {
         for (Method method : target.getDeclaredMethods()) {
-            if (method.getName().equals(name) && method.getParameterCount() == arity) {
+            if (method.getName().equals(name) && method.getParameterCount() == arity && Modifier.isStatic(method.getModifiers())) {
                 return method;
             }
         }
@@ -111,11 +146,14 @@ public class ClasslibProgramVerifier {
     private String toJSLiteral(Object value, Class type) {
         if (value == null) {
             return "null";
-        } else if (type == boolean.class || type == int.class || type == long.class || type == short.class //
-                || type == byte.class || type == float.class || type == double.class) {
+        } else if (type == boolean.class || type == int.class || type == short.class || type == byte.class) {
             return String.valueOf(value);
         } else if (type == char.class) {
             return "\"" + value + "\"";
+        } else if (type == long.class) {
+            return ((Number) value).longValue() + "n";
+        } else if (type == float.class || type == double.class) {
+            return String.valueOf(value);
         } else {
             return "\"" + String.valueOf(value).replace("\\", "\\\\").replace("\"", "\\\"") + "\"";
         }
@@ -125,12 +163,16 @@ public class ClasslibProgramVerifier {
      * Convert the given V8 value into a plain Java object.
      * 
      * @param value A V8 value.
-     * @return A Java object.
+     * @return A converted value.
      * @throws Exception If the conversion fails.
      */
     private Object toJava(V8Value value) throws Exception {
         if (value instanceof V8ValueBoolean v) {
             return v.toPrimitive();
+        } else if (value instanceof V8ValueLong v) {
+            return v.toPrimitive();
+        } else if (value instanceof V8ValueBigInteger v) {
+            return v.toPrimitive().longValue();
         } else if (value instanceof V8ValueInteger v) {
             return v.toPrimitive();
         } else if (value instanceof V8ValueDouble v) {

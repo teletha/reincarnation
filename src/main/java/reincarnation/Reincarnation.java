@@ -16,7 +16,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -33,11 +32,9 @@ import reincarnation.coder.Code;
 import reincarnation.coder.Coder;
 import reincarnation.coder.java.JavaCoder;
 import reincarnation.coder.java.JavaCodingOption;
-import reincarnation.coder.js.Classlib;
-import reincarnation.coder.js.ClasslibReachability;
 import reincarnation.coder.js.JavascriptCoder;
+import reincarnation.coder.js.JavascriptBundle;
 import reincarnation.coder.js.JavascriptCodingOption;
-import reincarnation.coder.js.JavascriptRuntime;
 import reincarnation.coder.ts.TypeScriptCoder;
 import reincarnation.coder.ts.TypeScriptCodingOption;
 import reincarnation.util.Classes;
@@ -177,18 +174,20 @@ public final class Reincarnation {
             if (loader == null) {
                 loader = ClassLoader.getSystemClassLoader();
             }
+
+            ClassLoader previous = LOADER.get();
             LOADER.set(loader);
 
-            Reincarnation reincarnation = new Reincarnation(key);
-
             try {
+                Reincarnation reincarnation = new Reincarnation(key);
                 InputStream input = loader.getResourceAsStream(key.getName().replace('.', '/') + ".class");
                 new ClassReader(input).accept(new JavaClassDecompiler(reincarnation), 0);
+                return reincarnation;
             } catch (IOException e) {
                 throw I.quiet(e);
+            } finally {
+                LOADER.set(previous);
             }
-
-            return reincarnation;
         });
     }
 
@@ -244,79 +243,22 @@ public final class Reincarnation {
     }
 
     /**
-     * Decompile the specified class and all of its dependencies into a single JavaScript program
-     * which relies on the TeaVM class library emulation.
+     * Decompile the specified class and all of its dependencies into a single JavaScript program.
+     * 
+     * @param clazz A target class.
+     * @return A decompiled JavaScript program.
+     */
+    public static final String rebirthBundle(Class clazz) {
+        return JavascriptBundle.build(clazz);
+    }
+
+    /**
+     * Decompile the specified class and all of its dependencies into a single JavaScript program.
      * 
      * @param clazz A target class.
      * @return A decompiled JavaScript program.
      */
     public static final String rebirthProgram(Class clazz) {
-        // Compute the method level reachability to prune the unused class library classes.
-        ClasslibReachability.Result reachable = ClasslibReachability.analyze(clazz);
-        Set<Class> closure = new LinkedHashSet(reachable.classes);
-
-        // Post-order traversal so that every dependency (including the super class) is written
-        // before the class which depends on it.
-        LinkedHashSet<Class> order = new LinkedHashSet();
-        Set<Class> visited = new HashSet();
-        for (Class type : closure) {
-            order(type, closure, reachable.dependencies, visited, order);
-        }
-
-        JavascriptCodingOption options = new JavascriptCodingOption();
-        options.classlib = true;
-        options.methods = reachable.signatures;
-
-        StringBuilder bundle = new StringBuilder();
-        bundle.append(JavascriptRuntime.ClasslibStandard).append("\r\n\r\n");
-        Set<String> emitted = new HashSet();
-        for (Class type : order) {
-            // The same class may be collected twice as a different Class instance (e.g. a
-            // different class loader), so it is de-duplicated by the output class name.
-            if (!emitted.add(Classlib.uniqueName(type))) {
-                continue;
-            }
-
-            try {
-                JavascriptCoder coder = new JavascriptCoder();
-                coder.config(options);
-                exhume(type).rebirth(coder);
-                bundle.append(coder.toString()).append("\r\n");
-            } catch (Throwable e) {
-                bundle.append("// REINCARNATION: failed to decompile ").append(type.getName()).append(" : ").append(e).append("\r\n");
-            }
-        }
-        return bundle.toString();
-    }
-
-    /**
-     * Order the class and its dependencies in post-order.
-     * 
-     * @param clazz A target class.
-     * @param closure A reachable classes.
-     * @param dependencies A class dependency edges.
-     * @param visited A visited classes.
-     * @param order A collected classes.
-     */
-    private static void order(Class clazz, Set<Class> closure, Map<Class, Set<Class>> dependencies, Set<Class> visited, LinkedHashSet<Class> order) {
-        if (clazz == null || !visited.add(clazz)) {
-            return;
-        }
-
-        Class parent = clazz.getSuperclass();
-        if (parent != null && closure.contains(parent)) {
-            order(parent, closure, dependencies, visited, order);
-        }
-        for (Class inf : clazz.getInterfaces()) {
-            if (closure.contains(inf)) {
-                order(inf, closure, dependencies, visited, order);
-            }
-        }
-        for (Class dependency : dependencies.getOrDefault(clazz, Set.of())) {
-            if (closure.contains(dependency)) {
-                order(dependency, closure, dependencies, visited, order);
-            }
-        }
-        order.add(clazz);
+        return JavascriptBundle.build(clazz);
     }
 }
