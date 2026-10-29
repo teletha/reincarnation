@@ -259,6 +259,20 @@ public final class NativeArray {
     }
 
     /**
+     * Copy the part of the array.
+     * 
+     * @param source A source array.
+     * @param sourcePosition A source position.
+     * @param destination A destination array.
+     * @param destinationPosition A destination position.
+     * @param length A length.
+     */
+    @Native("$rt_arraycopy($0, $1, $2, $3, $4)")
+    public static void arraycopy(Object source, int sourcePosition, Object destination, int destinationPosition, int length) {
+        java.lang.System.arraycopy(source, sourcePosition, destination, destinationPosition, length);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

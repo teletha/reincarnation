@@ -47,6 +47,9 @@ final class Classlib {
     private static final Map<Class, Class> replacements = Map.ofEntries( //
             Map.entry(java.lang.StringBuilder.class, reincarnation.classlib.java.lang.StringBuilder.class), //
             Map.entry(java.lang.StringBuffer.class, reincarnation.classlib.java.lang.StringBuffer.class), //
+            Map.entry(java.lang.System.class, reincarnation.classlib.java.lang.System.class), //
+            Map.entry(java.io.PrintStream.class, reincarnation.classlib.java.io.PrintStream.class), //
+            Map.entry(java.util.Objects.class, reincarnation.classlib.java.util.Objects.class), //
             Map.entry(java.util.StringJoiner.class, reincarnation.classlib.java.util.StringJoiner.class), //
             Map.entry(java.util.regex.Pattern.class, reincarnation.classlib.java.util.regex.Pattern.class), //
             Map.entry(java.util.regex.Matcher.class, reincarnation.classlib.java.util.regex.Matcher.class), //
@@ -117,6 +120,24 @@ final class Classlib {
     private static String parameterDescriptor(Method method) {
         String descriptor = org.objectweb.asm.Type.getMethodDescriptor(method);
         return descriptor.substring(0, descriptor.indexOf(')') + 1);
+    }
+
+    /**
+     * Resolve the Java API field to the implementation field which is transpiled into JavaScript.
+     * 
+     * @param field A Java API field.
+     * @return An implementation field or the given field.
+     */
+    static java.lang.reflect.Field resolve(java.lang.reflect.Field field) {
+        Class target = replace(field.getDeclaringClass());
+        if (target == field.getDeclaringClass()) {
+            return field;
+        }
+        try {
+            return target.getDeclaredField(field.getName());
+        } catch (NoSuchFieldException e) {
+            return field;
+        }
     }
 
     /**

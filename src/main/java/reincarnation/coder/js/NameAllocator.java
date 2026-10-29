@@ -170,6 +170,8 @@ public final class NameAllocator {
      * @return A JavaScript identifier.
      */
     public String allocate(Field field) {
+        field = Classlib.resolve(field);
+
         if (isFixed(field.getDeclaringClass())) {
             return field.getName();
         }

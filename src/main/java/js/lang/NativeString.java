@@ -220,6 +220,28 @@ public final class NativeString {
     }
 
     /**
+     * Format the values.
+     * 
+     * @param format A format.
+     * @param values Values.
+     * @return A formatted text.
+     */
+    @Native("$rt_format($0, $1)")
+    public static String format(String format, Object... values) {
+        return String.format(format, values);
+    }
+
+    /**
+     * Get the platform line separator.
+     * 
+     * @return A line separator.
+     */
+    @Native("(typeof process !== \"undefined\" && process.platform === \"win32\" ? \"\\r\\n\" : \"\\n\")")
+    public static String lineSeparator() {
+        return java.lang.System.lineSeparator();
+    }
+
+    /**
      * Clamp the index.
      * 
      * @param length A string length.

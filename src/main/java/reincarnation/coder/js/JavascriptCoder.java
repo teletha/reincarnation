@@ -1237,24 +1237,14 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeAccessField(Field field, Code context, AccessMode mode) {
+        field = Classlib.resolve(field);
+
         Native nativeCode = field.getAnnotation(Native.class);
         if (nativeCode != null) {
             writeNative(nativeCode.value(), context, List.of());
             return;
         }
         if (Classes.isStatic(field)) {
-            if (field.getDeclaringClass() == System.class) {
-                // The standard output and error streams are provided by the runtime.
-                if (field.getName().equals("out")) {
-                    requireRuntime();
-                    write("$rt_out");
-                    return;
-                } else if (field.getName().equals("err")) {
-                    requireRuntime();
-                    write("$rt_err");
-                    return;
-                }
-            }
             if (current.is(field.getDeclaringClass())) {
                 write(classRef(field.getDeclaringClass()), ".", fieldName(field));
             } else {
@@ -1412,8 +1402,6 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             write("$rt_compare", "(", context, ",", space, params.get(0), ")");
         } else if (isObjectMethod(method)) {
             writeObjectMethod(method, context, params);
-        } else if (isPrintStream(method.getDeclaringClass())) {
-            writePrintStreamMethod(method, context, params);
         } else if (isThrowableMethod(method)) {
             writeThrowableMethod(method, context, params);
         } else if (isMathMethod(method)) {
@@ -1422,8 +1410,6 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             writeCharacterMethod(method, context, params);
         } else if (isNumberMethod(method)) {
             writeNumberMethod(method, context, params);
-        } else if (isSystemMethod(method)) {
-            writeSystemMethod(method, context, params);
         } else if (isArrayMethod(method)) {
             writeArrayMethod(method, context, params);
         } else if (isCollectionsMethod(method)) {
