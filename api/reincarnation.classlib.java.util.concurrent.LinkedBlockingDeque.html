@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="h">
+		<header class="N" date="2026-10-29">
+			<h1 class="O"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="P"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="Q"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="k"></nav>
+		<article class="i" id="Article">
+			<section class="KB"><code class="J">reincarnation.classlib.java.util.concurrent</code>
+				<h2 class="Class o"><code class="FB">LinkedBlockingDeque</code><code class="w">&lt;<code>E</code>&gt;</code></h2>
+				<div class="CB">
+					<ul class="E F">
+						<li><code>E</code></li>
+					</ul>
+					<ul class="E G">
+						<li><code><a aria-label="reincarnation.classlib.java.util.AbstractQueue" href="api/reincarnation.classlib.java.util.AbstractQueue.html">AbstractQueue</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.AbstractCollection" href="api/reincarnation.classlib.java.util.AbstractCollection.html">AbstractCollection</a><code class="parameters"><code>E</code></code></code></li>
+					</ul>
+					<ul class="E H">
+						<li><code><a aria-label="reincarnation.classlib.java.util.concurrent.BlockingDeque" href="api/reincarnation.classlib.java.util.concurrent.BlockingDeque.html">BlockingDeque</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.concurrent.BlockingQueue" href="api/reincarnation.classlib.java.util.concurrent.BlockingQueue.html">BlockingQueue</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.Collection" href="api/reincarnation.classlib.java.util.Collection.html">Collection</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.Deque" href="api/reincarnation.classlib.java.util.Deque.html">Deque</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.lang.Iterable" href="api/reincarnation.classlib.java.lang.Iterable.html">Iterable</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.Queue" href="api/reincarnation.classlib.java.util.Queue.html">Queue</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.SequencedCollection" href="api/reincarnation.classlib.java.util.SequencedCollection.html">SequencedCollection</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.io.Serializable" href="api/reincarnation.classlib.java.io.Serializable.html">Serializable</a></code></li>
+					</ul>
+				</div><span class="A"><p>The Java implementation of <code><a aria-label="java.util.concurrent.LinkedBlockingDeque 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/LinkedBlockingDeque.html">java.util.concurrent.LinkedBlockingDeque</a></code>.</p></span></section>
+			<section class="KB" id="LinkedBlockingDeque()">
+				<h2 class="LB"><i class="PUBLIC"></i><code class="FB">LinkedBlockingDeque</code><code class="w">()</code></h2><span class="A"><p>Create an empty deque.</p></span></section>
+			<section class="KB" id="LinkedBlockingDeque(int)">
+				<h2 class="LB"><i class="PUBLIC"></i><code class="FB">LinkedBlockingDeque</code><code class="w">(<code>int</code><code class="parameterName">capacity</code>)</code></h2>
+				<table class="b">
+					<tr class="R">
+						<td><code>int</code><code class="parameterName">capacity</code></td>
+						<td><span><p>A capacity.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create an empty deque.</p></span></section>
+			<section class="KB" id="LinkedBlockingDeque(java.util.Collection)">
+				<h2 class="LB"><i class="PUBLIC"></i><code class="FB">LinkedBlockingDeque</code><code class="w">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code></h2>
+				<table class="b">
+					<tr class="R">
+						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code></td>
+						<td><span><p>A collection.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create a deque from the collection.</p></span></section>
+			<section class="KB" id="addFirst(java.lang.Object)">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">addFirst</code><code class="w">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="BB"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="R">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="addLast(java.lang.Object)">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">addLast</code><code class="w">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="BB"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="R">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="offerFirst(java.lang.Object)">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">offerFirst</code><code class="w">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="BB"><code>boolean</code></i></h2>
+				<table class="b">
+					<tr class="R">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td></td>
+					</tr>
+					<tr class="M">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="offerLast(java.lang.Object)">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">offerLast</code><code class="w">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="BB"><code>boolean</code></i></h2>
+				<table class="b">
+					<tr class="R">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td></td>
+					</tr>
+					<tr class="M">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="removeFirst()">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">removeFirst</code><code class="w">()</code><i class="BB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="removeLast()">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">removeLast</code><code class="w">()</code><i class="BB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="pollFirst()">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">pollFirst</code><code class="w">()</code><i class="BB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="pollLast()">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">pollLast</code><code class="w">()</code><i class="BB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="getFirst()">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">getFirst</code><code class="w">()</code><i class="BB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="getLast()">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">getLast</code><code class="w">()</code><i class="BB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="peekFirst()">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">peekFirst</code><code class="w">()</code><i class="BB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="peekLast()">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">peekLast</code><code class="w">()</code><i class="BB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="push(java.lang.Object)">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">push</code><code class="w">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="BB"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="R">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="pop()">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">pop</code><code class="w">()</code><i class="BB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="descendingIterator()">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">descendingIterator</code><code class="w">()</code><i class="BB"><code><a aria-label="reincarnation.classlib.java.util.Iterator" href="api/reincarnation.classlib.java.util.Iterator.html">Iterator</a></code></i></h2>
+				<table class="b">
+					<tr class="M">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Iterator" href="api/reincarnation.classlib.java.util.Iterator.html">Iterator</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+		</article>
+		<aside class="l">
+			<div class="s">
+				<h5 class="V">Constructors</h5>
+				<ul>
+					<li class="y"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#LinkedBlockingDeque()">LinkedBlockingDeque</a></code><code class="w">()</code></li>
+					<li class="y"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#LinkedBlockingDeque(int)">LinkedBlockingDeque</a></code><code class="w">(<code>int</code><code class="parameterName">capacity</code>)</code></li>
+					<li class="y"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#LinkedBlockingDeque(java.util.Collection)">LinkedBlockingDeque</a></code><code class="w">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code></li>
+				</ul>
+				<h5 class="V">Methods</h5>
+				<ul>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#addFirst(java.lang.Object)">addFirst</a></code><code class="w">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="DB"><code>void</code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#addLast(java.lang.Object)">addLast</a></code><code class="w">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="DB"><code>void</code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#offerFirst(java.lang.Object)">offerFirst</a></code><code class="w">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="DB"><code>boolean</code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#offerLast(java.lang.Object)">offerLast</a></code><code class="w">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="DB"><code>boolean</code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#removeFirst()">removeFirst</a></code><code class="w">()</code><i class="DB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#removeLast()">removeLast</a></code><code class="w">()</code><i class="DB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#pollFirst()">pollFirst</a></code><code class="w">()</code><i class="DB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#pollLast()">pollLast</a></code><code class="w">()</code><i class="DB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#getFirst()">getFirst</a></code><code class="w">()</code><i class="DB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#getLast()">getLast</a></code><code class="w">()</code><i class="DB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#peekFirst()">peekFirst</a></code><code class="w">()</code><i class="DB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#peekLast()">peekLast</a></code><code class="w">()</code><i class="DB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#push(java.lang.Object)">push</a></code><code class="w">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="DB"><code>void</code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#pop()">pop</a></code><code class="w">()</code><i class="DB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.html#descendingIterator()">descendingIterator</a></code><code class="w">()</code><i class="DB"><code><a aria-label="reincarnation.classlib.java.util.Iterator" href="api/reincarnation.classlib.java.util.Iterator.html">Iterator</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="j">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

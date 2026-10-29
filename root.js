@@ -372,14 +372,109 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "ArrayIterator",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
 			"name": "LinkedHashSet",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
 		},
 		{
+			"name": "DelayQueue",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Class"
+		},
+		{
+			"name": "ArrayBlockingQueue",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Class"
+		},
+		{
+			"name": "ConcurrentSkipListMap",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Class"
+		},
+		{
+			"name": "BlockingQueue",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Interface"
+		},
+		{
+			"name": "LinkedBlockingDeque",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Class"
+		},
+		{
+			"name": "BlockingDeque",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Interface"
+		},
+		{
+			"name": "CopyOnWriteArrayList",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Class"
+		},
+		{
+			"name": "CopyOnWriteArraySet",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Class"
+		},
+		{
+			"name": "LinkedBlockingQueue",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Class"
+		},
+		{
+			"name": "SynchronousQueue",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Class"
+		},
+		{
+			"name": "ConcurrentHashMap",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Class"
+		},
+		{
+			"name": "ConcurrentSkipListSet",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Class"
+		},
+		{
+			"name": "ConcurrentNavigableMap",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Interface"
+		},
+		{
 			"name": "ConcurrentMap",
 			"packageName": "reincarnation.classlib.java.util.concurrent",
 			"type": "Interface"
+		},
+		{
+			"name": "ConcurrentLinkedDeque",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Class"
+		},
+		{
+			"name": "ConcurrentLinkedQueue",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Class"
+		},
+		{
+			"name": "TransferQueue",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Interface"
+		},
+		{
+			"name": "LinkedTransferQueue",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Class"
+		},
+		{
+			"name": "PriorityBlockingQueue",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Class"
 		},
 		{
 			"name": "NavigableSet",

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="h">
+		<header class="N" date="2026-10-29">
+			<h1 class="O"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="P"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="Q"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="k"></nav>
+		<article class="i" id="Article">
+			<section class="KB"><code class="J">reincarnation.classlib.java.util.concurrent</code>
+				<h2 class="Class o"><code class="FB">ConcurrentSkipListSet</code><code class="w">&lt;<code>E</code>&gt;</code></h2>
+				<div class="CB">
+					<ul class="E F">
+						<li><code>E</code></li>
+					</ul>
+					<ul class="E G">
+						<li><code><a aria-label="reincarnation.classlib.java.util.AbstractSet" href="api/reincarnation.classlib.java.util.AbstractSet.html">AbstractSet</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.AbstractCollection" href="api/reincarnation.classlib.java.util.AbstractCollection.html">AbstractCollection</a><code class="parameters"><code>E</code></code></code></li>
+					</ul>
+					<ul class="E H">
+						<li><code><a aria-label="reincarnation.classlib.java.lang.Cloneable" href="api/reincarnation.classlib.java.lang.Cloneable.html">Cloneable</a></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.Collection" href="api/reincarnation.classlib.java.util.Collection.html">Collection</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.lang.Iterable" href="api/reincarnation.classlib.java.lang.Iterable.html">Iterable</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.NavigableSet" href="api/reincarnation.classlib.java.util.NavigableSet.html">NavigableSet</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.SequencedCollection" href="api/reincarnation.classlib.java.util.SequencedCollection.html">SequencedCollection</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.SequencedSet" href="api/reincarnation.classlib.java.util.SequencedSet.html">SequencedSet</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.io.Serializable" href="api/reincarnation.classlib.java.io.Serializable.html">Serializable</a></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.Set" href="api/reincarnation.classlib.java.util.Set.html">Set</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.SortedSet" href="api/reincarnation.classlib.java.util.SortedSet.html">SortedSet</a><code class="parameters"><code>E</code></code></code></li>
+					</ul>
+				</div><span class="A"><p>The Java implementation of <code><a aria-label="java.util.concurrent.ConcurrentSkipListSet 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/ConcurrentSkipListSet.html">java.util.concurrent.ConcurrentSkipListSet</a></code>.</p></span></section>
+			<section class="KB" id="ConcurrentSkipListSet()">
+				<h2 class="LB"><i class="PUBLIC"></i><code class="FB">ConcurrentSkipListSet</code><code class="w">()</code></h2><span class="A"><p>Create an empty set.</p></span></section>
+			<section class="KB" id="ConcurrentSkipListSet(java.util.Comparator)">
+				<h2 class="LB"><i class="PUBLIC"></i><code class="FB">ConcurrentSkipListSet</code><code class="w">(<code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Comparator.html">Comparator</a></code><code class="parameterName">comparator</code>)</code></h2>
+				<table class="b">
+					<tr class="R">
+						<td><code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Comparator.html">Comparator</a></code><code class="parameterName">comparator</code></td>
+						<td><span><p>A comparator.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create an empty set.</p></span></section>
+			<section class="KB" id="ConcurrentSkipListSet(java.util.Collection)">
+				<h2 class="LB"><i class="PUBLIC"></i><code class="FB">ConcurrentSkipListSet</code><code class="w">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code></h2>
+				<table class="b">
+					<tr class="R">
+						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code></td>
+						<td><span><p>A collection.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create a set from the collection.</p></span></section>
+			<section class="KB" id="ConcurrentSkipListSet(java.util.SortedSet)">
+				<h2 class="LB"><i class="PUBLIC"></i><code class="FB">ConcurrentSkipListSet</code><code class="w">(<code><a aria-label="java.util.SortedSet 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SortedSet.html">SortedSet</a></code><code class="parameterName">set</code>)</code></h2>
+				<table class="b">
+					<tr class="R">
+						<td><code><a aria-label="java.util.SortedSet 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SortedSet.html">SortedSet</a></code><code class="parameterName">set</code></td>
+						<td><span><p>A sorted set.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create a set from the sorted set.</p></span></section>
+			<section class="KB" id="add(java.lang.Object)">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">add</code><code class="w">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="BB"><code>boolean</code></i></h2>
+				<table class="b">
+					<tr class="R">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td></td>
+					</tr>
+					<tr class="M">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="comparator()">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">comparator</code><code class="w">()</code><i class="BB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="first()">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">first</code><code class="w">()</code><i class="BB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="last()">
+				<h2 class="LB"><i class="OVERRIDE PUBLIC"></i><code class="FB">last</code><code class="w">()</code><i class="BB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="KB" id="pollFirst()">
+				<h2 class="LB"><i class="PUBLIC"></i><code class="FB">pollFirst</code><code class="w">()</code><i class="BB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value or null.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Remove and return the first value.</p></span></section>
+			<section class="KB" id="pollLast()">
+				<h2 class="LB"><i class="PUBLIC"></i><code class="FB">pollLast</code><code class="w">()</code><i class="BB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="M">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value or null.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Remove and return the last value.</p></span></section>
+		</article>
+		<aside class="l">
+			<div class="s">
+				<h5 class="V">Constructors</h5>
+				<ul>
+					<li class="y"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.ConcurrentSkipListSet.html#ConcurrentSkipListSet()">ConcurrentSkipListSet</a></code><code class="w">()</code></li>
+					<li class="y"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.ConcurrentSkipListSet.html#ConcurrentSkipListSet(java.util.Comparator)">ConcurrentSkipListSet</a></code><code class="w">(<code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Comparator.html">Comparator</a></code><code class="parameterName">comparator</code>)</code></li>
+					<li class="y"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.ConcurrentSkipListSet.html#ConcurrentSkipListSet(java.util.Collection)">ConcurrentSkipListSet</a></code><code class="w">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code></li>
+					<li class="y"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.ConcurrentSkipListSet.html#ConcurrentSkipListSet(java.util.SortedSet)">ConcurrentSkipListSet</a></code><code class="w">(<code><a aria-label="java.util.SortedSet 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SortedSet.html">SortedSet</a></code><code class="parameterName">set</code>)</code></li>
+				</ul>
+				<h5 class="V">Methods</h5>
+				<ul>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.ConcurrentSkipListSet.html#add(java.lang.Object)">add</a></code><code class="w">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="DB"><code>boolean</code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.ConcurrentSkipListSet.html#comparator()">comparator</a></code><code class="w">()</code><i class="DB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.ConcurrentSkipListSet.html#first()">first</a></code><code class="w">()</code><i class="DB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="y"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.ConcurrentSkipListSet.html#last()">last</a></code><code class="w">()</code><i class="DB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="y"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.ConcurrentSkipListSet.html#pollFirst()">pollFirst</a></code><code class="w">()</code><i class="DB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="y"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.ConcurrentSkipListSet.html#pollLast()">pollLast</a></code><code class="w">()</code><i class="DB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="j">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>
