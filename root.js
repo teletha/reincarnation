@@ -395,6 +395,11 @@ const root = {
 			"type": "AbstractClass"
 		},
 		{
+			"name": "CharSequence",
+			"packageName": "reincarnation.classlib.java.lang",
+			"type": "Interface"
+		},
+		{
 			"name": "StringBuffer",
 			"packageName": "reincarnation.classlib.java.lang",
 			"type": "Class"
@@ -410,6 +415,11 @@ const root = {
 			"type": "Interface"
 		},
 		{
+			"name": "Comparable",
+			"packageName": "reincarnation.classlib.java.lang",
+			"type": "Functional"
+		},
+		{
 			"name": "Iterable",
 			"packageName": "reincarnation.classlib.java.lang",
 			"type": "Functional"
@@ -423,6 +433,11 @@ const root = {
 			"name": "AbstractStringBuilder",
 			"packageName": "reincarnation.classlib.java.lang",
 			"type": "AbstractClass"
+		},
+		{
+			"name": "Appendable",
+			"packageName": "reincarnation.classlib.java.lang",
+			"type": "Interface"
 		},
 		{
 			"name": "Serializable",
