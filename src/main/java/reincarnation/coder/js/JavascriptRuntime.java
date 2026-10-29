@@ -1104,9 +1104,7 @@ public final class JavascriptRuntime {
                 }
 
                 keySet() {
-                    const set = new Set();
-                    set.elements = this.$keys.slice();
-                    return set;
+                    return $c.Set.of(this.$keys);
                 }
 
                 values() {
@@ -1114,11 +1112,11 @@ public final class JavascriptRuntime {
                 }
 
                 entrySet() {
-                    const set = new Set();
+                    const entries = [];
                     for (let index = 0; index < this.$keys.length; index++) {
-                        set.add(new Entry(this.$keys[index], this.$values[index]));
+                        entries.push(new Entry(this.$keys[index], this.$values[index]));
                     }
-                    return set;
+                    return $c.Set.of(entries);
                 }
 
                 forEach(action) {
@@ -1283,171 +1281,6 @@ public final class JavascriptRuntime {
                 }
             }
             class Hashtable extends Map {}
-
-            class Set {
-                constructor(...args) {
-                    this.elements = [];
-                    if (args.length !== 0) {
-                        const source = args[0];
-                        if (source !== null && source !== undefined && typeof source !== "number") {
-                            for (const value of $rt_iterable(source)) {
-                                this.add(value);
-                            }
-                        }
-                    }
-                }
-
-                add(value) {
-                    if (this.contains(value)) {
-                        return false;
-                    }
-                    this.elements.push(value);
-                    return true;
-                }
-
-                remove(value) {
-                    const index = this.indexOf(value);
-                    if (index < 0) {
-                        return false;
-                    }
-                    this.elements.splice(index, 1);
-                    return true;
-                }
-
-                size() { return this.elements.length; }
-                isEmpty() { return this.elements.length === 0; }
-                contains(value) { return this.indexOf(value) >= 0; }
-                indexOf(value) { return this.elements.findIndex(x => $rt_equals(x, value)); }
-                clear() { this.elements.length = 0; }
-
-                addAll(collection) {
-                    let changed = false;
-                    for (const value of $rt_iterable(collection)) {
-                        changed = this.add(value) || changed;
-                    }
-                    return changed;
-                }
-
-                removeAll(collection) {
-                    let changed = false;
-                    for (const value of $rt_iterable(collection)) {
-                        while (this.remove(value)) {
-                            changed = true;
-                        }
-                    }
-                    return changed;
-                }
-
-                retainAll(collection) {
-                    const retained = [];
-                    for (const value of this.elements) {
-                        if ($rt_contains(collection, value)) {
-                            retained.push(value);
-                        }
-                    }
-                    const changed = retained.length !== this.elements.length;
-                    this.elements = retained;
-                    return changed;
-                }
-
-                containsAll(collection) {
-                    for (const value of $rt_iterable(collection)) {
-                        if (!this.contains(value)) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-
-                toArray(array) {
-                    if (array === undefined || array === null) {
-                        return this.elements.slice();
-                    }
-                    for (let index = 0; index < this.elements.length; index++) {
-                        array[index] = this.elements[index];
-                    }
-                    return array;
-                }
-
-                iterator() {
-                    let index = 0;
-                    const elements = this.elements;
-                    return {
-                        hasNext() { return index < elements.length; },
-                        next() { return elements[index++]; },
-                        remove() { elements.splice(--index, 1); }
-                    };
-                }
-
-                forEach(action) {
-                    for (const value of this.elements) {
-                        action(value);
-                    }
-                }
-
-                equals(other) {
-                    if (other instanceof Set) {
-                        if (this.elements.length !== other.elements.length) {
-                            return false;
-                        }
-                        for (const value of this.elements) {
-                            if (!other.contains(value)) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    }
-                    return false;
-                }
-
-                hashCode() {
-                    let hash = 0;
-                    for (const value of this.elements) {
-                        hash = (hash + $rt_hashCode(value)) | 0;
-                    }
-                    return hash;
-                }
-
-                toString() {
-                    return "[" + this.elements.map($rt_toString).join(", ") + "]";
-                }
-
-                [Symbol.iterator]() {
-                    return this.elements[Symbol.iterator]();
-                }
-
-                stream() {
-                    return $c.Stream.of(this.elements);
-                }
-
-                static of(...values) {
-                    const set = new Set();
-                    for (const value of values) {
-                        set.add(value);
-                    }
-                    return set;
-                }
-
-                static copyOf(collection) {
-                    return new Set(collection);
-                }
-            }
-
-            class HashSet extends Set {}
-            class LinkedHashSet extends Set {}
-            class TreeSet extends Set {
-                constructor(...args) {
-                    super(...args);
-                    this.elements.sort((a, b) => $rt_compare(a, b));
-                }
-                add(value) {
-                    const changed = super.add(value);
-                    if (changed) {
-                        this.elements.sort((a, b) => $rt_compare(a, b));
-                    }
-                    return changed;
-                }
-            }
 
             class Queue {
                 constructor(...args) {

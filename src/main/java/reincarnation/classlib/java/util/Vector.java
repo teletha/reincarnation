@@ -33,6 +33,16 @@ public final class Vector extends List {
     }
 
     /**
+     * Create an empty list.
+     * 
+     * @param capacity A capacity.
+     * @param increment A capacity increment.
+     */
+    public Vector(int capacity, int increment) {
+        super();
+    }
+
+    /**
      * Create a list from the collection.
      * 
      * @param collection A collection.

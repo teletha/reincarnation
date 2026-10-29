@@ -25,13 +25,11 @@ import java.util.Set;
 final class Classlib {
 
     /** The classes which are provided as the hand-written JavaScript runtime. */
-    private static final Set<Class> runtimes = Set.of(java.util.Set.class, java.util.HashSet.class,
-            java.util.LinkedHashSet.class, java.util.TreeSet.class, java.util.SortedSet.class,
-            java.util.NavigableSet.class, java.util.Queue.class, java.util.Deque.class, java.util.ArrayDeque.class,
-            java.util.PriorityQueue.class, java.util.Map.class, java.util.HashMap.class, java.util.LinkedHashMap.class,
-            java.util.TreeMap.class, java.util.Hashtable.class, java.util.SortedMap.class,
-            java.util.NavigableMap.class, java.util.concurrent.ConcurrentMap.class, java.util.Map.Entry.class,
-            java.util.ListIterator.class, java.lang.Enum.class);
+    private static final Set<Class> runtimes = Set.of(java.util.Queue.class, java.util.Deque.class,
+            java.util.ArrayDeque.class, java.util.PriorityQueue.class, java.util.Map.class, java.util.HashMap.class,
+            java.util.LinkedHashMap.class, java.util.TreeMap.class, java.util.Hashtable.class,
+            java.util.SortedMap.class, java.util.NavigableMap.class, java.util.concurrent.ConcurrentMap.class,
+            java.util.Map.Entry.class, java.util.ListIterator.class, java.lang.Enum.class);
 
     /** The classes which are provided as the reflection runtime. */
     private static final Set<Class> reflections = Set.of(java.lang.Class.class, java.lang.reflect.Method.class,
@@ -58,6 +56,12 @@ final class Classlib {
             Map.entry(java.util.Collection.class, reincarnation.classlib.java.util.List.class), //
             Map.entry(java.lang.Iterable.class, reincarnation.classlib.java.util.List.class), //
             Map.entry(java.util.Iterator.class, reincarnation.classlib.java.util.Iterator.class), //
+            Map.entry(java.util.Set.class, reincarnation.classlib.java.util.Set.class), //
+            Map.entry(java.util.HashSet.class, reincarnation.classlib.java.util.HashSet.class), //
+            Map.entry(java.util.LinkedHashSet.class, reincarnation.classlib.java.util.LinkedHashSet.class), //
+            Map.entry(java.util.TreeSet.class, reincarnation.classlib.java.util.TreeSet.class), //
+            Map.entry(java.util.SortedSet.class, reincarnation.classlib.java.util.Set.class), //
+            Map.entry(java.util.NavigableSet.class, reincarnation.classlib.java.util.Set.class), //
             Map.entry(java.util.Optional.class, reincarnation.classlib.java.util.Optional.class), //
             Map.entry(java.util.stream.Stream.class, reincarnation.classlib.java.util.stream.Stream.class), //
             Map.entry(java.util.StringJoiner.class, reincarnation.classlib.java.util.StringJoiner.class), //

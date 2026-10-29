@@ -153,4 +153,112 @@ class SetTest extends JavascriptCodeVerifier {
             }
         });
     }
+
+    @Test
+    void iterator() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                Set<Integer> set = new LinkedHashSet<>();
+                set.add(1);
+                set.add(2);
+                set.add(3);
+
+                int sum = 0;
+                java.util.Iterator<Integer> iterator = set.iterator();
+                while (iterator.hasNext()) {
+                    sum += iterator.next();
+                }
+                return sum;
+            }
+        });
+    }
+
+    @Test
+    void iteratorRemove() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                Set<Integer> set = new LinkedHashSet<>();
+                set.add(1);
+                set.add(2);
+                set.add(3);
+
+                java.util.Iterator<Integer> iterator = set.iterator();
+                while (iterator.hasNext()) {
+                    if (iterator.next() % 2 == 0) {
+                        iterator.remove();
+                    }
+                }
+                return set.toString();
+            }
+        });
+    }
+
+    @Test
+    void removeIf() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                Set<Integer> set = new LinkedHashSet<>();
+                set.add(1);
+                set.add(2);
+                set.add(3);
+                set.add(4);
+
+                set.removeIf(value -> value % 2 == 0);
+                return set.toString();
+            }
+        });
+    }
+
+    @Test
+    void firstAndLast() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                java.util.SortedSet<Integer> set = new TreeSet<>();
+                set.add(3);
+                set.add(1);
+                set.add(2);
+                return set.first() * 10 + set.last();
+            }
+        });
+    }
+
+    @Test
+    void stream() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                Set<Integer> set = new LinkedHashSet<>();
+                set.add(1);
+                set.add(2);
+                set.add(3);
+                return (int) set.stream().filter(value -> value > 1).count();
+            }
+        });
+    }
+
+    @Test
+    void equalsAndHashCode() throws Exception {
+        verify(new TestCode.Boolean() {
+
+            @Override
+            public boolean run() {
+                Set<Integer> left = new HashSet<>();
+                left.add(1);
+                left.add(2);
+                Set<Integer> right = new HashSet<>();
+                right.add(2);
+                right.add(1);
+                return left.equals(right) && left.hashCode() == right.hashCode();
+            }
+        });
+    }
 }

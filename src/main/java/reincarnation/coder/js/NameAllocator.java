@@ -228,6 +228,10 @@ public final class NameAllocator {
                 && method.isVarArgs()) {
             return true;
         }
+        if (owner.getName().equals("reincarnation.classlib.java.util.Set") && method.getName().equals("of")
+                && method.isVarArgs()) {
+            return true;
+        }
         String descriptor = org.objectweb.asm.Type.getMethodDescriptor(method);
         return switch (method.getName()) {
         case "equals" -> descriptor.equals("(Ljava/lang/Object;)Z");

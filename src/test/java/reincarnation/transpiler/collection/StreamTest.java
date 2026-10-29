@@ -59,6 +59,17 @@ class StreamTest extends JavascriptCodeVerifier {
     }
 
     @Test
+    void collectToSet() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                return Stream.of(1, 2, 2, 3).collect(Collectors.toSet()).size();
+            }
+        });
+    }
+
+    @Test
     void joining() throws Exception {
         verify(new TestCode.Text() {
 

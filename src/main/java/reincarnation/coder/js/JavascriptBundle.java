@@ -142,14 +142,15 @@ public final class JavascriptBundle {
             return;
         }
 
-        // The runtime collections expose the stream API and the map values are returned as a
-        // classlib list.
+        // The runtime collections expose the stream API and the map views are returned as the
+        // classlib collections.
         if (Classlib.isRuntime(type)) {
             collect(java.util.stream.Stream.class, order, visited);
             collect(java.util.Optional.class, order, visited);
         }
         if (java.util.Map.class.isAssignableFrom(type)) {
             collect(java.util.List.class, order, visited);
+            collect(java.util.Set.class, order, visited);
         }
 
         // The explicitly excluded class is not emitted.
