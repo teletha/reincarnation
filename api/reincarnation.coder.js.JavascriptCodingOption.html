@@ -19,10 +19,10 @@
 		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="x">
-		<header class="u" date="2026-10-28">
-			<h1 class="v"><a href="index.html"><code>Reincarnation</code></a></h1>
-			<nav class="w"><a href="api/main.html" id="API"><svg class="package">
+	<body class="HB">
+		<header class="v" date="2026-10-29">
+			<h1 class="L"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="i"><a href="api/main.html" id="API"><svg class="package">
 						<use href="main.svg#package"/>
 					</svg>
 				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
@@ -35,49 +35,64 @@
 						<use href="main.svg#github"/>
 					</svg>
 				</a></nav>
-			<div class="k"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+			<div class="w"><a aria-label="Change color scheme" id="theme"><svg class="sun">
 						<use href="main.svg#sun"/>
 					</svg><svg class="moon">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<nav class="t"></nav>
-		<article class="S" id="Article">
-			<section class="i"><code class="L">reincarnation.coder.js</code>
-				<h2 class="Class h"><code class="r">JavascriptCodingOption</code></h2>
-				<div class="JB">
+		<nav class="X"></nav>
+		<article class="FB" id="Article">
+			<section class="b"><code class="M">reincarnation.coder.js</code>
+				<h2 class="Class K"><code class="V">JavascriptCodingOption</code></h2>
+				<div class="p">
 					<ul class="E G">
 						<li><code><a aria-label="reincarnation.coder.CodingOption" href="api/reincarnation.coder.CodingOption.html">CodingOption</a></code></li>
 					</ul>
 				</div>
 			</section>
-			<section class="i" id="writeMemberFromTopLevel">
-				<h2 class="W"><i class="PUBLIC"></i><code class="r">writeMemberFromTopLevel</code><i class="Y"><code class="return">boolean</code></i></h2><span class="A"><p>The write member class from top level class, this is mainly used for test.</p></span></section>
-			<section class="i" id="classlib">
-				<h2 class="W"><i class="PUBLIC"></i><code class="r">classlib</code><i class="Y"><code class="return">boolean</code></i></h2><span class="A"><p>Whether the output targets the TeaVM class library emulation (mangled method names, type
-substitution and constructor initialization methods) instead of idiomatic JavaScript.</p></span></section>
-			<section class="i" id="methods">
-				<h2 class="W"><i class="PUBLIC"></i><code class="r">methods</code><i class="Y"><code class="return"><a aria-label="java.util.Set 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></code></code></i></h2><span class="A"><p>The reachable method keys (<code>owner#name#desc</code>) in the class library mode, or null.</p></span></section>
-			<section class="i" id="JavascriptCodingOption()">
-				<h2 class="W"><i class="PUBLIC"></i><code class="r">JavascriptCodingOption</code><code class="y">()</code></h2>
+			<section class="b" id="embedRuntime">
+				<h2 class="s"><i class="PUBLIC"></i><code class="V">embedRuntime</code><i class="KB"><code class="return">boolean</code></i></h2><span class="A"><p>Whether the runtime is embedded in the output. A bundle embeds it once by itself.</p></span></section>
+			<section class="b" id="bundle">
+				<h2 class="s"><i class="PUBLIC"></i><code class="V">bundle</code><i class="KB"><code class="return">boolean</code></i></h2><span class="A"><p>Whether the output is a bundle of the whole dependency closure.</p></span></section>
+			<section class="b" id="strictApi">
+				<h2 class="s"><i class="PUBLIC"></i><code class="V">strictApi</code><i class="KB"><code class="return">boolean</code></i></h2><span class="A"><p>Whether an unmapped Java API is rejected as an error instead of being emitted as an
+undefined JavaScript call.</p></span></section>
+			<section class="b" id="longMode">
+				<h2 class="s"><i class="PUBLIC"></i><code class="V">longMode</code><i class="KB"><code class="return"><a aria-label="reincarnation.coder.js.LongMode" href="api/reincarnation.coder.js.LongMode.html">LongMode</a></code></i></h2><span class="A"><p>The representation of the Java <code>long</code> primitive.</p></span></section>
+			<section class="b" id="scanNecessary">
+				<h2 class="s"><i class="PUBLIC"></i><code class="V">scanNecessary</code><i class="KB"><code class="return">boolean</code></i></h2><span class="A"><p>Whether the classes annotated by <code><a aria-label="reincarnation.coder.js.Necessary" href="api/reincarnation.coder.js.Necessary.html">Necessary</a></code> are scanned automatically.</p></span></section>
+			<section class="b" id="necessary">
+				<h2 class="s"><i class="PUBLIC"></i><code class="V">necessary</code><i class="KB"><code class="return"><a aria-label="java.util.Set 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></h2><span class="A"><p>The additional classes which must be included in the bundle.</p></span></section>
+			<section class="b" id="emitMain">
+				<h2 class="s"><i class="PUBLIC"></i><code class="V">emitMain</code><i class="KB"><code class="return">boolean</code></i></h2><span class="A"><p>Whether the <code>main(String[])</code> method is invoked at the end of the bundle.</p></span></section>
+			<section class="b" id="reflection">
+				<h2 class="s"><i class="PUBLIC"></i><code class="V">reflection</code><i class="KB"><code class="return">boolean</code></i></h2><span class="A"><p>Whether the class metadata is emitted for the reflection support.</p></span></section>
+			<section class="b" id="JavascriptCodingOption()">
+				<h2 class="s"><i class="PUBLIC"></i><code class="V">JavascriptCodingOption</code><code class="IB">()</code></h2>
 			</section>
 		</article>
-		<aside class="p">
-			<div class="g">
-				<h5 class="Q">Constructors</h5>
+		<aside class="CB">
+			<div class="o">
+				<h5 class="k">Constructors</h5>
 				<ul>
-					<li class="d"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.JavascriptCodingOption.html#JavascriptCodingOption()">JavascriptCodingOption</a></code><code class="y">()</code></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.JavascriptCodingOption.html#JavascriptCodingOption()">JavascriptCodingOption</a></code><code class="IB">()</code></li>
 				</ul>
-				<h5 class="Q">Fields</h5>
+				<h5 class="k">Fields</h5>
 				<ul>
-					<li class="d"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.JavascriptCodingOption.html#writeMemberFromTopLevel">writeMemberFromTopLevel</a></code><i class="K"><code class="return">boolean</code></i></li>
-					<li class="d"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.JavascriptCodingOption.html#classlib">classlib</a></code><i class="K"><code class="return">boolean</code></i></li>
-					<li class="d"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.JavascriptCodingOption.html#methods">methods</a></code><i class="K"><code class="return"><a aria-label="java.util.Set 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></code></code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.JavascriptCodingOption.html#embedRuntime">embedRuntime</a></code><i class="LB"><code class="return">boolean</code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.JavascriptCodingOption.html#bundle">bundle</a></code><i class="LB"><code class="return">boolean</code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.JavascriptCodingOption.html#strictApi">strictApi</a></code><i class="LB"><code class="return">boolean</code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.JavascriptCodingOption.html#longMode">longMode</a></code><i class="LB"><code class="return"><a aria-label="reincarnation.coder.js.LongMode" href="api/reincarnation.coder.js.LongMode.html">LongMode</a></code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.JavascriptCodingOption.html#scanNecessary">scanNecessary</a></code><i class="LB"><code class="return">boolean</code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.JavascriptCodingOption.html#necessary">necessary</a></code><i class="LB"><code class="return"><a aria-label="java.util.Set 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Set.html">Set</a><code class="parameters"><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code></code></code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.JavascriptCodingOption.html#emitMain">emitMain</a></code><i class="LB"><code class="return">boolean</code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.JavascriptCodingOption.html#reflection">reflection</a></code><i class="LB"><code class="return">boolean</code></i></li>
 				</ul>
 			</div>
 		</aside>
-		<footer class="s">
+		<footer class="Y">
 			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
 		</footer>
 	</body>

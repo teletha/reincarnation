@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="HB">
+		<header class="v" date="2026-10-29">
+			<h1 class="L"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="i"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="w"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="X"></nav>
+		<article class="FB" id="Article">
+			<section class="b"><code class="M">reincarnation.coder.js</code>
+				<h2 class="Exception K"><code class="V">TranslationException</code></h2>
+				<div class="p">
+					<ul class="E G">
+						<li><code><a aria-label="java.lang.RuntimeException 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/RuntimeException.html">RuntimeException</a></code></li>
+						<li><code><a aria-label="java.lang.Exception 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Exception.html">Exception</a></code></li>
+						<li><code><a aria-label="java.lang.Throwable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Throwable.html">Throwable</a></code></li>
+					</ul>
+					<ul class="E H">
+						<li><code><a aria-label="java.io.Serializable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/io/Serializable.html">Serializable</a></code></li>
+					</ul>
+				</div><span class="A"><p>Signals that the bytecode can not be translated into JavaScript.</p><p>
+Unlike the previous behavior which silently dropped the unsupported class, this exception carries
+the class and the member which caused the failure so that the caller can fix the mapping.
+</p></span></section>
+			<section class="b" id="TranslationException(java.lang.Class,java.lang.Throwable)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="V">TranslationException</code><code class="IB">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>, <code><a aria-label="java.lang.Throwable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Throwable.html">Throwable</a></code><code class="parameterName">cause</code>)</code></h2>
+				<table class="S">
+					<tr class="BB">
+						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code></td>
+						<td><span><p>A target class.</p></span></td>
+					</tr>
+					<tr class="BB">
+						<td><code><a aria-label="java.lang.Throwable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Throwable.html">Throwable</a></code><code class="parameterName">cause</code></td>
+						<td><span><p>A cause.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create an exception for the class.</p></span></section>
+			<section class="b" id="TranslationException(java.lang.reflect.Method)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="V">TranslationException</code><code class="IB">(<code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>)</code></h2>
+				<table class="S">
+					<tr class="BB">
+						<td><code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code></td>
+						<td><span><p>A target method.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create an exception for the method.</p></span></section>
+			<section class="b" id="TranslationException(java.lang.reflect.Constructor)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="V">TranslationException</code><code class="IB">(<code><a aria-label="java.lang.reflect.Constructor 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code>)</code></h2>
+				<table class="S">
+					<tr class="BB">
+						<td><code><a aria-label="java.lang.reflect.Constructor 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code></td>
+						<td><span><p>A target constructor.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create an exception for the constructor.</p></span></section>
+			<section class="b" id="TranslationException(java.lang.Class,java.lang.String,java.lang.Throwable)">
+				<h2 class="s"><i class="PUBLIC"></i><code class="V">TranslationException</code><code class="IB">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">member</code>, <code><a aria-label="java.lang.Throwable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Throwable.html">Throwable</a></code><code class="parameterName">cause</code>)</code></h2>
+				<table class="S">
+					<tr class="BB">
+						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code></td>
+						<td><span><p>A target class.</p></span></td>
+					</tr>
+					<tr class="BB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">member</code></td>
+						<td><span><p>A target member.</p></span></td>
+					</tr>
+					<tr class="BB">
+						<td><code><a aria-label="java.lang.Throwable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Throwable.html">Throwable</a></code><code class="parameterName">cause</code></td>
+						<td><span><p>A cause.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create an exception.</p></span></section>
+			<section class="b" id="type()">
+				<h2 class="s"><i class="PUBLIC"></i><code class="V">type</code><code class="IB">()</code><i class="KB"><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code></i></h2>
+				<table class="S">
+					<tr class="O">
+						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code></td>
+						<td><span><p>A target class.</p></span></td>
+					</tr>
+				</table><span class="A"><p>The target class.</p></span></section>
+			<section class="b" id="member()">
+				<h2 class="s"><i class="PUBLIC"></i><code class="V">member</code><code class="IB">()</code><i class="KB"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="S">
+					<tr class="O">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A target member.</p></span></td>
+					</tr>
+				</table><span class="A"><p>The target member.</p></span></section>
+		</article>
+		<aside class="CB">
+			<div class="o">
+				<h5 class="k">Constructors</h5>
+				<ul>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.TranslationException.html#TranslationException(java.lang.Class,java.lang.Throwable)">TranslationException</a></code><code class="IB">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>, <code><a aria-label="java.lang.Throwable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Throwable.html">Throwable</a></code><code class="parameterName">cause</code>)</code></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.TranslationException.html#TranslationException(java.lang.reflect.Method)">TranslationException</a></code><code class="IB">(<code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>)</code></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.TranslationException.html#TranslationException(java.lang.reflect.Constructor)">TranslationException</a></code><code class="IB">(<code><a aria-label="java.lang.reflect.Constructor 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Constructor.html">Constructor</a></code><code class="parameterName">constructor</code>)</code></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.TranslationException.html#TranslationException(java.lang.Class,java.lang.String,java.lang.Throwable)">TranslationException</a></code><code class="IB">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">member</code>, <code><a aria-label="java.lang.Throwable 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Throwable.html">Throwable</a></code><code class="parameterName">cause</code>)</code></li>
+				</ul>
+				<h5 class="k">Methods</h5>
+				<ul>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.TranslationException.html#type()">type</a></code><code class="IB">()</code><i class="LB"><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code></i></li>
+					<li class="f"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.TranslationException.html#member()">member</a></code><code class="IB">()</code><i class="LB"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="Y">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>
