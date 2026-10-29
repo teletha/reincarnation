@@ -45,6 +45,11 @@ class DefaultMethodTest extends BundleVerifier {
         verifyReflection(DefaultGetMethod.class, "run");
     }
 
+    @Test
+    void isDefault() throws Exception {
+        verifyReflection(IsDefault.class, "run");
+    }
+
     /** The default method. */
     interface Greeting {
 
@@ -106,6 +111,17 @@ class DefaultMethodTest extends BundleVerifier {
         static String run() throws Exception {
             Method method = Greeter.class.getMethod("hello");
             return (String) method.invoke(new Greeter());
+        }
+    }
+
+    /** Check the default method flag. */
+    static class IsDefault {
+
+        static String run() throws Exception {
+            Method defaultMethod = Greeting.class.getDeclaredMethod("hello");
+            Method overrideMethod = Loud.class.getDeclaredMethod("hello");
+            return (defaultMethod.isDefault() ? "true" : "false") + "|"
+                    + (overrideMethod.isDefault() ? "true" : "false");
         }
     }
 }

@@ -93,6 +93,9 @@ final class Classlib {
             Map.entry(java.util.concurrent.ConcurrentMap.class,
                     reincarnation.classlib.java.util.concurrent.ConcurrentMap.class), //
             Map.entry(java.util.Map.Entry.class, reincarnation.classlib.java.util.Map.Entry.class), //
+            Map.entry(java.lang.reflect.Proxy.class, reincarnation.classlib.java.lang.reflect.Proxy.class), //
+            Map.entry(java.lang.reflect.InvocationHandler.class,
+                    reincarnation.classlib.java.lang.reflect.InvocationHandler.class), //
             Map.entry(java.lang.Cloneable.class, reincarnation.classlib.java.lang.Cloneable.class), //
             Map.entry(java.io.Serializable.class, reincarnation.classlib.java.io.Serializable.class), //
             Map.entry(java.util.Queue.class, reincarnation.classlib.java.util.Queue.class), //
@@ -166,6 +169,9 @@ final class Classlib {
             Map.entry(reincarnation.classlib.java.util.concurrent.ConcurrentMap.class,
                     java.util.concurrent.ConcurrentMap.class), //
             Map.entry(reincarnation.classlib.java.util.Map.Entry.class, java.util.Map.Entry.class), //
+            Map.entry(reincarnation.classlib.java.lang.reflect.Proxy.class, java.lang.reflect.Proxy.class), //
+            Map.entry(reincarnation.classlib.java.lang.reflect.InvocationHandler.class,
+                    java.lang.reflect.InvocationHandler.class), //
             Map.entry(reincarnation.classlib.java.util.AbstractMap.SimpleEntry.class,
                     java.util.AbstractMap.SimpleEntry.class), //
             Map.entry(reincarnation.classlib.java.lang.Cloneable.class, java.lang.Cloneable.class), //

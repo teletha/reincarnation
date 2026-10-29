@@ -1288,6 +1288,9 @@ public final class JavascriptRuntime {
                     const interfaces = metadata && metadata.i ? metadata.i : (this.jsClass.$meta ? this.jsClass.$meta.interfaces : []);
                     return interfaces.map(name => $rt.resolve(name)).filter(value => value && value !== Object).map(value => $rt.reflect(value));
                 }
+                getClassLoader() {
+                    return null;
+                }
                 getDeclaredMethods() {
                     if (this.$methods) return this.$methods;
                     const metadata = this.metadata();
@@ -1297,9 +1300,15 @@ public final class JavascriptRuntime {
                 }
                 getMethods() {
                     const result = [];
-                    for (let type = this; type; type = type.getSuperclass()) {
+                    const seen = new Set();
+                    const collect = (type) => {
+                        if (!type || seen.has(type)) return;
+                        seen.add(type);
                         result.push(...type.getDeclaredMethods());
-                    }
+                        collect(type.getSuperclass());
+                        for (const inf of type.getInterfaces()) collect(inf);
+                    };
+                    collect(this);
                     return result;
                 }
                 getDeclaredMethod(name, ...types) {
@@ -1407,6 +1416,10 @@ public final class JavascriptRuntime {
                 getTypeParameters() { return $rt_typeParameters(this.typeParameters, this, this.owner); }
                 getGenericParameterTypes() { this.getTypeParameters(); return $rt_types(this.genericParameters, this, this.owner); }
                 getGenericReturnType() { this.getTypeParameters(); return $rt_type(this.genericReturn, this, this.owner); }
+                isDefault() {
+                    return this.owner && this.owner.isInterface() && (this.modifiers & 1024) === 0
+                        && (this.modifiers & 8) === 0 && (this.modifiers & 2) === 0;
+                }
                 getGenericExceptionTypes() { this.getTypeParameters(); return $rt_types(this.genericExceptions, this, this.owner); }
                 getParameterTypes() {
                     if (this.$parameterTypes === undefined) this.$parameterTypes = $rt_parseTypes(this.descriptor);
@@ -1586,6 +1599,46 @@ public final class JavascriptRuntime {
             $rt.ParameterizedType = ParameterizedType;
             $rt.GenericArrayType = GenericArrayType;
             $rt.WildcardType = WildcardType;
+            const $rt_proxyHandlers = new WeakMap();
+            const $rt_proxyClasses = new WeakSet();
+            let $rt_proxyCount = 0;
+
+            const $rt_proxyType = (interfaces) => {
+                const names = [];
+                for (let i = 0; i < interfaces.length; i++) {
+                    names.push(interfaces[i].jsClass.$meta.name);
+                }
+                const type = $rt.define("$Proxy" + (++$rt_proxyCount), "", names, {});
+                $rt_proxyClasses.add(type);
+                const prototype = type.prototype;
+                const seen = new Set();
+                for (let i = 0; i < interfaces.length; i++) {
+                    const methods = interfaces[i].getMethods();
+                    for (let j = 0; j < methods.length; j++) {
+                        const method = methods[j];
+                        if ((method.modifiers & 8) !== 0 || !method.jsName || seen.has(method.jsName)) {
+                            continue;
+                        }
+                        seen.add(method.jsName);
+                        prototype[method.jsName] = function (...args) {
+                            return this.$proxyHandler.invoke(this, method, args);
+                        };
+                    }
+                }
+                return type;
+            };
+
+            const $rt_proxy = (interfaces, handler) => {
+                const type = $rt_proxyType(interfaces);
+                const proxy = new type();
+                const wrapper = typeof handler === "function" ? { invoke: (...args) => handler(...args) } : handler;
+                proxy.$proxyHandler = wrapper;
+                $rt_proxyHandlers.set(proxy, wrapper);
+                return proxy;
+            };
+
+            const $rt_proxyClass = (interfaces) => $rt.reflect($rt_proxyType(interfaces));
+
             $rt.reflect = $rt_reflect;""";
 
     /**
