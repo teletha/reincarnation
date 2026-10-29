@@ -46,6 +46,13 @@ final class Classlib {
             Map.entry(java.io.Flushable.class, reincarnation.classlib.java.io.Flushable.class), //
             Map.entry(java.util.Objects.class, reincarnation.classlib.java.util.Objects.class), //
             Map.entry(java.util.Date.class, reincarnation.classlib.java.util.Date.class), //
+            Map.entry(java.util.Locale.class, reincarnation.classlib.java.util.Locale.class), //
+            Map.entry(java.util.Locale.Category.class, reincarnation.classlib.java.util.Locale.Category.class), //
+            Map.entry(java.util.Currency.class, reincarnation.classlib.java.util.Currency.class), //
+            Map.entry(java.text.Collator.class, reincarnation.classlib.java.text.Collator.class), //
+            Map.entry(java.text.Format.class, reincarnation.classlib.java.text.Format.class), //
+            Map.entry(java.text.NumberFormat.class, reincarnation.classlib.java.text.NumberFormat.class), //
+            Map.entry(java.text.DateFormat.class, reincarnation.classlib.java.text.DateFormat.class), //
             Map.entry(java.util.Arrays.class, reincarnation.classlib.java.util.Arrays.class), //
             Map.entry(java.util.Collections.class, reincarnation.classlib.java.util.Collections.class), //
             Map.entry(java.lang.Iterable.class, reincarnation.classlib.java.lang.Iterable.class), //
@@ -286,6 +293,13 @@ final class Classlib {
             Map.entry(reincarnation.classlib.java.io.Flushable.class, java.io.Flushable.class), //
             Map.entry(reincarnation.classlib.java.util.Objects.class, java.util.Objects.class), //
             Map.entry(reincarnation.classlib.java.util.Date.class, java.util.Date.class), //
+            Map.entry(reincarnation.classlib.java.util.Locale.class, java.util.Locale.class), //
+            Map.entry(reincarnation.classlib.java.util.Locale.Category.class, java.util.Locale.Category.class), //
+            Map.entry(reincarnation.classlib.java.util.Currency.class, java.util.Currency.class), //
+            Map.entry(reincarnation.classlib.java.text.Collator.class, java.text.Collator.class), //
+            Map.entry(reincarnation.classlib.java.text.Format.class, java.text.Format.class), //
+            Map.entry(reincarnation.classlib.java.text.NumberFormat.class, java.text.NumberFormat.class), //
+            Map.entry(reincarnation.classlib.java.text.DateFormat.class, java.text.DateFormat.class), //
             Map.entry(reincarnation.classlib.java.util.Arrays.class, java.util.Arrays.class), //
             Map.entry(reincarnation.classlib.java.util.Collections.class, java.util.Collections.class), //
             Map.entry(reincarnation.classlib.java.util.StringJoiner.class, java.util.StringJoiner.class), //

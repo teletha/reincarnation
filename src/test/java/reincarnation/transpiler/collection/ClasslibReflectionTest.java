@@ -69,6 +69,26 @@ class ClasslibReflectionTest extends BundleVerifier {
     }
 
     @Test
+    void localeHierarchy() throws Exception {
+        verifyReflection(LocaleType.class, "run");
+    }
+
+    @Test
+    void currencyHierarchy() throws Exception {
+        verifyReflection(CurrencyType.class, "run");
+    }
+
+    @Test
+    void numberFormatHierarchy() throws Exception {
+        verifyReflection(NumberFormatType.class, "run");
+    }
+
+    @Test
+    void dateFormatHierarchy() throws Exception {
+        verifyReflection(DateFormatType.class, "run");
+    }
+
+    @Test
     void declaredMethod() throws Exception {
         verifyReflection(DeclaredMethod.class, "run");
     }
@@ -170,6 +190,38 @@ class ClasslibReflectionTest extends BundleVerifier {
 
         static String run() {
             return TypeDescriber.describe(java.util.Date.class);
+        }
+    }
+
+    /** Verify the hierarchy of {@link java.util.Locale}. */
+    static class LocaleType {
+
+        static String run() {
+            return TypeDescriber.describe(java.util.Locale.class);
+        }
+    }
+
+    /** Verify the hierarchy of {@link java.util.Currency}. */
+    static class CurrencyType {
+
+        static String run() {
+            return TypeDescriber.describe(java.util.Currency.class);
+        }
+    }
+
+    /** Verify the hierarchy of {@link java.text.NumberFormat}. */
+    static class NumberFormatType {
+
+        static String run() {
+            return TypeDescriber.describe(java.text.NumberFormat.class);
+        }
+    }
+
+    /** Verify the hierarchy of {@link java.text.DateFormat}. */
+    static class DateFormatType {
+
+        static String run() {
+            return TypeDescriber.describe(java.text.DateFormat.class);
         }
     }
 
