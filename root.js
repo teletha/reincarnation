@@ -8,6 +8,7 @@ const root = {
 		"reincarnation.classlib.java.util.regex",
 		"reincarnation.classlib.java.util.stream",
 		"reincarnation.classlib.java.util.concurrent",
+		"reincarnation.classlib.java.lang.invoke",
 		"reincarnation.classlib.java.lang",
 		"reincarnation.classlib.java.io",
 		"reincarnation",
@@ -408,6 +409,26 @@ const root = {
 			"name": "AbstractList",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "AbstractClass"
+		},
+		{
+			"name": "MethodType",
+			"packageName": "reincarnation.classlib.java.lang.invoke",
+			"type": "Class"
+		},
+		{
+			"name": "MethodHandles",
+			"packageName": "reincarnation.classlib.java.lang.invoke",
+			"type": "Class"
+		},
+		{
+			"name": "MethodHandles.Lookup",
+			"packageName": "reincarnation.classlib.java.lang.invoke",
+			"type": "Class"
+		},
+		{
+			"name": "MethodHandle",
+			"packageName": "reincarnation.classlib.java.lang.invoke",
+			"type": "Class"
 		},
 		{
 			"name": "CharSequence",
