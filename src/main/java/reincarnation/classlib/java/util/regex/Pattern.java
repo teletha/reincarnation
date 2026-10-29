@@ -15,7 +15,7 @@ import js.lang.NativeRegExp;
 /**
  * The Java implementation of {@link java.util.regex.Pattern} which is transpiled into JavaScript.
  */
-public final class Pattern {
+public final class Pattern implements reincarnation.classlib.java.io.Serializable {
 
     /** The flag. */
     public static final int UNIX_LINES = 0x01;

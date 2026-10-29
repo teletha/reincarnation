@@ -91,6 +91,7 @@ final class Classlib {
             Map.entry(java.util.StringJoiner.class, reincarnation.classlib.java.util.StringJoiner.class), //
             Map.entry(java.util.regex.Pattern.class, reincarnation.classlib.java.util.regex.Pattern.class), //
             Map.entry(java.util.regex.Matcher.class, reincarnation.classlib.java.util.regex.Matcher.class), //
+            Map.entry(java.util.regex.MatchResult.class, reincarnation.classlib.java.util.regex.MatchResult.class), //
             Map.entry(java.util.stream.Collectors.class, reincarnation.classlib.java.util.stream.Collectors.class));
 
     /** The original JDK classes of the implementations. */
@@ -139,7 +140,20 @@ final class Classlib {
             Map.entry(reincarnation.classlib.java.util.AbstractMap.SimpleEntry.class,
                     java.util.AbstractMap.SimpleEntry.class), //
             Map.entry(reincarnation.classlib.java.lang.Cloneable.class, java.lang.Cloneable.class), //
-            Map.entry(reincarnation.classlib.java.io.Serializable.class, java.io.Serializable.class));
+            Map.entry(reincarnation.classlib.java.io.Serializable.class, java.io.Serializable.class), //
+            Map.entry(reincarnation.classlib.java.lang.System.class, java.lang.System.class), //
+            Map.entry(reincarnation.classlib.java.lang.StringBuilder.class, java.lang.StringBuilder.class), //
+            Map.entry(reincarnation.classlib.java.lang.StringBuffer.class, java.lang.StringBuffer.class), //
+            Map.entry(reincarnation.classlib.java.io.PrintStream.class, java.io.PrintStream.class), //
+            Map.entry(reincarnation.classlib.java.util.Objects.class, java.util.Objects.class), //
+            Map.entry(reincarnation.classlib.java.util.Arrays.class, java.util.Arrays.class), //
+            Map.entry(reincarnation.classlib.java.util.Collections.class, java.util.Collections.class), //
+            Map.entry(reincarnation.classlib.java.util.StringJoiner.class, java.util.StringJoiner.class), //
+            Map.entry(reincarnation.classlib.java.util.Optional.class, java.util.Optional.class), //
+            Map.entry(reincarnation.classlib.java.util.regex.Pattern.class, java.util.regex.Pattern.class), //
+            Map.entry(reincarnation.classlib.java.util.regex.Matcher.class, java.util.regex.Matcher.class), //
+            Map.entry(reincarnation.classlib.java.util.regex.MatchResult.class, java.util.regex.MatchResult.class), //
+            Map.entry(reincarnation.classlib.java.util.stream.Collectors.class, java.util.stream.Collectors.class));
 
     /**
      * Hide constructor.

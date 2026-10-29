@@ -16,7 +16,7 @@ import js.lang.NativeUndefined;
 /**
  * The Java implementation of {@link java.util.regex.Matcher} which is transpiled into JavaScript.
  */
-public final class Matcher {
+public final class Matcher implements MatchResult {
 
     /** The pattern. */
     private final Pattern owner;
