@@ -1285,7 +1285,7 @@ public final class JavascriptRuntime {
                 getInterfaces() {
                     if (!this.jsClass) return [];
                     const metadata = this.metadata();
-                    const interfaces = metadata && metadata.i ? metadata.i : this.jsClass.$meta.interfaces;
+                    const interfaces = metadata && metadata.i ? metadata.i : (this.jsClass.$meta ? this.jsClass.$meta.interfaces : []);
                     return interfaces.map(name => $rt.resolve(name)).filter(value => value && value !== Object).map(value => $rt.reflect(value));
                 }
                 getDeclaredMethods() {
@@ -1312,9 +1312,23 @@ public final class JavascriptRuntime {
                 }
                 getMethod(name, ...types) {
                     types = $rt_args(types);
-                    for (let type = this; type; type = type.getSuperclass()) {
-                        try { return type.getDeclaredMethod(name, ...types); } catch (e) { }
-                    }
+                    const find = (type, visited) => {
+                        if (!type || visited.has(type)) return null;
+                        visited.add(type);
+                        try {
+                            return type.getDeclaredMethod(name, ...types);
+                        } catch (e) {
+                        }
+                        let found = find(type.getSuperclass(), visited);
+                        if (found) return found;
+                        for (const inf of type.getInterfaces()) {
+                            found = find(inf, visited);
+                            if (found) return found;
+                        }
+                        return null;
+                    };
+                    const found = find(this, new Set());
+                    if (found) return found;
                     throw new Error("NoSuchMethodException: " + name);
                 }
                 getDeclaredFields() {
