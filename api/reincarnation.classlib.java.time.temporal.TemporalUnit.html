@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="EB">
+		<header class="J" date="2026-10-29">
+			<h1 class="K"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="L"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="M"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="Z"></nav>
+		<article class="w" id="Article">
+			<section class="x"><code class="m">reincarnation.classlib.java.time.temporal</code>
+				<h2 class="Interface T"><code class="u">TemporalUnit</code></h2>
+				<div class="FB">
+					<ul class="E I">
+						<li><code><a aria-label="reincarnation.classlib.java.time.temporal.ChronoUnit" href="api/reincarnation.classlib.java.time.temporal.ChronoUnit.html">ChronoUnit</a></code></li>
+					</ul>
+				</div><span class="A"><p>The Java implementation of <code><a aria-label="java.time.temporal.TemporalUnit 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/time/temporal/TemporalUnit.html">java.time.temporal.TemporalUnit</a></code> which is transpiled into
+JavaScript.</p></span></section>
+			<section class="x" id="between(reincarnation.classlib.java.time.temporal.Temporal,reincarnation.classlib.java.time.temporal.Temporal)">
+				<h2 class="P"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="u">between</code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.temporal.Temporal" href="api/reincarnation.classlib.java.time.temporal.Temporal.html">Temporal</a></code><code class="parameterName">start</code>, <code><a aria-label="reincarnation.classlib.java.time.temporal.Temporal" href="api/reincarnation.classlib.java.time.temporal.Temporal.html">Temporal</a></code><code class="parameterName">end</code>)</code><i class="l"><code>long</code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.classlib.java.time.temporal.Temporal" href="api/reincarnation.classlib.java.time.temporal.Temporal.html">Temporal</a></code><code class="parameterName">start</code></td>
+						<td><span><p>A start temporal.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.classlib.java.time.temporal.Temporal" href="api/reincarnation.classlib.java.time.temporal.Temporal.html">Temporal</a></code><code class="parameterName">end</code></td>
+						<td><span><p>An end temporal.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code>long</code></td>
+						<td><span><p>An amount.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Compute the amount between the temporals.</p></span></section>
+			<section class="x" id="getDuration()">
+				<h2 class="P"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="u">getDuration</code><code class="e">()</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.Duration" href="api/reincarnation.classlib.java.time.Duration.html">Duration</a></code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.Duration" href="api/reincarnation.classlib.java.time.Duration.html">Duration</a></code></td>
+						<td><span><p>A duration.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the duration of this unit.</p></span></section>
+			<section class="x" id="isDateBased()">
+				<h2 class="P"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="u">isDateBased</code><code class="e">()</code><i class="l"><code>boolean</code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether this unit is date based.</p></span></section>
+			<section class="x" id="isTimeBased()">
+				<h2 class="P"><i class="DEFAULT"><i class="PUBLIC"></i></i><code class="u">isTimeBased</code><code class="e">()</code><i class="l"><code>boolean</code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether this unit is time based.</p></span></section>
+		</article>
+		<aside class="o">
+			<div class="U">
+				<h5 class="LB">Methods</h5>
+				<ul>
+					<li class="s"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.time.temporal.TemporalUnit.html#between(reincarnation.classlib.java.time.temporal.Temporal,reincarnation.classlib.java.time.temporal.Temporal)">between</a></code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.temporal.Temporal" href="api/reincarnation.classlib.java.time.temporal.Temporal.html">Temporal</a></code><code class="parameterName">start</code>, <code><a aria-label="reincarnation.classlib.java.time.temporal.Temporal" href="api/reincarnation.classlib.java.time.temporal.Temporal.html">Temporal</a></code><code class="parameterName">end</code>)</code><i class="f"><code>long</code></i></li>
+					<li class="s"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.time.temporal.TemporalUnit.html#getDuration()">getDuration</a></code><code class="e">()</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.Duration" href="api/reincarnation.classlib.java.time.Duration.html">Duration</a></code></i></li>
+					<li class="s"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.time.temporal.TemporalUnit.html#isDateBased()">isDateBased</a></code><code class="e">()</code><i class="f"><code>boolean</code></i></li>
+					<li class="s"><i class="DEFAULT"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.time.temporal.TemporalUnit.html#isTimeBased()">isTimeBased</a></code><code class="e">()</code><i class="f"><code>boolean</code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="i">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

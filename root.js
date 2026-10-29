@@ -8,6 +8,8 @@ const root = {
 		"reincarnation.classlib.java.util.regex",
 		"reincarnation.classlib.java.util.stream",
 		"reincarnation.classlib.java.util.concurrent",
+		"reincarnation.classlib.java.time",
+		"reincarnation.classlib.java.time.temporal",
 		"reincarnation.classlib.java.lang.invoke",
 		"reincarnation.classlib.java.lang",
 		"reincarnation.classlib.java.lang.reflect",
@@ -58,6 +60,11 @@ const root = {
 		},
 		{
 			"name": "NativeSet",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "NativeTemporal",
 			"packageName": "js.lang",
 			"type": "Class"
 		},
@@ -510,6 +517,101 @@ const root = {
 			"name": "AbstractList",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "AbstractClass"
+		},
+		{
+			"name": "LocalTime",
+			"packageName": "reincarnation.classlib.java.time",
+			"type": "Class"
+		},
+		{
+			"name": "Period",
+			"packageName": "reincarnation.classlib.java.time",
+			"type": "Class"
+		},
+		{
+			"name": "ZoneId",
+			"packageName": "reincarnation.classlib.java.time",
+			"type": "Class"
+		},
+		{
+			"name": "DayOfWeek",
+			"packageName": "reincarnation.classlib.java.time",
+			"type": "Enum"
+		},
+		{
+			"name": "Temporal",
+			"packageName": "reincarnation.classlib.java.time.temporal",
+			"type": "Functional"
+		},
+		{
+			"name": "ChronoUnit",
+			"packageName": "reincarnation.classlib.java.time.temporal",
+			"type": "Enum"
+		},
+		{
+			"name": "ChronoField",
+			"packageName": "reincarnation.classlib.java.time.temporal",
+			"type": "Enum"
+		},
+		{
+			"name": "TemporalField",
+			"packageName": "reincarnation.classlib.java.time.temporal",
+			"type": "Interface"
+		},
+		{
+			"name": "TemporalUnit",
+			"packageName": "reincarnation.classlib.java.time.temporal",
+			"type": "Interface"
+		},
+		{
+			"name": "TemporalAdjuster",
+			"packageName": "reincarnation.classlib.java.time.temporal",
+			"type": "Functional"
+		},
+		{
+			"name": "TemporalAmount",
+			"packageName": "reincarnation.classlib.java.time.temporal",
+			"type": "Interface"
+		},
+		{
+			"name": "TemporalAccessor",
+			"packageName": "reincarnation.classlib.java.time.temporal",
+			"type": "Interface"
+		},
+		{
+			"name": "ZonedDateTime",
+			"packageName": "reincarnation.classlib.java.time",
+			"type": "Class"
+		},
+		{
+			"name": "Instant",
+			"packageName": "reincarnation.classlib.java.time",
+			"type": "Class"
+		},
+		{
+			"name": "LocalDate",
+			"packageName": "reincarnation.classlib.java.time",
+			"type": "Class"
+		},
+		{
+			"name": "LocalDateTime",
+			"packageName": "reincarnation.classlib.java.time",
+			"type": "Class"
+		},
+		{
+			"name": "Duration",
+			"packageName": "reincarnation.classlib.java.time",
+			"type": "Class"
+		},
+		{
+			"name": "Month",
+			"packageName": "reincarnation.classlib.java.time",
+			"type": "Enum"
+		},
+		{
+			"name": "ZoneOffset",
+			"packageName": "reincarnation.classlib.java.time",
+			"type": "Class"
 		},
 		{
 			"name": "MethodType",

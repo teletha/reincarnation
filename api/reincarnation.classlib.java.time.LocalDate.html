@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="EB">
+		<header class="J" date="2026-10-29">
+			<h1 class="K"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="L"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="M"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="Z"></nav>
+		<article class="w" id="Article">
+			<section class="x"><code class="m">reincarnation.classlib.java.time</code>
+				<h2 class="Class T"><code class="u">LocalDate</code></h2>
+				<div class="FB">
+					<ul class="E H">
+						<li><code><a aria-label="reincarnation.classlib.java.lang.Comparable" href="api/reincarnation.classlib.java.lang.Comparable.html">Comparable</a><code class="parameters"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.io.Serializable" href="api/reincarnation.classlib.java.io.Serializable.html">Serializable</a></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.time.temporal.Temporal" href="api/reincarnation.classlib.java.time.temporal.Temporal.html">Temporal</a></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalAccessor" href="api/reincarnation.classlib.java.time.temporal.TemporalAccessor.html">TemporalAccessor</a></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalAdjuster" href="api/reincarnation.classlib.java.time.temporal.TemporalAdjuster.html">TemporalAdjuster</a></code></li>
+					</ul>
+				</div><span class="A"><p>The Java implementation of <code><a aria-label="java.time.LocalDate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/time/LocalDate.html">java.time.LocalDate</a></code> which is transpiled into JavaScript.</p></span></section>
+			<section class="x" id="now()">
+				<h2 class="P"><i class="STATIC PUBLIC"></i><code class="u">now</code><code class="e">()</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the current date.</p></span></section>
+			<section class="x" id="of(int,int,int)">
+				<h2 class="P"><i class="STATIC PUBLIC"></i><code class="u">of</code><code class="e">(<code>int</code><code class="parameterName">year</code>, <code>int</code><code class="parameterName">month</code>, <code>int</code><code class="parameterName">day</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">year</code></td>
+						<td><span><p>A year.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">month</code></td>
+						<td><span><p>A month.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">day</code></td>
+						<td><span><p>A day.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the date.</p></span></section>
+			<section class="x" id="ofEpochDay(long)">
+				<h2 class="P"><i class="STATIC PUBLIC"></i><code class="u">ofEpochDay</code><code class="e">(<code>long</code><code class="parameterName">epochDay</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code>long</code><code class="parameterName">epochDay</code></td>
+						<td><span><p>An epoch day.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the date from the epoch day.</p></span></section>
+			<section class="x" id="parse(java.lang.CharSequence)">
+				<h2 class="P"><i class="STATIC PUBLIC"></i><code class="u">parse</code><code class="e">(<code><a aria-label="java.lang.CharSequence 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code><code class="parameterName">text</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.CharSequence 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code><code class="parameterName">text</code></td>
+						<td><span><p>A text.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Parse the date.</p></span></section>
+			<section class="x" id="getYear()">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">getYear</code><code class="e">()</code><i class="l"><code>int</code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code>int</code></td>
+						<td><span><p>A year.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the year.</p></span></section>
+			<section class="x" id="getMonthValue()">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">getMonthValue</code><code class="e">()</code><i class="l"><code>int</code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code>int</code></td>
+						<td><span><p>A month value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the month value.</p></span></section>
+			<section class="x" id="getMonth()">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">getMonth</code><code class="e">()</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.Month" href="api/reincarnation.classlib.java.time.Month.html">Month</a></code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.Month" href="api/reincarnation.classlib.java.time.Month.html">Month</a></code></td>
+						<td><span><p>A month.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the month.</p></span></section>
+			<section class="x" id="getDayOfMonth()">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">getDayOfMonth</code><code class="e">()</code><i class="l"><code>int</code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code>int</code></td>
+						<td><span><p>A day of month.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the day of month.</p></span></section>
+			<section class="x" id="getDayOfYear()">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">getDayOfYear</code><code class="e">()</code><i class="l"><code>int</code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code>int</code></td>
+						<td><span><p>A day of year.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the day of year.</p></span></section>
+			<section class="x" id="getDayOfWeek()">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">getDayOfWeek</code><code class="e">()</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.DayOfWeek" href="api/reincarnation.classlib.java.time.DayOfWeek.html">DayOfWeek</a></code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.DayOfWeek" href="api/reincarnation.classlib.java.time.DayOfWeek.html">DayOfWeek</a></code></td>
+						<td><span><p>A day of week.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the day of week.</p></span></section>
+			<section class="x" id="isLeapYear()">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">isLeapYear</code><code class="e">()</code><i class="l"><code>boolean</code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the year is a leap year.</p></span></section>
+			<section class="x" id="lengthOfMonth()">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">lengthOfMonth</code><code class="e">()</code><i class="l"><code>int</code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code>int</code></td>
+						<td><span><p>A length.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the length of the month.</p></span></section>
+			<section class="x" id="lengthOfYear()">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">lengthOfYear</code><code class="e">()</code><i class="l"><code>int</code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code>int</code></td>
+						<td><span><p>A length.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the length of the year.</p></span></section>
+			<section class="x" id="plusDays(long)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">plusDays</code><code class="e">(<code>long</code><code class="parameterName">days</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code>long</code><code class="parameterName">days</code></td>
+						<td><span><p>Days.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Add the days.</p></span></section>
+			<section class="x" id="plusWeeks(long)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">plusWeeks</code><code class="e">(<code>long</code><code class="parameterName">weeks</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code>long</code><code class="parameterName">weeks</code></td>
+						<td><span><p>Weeks.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Add the weeks.</p></span></section>
+			<section class="x" id="plusMonths(long)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">plusMonths</code><code class="e">(<code>long</code><code class="parameterName">months</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code>long</code><code class="parameterName">months</code></td>
+						<td><span><p>Months.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Add the months.</p></span></section>
+			<section class="x" id="plusYears(long)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">plusYears</code><code class="e">(<code>long</code><code class="parameterName">years</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code>long</code><code class="parameterName">years</code></td>
+						<td><span><p>Years.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Add the years.</p></span></section>
+			<section class="x" id="minusDays(long)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">minusDays</code><code class="e">(<code>long</code><code class="parameterName">days</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code>long</code><code class="parameterName">days</code></td>
+						<td><span><p>Days.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Subtract the days.</p></span></section>
+			<section class="x" id="minusWeeks(long)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">minusWeeks</code><code class="e">(<code>long</code><code class="parameterName">weeks</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code>long</code><code class="parameterName">weeks</code></td>
+						<td><span><p>Weeks.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Subtract the weeks.</p></span></section>
+			<section class="x" id="minusMonths(long)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">minusMonths</code><code class="e">(<code>long</code><code class="parameterName">months</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code>long</code><code class="parameterName">months</code></td>
+						<td><span><p>Months.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Subtract the months.</p></span></section>
+			<section class="x" id="minusYears(long)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">minusYears</code><code class="e">(<code>long</code><code class="parameterName">years</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code>long</code><code class="parameterName">years</code></td>
+						<td><span><p>Years.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Subtract the years.</p></span></section>
+			<section class="x" id="withYear(int)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">withYear</code><code class="e">(<code>int</code><code class="parameterName">year</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">year</code></td>
+						<td><span><p>A year.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Replace the year.</p></span></section>
+			<section class="x" id="withMonth(int)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">withMonth</code><code class="e">(<code>int</code><code class="parameterName">month</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">month</code></td>
+						<td><span><p>A month.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Replace the month.</p></span></section>
+			<section class="x" id="withDayOfMonth(int)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">withDayOfMonth</code><code class="e">(<code>int</code><code class="parameterName">day</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">day</code></td>
+						<td><span><p>A day of month.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Replace the day of month.</p></span></section>
+			<section class="x" id="toEpochDay()">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">toEpochDay</code><code class="e">()</code><i class="l"><code>long</code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code>long</code></td>
+						<td><span><p>An epoch day.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the epoch day.</p></span></section>
+			<section class="x" id="atTime(reincarnation.classlib.java.time.LocalTime)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">atTime</code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.LocalTime" href="api/reincarnation.classlib.java.time.LocalTime.html">LocalTime</a></code><code class="parameterName">time</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDateTime" href="api/reincarnation.classlib.java.time.LocalDateTime.html">LocalDateTime</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalTime" href="api/reincarnation.classlib.java.time.LocalTime.html">LocalTime</a></code><code class="parameterName">time</code></td>
+						<td><span><p>A time.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDateTime" href="api/reincarnation.classlib.java.time.LocalDateTime.html">LocalDateTime</a></code></td>
+						<td><span><p>A date and time.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the date and time.</p></span></section>
+			<section class="x" id="atTime(int,int)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">atTime</code><code class="e">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDateTime" href="api/reincarnation.classlib.java.time.LocalDateTime.html">LocalDateTime</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">hour</code></td>
+						<td><span><p>An hour.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">minute</code></td>
+						<td><span><p>A minute.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDateTime" href="api/reincarnation.classlib.java.time.LocalDateTime.html">LocalDateTime</a></code></td>
+						<td><span><p>A date and time.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the date and time.</p></span></section>
+			<section class="x" id="atTime(int,int,int)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">atTime</code><code class="e">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDateTime" href="api/reincarnation.classlib.java.time.LocalDateTime.html">LocalDateTime</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">hour</code></td>
+						<td><span><p>An hour.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">minute</code></td>
+						<td><span><p>A minute.</p></span></td>
+					</tr>
+					<tr class="g">
+						<td><code>int</code><code class="parameterName">second</code></td>
+						<td><span><p>A second.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDateTime" href="api/reincarnation.classlib.java.time.LocalDateTime.html">LocalDateTime</a></code></td>
+						<td><span><p>A date and time.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the date and time.</p></span></section>
+			<section class="x" id="atStartOfDay()">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">atStartOfDay</code><code class="e">()</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDateTime" href="api/reincarnation.classlib.java.time.LocalDateTime.html">LocalDateTime</a></code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDateTime" href="api/reincarnation.classlib.java.time.LocalDateTime.html">LocalDateTime</a></code></td>
+						<td><span><p>A date and time.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the date and time at the start of the day.</p></span></section>
+			<section class="x" id="atStartOfDay(reincarnation.classlib.java.time.ZoneId)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">atStartOfDay</code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.ZoneId" href="api/reincarnation.classlib.java.time.ZoneId.html">ZoneId</a></code><code class="parameterName">zone</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.ZonedDateTime" href="api/reincarnation.classlib.java.time.ZonedDateTime.html">ZonedDateTime</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.classlib.java.time.ZoneId" href="api/reincarnation.classlib.java.time.ZoneId.html">ZoneId</a></code><code class="parameterName">zone</code></td>
+						<td><span><p>A time zone.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.ZonedDateTime" href="api/reincarnation.classlib.java.time.ZonedDateTime.html">ZonedDateTime</a></code></td>
+						<td><span><p>A zoned date and time.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the zoned date and time at the start of the day.</p></span></section>
+			<section class="x" id="isBefore(java.time.chrono.ChronoLocalDate)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">isBefore</code><code class="e">(<code><a aria-label="java.time.chrono.ChronoLocalDate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/time/chrono/ChronoLocalDate.html">ChronoLocalDate</a></code><code class="parameterName">other</code>)</code><i class="l"><code>boolean</code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code><a aria-label="java.time.chrono.ChronoLocalDate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/time/chrono/ChronoLocalDate.html">ChronoLocalDate</a></code><code class="parameterName">other</code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether this date is before the other.</p></span></section>
+			<section class="x" id="isAfter(java.time.chrono.ChronoLocalDate)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">isAfter</code><code class="e">(<code><a aria-label="java.time.chrono.ChronoLocalDate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/time/chrono/ChronoLocalDate.html">ChronoLocalDate</a></code><code class="parameterName">other</code>)</code><i class="l"><code>boolean</code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code><a aria-label="java.time.chrono.ChronoLocalDate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/time/chrono/ChronoLocalDate.html">ChronoLocalDate</a></code><code class="parameterName">other</code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether this date is after the other.</p></span></section>
+			<section class="x" id="isEqual(java.time.chrono.ChronoLocalDate)">
+				<h2 class="P"><i class="PUBLIC"></i><code class="u">isEqual</code><code class="e">(<code><a aria-label="java.time.chrono.ChronoLocalDate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/time/chrono/ChronoLocalDate.html">ChronoLocalDate</a></code><code class="parameterName">other</code>)</code><i class="l"><code>boolean</code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code><a aria-label="java.time.chrono.ChronoLocalDate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/time/chrono/ChronoLocalDate.html">ChronoLocalDate</a></code><code class="parameterName">other</code></td>
+						<td><span><p>A date.</p></span></td>
+					</tr>
+					<tr class="z">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether this date is equal to the other.</p></span></section>
+			<section class="x" id="isSupported(reincarnation.classlib.java.time.temporal.TemporalUnit)">
+				<h2 class="P"><i class="OVERRIDE PUBLIC"></i><code class="u">isSupported</code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalUnit" href="api/reincarnation.classlib.java.time.temporal.TemporalUnit.html">TemporalUnit</a></code><code class="parameterName">unit</code>)</code><i class="l"><code>boolean</code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalUnit" href="api/reincarnation.classlib.java.time.temporal.TemporalUnit.html">TemporalUnit</a></code><code class="parameterName">unit</code></td>
+						<td></td>
+					</tr>
+					<tr class="z">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="x" id="plus(long,reincarnation.classlib.java.time.temporal.TemporalUnit)">
+				<h2 class="P"><i class="OVERRIDE PUBLIC"></i><code class="u">plus</code><code class="e">(<code>long</code><code class="parameterName">amount</code>, <code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalUnit" href="api/reincarnation.classlib.java.time.temporal.TemporalUnit.html">TemporalUnit</a></code><code class="parameterName">unit</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code>long</code><code class="parameterName">amount</code></td>
+						<td></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalUnit" href="api/reincarnation.classlib.java.time.temporal.TemporalUnit.html">TemporalUnit</a></code><code class="parameterName">unit</code></td>
+						<td></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="x" id="with(reincarnation.classlib.java.time.temporal.TemporalField,long)">
+				<h2 class="P"><i class="OVERRIDE PUBLIC"></i><code class="u">with</code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalField" href="api/reincarnation.classlib.java.time.temporal.TemporalField.html">TemporalField</a></code><code class="parameterName">field</code>, <code>long</code><code class="parameterName">value</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalField" href="api/reincarnation.classlib.java.time.temporal.TemporalField.html">TemporalField</a></code><code class="parameterName">field</code></td>
+						<td></td>
+					</tr>
+					<tr class="g">
+						<td><code>long</code><code class="parameterName">value</code></td>
+						<td></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="x" id="until(reincarnation.classlib.java.time.temporal.Temporal,reincarnation.classlib.java.time.temporal.TemporalUnit)">
+				<h2 class="P"><i class="OVERRIDE PUBLIC"></i><code class="u">until</code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.temporal.Temporal" href="api/reincarnation.classlib.java.time.temporal.Temporal.html">Temporal</a></code><code class="parameterName">end</code>, <code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalUnit" href="api/reincarnation.classlib.java.time.temporal.TemporalUnit.html">TemporalUnit</a></code><code class="parameterName">unit</code>)</code><i class="l"><code>long</code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.classlib.java.time.temporal.Temporal" href="api/reincarnation.classlib.java.time.temporal.Temporal.html">Temporal</a></code><code class="parameterName">end</code></td>
+						<td></td>
+					</tr>
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalUnit" href="api/reincarnation.classlib.java.time.temporal.TemporalUnit.html">TemporalUnit</a></code><code class="parameterName">unit</code></td>
+						<td></td>
+					</tr>
+					<tr class="z">
+						<td><code>long</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="x" id="getLong(reincarnation.classlib.java.time.temporal.TemporalField)">
+				<h2 class="P"><i class="OVERRIDE PUBLIC"></i><code class="u">getLong</code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalField" href="api/reincarnation.classlib.java.time.temporal.TemporalField.html">TemporalField</a></code><code class="parameterName">field</code>)</code><i class="l"><code>long</code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalField" href="api/reincarnation.classlib.java.time.temporal.TemporalField.html">TemporalField</a></code><code class="parameterName">field</code></td>
+						<td></td>
+					</tr>
+					<tr class="z">
+						<td><code>long</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="x" id="adjustInto(reincarnation.classlib.java.time.temporal.Temporal)">
+				<h2 class="P"><i class="OVERRIDE PUBLIC"></i><code class="u">adjustInto</code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.temporal.Temporal" href="api/reincarnation.classlib.java.time.temporal.Temporal.html">Temporal</a></code><code class="parameterName">temporal</code>)</code><i class="l"><code><a aria-label="reincarnation.classlib.java.time.temporal.Temporal" href="api/reincarnation.classlib.java.time.temporal.Temporal.html">Temporal</a></code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.classlib.java.time.temporal.Temporal" href="api/reincarnation.classlib.java.time.temporal.Temporal.html">Temporal</a></code><code class="parameterName">temporal</code></td>
+						<td></td>
+					</tr>
+					<tr class="z">
+						<td><code><a aria-label="reincarnation.classlib.java.time.temporal.Temporal" href="api/reincarnation.classlib.java.time.temporal.Temporal.html">Temporal</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="x" id="compareTo(reincarnation.classlib.java.time.LocalDate)">
+				<h2 class="P"><i class="OVERRIDE PUBLIC"></i><code class="u">compareTo</code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code><code class="parameterName">other</code>)</code><i class="l"><code>int</code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code><code class="parameterName">other</code></td>
+						<td></td>
+					</tr>
+					<tr class="z">
+						<td><code>int</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="x" id="equals(java.lang.Object)">
+				<h2 class="P"><i class="OVERRIDE PUBLIC"></i><code class="u">equals</code><code class="e">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code>)</code><i class="l"><code>boolean</code></i></h2>
+				<table class="t">
+					<tr class="g">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code></td>
+						<td></td>
+					</tr>
+					<tr class="z">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="x" id="hashCode()">
+				<h2 class="P"><i class="OVERRIDE PUBLIC"></i><code class="u">hashCode</code><code class="e">()</code><i class="l"><code>int</code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code>int</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="x" id="toString()">
+				<h2 class="P"><i class="OVERRIDE PUBLIC"></i><code class="u">toString</code><code class="e">()</code><i class="l"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="t">
+					<tr class="z">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+		</article>
+		<aside class="o">
+			<div class="U">
+				<h5 class="LB">Static Methods</h5>
+				<ul>
+					<li class="s"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#now()">now</a></code><code class="e">()</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+					<li class="s"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#of(int,int,int)">of</a></code><code class="e">(<code>int</code><code class="parameterName">year</code>, <code>int</code><code class="parameterName">month</code>, <code>int</code><code class="parameterName">day</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+					<li class="s"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#ofEpochDay(long)">ofEpochDay</a></code><code class="e">(<code>long</code><code class="parameterName">epochDay</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+					<li class="s"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#parse(java.lang.CharSequence)">parse</a></code><code class="e">(<code><a aria-label="java.lang.CharSequence 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/CharSequence.html">CharSequence</a></code><code class="parameterName">text</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+				</ul>
+				<h5 class="LB">Methods</h5>
+				<ul>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#getYear()">getYear</a></code><code class="e">()</code><i class="f"><code>int</code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#getMonthValue()">getMonthValue</a></code><code class="e">()</code><i class="f"><code>int</code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#getMonth()">getMonth</a></code><code class="e">()</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.Month" href="api/reincarnation.classlib.java.time.Month.html">Month</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#getDayOfMonth()">getDayOfMonth</a></code><code class="e">()</code><i class="f"><code>int</code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#getDayOfYear()">getDayOfYear</a></code><code class="e">()</code><i class="f"><code>int</code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#getDayOfWeek()">getDayOfWeek</a></code><code class="e">()</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.DayOfWeek" href="api/reincarnation.classlib.java.time.DayOfWeek.html">DayOfWeek</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#isLeapYear()">isLeapYear</a></code><code class="e">()</code><i class="f"><code>boolean</code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#lengthOfMonth()">lengthOfMonth</a></code><code class="e">()</code><i class="f"><code>int</code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#lengthOfYear()">lengthOfYear</a></code><code class="e">()</code><i class="f"><code>int</code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#plusDays(long)">plusDays</a></code><code class="e">(<code>long</code><code class="parameterName">days</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#plusWeeks(long)">plusWeeks</a></code><code class="e">(<code>long</code><code class="parameterName">weeks</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#plusMonths(long)">plusMonths</a></code><code class="e">(<code>long</code><code class="parameterName">months</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#plusYears(long)">plusYears</a></code><code class="e">(<code>long</code><code class="parameterName">years</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#minusDays(long)">minusDays</a></code><code class="e">(<code>long</code><code class="parameterName">days</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#minusWeeks(long)">minusWeeks</a></code><code class="e">(<code>long</code><code class="parameterName">weeks</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#minusMonths(long)">minusMonths</a></code><code class="e">(<code>long</code><code class="parameterName">months</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#minusYears(long)">minusYears</a></code><code class="e">(<code>long</code><code class="parameterName">years</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#withYear(int)">withYear</a></code><code class="e">(<code>int</code><code class="parameterName">year</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#withMonth(int)">withMonth</a></code><code class="e">(<code>int</code><code class="parameterName">month</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#withDayOfMonth(int)">withDayOfMonth</a></code><code class="e">(<code>int</code><code class="parameterName">day</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#toEpochDay()">toEpochDay</a></code><code class="e">()</code><i class="f"><code>long</code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#atTime(reincarnation.classlib.java.time.LocalTime)">atTime</a></code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.LocalTime" href="api/reincarnation.classlib.java.time.LocalTime.html">LocalTime</a></code><code class="parameterName">time</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDateTime" href="api/reincarnation.classlib.java.time.LocalDateTime.html">LocalDateTime</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#atTime(int,int)">atTime</a></code><code class="e">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDateTime" href="api/reincarnation.classlib.java.time.LocalDateTime.html">LocalDateTime</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#atTime(int,int,int)">atTime</a></code><code class="e">(<code>int</code><code class="parameterName">hour</code>, <code>int</code><code class="parameterName">minute</code>, <code>int</code><code class="parameterName">second</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDateTime" href="api/reincarnation.classlib.java.time.LocalDateTime.html">LocalDateTime</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#atStartOfDay()">atStartOfDay</a></code><code class="e">()</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDateTime" href="api/reincarnation.classlib.java.time.LocalDateTime.html">LocalDateTime</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#atStartOfDay(reincarnation.classlib.java.time.ZoneId)">atStartOfDay</a></code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.ZoneId" href="api/reincarnation.classlib.java.time.ZoneId.html">ZoneId</a></code><code class="parameterName">zone</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.ZonedDateTime" href="api/reincarnation.classlib.java.time.ZonedDateTime.html">ZonedDateTime</a></code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#isBefore(java.time.chrono.ChronoLocalDate)">isBefore</a></code><code class="e">(<code><a aria-label="java.time.chrono.ChronoLocalDate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/time/chrono/ChronoLocalDate.html">ChronoLocalDate</a></code><code class="parameterName">other</code>)</code><i class="f"><code>boolean</code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#isAfter(java.time.chrono.ChronoLocalDate)">isAfter</a></code><code class="e">(<code><a aria-label="java.time.chrono.ChronoLocalDate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/time/chrono/ChronoLocalDate.html">ChronoLocalDate</a></code><code class="parameterName">other</code>)</code><i class="f"><code>boolean</code></i></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#isEqual(java.time.chrono.ChronoLocalDate)">isEqual</a></code><code class="e">(<code><a aria-label="java.time.chrono.ChronoLocalDate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/time/chrono/ChronoLocalDate.html">ChronoLocalDate</a></code><code class="parameterName">other</code>)</code><i class="f"><code>boolean</code></i></li>
+					<li class="s"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#isSupported(reincarnation.classlib.java.time.temporal.TemporalUnit)">isSupported</a></code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalUnit" href="api/reincarnation.classlib.java.time.temporal.TemporalUnit.html">TemporalUnit</a></code><code class="parameterName">unit</code>)</code><i class="f"><code>boolean</code></i></li>
+					<li class="s"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#plus(long,reincarnation.classlib.java.time.temporal.TemporalUnit)">plus</a></code><code class="e">(<code>long</code><code class="parameterName">amount</code>, <code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalUnit" href="api/reincarnation.classlib.java.time.temporal.TemporalUnit.html">TemporalUnit</a></code><code class="parameterName">unit</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+					<li class="s"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#with(reincarnation.classlib.java.time.temporal.TemporalField,long)">with</a></code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalField" href="api/reincarnation.classlib.java.time.temporal.TemporalField.html">TemporalField</a></code><code class="parameterName">field</code>, <code>long</code><code class="parameterName">value</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code></i></li>
+					<li class="s"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#until(reincarnation.classlib.java.time.temporal.Temporal,reincarnation.classlib.java.time.temporal.TemporalUnit)">until</a></code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.temporal.Temporal" href="api/reincarnation.classlib.java.time.temporal.Temporal.html">Temporal</a></code><code class="parameterName">end</code>, <code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalUnit" href="api/reincarnation.classlib.java.time.temporal.TemporalUnit.html">TemporalUnit</a></code><code class="parameterName">unit</code>)</code><i class="f"><code>long</code></i></li>
+					<li class="s"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#getLong(reincarnation.classlib.java.time.temporal.TemporalField)">getLong</a></code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.temporal.TemporalField" href="api/reincarnation.classlib.java.time.temporal.TemporalField.html">TemporalField</a></code><code class="parameterName">field</code>)</code><i class="f"><code>long</code></i></li>
+					<li class="s"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#adjustInto(reincarnation.classlib.java.time.temporal.Temporal)">adjustInto</a></code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.temporal.Temporal" href="api/reincarnation.classlib.java.time.temporal.Temporal.html">Temporal</a></code><code class="parameterName">temporal</code>)</code><i class="f"><code><a aria-label="reincarnation.classlib.java.time.temporal.Temporal" href="api/reincarnation.classlib.java.time.temporal.Temporal.html">Temporal</a></code></i></li>
+					<li class="s"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#compareTo(reincarnation.classlib.java.time.LocalDate)">compareTo</a></code><code class="e">(<code><a aria-label="reincarnation.classlib.java.time.LocalDate" href="api/reincarnation.classlib.java.time.LocalDate.html">LocalDate</a></code><code class="parameterName">other</code>)</code><i class="f"><code>int</code></i></li>
+					<li class="s"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#equals(java.lang.Object)">equals</a></code><code class="e">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code>)</code><i class="f"><code>boolean</code></i></li>
+					<li class="s"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#hashCode()">hashCode</a></code><code class="e">()</code><i class="f"><code>int</code></i></li>
+					<li class="s"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.time.LocalDate.html#toString()">toString</a></code><code class="e">()</code><i class="f"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="i">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>
