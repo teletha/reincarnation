@@ -25,9 +25,7 @@ import java.util.Set;
 final class Classlib {
 
     /** The classes which are provided as the hand-written JavaScript runtime. */
-    private static final Set<Class> runtimes = Set.of(java.util.Queue.class, java.util.Deque.class,
-            java.util.ArrayDeque.class, java.util.PriorityQueue.class, java.util.ListIterator.class,
-            java.lang.Enum.class);
+    private static final Set<Class> runtimes = Set.of(java.util.ListIterator.class, java.lang.Enum.class);
 
     /** The classes which are provided as the reflection runtime. */
     private static final Set<Class> reflections = Set.of(java.lang.Class.class, java.lang.reflect.Method.class,
@@ -69,6 +67,10 @@ final class Classlib {
             Map.entry(java.util.NavigableMap.class, reincarnation.classlib.java.util.Map.class), //
             Map.entry(java.util.concurrent.ConcurrentMap.class, reincarnation.classlib.java.util.Map.class), //
             Map.entry(java.util.Map.Entry.class, reincarnation.classlib.java.util.Entry.class), //
+            Map.entry(java.util.Queue.class, reincarnation.classlib.java.util.Queue.class), //
+            Map.entry(java.util.Deque.class, reincarnation.classlib.java.util.Deque.class), //
+            Map.entry(java.util.ArrayDeque.class, reincarnation.classlib.java.util.ArrayDeque.class), //
+            Map.entry(java.util.PriorityQueue.class, reincarnation.classlib.java.util.PriorityQueue.class), //
             Map.entry(java.util.Optional.class, reincarnation.classlib.java.util.Optional.class), //
             Map.entry(java.util.stream.Stream.class, reincarnation.classlib.java.util.stream.Stream.class), //
             Map.entry(java.util.StringJoiner.class, reincarnation.classlib.java.util.StringJoiner.class), //

@@ -122,4 +122,16 @@ class QueueTest extends JavascriptCodeVerifier {
             }
         });
     }
+
+    @Test
+    void instanceOfQueue() throws Exception {
+        verify(new TestCode.Boolean() {
+
+            @Override
+            public boolean run() {
+                java.lang.Object value = new ArrayDeque<Integer>();
+                return value instanceof Queue && value instanceof Deque;
+            }
+        });
+    }
 }
