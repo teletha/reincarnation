@@ -1657,15 +1657,19 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
                         // build parameter from local environment
                         int consumableStackSize = callerType.getArgumentTypes().length;
                         List<Operand> params = new ArrayList();
+                        boolean instance = executable instanceof Constructor
+                                || (executable instanceof Method method && !java.lang.reflect.Modifier.isStatic(method.getModifiers()));
 
                         for (int i = consumableStackSize - 1; 0 <= i; i--) {
                             Operand removed = current.remove(i);
-                            if (removed instanceof OperandLocalVariable local && local.index.get() == 0) {
+                            if (instance && removed instanceof OperandLocalVariable local && local.index.get() == 0) {
                                 // ignore "this" variable
                             } else {
                                 params.add(removed);
                             }
                         }
+                        // The synthetic lambda method receives the captured values in the stack
+                        // order, so the parameters are collected from the top of the stack.
                         current.addOperand(new OperandLambda(interfaceClass, lambdaMethod, params, source));
                     } else {
                         // ==================================
