@@ -12,10 +12,10 @@ package reincarnation.classlib.java.lang;
 /**
  * The Java implementation of {@link java.lang.StringBuffer} which is transpiled into JavaScript.
  * <p>
- * JavaScript is single threaded, so this implementation shares {@link StringBuilder}.
+ * JavaScript is single threaded, so this implementation shares {@link AbstractStringBuilder}.
  * </p>
  */
-public final class StringBuffer extends StringBuilder {
+public final class StringBuffer extends AbstractStringBuilder<StringBuffer> {
 
     /**
      * Create an empty buffer.
@@ -49,5 +49,15 @@ public final class StringBuffer extends StringBuilder {
      */
     public StringBuffer(CharSequence value) {
         super(value);
+    }
+
+    /**
+     * Compare with the other buffer.
+     * 
+     * @param other Another buffer.
+     * @return A comparison result.
+     */
+    public int compareTo(StringBuffer other) {
+        return toString().compareTo(other.toString());
     }
 }
