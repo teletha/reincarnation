@@ -184,6 +184,16 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "HashSet",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "Set",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
 			"name": "List",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
@@ -225,6 +235,16 @@ const root = {
 		},
 		{
 			"name": "Collections",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "LinkedHashSet",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "TreeSet",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
 		},
