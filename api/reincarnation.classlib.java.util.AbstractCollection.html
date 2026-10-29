@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="t">
+		<header class="n" date="2026-10-29">
+			<h1 class="o"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="P"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="N"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="k"></nav>
+		<article class="u" id="Article">
+			<section class="T"><code class="R">reincarnation.classlib.java.util</code>
+				<h2 class="AbstractClass r"><code class="d">AbstractCollection</code><code class="c">&lt;<code>E</code>&gt;</code></h2>
+				<div class="y">
+					<ul class="E F">
+						<li><code>E</code></li>
+					</ul>
+					<ul class="E H">
+						<li><code><a aria-label="reincarnation.classlib.java.util.Collection" href="api/reincarnation.classlib.java.util.Collection.html">Collection</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.lang.Iterable" href="api/reincarnation.classlib.java.lang.Iterable.html">Iterable</a><code class="parameters"><code>E</code></code></code></li>
+					</ul>
+					<ul class="E I">
+						<li><code><a aria-label="reincarnation.classlib.java.util.AbstractList" href="api/reincarnation.classlib.java.util.AbstractList.html">AbstractList</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.AbstractQueue" href="api/reincarnation.classlib.java.util.AbstractQueue.html">AbstractQueue</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.AbstractSequentialList" href="api/reincarnation.classlib.java.util.AbstractSequentialList.html">AbstractSequentialList</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.AbstractSet" href="api/reincarnation.classlib.java.util.AbstractSet.html">AbstractSet</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.ArrayDeque" href="api/reincarnation.classlib.java.util.ArrayDeque.html">ArrayDeque</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.ArrayList" href="api/reincarnation.classlib.java.util.ArrayList.html">ArrayList</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.HashSet" href="api/reincarnation.classlib.java.util.HashSet.html">HashSet</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.LinkedHashSet" href="api/reincarnation.classlib.java.util.LinkedHashSet.html">LinkedHashSet</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.LinkedList" href="api/reincarnation.classlib.java.util.LinkedList.html">LinkedList</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.PriorityQueue" href="api/reincarnation.classlib.java.util.PriorityQueue.html">PriorityQueue</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.Stack" href="api/reincarnation.classlib.java.util.Stack.html">Stack</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.TreeSet" href="api/reincarnation.classlib.java.util.TreeSet.html">TreeSet</a><code class="parameters"><code>E</code></code></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.Vector" href="api/reincarnation.classlib.java.util.Vector.html">Vector</a><code class="parameters"><code>E</code></code></code></li>
+					</ul>
+				</div><span class="A"><p>The Java implementation of <code><a aria-label="java.util.AbstractCollection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/AbstractCollection.html">java.util.AbstractCollection</a></code> which is transpiled into
+JavaScript.</p></span></section>
+			<section class="T" id="elements">
+				<h2 class="V"><i class="PROTECTED"></i><code class="d">elements</code><i class="GB"><code array="fix" class="return"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2><span class="A"><p>The elements.</p></span></section>
+			<section class="T" id="AbstractCollection()">
+				<h2 class="V"><i class="PROTECTED"></i><code class="d">AbstractCollection</code><code class="c">()</code></h2><span class="A"><p>Create an empty collection.</p></span></section>
+			<section class="T" id="size()">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">size</code><code class="c">()</code><i class="GB"><code>int</code></i></h2>
+				<table class="BB">
+					<tr class="Z">
+						<td><code>int</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="isEmpty()">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">isEmpty</code><code class="c">()</code><i class="GB"><code>boolean</code></i></h2>
+				<table class="BB">
+					<tr class="Z">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="contains(java.lang.Object)">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">contains</code><code class="c">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="GB"><code>boolean</code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td></td>
+					</tr>
+					<tr class="Z">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="add(java.lang.Object)">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">add</code><code class="c">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="GB"><code>boolean</code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td></td>
+					</tr>
+					<tr class="Z">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="remove(java.lang.Object)">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">remove</code><code class="c">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="GB"><code>boolean</code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td></td>
+					</tr>
+					<tr class="Z">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="containsAll(reincarnation.classlib.java.util.Collection)">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">containsAll</code><code class="c">(<code><a aria-label="reincarnation.classlib.java.util.Collection" href="api/reincarnation.classlib.java.util.Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code><i class="GB"><code>boolean</code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Collection" href="api/reincarnation.classlib.java.util.Collection.html">Collection</a></code><code class="parameterName">collection</code></td>
+						<td></td>
+					</tr>
+					<tr class="Z">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="addAll(reincarnation.classlib.java.util.Collection)">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">addAll</code><code class="c">(<code><a aria-label="reincarnation.classlib.java.util.Collection" href="api/reincarnation.classlib.java.util.Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code><i class="GB"><code>boolean</code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Collection" href="api/reincarnation.classlib.java.util.Collection.html">Collection</a></code><code class="parameterName">collection</code></td>
+						<td></td>
+					</tr>
+					<tr class="Z">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="removeAll(reincarnation.classlib.java.util.Collection)">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">removeAll</code><code class="c">(<code><a aria-label="reincarnation.classlib.java.util.Collection" href="api/reincarnation.classlib.java.util.Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code><i class="GB"><code>boolean</code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Collection" href="api/reincarnation.classlib.java.util.Collection.html">Collection</a></code><code class="parameterName">collection</code></td>
+						<td></td>
+					</tr>
+					<tr class="Z">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="retainAll(reincarnation.classlib.java.util.Collection)">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">retainAll</code><code class="c">(<code><a aria-label="reincarnation.classlib.java.util.Collection" href="api/reincarnation.classlib.java.util.Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code><i class="GB"><code>boolean</code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code><a aria-label="reincarnation.classlib.java.util.Collection" href="api/reincarnation.classlib.java.util.Collection.html">Collection</a></code><code class="parameterName">collection</code></td>
+						<td></td>
+					</tr>
+					<tr class="Z">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="removeIf(java.util.function.Predicate)">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">removeIf</code><code class="c">(<code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html">Predicate</a></code><code class="parameterName">predicate</code>)</code><i class="GB"><code>boolean</code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html">Predicate</a></code><code class="parameterName">predicate</code></td>
+						<td></td>
+					</tr>
+					<tr class="Z">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="clear()">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">clear</code><code class="c">()</code><i class="GB"><code>void</code></i></h2>
+			</section>
+			<section class="T" id="toArray()">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">toArray</code><code class="c">()</code><i class="GB"><code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="BB">
+					<tr class="Z">
+						<td><code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="toArray(java.lang.Object[])">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">toArray</code><code class="c">(<code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">array</code>)</code><i class="GB"><code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">array</code></td>
+						<td></td>
+					</tr>
+					<tr class="Z">
+						<td><code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="iterator()">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">iterator</code><code class="c">()</code><i class="GB"><code><a aria-label="java.util.Iterator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Iterator.html">Iterator</a><code class="parameters"><code>E</code></code></code></i></h2>
+				<table class="BB">
+					<tr class="Z">
+						<td><code><a aria-label="java.util.Iterator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Iterator.html">Iterator</a><code class="parameters"><code>E</code></code></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="forEach(java.util.function.Consumer)">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">forEach</code><code class="c">(<code><a aria-label="java.util.function.Consumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Consumer.html">Consumer</a></code><code class="parameterName">action</code>)</code><i class="GB"><code>void</code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code><a aria-label="java.util.function.Consumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Consumer.html">Consumer</a></code><code class="parameterName">action</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="stream()">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">stream</code><code class="c">()</code><i class="GB"><code><a aria-label="java.util.stream.Stream 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/stream/Stream.html">Stream</a></code></i></h2>
+				<table class="BB">
+					<tr class="Z">
+						<td><code><a aria-label="java.util.stream.Stream 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/stream/Stream.html">Stream</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="equals(java.lang.Object)">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">equals</code><code class="c">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code>)</code><i class="GB"><code>boolean</code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code></td>
+						<td></td>
+					</tr>
+					<tr class="Z">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="hashCode()">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">hashCode</code><code class="c">()</code><i class="GB"><code>int</code></i></h2>
+				<table class="BB">
+					<tr class="Z">
+						<td><code>int</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="toString()">
+				<h2 class="V"><i class="OVERRIDE PUBLIC"></i><code class="d">toString</code><code class="c">()</code><i class="GB"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="BB">
+					<tr class="Z">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="T" id="get(int)">
+				<h2 class="V"><i class="PROTECTED"></i><code class="d">get</code><code class="c">(<code>int</code><code class="parameterName">index</code>)</code><i class="GB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code>int</code><code class="parameterName">index</code></td>
+						<td><span><p>An index.</p></span></td>
+					</tr>
+					<tr class="Z">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the value.</p></span></section>
+			<section class="T" id="set(int,java.lang.Object)">
+				<h2 class="V"><i class="PROTECTED"></i><code class="d">set</code><code class="c">(<code>int</code><code class="parameterName">index</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="GB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code>int</code><code class="parameterName">index</code></td>
+						<td><span><p>An index.</p></span></td>
+					</tr>
+					<tr class="EB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="Z">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A previous value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set the value.</p></span></section>
+			<section class="T" id="insert(int,java.lang.Object)">
+				<h2 class="V"><i class="PROTECTED"></i><code class="d">insert</code><code class="c">(<code>int</code><code class="parameterName">index</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="GB"><code>void</code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code>int</code><code class="parameterName">index</code></td>
+						<td><span><p>An index.</p></span></td>
+					</tr>
+					<tr class="EB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Insert the value at the index.</p></span></section>
+			<section class="T" id="removeAt(int)">
+				<h2 class="V"><i class="PROTECTED"></i><code class="d">removeAt</code><code class="c">(<code>int</code><code class="parameterName">index</code>)</code><i class="GB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code>int</code><code class="parameterName">index</code></td>
+						<td><span><p>An index.</p></span></td>
+					</tr>
+					<tr class="Z">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A removed value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Remove the value at the index.</p></span></section>
+			<section class="T" id="indexOf(java.lang.Object)">
+				<h2 class="V"><i class="PROTECTED"></i><code class="d">indexOf</code><code class="c">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="GB"><code>int</code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="Z">
+						<td><code>int</code></td>
+						<td><span><p>An index or -1.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the index of the value.</p></span></section>
+			<section class="T" id="ensure(int)">
+				<h2 class="V"><i class="PROTECTED"></i><code class="d">ensure</code><code class="c">(<code>int</code><code class="parameterName">capacity</code>)</code><i class="GB"><code>void</code></i></h2>
+				<table class="BB">
+					<tr class="EB">
+						<td><code>int</code><code class="parameterName">capacity</code></td>
+						<td><span><p>A capacity.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Ensure the capacity.</p></span></section>
+		</article>
+		<aside class="S">
+			<div class="HB">
+				<h5 class="b">Constructors</h5>
+				<ul>
+					<li class="f"><i class="PROTECTED"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#AbstractCollection()">AbstractCollection</a></code><code class="c">()</code></li>
+				</ul>
+				<h5 class="b">Fields</h5>
+				<ul>
+					<li class="f"><i class="PROTECTED"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#elements">elements</a></code><i class="p"><code array="fix" class="return"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+				</ul>
+				<h5 class="b">Methods</h5>
+				<ul>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#size()">size</a></code><code class="c">()</code><i class="p"><code>int</code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#isEmpty()">isEmpty</a></code><code class="c">()</code><i class="p"><code>boolean</code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#contains(java.lang.Object)">contains</a></code><code class="c">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="p"><code>boolean</code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#add(java.lang.Object)">add</a></code><code class="c">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="p"><code>boolean</code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#remove(java.lang.Object)">remove</a></code><code class="c">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="p"><code>boolean</code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#containsAll(reincarnation.classlib.java.util.Collection)">containsAll</a></code><code class="c">(<code><a aria-label="reincarnation.classlib.java.util.Collection" href="api/reincarnation.classlib.java.util.Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code><i class="p"><code>boolean</code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#addAll(reincarnation.classlib.java.util.Collection)">addAll</a></code><code class="c">(<code><a aria-label="reincarnation.classlib.java.util.Collection" href="api/reincarnation.classlib.java.util.Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code><i class="p"><code>boolean</code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#removeAll(reincarnation.classlib.java.util.Collection)">removeAll</a></code><code class="c">(<code><a aria-label="reincarnation.classlib.java.util.Collection" href="api/reincarnation.classlib.java.util.Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code><i class="p"><code>boolean</code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#retainAll(reincarnation.classlib.java.util.Collection)">retainAll</a></code><code class="c">(<code><a aria-label="reincarnation.classlib.java.util.Collection" href="api/reincarnation.classlib.java.util.Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code><i class="p"><code>boolean</code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#removeIf(java.util.function.Predicate)">removeIf</a></code><code class="c">(<code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html">Predicate</a></code><code class="parameterName">predicate</code>)</code><i class="p"><code>boolean</code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#clear()">clear</a></code><code class="c">()</code><i class="p"><code>void</code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#toArray()">toArray</a></code><code class="c">()</code><i class="p"><code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#toArray(java.lang.Object[])">toArray</a></code><code class="c">(<code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">array</code>)</code><i class="p"><code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#iterator()">iterator</a></code><code class="c">()</code><i class="p"><code><a aria-label="java.util.Iterator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Iterator.html">Iterator</a><code class="parameters"><code>E</code></code></code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#forEach(java.util.function.Consumer)">forEach</a></code><code class="c">(<code><a aria-label="java.util.function.Consumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Consumer.html">Consumer</a></code><code class="parameterName">action</code>)</code><i class="p"><code>void</code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#stream()">stream</a></code><code class="c">()</code><i class="p"><code><a aria-label="java.util.stream.Stream 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/stream/Stream.html">Stream</a></code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#equals(java.lang.Object)">equals</a></code><code class="c">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code>)</code><i class="p"><code>boolean</code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#hashCode()">hashCode</a></code><code class="c">()</code><i class="p"><code>int</code></i></li>
+					<li class="f"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#toString()">toString</a></code><code class="c">()</code><i class="p"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="f"><i class="PROTECTED"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#get(int)">get</a></code><code class="c">(<code>int</code><code class="parameterName">index</code>)</code><i class="p"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="f"><i class="PROTECTED"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#set(int,java.lang.Object)">set</a></code><code class="c">(<code>int</code><code class="parameterName">index</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="p"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="f"><i class="PROTECTED"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#insert(int,java.lang.Object)">insert</a></code><code class="c">(<code>int</code><code class="parameterName">index</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="p"><code>void</code></i></li>
+					<li class="f"><i class="PROTECTED"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#removeAt(int)">removeAt</a></code><code class="c">(<code>int</code><code class="parameterName">index</code>)</code><i class="p"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="f"><i class="PROTECTED"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#indexOf(java.lang.Object)">indexOf</a></code><code class="c">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="p"><code>int</code></i></li>
+					<li class="f"><i class="PROTECTED"></i><code><a href="api/reincarnation.classlib.java.util.AbstractCollection.html#ensure(int)">ensure</a></code><code class="c">(<code>int</code><code class="parameterName">capacity</code>)</code><i class="p"><code>void</code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="X">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

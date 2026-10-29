@@ -170,6 +170,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "RandomAccess",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Interface"
+		},
+		{
 			"name": "SortedMap",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Interface"
@@ -215,14 +220,24 @@ const root = {
 			"type": "Interface"
 		},
 		{
+			"name": "AbstractSequentialList",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "AbstractClass"
+		},
+		{
 			"name": "Set",
 			"packageName": "reincarnation.classlib.java.util",
-			"type": "Class"
+			"type": "Interface"
+		},
+		{
+			"name": "SequencedCollection",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Interface"
 		},
 		{
 			"name": "List",
 			"packageName": "reincarnation.classlib.java.util",
-			"type": "Class"
+			"type": "Interface"
 		},
 		{
 			"name": "Dictionary",
@@ -245,9 +260,19 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "SequencedSet",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Interface"
+		},
+		{
 			"name": "Objects",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
+		},
+		{
+			"name": "AbstractQueue",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "AbstractClass"
 		},
 		{
 			"name": "Hashtable",
@@ -257,7 +282,7 @@ const root = {
 		{
 			"name": "Iterator",
 			"packageName": "reincarnation.classlib.java.util",
-			"type": "Class"
+			"type": "Interface"
 		},
 		{
 			"name": "StringJoiner",
@@ -267,10 +292,15 @@ const root = {
 		{
 			"name": "Queue",
 			"packageName": "reincarnation.classlib.java.util",
-			"type": "Class"
+			"type": "Interface"
 		},
 		{
 			"name": "NavigableMap",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Interface"
+		},
+		{
+			"name": "SortedSet",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Interface"
 		},
@@ -285,6 +315,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "Collection",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Interface"
+		},
+		{
 			"name": "Vector",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
@@ -293,6 +328,11 @@ const root = {
 			"name": "Collections",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
+		},
+		{
+			"name": "AbstractCollection",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "AbstractClass"
 		},
 		{
 			"name": "AbstractMap",
@@ -315,6 +355,16 @@ const root = {
 			"type": "Interface"
 		},
 		{
+			"name": "NavigableSet",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Interface"
+		},
+		{
+			"name": "AbstractSet",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "AbstractClass"
+		},
+		{
 			"name": "TreeSet",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
@@ -322,7 +372,7 @@ const root = {
 		{
 			"name": "Deque",
 			"packageName": "reincarnation.classlib.java.util",
-			"type": "Class"
+			"type": "Interface"
 		},
 		{
 			"name": "LinkedHashMap",
@@ -333,6 +383,11 @@ const root = {
 			"name": "HashMap",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
+		},
+		{
+			"name": "AbstractList",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "AbstractClass"
 		},
 		{
 			"name": "StringBuffer",
@@ -348,6 +403,11 @@ const root = {
 			"name": "Cloneable",
 			"packageName": "reincarnation.classlib.java.lang",
 			"type": "Interface"
+		},
+		{
+			"name": "Iterable",
+			"packageName": "reincarnation.classlib.java.lang",
+			"type": "Functional"
 		},
 		{
 			"name": "System",
