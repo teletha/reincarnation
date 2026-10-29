@@ -1451,11 +1451,17 @@ class JavaMethodDecompiler extends MethodVisitor implements Code, Naming, NodeMa
             if (assertGuard && match(INVOKESPECIAL, ATHROW)) {
                 Operand o = current.peek(0);
                 if (o instanceof OperandConstructorCall con && con.type.is(AssertionError.class)) {
-                    assertGuard = false;
-                    current.remove(0); // remove new AssertionError()
-                    mergeConditions(current);
-                    current.addOperand(new OperandAssert(current.remove(0), con.children().to()));
-                    break;
+                    // If the assertion shares the node with an enclosing conditional branch, the
+                    // outer condition must not be consumed by the assertion reconstruction.
+                    boolean enclosingCondition = current.previous != null && current.previous.outgoing.size() > 1
+                            && current.previous.stack.stream().anyMatch(x -> x instanceof OperandCondition);
+                    if (!enclosingCondition) {
+                        assertGuard = false;
+                        current.remove(0); // remove new AssertionError()
+                        mergeConditions(current);
+                        current.addOperand(new OperandAssert(current.remove(0), con.children().to()));
+                        break;
+                    }
                 }
             }
             assertGuard = false;
