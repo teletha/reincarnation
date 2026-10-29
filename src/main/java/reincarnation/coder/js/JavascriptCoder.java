@@ -603,7 +603,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             return "false";
         } else if (type == char.class) {
             return "\"\\u0000\"";
-        } else if (type == long.class && bigint()) {
+        } else if (type == long.class) {
             return "0n";
         } else if (type.isPrimitive()) {
             return "0";
@@ -889,11 +889,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeLong(long code) {
-        if (bigint()) {
-            write(code, "n");
-        } else {
-            write(code);
-        }
+        write(code, "n");
     }
 
     /**
@@ -1016,7 +1012,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeAssignOperation(Code left, AssignOperator operator, Code right) {
-        if (bigint() && isLong(left)) {
+        if (isLong(left)) {
             if (operator == AssignOperator.ASSIGN) {
                 write(left, space, "=", space, longOperand(right));
                 return;
@@ -1051,7 +1047,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeBinaryOperation(Code left, BinaryOperator operator, Code right) {
-        if (bigint() && (isLong(left) || isLong(right)) && operator != BinaryOperator.AND && operator != BinaryOperator.OR) {
+        if ((isLong(left) || isLong(right)) && operator != BinaryOperator.AND && operator != BinaryOperator.OR) {
             writeLongOperation(operator, left, right);
         } else {
             write(left, space, operator, space, right);
@@ -1150,7 +1146,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeUnaryOperation(Code code, UnaryOperator operator) {
-        if (bigint() && isLong(code)) {
+        if (isLong(code)) {
             switch (operator) {
             case MINUS:
                 write("$rt_lr(-", code, ")");
@@ -1508,15 +1504,6 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     private void requireRuntime() {
         runtime = true;
-    }
-
-    /**
-     * Check whether the Java {@code long} is represented by the JavaScript BigInt.
-     * 
-     * @return A result.
-     */
-    private boolean bigint() {
-        return options.longMode == LongMode.BIGINT;
     }
 
     /**
@@ -2214,7 +2201,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
 
         // The JavaScript Math object does not accept a BigInt, so the long argument is handled
         // explicitly.
-        if (bigint() && method.getParameterCount() != 0 && method.getParameterTypes()[0] == long.class) {
+        if (method.getParameterCount() != 0 && method.getParameterTypes()[0] == long.class) {
             switch (name) {
             case "abs":
             case "absExact":
@@ -2620,7 +2607,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         boolean bool = owner.endsWith("Boolean");
         boolean longValue = owner.endsWith("Long");
 
-        if (longValue && bigint()) {
+        if (longValue) {
             switch (name) {
             case "parseLong":
                 if (params.size() == 4) {
@@ -2814,11 +2801,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             break;
 
         case "toUnsignedLong":
-            if (bigint()) {
-                write("$rt_l(", params.get(0), space, ">>>", space, "0", ")");
-            } else {
-                write("(", params.get(0), space, ">>>", space, "0", ")");
-            }
+            write("$rt_l(", params.get(0), space, ">>>", space, "0", ")");
             break;
 
         case "compare":
@@ -3456,7 +3439,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
 
             if (param == Operand.Null) {
                 concat.add(new InferedCode(parameters[i].getType(), param));
-            } else if (bigint() && i < parameters.length && parameters[i].getType() == long.class && !isLong(param)) {
+            } else if (i < parameters.length && parameters[i].getType() == long.class && !isLong(param)) {
                 // The int value must be promoted to the BigInt at the long parameter.
                 concat.add((Code) coder -> coder.write("$rt_l(", param, ")"));
             } else {
@@ -3553,7 +3536,7 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         if (initialValues.isEmpty()) {
             // e.g. new Array(3).fill(0)
             write("new", space, "Array", join("(", dimensions, ",", ")"), ".fill(", jsDefault(type), ")");
-        } else if (bigint() && type == long.class) {
+        } else if (type == long.class) {
             // The int values in the long array initializer must be promoted to the BigInt.
             write(Join.of(initialValues).prefix("[").separator(", ").suffix("]").converter(this::longOperand));
         } else {
@@ -3577,28 +3560,26 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      */
     @Override
     public void writeCast(Class type, Code code) {
-        if (bigint()) {
-            boolean source = isLong(code);
+        boolean source = isLong(code);
 
-            if (type == long.class) {
-                if (!source) {
-                    write("$rt_dtol(", code, ")");
-                    return;
-                }
-            } else if (source) {
-                if (type == int.class || type == short.class || type == byte.class) {
-                    write("$rt_ltoi(", code, ")");
-                    return;
-                } else if (type == double.class) {
-                    write("$rt_ltod(", code, ")");
-                    return;
-                } else if (type == float.class) {
-                    write("Math.fround($rt_ltod(", code, "))");
-                    return;
-                } else if (type == char.class) {
-                    write("String.fromCharCode($rt_ltoi(", code, "))");
-                    return;
-                }
+        if (type == long.class) {
+            if (!source) {
+                write("$rt_dtol(", code, ")");
+                return;
+            }
+        } else if (source) {
+            if (type == int.class || type == short.class || type == byte.class) {
+                write("$rt_ltoi(", code, ")");
+                return;
+            } else if (type == double.class) {
+                write("$rt_ltod(", code, ")");
+                return;
+            } else if (type == float.class) {
+                write("Math.fround($rt_ltod(", code, "))");
+                return;
+            } else if (type == char.class) {
+                write("String.fromCharCode($rt_ltoi(", code, "))");
+                return;
             }
         }
 

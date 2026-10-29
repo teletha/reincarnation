@@ -25,9 +25,6 @@ public class JavascriptCodingOption extends CodingOption {
      */
     public boolean strictApi;
 
-    /** The representation of the Java {@code long} primitive. */
-    public LongMode longMode = LongMode.BIGINT;
-
     /** Whether the classes annotated by {@link Necessary} are scanned automatically. */
     public boolean scanNecessary;
 
