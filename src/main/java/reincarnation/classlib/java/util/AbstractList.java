@@ -107,6 +107,26 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
      * {@inheritDoc}
      */
     @Override
+    public ListIterator listIterator() {
+        return new ArrayIterator(this, false);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ListIterator listIterator(int index) {
+        ListIterator iterator = new ArrayIterator(this, false);
+        for (int i = 0; i < index; i++) {
+            iterator.next();
+        }
+        return iterator;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void sort(Comparator comparator) {
         Arrays.sort(elements, 0, size(), comparator);
     }

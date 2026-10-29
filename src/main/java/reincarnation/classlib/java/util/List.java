@@ -265,6 +265,21 @@ public interface List<E> extends SequencedCollection<E> {
     List subList(int from, int to);
 
     /**
+     * Create the list iterator.
+     * 
+     * @return An iterator.
+     */
+    ListIterator listIterator();
+
+    /**
+     * Create the list iterator.
+     * 
+     * @param index An index.
+     * @return An iterator.
+     */
+    ListIterator listIterator(int index);
+
+    /**
      * Sort the list.
      * 
      * @param comparator A comparator.

@@ -486,4 +486,27 @@ class ListTest extends JavascriptCodeVerifier {
             }
         });
     }
+
+    @Test
+    void listIterator() throws Exception {
+        verify(new TestCode.Int() {
+
+            @Override
+            public int run() {
+                List<Integer> list = new ArrayList<>();
+                list.add(1);
+                list.add(2);
+                list.add(3);
+                java.util.ListIterator<Integer> iterator = list.listIterator();
+                int sum = 0;
+                while (iterator.hasNext()) {
+                    sum += iterator.next();
+                }
+                while (iterator.hasPrevious()) {
+                    sum += iterator.previous();
+                }
+                return sum;
+            }
+        });
+    }
 }

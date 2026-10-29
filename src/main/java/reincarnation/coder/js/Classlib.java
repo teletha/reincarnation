@@ -25,7 +25,7 @@ import java.util.Set;
 final class Classlib {
 
     /** The classes which are provided as the hand-written JavaScript runtime. */
-    private static final Set<Class> runtimes = Set.of(java.util.ListIterator.class, java.lang.Enum.class);
+    private static final Set<Class> runtimes = Set.of(java.lang.Enum.class);
 
     /** The classes which are provided as the reflection runtime. */
     private static final Set<Class> reflections = Set.of(java.lang.Class.class, java.lang.reflect.Method.class,
@@ -66,6 +66,7 @@ final class Classlib {
             Map.entry(java.util.Stack.class, reincarnation.classlib.java.util.Stack.class), //
             Map.entry(java.util.RandomAccess.class, reincarnation.classlib.java.util.RandomAccess.class), //
             Map.entry(java.util.Iterator.class, reincarnation.classlib.java.util.Iterator.class), //
+            Map.entry(java.util.ListIterator.class, reincarnation.classlib.java.util.ListIterator.class), //
             Map.entry(java.util.Set.class, reincarnation.classlib.java.util.Set.class), //
             Map.entry(java.util.AbstractSet.class, reincarnation.classlib.java.util.AbstractSet.class), //
             Map.entry(java.util.HashSet.class, reincarnation.classlib.java.util.HashSet.class), //
@@ -126,6 +127,7 @@ final class Classlib {
             Map.entry(reincarnation.classlib.java.util.Stack.class, java.util.Stack.class), //
             Map.entry(reincarnation.classlib.java.util.RandomAccess.class, java.util.RandomAccess.class), //
             Map.entry(reincarnation.classlib.java.util.Iterator.class, java.util.Iterator.class), //
+            Map.entry(reincarnation.classlib.java.util.ListIterator.class, java.util.ListIterator.class), //
             Map.entry(reincarnation.classlib.java.util.Set.class, java.util.Set.class), //
             Map.entry(reincarnation.classlib.java.util.AbstractSet.class, java.util.AbstractSet.class), //
             Map.entry(reincarnation.classlib.java.util.HashSet.class, java.util.HashSet.class), //

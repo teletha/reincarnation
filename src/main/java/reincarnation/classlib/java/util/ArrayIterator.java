@@ -12,9 +12,9 @@ package reincarnation.classlib.java.util;
 import java.util.NoSuchElementException;
 
 /**
- * The {@link Iterator} of {@link AbstractCollection}.
+ * The {@link ListIterator} of {@link AbstractCollection}.
  */
-final class ArrayIterator implements Iterator {
+final class ArrayIterator implements ListIterator {
 
     /** The collection. */
     private final AbstractCollection owner;
@@ -64,12 +64,71 @@ final class ArrayIterator implements Iterator {
      * {@inheritDoc}
      */
     @Override
+    public boolean hasPrevious() {
+        return descending ? index < owner.size() - 1 : 0 < index;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object previous() {
+        if (!hasPrevious()) {
+            throw new NoSuchElementException();
+        }
+        last = descending ? ++index : --index;
+        return owner.get(index);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int nextIndex() {
+        return descending ? index : index;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int previousIndex() {
+        return index - 1;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void remove() {
         if (last < 0) {
             throw new IllegalStateException();
         }
         owner.removeAt(last);
         index = descending ? last - 1 : last;
+        last = -1;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void set(Object value) {
+        if (last < 0) {
+            throw new IllegalStateException();
+        }
+        owner.set(last, value);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void add(Object value) {
+        owner.insert(index, value);
+        if (!descending) {
+            index++;
+        }
         last = -1;
     }
 }
