@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="LB">
+		<header class="h" date="2026-10-29">
+			<h1 class="i"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="j"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="k"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="KB"></nav>
+		<article class="CB" id="Article">
+			<section class="EB"><code class="s">reincarnation.classlib.java.util</code>
+				<h2 class="Class g"><code class="IB">Deque</code></h2>
+				<div class="l">
+					<ul class="E G">
+						<li><code><a aria-label="reincarnation.classlib.java.util.Queue" href="api/reincarnation.classlib.java.util.Queue.html">Queue</a></code></li>
+					</ul>
+					<ul class="E I">
+						<li><code><a aria-label="reincarnation.classlib.java.util.ArrayDeque" href="api/reincarnation.classlib.java.util.ArrayDeque.html">ArrayDeque</a></code></li>
+					</ul>
+				</div><span class="A"><p>The Java implementation of <code><a aria-label="java.util.Deque 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Deque.html">java.util.Deque</a></code> which is transpiled into JavaScript.</p></span></section>
+			<section class="EB" id="Deque()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">Deque</code><code class="DB">()</code></h2><span class="A"><p>Create an empty deque.</p></span></section>
+			<section class="EB" id="Deque(java.util.Collection)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">Deque</code><code class="DB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code></td>
+						<td><span><p>A collection.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create a deque from the collection.</p></span></section>
+			<section class="EB" id="addFirst(java.lang.Object)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">addFirst</code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Z"><code>void</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Add the value at the first.</p></span></section>
+			<section class="EB" id="addLast(java.lang.Object)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">addLast</code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Z"><code>void</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Add the value at the last.</p></span></section>
+			<section class="EB" id="offerFirst(java.lang.Object)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">offerFirst</code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Z"><code>boolean</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="AB">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Offer the value at the first.</p></span></section>
+			<section class="EB" id="offerLast(java.lang.Object)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">offerLast</code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Z"><code>boolean</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="AB">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Offer the value at the last.</p></span></section>
+			<section class="EB" id="pollFirst()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">pollFirst</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value or null.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Poll the first value.</p></span></section>
+			<section class="EB" id="pollLast()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">pollLast</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value or null.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Poll the last value.</p></span></section>
+			<section class="EB" id="peekFirst()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">peekFirst</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value or null.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Peek the first value.</p></span></section>
+			<section class="EB" id="peekLast()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">peekLast</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value or null.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Peek the last value.</p></span></section>
+			<section class="EB" id="push(java.lang.Object)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">push</code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Z"><code>void</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Push the value.</p></span></section>
+			<section class="EB" id="pop()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">pop</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Pop the first value.</p></span></section>
+			<section class="EB" id="removeFirst()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">removeFirst</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Remove the first value.</p></span></section>
+			<section class="EB" id="removeLast()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">removeLast</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Remove the last value.</p></span></section>
+			<section class="EB" id="getFirst()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">getFirst</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the first value.</p></span></section>
+			<section class="EB" id="getLast()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">getLast</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the last value.</p></span></section>
+			<section class="EB" id="descendingIterator()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">descendingIterator</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.util.Iterator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Iterator.html">Iterator</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.util.Iterator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Iterator.html">Iterator</a></code></td>
+						<td><span><p>An iterator.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the descending iterator.</p></span></section>
+		</article>
+		<aside class="R">
+			<div class="U">
+				<h5 class="v">Constructors</h5>
+				<ul>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#Deque()">Deque</a></code><code class="DB">()</code></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#Deque(java.util.Collection)">Deque</a></code><code class="DB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code></li>
+				</ul>
+				<h5 class="v">Methods</h5>
+				<ul>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#addFirst(java.lang.Object)">addFirst</a></code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="c"><code>void</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#addLast(java.lang.Object)">addLast</a></code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="c"><code>void</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#offerFirst(java.lang.Object)">offerFirst</a></code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="c"><code>boolean</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#offerLast(java.lang.Object)">offerLast</a></code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="c"><code>boolean</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#pollFirst()">pollFirst</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#pollLast()">pollLast</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#peekFirst()">peekFirst</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#peekLast()">peekLast</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#push(java.lang.Object)">push</a></code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="c"><code>void</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#pop()">pop</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#removeFirst()">removeFirst</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#removeLast()">removeLast</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#getFirst()">getFirst</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#getLast()">getLast</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Deque.html#descendingIterator()">descendingIterator</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.util.Iterator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Iterator.html">Iterator</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="HB">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

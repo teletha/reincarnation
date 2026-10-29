@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="LB">
+		<header class="h" date="2026-10-29">
+			<h1 class="i"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="j"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="k"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="KB"></nav>
+		<article class="CB" id="Article">
+			<section class="EB"><code class="s">reincarnation.classlib.java.util</code>
+				<h2 class="Class g"><code class="IB">Queue</code></h2>
+				<div class="l">
+					<ul class="E I">
+						<li><code><a aria-label="reincarnation.classlib.java.util.ArrayDeque" href="api/reincarnation.classlib.java.util.ArrayDeque.html">ArrayDeque</a></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.Deque" href="api/reincarnation.classlib.java.util.Deque.html">Deque</a></code></li>
+						<li><code><a aria-label="reincarnation.classlib.java.util.PriorityQueue" href="api/reincarnation.classlib.java.util.PriorityQueue.html">PriorityQueue</a></code></li>
+					</ul>
+				</div><span class="A"><p>The Java implementation of <code><a aria-label="java.util.Queue 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Queue.html">java.util.Queue</a></code> which is transpiled into JavaScript.</p></span></section>
+			<section class="EB" id="elements">
+				<h2 class="d"><i class="PROTECTED"></i><code class="IB">elements</code><i class="Z"><code array="fix" class="return"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2><span class="A"><p>The elements.</p></span></section>
+			<section class="EB" id="Queue()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">Queue</code><code class="DB">()</code></h2><span class="A"><p>Create an empty queue.</p></span></section>
+			<section class="EB" id="Queue(java.util.Collection)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">Queue</code><code class="DB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code></td>
+						<td><span><p>A collection.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create a queue from the collection.</p></span></section>
+			<section class="EB" id="add(java.lang.Object)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">add</code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Z"><code>boolean</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="AB">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Add the value.</p></span></section>
+			<section class="EB" id="offer(java.lang.Object)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">offer</code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Z"><code>boolean</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="AB">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Offer the value.</p></span></section>
+			<section class="EB" id="remove()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">remove</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Remove the first value.</p></span></section>
+			<section class="EB" id="poll()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">poll</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value or null.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Poll the first value.</p></span></section>
+			<section class="EB" id="element()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">element</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the first value.</p></span></section>
+			<section class="EB" id="peek()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">peek</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value or null.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Peek the first value.</p></span></section>
+			<section class="EB" id="remove(java.lang.Object)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">remove</code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Z"><code>boolean</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="AB">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Remove the value.</p></span></section>
+			<section class="EB" id="size()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">size</code><code class="DB">()</code><i class="Z"><code>int</code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code>int</code></td>
+						<td><span><p>A size.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the size.</p></span></section>
+			<section class="EB" id="isEmpty()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">isEmpty</code><code class="DB">()</code><i class="Z"><code>boolean</code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether this queue is empty.</p></span></section>
+			<section class="EB" id="contains(java.lang.Object)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">contains</code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Z"><code>boolean</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="AB">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the value exists.</p></span></section>
+			<section class="EB" id="clear()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">clear</code><code class="DB">()</code><i class="Z"><code>void</code></i></h2><span class="A"><p>Clear this queue.</p></span></section>
+			<section class="EB" id="addAll(java.util.Collection)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">addAll</code><code class="DB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code><i class="Z"><code>boolean</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code></td>
+						<td><span><p>A collection.</p></span></td>
+					</tr>
+					<tr class="AB">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Add all values.</p></span></section>
+			<section class="EB" id="removeAll(java.util.Collection)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">removeAll</code><code class="DB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code><i class="Z"><code>boolean</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code></td>
+						<td><span><p>A collection.</p></span></td>
+					</tr>
+					<tr class="AB">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Remove all values.</p></span></section>
+			<section class="EB" id="retainAll(java.util.Collection)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">retainAll</code><code class="DB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code><i class="Z"><code>boolean</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code></td>
+						<td><span><p>A collection.</p></span></td>
+					</tr>
+					<tr class="AB">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Retain all values.</p></span></section>
+			<section class="EB" id="containsAll(java.util.Collection)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">containsAll</code><code class="DB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code><i class="Z"><code>boolean</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code></td>
+						<td><span><p>A collection.</p></span></td>
+					</tr>
+					<tr class="AB">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether all values exist.</p></span></section>
+			<section class="EB" id="removeIf(java.util.function.Predicate)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">removeIf</code><code class="DB">(<code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html">Predicate</a></code><code class="parameterName">predicate</code>)</code><i class="Z"><code>boolean</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html">Predicate</a></code><code class="parameterName">predicate</code></td>
+						<td><span><p>A predicate.</p></span></td>
+					</tr>
+					<tr class="AB">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Remove the matched values.</p></span></section>
+			<section class="EB" id="toArray()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">toArray</code><code class="DB">()</code><i class="Z"><code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>An array.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the array.</p></span></section>
+			<section class="EB" id="toArray(java.lang.Object[])">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">toArray</code><code class="DB">(<code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">array</code>)</code><i class="Z"><code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">array</code></td>
+						<td><span><p>A destination array.</p></span></td>
+					</tr>
+					<tr class="AB">
+						<td><code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>An array.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the array.</p></span></section>
+			<section class="EB" id="iterator()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">iterator</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.util.Iterator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Iterator.html">Iterator</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.util.Iterator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Iterator.html">Iterator</a></code></td>
+						<td><span><p>An iterator.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the iterator.</p></span></section>
+			<section class="EB" id="forEach(java.util.function.Consumer)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">forEach</code><code class="DB">(<code><a aria-label="java.util.function.Consumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Consumer.html">Consumer</a></code><code class="parameterName">action</code>)</code><i class="Z"><code>void</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.util.function.Consumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Consumer.html">Consumer</a></code><code class="parameterName">action</code></td>
+						<td><span><p>An action.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Invoke the action for each value.</p></span></section>
+			<section class="EB" id="stream()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">stream</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.util.stream.Stream 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/stream/Stream.html">Stream</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.util.stream.Stream 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/stream/Stream.html">Stream</a></code></td>
+						<td><span><p>A stream.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the stream.</p></span></section>
+			<section class="EB" id="equals(java.lang.Object)">
+				<h2 class="d"><i class="OVERRIDE PUBLIC"></i><code class="IB">equals</code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code>)</code><i class="Z"><code>boolean</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code></td>
+						<td></td>
+					</tr>
+					<tr class="AB">
+						<td><code>boolean</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="EB" id="hashCode()">
+				<h2 class="d"><i class="OVERRIDE PUBLIC"></i><code class="IB">hashCode</code><code class="DB">()</code><i class="Z"><code>int</code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code>int</code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="EB" id="toString()">
+				<h2 class="d"><i class="OVERRIDE PUBLIC"></i><code class="IB">toString</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="EB" id="get(int)">
+				<h2 class="d"><i class="PROTECTED"></i><code class="IB">get</code><code class="DB">(<code>int</code><code class="parameterName">index</code>)</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code>int</code><code class="parameterName">index</code></td>
+						<td><span><p>An index.</p></span></td>
+					</tr>
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the value.</p></span></section>
+			<section class="EB" id="insert(int,java.lang.Object)">
+				<h2 class="d"><i class="PROTECTED"></i><code class="IB">insert</code><code class="DB">(<code>int</code><code class="parameterName">index</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="Z"><code>void</code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code>int</code><code class="parameterName">index</code></td>
+						<td><span><p>An index.</p></span></td>
+					</tr>
+					<tr class="W">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Insert the value at the index.</p></span></section>
+			<section class="EB" id="removeAt(int)">
+				<h2 class="d"><i class="PROTECTED"></i><code class="IB">removeAt</code><code class="DB">(<code>int</code><code class="parameterName">index</code>)</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code>int</code><code class="parameterName">index</code></td>
+						<td><span><p>An index.</p></span></td>
+					</tr>
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A removed value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Remove the value at the index.</p></span></section>
+		</article>
+		<aside class="R">
+			<div class="U">
+				<h5 class="v">Constructors</h5>
+				<ul>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#Queue()">Queue</a></code><code class="DB">()</code></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#Queue(java.util.Collection)">Queue</a></code><code class="DB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code></li>
+				</ul>
+				<h5 class="v">Fields</h5>
+				<ul>
+					<li class="Q"><i class="PROTECTED"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#elements">elements</a></code><i class="c"><code array="fix" class="return"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+				</ul>
+				<h5 class="v">Methods</h5>
+				<ul>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#add(java.lang.Object)">add</a></code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="c"><code>boolean</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#offer(java.lang.Object)">offer</a></code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="c"><code>boolean</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#remove()">remove</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#poll()">poll</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#element()">element</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#peek()">peek</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#remove(java.lang.Object)">remove</a></code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="c"><code>boolean</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#size()">size</a></code><code class="DB">()</code><i class="c"><code>int</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#isEmpty()">isEmpty</a></code><code class="DB">()</code><i class="c"><code>boolean</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#contains(java.lang.Object)">contains</a></code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="c"><code>boolean</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#clear()">clear</a></code><code class="DB">()</code><i class="c"><code>void</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#addAll(java.util.Collection)">addAll</a></code><code class="DB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code><i class="c"><code>boolean</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#removeAll(java.util.Collection)">removeAll</a></code><code class="DB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code><i class="c"><code>boolean</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#retainAll(java.util.Collection)">retainAll</a></code><code class="DB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code><i class="c"><code>boolean</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#containsAll(java.util.Collection)">containsAll</a></code><code class="DB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code><i class="c"><code>boolean</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#removeIf(java.util.function.Predicate)">removeIf</a></code><code class="DB">(<code><a aria-label="java.util.function.Predicate 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Predicate.html">Predicate</a></code><code class="parameterName">predicate</code>)</code><i class="c"><code>boolean</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#toArray()">toArray</a></code><code class="DB">()</code><i class="c"><code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#toArray(java.lang.Object[])">toArray</a></code><code class="DB">(<code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">array</code>)</code><i class="c"><code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#iterator()">iterator</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.util.Iterator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Iterator.html">Iterator</a></code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#forEach(java.util.function.Consumer)">forEach</a></code><code class="DB">(<code><a aria-label="java.util.function.Consumer 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/Consumer.html">Consumer</a></code><code class="parameterName">action</code>)</code><i class="c"><code>void</code></i></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#stream()">stream</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.util.stream.Stream 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/stream/Stream.html">Stream</a></code></i></li>
+					<li class="Q"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#equals(java.lang.Object)">equals</a></code><code class="DB">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">other</code>)</code><i class="c"><code>boolean</code></i></li>
+					<li class="Q"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#hashCode()">hashCode</a></code><code class="DB">()</code><i class="c"><code>int</code></i></li>
+					<li class="Q"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#toString()">toString</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="Q"><i class="PROTECTED"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#get(int)">get</a></code><code class="DB">(<code>int</code><code class="parameterName">index</code>)</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="PROTECTED"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#insert(int,java.lang.Object)">insert</a></code><code class="DB">(<code>int</code><code class="parameterName">index</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">value</code>)</code><i class="c"><code>void</code></i></li>
+					<li class="Q"><i class="PROTECTED"></i><code><a href="api/reincarnation.classlib.java.util.Queue.html#removeAt(int)">removeAt</a></code><code class="DB">(<code>int</code><code class="parameterName">index</code>)</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="HB">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

@@ -4,8 +4,8 @@ const root = {
 	"packages": [
 		"js.lang",
 		"reincarnation.structure",
-		"reincarnation.classlib.java.util.regex",
 		"reincarnation.classlib.java.util",
+		"reincarnation.classlib.java.util.regex",
 		"reincarnation.classlib.java.util.stream",
 		"reincarnation.classlib.java.lang",
 		"reincarnation.classlib.java.io",
@@ -154,6 +154,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "PriorityQueue",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
 			"name": "Matcher",
 			"packageName": "reincarnation.classlib.java.util.regex",
 			"type": "Class"
@@ -189,6 +194,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "Map",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
 			"name": "Set",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
@@ -219,12 +229,37 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "Hashtable",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
 			"name": "Iterator",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
 		},
 		{
 			"name": "StringJoiner",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "Queue",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "Entry",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "TreeMap",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "ArrayDeque",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
 		},
@@ -245,6 +280,21 @@ const root = {
 		},
 		{
 			"name": "TreeSet",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "Deque",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "LinkedHashMap",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "HashMap",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
 		},

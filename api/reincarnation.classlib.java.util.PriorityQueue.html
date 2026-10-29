@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="LB">
+		<header class="h" date="2026-10-29">
+			<h1 class="i"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="j"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="k"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="KB"></nav>
+		<article class="CB" id="Article">
+			<section class="EB"><code class="s">reincarnation.classlib.java.util</code>
+				<h2 class="Class g"><code class="IB">PriorityQueue</code></h2>
+				<div class="l">
+					<ul class="E G">
+						<li><code><a aria-label="reincarnation.classlib.java.util.Queue" href="api/reincarnation.classlib.java.util.Queue.html">Queue</a></code></li>
+					</ul>
+				</div><span class="A"><p>The Java implementation of <code><a aria-label="java.util.PriorityQueue 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/PriorityQueue.html">java.util.PriorityQueue</a></code>.</p></span></section>
+			<section class="EB" id="PriorityQueue()">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">PriorityQueue</code><code class="DB">()</code></h2><span class="A"><p>Create an empty queue.</p></span></section>
+			<section class="EB" id="PriorityQueue(int)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">PriorityQueue</code><code class="DB">(<code>int</code><code class="parameterName">capacity</code>)</code></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code>int</code><code class="parameterName">capacity</code></td>
+						<td><span><p>A capacity.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create an empty queue.</p></span></section>
+			<section class="EB" id="PriorityQueue(java.util.Comparator)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">PriorityQueue</code><code class="DB">(<code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Comparator.html">Comparator</a></code><code class="parameterName">comparator</code>)</code></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Comparator.html">Comparator</a></code><code class="parameterName">comparator</code></td>
+						<td><span><p>A comparator.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create an empty queue.</p></span></section>
+			<section class="EB" id="PriorityQueue(int,java.util.Comparator)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">PriorityQueue</code><code class="DB">(<code>int</code><code class="parameterName">capacity</code>, <code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Comparator.html">Comparator</a></code><code class="parameterName">comparator</code>)</code></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code>int</code><code class="parameterName">capacity</code></td>
+						<td><span><p>A capacity.</p></span></td>
+					</tr>
+					<tr class="W">
+						<td><code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Comparator.html">Comparator</a></code><code class="parameterName">comparator</code></td>
+						<td><span><p>A comparator.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create an empty queue.</p></span></section>
+			<section class="EB" id="PriorityQueue(java.util.Collection)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">PriorityQueue</code><code class="DB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code></td>
+						<td><span><p>A collection.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create a queue from the collection.</p></span></section>
+			<section class="EB" id="PriorityQueue(java.util.PriorityQueue)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">PriorityQueue</code><code class="DB">(<code><a aria-label="java.util.PriorityQueue 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/PriorityQueue.html">PriorityQueue</a></code><code class="parameterName">queue</code>)</code></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.util.PriorityQueue 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/PriorityQueue.html">PriorityQueue</a></code><code class="parameterName">queue</code></td>
+						<td><span><p>A priority queue.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create a queue from the priority queue.</p></span></section>
+			<section class="EB" id="PriorityQueue(java.util.SortedSet)">
+				<h2 class="d"><i class="PUBLIC"></i><code class="IB">PriorityQueue</code><code class="DB">(<code><a aria-label="java.util.SortedSet 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SortedSet.html">SortedSet</a></code><code class="parameterName">set</code>)</code></h2>
+				<table class="GB">
+					<tr class="W">
+						<td><code><a aria-label="java.util.SortedSet 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SortedSet.html">SortedSet</a></code><code class="parameterName">set</code></td>
+						<td><span><p>A sorted set.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create a queue from the sorted set.</p></span></section>
+			<section class="EB" id="poll()">
+				<h2 class="d"><i class="OVERRIDE PUBLIC"></i><code class="IB">poll</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<section class="EB" id="peek()">
+				<h2 class="d"><i class="OVERRIDE PUBLIC"></i><code class="IB">peek</code><code class="DB">()</code><i class="Z"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="GB">
+					<tr class="AB">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+		</article>
+		<aside class="R">
+			<div class="U">
+				<h5 class="v">Constructors</h5>
+				<ul>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.PriorityQueue.html#PriorityQueue()">PriorityQueue</a></code><code class="DB">()</code></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.PriorityQueue.html#PriorityQueue(int)">PriorityQueue</a></code><code class="DB">(<code>int</code><code class="parameterName">capacity</code>)</code></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.PriorityQueue.html#PriorityQueue(java.util.Comparator)">PriorityQueue</a></code><code class="DB">(<code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Comparator.html">Comparator</a></code><code class="parameterName">comparator</code>)</code></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.PriorityQueue.html#PriorityQueue(int,java.util.Comparator)">PriorityQueue</a></code><code class="DB">(<code>int</code><code class="parameterName">capacity</code>, <code><a aria-label="java.util.Comparator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Comparator.html">Comparator</a></code><code class="parameterName">comparator</code>)</code></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.PriorityQueue.html#PriorityQueue(java.util.Collection)">PriorityQueue</a></code><code class="DB">(<code><a aria-label="java.util.Collection 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/Collection.html">Collection</a></code><code class="parameterName">collection</code>)</code></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.PriorityQueue.html#PriorityQueue(java.util.PriorityQueue)">PriorityQueue</a></code><code class="DB">(<code><a aria-label="java.util.PriorityQueue 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/PriorityQueue.html">PriorityQueue</a></code><code class="parameterName">queue</code>)</code></li>
+					<li class="Q"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.PriorityQueue.html#PriorityQueue(java.util.SortedSet)">PriorityQueue</a></code><code class="DB">(<code><a aria-label="java.util.SortedSet 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/SortedSet.html">SortedSet</a></code><code class="parameterName">set</code>)</code></li>
+				</ul>
+				<h5 class="v">Methods</h5>
+				<ul>
+					<li class="Q"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.PriorityQueue.html#poll()">poll</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="Q"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.PriorityQueue.html#peek()">peek</a></code><code class="DB">()</code><i class="c"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="HB">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>
