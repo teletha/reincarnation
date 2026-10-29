@@ -846,6 +846,11 @@ public final class JavascriptRuntime {
 
                     if (metadata && metadata.n) {
                         names[metadata.n] = Class;
+                        if (metadata.a) {
+                            for (let i = 0; i < metadata.a.length; i++) {
+                                names[metadata.a[i]] = Class;
+                            }
+                        }
                     }
 
                     if (init === null) {

@@ -147,6 +147,7 @@ public final class JavascriptBundle {
             collect(java.util.List.class, order, visited);
             collect(java.util.Set.class, order, visited);
             collect(java.util.Map.Entry.class, order, visited);
+            collect(reincarnation.classlib.java.util.AbstractMap.SimpleEntry.class, order, visited);
         }
 
         // The explicitly excluded class is not emitted.

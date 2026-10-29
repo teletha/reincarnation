@@ -14,7 +14,8 @@ import java.util.Comparator;
 /**
  * The Java implementation of {@link java.util.TreeMap}.
  */
-public final class TreeMap extends Map {
+public class TreeMap<K, V> extends AbstractMap<K, V>
+        implements NavigableMap, reincarnation.classlib.java.lang.Cloneable, reincarnation.classlib.java.io.Serializable {
 
     /**
      * Create an empty map.
@@ -58,6 +59,36 @@ public final class TreeMap extends Map {
         Object previous = super.put(key, value);
         sort();
         return previous;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object comparator() {
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object firstKey() {
+        if (isEmpty()) {
+            throw new java.util.NoSuchElementException();
+        }
+        return keys[0];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object lastKey() {
+        if (isEmpty()) {
+            throw new java.util.NoSuchElementException();
+        }
+        return keys[size() - 1];
     }
 
     /**

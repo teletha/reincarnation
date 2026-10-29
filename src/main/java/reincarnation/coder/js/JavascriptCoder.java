@@ -295,14 +295,19 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @return A JavaScript object literal.
      */
     private String metadata(Class type) {
+        Class origin = Classlib.origin(type);
+        Class identity = origin == null ? type : origin;
         StringBuilder builder = new StringBuilder("{n:");
-        builder.append(quote(type.getName()));
-        builder.append(",m:").append(type.getModifiers());
+        builder.append(quote(identity.getName()));
+        builder.append(",m:").append(identity.getModifiers());
         builder.append(",e:").append(type.isEnum());
         builder.append(",as:").append(annotations(type));
-        builder.append(",tp:").append(genericTypeParameters(type.getTypeParameters()));
-        builder.append(",gs:").append(genericType(type.getGenericSuperclass()));
-        builder.append(",gi:[").append(genericTypes(type.getGenericInterfaces())).append("]");
+        builder.append(",tp:").append(genericTypeParameters(identity.getTypeParameters()));
+        builder.append(",gs:").append(genericType(identity.getGenericSuperclass()));
+        builder.append(",gi:[").append(genericTypes(identity.getGenericInterfaces())).append("]");
+        if (origin != null) {
+            builder.append(",a:[").append(quote(type.getName())).append("]");
+        }
 
         StringBuilder methods = new StringBuilder("ms:[");
         Join.of(type.getDeclaredMethods())

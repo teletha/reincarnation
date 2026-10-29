@@ -12,7 +12,8 @@ package reincarnation.classlib.java.util;
 /**
  * The Java implementation of {@link java.util.HashMap}.
  */
-public final class HashMap extends Map {
+public class HashMap<K, V> extends AbstractMap<K, V>
+        implements Map, reincarnation.classlib.java.lang.Cloneable, reincarnation.classlib.java.io.Serializable {
 
     /**
      * Create an empty map.

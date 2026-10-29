@@ -59,14 +59,20 @@ final class Classlib {
             Map.entry(java.util.SortedSet.class, reincarnation.classlib.java.util.Set.class), //
             Map.entry(java.util.NavigableSet.class, reincarnation.classlib.java.util.Set.class), //
             Map.entry(java.util.Map.class, reincarnation.classlib.java.util.Map.class), //
+            Map.entry(java.util.AbstractMap.class, reincarnation.classlib.java.util.AbstractMap.class), //
             Map.entry(java.util.HashMap.class, reincarnation.classlib.java.util.HashMap.class), //
             Map.entry(java.util.LinkedHashMap.class, reincarnation.classlib.java.util.LinkedHashMap.class), //
             Map.entry(java.util.TreeMap.class, reincarnation.classlib.java.util.TreeMap.class), //
             Map.entry(java.util.Hashtable.class, reincarnation.classlib.java.util.Hashtable.class), //
-            Map.entry(java.util.SortedMap.class, reincarnation.classlib.java.util.Map.class), //
-            Map.entry(java.util.NavigableMap.class, reincarnation.classlib.java.util.Map.class), //
-            Map.entry(java.util.concurrent.ConcurrentMap.class, reincarnation.classlib.java.util.Map.class), //
-            Map.entry(java.util.Map.Entry.class, reincarnation.classlib.java.util.Entry.class), //
+            Map.entry(java.util.Dictionary.class, reincarnation.classlib.java.util.Dictionary.class), //
+            Map.entry(java.util.SortedMap.class, reincarnation.classlib.java.util.SortedMap.class), //
+            Map.entry(java.util.NavigableMap.class, reincarnation.classlib.java.util.NavigableMap.class), //
+            Map.entry(java.util.SequencedMap.class, reincarnation.classlib.java.util.SequencedMap.class), //
+            Map.entry(java.util.concurrent.ConcurrentMap.class,
+                    reincarnation.classlib.java.util.concurrent.ConcurrentMap.class), //
+            Map.entry(java.util.Map.Entry.class, reincarnation.classlib.java.util.Map.Entry.class), //
+            Map.entry(java.lang.Cloneable.class, reincarnation.classlib.java.lang.Cloneable.class), //
+            Map.entry(java.io.Serializable.class, reincarnation.classlib.java.io.Serializable.class), //
             Map.entry(java.util.Queue.class, reincarnation.classlib.java.util.Queue.class), //
             Map.entry(java.util.Deque.class, reincarnation.classlib.java.util.Deque.class), //
             Map.entry(java.util.ArrayDeque.class, reincarnation.classlib.java.util.ArrayDeque.class), //
@@ -77,6 +83,26 @@ final class Classlib {
             Map.entry(java.util.regex.Pattern.class, reincarnation.classlib.java.util.regex.Pattern.class), //
             Map.entry(java.util.regex.Matcher.class, reincarnation.classlib.java.util.regex.Matcher.class), //
             Map.entry(java.util.stream.Collectors.class, reincarnation.classlib.java.util.stream.Collectors.class));
+
+    /** The original JDK classes of the implementations. */
+    private static final Map<Class, Class> origins = Map.ofEntries( //
+            Map.entry(reincarnation.classlib.java.util.Map.class, java.util.Map.class), //
+            Map.entry(reincarnation.classlib.java.util.AbstractMap.class, java.util.AbstractMap.class), //
+            Map.entry(reincarnation.classlib.java.util.HashMap.class, java.util.HashMap.class), //
+            Map.entry(reincarnation.classlib.java.util.LinkedHashMap.class, java.util.LinkedHashMap.class), //
+            Map.entry(reincarnation.classlib.java.util.TreeMap.class, java.util.TreeMap.class), //
+            Map.entry(reincarnation.classlib.java.util.Hashtable.class, java.util.Hashtable.class), //
+            Map.entry(reincarnation.classlib.java.util.Dictionary.class, java.util.Dictionary.class), //
+            Map.entry(reincarnation.classlib.java.util.SortedMap.class, java.util.SortedMap.class), //
+            Map.entry(reincarnation.classlib.java.util.NavigableMap.class, java.util.NavigableMap.class), //
+            Map.entry(reincarnation.classlib.java.util.SequencedMap.class, java.util.SequencedMap.class), //
+            Map.entry(reincarnation.classlib.java.util.concurrent.ConcurrentMap.class,
+                    java.util.concurrent.ConcurrentMap.class), //
+            Map.entry(reincarnation.classlib.java.util.Map.Entry.class, java.util.Map.Entry.class), //
+            Map.entry(reincarnation.classlib.java.util.AbstractMap.SimpleEntry.class,
+                    java.util.AbstractMap.SimpleEntry.class), //
+            Map.entry(reincarnation.classlib.java.lang.Cloneable.class, java.lang.Cloneable.class), //
+            Map.entry(reincarnation.classlib.java.io.Serializable.class, java.io.Serializable.class));
 
     /**
      * Hide constructor.
@@ -95,6 +121,16 @@ final class Classlib {
     }
 
     /**
+     * Get the original JDK class of the implementation class.
+     * 
+     * @param type A target class.
+     * @return An original class or null.
+     */
+    static Class origin(Class type) {
+        return origins.get(type);
+    }
+
+    /**
      * Resolve the Java API method to the implementation method which is transpiled into
      * JavaScript. The return type is ignored because a covariant override may change it.
      * 
@@ -107,16 +143,42 @@ final class Classlib {
             return method;
         }
 
-        String name = method.getName();
-        String parameters = parameterDescriptor(method);
-        for (Class type = target; type != null && type != Object.class; type = type.getSuperclass()) {
-            for (Method candidate : type.getDeclaredMethods()) {
-                if (candidate.getName().equals(name) && normalize(parameterDescriptor(candidate)).equals(parameters)) {
-                    return candidate;
-                }
+        Method resolved = find(target, method.getName(), parameterDescriptor(method), new java.util.HashSet());
+        return resolved == null ? method : resolved;
+    }
+
+    /**
+     * Find the method in the class and its super classes and interfaces.
+     * 
+     * @param type A target class.
+     * @param name A method name.
+     * @param parameters A parameter descriptor.
+     * @param visited A visited classes.
+     * @return A found method or null.
+     */
+    private static Method find(Class type, String name, String parameters, Set<Class> visited) {
+        if (type == null || type == Object.class || !visited.add(type)) {
+            return null;
+        }
+
+        for (Method candidate : type.getDeclaredMethods()) {
+            if (candidate.getName().equals(name) && normalize(parameterDescriptor(candidate)).equals(parameters)) {
+                return candidate;
             }
         }
-        return method;
+
+        Method resolved = find(type.getSuperclass(), name, parameters, visited);
+        if (resolved != null) {
+            return resolved;
+        }
+
+        for (Class inf : type.getInterfaces()) {
+            resolved = find(inf, name, parameters, visited);
+            if (resolved != null) {
+                return resolved;
+            }
+        }
+        return null;
     }
 
     /**

@@ -12,7 +12,7 @@ package reincarnation.classlib.java.util;
 /**
  * The Java implementation of {@link java.util.LinkedHashMap}.
  */
-public final class LinkedHashMap extends Map {
+public class LinkedHashMap<K, V> extends HashMap<K, V> implements SequencedMap<K, V> {
 
     /**
      * Create an empty map.
