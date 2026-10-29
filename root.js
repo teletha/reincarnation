@@ -7,6 +7,7 @@ const root = {
 		"reincarnation.classlib.java.util",
 		"reincarnation.classlib.java.util.regex",
 		"reincarnation.classlib.java.util.stream",
+		"reincarnation.classlib.java.util.concurrent",
 		"reincarnation.classlib.java.lang",
 		"reincarnation.classlib.java.io",
 		"reincarnation",
@@ -169,6 +170,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "SortedMap",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Interface"
+		},
+		{
 			"name": "LinkedList",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
@@ -196,7 +202,17 @@ const root = {
 		{
 			"name": "Map",
 			"packageName": "reincarnation.classlib.java.util",
-			"type": "Class"
+			"type": "Interface"
+		},
+		{
+			"name": "Map.Entry",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Interface"
+		},
+		{
+			"name": "SequencedMap",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Interface"
 		},
 		{
 			"name": "Set",
@@ -207,6 +223,11 @@ const root = {
 			"name": "List",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
+		},
+		{
+			"name": "Dictionary",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "AbstractClass"
 		},
 		{
 			"name": "Arrays",
@@ -249,9 +270,9 @@ const root = {
 			"type": "Class"
 		},
 		{
-			"name": "Entry",
+			"name": "NavigableMap",
 			"packageName": "reincarnation.classlib.java.util",
-			"type": "Class"
+			"type": "Interface"
 		},
 		{
 			"name": "TreeMap",
@@ -274,9 +295,24 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "AbstractMap",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "AbstractClass"
+		},
+		{
+			"name": "AbstractMap.SimpleEntry",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
 			"name": "LinkedHashSet",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
+		},
+		{
+			"name": "ConcurrentMap",
+			"packageName": "reincarnation.classlib.java.util.concurrent",
+			"type": "Interface"
 		},
 		{
 			"name": "TreeSet",
@@ -309,6 +345,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "Cloneable",
+			"packageName": "reincarnation.classlib.java.lang",
+			"type": "Interface"
+		},
+		{
 			"name": "System",
 			"packageName": "reincarnation.classlib.java.lang",
 			"type": "Class"
@@ -317,6 +358,11 @@ const root = {
 			"name": "AbstractStringBuilder",
 			"packageName": "reincarnation.classlib.java.lang",
 			"type": "AbstractClass"
+		},
+		{
+			"name": "Serializable",
+			"packageName": "reincarnation.classlib.java.io",
+			"type": "Interface"
 		},
 		{
 			"name": "PrintStream",
