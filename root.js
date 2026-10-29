@@ -10,6 +10,7 @@ const root = {
 		"reincarnation.classlib.java.util.concurrent",
 		"reincarnation.classlib.java.lang.invoke",
 		"reincarnation.classlib.java.lang",
+		"reincarnation.classlib.java.lang.reflect",
 		"reincarnation.classlib.java.io",
 		"reincarnation",
 		"reincarnation.util",
@@ -20,6 +21,11 @@ const root = {
 		"reincarnation.coder.ts"
 	],
 	"types": [
+		{
+			"name": "NativeProxy",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
 		{
 			"name": "NativeArray",
 			"packageName": "js.lang",
@@ -468,6 +474,16 @@ const root = {
 		{
 			"name": "System",
 			"packageName": "reincarnation.classlib.java.lang",
+			"type": "Class"
+		},
+		{
+			"name": "InvocationHandler",
+			"packageName": "reincarnation.classlib.java.lang.reflect",
+			"type": "Functional"
+		},
+		{
+			"name": "Proxy",
+			"packageName": "reincarnation.classlib.java.lang.reflect",
 			"type": "Class"
 		},
 		{

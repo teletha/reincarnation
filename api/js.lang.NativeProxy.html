@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="DB">
+		<header class="s" date="2026-10-29">
+			<h1 class="t"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="Y"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="u"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="X"></nav>
+		<article class="e" id="Article">
+			<section class="v"><code class="KB">js.lang</code>
+				<h2 class="Class j"><code class="CB">NativeProxy</code></h2>
+				<div class="R"></div><span class="A"><p>The JavaScript dynamic proxy functions.</p></span></section>
+			<section class="v" id="create(java.lang.Object[],java.lang.Object)">
+				<h2 class="K"><i class="STATIC PUBLIC"></i><code class="CB">create</code><code class="M">(<code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">interfaces</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">handler</code>)</code><i class="S"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="q">
+						<td><code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">interfaces</code></td>
+						<td><span><p>Interface classes.</p></span></td>
+					</tr>
+					<tr class="q">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">handler</code></td>
+						<td><span><p>An invocation handler.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A proxy instance.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the proxy instance.</p></span></section>
+			<section class="v" id="handler(java.lang.Object)">
+				<h2 class="K"><i class="STATIC PUBLIC"></i><code class="CB">handler</code><code class="M">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">proxy</code>)</code><i class="S"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="q">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">proxy</code></td>
+						<td><span><p>A proxy instance.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>An invocation handler.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the invocation handler.</p></span></section>
+			<section class="v" id="isProxy(java.lang.Object)">
+				<h2 class="K"><i class="STATIC PUBLIC"></i><code class="CB">isProxy</code><code class="M">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">type</code>)</code><i class="S"><code>boolean</code></i></h2>
+				<table class="b">
+					<tr class="q">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">type</code></td>
+						<td><span><p>A reflection class.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the class is a proxy class.</p></span></section>
+			<section class="v" id="proxyClass(java.lang.Object[])">
+				<h2 class="K"><i class="STATIC PUBLIC"></i><code class="CB">proxyClass</code><code class="M">(<code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">interfaces</code>)</code><i class="S"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></h2>
+				<table class="b">
+					<tr class="q">
+						<td><code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">interfaces</code></td>
+						<td><span><p>Interface classes.</p></span></td>
+					</tr>
+					<tr class="n">
+						<td><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></td>
+						<td><span><p>A reflection class.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the proxy class.</p></span></section>
+		</article>
+		<aside class="EB">
+			<div class="O">
+				<h5 class="z">Static Methods</h5>
+				<ul>
+					<li class="IB"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeProxy.html#create(java.lang.Object[],java.lang.Object)">create</a></code><code class="M">(<code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">interfaces</code>, <code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">handler</code>)</code><i class="HB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="IB"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeProxy.html#handler(java.lang.Object)">handler</a></code><code class="M">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">proxy</code>)</code><i class="HB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+					<li class="IB"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeProxy.html#isProxy(java.lang.Object)">isProxy</a></code><code class="M">(<code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">type</code>)</code><i class="HB"><code>boolean</code></i></li>
+					<li class="IB"><i class="STATIC PUBLIC"></i><code><a href="api/js.lang.NativeProxy.html#proxyClass(java.lang.Object[])">proxyClass</a></code><code class="M">(<code array="fix"><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code><code class="parameterName">interfaces</code>)</code><i class="HB"><code><a aria-label="java.lang.Object 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Object.html">Object</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="Q">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>
