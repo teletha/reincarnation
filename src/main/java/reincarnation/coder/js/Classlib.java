@@ -44,6 +44,9 @@ final class Classlib {
             Map.entry(java.util.Arrays.class, reincarnation.classlib.java.util.Arrays.class), //
             Map.entry(java.util.Collections.class, reincarnation.classlib.java.util.Collections.class), //
             Map.entry(java.lang.Iterable.class, reincarnation.classlib.java.lang.Iterable.class), //
+            Map.entry(java.lang.Appendable.class, reincarnation.classlib.java.lang.Appendable.class), //
+            Map.entry(java.lang.CharSequence.class, reincarnation.classlib.java.lang.CharSequence.class), //
+            Map.entry(java.lang.Comparable.class, reincarnation.classlib.java.lang.Comparable.class), //
             Map.entry(java.util.Collection.class, reincarnation.classlib.java.util.Collection.class), //
             Map.entry(java.util.AbstractCollection.class, reincarnation.classlib.java.util.AbstractCollection.class), //
             Map.entry(java.util.SequencedCollection.class,
@@ -97,6 +100,9 @@ final class Classlib {
     /** The original JDK classes of the implementations. */
     private static final Map<Class, Class> origins = Map.ofEntries( //
             Map.entry(reincarnation.classlib.java.lang.Iterable.class, java.lang.Iterable.class), //
+            Map.entry(reincarnation.classlib.java.lang.Appendable.class, java.lang.Appendable.class), //
+            Map.entry(reincarnation.classlib.java.lang.CharSequence.class, java.lang.CharSequence.class), //
+            Map.entry(reincarnation.classlib.java.lang.Comparable.class, java.lang.Comparable.class), //
             Map.entry(reincarnation.classlib.java.util.Collection.class, java.util.Collection.class), //
             Map.entry(reincarnation.classlib.java.util.AbstractCollection.class, java.util.AbstractCollection.class), //
             Map.entry(reincarnation.classlib.java.util.SequencedCollection.class,

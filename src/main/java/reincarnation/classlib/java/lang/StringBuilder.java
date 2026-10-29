@@ -12,7 +12,7 @@ package reincarnation.classlib.java.lang;
 /**
  * The Java implementation of {@link java.lang.StringBuilder} which is transpiled into JavaScript.
  */
-public final class StringBuilder extends AbstractStringBuilder<StringBuilder> {
+public final class StringBuilder extends AbstractStringBuilder<StringBuilder> implements Appendable, reincarnation.classlib.java.io.Serializable, Comparable<StringBuilder>, CharSequence {
 
     /**
      * Create an empty builder.
@@ -44,7 +44,7 @@ public final class StringBuilder extends AbstractStringBuilder<StringBuilder> {
      * 
      * @param value A text.
      */
-    public StringBuilder(CharSequence value) {
+    public StringBuilder(java.lang.CharSequence value) {
         super(value);
     }
 

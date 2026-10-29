@@ -142,6 +142,14 @@ public final class JavascriptBundle {
             return;
         }
 
+        // The original JDK interfaces are necessary for the reflection metadata.
+        Class origin = Classlib.origin(type);
+        if (origin != null) {
+            for (Class inf : origin.getInterfaces()) {
+                collect(inf, order, visited);
+            }
+        }
+
         // The map views are returned as the classlib collections.
         if (reincarnation.classlib.java.util.Map.class.isAssignableFrom(type)) {
             collect(java.util.List.class, order, visited);

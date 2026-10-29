@@ -305,6 +305,15 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
         builder.append(",tp:").append(genericTypeParameters(identity.getTypeParameters()));
         builder.append(",gs:").append(genericType(identity.getGenericSuperclass()));
         builder.append(",gi:[").append(genericTypes(identity.getGenericInterfaces())).append("]");
+        Class[] identityInterfaces = identity.getInterfaces();
+        StringBuilder interfaces = new StringBuilder(",i:[");
+        for (int i = 0; i < identityInterfaces.length; i++) {
+            if (i != 0) {
+                interfaces.append(",");
+            }
+            interfaces.append(quote(simpleName(Classlib.replace(identityInterfaces[i]))));
+        }
+        builder.append(interfaces).append("]");
         if (origin != null) {
             builder.append(",a:[").append(quote(type.getName())).append("]");
         }

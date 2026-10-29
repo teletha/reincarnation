@@ -1282,7 +1282,9 @@ public final class JavascriptRuntime {
                 }
                 getInterfaces() {
                     if (!this.jsClass) return [];
-                    return this.jsClass.$meta.interfaces.map(name => $rt.resolve(name)).filter(value => value && value !== Object).map(value => $rt.reflect(value));
+                    const metadata = this.metadata();
+                    const interfaces = metadata && metadata.i ? metadata.i : this.jsClass.$meta.interfaces;
+                    return interfaces.map(name => $rt.resolve(name)).filter(value => value && value !== Object).map(value => $rt.reflect(value));
                 }
                 getDeclaredMethods() {
                     if (this.$methods) return this.$methods;

@@ -15,7 +15,7 @@ package reincarnation.classlib.java.lang;
  * JavaScript is single threaded, so this implementation shares {@link AbstractStringBuilder}.
  * </p>
  */
-public final class StringBuffer extends AbstractStringBuilder<StringBuffer> {
+public final class StringBuffer extends AbstractStringBuilder<StringBuffer> implements Appendable, reincarnation.classlib.java.io.Serializable, Comparable<StringBuffer>, CharSequence {
 
     /**
      * Create an empty buffer.
@@ -47,7 +47,7 @@ public final class StringBuffer extends AbstractStringBuilder<StringBuffer> {
      * 
      * @param value A text.
      */
-    public StringBuffer(CharSequence value) {
+    public StringBuffer(java.lang.CharSequence value) {
         super(value);
     }
 

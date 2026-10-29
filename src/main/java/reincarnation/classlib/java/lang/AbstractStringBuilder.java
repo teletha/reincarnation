@@ -60,7 +60,7 @@ public abstract class AbstractStringBuilder<T extends Appendable> implements App
      * 
      * @param value A text.
      */
-    protected AbstractStringBuilder(CharSequence value) {
+    protected AbstractStringBuilder(java.lang.CharSequence value) {
         this(value == null ? "null" : value.toString());
     }
 
@@ -100,7 +100,7 @@ public abstract class AbstractStringBuilder<T extends Appendable> implements App
      * @param value A value.
      * @return This builder.
      */
-    public AbstractStringBuilder<T> append(CharSequence value) {
+    public AbstractStringBuilder<T> append(java.lang.CharSequence value) {
         return appendText(value);
     }
 
@@ -112,7 +112,7 @@ public abstract class AbstractStringBuilder<T extends Appendable> implements App
      * @param end An end index.
      * @return This builder.
      */
-    public AbstractStringBuilder<T> append(CharSequence value, int start, int end) {
+    public AbstractStringBuilder<T> append(java.lang.CharSequence value, int start, int end) {
         return appendText(String.valueOf(value).substring(start, end));
     }
 
@@ -269,7 +269,7 @@ public abstract class AbstractStringBuilder<T extends Appendable> implements App
      * @param value A value.
      * @return This builder.
      */
-    public AbstractStringBuilder<T> insert(int index, CharSequence value) {
+    public AbstractStringBuilder<T> insert(int index, java.lang.CharSequence value) {
         return insertText(index, stringOf(value));
     }
 
@@ -282,7 +282,7 @@ public abstract class AbstractStringBuilder<T extends Appendable> implements App
      * @param end An end index.
      * @return This builder.
      */
-    public AbstractStringBuilder<T> insert(int index, CharSequence value, int start, int end) {
+    public AbstractStringBuilder<T> insert(int index, java.lang.CharSequence value, int start, int end) {
         return insertText(index, String.valueOf(value).substring(start, end));
     }
 
