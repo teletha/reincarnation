@@ -9,6 +9,8 @@
  */
 package reincarnation.transpiler.js;
 
+import java.util.function.Consumer;
+
 import js.lang.NativeElement;
 import js.lang.NativeEvent;
 import js.lang.NativeEventTarget;
@@ -47,9 +49,14 @@ class NativeEventTest extends JavascriptCodeVerifier {
             @Override
             public String run() {
                 NativeElement target = new NativeElement("div");
-                NativeEventTarget.addEventListener(target, "click", null);
-                NativeEventTarget.addEventListener(target, "click", null, false);
-                NativeEventTarget.removeEventListener(target, "click", null);
+                Consumer<NativeEvent> consumer = event -> {};
+                NativeEventTarget.addEventListener(target, "click", consumer);
+                NativeEventTarget.addEventListener(target, "click", consumer, false);
+                NativeEventTarget.removeEventListener(target, "click", consumer);
+                Runnable runnable = () -> {};
+                NativeEventTarget.addEventListener(target, "click", runnable);
+                NativeEventTarget.addEventListener(target, "click", runnable, false);
+                NativeEventTarget.removeEventListener(target, "click", runnable);
                 boolean dispatched = NativeEventTarget.dispatchEvent(target, new NativeEvent("click"));
                 return (dispatched ? "true" : "false");
             }

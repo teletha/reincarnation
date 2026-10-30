@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * The JavaScript {@code Element}.
@@ -43,6 +44,12 @@ public final class NativeElement {
 
     /** The children. */
     private final List<Object> children = new ArrayList();
+
+    /** The event listeners. */
+    private final Map<String, List<Consumer<NativeEvent>>> listeners = new LinkedHashMap();
+
+    /** The wrappers for the runnable listeners. */
+    private final Map<Object, Consumer<NativeEvent>> wrappers = new LinkedHashMap();
 
     /** The class list. */
     private final NativeDOMTokenList classList = new NativeDOMTokenList();
@@ -429,7 +436,10 @@ public final class NativeElement {
      * @param listener A listener.
      */
     @Native("$this.addEventListener($0, $1)")
-    public void addEventListener(String type, Object listener) {
+    public void addEventListener(String type, Consumer<NativeEvent> listener) {
+        if (listener != null) {
+            listeners.computeIfAbsent(type, key -> new ArrayList()).add(listener);
+        }
     }
 
     /**
@@ -440,7 +450,8 @@ public final class NativeElement {
      * @param options Options.
      */
     @Native("$this.addEventListener($0, $1, $2)")
-    public void addEventListener(String type, Object listener, boolean options) {
+    public void addEventListener(String type, Consumer<NativeEvent> listener, boolean options) {
+        addEventListener(type, listener);
     }
 
     /**
@@ -450,7 +461,52 @@ public final class NativeElement {
      * @param listener A listener.
      */
     @Native("$this.removeEventListener($0, $1)")
-    public void removeEventListener(String type, Object listener) {
+    public void removeEventListener(String type, Consumer<NativeEvent> listener) {
+        List<Consumer<NativeEvent>> registered = listeners.get(type);
+        if (registered != null) {
+            registered.remove(listener);
+        }
+    }
+
+    /**
+     * Add the event listener.
+     * 
+     * @param type A type.
+     * @param listener A listener.
+     */
+    @Native("$this.addEventListener($0, $1)")
+    public void addEventListener(String type, Runnable listener) {
+        if (listener != null) {
+            Consumer<NativeEvent> wrapper = event -> listener.run();
+            wrappers.put(listener, wrapper);
+            addEventListener(type, wrapper);
+        }
+    }
+
+    /**
+     * Add the event listener.
+     * 
+     * @param type A type.
+     * @param listener A listener.
+     * @param options Options.
+     */
+    @Native("$this.addEventListener($0, $1, $2)")
+    public void addEventListener(String type, Runnable listener, boolean options) {
+        addEventListener(type, listener);
+    }
+
+    /**
+     * Remove the event listener.
+     * 
+     * @param type A type.
+     * @param listener A listener.
+     */
+    @Native("$this.removeEventListener($0, $1)")
+    public void removeEventListener(String type, Runnable listener) {
+        Consumer<NativeEvent> wrapper = wrappers.remove(listener);
+        if (wrapper != null) {
+            removeEventListener(type, wrapper);
+        }
     }
 
     /**
@@ -461,7 +517,16 @@ public final class NativeElement {
      */
     @Native("$this.dispatchEvent($0)")
     public boolean dispatchEvent(NativeEvent event) {
-        return false;
+        if (event == null) {
+            return false;
+        }
+        List<Consumer<NativeEvent>> registered = listeners.get(event.type());
+        if (registered != null) {
+            for (Consumer<NativeEvent> listener : new ArrayList<>(registered)) {
+                listener.accept(event);
+            }
+        }
+        return event.defaultPrevented() == false;
     }
 
     /**

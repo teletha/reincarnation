@@ -9,6 +9,8 @@
  */
 package js.lang;
 
+import java.util.function.Consumer;
+
 /**
  * The JavaScript {@code EventTarget}.
  */
@@ -29,7 +31,7 @@ public final class NativeEventTarget {
      * @param listener A listener.
      */
     @Native("$0.addEventListener($1, $2)")
-    public static void addEventListener(Object target, String type, Object listener) {
+    public static void addEventListener(Object target, String type, Consumer<NativeEvent> listener) {
     }
 
     /**
@@ -41,7 +43,7 @@ public final class NativeEventTarget {
      * @param options Options.
      */
     @Native("$0.addEventListener($1, $2, $3)")
-    public static void addEventListener(Object target, String type, Object listener, boolean options) {
+    public static void addEventListener(Object target, String type, Consumer<NativeEvent> listener, boolean options) {
     }
 
     /**
@@ -53,7 +55,7 @@ public final class NativeEventTarget {
      * @param options Options.
      */
     @Native("$0.addEventListener($1, $2, $3)")
-    public static void addEventListener(Object target, String type, Object listener, Object options) {
+    public static void addEventListener(Object target, String type, Consumer<NativeEvent> listener, Object options) {
     }
 
     /**
@@ -64,7 +66,7 @@ public final class NativeEventTarget {
      * @param listener A listener.
      */
     @Native("$0.removeEventListener($1, $2)")
-    public static void removeEventListener(Object target, String type, Object listener) {
+    public static void removeEventListener(Object target, String type, Consumer<NativeEvent> listener) {
     }
 
     /**
@@ -76,7 +78,65 @@ public final class NativeEventTarget {
      * @param options Options.
      */
     @Native("$0.removeEventListener($1, $2, $3)")
-    public static void removeEventListener(Object target, String type, Object listener, boolean options) {
+    public static void removeEventListener(Object target, String type, Consumer<NativeEvent> listener, boolean options) {
+    }
+
+    /**
+     * Add the event listener.
+     * 
+     * @param target A target.
+     * @param type A type.
+     * @param listener A listener.
+     */
+    @Native("$0.addEventListener($1, $2)")
+    public static void addEventListener(Object target, String type, Runnable listener) {
+    }
+
+    /**
+     * Add the event listener.
+     * 
+     * @param target A target.
+     * @param type A type.
+     * @param listener A listener.
+     * @param options Options.
+     */
+    @Native("$0.addEventListener($1, $2, $3)")
+    public static void addEventListener(Object target, String type, Runnable listener, boolean options) {
+    }
+
+    /**
+     * Add the event listener.
+     * 
+     * @param target A target.
+     * @param type A type.
+     * @param listener A listener.
+     * @param options Options.
+     */
+    @Native("$0.addEventListener($1, $2, $3)")
+    public static void addEventListener(Object target, String type, Runnable listener, Object options) {
+    }
+
+    /**
+     * Remove the event listener.
+     * 
+     * @param target A target.
+     * @param type A type.
+     * @param listener A listener.
+     */
+    @Native("$0.removeEventListener($1, $2)")
+    public static void removeEventListener(Object target, String type, Runnable listener) {
+    }
+
+    /**
+     * Remove the event listener.
+     * 
+     * @param target A target.
+     * @param type A type.
+     * @param listener A listener.
+     * @param options Options.
+     */
+    @Native("$0.removeEventListener($1, $2, $3)")
+    public static void removeEventListener(Object target, String type, Runnable listener, boolean options) {
     }
 
     /**

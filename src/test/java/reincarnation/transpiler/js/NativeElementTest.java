@@ -9,8 +9,11 @@
  */
 package reincarnation.transpiler.js;
 
+import java.util.function.Consumer;
+
 import js.lang.NativeDOMTokenList;
 import js.lang.NativeElement;
+import js.lang.NativeEvent;
 import js.lang.NativeNodeList;
 
 import org.junit.jupiter.api.Test;
@@ -43,8 +46,12 @@ class NativeElementTest extends JavascriptCodeVerifier {
                 NativeElement child = new NativeElement("span");
                 boolean appended = element.appendChild(child) == child;
                 boolean removedChild = element.removeChild(child) == child;
-                element.addEventListener("click", null);
-                element.removeEventListener("click", null);
+                Runnable runnable = () -> {};
+                element.addEventListener("click", runnable);
+                element.removeEventListener("click", runnable);
+                Consumer<NativeEvent> consumer = event -> {};
+                element.addEventListener("click", consumer);
+                element.removeEventListener("click", consumer);
                 element.focus();
                 element.blur();
                 element.click();

@@ -9,6 +9,8 @@
  */
 package reincarnation.transpiler.js;
 
+import java.util.function.Consumer;
+
 import js.lang.NativeDOMTokenList;
 import js.lang.NativeElement;
 import js.lang.NativeEvent;
@@ -94,6 +96,48 @@ class NativeElementDOMTest extends JavascriptCodeVerifier {
                 event.preventDefault();
                 boolean prevented = event.defaultPrevented();
                 return event.type() + "|" + (bubbles ? "true" : "false") + "|" + (cancelable ? "true" : "false") + "|" + (prevented ? "true" : "false");
+            }
+        });
+    }
+
+    @Test
+    void listener() throws Exception {
+        verifyWithDOM(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                NativeElement element = new NativeElement("div");
+                boolean[] clicked = {false};
+                Consumer<NativeEvent> listener = event -> clicked[0] = true;
+                element.addEventListener("click", listener);
+                element.dispatchEvent(new NativeEvent("click"));
+                boolean first = clicked[0];
+                element.removeEventListener("click", listener);
+                clicked[0] = false;
+                element.dispatchEvent(new NativeEvent("click"));
+                boolean second = clicked[0];
+                return (first ? "true" : "false") + "|" + (second ? "true" : "false");
+            }
+        });
+    }
+
+    @Test
+    void runnableListener() throws Exception {
+        verifyWithDOM(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                NativeElement element = new NativeElement("div");
+                boolean[] clicked = {false};
+                Runnable listener = () -> clicked[0] = true;
+                element.addEventListener("click", listener);
+                element.dispatchEvent(new NativeEvent("click"));
+                boolean first = clicked[0];
+                element.removeEventListener("click", listener);
+                clicked[0] = false;
+                element.dispatchEvent(new NativeEvent("click"));
+                boolean second = clicked[0];
+                return (first ? "true" : "false") + "|" + (second ? "true" : "false");
             }
         });
     }
