@@ -28,7 +28,6 @@ public class Project extends bee.api.Project {
         require("io.github.teletha", "bee").atTest();
         require("io.github.teletha", "antibug").atTest();
         require("org.ow2.asm", "asm-util").atTest();
-        require("com.github.javaparser", "javaparser-core").atTest();
         require("org.vineflower", "vineflower").atTest();
         require("io.github.java-diff-utils", "java-diff-utils").atTest();
         require("com.caoccao.javet", "javet").atTest();
