@@ -20,8 +20,7 @@ const root = {
 		"reincarnation.operator",
 		"reincarnation.coder",
 		"reincarnation.coder.java",
-		"reincarnation.coder.js",
-		"reincarnation.coder.ts"
+		"reincarnation.coder.js"
 	],
 	"types": [
 		{
@@ -948,16 +947,6 @@ const root = {
 			"name": "DelegatableCoder",
 			"packageName": "reincarnation.coder",
 			"type": "AbstractClass"
-		},
-		{
-			"name": "TypeScriptCodingOption",
-			"packageName": "reincarnation.coder.ts",
-			"type": "Class"
-		},
-		{
-			"name": "TypeScriptCoder",
-			"packageName": "reincarnation.coder.ts",
-			"type": "Class"
 		},
 		{
 			"name": "Code",
