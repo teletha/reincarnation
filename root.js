@@ -34,6 +34,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "NativeResizeObserver",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
 			"name": "NativeArray",
 			"packageName": "js.lang",
 			"type": "Class"
@@ -64,6 +69,11 @@ const root = {
 			"type": "Annotation"
 		},
 		{
+			"name": "NativeMutationObserver",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
 			"name": "NativeConsole",
 			"packageName": "js.lang",
 			"type": "Class"
@@ -89,6 +99,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "NativeMutationObserverInit",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
 			"name": "NativeURL",
 			"packageName": "js.lang",
 			"type": "Class"
@@ -109,6 +124,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "NativeResizeObserverEntry",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
 			"name": "NativeRegExp",
 			"packageName": "js.lang",
 			"type": "Class"
@@ -120,6 +140,11 @@ const root = {
 		},
 		{
 			"name": "NativeDate",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "NativeMutationRecord",
 			"packageName": "js.lang",
 			"type": "Class"
 		},
