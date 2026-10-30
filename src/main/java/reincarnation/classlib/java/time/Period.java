@@ -107,12 +107,17 @@ public final class Period implements TemporalAmount, Serializable {
      */
     public static Period between(LocalDate start, LocalDate end) {
         long totalMonths = end.prolepticMonth() - start.prolepticMonth();
-        LocalDate date = start.plusMonths(totalMonths);
-        if (date.compareTo(end) > 0) {
+        int days = end.getDayOfMonth() - start.getDayOfMonth();
+        if (totalMonths > 0L && days < 0) {
             totalMonths--;
-            date = start.plusMonths(totalMonths);
+            LocalDate date = start.plusMonths(totalMonths);
+            days = (int) (end.toEpochDay() - date.toEpochDay());
+        } else if (totalMonths < 0L && days > 0) {
+            totalMonths++;
+            days -= end.lengthOfMonth();
+        } else if (totalMonths == 0L) {
+            days = (int) (end.toEpochDay() - start.toEpochDay());
         }
-        int days = (int) (end.toEpochDay() - date.toEpochDay());
         return of((int) (totalMonths / 12L), (int) (totalMonths % 12L), days);
     }
 

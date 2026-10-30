@@ -545,7 +545,7 @@ public final class ZonedDateTime implements Temporal, TemporalAdjuster, Comparab
      * @return A result.
      */
     public boolean isBefore(java.time.chrono.ChronoZonedDateTime<?> other) {
-        return compareTo((ZonedDateTime) (Object) other) < 0;
+        return toInstant().isBefore(((ZonedDateTime) (Object) other).toInstant());
     }
 
     /**
@@ -555,7 +555,7 @@ public final class ZonedDateTime implements Temporal, TemporalAdjuster, Comparab
      * @return A result.
      */
     public boolean isAfter(java.time.chrono.ChronoZonedDateTime<?> other) {
-        return compareTo((ZonedDateTime) (Object) other) > 0;
+        return toInstant().isAfter(((ZonedDateTime) (Object) other).toInstant());
     }
 
     /**
@@ -565,7 +565,7 @@ public final class ZonedDateTime implements Temporal, TemporalAdjuster, Comparab
      * @return A result.
      */
     public boolean isEqual(java.time.chrono.ChronoZonedDateTime<?> other) {
-        return compareTo((ZonedDateTime) (Object) other) == 0;
+        return toInstant().equals(((ZonedDateTime) (Object) other).toInstant());
     }
 
     /**

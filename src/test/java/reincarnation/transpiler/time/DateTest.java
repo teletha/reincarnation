@@ -111,4 +111,62 @@ class DateTest extends JavascriptCodeVerifier {
             }
         });
     }
+
+    @Test
+    void constructors() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                Date date = new Date(2020 - 1900, 11, 31);
+                Date dateTime = new Date(2020 - 1900, 11, 31, 23, 59);
+                Date dateTimeSecond = new Date(2020 - 1900, 11, 31, 23, 59, 58);
+                return date.getTime() + ":" + dateTime.getTime() + ":" + dateTimeSecond.getTime() + ":" + date + ":" + dateTime + ":" + dateTimeSecond;
+            }
+        });
+    }
+
+    @Test
+    void cloneAndBoundaries() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                Date date = new Date(1000L);
+                Date clone = (Date) date.clone();
+                Date before = new Date(999L);
+                return clone.equals(date) + ":" + (clone == date ? "same" : "different") + ":" + before.before(date) + ":" + date.after(before) + ":" + date.compareTo(clone) + ":" + date.hashCode() + ":" + before.getTime();
+            }
+        });
+    }
+
+    @Test
+    void settersIndividual() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                Date date = new Date(0L);
+                date.setYear(121);
+                date.setMonth(11);
+                date.setDate(31);
+                date.setHours(23);
+                date.setMinutes(59);
+                date.setSeconds(58);
+                return date.getYear() + ":" + date.getMonth() + ":" + date.getDate() + ":" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + ":" + date;
+            }
+        });
+    }
+
+    @Test
+    void negativeTime() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                Date date = new Date(-1000L);
+                return date.getTime() + ":" + date.toInstant() + ":" + date;
+            }
+        });
+    }
 }

@@ -74,6 +74,9 @@ public class ZoneId implements Serializable {
         if (prefix.length() == 0) {
             return offset;
         }
+        if (!prefix.equals("GMT") && !prefix.equals("UTC") && !prefix.equals("UT")) {
+            throw new IllegalArgumentException("prefix should be GMT, UTC or UT, is: " + prefix);
+        }
         return new ZoneId(prefix + offset.getId());
     }
 

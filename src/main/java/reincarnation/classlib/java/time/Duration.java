@@ -429,7 +429,7 @@ public final class Duration implements TemporalAmount, Comparable<Duration>, Ser
         if (divisor == 0L) {
             throw new ArithmeticException("Cannot divide by zero");
         }
-        return create(seconds / divisor, (seconds % divisor) * 1000000000L / divisor + nanos / divisor);
+        return ofNanos((seconds * 1000000000L + nanos) / divisor);
     }
 
     /**

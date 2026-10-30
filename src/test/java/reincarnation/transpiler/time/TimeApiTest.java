@@ -177,4 +177,116 @@ class TimeApiTest extends JavascriptCodeVerifier {
             }
         });
     }
+
+    @Test
+    void instantEdge() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                Instant instant = Instant.ofEpochSecond(-1L, 500000000L);
+                return instant.getEpochSecond() + ":" + instant.getNano() + ":" + instant.toEpochMilli() + ":" + instant + ":" + Instant.EPOCH + ":" + instant.isBefore(Instant.EPOCH) + ":" + instant.until(Instant.EPOCH, java.time.temporal.ChronoUnit.MILLIS);
+            }
+        });
+    }
+
+    @Test
+    void localDateEdge() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                LocalDate date = LocalDate.of(2021, 1, 31);
+                return date.plusMonths(1L) + ":" + date.minusMonths(1L) + ":" + date.withYear(2020) + ":" + LocalDate.of(2020, 2, 29).withYear(2021) + ":" + date.until(LocalDate.of(2022, 3, 2), java.time.temporal.ChronoUnit.DAYS) + ":" + LocalDate.of(2021, 1, 31).until(LocalDate.of(2021, 2, 28), java.time.temporal.ChronoUnit.MONTHS) + ":" + LocalDate.ofEpochDay(-1L) + ":" + date.with(java.time.temporal.ChronoField.DAY_OF_YEAR, 1L) + ":" + date.getLong(java.time.temporal.ChronoField.EPOCH_DAY);
+            }
+        });
+    }
+
+    @Test
+    void localTimeEdge() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                LocalTime time = LocalTime.of(23, 59, 59, 999999999);
+                LocalTime midnight = LocalTime.of(0, 0);
+                return time.plusNanos(1L) + ":" + midnight.minusNanos(1L) + ":" + LocalTime.ofNanoOfDay(3661000000000L) + ":" + LocalTime.ofSecondOfDay(3661L) + ":" + time.until(midnight, java.time.temporal.ChronoUnit.NANOS) + ":" + time.withNano(0) + ":" + time.compareTo(midnight);
+            }
+        });
+    }
+
+    @Test
+    void localDateTimeEdge() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                LocalDateTime dateTime = LocalDateTime.of(2020, 1, 31, 23, 30);
+                return dateTime.plusHours(1L) + ":" + dateTime.plusMonths(1L) + ":" + dateTime.until(LocalDateTime.of(2020, 2, 1, 0, 30), java.time.temporal.ChronoUnit.HOURS) + ":" + dateTime.withHour(0) + ":" + dateTime.withDayOfMonth(1) + ":" + dateTime.atZone(ZoneId.of("Asia/Tokyo")).toInstant();
+            }
+        });
+    }
+
+    @Test
+    void zonedDateTimeEdge() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                ZonedDateTime zoned = ZonedDateTime.of(2020, 1, 31, 23, 0, 0, 0, ZoneId.of("Asia/Tokyo"));
+                ZonedDateTime fixed = zoned.withFixedOffsetZone();
+                return zoned.plusHours(2L) + ":" + zoned.plusDays(1L) + ":" + zoned.withZoneSameLocal(ZoneOffset.UTC) + ":" + fixed + ":" + fixed.getZone() + ":" + zoned.getOffset() + ":" + zoned.isEqual(fixed) + ":" + zoned.toInstant().atZone(ZoneOffset.UTC).isEqual(zoned);
+            }
+        });
+    }
+
+    @Test
+    void durationEdge() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                Duration duration = Duration.ofSeconds(90061L, 500000000L);
+                Duration parsed = Duration.parse("P2DT3H4M5.6S");
+                return duration.dividedBy(3L) + ":" + duration.negated() + ":" + duration.abs() + ":" + Duration.ofSeconds(-1L, 500000000L) + ":" + parsed + ":" + duration.toDays() + ":" + duration.toHours() + ":" + duration.toMinutes() + ":" + duration.compareTo(Duration.ofSeconds(90061L)) + ":" + duration.get(java.time.temporal.ChronoUnit.SECONDS) + ":" + Duration.between(LocalTime.of(1, 0), LocalTime.of(2, 30));
+            }
+        });
+    }
+
+    @Test
+    void periodEdge() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                Period period = Period.of(1, 13, 32);
+                return period.normalized() + ":" + period.toTotalMonths() + ":" + period.multipliedBy(2) + ":" + period.negated() + ":" + Period.ZERO + ":" + Period.ofWeeks(2) + ":" + period.get(java.time.temporal.ChronoUnit.YEARS) + ":" + period.get(java.time.temporal.ChronoUnit.MONTHS) + ":" + period.get(java.time.temporal.ChronoUnit.DAYS);
+            }
+        });
+    }
+
+    @Test
+    void zoneEdge() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                ZoneOffset offset = ZoneOffset.ofHoursMinutesSeconds(1, 2, 3);
+                return offset + ":" + offset.getTotalSeconds() + ":" + ZoneOffset.MIN + ":" + ZoneOffset.MAX + ":" + ZoneOffset.of("Z").getId() + ":" + ZoneId.of("UTC").normalized().getId() + ":" + ZoneId.ofOffset("UTC", ZoneOffset.ofHours(2)).getId();
+            }
+        });
+    }
+
+    @Test
+    void chronoAccess() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                LocalDate date = LocalDate.of(2020, 12, 31);
+                LocalTime time = LocalTime.of(23, 59, 58, 123456789);
+                return date.getLong(java.time.temporal.ChronoField.DAY_OF_WEEK) + ":" + date.getLong(java.time.temporal.ChronoField.DAY_OF_YEAR) + ":" + date.getLong(java.time.temporal.ChronoField.PROLEPTIC_MONTH) + ":" + time.getLong(java.time.temporal.ChronoField.SECOND_OF_DAY) + ":" + time.getLong(java.time.temporal.ChronoField.MILLI_OF_SECOND) + ":" + time.getLong(java.time.temporal.ChronoField.MICRO_OF_SECOND) + ":" + java.time.temporal.ChronoUnit.DAYS.between(date, LocalDate.of(2021, 1, 1)) + ":" + java.time.temporal.ChronoUnit.HOURS.between(LocalTime.of(0, 0), LocalTime.of(23, 0));
+            }
+        });
+    }
 }

@@ -499,6 +499,12 @@ public class Date implements Serializable, Cloneable, Comparable<Date> {
         if (shortName != null && isAlpha(shortName) && !(fixed && shortName.equals("UTC"))) {
             return shortName;
         }
+        if (!fixed) {
+            String retry = NativeIntl.systemZoneShort(time + 1000L);
+            if (retry != null && isAlpha(retry)) {
+                return retry;
+            }
+        }
         if (offset == 0) {
             return id != null && (id.equals("GMT") || id.equals("Etc/GMT")) ? "GMT" : "UTC";
         }
