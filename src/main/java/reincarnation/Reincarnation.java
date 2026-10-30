@@ -242,24 +242,4 @@ public final class Reincarnation {
         // classes are implemented in Java and transpiled together with the user code.
         return JavascriptBundle.build(clazz, options == null ? new JavascriptCodingOption() : options);
     }
-
-    /**
-     * Decompile the specified class and all of its dependencies into a single JavaScript program.
-     * 
-     * @param clazz A target class.
-     * @return A decompiled JavaScript program.
-     */
-    public static final String rebirthBundle(Class clazz) {
-        return JavascriptBundle.build(clazz);
-    }
-
-    /**
-     * Decompile the specified class and all of its dependencies into a single JavaScript program.
-     * 
-     * @param clazz A target class.
-     * @return A decompiled JavaScript program.
-     */
-    public static final String rebirthProgram(Class clazz) {
-        return JavascriptBundle.build(clazz);
-    }
 }
