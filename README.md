@@ -52,7 +52,7 @@ The output method of the analyzed code is not limited to Java, but is designed t
     - [x] do-while
     - [x] try-catch-finally
         - [x] multi catches
-    - [ ] try-with-resources
+    - [x] try-with-resources
     - [x] throw
     - [x] return
     - [x] break
