@@ -95,6 +95,28 @@ public class JavascriptCodeVerifier {
      * @throws Exception If the JavaScript runtime fails.
      */
     protected final void verify(TestCode code) throws Exception {
+        verify(code, false);
+    }
+
+    /**
+     * Verify the decompiled JavaScript code with a DOM implementation installed.
+     * 
+     * @param code A target code to verify.
+     * @throws Exception If the JavaScript runtime fails.
+     */
+    protected final void verifyWithDOM(TestCode code) throws Exception {
+        assumeTrue(JavetSupport.domAvailable(), "The DOM implementation is not available.");
+        verify(code, true);
+    }
+
+    /**
+     * Verify the decompiled JavaScript code.
+     * 
+     * @param code A target code to verify.
+     * @param dom Whether the DOM implementation is installed.
+     * @throws Exception If the JavaScript runtime fails.
+     */
+    private void verify(TestCode code, boolean dom) throws Exception {
         Class target = code.getClass();
 
         // ========================================================
@@ -132,7 +154,7 @@ public class JavascriptCodeVerifier {
         // ========================================================
         // Execute the decompiled JavaScript and compare the results.
         // ========================================================
-        try (V8Runtime runtime = JavetSupport.create()) {
+        try (V8Runtime runtime = dom ? JavetSupport.createWithDOM() : JavetSupport.create()) {
             for (int i = 0; i < inputs.size(); i++) {
                 Object input = inputs.get(i);
                 String arguments = parameterTypes.length == 0 ? "" : toJSLiteral(input, parameterTypes[0]);

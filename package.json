@@ -1,0 +1,8 @@
+{
+  "name": "reincarnation-test",
+  "private": true,
+  "description": "Provides the DOM implementation used by the JavaScript verification tests.",
+  "devDependencies": {
+    "happy-dom": "^21.0.4"
+  }
+}
