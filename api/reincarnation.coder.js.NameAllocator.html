@@ -19,10 +19,10 @@
 		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="p">
-		<header class="N" date="2026-10-29">
-			<h1 class="O"><a href="index.html"><code>Reincarnation</code></a></h1>
-			<nav class="P"><a href="api/main.html" id="API"><svg class="package">
+	<body class="n">
+		<header class="o" date="2026-10-30">
+			<h1 class="CB"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="m"><a href="api/main.html" id="API"><svg class="package">
 						<use href="main.svg#package"/>
 					</svg>
 				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
@@ -35,18 +35,18 @@
 						<use href="main.svg#github"/>
 					</svg>
 				</a></nav>
-			<div class="Q"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+			<div class="f"><a aria-label="Change color scheme" id="theme"><svg class="sun">
 						<use href="main.svg#sun"/>
 					</svg><svg class="moon">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<nav class="r"></nav>
-		<article class="d" id="Article">
-			<section class="J"><code class="DB">reincarnation.coder.js</code>
-				<h2 class="Class M"><code class="EB">NameAllocator</code></h2>
-				<div class="CB"></div><span class="A"><p>Allocates a unique and valid JavaScript identifier for every class, method and field.</p><p>
+		<nav class="J"></nav>
+		<article class="l" id="Article">
+			<section class="s"><code class="K">reincarnation.coder.js</code>
+				<h2 class="Class x"><code class="W">NameAllocator</code></h2>
+				<div class="IB"></div><span class="A"><p>Allocates a unique and valid JavaScript identifier for every class, method and field.</p><p>
 Methods are keyed by their name and parameter descriptor so that an override shares the name of
 the base method while an overload gets a distinct name. Static and private methods include the
 declaring class because they are not dynamically dispatched in Java.
@@ -54,79 +54,79 @@ declaring class because they are not dynamically dispatched in Java.
 Fields are keyed by the declaring class and the field name because JavaScript has only one
 property namespace, while Java allows a subclass to hide a field with the same name.
 </p></span></section>
-			<section class="J" id="NameAllocator()">
-				<h2 class="i"><i class="PUBLIC"></i><code class="EB">NameAllocator</code><code class="s">()</code></h2>
+			<section class="s" id="NameAllocator()">
+				<h2 class="k"><i class="PUBLIC"></i><code class="W">NameAllocator</code><code class="a">()</code></h2>
 			</section>
-			<section class="J" id="seed(java.lang.Class)">
-				<h2 class="i"><i class="PUBLIC"></i><code class="EB">seed</code><code class="s">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="g"><code>void</code></i></h2>
-				<table class="GB">
-					<tr class="l">
+			<section class="s" id="seed(java.lang.Class)">
+				<h2 class="k"><i class="PUBLIC"></i><code class="W">seed</code><code class="a">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="GB"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="KB">
 						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code></td>
 						<td><span><p>A target class.</p></span></td>
 					</tr>
 				</table><span class="A"><p>Pre-allocate the name of the specified class to keep the allocation order stable.</p></span></section>
-			<section class="J" id="seedMembers(java.lang.Class)">
-				<h2 class="i"><i class="PUBLIC"></i><code class="EB">seedMembers</code><code class="s">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="g"><code>void</code></i></h2>
-				<table class="GB">
-					<tr class="l">
+			<section class="s" id="seedMembers(java.lang.Class)">
+				<h2 class="k"><i class="PUBLIC"></i><code class="W">seedMembers</code><code class="a">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="GB"><code>void</code></i></h2>
+				<table class="b">
+					<tr class="KB">
 						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code></td>
 						<td><span><p>A target class.</p></span></td>
 					</tr>
 				</table><span class="A"><p>Pre-allocate the names of the declared members to keep the allocation order stable.</p></span></section>
-			<section class="J" id="allocate(java.lang.Class)">
-				<h2 class="i"><i class="PUBLIC"></i><code class="EB">allocate</code><code class="s">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="g"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-				<table class="GB">
-					<tr class="l">
+			<section class="s" id="allocate(java.lang.Class)">
+				<h2 class="k"><i class="PUBLIC"></i><code class="W">allocate</code><code class="a">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="GB"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="b">
+					<tr class="KB">
 						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code></td>
 						<td><span><p>A target class.</p></span></td>
 					</tr>
-					<tr class="a">
+					<tr class="u">
 						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
 						<td><span><p>A JavaScript identifier. The array type is suffixed by <code>[]</code>.</p></span></td>
 					</tr>
 				</table><span class="A"><p>Allocate the unique JavaScript name of the specified class.</p></span></section>
-			<section class="J" id="allocate(java.lang.reflect.Method)">
-				<h2 class="i"><i class="PUBLIC"></i><code class="EB">allocate</code><code class="s">(<code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>)</code><i class="g"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-				<table class="GB">
-					<tr class="l">
+			<section class="s" id="allocate(java.lang.reflect.Method)">
+				<h2 class="k"><i class="PUBLIC"></i><code class="W">allocate</code><code class="a">(<code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>)</code><i class="GB"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="b">
+					<tr class="KB">
 						<td><code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code></td>
 						<td><span><p>A target method.</p></span></td>
 					</tr>
-					<tr class="a">
+					<tr class="u">
 						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
 						<td><span><p>A JavaScript identifier.</p></span></td>
 					</tr>
 				</table><span class="A"><p>Allocate the unique JavaScript name of the specified method.</p></span></section>
-			<section class="J" id="allocate(java.lang.reflect.Field)">
-				<h2 class="i"><i class="PUBLIC"></i><code class="EB">allocate</code><code class="s">(<code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="g"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
-				<table class="GB">
-					<tr class="l">
+			<section class="s" id="allocate(java.lang.reflect.Field)">
+				<h2 class="k"><i class="PUBLIC"></i><code class="W">allocate</code><code class="a">(<code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="GB"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="b">
+					<tr class="KB">
 						<td><code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code></td>
 						<td><span><p>A target field.</p></span></td>
 					</tr>
-					<tr class="a">
+					<tr class="u">
 						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
 						<td><span><p>A JavaScript identifier.</p></span></td>
 					</tr>
 				</table><span class="A"><p>Allocate the unique JavaScript name of the specified field.</p></span></section>
 		</article>
-		<aside class="k">
-			<div class="e">
-				<h5 class="f">Constructors</h5>
+		<aside class="q">
+			<div class="i">
+				<h5 class="U">Constructors</h5>
 				<ul>
-					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.NameAllocator.html#NameAllocator()">NameAllocator</a></code><code class="s">()</code></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.NameAllocator.html#NameAllocator()">NameAllocator</a></code><code class="a">()</code></li>
 				</ul>
-				<h5 class="f">Methods</h5>
+				<h5 class="U">Methods</h5>
 				<ul>
-					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.NameAllocator.html#seed(java.lang.Class)">seed</a></code><code class="s">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="u"><code>void</code></i></li>
-					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.NameAllocator.html#seedMembers(java.lang.Class)">seedMembers</a></code><code class="s">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="u"><code>void</code></i></li>
-					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.NameAllocator.html#allocate(java.lang.Class)">allocate</a></code><code class="s">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="u"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.NameAllocator.html#allocate(java.lang.reflect.Method)">allocate</a></code><code class="s">(<code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>)</code><i class="u"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
-					<li class="LB"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.NameAllocator.html#allocate(java.lang.reflect.Field)">allocate</a></code><code class="s">(<code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="u"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.NameAllocator.html#seed(java.lang.Class)">seed</a></code><code class="a">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="w"><code>void</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.NameAllocator.html#seedMembers(java.lang.Class)">seedMembers</a></code><code class="a">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="w"><code>void</code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.NameAllocator.html#allocate(java.lang.Class)">allocate</a></code><code class="a">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">type</code>)</code><i class="w"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.NameAllocator.html#allocate(java.lang.reflect.Method)">allocate</a></code><code class="a">(<code><a aria-label="java.lang.reflect.Method 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Method.html">Method</a></code><code class="parameterName">method</code>)</code><i class="w"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="h"><i class="PUBLIC"></i><code><a href="api/reincarnation.coder.js.NameAllocator.html#allocate(java.lang.reflect.Field)">allocate</a></code><code class="a">(<code><a aria-label="java.lang.reflect.Field 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/reflect/Field.html">Field</a></code><code class="parameterName">field</code>)</code><i class="w"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
 				</ul>
 			</div>
 		</aside>
-		<footer class="q">
+		<footer class="p">
 			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
 		</footer>
 	</body>
