@@ -34,7 +34,7 @@ public final class NativeDocument {
      * @return An element or null.
      */
     @Native("$this.getElementById($0)")
-    public Object getElementById(String id) {
+    public NativeElement getElementById(String id) {
         return null;
     }
 
@@ -45,7 +45,7 @@ public final class NativeDocument {
      * @return An element or null.
      */
     @Native("$this.querySelector($0)")
-    public Object querySelector(String selector) {
+    public NativeElement querySelector(String selector) {
         return null;
     }
 
@@ -56,8 +56,8 @@ public final class NativeDocument {
      * @return Elements.
      */
     @Native("$this.querySelectorAll($0)")
-    public Object querySelectorAll(String selector) {
-        return new Object[0];
+    public NativeNodeList querySelectorAll(String selector) {
+        return new NativeNodeList();
     }
 
     /**
@@ -67,8 +67,8 @@ public final class NativeDocument {
      * @return An element.
      */
     @Native("$this.createElement($0)")
-    public Object createElement(String tagName) {
-        return null;
+    public NativeElement createElement(String tagName) {
+        return new NativeElement(tagName);
     }
 
     /**
@@ -88,7 +88,7 @@ public final class NativeDocument {
      * @return A body or null.
      */
     @Native("$this.body")
-    public Object body() {
+    public NativeElement body() {
         return null;
     }
 
@@ -98,7 +98,7 @@ public final class NativeDocument {
      * @return A head or null.
      */
     @Native("$this.head")
-    public Object head() {
+    public NativeElement head() {
         return null;
     }
 
@@ -108,7 +108,7 @@ public final class NativeDocument {
      * @return A document element or null.
      */
     @Native("$this.documentElement")
-    public Object documentElement() {
+    public NativeElement documentElement() {
         return null;
     }
 
