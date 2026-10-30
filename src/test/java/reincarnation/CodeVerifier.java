@@ -165,7 +165,9 @@ public class CodeVerifier {
                 if (CompilerType.isJavac()) {
                     try {
                         compileAllTestsByJavac();
-                        target = JavacClassLoader.loadClass(target.getName());
+                        synchronized (JavacClassLoader) {
+                            target = JavacClassLoader.loadClass(target.getName());
+                        }
                     } catch (ClassNotFoundException e) {
                         throw I.quiet(e);
                     } catch (LinkageError e) {
