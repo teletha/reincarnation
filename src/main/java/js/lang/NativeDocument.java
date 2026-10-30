@@ -22,9 +22,9 @@ public final class NativeDocument {
     private String cookie = "";
 
     /**
-     * Hide constructor.
+     * Create the document.
      */
-    private NativeDocument() {
+    NativeDocument() {
     }
 
     /**

@@ -125,7 +125,7 @@ class NativeWebTest extends JavascriptCodeVerifier {
 
             @Override
             public String run() {
-                return (NativeWindow.document == null ? "null" : "document") + "|" + NativeWindow.innerWidth + "|" + NativeWindow.innerHeight + "|" + (int) NativeWindow.devicePixelRatio + "|" + (int) NativeWindow.scrollX + "|" + (int) NativeWindow.scrollY;
+                return NativeWindow.innerWidth + "|" + NativeWindow.innerHeight + "|" + (int) NativeWindow.devicePixelRatio + "|" + (int) NativeWindow.scrollX + "|" + (int) NativeWindow.scrollY;
             }
         });
     }
@@ -159,11 +159,11 @@ class NativeWebTest extends JavascriptCodeVerifier {
 
     @Test
     void documentAvailability() throws Exception {
-        verify(new TestCode.Boolean() {
+        verifyWithDOM(new TestCode.Boolean() {
 
             @Override
             public boolean run() {
-                return NativeWindow.document == null;
+                return NativeWindow.document != null;
             }
         });
     }

@@ -21,35 +21,54 @@ public final class NativeWindow {
 
     /** The document. */
     @Native("document")
-    public static NativeDocument document;
+    public static final NativeDocument document = new NativeDocument();
 
     /** The local storage. */
     @Native("window.localStorage ?? null")
-    public static NativeStorage localStorage = NativeStorage.local();
+    public static final NativeStorage localStorage = NativeStorage.local();
 
     /** The session storage. */
     @Native("window.sessionStorage ?? null")
-    public static NativeStorage sessionStorage = NativeStorage.session();
+    public static final NativeStorage sessionStorage = NativeStorage.session();
 
     /** The inner width. */
     @Native("innerWidth")
-    public static int innerWidth;
+    public static final int innerWidth = zero();
 
     /** The inner height. */
     @Native("innerHeight")
-    public static int innerHeight;
+    public static final int innerHeight = zero();
 
     /** The device pixel ratio. */
     @Native("devicePixelRatio")
-    public static double devicePixelRatio = 1;
+    public static final double devicePixelRatio = one();
 
     /** The scroll X. */
     @Native("scrollX")
-    public static double scrollX;
+    public static final double scrollX = zero();
 
     /** The scroll Y. */
     @Native("scrollY")
-    public static double scrollY;
+    public static final double scrollY = zero();
+
+    /**
+     * Get the zero value. The method call prevents javac from inlining the final field, which
+     * would bypass the native accessor.
+     * 
+     * @return Zero.
+     */
+    private static int zero() {
+        return 0;
+    }
+
+    /**
+     * Get the one value.
+     * 
+     * @return One.
+     */
+    private static double one() {
+        return 1;
+    }
 
     /**
      * Hide constructor.
