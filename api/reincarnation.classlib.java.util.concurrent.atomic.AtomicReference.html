@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="Z">
+		<header class="Q" date="2026-10-30">
+			<h1 class="R"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="S"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="T"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="b"></nav>
+		<article class="M" id="Article">
+			<section class="y"><code class="IB">reincarnation.classlib.java.util.concurrent.atomic</code>
+				<h2 class="Class w"><code class="i">AtomicReference</code><code class="AB">&lt;<code>T</code>&gt;</code></h2>
+				<div class="P">
+					<ul class="E F">
+						<li><code>T</code></li>
+					</ul>
+					<ul class="E H">
+						<li><code><a aria-label="reincarnation.classlib.java.io.Serializable" href="api/reincarnation.classlib.java.io.Serializable.html">Serializable</a></code></li>
+					</ul>
+				</div><span class="A"><p>The Java implementation of <code><a aria-label="java.util.concurrent.atomic.AtomicReference 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/concurrent/atomic/AtomicReference.html">java.util.concurrent.atomic.AtomicReference</a></code> which is
+transpiled into JavaScript.</p></span></section>
+			<section class="y" id="AtomicReference()">
+				<h2 class="u"><i class="PUBLIC"></i><code class="i">AtomicReference</code><code class="AB">()</code></h2><span class="A"><p>Create the atomic reference.</p></span></section>
+			<section class="y" id="AtomicReference(java.lang.Object)">
+				<h2 class="u"><i class="PUBLIC"></i><code class="i">AtomicReference</code><code class="AB">(<code>T</code><code class="parameterName">initialValue</code>)</code></h2>
+				<table class="k">
+					<tr class="U">
+						<td><code>T</code><code class="parameterName">initialValue</code></td>
+						<td><span><p>An initial value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Create the atomic reference.</p></span></section>
+			<section class="y" id="get()">
+				<h2 class="u"><i class="FINAL"><i class="PUBLIC"></i></i><code class="i">get</code><code class="AB">()</code><i class="L"><code>T</code></i></h2>
+				<table class="k">
+					<tr class="N">
+						<td><code>T</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the value.</p></span></section>
+			<section class="y" id="set(java.lang.Object)">
+				<h2 class="u"><i class="FINAL"><i class="PUBLIC"></i></i><code class="i">set</code><code class="AB">(<code>T</code><code class="parameterName">newValue</code>)</code><i class="L"><code>void</code></i></h2>
+				<table class="k">
+					<tr class="U">
+						<td><code>T</code><code class="parameterName">newValue</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set the value.</p></span></section>
+			<section class="y" id="lazySet(java.lang.Object)">
+				<h2 class="u"><i class="FINAL"><i class="PUBLIC"></i></i><code class="i">lazySet</code><code class="AB">(<code>T</code><code class="parameterName">newValue</code>)</code><i class="L"><code>void</code></i></h2>
+				<table class="k">
+					<tr class="U">
+						<td><code>T</code><code class="parameterName">newValue</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set the value.</p></span></section>
+			<section class="y" id="getAndSet(java.lang.Object)">
+				<h2 class="u"><i class="FINAL"><i class="PUBLIC"></i></i><code class="i">getAndSet</code><code class="AB">(<code>T</code><code class="parameterName">newValue</code>)</code><i class="L"><code>T</code></i></h2>
+				<table class="k">
+					<tr class="U">
+						<td><code>T</code><code class="parameterName">newValue</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="N">
+						<td><code>T</code></td>
+						<td><span><p>A previous value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set and get the value.</p></span></section>
+			<section class="y" id="compareAndSet(java.lang.Object,java.lang.Object)">
+				<h2 class="u"><i class="FINAL"><i class="PUBLIC"></i></i><code class="i">compareAndSet</code><code class="AB">(<code>T</code><code class="parameterName">expect</code>, <code>T</code><code class="parameterName">update</code>)</code><i class="L"><code>boolean</code></i></h2>
+				<table class="k">
+					<tr class="U">
+						<td><code>T</code><code class="parameterName">expect</code></td>
+						<td><span><p>An expected value.</p></span></td>
+					</tr>
+					<tr class="U">
+						<td><code>T</code><code class="parameterName">update</code></td>
+						<td><span><p>An update value.</p></span></td>
+					</tr>
+					<tr class="N">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Compare and set the value.</p></span></section>
+			<section class="y" id="weakCompareAndSet(java.lang.Object,java.lang.Object)">
+				<h2 class="u"><i class="FINAL"><i class="PUBLIC"></i></i><code class="i">weakCompareAndSet</code><code class="AB">(<code>T</code><code class="parameterName">expect</code>, <code>T</code><code class="parameterName">update</code>)</code><i class="L"><code>boolean</code></i></h2>
+				<table class="k">
+					<tr class="U">
+						<td><code>T</code><code class="parameterName">expect</code></td>
+						<td><span><p>An expected value.</p></span></td>
+					</tr>
+					<tr class="U">
+						<td><code>T</code><code class="parameterName">update</code></td>
+						<td><span><p>An update value.</p></span></td>
+					</tr>
+					<tr class="N">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Compare and set the value.</p></span></section>
+			<section class="y" id="updateAndGet(java.util.function.UnaryOperator)">
+				<h2 class="u"><i class="FINAL"><i class="PUBLIC"></i></i><code class="i">updateAndGet</code><code class="AB">(<code><a aria-label="java.util.function.UnaryOperator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code>T</code></code></code><code class="parameterName">updateFunction</code>)</code><i class="L"><code>T</code></i></h2>
+				<table class="k">
+					<tr class="U">
+						<td><code><a aria-label="java.util.function.UnaryOperator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code>T</code></code></code><code class="parameterName">updateFunction</code></td>
+						<td><span><p>An update function.</p></span></td>
+					</tr>
+					<tr class="N">
+						<td><code>T</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Update and get the value.</p></span></section>
+			<section class="y" id="getAndUpdate(java.util.function.UnaryOperator)">
+				<h2 class="u"><i class="FINAL"><i class="PUBLIC"></i></i><code class="i">getAndUpdate</code><code class="AB">(<code><a aria-label="java.util.function.UnaryOperator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code>T</code></code></code><code class="parameterName">updateFunction</code>)</code><i class="L"><code>T</code></i></h2>
+				<table class="k">
+					<tr class="U">
+						<td><code><a aria-label="java.util.function.UnaryOperator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code>T</code></code></code><code class="parameterName">updateFunction</code></td>
+						<td><span><p>An update function.</p></span></td>
+					</tr>
+					<tr class="N">
+						<td><code>T</code></td>
+						<td><span><p>A previous value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get and update the value.</p></span></section>
+			<section class="y" id="accumulateAndGet(java.lang.Object,java.util.function.BinaryOperator)">
+				<h2 class="u"><i class="FINAL"><i class="PUBLIC"></i></i><code class="i">accumulateAndGet</code><code class="AB">(<code>T</code><code class="parameterName">value</code>, <code><a aria-label="java.util.function.BinaryOperator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BinaryOperator.html">BinaryOperator</a><code class="parameters"><code>T</code></code></code><code class="parameterName">accumulatorFunction</code>)</code><i class="L"><code>T</code></i></h2>
+				<table class="k">
+					<tr class="U">
+						<td><code>T</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="U">
+						<td><code><a aria-label="java.util.function.BinaryOperator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BinaryOperator.html">BinaryOperator</a><code class="parameters"><code>T</code></code></code><code class="parameterName">accumulatorFunction</code></td>
+						<td><span><p>An accumulator function.</p></span></td>
+					</tr>
+					<tr class="N">
+						<td><code>T</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Accumulate and get the value.</p></span></section>
+			<section class="y" id="getAndAccumulate(java.lang.Object,java.util.function.BinaryOperator)">
+				<h2 class="u"><i class="FINAL"><i class="PUBLIC"></i></i><code class="i">getAndAccumulate</code><code class="AB">(<code>T</code><code class="parameterName">value</code>, <code><a aria-label="java.util.function.BinaryOperator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BinaryOperator.html">BinaryOperator</a><code class="parameters"><code>T</code></code></code><code class="parameterName">accumulatorFunction</code>)</code><i class="L"><code>T</code></i></h2>
+				<table class="k">
+					<tr class="U">
+						<td><code>T</code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+					<tr class="U">
+						<td><code><a aria-label="java.util.function.BinaryOperator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BinaryOperator.html">BinaryOperator</a><code class="parameters"><code>T</code></code></code><code class="parameterName">accumulatorFunction</code></td>
+						<td><span><p>An accumulator function.</p></span></td>
+					</tr>
+					<tr class="N">
+						<td><code>T</code></td>
+						<td><span><p>A previous value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get and accumulate the value.</p></span></section>
+			<section class="y" id="toString()">
+				<h2 class="u"><i class="OVERRIDE PUBLIC"></i><code class="i">toString</code><code class="AB">()</code><i class="L"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="k">
+					<tr class="N">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+		</article>
+		<aside class="c">
+			<div class="p">
+				<h5 class="v">Constructors</h5>
+				<ul>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.atomic.AtomicReference.html#AtomicReference()">AtomicReference</a></code><code class="AB">()</code></li>
+					<li class="s"><i class="PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.atomic.AtomicReference.html#AtomicReference(java.lang.Object)">AtomicReference</a></code><code class="AB">(<code>T</code><code class="parameterName">initialValue</code>)</code></li>
+				</ul>
+				<h5 class="v">Methods</h5>
+				<ul>
+					<li class="s"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.util.concurrent.atomic.AtomicReference.html#get()">get</a></code><code class="AB">()</code><i class="q"><code>T</code></i></li>
+					<li class="s"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.util.concurrent.atomic.AtomicReference.html#set(java.lang.Object)">set</a></code><code class="AB">(<code>T</code><code class="parameterName">newValue</code>)</code><i class="q"><code>void</code></i></li>
+					<li class="s"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.util.concurrent.atomic.AtomicReference.html#lazySet(java.lang.Object)">lazySet</a></code><code class="AB">(<code>T</code><code class="parameterName">newValue</code>)</code><i class="q"><code>void</code></i></li>
+					<li class="s"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.util.concurrent.atomic.AtomicReference.html#getAndSet(java.lang.Object)">getAndSet</a></code><code class="AB">(<code>T</code><code class="parameterName">newValue</code>)</code><i class="q"><code>T</code></i></li>
+					<li class="s"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.util.concurrent.atomic.AtomicReference.html#compareAndSet(java.lang.Object,java.lang.Object)">compareAndSet</a></code><code class="AB">(<code>T</code><code class="parameterName">expect</code>, <code>T</code><code class="parameterName">update</code>)</code><i class="q"><code>boolean</code></i></li>
+					<li class="s"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.util.concurrent.atomic.AtomicReference.html#weakCompareAndSet(java.lang.Object,java.lang.Object)">weakCompareAndSet</a></code><code class="AB">(<code>T</code><code class="parameterName">expect</code>, <code>T</code><code class="parameterName">update</code>)</code><i class="q"><code>boolean</code></i></li>
+					<li class="s"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.util.concurrent.atomic.AtomicReference.html#updateAndGet(java.util.function.UnaryOperator)">updateAndGet</a></code><code class="AB">(<code><a aria-label="java.util.function.UnaryOperator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code>T</code></code></code><code class="parameterName">updateFunction</code>)</code><i class="q"><code>T</code></i></li>
+					<li class="s"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.util.concurrent.atomic.AtomicReference.html#getAndUpdate(java.util.function.UnaryOperator)">getAndUpdate</a></code><code class="AB">(<code><a aria-label="java.util.function.UnaryOperator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/UnaryOperator.html">UnaryOperator</a><code class="parameters"><code>T</code></code></code><code class="parameterName">updateFunction</code>)</code><i class="q"><code>T</code></i></li>
+					<li class="s"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.util.concurrent.atomic.AtomicReference.html#accumulateAndGet(java.lang.Object,java.util.function.BinaryOperator)">accumulateAndGet</a></code><code class="AB">(<code>T</code><code class="parameterName">value</code>, <code><a aria-label="java.util.function.BinaryOperator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BinaryOperator.html">BinaryOperator</a><code class="parameters"><code>T</code></code></code><code class="parameterName">accumulatorFunction</code>)</code><i class="q"><code>T</code></i></li>
+					<li class="s"><i class="FINAL"><i class="PUBLIC"></i></i><code><a href="api/reincarnation.classlib.java.util.concurrent.atomic.AtomicReference.html#getAndAccumulate(java.lang.Object,java.util.function.BinaryOperator)">getAndAccumulate</a></code><code class="AB">(<code>T</code><code class="parameterName">value</code>, <code><a aria-label="java.util.function.BinaryOperator 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/util/function/BinaryOperator.html">BinaryOperator</a><code class="parameters"><code>T</code></code></code><code class="parameterName">accumulatorFunction</code>)</code><i class="q"><code>T</code></i></li>
+					<li class="s"><i class="OVERRIDE PUBLIC"></i><code><a href="api/reincarnation.classlib.java.util.concurrent.atomic.AtomicReference.html#toString()">toString</a></code><code class="AB">()</code><i class="q"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="a">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

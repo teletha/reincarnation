@@ -8,6 +8,7 @@ const root = {
 		"reincarnation.classlib.java.util.regex",
 		"reincarnation.classlib.java.util.stream",
 		"reincarnation.classlib.java.util.concurrent",
+		"reincarnation.classlib.java.util.concurrent.atomic",
 		"reincarnation.classlib.java.text",
 		"reincarnation.classlib.java.time",
 		"reincarnation.classlib.java.time.temporal",
@@ -269,6 +270,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "EnumMap",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
 			"name": "Stack",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
@@ -295,6 +301,11 @@ const root = {
 		},
 		{
 			"name": "HashSet",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
+			"name": "Random",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
 		},
@@ -384,6 +395,11 @@ const root = {
 			"type": "Interface"
 		},
 		{
+			"name": "ResourceBundle",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "AbstractClass"
+		},
+		{
 			"name": "StringJoiner",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
@@ -392,6 +408,16 @@ const root = {
 			"name": "Queue",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Interface"
+		},
+		{
+			"name": "Enumeration",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Interface"
+		},
+		{
+			"name": "Properties",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
 		},
 		{
 			"name": "NavigableMap",
@@ -519,6 +545,31 @@ const root = {
 			"type": "Interface"
 		},
 		{
+			"name": "AtomicLong",
+			"packageName": "reincarnation.classlib.java.util.concurrent.atomic",
+			"type": "Class"
+		},
+		{
+			"name": "AtomicBoolean",
+			"packageName": "reincarnation.classlib.java.util.concurrent.atomic",
+			"type": "Class"
+		},
+		{
+			"name": "AtomicReferenceArray",
+			"packageName": "reincarnation.classlib.java.util.concurrent.atomic",
+			"type": "Class"
+		},
+		{
+			"name": "AtomicInteger",
+			"packageName": "reincarnation.classlib.java.util.concurrent.atomic",
+			"type": "Class"
+		},
+		{
+			"name": "AtomicReference",
+			"packageName": "reincarnation.classlib.java.util.concurrent.atomic",
+			"type": "Class"
+		},
+		{
 			"name": "ConcurrentMap",
 			"packageName": "reincarnation.classlib.java.util.concurrent",
 			"type": "Interface"
@@ -559,6 +610,11 @@ const root = {
 			"type": "AbstractClass"
 		},
 		{
+			"name": "BitSet",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
+		},
+		{
 			"name": "TreeSet",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Class"
@@ -567,6 +623,11 @@ const root = {
 			"name": "Deque",
 			"packageName": "reincarnation.classlib.java.util",
 			"type": "Interface"
+		},
+		{
+			"name": "EnumSet",
+			"packageName": "reincarnation.classlib.java.util",
+			"type": "Class"
 		},
 		{
 			"name": "LinkedHashMap",
