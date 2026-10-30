@@ -22,6 +22,18 @@ public final class JavascriptRuntime {
 
     /** The intrinsic runtime source code. */
     public static final String Intrinsics = """
+            var window = globalThis.window ?? globalThis;
+            if (typeof window.alert !== 'function') window.alert = message => console.log(message);
+            if (typeof window.confirm !== 'function') window.confirm = () => false;
+            if (typeof window.prompt !== 'function') window.prompt = () => null;
+            if (typeof window.open !== 'function') window.open = () => null;
+            if (typeof window.close !== 'function') window.close = () => {};
+            var document = window.document;
+            var innerWidth = window.innerWidth ?? 0;
+            var innerHeight = window.innerHeight ?? 0;
+            var devicePixelRatio = window.devicePixelRatio ?? 1;
+            var scrollX = window.scrollX ?? 0;
+            var scrollY = window.scrollY ?? 0;
             const $rt_equals = (a, b) => a === b || (a !== null && a !== undefined && (
                 typeof a.equals === "function" ? a.equals(b) :
                 typeof a.equals$Ljava_lang_Object_ === "function" ? a.equals$Ljava_lang_Object_(b) : false));

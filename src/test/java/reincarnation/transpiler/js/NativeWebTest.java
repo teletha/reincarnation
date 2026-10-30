@@ -111,10 +111,48 @@ class NativeWebTest extends JavascriptCodeVerifier {
 
             @Override
             public String run() {
-                NativeStorage storage = NativeWindow.sessionStorage();
+                NativeStorage storage = NativeWindow.sessionStorage;
                 storage.clear();
                 storage.setItem("key", "value");
                 return storage.getItem("key") + "|" + storage.length();
+            }
+        });
+    }
+
+    @Test
+    void window() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                return (NativeWindow.document == null ? "null" : "document") + "|" + NativeWindow.innerWidth + "|" + NativeWindow.innerHeight + "|" + (int) NativeWindow.devicePixelRatio + "|" + (int) NativeWindow.scrollX + "|" + (int) NativeWindow.scrollY;
+            }
+        });
+    }
+
+    @Test
+    void global() throws Exception {
+        verify(new TestCode.Boolean() {
+
+            @Override
+            public boolean run() {
+                return NativeWindow.global() != null;
+            }
+        });
+    }
+
+    @Test
+    void windowFunctions() throws Exception {
+        verify(new TestCode.Text() {
+
+            @Override
+            public String run() {
+                NativeWindow.alert("test");
+                boolean confirm = NativeWindow.confirm("test");
+                String prompt = NativeWindow.prompt("test");
+                boolean open = NativeWindow.open("about:blank", "_blank", "") == null;
+                NativeWindow.close();
+                return (confirm ? "true" : "false") + "|" + prompt + "|" + (open ? "null" : "window");
             }
         });
     }
@@ -125,7 +163,7 @@ class NativeWebTest extends JavascriptCodeVerifier {
 
             @Override
             public boolean run() {
-                return NativeWindow.document() == null;
+                return NativeWindow.document == null;
             }
         });
     }

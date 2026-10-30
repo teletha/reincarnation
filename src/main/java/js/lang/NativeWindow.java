@@ -11,9 +11,45 @@ package js.lang;
 
 /**
  * The JavaScript {@code Window}.
+ * <p>
+ * The window properties are exposed as fields so that the decompiled Java code reads them as
+ * {@code window.document} rather than {@code window.document()}.
+ * </p>
  */
 @Native
 public final class NativeWindow {
+
+    /** The document. */
+    @Native("document")
+    public static NativeDocument document;
+
+    /** The local storage. */
+    @Native("window.localStorage ?? null")
+    public static NativeStorage localStorage = NativeStorage.local();
+
+    /** The session storage. */
+    @Native("window.sessionStorage ?? null")
+    public static NativeStorage sessionStorage = NativeStorage.session();
+
+    /** The inner width. */
+    @Native("innerWidth")
+    public static int innerWidth;
+
+    /** The inner height. */
+    @Native("innerHeight")
+    public static int innerHeight;
+
+    /** The device pixel ratio. */
+    @Native("devicePixelRatio")
+    public static double devicePixelRatio = 1;
+
+    /** The scroll X. */
+    @Native("scrollX")
+    public static double scrollX;
+
+    /** The scroll Y. */
+    @Native("scrollY")
+    public static double scrollY;
 
     /**
      * Hide constructor.
@@ -26,39 +62,9 @@ public final class NativeWindow {
      * 
      * @return A global object.
      */
-    @Native("typeof window === 'undefined' ? globalThis : window")
+    @Native("window")
     public static Object global() {
-        return null;
-    }
-
-    /**
-     * Get the document.
-     * 
-     * @return A document or null.
-     */
-    @Native("typeof document === 'undefined' ? null : document")
-    public static NativeDocument document() {
-        return null;
-    }
-
-    /**
-     * Get the local storage.
-     * 
-     * @return A storage or null.
-     */
-    @Native("typeof localStorage === 'undefined' ? null : localStorage")
-    public static NativeStorage localStorage() {
-        return NativeStorage.local();
-    }
-
-    /**
-     * Get the session storage.
-     * 
-     * @return A storage or null.
-     */
-    @Native("typeof sessionStorage === 'undefined' ? null : sessionStorage")
-    public static NativeStorage sessionStorage() {
-        return NativeStorage.session();
+        return new Object();
     }
 
     /**
@@ -66,7 +72,7 @@ public final class NativeWindow {
      * 
      * @param message A message.
      */
-    @Native("typeof window === 'undefined' || typeof window.alert !== 'function' ? console.log($0) : window.alert($0)")
+    @Native("window.alert($0)")
     public static void alert(String message) {
     }
 
@@ -76,7 +82,7 @@ public final class NativeWindow {
      * @param message A message.
      * @return A result.
      */
-    @Native("typeof window === 'undefined' || typeof window.confirm !== 'function' ? false : window.confirm($0)")
+    @Native("window.confirm($0)")
     public static boolean confirm(String message) {
         return false;
     }
@@ -87,7 +93,7 @@ public final class NativeWindow {
      * @param message A message.
      * @return A value or null.
      */
-    @Native("typeof window === 'undefined' || typeof window.prompt !== 'function' ? null : window.prompt($0)")
+    @Native("window.prompt($0)")
     public static String prompt(String message) {
         return null;
     }
@@ -100,7 +106,7 @@ public final class NativeWindow {
      * @param features Features.
      * @return A window or null.
      */
-    @Native("typeof window === 'undefined' || typeof window.open !== 'function' ? null : window.open($0, $1, $2)")
+    @Native("window.open($0, $1, $2)")
     public static Object open(String url, String target, String features) {
         return null;
     }
@@ -108,58 +114,8 @@ public final class NativeWindow {
     /**
      * Close the window.
      */
-    @Native("typeof window === 'undefined' || typeof window.close !== 'function' ? undefined : window.close()")
+    @Native("window.close()")
     public static void close() {
-    }
-
-    /**
-     * Get the inner width.
-     * 
-     * @return A width.
-     */
-    @Native("typeof window === 'undefined' ? 0 : window.innerWidth")
-    public static int innerWidth() {
-        return 0;
-    }
-
-    /**
-     * Get the inner height.
-     * 
-     * @return A height.
-     */
-    @Native("typeof window === 'undefined' ? 0 : window.innerHeight")
-    public static int innerHeight() {
-        return 0;
-    }
-
-    /**
-     * Get the device pixel ratio.
-     * 
-     * @return A ratio.
-     */
-    @Native("typeof window === 'undefined' ? 1 : window.devicePixelRatio")
-    public static double devicePixelRatio() {
-        return 1;
-    }
-
-    /**
-     * Get the scroll X.
-     * 
-     * @return A scroll X.
-     */
-    @Native("typeof window === 'undefined' ? 0 : window.scrollX")
-    public static double scrollX() {
-        return 0;
-    }
-
-    /**
-     * Get the scroll Y.
-     * 
-     * @return A scroll Y.
-     */
-    @Native("typeof window === 'undefined' ? 0 : window.scrollY")
-    public static double scrollY() {
-        return 0;
     }
 
     /**
@@ -169,7 +125,7 @@ public final class NativeWindow {
      * @param delay A delay in milliseconds.
      * @return A timer id.
      */
-    @Native("typeof setTimeout === 'function' ? setTimeout($0, Number($1)) : 0")
+    @Native("window.setTimeout($0, Number($1))")
     public static int setTimeout(Runnable callback, long delay) {
         return 0;
     }
@@ -179,7 +135,7 @@ public final class NativeWindow {
      * 
      * @param id A timer id.
      */
-    @Native("typeof clearTimeout === 'function' ? clearTimeout($0) : undefined")
+    @Native("window.clearTimeout($0)")
     public static void clearTimeout(int id) {
     }
 }

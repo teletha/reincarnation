@@ -1615,6 +1615,12 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
      * @param params A list of parameters.
      */
     private void writeNative(String template, Code receiver, List<Code> params) {
+        // A template containing a low-precedence operator is a complete expression and must be
+        // parenthesized so the operator never leaks into the surrounding expression.
+        boolean parenthesize = needsParentheses(template);
+        if (parenthesize) {
+            write("(");
+        }
         for (int i = 0; i < template.length();) {
             char code = template.charAt(i);
 
@@ -1646,6 +1652,58 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
             write(String.valueOf(code));
             i++;
         }
+        if (parenthesize) {
+            write(")");
+        }
+    }
+
+    /**
+     * Check whether the native template needs to be wrapped in parentheses.
+     * <p>
+     * Only the conditional, logical, and nullish operators bind looser than the surrounding
+     * expression. A simple identifier, member access, call, or literal is emitted as-is.
+     * </p>
+     * 
+     * @param template A native template.
+     * @return A result.
+     */
+    private boolean needsParentheses(String template) {
+        int depth = 0;
+        char quote = 0;
+        for (int i = 0; i < template.length(); i++) {
+            char code = template.charAt(i);
+            if (quote != 0) {
+                if (code == '\\') {
+                    i++;
+                } else if (code == quote) {
+                    quote = 0;
+                }
+                continue;
+            }
+            switch (code) {
+            case '\'', '"', '`':
+                quote = code;
+                break;
+            case '(', '[', '{':
+                depth++;
+                break;
+            case ')', ']', '}':
+                depth--;
+                break;
+            case '?':
+                if (depth == 0) {
+                    return true;
+                }
+                break;
+            case '|':
+            case '&':
+                if (depth == 0 && i + 1 < template.length() && template.charAt(i + 1) == code) {
+                    return true;
+                }
+                break;
+            }
+        }
+        return false;
     }
 
     /**
