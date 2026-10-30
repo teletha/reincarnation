@@ -69,6 +69,17 @@ public final class NativeMath {
     }
 
     /**
+     * Round the value to the nearest single precision value.
+     * 
+     * @param value A value.
+     * @return A result.
+     */
+    @Native("Math.fround($0)")
+    public static float fround(float value) {
+        return value;
+    }
+
+    /**
      * Round the value.
      * 
      * @param value A value.

@@ -255,7 +255,8 @@ public class JavascriptCoder extends Coder<JavascriptCodingOption> {
 
         // JavaScript has no interface, enum, record and annotation, so every type is written as a
         // class declaration. The superclass of the enum and the record is also dropped.
-        Class superclass = type.getSuperclass();
+        Class declaredSuperclass = type.getSuperclass();
+        Class superclass = declaredSuperclass == null ? null : Classlib.replace(declaredSuperclass);
         boolean object = superclass == null || superclass == Object.class //
                 || superclass == Enum.class || superclass == Record.class;
 

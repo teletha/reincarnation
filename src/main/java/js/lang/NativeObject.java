@@ -55,6 +55,25 @@ public final class NativeObject {
         return null;
     }
 
+    @Native("typeof $rt.reflect === 'function' ? $rt.reflect($rt.classOf($0)) : $rt.classOf($0)")
+    public static Class classOf(Object value) {
+        return value.getClass();
+    }
+
+    /**
+     * Get the enum constants.
+     * 
+     * @param typeOrValue An enum class or value.
+     * @return Constants.
+     */
+    @Native("(() => { const type = (typeof $0 === 'function' ? $0 : ($0 && $0.jsClass ? $0.jsClass : $rt.classOf($0))); return type && typeof type.values === 'function' ? type.values() : []; })()")
+    public static Object[] enumConstants(Object typeOrValue) {
+        if (typeOrValue instanceof Class) {
+            return ((Class) typeOrValue).getEnumConstants();
+        }
+        return typeOrValue.getClass().getEnumConstants();
+    }
+
     /**
      * Get the JavaScript class of the reflection class.
      * 

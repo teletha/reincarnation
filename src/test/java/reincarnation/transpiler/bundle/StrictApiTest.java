@@ -29,7 +29,7 @@ class StrictApiTest {
 
         TranslationException error = assertThrows(TranslationException.class, () -> JavascriptBundle.build(Unsupported.class, options));
 
-        assert error.type() == java.util.Random.class;
+        assert error.type() == java.util.UUID.class;
         assert error.member().startsWith("<init>");
     }
 
@@ -48,7 +48,7 @@ class StrictApiTest {
     static class Unsupported {
 
         static Object run() {
-            return new java.util.Random();
+            return new java.util.UUID(0L, 0L);
         }
     }
 

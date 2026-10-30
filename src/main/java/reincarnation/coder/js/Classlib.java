@@ -52,6 +52,13 @@ public final class Classlib {
         register(java.io.Flushable.class, reincarnation.classlib.java.io.Flushable.class);
         register(java.util.Objects.class, reincarnation.classlib.java.util.Objects.class);
         register(java.util.Date.class, reincarnation.classlib.java.util.Date.class);
+        register(java.util.Random.class, reincarnation.classlib.java.util.Random.class);
+        register(java.util.BitSet.class, reincarnation.classlib.java.util.BitSet.class);
+        register(java.util.Properties.class, reincarnation.classlib.java.util.Properties.class);
+        register(java.util.EnumMap.class, reincarnation.classlib.java.util.EnumMap.class);
+        register(java.util.EnumSet.class, reincarnation.classlib.java.util.EnumSet.class);
+        register(java.util.ResourceBundle.class, reincarnation.classlib.java.util.ResourceBundle.class);
+        register(java.util.Enumeration.class, reincarnation.classlib.java.util.Enumeration.class);
         register(java.util.Locale.class, reincarnation.classlib.java.util.Locale.class);
         register(java.util.Locale.Category.class, reincarnation.classlib.java.util.Locale.Category.class);
         register(java.util.Currency.class, reincarnation.classlib.java.util.Currency.class);
@@ -120,6 +127,11 @@ public final class Classlib {
         register(java.util.concurrent.SynchronousQueue.class, reincarnation.classlib.java.util.concurrent.SynchronousQueue.class);
         register(java.util.concurrent.DelayQueue.class, reincarnation.classlib.java.util.concurrent.DelayQueue.class);
         register(java.util.concurrent.LinkedTransferQueue.class, reincarnation.classlib.java.util.concurrent.LinkedTransferQueue.class);
+        register(java.util.concurrent.atomic.AtomicBoolean.class, reincarnation.classlib.java.util.concurrent.atomic.AtomicBoolean.class);
+        register(java.util.concurrent.atomic.AtomicInteger.class, reincarnation.classlib.java.util.concurrent.atomic.AtomicInteger.class);
+        register(java.util.concurrent.atomic.AtomicLong.class, reincarnation.classlib.java.util.concurrent.atomic.AtomicLong.class);
+        register(java.util.concurrent.atomic.AtomicReference.class, reincarnation.classlib.java.util.concurrent.atomic.AtomicReference.class);
+        register(java.util.concurrent.atomic.AtomicReferenceArray.class, reincarnation.classlib.java.util.concurrent.atomic.AtomicReferenceArray.class);
         register(java.util.Map.Entry.class, reincarnation.classlib.java.util.Map.Entry.class);
         register(java.lang.reflect.Proxy.class, reincarnation.classlib.java.lang.reflect.Proxy.class);
         register(java.lang.reflect.InvocationHandler.class, reincarnation.classlib.java.lang.reflect.InvocationHandler.class);

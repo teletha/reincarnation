@@ -1298,6 +1298,12 @@ public final class JavascriptRuntime {
                 getComponentType() { return this.component || null; }
                 isInterface() { return (this.getModifiers() & 512) !== 0; }
                 isEnum() { return this.jsClass && this.jsClass.$meta && this.jsClass.$meta.metadata ? this.jsClass.$meta.metadata.e === true : false; }
+                getEnumConstants() {
+                    if (this.jsClass && typeof this.jsClass.values === "function") {
+                        return this.jsClass.values();
+                    }
+                    return null;
+                }
                 isAnnotation() { return (this.getModifiers() & 8192) !== 0; }
                 isInstance(value) { return this.predicate ? this.predicate(value) : (this.jsClass !== null && $rt.isInstance(this.jsClass, value)); }
                 isAssignableFrom(other) {
