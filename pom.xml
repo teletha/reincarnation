@@ -179,13 +179,6 @@ The output method of the analyzed code is not limited to Java, but is designed t
 			<exclusions/>
 		</dependency>
 		<dependency>
-			<groupId>com.github.javaparser</groupId>
-			<artifactId>javaparser-core</artifactId>
-			<version>3.28.2</version>
-			<scope>test</scope>
-			<exclusions/>
-		</dependency>
-		<dependency>
 			<groupId>com.caoccao.javet</groupId>
 			<artifactId>javet</artifactId>
 			<version>6.0.2</version>
