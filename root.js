@@ -54,6 +54,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "PropertyDescriptor",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
 			"name": "Native",
 			"packageName": "js.lang",
 			"type": "Annotation"
