@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="r">
+		<header class="s" date="2026-10-30">
+			<h1 class="CB"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="V"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="y"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="Q"></nav>
+		<article class="t" id="Article">
+			<section class="P"><code class="q">js.lang</code>
+				<h2 class="Class W"><code class="BB">NativeDOMTokenList</code></h2>
+				<div class="R"></div><span class="A"><p>The JavaScript <code>DOMTokenList</code>.</p></span></section>
+			<section class="P" id="NativeDOMTokenList()">
+				<h2 class="DB"><i class="PUBLIC"></i><code class="BB">NativeDOMTokenList</code><code class="k">()</code></h2><span class="A"><p>Create the empty token list.</p></span></section>
+			<section class="P" id="length()">
+				<h2 class="DB"><i class="PUBLIC"></i><code class="BB">length</code><code class="k">()</code><i class="o"><code>int</code></i></h2>
+				<table class="a">
+					<tr class="h">
+						<td><code>int</code></td>
+						<td><span><p>A length.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the length.</p></span></section>
+			<section class="P" id="item(int)">
+				<h2 class="DB"><i class="PUBLIC"></i><code class="BB">item</code><code class="k">(<code>int</code><code class="parameterName">index</code>)</code><i class="o"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="a">
+					<tr class="JB">
+						<td><code>int</code><code class="parameterName">index</code></td>
+						<td><span><p>An index.</p></span></td>
+					</tr>
+					<tr class="h">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A token or null.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the token.</p></span></section>
+			<section class="P" id="contains(java.lang.String)">
+				<h2 class="DB"><i class="PUBLIC"></i><code class="BB">contains</code><code class="k">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">token</code>)</code><i class="o"><code>boolean</code></i></h2>
+				<table class="a">
+					<tr class="JB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">token</code></td>
+						<td><span><p>A token.</p></span></td>
+					</tr>
+					<tr class="h">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Check whether the token exists.</p></span></section>
+			<section class="P" id="add(java.lang.String...)">
+				<h2 class="DB"><i class="PUBLIC"></i><code class="BB">add</code><code class="k">(<code array="var"><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">tokens</code>)</code><i class="o"><code>void</code></i></h2>
+				<table class="a">
+					<tr class="JB">
+						<td><code array="var"><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">tokens</code></td>
+						<td><span><p>Tokens.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Add the tokens.</p></span></section>
+			<section class="P" id="remove(java.lang.String...)">
+				<h2 class="DB"><i class="PUBLIC"></i><code class="BB">remove</code><code class="k">(<code array="var"><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">tokens</code>)</code><i class="o"><code>void</code></i></h2>
+				<table class="a">
+					<tr class="JB">
+						<td><code array="var"><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">tokens</code></td>
+						<td><span><p>Tokens.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Remove the tokens.</p></span></section>
+			<section class="P" id="toggle(java.lang.String)">
+				<h2 class="DB"><i class="PUBLIC"></i><code class="BB">toggle</code><code class="k">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">token</code>)</code><i class="o"><code>boolean</code></i></h2>
+				<table class="a">
+					<tr class="JB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">token</code></td>
+						<td><span><p>A token.</p></span></td>
+					</tr>
+					<tr class="h">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Toggle the token.</p></span></section>
+			<section class="P" id="toggle(java.lang.String,boolean)">
+				<h2 class="DB"><i class="PUBLIC"></i><code class="BB">toggle</code><code class="k">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">token</code>, <code>boolean</code><code class="parameterName">force</code>)</code><i class="o"><code>boolean</code></i></h2>
+				<table class="a">
+					<tr class="JB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">token</code></td>
+						<td><span><p>A token.</p></span></td>
+					</tr>
+					<tr class="JB">
+						<td><code>boolean</code><code class="parameterName">force</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+					<tr class="h">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Toggle the token.</p></span></section>
+			<section class="P" id="replace(java.lang.String,java.lang.String)">
+				<h2 class="DB"><i class="PUBLIC"></i><code class="BB">replace</code><code class="k">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">oldToken</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">newToken</code>)</code><i class="o"><code>boolean</code></i></h2>
+				<table class="a">
+					<tr class="JB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">oldToken</code></td>
+						<td><span><p>An old token.</p></span></td>
+					</tr>
+					<tr class="JB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">newToken</code></td>
+						<td><span><p>A new token.</p></span></td>
+					</tr>
+					<tr class="h">
+						<td><code>boolean</code></td>
+						<td><span><p>A result.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Replace the token.</p></span></section>
+			<section class="P" id="value()">
+				<h2 class="DB"><i class="PUBLIC"></i><code class="BB">value</code><code class="k">()</code><i class="o"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="a">
+					<tr class="h">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Get the value.</p></span></section>
+			<section class="P" id="value(java.lang.String)">
+				<h2 class="DB"><i class="PUBLIC"></i><code class="BB">value</code><code class="k">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="o"><code>void</code></i></h2>
+				<table class="a">
+					<tr class="JB">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code></td>
+						<td><span><p>A value.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Set the value.</p></span></section>
+			<section class="P" id="toString()">
+				<h2 class="DB"><i class="OVERRIDE PUBLIC"></i><code class="BB">toString</code><code class="k">()</code><i class="o"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></h2>
+				<table class="a">
+					<tr class="h">
+						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+		</article>
+		<aside class="v">
+			<div class="J">
+				<h5 class="FB">Constructors</h5>
+				<ul>
+					<li class="c"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDOMTokenList.html#NativeDOMTokenList()">NativeDOMTokenList</a></code><code class="k">()</code></li>
+				</ul>
+				<h5 class="FB">Methods</h5>
+				<ul>
+					<li class="c"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDOMTokenList.html#length()">length</a></code><code class="k">()</code><i class="L"><code>int</code></i></li>
+					<li class="c"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDOMTokenList.html#item(int)">item</a></code><code class="k">(<code>int</code><code class="parameterName">index</code>)</code><i class="L"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="c"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDOMTokenList.html#contains(java.lang.String)">contains</a></code><code class="k">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">token</code>)</code><i class="L"><code>boolean</code></i></li>
+					<li class="c"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDOMTokenList.html#add(java.lang.String...)">add</a></code><code class="k">(<code array="var"><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">tokens</code>)</code><i class="L"><code>void</code></i></li>
+					<li class="c"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDOMTokenList.html#remove(java.lang.String...)">remove</a></code><code class="k">(<code array="var"><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">tokens</code>)</code><i class="L"><code>void</code></i></li>
+					<li class="c"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDOMTokenList.html#toggle(java.lang.String)">toggle</a></code><code class="k">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">token</code>)</code><i class="L"><code>boolean</code></i></li>
+					<li class="c"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDOMTokenList.html#toggle(java.lang.String,boolean)">toggle</a></code><code class="k">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">token</code>, <code>boolean</code><code class="parameterName">force</code>)</code><i class="L"><code>boolean</code></i></li>
+					<li class="c"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDOMTokenList.html#replace(java.lang.String,java.lang.String)">replace</a></code><code class="k">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">oldToken</code>, <code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">newToken</code>)</code><i class="L"><code>boolean</code></i></li>
+					<li class="c"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDOMTokenList.html#value()">value</a></code><code class="k">()</code><i class="L"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+					<li class="c"><i class="PUBLIC"></i><code><a href="api/js.lang.NativeDOMTokenList.html#value(java.lang.String)">value</a></code><code class="k">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">value</code>)</code><i class="L"><code>void</code></i></li>
+					<li class="c"><i class="OVERRIDE PUBLIC"></i><code><a href="api/js.lang.NativeDOMTokenList.html#toString()">toString</a></code><code class="k">()</code><i class="L"><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="u">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>

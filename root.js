@@ -65,6 +65,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "NativeEvent",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
 			"name": "Native",
 			"packageName": "js.lang",
 			"type": "Annotation"
@@ -75,12 +80,22 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "NativeElement",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
 			"name": "NativeConsole",
 			"packageName": "js.lang",
 			"type": "Class"
 		},
 		{
 			"name": "NativeUndefined",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "NativeNodeList",
 			"packageName": "js.lang",
 			"type": "Class"
 		},
@@ -115,6 +130,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "NativeDOMTokenList",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
 			"name": "NativeTemporal",
 			"packageName": "js.lang",
 			"type": "Class"
@@ -141,6 +161,11 @@ const root = {
 		},
 		{
 			"name": "NativeDate",
+			"packageName": "js.lang",
+			"type": "Class"
+		},
+		{
+			"name": "NativeEventTarget",
 			"packageName": "js.lang",
 			"type": "Class"
 		},
