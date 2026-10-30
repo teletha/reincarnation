@@ -27,7 +27,6 @@ public class Project extends bee.api.Project {
 
         require("io.github.teletha", "bee").atTest();
         require("io.github.teletha", "antibug").atTest();
-        require("io.github.teletha", "viewtify").atTest();
         require("org.ow2.asm", "asm-util").atTest();
         require("com.github.javaparser", "javaparser-core").atTest();
         require("org.vineflower", "vineflower").atTest();
