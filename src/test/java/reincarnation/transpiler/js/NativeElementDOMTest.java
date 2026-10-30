@@ -11,20 +11,18 @@ package reincarnation.transpiler.js;
 
 import java.util.function.Consumer;
 
+import org.junit.jupiter.api.Test;
+
 import js.lang.NativeDOMTokenList;
 import js.lang.NativeElement;
 import js.lang.NativeEvent;
-
-import org.junit.jupiter.api.Test;
-
 import reincarnation.TestCode;
 import reincarnation.transpiler.JavascriptCodeVerifier;
 
 /**
  * Test the JavaScript output for the DOM APIs with a real DOM implementation installed.
  * <p>
- * The test is skipped unless happy-dom is available. See
- * {@link reincarnation.transpiler.JavetSupport} for the configuration.
+ * The test is skipped unless happy-dom is available.
  * </p>
  */
 class NativeElementDOMTest extends JavascriptCodeVerifier {
@@ -44,7 +42,8 @@ class NativeElementDOMTest extends JavascriptCodeVerifier {
                 boolean has = element.hasAttribute("data-x");
                 element.removeAttribute("data-x");
                 boolean removed = element.hasAttribute("data-x");
-                return element.id() + "|" + element.textContent() + "|" + html.innerHTML() + "|" + (has ? "true" : "false") + "|" + (removed ? "true" : "false") + "|" + element.getAttribute("data-x");
+                return element.id() + "|" + element.textContent() + "|" + html.innerHTML() + "|" + (has ? "true"
+                        : "false") + "|" + (removed ? "true" : "false") + "|" + element.getAttribute("data-x");
             }
         });
     }
@@ -60,7 +59,8 @@ class NativeElementDOMTest extends JavascriptCodeVerifier {
                 list.add("a", "b");
                 list.remove("a");
                 boolean toggle = list.toggle("c");
-                return list.length() + "|" + (list.contains("a") ? "true" : "false") + "|" + (list.contains("b") ? "true" : "false") + "|" + (toggle ? "true" : "false") + "|" + list.item(0) + "|" + list + "|" + list.value();
+                return list.length() + "|" + (list.contains("a") ? "true" : "false") + "|" + (list.contains("b") ? "true"
+                        : "false") + "|" + (toggle ? "true" : "false") + "|" + list.item(0) + "|" + list + "|" + list.value();
             }
         });
     }
@@ -79,7 +79,8 @@ class NativeElementDOMTest extends JavascriptCodeVerifier {
                 boolean item = element.children().item(0) == child;
                 boolean removed = element.removeChild(child) == child;
                 int after = element.children().length();
-                return (appended ? "true" : "false") + "|" + children + "|" + childNodes + "|" + (item ? "true" : "false") + "|" + (removed ? "true" : "false") + "|" + after;
+                return (appended ? "true" : "false") + "|" + children + "|" + childNodes + "|" + (item ? "true"
+                        : "false") + "|" + (removed ? "true" : "false") + "|" + after;
             }
         });
     }
@@ -95,7 +96,8 @@ class NativeElementDOMTest extends JavascriptCodeVerifier {
                 boolean cancelable = event.cancelable();
                 event.preventDefault();
                 boolean prevented = event.defaultPrevented();
-                return event.type() + "|" + (bubbles ? "true" : "false") + "|" + (cancelable ? "true" : "false") + "|" + (prevented ? "true" : "false");
+                return event.type() + "|" + (bubbles ? "true" : "false") + "|" + (cancelable ? "true" : "false") + "|" + (prevented ? "true"
+                        : "false");
             }
         });
     }
