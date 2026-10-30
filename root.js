@@ -915,6 +915,11 @@ const root = {
 			"type": "Class"
 		},
 		{
+			"name": "Classlib",
+			"packageName": "reincarnation.coder.js",
+			"type": "Class"
+		},
+		{
 			"name": "TranslationException",
 			"packageName": "reincarnation.coder.js",
 			"type": "Exception"

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta content="width=device-width, initial-scale=1" name="viewport"/>
+		<meta content="Explains how to use Reincarnation and its API. Reincarnation is designed as a decompiler intended to support modern Java syntax." name="description"/>
+		<link href="https://cdn.jsdelivr.net" rel="preconnect"/>
+		<link href="https://fonts.googleapis.com" rel="preconnect"/>
+		<link crossorigin="null" href="https://fonts.gstatic.com" rel="preconnect"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Material+Icons" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<link as="style" fetchpriority="high" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" rel="preload"/>
+		<link href="https://fonts.googleapis.com/css2?display=swap&amp;family=Vollkorn" media="print" onload="this.media=&apos;all&apos;" rel="stylesheet"/>
+		<title>Reincarnation API</title>
+		<base href="../"/>
+		<script src="mimic.js" type="module"></script>
+		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
+		<link href="main.css" rel="stylesheet"/>
+	</head>
+	<body class="o">
+		<header class="p" date="2026-10-30">
+			<h1 class="z"><a href="index.html"><code>Reincarnation</code></a></h1>
+			<nav class="O"><a href="api/main.html" id="API"><svg class="package">
+						<use href="main.svg#package"/>
+					</svg>
+				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
+						<use href="main.svg#activity"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation/discussions" id="Community" target="_blank"><svg class="user">
+						<use href="main.svg#user"/>
+					</svg>
+				</a><a href="https://github.com/teletha/reincarnation" id="Repository" target="_blank"><svg class="github">
+						<use href="main.svg#github"/>
+					</svg>
+				</a></nav>
+			<div class="m"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+						<use href="main.svg#sun"/>
+					</svg><svg class="moon">
+						<use href="main.svg#moon"/>
+					</svg>
+				</a></div>
+		</header>
+		<nav class="r"></nav>
+		<article class="L" id="Article">
+			<section class="CB"><code class="R">reincarnation.coder.js</code>
+				<h2 class="Class K"><code class="Z">Classlib</code></h2>
+				<div class="h"></div><span class="A"><p>The mapping from the Java standard library to the Java implementation which is transpiled into
+JavaScript.</p><p>
+The primitive operations are provided by <code><a aria-label="reincarnation.coder.js.JavascriptRuntime" href="api/reincarnation.coder.js.JavascriptRuntime.html">JavascriptRuntime</a></code>, but the API level
+classes are implemented in Java and included in the dependency closure so that the transpiler
+itself verifies their translation.
+</p></span></section>
+			<section class="CB" id="register(java.lang.Class,java.lang.Class)">
+				<h2 class="s"><i class="STATIC PUBLIC"></i><code class="Z">register</code><code class="LB">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">target</code>, <code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">implementation</code>)</code><i class="l"><code>void</code></i></h2>
+				<table class="x">
+					<tr class="P">
+						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">target</code></td>
+						<td><span><p>A Java API class.</p></span></td>
+					</tr>
+					<tr class="P">
+						<td><code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">implementation</code></td>
+						<td><span><p>An implementation class which is transpiled into JavaScript.</p></span></td>
+					</tr>
+				</table><span class="A"><p>Register the Java API class and its implementation.</p></span></section>
+		</article>
+		<aside class="d">
+			<div class="u">
+				<h5 class="N">Static Methods</h5>
+				<ul>
+					<li class="j"><i class="STATIC PUBLIC"></i><code><a href="api/reincarnation.coder.js.Classlib.html#register(java.lang.Class,java.lang.Class)">register</a></code><code class="LB">(<code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">target</code>, <code><a aria-label="java.lang.Class 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/Class.html">Class</a></code><code class="parameterName">implementation</code>)</code><i class="a"><code>void</code></i></li>
+				</ul>
+			</div>
+		</aside>
+		<footer class="q">
+			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
+		</footer>
+	</body>
+	<script src="root.js"></script>
+	<script src="main.js" type="module"></script>
+</html>
