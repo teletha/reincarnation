@@ -12,6 +12,7 @@ package reincarnation.coder.js;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The mapping from the Java standard library to the Java implementation which is transpiled into
@@ -22,7 +23,7 @@ import java.util.Set;
  * itself verifies their translation.
  * </p>
  */
-final class Classlib {
+public final class Classlib {
 
     /** The classes which are provided as the hand-written JavaScript runtime. */
     private static final Set<Class> runtimes = Set.of(java.lang.Enum.class);
@@ -35,305 +36,130 @@ final class Classlib {
             java.lang.reflect.WildcardType.class);
 
     /** The replacement table. */
-    private static final Map<Class, Class> replacements = Map.ofEntries( //
-            Map.entry(java.lang.StringBuilder.class, reincarnation.classlib.java.lang.StringBuilder.class), //
-            Map.entry(java.lang.StringBuffer.class, reincarnation.classlib.java.lang.StringBuffer.class), //
-            Map.entry(java.lang.System.class, reincarnation.classlib.java.lang.System.class), //
-            Map.entry(java.io.PrintStream.class, reincarnation.classlib.java.io.PrintStream.class), //
-            Map.entry(java.io.OutputStream.class, reincarnation.classlib.java.io.OutputStream.class), //
-            Map.entry(java.io.FilterOutputStream.class, reincarnation.classlib.java.io.FilterOutputStream.class), //
-            Map.entry(java.io.Closeable.class, reincarnation.classlib.java.io.Closeable.class), //
-            Map.entry(java.io.Flushable.class, reincarnation.classlib.java.io.Flushable.class), //
-            Map.entry(java.util.Objects.class, reincarnation.classlib.java.util.Objects.class), //
-            Map.entry(java.util.Date.class, reincarnation.classlib.java.util.Date.class), //
-            Map.entry(java.util.Locale.class, reincarnation.classlib.java.util.Locale.class), //
-            Map.entry(java.util.Locale.Category.class, reincarnation.classlib.java.util.Locale.Category.class), //
-            Map.entry(java.util.Currency.class, reincarnation.classlib.java.util.Currency.class), //
-            Map.entry(java.text.Collator.class, reincarnation.classlib.java.text.Collator.class), //
-            Map.entry(java.text.Format.class, reincarnation.classlib.java.text.Format.class), //
-            Map.entry(java.text.NumberFormat.class, reincarnation.classlib.java.text.NumberFormat.class), //
-            Map.entry(java.text.DateFormat.class, reincarnation.classlib.java.text.DateFormat.class), //
-            Map.entry(java.util.Arrays.class, reincarnation.classlib.java.util.Arrays.class), //
-            Map.entry(java.util.Collections.class, reincarnation.classlib.java.util.Collections.class), //
-            Map.entry(java.lang.Iterable.class, reincarnation.classlib.java.lang.Iterable.class), //
-            Map.entry(java.lang.Appendable.class, reincarnation.classlib.java.lang.Appendable.class), //
-            Map.entry(java.lang.CharSequence.class, reincarnation.classlib.java.lang.CharSequence.class), //
-            Map.entry(java.lang.Comparable.class, reincarnation.classlib.java.lang.Comparable.class), //
-            Map.entry(java.lang.AutoCloseable.class, reincarnation.classlib.java.lang.AutoCloseable.class), //
-            Map.entry(java.lang.invoke.MethodHandle.class, reincarnation.classlib.java.lang.invoke.MethodHandle.class), //
-            Map.entry(java.lang.invoke.MethodHandles.class, reincarnation.classlib.java.lang.invoke.MethodHandles.class), //
-            Map.entry(java.lang.invoke.MethodHandles.Lookup.class,
-                    reincarnation.classlib.java.lang.invoke.MethodHandles.Lookup.class), //
-            Map.entry(java.lang.invoke.MethodType.class, reincarnation.classlib.java.lang.invoke.MethodType.class), //
-            Map.entry(java.util.Collection.class, reincarnation.classlib.java.util.Collection.class), //
-            Map.entry(java.util.AbstractCollection.class, reincarnation.classlib.java.util.AbstractCollection.class), //
-            Map.entry(java.util.SequencedCollection.class,
-                    reincarnation.classlib.java.util.SequencedCollection.class), //
-            Map.entry(java.util.List.class, reincarnation.classlib.java.util.List.class), //
-            Map.entry(java.util.AbstractList.class, reincarnation.classlib.java.util.AbstractList.class), //
-            Map.entry(java.util.AbstractSequentialList.class,
-                    reincarnation.classlib.java.util.AbstractSequentialList.class), //
-            Map.entry(java.util.ArrayList.class, reincarnation.classlib.java.util.ArrayList.class), //
-            Map.entry(java.util.LinkedList.class, reincarnation.classlib.java.util.LinkedList.class), //
-            Map.entry(java.util.Vector.class, reincarnation.classlib.java.util.Vector.class), //
-            Map.entry(java.util.Stack.class, reincarnation.classlib.java.util.Stack.class), //
-            Map.entry(java.util.RandomAccess.class, reincarnation.classlib.java.util.RandomAccess.class), //
-            Map.entry(java.util.Iterator.class, reincarnation.classlib.java.util.Iterator.class), //
-            Map.entry(java.util.ListIterator.class, reincarnation.classlib.java.util.ListIterator.class), //
-            Map.entry(java.util.Set.class, reincarnation.classlib.java.util.Set.class), //
-            Map.entry(java.util.AbstractSet.class, reincarnation.classlib.java.util.AbstractSet.class), //
-            Map.entry(java.util.HashSet.class, reincarnation.classlib.java.util.HashSet.class), //
-            Map.entry(java.util.LinkedHashSet.class, reincarnation.classlib.java.util.LinkedHashSet.class), //
-            Map.entry(java.util.TreeSet.class, reincarnation.classlib.java.util.TreeSet.class), //
-            Map.entry(java.util.SortedSet.class, reincarnation.classlib.java.util.SortedSet.class), //
-            Map.entry(java.util.NavigableSet.class, reincarnation.classlib.java.util.NavigableSet.class), //
-            Map.entry(java.util.SequencedSet.class, reincarnation.classlib.java.util.SequencedSet.class), //
-            Map.entry(java.util.Map.class, reincarnation.classlib.java.util.Map.class), //
-            Map.entry(java.util.AbstractMap.class, reincarnation.classlib.java.util.AbstractMap.class), //
-            Map.entry(java.util.HashMap.class, reincarnation.classlib.java.util.HashMap.class), //
-            Map.entry(java.util.LinkedHashMap.class, reincarnation.classlib.java.util.LinkedHashMap.class), //
-            Map.entry(java.util.TreeMap.class, reincarnation.classlib.java.util.TreeMap.class), //
-            Map.entry(java.util.Hashtable.class, reincarnation.classlib.java.util.Hashtable.class), //
-            Map.entry(java.util.Dictionary.class, reincarnation.classlib.java.util.Dictionary.class), //
-            Map.entry(java.util.SortedMap.class, reincarnation.classlib.java.util.SortedMap.class), //
-            Map.entry(java.util.NavigableMap.class, reincarnation.classlib.java.util.NavigableMap.class), //
-            Map.entry(java.util.SequencedMap.class, reincarnation.classlib.java.util.SequencedMap.class), //
-            Map.entry(java.util.concurrent.ConcurrentMap.class,
-                    reincarnation.classlib.java.util.concurrent.ConcurrentMap.class), //
-            Map.entry(java.util.concurrent.ConcurrentHashMap.class,
-                    reincarnation.classlib.java.util.concurrent.ConcurrentHashMap.class), //
-            Map.entry(java.util.concurrent.ConcurrentSkipListMap.class,
-                    reincarnation.classlib.java.util.concurrent.ConcurrentSkipListMap.class), //
-            Map.entry(java.util.concurrent.ConcurrentSkipListSet.class,
-                    reincarnation.classlib.java.util.concurrent.ConcurrentSkipListSet.class), //
-            Map.entry(java.util.concurrent.ConcurrentNavigableMap.class,
-                    reincarnation.classlib.java.util.concurrent.ConcurrentNavigableMap.class), //
-            Map.entry(java.util.concurrent.CopyOnWriteArrayList.class,
-                    reincarnation.classlib.java.util.concurrent.CopyOnWriteArrayList.class), //
-            Map.entry(java.util.concurrent.CopyOnWriteArraySet.class,
-                    reincarnation.classlib.java.util.concurrent.CopyOnWriteArraySet.class), //
-            Map.entry(java.util.concurrent.ConcurrentLinkedQueue.class,
-                    reincarnation.classlib.java.util.concurrent.ConcurrentLinkedQueue.class), //
-            Map.entry(java.util.concurrent.ConcurrentLinkedDeque.class,
-                    reincarnation.classlib.java.util.concurrent.ConcurrentLinkedDeque.class), //
-            Map.entry(java.util.concurrent.BlockingQueue.class,
-                    reincarnation.classlib.java.util.concurrent.BlockingQueue.class), //
-            Map.entry(java.util.concurrent.BlockingDeque.class,
-                    reincarnation.classlib.java.util.concurrent.BlockingDeque.class), //
-            Map.entry(java.util.concurrent.TransferQueue.class,
-                    reincarnation.classlib.java.util.concurrent.TransferQueue.class), //
-            Map.entry(java.util.concurrent.ArrayBlockingQueue.class,
-                    reincarnation.classlib.java.util.concurrent.ArrayBlockingQueue.class), //
-            Map.entry(java.util.concurrent.LinkedBlockingQueue.class,
-                    reincarnation.classlib.java.util.concurrent.LinkedBlockingQueue.class), //
-            Map.entry(java.util.concurrent.LinkedBlockingDeque.class,
-                    reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.class), //
-            Map.entry(java.util.concurrent.PriorityBlockingQueue.class,
-                    reincarnation.classlib.java.util.concurrent.PriorityBlockingQueue.class), //
-            Map.entry(java.util.concurrent.SynchronousQueue.class,
-                    reincarnation.classlib.java.util.concurrent.SynchronousQueue.class), //
-            Map.entry(java.util.concurrent.DelayQueue.class,
-                    reincarnation.classlib.java.util.concurrent.DelayQueue.class), //
-            Map.entry(java.util.concurrent.LinkedTransferQueue.class,
-                    reincarnation.classlib.java.util.concurrent.LinkedTransferQueue.class), //
-            Map.entry(java.util.Map.Entry.class, reincarnation.classlib.java.util.Map.Entry.class), //
-            Map.entry(java.lang.reflect.Proxy.class, reincarnation.classlib.java.lang.reflect.Proxy.class), //
-            Map.entry(java.lang.reflect.InvocationHandler.class,
-                    reincarnation.classlib.java.lang.reflect.InvocationHandler.class), //
-            Map.entry(java.lang.Cloneable.class, reincarnation.classlib.java.lang.Cloneable.class), //
-            Map.entry(java.io.Serializable.class, reincarnation.classlib.java.io.Serializable.class), //
-            Map.entry(java.util.Queue.class, reincarnation.classlib.java.util.Queue.class), //
-            Map.entry(java.util.Deque.class, reincarnation.classlib.java.util.Deque.class), //
-            Map.entry(java.util.AbstractQueue.class, reincarnation.classlib.java.util.AbstractQueue.class), //
-            Map.entry(java.util.ArrayDeque.class, reincarnation.classlib.java.util.ArrayDeque.class), //
-            Map.entry(java.util.PriorityQueue.class, reincarnation.classlib.java.util.PriorityQueue.class), //
-            Map.entry(java.util.Optional.class, reincarnation.classlib.java.util.Optional.class), //
-            Map.entry(java.util.stream.Stream.class, reincarnation.classlib.java.util.stream.Stream.class), //
-            Map.entry(java.util.stream.BaseStream.class, reincarnation.classlib.java.util.stream.BaseStream.class), //
-            Map.entry(java.util.StringJoiner.class, reincarnation.classlib.java.util.StringJoiner.class), //
-            Map.entry(java.util.regex.Pattern.class, reincarnation.classlib.java.util.regex.Pattern.class), //
-            Map.entry(java.util.regex.Matcher.class, reincarnation.classlib.java.util.regex.Matcher.class), //
-            Map.entry(java.util.regex.MatchResult.class, reincarnation.classlib.java.util.regex.MatchResult.class), //
-            Map.entry(java.time.Instant.class, reincarnation.classlib.java.time.Instant.class), //
-            Map.entry(java.time.LocalDate.class, reincarnation.classlib.java.time.LocalDate.class), //
-            Map.entry(java.time.LocalTime.class, reincarnation.classlib.java.time.LocalTime.class), //
-            Map.entry(java.time.LocalDateTime.class, reincarnation.classlib.java.time.LocalDateTime.class), //
-            Map.entry(java.time.ZonedDateTime.class, reincarnation.classlib.java.time.ZonedDateTime.class), //
-            Map.entry(java.time.Duration.class, reincarnation.classlib.java.time.Duration.class), //
-            Map.entry(java.time.Period.class, reincarnation.classlib.java.time.Period.class), //
-            Map.entry(java.time.ZoneId.class, reincarnation.classlib.java.time.ZoneId.class), //
-            Map.entry(java.time.ZoneOffset.class, reincarnation.classlib.java.time.ZoneOffset.class), //
-            Map.entry(java.time.Month.class, reincarnation.classlib.java.time.Month.class), //
-            Map.entry(java.time.DayOfWeek.class, reincarnation.classlib.java.time.DayOfWeek.class), //
-            Map.entry(java.time.temporal.TemporalAccessor.class,
-                    reincarnation.classlib.java.time.temporal.TemporalAccessor.class), //
-            Map.entry(java.time.temporal.Temporal.class,
-                    reincarnation.classlib.java.time.temporal.Temporal.class), //
-            Map.entry(java.time.temporal.TemporalAdjuster.class,
-                    reincarnation.classlib.java.time.temporal.TemporalAdjuster.class), //
-            Map.entry(java.time.temporal.TemporalAmount.class,
-                    reincarnation.classlib.java.time.temporal.TemporalAmount.class), //
-            Map.entry(java.time.temporal.TemporalUnit.class,
-                    reincarnation.classlib.java.time.temporal.TemporalUnit.class), //
-            Map.entry(java.time.temporal.TemporalField.class,
-                    reincarnation.classlib.java.time.temporal.TemporalField.class), //
-            Map.entry(java.time.temporal.ChronoUnit.class,
-                    reincarnation.classlib.java.time.temporal.ChronoUnit.class), //
-            Map.entry(java.time.temporal.ChronoField.class,
-                    reincarnation.classlib.java.time.temporal.ChronoField.class), //
-            Map.entry(java.util.stream.Collectors.class, reincarnation.classlib.java.util.stream.Collectors.class));
+    private static final Map<Class, Class> replacements = new ConcurrentHashMap();
 
     /** The original JDK classes of the implementations. */
-    private static final Map<Class, Class> origins = Map.ofEntries( //
-            Map.entry(reincarnation.classlib.java.lang.Iterable.class, java.lang.Iterable.class), //
-            Map.entry(reincarnation.classlib.java.lang.Appendable.class, java.lang.Appendable.class), //
-            Map.entry(reincarnation.classlib.java.lang.CharSequence.class, java.lang.CharSequence.class), //
-            Map.entry(reincarnation.classlib.java.lang.Comparable.class, java.lang.Comparable.class), //
-            Map.entry(reincarnation.classlib.java.lang.AutoCloseable.class, java.lang.AutoCloseable.class), //
-            Map.entry(reincarnation.classlib.java.lang.invoke.MethodHandle.class,
-                    java.lang.invoke.MethodHandle.class), //
-            Map.entry(reincarnation.classlib.java.lang.invoke.MethodHandles.class,
-                    java.lang.invoke.MethodHandles.class), //
-            Map.entry(reincarnation.classlib.java.lang.invoke.MethodHandles.Lookup.class,
-                    java.lang.invoke.MethodHandles.Lookup.class), //
-            Map.entry(reincarnation.classlib.java.lang.invoke.MethodType.class, java.lang.invoke.MethodType.class), //
-            Map.entry(reincarnation.classlib.java.util.stream.Stream.class, java.util.stream.Stream.class), //
-            Map.entry(reincarnation.classlib.java.util.stream.BaseStream.class, java.util.stream.BaseStream.class), //
-            Map.entry(reincarnation.classlib.java.util.Collection.class, java.util.Collection.class), //
-            Map.entry(reincarnation.classlib.java.util.AbstractCollection.class, java.util.AbstractCollection.class), //
-            Map.entry(reincarnation.classlib.java.util.SequencedCollection.class,
-                    java.util.SequencedCollection.class), //
-            Map.entry(reincarnation.classlib.java.util.List.class, java.util.List.class), //
-            Map.entry(reincarnation.classlib.java.util.AbstractList.class, java.util.AbstractList.class), //
-            Map.entry(reincarnation.classlib.java.util.AbstractSequentialList.class,
-                    java.util.AbstractSequentialList.class), //
-            Map.entry(reincarnation.classlib.java.util.ArrayList.class, java.util.ArrayList.class), //
-            Map.entry(reincarnation.classlib.java.util.LinkedList.class, java.util.LinkedList.class), //
-            Map.entry(reincarnation.classlib.java.util.Vector.class, java.util.Vector.class), //
-            Map.entry(reincarnation.classlib.java.util.Stack.class, java.util.Stack.class), //
-            Map.entry(reincarnation.classlib.java.util.RandomAccess.class, java.util.RandomAccess.class), //
-            Map.entry(reincarnation.classlib.java.util.Iterator.class, java.util.Iterator.class), //
-            Map.entry(reincarnation.classlib.java.util.ListIterator.class, java.util.ListIterator.class), //
-            Map.entry(reincarnation.classlib.java.util.Set.class, java.util.Set.class), //
-            Map.entry(reincarnation.classlib.java.util.AbstractSet.class, java.util.AbstractSet.class), //
-            Map.entry(reincarnation.classlib.java.util.HashSet.class, java.util.HashSet.class), //
-            Map.entry(reincarnation.classlib.java.util.LinkedHashSet.class, java.util.LinkedHashSet.class), //
-            Map.entry(reincarnation.classlib.java.util.TreeSet.class, java.util.TreeSet.class), //
-            Map.entry(reincarnation.classlib.java.util.SortedSet.class, java.util.SortedSet.class), //
-            Map.entry(reincarnation.classlib.java.util.NavigableSet.class, java.util.NavigableSet.class), //
-            Map.entry(reincarnation.classlib.java.util.SequencedSet.class, java.util.SequencedSet.class), //
-            Map.entry(reincarnation.classlib.java.util.Queue.class, java.util.Queue.class), //
-            Map.entry(reincarnation.classlib.java.util.Deque.class, java.util.Deque.class), //
-            Map.entry(reincarnation.classlib.java.util.AbstractQueue.class, java.util.AbstractQueue.class), //
-            Map.entry(reincarnation.classlib.java.util.ArrayDeque.class, java.util.ArrayDeque.class), //
-            Map.entry(reincarnation.classlib.java.util.PriorityQueue.class, java.util.PriorityQueue.class), //
-            Map.entry(reincarnation.classlib.java.util.Map.class, java.util.Map.class), //
-            Map.entry(reincarnation.classlib.java.util.AbstractMap.class, java.util.AbstractMap.class), //
-            Map.entry(reincarnation.classlib.java.util.HashMap.class, java.util.HashMap.class), //
-            Map.entry(reincarnation.classlib.java.util.LinkedHashMap.class, java.util.LinkedHashMap.class), //
-            Map.entry(reincarnation.classlib.java.util.TreeMap.class, java.util.TreeMap.class), //
-            Map.entry(reincarnation.classlib.java.util.Hashtable.class, java.util.Hashtable.class), //
-            Map.entry(reincarnation.classlib.java.util.Dictionary.class, java.util.Dictionary.class), //
-            Map.entry(reincarnation.classlib.java.util.SortedMap.class, java.util.SortedMap.class), //
-            Map.entry(reincarnation.classlib.java.util.NavigableMap.class, java.util.NavigableMap.class), //
-            Map.entry(reincarnation.classlib.java.util.SequencedMap.class, java.util.SequencedMap.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.ConcurrentMap.class,
-                    java.util.concurrent.ConcurrentMap.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.ConcurrentHashMap.class,
-                    java.util.concurrent.ConcurrentHashMap.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.ConcurrentSkipListMap.class,
-                    java.util.concurrent.ConcurrentSkipListMap.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.ConcurrentSkipListSet.class,
-                    java.util.concurrent.ConcurrentSkipListSet.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.ConcurrentNavigableMap.class,
-                    java.util.concurrent.ConcurrentNavigableMap.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.CopyOnWriteArrayList.class,
-                    java.util.concurrent.CopyOnWriteArrayList.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.CopyOnWriteArraySet.class,
-                    java.util.concurrent.CopyOnWriteArraySet.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.ConcurrentLinkedQueue.class,
-                    java.util.concurrent.ConcurrentLinkedQueue.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.ConcurrentLinkedDeque.class,
-                    java.util.concurrent.ConcurrentLinkedDeque.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.BlockingQueue.class,
-                    java.util.concurrent.BlockingQueue.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.BlockingDeque.class,
-                    java.util.concurrent.BlockingDeque.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.TransferQueue.class,
-                    java.util.concurrent.TransferQueue.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.ArrayBlockingQueue.class,
-                    java.util.concurrent.ArrayBlockingQueue.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.LinkedBlockingQueue.class,
-                    java.util.concurrent.LinkedBlockingQueue.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.class,
-                    java.util.concurrent.LinkedBlockingDeque.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.PriorityBlockingQueue.class,
-                    java.util.concurrent.PriorityBlockingQueue.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.SynchronousQueue.class,
-                    java.util.concurrent.SynchronousQueue.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.DelayQueue.class,
-                    java.util.concurrent.DelayQueue.class), //
-            Map.entry(reincarnation.classlib.java.util.concurrent.LinkedTransferQueue.class,
-                    java.util.concurrent.LinkedTransferQueue.class), //
-            Map.entry(reincarnation.classlib.java.util.Map.Entry.class, java.util.Map.Entry.class), //
-            Map.entry(reincarnation.classlib.java.lang.reflect.Proxy.class, java.lang.reflect.Proxy.class), //
-            Map.entry(reincarnation.classlib.java.lang.reflect.InvocationHandler.class,
-                    java.lang.reflect.InvocationHandler.class), //
-            Map.entry(reincarnation.classlib.java.util.AbstractMap.SimpleEntry.class,
-                    java.util.AbstractMap.SimpleEntry.class), //
-            Map.entry(reincarnation.classlib.java.lang.Cloneable.class, java.lang.Cloneable.class), //
-            Map.entry(reincarnation.classlib.java.io.Serializable.class, java.io.Serializable.class), //
-            Map.entry(reincarnation.classlib.java.lang.System.class, java.lang.System.class), //
-            Map.entry(reincarnation.classlib.java.lang.StringBuilder.class, java.lang.StringBuilder.class), //
-            Map.entry(reincarnation.classlib.java.lang.StringBuffer.class, java.lang.StringBuffer.class), //
-            Map.entry(reincarnation.classlib.java.io.PrintStream.class, java.io.PrintStream.class), //
-            Map.entry(reincarnation.classlib.java.io.OutputStream.class, java.io.OutputStream.class), //
-            Map.entry(reincarnation.classlib.java.io.FilterOutputStream.class, java.io.FilterOutputStream.class), //
-            Map.entry(reincarnation.classlib.java.io.Closeable.class, java.io.Closeable.class), //
-            Map.entry(reincarnation.classlib.java.io.Flushable.class, java.io.Flushable.class), //
-            Map.entry(reincarnation.classlib.java.util.Objects.class, java.util.Objects.class), //
-            Map.entry(reincarnation.classlib.java.util.Date.class, java.util.Date.class), //
-            Map.entry(reincarnation.classlib.java.util.Locale.class, java.util.Locale.class), //
-            Map.entry(reincarnation.classlib.java.util.Locale.Category.class, java.util.Locale.Category.class), //
-            Map.entry(reincarnation.classlib.java.util.Currency.class, java.util.Currency.class), //
-            Map.entry(reincarnation.classlib.java.text.Collator.class, java.text.Collator.class), //
-            Map.entry(reincarnation.classlib.java.text.Format.class, java.text.Format.class), //
-            Map.entry(reincarnation.classlib.java.text.NumberFormat.class, java.text.NumberFormat.class), //
-            Map.entry(reincarnation.classlib.java.text.DateFormat.class, java.text.DateFormat.class), //
-            Map.entry(reincarnation.classlib.java.util.Arrays.class, java.util.Arrays.class), //
-            Map.entry(reincarnation.classlib.java.util.Collections.class, java.util.Collections.class), //
-            Map.entry(reincarnation.classlib.java.util.StringJoiner.class, java.util.StringJoiner.class), //
-            Map.entry(reincarnation.classlib.java.util.Optional.class, java.util.Optional.class), //
-            Map.entry(reincarnation.classlib.java.util.regex.Pattern.class, java.util.regex.Pattern.class), //
-            Map.entry(reincarnation.classlib.java.util.regex.Matcher.class, java.util.regex.Matcher.class), //
-            Map.entry(reincarnation.classlib.java.util.regex.MatchResult.class, java.util.regex.MatchResult.class), //
-            Map.entry(reincarnation.classlib.java.time.Instant.class, java.time.Instant.class), //
-            Map.entry(reincarnation.classlib.java.time.LocalDate.class, java.time.LocalDate.class), //
-            Map.entry(reincarnation.classlib.java.time.LocalTime.class, java.time.LocalTime.class), //
-            Map.entry(reincarnation.classlib.java.time.LocalDateTime.class, java.time.LocalDateTime.class), //
-            Map.entry(reincarnation.classlib.java.time.ZonedDateTime.class, java.time.ZonedDateTime.class), //
-            Map.entry(reincarnation.classlib.java.time.Duration.class, java.time.Duration.class), //
-            Map.entry(reincarnation.classlib.java.time.Period.class, java.time.Period.class), //
-            Map.entry(reincarnation.classlib.java.time.ZoneId.class, java.time.ZoneId.class), //
-            Map.entry(reincarnation.classlib.java.time.ZoneOffset.class, java.time.ZoneOffset.class), //
-            Map.entry(reincarnation.classlib.java.time.Month.class, java.time.Month.class), //
-            Map.entry(reincarnation.classlib.java.time.DayOfWeek.class, java.time.DayOfWeek.class), //
-            Map.entry(reincarnation.classlib.java.time.temporal.TemporalAccessor.class,
-                    java.time.temporal.TemporalAccessor.class), //
-            Map.entry(reincarnation.classlib.java.time.temporal.Temporal.class, java.time.temporal.Temporal.class), //
-            Map.entry(reincarnation.classlib.java.time.temporal.TemporalAdjuster.class,
-                    java.time.temporal.TemporalAdjuster.class), //
-            Map.entry(reincarnation.classlib.java.time.temporal.TemporalAmount.class,
-                    java.time.temporal.TemporalAmount.class), //
-            Map.entry(reincarnation.classlib.java.time.temporal.TemporalUnit.class,
-                    java.time.temporal.TemporalUnit.class), //
-            Map.entry(reincarnation.classlib.java.time.temporal.TemporalField.class,
-                    java.time.temporal.TemporalField.class), //
-            Map.entry(reincarnation.classlib.java.time.temporal.ChronoUnit.class,
-                    java.time.temporal.ChronoUnit.class), //
-            Map.entry(reincarnation.classlib.java.time.temporal.ChronoField.class,
-                    java.time.temporal.ChronoField.class), //
-            Map.entry(reincarnation.classlib.java.util.stream.Collectors.class, java.util.stream.Collectors.class));
+    private static final Map<Class, Class> origins = new ConcurrentHashMap();
+
+    static {
+        register(java.lang.StringBuilder.class, reincarnation.classlib.java.lang.StringBuilder.class);
+        register(java.lang.StringBuffer.class, reincarnation.classlib.java.lang.StringBuffer.class);
+        register(java.lang.System.class, reincarnation.classlib.java.lang.System.class);
+        register(java.io.PrintStream.class, reincarnation.classlib.java.io.PrintStream.class);
+        register(java.io.OutputStream.class, reincarnation.classlib.java.io.OutputStream.class);
+        register(java.io.FilterOutputStream.class, reincarnation.classlib.java.io.FilterOutputStream.class);
+        register(java.io.Closeable.class, reincarnation.classlib.java.io.Closeable.class);
+        register(java.io.Flushable.class, reincarnation.classlib.java.io.Flushable.class);
+        register(java.util.Objects.class, reincarnation.classlib.java.util.Objects.class);
+        register(java.util.Date.class, reincarnation.classlib.java.util.Date.class);
+        register(java.util.Locale.class, reincarnation.classlib.java.util.Locale.class);
+        register(java.util.Locale.Category.class, reincarnation.classlib.java.util.Locale.Category.class);
+        register(java.util.Currency.class, reincarnation.classlib.java.util.Currency.class);
+        register(java.text.Collator.class, reincarnation.classlib.java.text.Collator.class);
+        register(java.text.Format.class, reincarnation.classlib.java.text.Format.class);
+        register(java.text.NumberFormat.class, reincarnation.classlib.java.text.NumberFormat.class);
+        register(java.text.DateFormat.class, reincarnation.classlib.java.text.DateFormat.class);
+        register(java.util.Arrays.class, reincarnation.classlib.java.util.Arrays.class);
+        register(java.util.Collections.class, reincarnation.classlib.java.util.Collections.class);
+        register(java.lang.Iterable.class, reincarnation.classlib.java.lang.Iterable.class);
+        register(java.lang.Appendable.class, reincarnation.classlib.java.lang.Appendable.class);
+        register(java.lang.CharSequence.class, reincarnation.classlib.java.lang.CharSequence.class);
+        register(java.lang.Comparable.class, reincarnation.classlib.java.lang.Comparable.class);
+        register(java.lang.AutoCloseable.class, reincarnation.classlib.java.lang.AutoCloseable.class);
+        register(java.lang.invoke.MethodHandle.class, reincarnation.classlib.java.lang.invoke.MethodHandle.class);
+        register(java.lang.invoke.MethodHandles.class, reincarnation.classlib.java.lang.invoke.MethodHandles.class);
+        register(java.lang.invoke.MethodHandles.Lookup.class, reincarnation.classlib.java.lang.invoke.MethodHandles.Lookup.class);
+        register(java.lang.invoke.MethodType.class, reincarnation.classlib.java.lang.invoke.MethodType.class);
+        register(java.util.Collection.class, reincarnation.classlib.java.util.Collection.class);
+        register(java.util.AbstractCollection.class, reincarnation.classlib.java.util.AbstractCollection.class);
+        register(java.util.SequencedCollection.class, reincarnation.classlib.java.util.SequencedCollection.class);
+        register(java.util.List.class, reincarnation.classlib.java.util.List.class);
+        register(java.util.AbstractList.class, reincarnation.classlib.java.util.AbstractList.class);
+        register(java.util.AbstractSequentialList.class, reincarnation.classlib.java.util.AbstractSequentialList.class);
+        register(java.util.ArrayList.class, reincarnation.classlib.java.util.ArrayList.class);
+        register(java.util.LinkedList.class, reincarnation.classlib.java.util.LinkedList.class);
+        register(java.util.Vector.class, reincarnation.classlib.java.util.Vector.class);
+        register(java.util.Stack.class, reincarnation.classlib.java.util.Stack.class);
+        register(java.util.RandomAccess.class, reincarnation.classlib.java.util.RandomAccess.class);
+        register(java.util.Iterator.class, reincarnation.classlib.java.util.Iterator.class);
+        register(java.util.ListIterator.class, reincarnation.classlib.java.util.ListIterator.class);
+        register(java.util.Set.class, reincarnation.classlib.java.util.Set.class);
+        register(java.util.AbstractSet.class, reincarnation.classlib.java.util.AbstractSet.class);
+        register(java.util.HashSet.class, reincarnation.classlib.java.util.HashSet.class);
+        register(java.util.LinkedHashSet.class, reincarnation.classlib.java.util.LinkedHashSet.class);
+        register(java.util.TreeSet.class, reincarnation.classlib.java.util.TreeSet.class);
+        register(java.util.SortedSet.class, reincarnation.classlib.java.util.SortedSet.class);
+        register(java.util.NavigableSet.class, reincarnation.classlib.java.util.NavigableSet.class);
+        register(java.util.SequencedSet.class, reincarnation.classlib.java.util.SequencedSet.class);
+        register(java.util.Map.class, reincarnation.classlib.java.util.Map.class);
+        register(java.util.AbstractMap.class, reincarnation.classlib.java.util.AbstractMap.class);
+        register(java.util.HashMap.class, reincarnation.classlib.java.util.HashMap.class);
+        register(java.util.LinkedHashMap.class, reincarnation.classlib.java.util.LinkedHashMap.class);
+        register(java.util.TreeMap.class, reincarnation.classlib.java.util.TreeMap.class);
+        register(java.util.Hashtable.class, reincarnation.classlib.java.util.Hashtable.class);
+        register(java.util.Dictionary.class, reincarnation.classlib.java.util.Dictionary.class);
+        register(java.util.SortedMap.class, reincarnation.classlib.java.util.SortedMap.class);
+        register(java.util.NavigableMap.class, reincarnation.classlib.java.util.NavigableMap.class);
+        register(java.util.SequencedMap.class, reincarnation.classlib.java.util.SequencedMap.class);
+        register(java.util.concurrent.ConcurrentMap.class, reincarnation.classlib.java.util.concurrent.ConcurrentMap.class);
+        register(java.util.concurrent.ConcurrentHashMap.class, reincarnation.classlib.java.util.concurrent.ConcurrentHashMap.class);
+        register(java.util.concurrent.ConcurrentSkipListMap.class, reincarnation.classlib.java.util.concurrent.ConcurrentSkipListMap.class);
+        register(java.util.concurrent.ConcurrentSkipListSet.class, reincarnation.classlib.java.util.concurrent.ConcurrentSkipListSet.class);
+        register(java.util.concurrent.ConcurrentNavigableMap.class, reincarnation.classlib.java.util.concurrent.ConcurrentNavigableMap.class);
+        register(java.util.concurrent.CopyOnWriteArrayList.class, reincarnation.classlib.java.util.concurrent.CopyOnWriteArrayList.class);
+        register(java.util.concurrent.CopyOnWriteArraySet.class, reincarnation.classlib.java.util.concurrent.CopyOnWriteArraySet.class);
+        register(java.util.concurrent.ConcurrentLinkedQueue.class, reincarnation.classlib.java.util.concurrent.ConcurrentLinkedQueue.class);
+        register(java.util.concurrent.ConcurrentLinkedDeque.class, reincarnation.classlib.java.util.concurrent.ConcurrentLinkedDeque.class);
+        register(java.util.concurrent.BlockingQueue.class, reincarnation.classlib.java.util.concurrent.BlockingQueue.class);
+        register(java.util.concurrent.BlockingDeque.class, reincarnation.classlib.java.util.concurrent.BlockingDeque.class);
+        register(java.util.concurrent.TransferQueue.class, reincarnation.classlib.java.util.concurrent.TransferQueue.class);
+        register(java.util.concurrent.ArrayBlockingQueue.class, reincarnation.classlib.java.util.concurrent.ArrayBlockingQueue.class);
+        register(java.util.concurrent.LinkedBlockingQueue.class, reincarnation.classlib.java.util.concurrent.LinkedBlockingQueue.class);
+        register(java.util.concurrent.LinkedBlockingDeque.class, reincarnation.classlib.java.util.concurrent.LinkedBlockingDeque.class);
+        register(java.util.concurrent.PriorityBlockingQueue.class, reincarnation.classlib.java.util.concurrent.PriorityBlockingQueue.class);
+        register(java.util.concurrent.SynchronousQueue.class, reincarnation.classlib.java.util.concurrent.SynchronousQueue.class);
+        register(java.util.concurrent.DelayQueue.class, reincarnation.classlib.java.util.concurrent.DelayQueue.class);
+        register(java.util.concurrent.LinkedTransferQueue.class, reincarnation.classlib.java.util.concurrent.LinkedTransferQueue.class);
+        register(java.util.Map.Entry.class, reincarnation.classlib.java.util.Map.Entry.class);
+        register(java.lang.reflect.Proxy.class, reincarnation.classlib.java.lang.reflect.Proxy.class);
+        register(java.lang.reflect.InvocationHandler.class, reincarnation.classlib.java.lang.reflect.InvocationHandler.class);
+        register(java.lang.Cloneable.class, reincarnation.classlib.java.lang.Cloneable.class);
+        register(java.io.Serializable.class, reincarnation.classlib.java.io.Serializable.class);
+        register(java.util.Queue.class, reincarnation.classlib.java.util.Queue.class);
+        register(java.util.Deque.class, reincarnation.classlib.java.util.Deque.class);
+        register(java.util.AbstractQueue.class, reincarnation.classlib.java.util.AbstractQueue.class);
+        register(java.util.ArrayDeque.class, reincarnation.classlib.java.util.ArrayDeque.class);
+        register(java.util.PriorityQueue.class, reincarnation.classlib.java.util.PriorityQueue.class);
+        register(java.util.Optional.class, reincarnation.classlib.java.util.Optional.class);
+        register(java.util.stream.Stream.class, reincarnation.classlib.java.util.stream.Stream.class);
+        register(java.util.stream.BaseStream.class, reincarnation.classlib.java.util.stream.BaseStream.class);
+        register(java.util.StringJoiner.class, reincarnation.classlib.java.util.StringJoiner.class);
+        register(java.util.regex.Pattern.class, reincarnation.classlib.java.util.regex.Pattern.class);
+        register(java.util.regex.Matcher.class, reincarnation.classlib.java.util.regex.Matcher.class);
+        register(java.util.regex.MatchResult.class, reincarnation.classlib.java.util.regex.MatchResult.class);
+        register(java.time.Instant.class, reincarnation.classlib.java.time.Instant.class);
+        register(java.time.LocalDate.class, reincarnation.classlib.java.time.LocalDate.class);
+        register(java.time.LocalTime.class, reincarnation.classlib.java.time.LocalTime.class);
+        register(java.time.LocalDateTime.class, reincarnation.classlib.java.time.LocalDateTime.class);
+        register(java.time.ZonedDateTime.class, reincarnation.classlib.java.time.ZonedDateTime.class);
+        register(java.time.Duration.class, reincarnation.classlib.java.time.Duration.class);
+        register(java.time.Period.class, reincarnation.classlib.java.time.Period.class);
+        register(java.time.ZoneId.class, reincarnation.classlib.java.time.ZoneId.class);
+        register(java.time.ZoneOffset.class, reincarnation.classlib.java.time.ZoneOffset.class);
+        register(java.time.Month.class, reincarnation.classlib.java.time.Month.class);
+        register(java.time.DayOfWeek.class, reincarnation.classlib.java.time.DayOfWeek.class);
+        register(java.time.temporal.TemporalAccessor.class, reincarnation.classlib.java.time.temporal.TemporalAccessor.class);
+        register(java.time.temporal.Temporal.class, reincarnation.classlib.java.time.temporal.Temporal.class);
+        register(java.time.temporal.TemporalAdjuster.class, reincarnation.classlib.java.time.temporal.TemporalAdjuster.class);
+        register(java.time.temporal.TemporalAmount.class, reincarnation.classlib.java.time.temporal.TemporalAmount.class);
+        register(java.time.temporal.TemporalUnit.class, reincarnation.classlib.java.time.temporal.TemporalUnit.class);
+        register(java.time.temporal.TemporalField.class, reincarnation.classlib.java.time.temporal.TemporalField.class);
+        register(java.time.temporal.ChronoUnit.class, reincarnation.classlib.java.time.temporal.ChronoUnit.class);
+        register(java.time.temporal.ChronoField.class, reincarnation.classlib.java.time.temporal.ChronoField.class);
+        register(java.util.stream.Collectors.class, reincarnation.classlib.java.util.stream.Collectors.class);
+        origins.put(reincarnation.classlib.java.util.AbstractMap.SimpleEntry.class, java.util.AbstractMap.SimpleEntry.class);
+    }
+
 
     /** The JDK names of the implementations which are not accessible from the source. */
     private static final Map<Class, String> externalNames = Map
@@ -343,6 +169,20 @@ final class Classlib {
      * Hide constructor.
      */
     private Classlib() {
+    }
+
+    /**
+     * Register the Java API class and its implementation.
+     * 
+     * @param target A Java API class.
+     * @param implementation An implementation class which is transpiled into JavaScript.
+     */
+    public static void register(Class target, Class implementation) {
+        if (target == null || implementation == null) {
+            throw new NullPointerException();
+        }
+        replacements.put(target, implementation);
+        origins.put(implementation, target);
     }
 
     /**
